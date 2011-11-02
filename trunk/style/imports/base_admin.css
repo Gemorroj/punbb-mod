@@ -1,0 +1,36 @@
+#adminconsole .block2 {margin-top: 12px}
+* HTML #adstats dd {HEIGHT: 1%}
+#adstats dd {MARGIN-LEFT: 14em; PADDING: 3px; MARGIN-BOTTOM: 5px; LINE-HEIGHT: 1.5em}
+#adstats dt {FLOAT:left; WIDTH: 13em; PADDING: 3px; line-height: 1.5em}
+#adstats {PADDING: 15px 15px 5px 10px}
+#adintro {PADDING: 5px}
+#adintro p {PADDING: 10px}
+#adstats dl {PADDING: 5px 0 10px 5px}
+#adminconsole fieldset td {TEXT-ALIGN: left; PADDING: 4px; WHITE-SPACE: normal}
+#adminconsole fieldset th {TEXT-ALIGN: left; PADDING: 4px; WHITE-SPACE: normal}
+#adminconsole fieldset td span, #adminconsole fieldset th span {DISPLAY: block; FONT-SIZE: 1em; FONT-WEIGHT: normal}
+#adminconsole th {WIDTH: 15em; FONT-WEIGHT: bold}
+#adminconsole input, #adminconsole SELECT, #adminconsole textarea {MARGIN-BOTTOM: 0; MARGIN-TOP: 0; FONT-WEIGHT: normal}
+#adminconsole table.aligntop th, #adminconsole table.aligntop td {VERTICAL-ALIGN: top}
+#adminconsole table.aligntop th {PADDING-TOP: 0.7em}
+#adminconsole td, #adminconsole th {BORDER-STYLE: solid; BORDER-WIDTH: 3px 0px 3px 0px}
+#adminconsole p {PADDING-BOTTOM: 6px}
+#adminconsole .topspace {PADDING-TOP: 6px}
+#adminconsole p.submittop, #adminconsole P.submitend {TEXT-ALIGN: center}
+#adminconsole th.hidehead {COLOR: #f1f1f1}
+#adminconsole thead th {PADDING-BOTTOM: 0px}
+#adminconsole p.linkactions {FONT-WEIGHT: bold; PADDING-LEFT: 5px}
+#adminconsole th input, #adminconsole DIV.fsetsubmit {MARGIN-TOP: 6px}
+#categoryedit .tcl {WIDTH: 25%}
+#censoring .tcl, #censoring .tc2, #ranks .tcl, #ranks .tc2 {WIDTH: 20%}
+table#forumperms th, table#forumperms td {WHITE-SPACE: normal; WIDTH: auto; TEXT-ALIGN: center}
+table#forumperms .atcl {TEXT-ALIGN: left; WIDTH: 15em; WHITE-SPACE: nowrap}
+#adminconsole td.nodefault {BACKGROUND-COLOR: #D59B9B}
+#users2 th, #users2 th {TEXT-ALIGN: left}
+#users2 .tcl, #users2 .tc3, #users2 .tc5 {WIDTH: 15%; TEXT-ALIGN: left}
+#users2 .tc2 {WIDTH: 22%; TEXT-ALIGN: left}
+#users2 .tc4 {WIDTH: 8%}
+#users2 .tc4 {TEXT-ALIGN: center}
+#users2 .tcr {WHITE-SPACE: nowrap}
+#adminconsole #linkst, #adminconsole #linksb a {FONT-WEIGHT: bold}
+#exampleplugin .inbox {padding: 6px 6px 0px 6px}

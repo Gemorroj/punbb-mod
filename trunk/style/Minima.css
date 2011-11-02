@@ -1,0 +1,135 @@
+@import url(imports/base.css);
+@import url(imports/Minima_cs.css);
+body {
+ background:#fff;
+ margin:0;
+ padding:20px 20px;
+ font:x-small Georgia,Serif;
+ text-align:center;
+ color:#333;
+ font-size:small;
+ font-size:small;
+}
+#brdtitle {
+ border:1px solid #eee;
+ border-width:1px 1px 0;
+ margin:5px 5px 0;
+ padding:20px 20px .25em;
+ font-size:100%;
+ line-height:1.2em;
+ font-weight:normal;
+ color:#666;
+ text-transform:uppercase;
+ letter-spacing:.4em;
+ text-align: center;
+}
+#brdtitle p { display: none; margin: 0px;}
+#brdmenu {
+ margin: 0 5px 5px;
+ padding: 4px 20px 10px;
+ max-width:700px;
+ font:78%/1.4em "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+ text-transform:uppercase;
+ letter-spacing:.2em;
+ color:#999;
+ text-align: center;
+}
+h2 {
+ margin:1.5em 0 .75em;
+ font:78%/1.4em "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+ text-transform:uppercase;
+ letter-spacing:.2em;
+ color:#999;
+}
+#brdmenu A:link, #brdmenu A:visited, .blockpost DT A:link, .blockpost DT A:visited, .blockpost H2 A:link,
+.blockpost H2 A:visited, .postlink A:link, .postlink A:visited, .postfootright A:link, .postfootright A:visited,
+.blockmenu A:link, .blockmenu A:visited {
+ TEXT-DECORATION: none
+}
+#brdmenu A:hover, .blockpost H2 A:hover {TEXT-DECORATION: underline;}
+DIV.box, .pun TD, .pun TH, .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {
+ BORDER-STYLE: none;
+ BORDER-WIDTH: 1px;
+}
+ .pun BLOCKQUOTE, DIV.codebox
+ { border: 1px solid #999; background-color: #fafafa}
+.pun TD, .pun BLOCKQUOTE, DIV.codebox{
+ BORDER-TOP-STYLE: solid;
+ BORDER-BOTTOM-STYLE: solid;
+ BORDER-COLOR: #eee;
+ BORDER-WIDTH: 1px;
+}
+.pun TABLE {
+ BORDER-BOTTOM-STYLE: solid;
+ BORDER-COLOR: #eee;
+ BORDER-WIDTH: 1px;
+}
+.pun TD, .pun TH {
+ BORDER-BOTTOM: none;
+ BORDER-RIGHT: none
+}
+.pun .tcl {BORDER-LEFT: none}
+FIELDSET {
+ BORDER-STYLE: none;
+}
+HTML, BODY {MARGIN: 0; PADDING: 0}
+BODY {text-align: center}
+#punwrap {width: 660px; margin: 12px auto; text-align: left}
+DIV.blocktable, DIV.block, DIV.blockform, DIV.block2col, #postreview {MARGIN-BOTTOM: 12px}
+#punindex DIV.blocktable, DIV.blockpost {MARGIN-BOTTOM: 6px}
+DIV.block2col DIV.blockform, DIV.block2col DIV.block {MARGIN-BOTTOM: 0px}
+DIV.linkst, DIV.linksb {MARGIN-TOP: -12px}
+DIV.postlinksb {MARGIN-TOP: -6px}
+#brdstats {MARGIN-TOP: 12px}
+DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
+.pun P, .pun UL, .pun DL, DIV.blockmenu LI, .pun LABEL, #announce DIV.inbox DIV {PADDING: 3px 0}
+.pun H2 {PADDING: 4px 6px}
+.pun H1 {PADDING: 3px 0px 0px 0}
+#brdtitle P {PADDING-TOP: 0px}
+DIV.linkst {PADDING: 8px 6px 3px 6px}
+DIV.linksb, DIV.postlinksb {PADDING: 3px 6px 8px 6px}
+#brdwelcome, #brdfooter DL A, DIV.blockmenu LI, DIV.rbox INPUT {LINE-HEIGHT: 1.4em}
+#viewprofile DT, #viewprofile DD {PADDING: 0 3px; LINE-HEIGHT: 2em}
+DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 12px}
+#brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 2px}
+#brdmenu LI a {MARGIN-RIGHT: 5px}
+.pun TH, .pun TD {PADDING: 4px 6px}
+.pun TD P {PADDING: 5px 0 0 0}
+DIV.postleft DL, DIV.postright {PADDING: 6px}
+DD.usercontacts, DD.postavatar {MARGIN-TOP: 5px}
+DD.postavatar {MARGIN-BOTTOM: 5px}
+DIV.postsignature, DIV.postmsg P.postedit {PADDING-TOP: 15px}
+DIV.postmsg H4 {MARGIN-BOTTOM: 10px}
+.pun BLOCKQUOTE, DIV.codebox {MARGIN: 5px 15px 15px 15px; PADDING: 8px}
+DIV.postfootleft P, DIV.postfootright UL, DIV.postfootright DIV {PADDING: 10px 6px 5px 6px}
+DIV.blockpost INPUT, DIV.blockpost LABEL {
+ PADDING: 3px;
+ DISPLAY: inline
+}
+P.multidelete {
+ PADDING-TOP: 15px;
+ PADDING-BOTTOM: 5px
+}
+DIV.postmsg P {PADDING: 0}
+DIV.blockform FORM, DIV.fakeform {PADDING: 20px 20px 15px 20px}
+DIV.inform {PADDING-BOTTOM: 12px}
+.pun FIELDSET {PADDING: 0px 12px 0px 12px}
+DIV.infldset {PADDING: 9px 0px 12px 0}
+.pun LEGEND {PADDING: 0px 6px}
+DIV.forminfo {
+ MARGIN-BOTTOM: 12px;
+ PADDING: 9px 10px
+}
+UL.bblinks LI {PADDING-RIGHT: 20px}
+UL.bblinks {PADDING-BOTTOM: 10px; PADDING-LEFT: 4px}
+DIV.blockform P INPUT {MARGIN-LEFT: 12px}
+DIV.icon {
+ FLOAT: left;
+ MARGIN-TOP: 0.1em;
+ MARGIN-LEFT: 0.2em;
+ DISPLAY: block;
+ BORDER-WIDTH: 0.6em 0.6em 0.6em 0.6em;
+ BORDER-STYLE: solid
+}
+DIV.searchposts DIV.icon {MARGIN-LEFT: 0}
+TD DIV.tclcon {MARGIN-LEFT: 2.3em}

@@ -1,0 +1,65 @@
+html, body {BACKGROUND-COLOR: #000}
+.pun {COLOR: #b5b5b5}
+.pun th {color:#ac9e91;}
+#brdtitle p {color:#0083c6}
+#brdfooter{}
+DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #000}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #000}
+TD.tc2, TD.tc3, TD.tcmod, DIV.box {BACKGROUND-COLOR: #30281d}
+#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #30281d}
+.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #30281d}
+.pun H2 {BACKGROUND-COLOR: #ac9e91; COLOR: #7b654a}
+#brdmenu {BACKGROUND-COLOR: #fff; COLOR: #7b654a}
+.pun TH, .bgc4 {BACKGROUND-COLOR: #000}
+.pun LEGEND {COLOR: #7b654a}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #7b654a}
+.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #000; COLOR: #7b654a}
+DIV.postleft, DIV.postfootleft {border-right-color:#201b13;}
+DIV.postright, DIV.postfootright {border-left-color:#201b13;}
+DIV.postfootleft, DIV.postfootright {border-top-color:#201b13;}
+DIV.blockpost H2 {BACKGROUND-COLOR: #30281d}
+DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
+.pun HR {BACKGROUND-COLOR: #044e75; COLOR: #ac9e91}
+h2, DIV.box {BORDER-COLOR: #000000;}
+DIV.blockpost DIV.box {BORDER-COLOR: #ac9e91}
+.pun TD {BORDER-COLOR: #000;
+background:url(../img/rc3/redbar1.jpg)
+no-repeat;
+}
+.pun TH {BORDER-COLOR: #000;
+background:url(../img/rc3/pun-th1.gif)
+no-repeat;
+}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ac9e91}
+.pun DIV>FIELDSET {BORDER-COLOR: #ac9e91}
+.pun TEXTAREA, .pun INPUT, .pun SELECT {border-color:#ac9e91;}
+.pun A:link, .pun A:visited {COLOR: #ac9e91}
+.pun A:hover {COLOR: #7b654a}
+.pun H2 A:link, .pun H2 A:visited {COLOR: #7b654a}
+.pun H2 A:hover {COLOR: #D4D4D4}
+#brdmenu A:link, #brdmenu A:visited {color:#ac9e91}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
+LI.maintenancelink A:hover {COLOR: #FF5010}
+html, body {BACKGROUND-COLOR: #000;
+background:url(../img/bf2/bg_top1.gif);
+background-repeat:repeat-y;
+}
+#brdmenu { background:url(../img/bf2/brdmenu1.gif);
+background-repeat: no-repeat;}
+#brdtitle {background:url(../img/bf2/logo1.jpg)}
+h2{background:url(../img/bf2/3h311.gif)}
+h2 span .conr {background:none;}
+div#brdfooter {
+background: url(../img/bf2/bg_copy.gif) no-repeat;
+}
+html, body{
+scrollbar-arrow-color: #60A0DC;
+scrollbar-face-color: #111111;
+scrollbar-track-color: #3a3a3a;
+scrollbar-highlight-color: #222222;
+scrollbar-shadow-color: #000000;
+scrollbar-3dlight-color: #333333;
+scrollbar-darkshadow-color: #000000;
+}

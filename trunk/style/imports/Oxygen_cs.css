@@ -1,0 +1,64 @@
+BODY {BACKGROUND-COLOR: #FFF}
+.pun {COLOR: #333}
+DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #F1F1F1}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #F1F1F1}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #DEDFDF}
+.pun H2, #brdmenu {BACKGROUND-COLOR: #0066B9; COLOR: #FFF}
+.pun TH {BACKGROUND-COLOR: #D1D1D1}
+.pun LEGEND {COLOR: #005CB1}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #333}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #DEDFDF}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #f1f1f1}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #F1F1F1}
+DIV.blockpost H2 {BACKGROUND-COLOR: #006FC9}
+DIV.blockpost H2 SPAN.conr {COLOR: #AABDCD}
+.pun HR {BACKGROUND-COLOR: #333; COLOR: #333}
+DIV.box {BORDER-COLOR: #0066B9}
+DIV.blockpost DIV.box {BORDER-COLOR: #006fC9 #0066B9 #0066B9}
+.pun TD {BORDER-COLOR: #BBCEDE}
+.pun TH {BORDER-COLOR: #D1D1D1}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ACA899 #FFF #FFF #ACA899}
+.pun DIV>FIELDSET {BORDER-COLOR: #ACA899}
+.pun A:link, .pun A:visited {COLOR: #005CB1}
+.pun A:hover {COLOR: #B42000}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #FFF}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {BORDER-COLOR: #E6E6E6 #DEDEDE #DADADA #E2E2E2}
+TR.iredirect DIV.icon {BORDER-COLOR: #F1F1F1 #F1F1F1 #F1F1F1 #F1F1F1}
+DIV.inew {BORDER-COLOR: #0080D7 #0065C0 #0058B3 #0072CA}
+#brdmenu.inbox {
+BORDER-TOP:1px solid #F1F1F1;
+BORDER-BOTTOM:1px solid #F1F1F1;
+}
+#brdwelcome.inbox {
+BORDER-TOP:1px solid #0066B9;
+}
+#brdtitle.inbox {
+BORDER-BOTTOM:1px solid #0066B9;
+}
+code {
+color: #B42000;
+}
+div.postmsg li {
+color: #666;
+}
+DIV.spoilerbox p {
+color: #F1F1F1;
+}
+DIV.spoilerbox p:hover {
+color: #333;
+}
+IMG.postimg {
+padding: 1px;
+margin: 2px 5px;
+border: 1px solid #0066B9;
+background: #FFF;
+}
+DIV.postmsg a:hover IMG.postimg {
+border: 1px solid #B42000;
+}

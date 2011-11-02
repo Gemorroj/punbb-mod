@@ -1,0 +1,222 @@
+html, body {
+background-color: #BEC8CE;
+margin: 0;
+padding: 0;
+margin-bottom: 10px;
+}
+#punwrap {
+background-color: #fafafa;
+margin: auto;
+width: 80%;
+padding-left: 6px;
+padding-right: 6px;
+padding-top: 0;
+padding-bottom: 0;
+}
+#punwrap #punredirect{padding: 3%;}
+#punwrap {
+border-width: 2px;
+border-style: solid;
+border-color: #A7B5BD;
+border-top: 0;
+}
+#brdfooter{margin-bottom:6px;}
+#brdtitle{margin-top:0;}
+div.box #brdtitle {
+background-color: #f1f1f1;
+background-image: url(../img/VbStyle-Black/forum_header.gif);
+display: block;
+height: 32px;
+border-bottom: 0;
+}
+h1 span{font-weight:bold;}
+.pun #brdtitle p {
+color: #fff;
+position: absolute;
+top: 108px;
+padding-left: 10px
+}
+.pun {
+color : #333;
+}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {
+background-color: #E4EAF2;
+}
+#adminconsole td, #adminconsole th {
+border-color: #E4EAF2;
+}
+td.tc2, td.tc3, td.tc4, td.tc5, td.tcmod, #postpreview , #viewprofile dd {
+background-color: #E8ECF1;
+}
+#adminconsole fieldset td , div.blockmenu div.box , #adstats dd {
+background-color: #f1f1f1;
+}
+.pun div.infldset th.tcl, div.infldset th.tc2, div.infldset th.tc3, div.infldset th.tc4, div.infldset th.tc5, div.infldset th.tcr, div.infldset th.hidehead {
+background-image: url(../img/VbStyle-Black/pix.gif);
+color: #000000;
+}
+.pun th {
+background-color: #ffffff;
+}
+.pun th.tcl, th.tc2, th.tc3, th.tc4, th.tc5, th.tcr, th.tcmod {
+background-color: #E8ECF1;
+background-image: url(../img/VbStyle-Black/forum_sub.gif);
+height: 14px;
+color: #fff;
+}
+.pun #brdmenu {
+background-color: #E8ECF1;
+background-image: url(../img/VbStyle-Black/forum_menu.gif);
+color: #666;
+padding: 8px 6px;
+}
+.pun h2 {
+background-color: #E8ECF1;
+background-image: url(../img/VbStyle-Black/forum_h2.gif);
+color: #496690;
+font-weight:bold;
+border-left: 1px solid #89959B;
+border-right: 1px solid #89959B;
+padding: 6px 6px;
+}
+.pun h2 span {
+background-position: 0% 50%;
+background-repeat: no-repeat;
+background-image: url(../img/VbStyle-Black/forum_arrow.gif);
+padding: 11px;
+}
+.pun h2 span.conr {
+background-image: none;
+color: #fff;
+padding: 0;
+}
+td.tcr {
+background-color: #E4EAF2;
+}
+td.tcr a{
+background: transparent url(../img/VbStyle-Black/forum_post.gif) no-repeat 0% 0%;
+padding-left: 12px;
+}
+.pun div.postfootleft p {
+background: transparent url(../img/VbStyle-Black/forum_lock.gif) 5px -2px no-repeat;
+height: 20px;
+padding-top: 2px;
+padding-bottom: 0;
+text-indent: 22px;
+}
+.pun div.postfootleft p strong {
+background: transparent url(../img/VbStyle-Black/forum_blue.gif) -1px -4px no-repeat;
+height: 20px;
+display: block;
+}
+div.blockpost div.box {
+background-color: #f1f1f1;
+background-image: url(../img/VbStyle-Black/forum_post_top.gif);
+background-repeat: repeat-x;
+padding-top: 24px;
+}
+div.postright, div.postfootright{
+background-color: #f1f1f1;
+}
+div.postright, div.postfootright {
+border-left-color: #E4EAF2;
+}
+div.postleft, div.postfootleft, div.blockpost label {
+background-color: #E4EAF2;
+}
+div.blockpost h2 {
+background-color: #E4EAF2;
+}
+div.blockpost h2 span.conr {
+color: #aabdcd;
+}
+.pun hr {
+color: #000;
+}
+div.box {
+border-color: #89959B;
+}
+div.blockpost div.box {
+border-top: 0;
+border-color: #89959B #89959B #89959B #89959B;
+}
+div.postsignature hr{
+background-color: #89959B;
+}
+.pun td {
+border-color: #fff;
+}
+.pun th {
+border-color: #fff;
+}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {
+border-color: #888 #fff #fff #888;
+}
+.pun blockquote, div.codebox, div.forminfo {
+background-color: #e1e1e1;
+}
+.pun div > fieldset {
+border-color: #aca899;
+}
+.pun div.blockmenu li.isactive a, #posterror li strong {
+color: #333;
+}
+.pun a:link , .pun a:visited {
+color: #496690;
+}
+.pun a:hover {
+color: #333;
+}
+.pun h2 a:link , .pun h2 a:visited , #brdmenu a:link , #brdmenu a:visited {
+color: #496690;
+}
+.pun h2 a:hover , #brdmenu a:hover {
+color: #333;
+}
+li.postreport a:link , li.postreport a:visited , tr.iclosed td.tcl a:link , tr.iclosed td.tcl a:visited {
+color: #888;
+}
+li.postreport a:hover , tr.iclosed td.tcl a:hover {
+color: #aaa;
+}
+li.maintenancelink a:link , li.maintenancelink a:visited {
+color: #b42000;
+}
+li.maintenancelink a:hover {
+color: #b42000;
+}
+tr.iclosed div.icon {
+background-image: url(../img/VbStyle-Black/forum_lock.gif);
+}
+div.icon {
+background-image: url(../img/VbStyle-Black/forum_old.gif);
+}
+tr.iredirect div.icon {
+background-image: url(../img/VbStyle-Black/forum_link.gif);
+}
+tr.inew div.icon {
+background-image: url(../img/VbStyle-Black/forum_new.gif);
+}
+tr.isticky div.icon {
+background-image: url(../img/VbStyle-Black/forum_stiky.gif);
+}
+#punindex #brdstats div.box div.inbox dl.conl{
+background: transparent url(../img/VbStyle-Black/forum_stats.gif) no-repeat 0% 50%;
+padding-left: 25px;
+}
+.pun legend {
+color: #496690;
+}
+
+div.postmsg li {
+color: #666;
+}
+img.postimg {
+padding: 1px;
+margin: 2px 5px;
+border: 1px solid #496690;
+background: #FFF;
+}
+div.postmsg a:hover img.postimg {
+border: 1px solid #f26522;
+}

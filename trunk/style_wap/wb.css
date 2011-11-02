@@ -1,0 +1,64 @@
+/*By TiPsun*/a:link{color:#5C749D;text-decoration:none;}
+a:visited{color:#959595;text-decoration:none;}
+a:hover{color:#bf0000;text-decoration:none;}
+a:active{color:#bf0000;text-decoration:underline;}
+a.con{color:#5C749D;}
+a.in{background-color:#000;border-right:1px solid #000;border-left:1px solid #000;color:#fff;padding:0px 10px;}
+/*a.in:hover{background-color:#fff;border-right:1px solid #000;border-left:1px solid #000;color:#000;padding:0px 10px;}*/
+.input a{font-weight:bold;text-decoration:none;}
+body{max-width:640px;background-color:#fff;color:#000;font-size:12px;font-family:Verdana;padding:0px;margin:0px auto;}
+blockquote{margin:0px;}
+h4{padding: 0px 4px;}
+p{padding: 0px 3px;}
+code{max-width:640px;background-color:#f0f0f0;color:#000;display:block;border:1px solid #000;}
+fieldset{border-radius:2px;}
+div.pun{padding:0px;margin:0x;}
+div.con, p.con{text-align:left;background-color:#000;color:#fff;font-size:12px;font-weight:bold;padding:3px;margin:1px 1px 1px 0px;}
+
+/*в лс*/ span.con{border-top:1px solid #000;}
+
+div.box{text-align:left;background-color:#fff;color:#000;font-size:12px;font-weight:bold;padding:0px;margin:0px;}
+div.in{background-color:#fff;border:1px solid #000;color:#000;
+margin:1px 1px 1px 0px;padding:3px;}
+
+hr{height:1px;background-color:#000;border:0px;margin:3px -2px;}
+
+div.navlinks{background-color:#000;color:#fff;padding:4px 0px 3px 1%;
+margin:0px 1px 0px 0px;}
+
+div.incqbox{background-color:#000;color:#fff;border:1px solid #fff;padding:3px;
+margin:0px;}
+
+textarea{min-width:99%;min-height:30px;margin: auto;}
+
+div.blocktable{text-align:center;margin:auto;}
+div.attach_list{background-color:#fff;color:#000;border-top:1px solid #000;padding:2px;margin:1px 0px 0px 0px;}
+ul.attach_list{background-color:#000;color:#fff;border:1px dashed #fff;padding:4px 20px;margin:2px;}
+div.input{padding:0px;}
+table{width:99.99%;border-collapse:collapse;}
+th{text-align:center;border:1px solid #000;}
+td{text-align:left;border:1px solid #000;}
+table.msg2{border-top:1px solid #000;border-right:1px solid #000;border-bottom:1px dashed #888;border-left:1px solid #000;margin:0px;}
+table.msg{
+border-top:1px dashed #888;
+border-right:1px solid #000;border-bottom:1px solid #000;border-left:1px solid #000;margin:0px 0px 1px 0px;}
+
+#punmessage_list ul, li{margin:0px 0px 0px -12px;}
+
+.msg td{border:0px;}
+.msg2 td{border:0px;}
+.bbu{text-decoration:underline;}
+.bbs{text-decoration:line-through;}
+.block{margin:1px;}
+.scrollbox{
+max-width:630px;overflow:auto;white-space:pre;margin:auto;
+}
+.p_cnt{margin:0px 1px 1px 0px;}
+.p_cnt:hover{box-shadow:-4px 4px 4px #aaa;}
+.p_cnt table td{background-color:#f0f0f0;color:#000;}
+
+.red{color:#d00;font-weight:bold;}
+
+.green{color:#0a0;font-weight:bold;}
+.copy{width:150px;background-color:#fff;border-right:1px dotted #000;border-bottom:1px dotted #000;border-left:1px dotted #000;text-align:center;color:#777;padding:2px 0px;margin:-1px 2% 3px auto;}
+/*By TiPsun*/

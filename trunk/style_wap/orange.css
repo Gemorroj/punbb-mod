@@ -1,0 +1,32 @@
+body{max-width:380pt;background-color:#fff;color:#003;font-size:small;font-family:"ComiC Sans MS",Times,serif;margin:1px auto;padding:1px;border:1px solid #000;}
+fieldset{width:auto;}
+hr{text-align:left;width:75%;margin:1pt;border:1px dotted #000;}
+textarea{width:90%;}
+table{width:100%;font-family:"ComiC Sans MS";text-align:left;border-collapse:collapse;border: 1px solid #003;}
+th,td{border: 1px solid #003;}
+.msg td{border:none;}
+a{color:#000;font-family:"ComiC Sans MS";text-decoration:none;}
+a:visited{font-family:"ComiC Sans MS";color:#003;}
+a:hover{font-family:"ComiC Sans MS";text-decoration:underline;color:#bf0000;}
+a:active{font-family:"ComiC Sans MS";color:#fff;}
+code{font-size:9pt;color:#000;background-color:#fff;display:block;border:1px solid #003;}
+.bbu{font-family:"ComiC Sans MS";text-decoration:underline;}
+.bbs{text-decoration:line-through;}
+.in{background-color:#ffa500;color:#fff;font-family:"ComiC Sans MS";font-size:12pt;border:1px solid #003;margin:1px;}
+.block{margin:1pt;}
+.box{background-color:#ffa500;font-family:"ComiC Sans MS";font-size:8pt;color:#fff;margin:0;border:1px solid #003;}
+.incqbox{background-color:#c80;color:#fff;font-family:"ComiC Sans MS";font-size:8pt;margin:1px auto;border:1px solid #003;}
+.blocktable{text-align:center;font-family:"ComiC Sans MS";font-size:9pt;margin:1%;}
+.con{background-color:#ffa500;color:#bf0000;font-family:"ComiC Sans MS";font-weight:bold;border:1px solid #fff;padding:1px 0 1px 2pt;}
+.msg{background-color:#ffa500;color:#fff;font-family:"ComiC Sans MS";}
+.msg2{background-color:#ffa500;color:#003;font-family:"ComiC Sans MS";border:1px solid #003;width:auto;}
+.input{background-color:#ffa500;font-size:9pt;font-family:"ComiC Sans MS";padding:0 0 0 1%;}
+.input a{background-color:#ffa500;font-weight:bold;font-family:"ComiC Sans MS";text-decoration:none;}
+.red{color:#d00;font-family:"ComiC Sans MS";font-weight:bold;}
+.red{color:#0a0;font-family:"ComiC Sans MS";font-weight:bold;}
+.attach_list{background-color:#888;}
+.navlinks{background-color:#32cd32;font-size:9pt;padding:4pt 0 1pt 1%;}
+div{background-color:#32cd32;color:#bf0000;font-family:"ComiC Sans MS";}
+.copy{text-align:right;color:#777;font-size:smaller;}
+.p_cnt table td{border-right:1px solid #777;background-color:#f0f0f0;color:#000;width:99%;}
+.scrollbox{width:100%;overflow:auto;white-space:pre;font-size:x-small;}

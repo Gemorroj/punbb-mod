@@ -1,0 +1,82 @@
+ul.attach_list {
+float: left;
+margin: 0 0 4px 0;
+padding: 0;
+list-style-type: none;
+width: 100%;
+}
+ul.attach_list li {
+display: block;
+float: left;
+overflow: hidden;
+padding: 2px 0 4px 10px;
+margin: 0 2px 2px 0;
+width: 11em;
+background-image: url(../img/attach_icon.gif);
+background-repeat: no-repeat;
+background-position: -2px 1px;
+white-space: nowrap;
+}
+.att_info {
+border: 1px dotted #737373;
+font-size: 10px;
+}
+.att_filename {
+font-weight: bold;
+text-decoration: none;
+}
+.punpopup {
+border: 1px solid #000;
+visibility: hidden;
+width: auto;
+background-color: #ccc;
+position: absolute;
+font-family: Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;
+font-size: 11px;
+}
+.popup-title {
+background-color: #444;
+color: #fff;
+font-weight: bold;
+margin: 0px;
+padding: 2px;
+}
+.popup-desc { font-weight: bold; }
+.punpopup p { margin: 0; padding-left: 4px; padding-right: 4px}
+#divAttachRules {margin-bottom: 10px;}
+div.floated {margin: 10px 0;}
+#buttonmenu {font-size:1em; padding-bottom:4px; width:100%;float:left; clear:right; background:#eee;}
+#buttonmenu ul {padding:0; margin:0; list-style-type:none; height:2em; background:transparent;}
+#buttonmenu ul ul {width:15em;}
+#buttonmenu ul li {float:left; height:2em; line-height:2em; display:block;}
+#buttonmenu ul ul li {display:block;width:12em;height:auto; line-height:1em;}
+#buttonmenu a, #buttonmenu a:visited{display:block; float:left; height:100%; width:auto; font-size:1em; text-decoration:none; color:#000; background:#ddd url(../img/post/bg.gif) center center; padding:0 0.6em 0 0.6em; border-left:1px solid #eee; border-right:1px solid #aaa; border-top:1px solid #eee; border-bottom:1px solid #aaa; }
+* html #buttonmenu a, * html #buttonmenu a:visited {width:11em; width:auto;}
+#buttonmenu ul ul a, #buttonmenu ul ul a:visited {display:block;background:transparent url(../img/post/opaque00.png); color:#000; width:12em; height:100%; line-height:1em; padding:0.5em 1em; border-bottom:1px solid #aaa; }
+* html #buttonmenu ul ul a, * html #buttonmenu ul ul a:visited {background:transparent url(../img/post/opaque00.gif); width:14em; width:12em;}
+#buttonmenu table {border-collapse:collapse; padding:0; margin:-1px; width:0; height:0; font-size:1em; z-index:1;}
+#buttonmenu ul :hover a.sub1 {background:#999;}
+* html #buttonmenu a:hover {color:#000;background:#bbb; position:relative; z-index:100;}
+#buttonmenu li:hover {position:relative;}
+#buttonmenu :hover > a {color:#000;background:#bbb;}
+* html #buttonmenu ul ul a:hover{color:#000;background:#bbb; position:relative; z-index:110;}
+#buttonmenu ul ul li:hover {position:relative;}
+#buttonmenu ul ul :hover > a {color:#000;background:#bbb;}
+#buttonmenu ul ul {visibility:hidden; position:absolute; height:0;top:2em; left:0; width:14em;}
+#buttonmenu ul :hover ul{visibility:visible; height:auto; padding:0 3em 3em 3em; background:transparent; left:-3em;}
+* html #buttonmenu ul ul {left:-1px; margin-left:-1px;}
+#buttonmenu #colorcontent li {width:112px;}
+#buttonmenu #colorcontent li a {width:12px;height:12px;padding:0;}
+a.search_tag {
+padding-left: 12px;
+padding-right: 4px;
+text-decoration: none;
+border-style: solid;
+border-width: 1px;
+background-position: 0% 50%;
+background-repeat: no-repeat;
+background-image: url(../img/search_tag.gif);
+}
+a.search_tag:hover {
+background-image : url(../img/search_tag_h.gif);
+}

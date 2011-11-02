@@ -1,0 +1,165 @@
+.pun table, .pun div, .pun form, .pun p, .pun h1, .pun h2, .pun h3, .pun h4, .pun code, .pun pre, .pun blockquote, .pun ul, .pun ol, .pun li, .pun dl, .pun dt, .pun dd, .pun th, .pun td, .pun fieldset, .pun img {
+MARGIN: 0;
+PADDING: 0;
+FONT-WEIGHT: normal;
+LIST-STYLE: none;
+}
+.pun img {border: none}
+.pun input, .pun select, .pun textarea, .pun optgroup {margin: 0}
+.pun .clearer, .pun .nosize {
+HEIGHT: 0;
+WIDTH: 0;
+LINE-HEIGHT: 0;
+FONT-SIZE: 0;
+OVERFLOW: hidden
+}
+.pun .clearer, .pun .clearb {clear: both}
+.pun .nosize {POSITION: absolute; LEFT: -10000px}
+div.blockpost div.box, div.postleft, div.postsignature, div.postmsg {OVERFLOW: hidden}
+div>div>div.postfootleft, div>div>div.postfootright {PADDING-TOP: 1px; MARGIN-TOP: -1px}
+* HTML .inbox, * HTML .inform, * HTML .pun, * HTML .intd, * HTML .tclcon {HEIGHT: 1px}
+* HTML .inbox div.postmsg {WIDTH: 98%}
+.pun, .pun .inbox, .pun .inform, .pun .intd, .pun .tclcon {min-height: 1px}
+#brdfooter h2, #brdstats h2, #brdstats .conl dt, #brdstats .conr dt,
+#modcontrols dt, #searchlinks dt, div.postright h3 {
+POSITION: absolute;
+DISPLAY: block;
+OVERFLOW: hidden;
+WIDTH: 1em;
+LEFT: -999em
+}
+.conr {
+FLOAT: right;
+TEXT-ALIGN: right;
+CLEAR: right;
+WIDTH: 40%
+}
+.conl {
+FLOAT: left;
+WIDTH: 55%;
+OVERFLOW: hidden;
+WHITE-SPACE: nowrap
+}
+label.conl {
+WIDTH: auto;
+OVERFLOW: visible;
+MARGIN-RIGHT: 10px
+}
+div.linkst .conl, div.linksb .conl, div.postlinksb .conl {WIDTH:18em}
+div.linkst .conr, div.linksb .conr, div.postlinksb .conr {WIDTH:16em}
+form div.linksb .conr {WIDTH: 32em}
+.linkst ul, .linksb ul, .postlinksb ul {MARGIN-LEFT: 18em}
+div.block2col {PADDING-BOTTOM: 1px}
+div.block2col div.blockform, div.block2col div.blockform div.postlinksb, div.block2col div.block, #viewprofile dd {MARGIN-LEFT: 14em}
+div.blockmenu, #viewprofile dt {
+FLOAT:left;
+WIDTH: 13em
+}
+#profileavatar img {
+FLOAT: right;
+MARGIN-LEFT: 1em
+}
+#viewprofile dl {FLOAT: left; WIDTH: 100%; OVERFLOW: hidden}
+.pun table {WIDTH: 100%}
+#punindex table, #vf table {TABLE-LAYOUT: fixed}
+.tcl {TEXT-ALIGN: left; WIDTH: 50%}
+.tc2, .tc3, .tcmod {WIDTH: 9%; TEXT-ALIGN: center}
+.tcr {WIDTH: 32%; TEXT-ALIGN: left}
+#punsearch #vf .tcl, #punmoderate #vf .tcl {WIDTH: 41%}
+#punsearch #vf .tc2 {WIDTH: 18%; TEXT-ALIGN: left}
+.tcl, .tcr {OVERFLOW: HIDDEN}
+#users1 .tcl {WIDTH: 40%}
+#users1 .tcr {WIDTH: 25%}
+#users1 .tc2 {WIDTH: 25%; TEXT-ALIGN: left}
+#users1 .tc3 {WIDTH: 10%; TEXT-ALIGN: center}
+#debug .tcr {WIDTH: 85%; WHITE-SPACE: normal}
+#punindex td.tcr span.byuser {DISPLAY: block}
+div.postleft, div.postfootleft {
+FLOAT:left;
+WIDTH: 18em;
+OVERFLOW: hidden;
+POSITION: relative;
+}
+div.postright, div.postfootright {
+BORDER-LEFT-WIDTH: 18em;
+BORDER-LEFT-STYLE: solid
+}
+div.postfootright, p.multidelete {TEXT-ALIGN: right}
+div.blockpost>div>div.inbox {PADDING-BOTTOM: 1px}
+div.postmsg {WIDTH:100%}
+div.incqbox {WIDTH: 100%; OVERFLOW: hidden}
+div.scrollbox {WIDTH: 100%; OVERFLOW: auto; white-space:pre;}
+img.postimg {max-width: 100%}
+a .postimg {max-width: 100%}
+#postpreview div.postright {BORDER-LEFT: none}
+div.postsignature hr {
+MARGIN-LEFT: 0px;
+WIDTH: 200px;
+TEXT-ALIGN: left;
+HEIGHT: 1px;
+BORDER:none
+}
+/*DIV.searchposts DIV.postmsg{height: 8em}*/
+div.searchposts DD P{padding-top: 3em}
+.bbu{text-decoration: underline;}
+#onlinelist dd, #onlinelist dt, #brdmenu li, div.linkst li, div.linksb li, div.postlinksb li, div.postfootright li, ul.bblinks li {
+DISPLAY: inline;
+HEIGHT: 0
+}
+#posterror ul li {LIST-STYLE: square inside}
+#viewprofile dt {TEXT-ALIGN: right}
+div.txtarea {WIDTH: 75%}
+div.txtarea textarea, input.longinput {WIDTH: 100%}
+.pun label {DISPLAY: block}
+#qjump select {WIDTH: 50%}
+#helpfile h2 {MARGIN-TOP: 12px}
+#helpfile div.box {PADDING: 10px}
+#punredirect div.block, #punmaint div.block {MARGIN: 50px 20% 12px 20%}
+p.center {text-align:center}
+p.right {text-align:right}
+.bbs {text-decoration:line-through;}
+code {font-family:"Courier New";font-size:110%}
+div.postmsg ol,div.postmsg ul {padding:5px}
+div.postmsg li {margin-left:30px;padding:2px}
+div.postmsg ol li {list-style-type:decimal}
+div.postmsg ul li {list-style-type:square}
+a.search_tag {
+PADDING-LEFT: 12px;
+PADDING-RIGHT: 4px;
+TEXT-DECORATION: none;
+BORDER-STYLE: solid;
+BORDER-WIDTH: 1px;
+background-position : 0% 50%;
+background-repeat : no-repeat;
+background-image : url(../img/search_tag.gif);
+}
+a.search_tag:hover {
+background-image : url(../img/search_tag_h.gif);
+}
+div.block2col div.blockpost {margin-left: 14em;}
+.p_cnt .col1 {
+width:25%;
+text-align:right;
+}
+.p_cnt .col2 {
+width:50%;
+}
+.p_cnt .col3 {
+width:25%;
+}
+.p_cnt table {
+MARGIN:auto;
+}
+.p_cnt div td {
+border-top:0;
+border-left:0;
+}
+.p_cnt div td div {
+height:12px;
+BORDER-TOP:1px solid #FFF;
+BORDER-LEFT:1px solid #FFF;
+BORDER-BOTTOM:1px solid #777;
+BORDER-RIGHT:1px solid #777;
+BACKGROUND-COLOR:rgb(173,173,173);
+}
+.paedit li{display:inline}

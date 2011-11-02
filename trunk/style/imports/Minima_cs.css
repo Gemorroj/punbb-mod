@@ -1,0 +1,64 @@
+BODY {BACKGROUND-COLOR: #FFF}
+.pun {COLOR: #333}
+DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #fff}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #fff}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #fff}
+.pun H2, #brdmenu {BACKGROUND-COLOR: #fff; color: #c60; text-transform: uppercase; font-weight: bold;}
+#brdmenu { margin:0 11px 11px;
+ padding:0 20px 20px;
+ border:1px solid #eee;
+ border-width:0 1px 1px;
+ max-width:700px;
+ font:78%/1.4em "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+ text-transform:uppercase;
+ letter-spacing:.2em;
+ color:#999;
+ text-align: center;}
+.pun TH {BACKGROUND-COLOR: #fff}
+.pun LEGEND {COLOR: #005CB1}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #333}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #fff}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #fff}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #fff}
+DIV.blockpost H2 {BACKGROUND-COLOR: #fff}
+DIV.blockpost H2 SPAN.conr {COLOR: #AABDCD}
+.pun HR {BACKGROUND-COLOR: #333; COLOR: #333}
+DIV.box {BORDER-COLOR: #0066B9}
+DIV.blockpost DIV.box {BORDER-COLOR: #006fC9 #0066B9 #0066B9}
+.pun TD {BORDER-COLOR: #BBCEDE}
+.pun TH {BORDER-COLOR: #fff}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ACA899 #FFF #FFF #ACA899}
+.pun DIV.blockpost { border-bottom: #eee solid 1px}
+.pun DIV>FIELDSET {BORDER-COLOR: #ACA899}
+.pun A:link, .pun A:visited {COLOR: #58a; text-decoration: none}
+.pun A:hover {COLOR: #c60}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #58a}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #c60}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {BORDER-COLOR: #D1E2EF}
+TR.iredirect DIV.icon {BORDER-COLOR: #F1F1F1 #F1F1F1 #F1F1F1 #F1F1F1}
+DIV.inew {BORDER-COLOR: #8FCDFF #61A6DF #4D95CF #77B9EF}
+DIV.blockpost H2 a:link, DIV.blockpost H2 a:hover
+{ color: #ccc; text-decoration: none;}
+#brdtitle
+{ padding: 0px;}
+#brdheader
+{ border: 1px solid #ccc; border-bottom-style:none; padding-bottom: 0px;}
+#brdwelcome
+{ color: #999; text-transform: uppercase; font-size: .8em; padding: 5px 6px 0px 6px; margin: 0px -1px 0px -1px; border: 1px solid #fff; border-top: 1px solid #ccc; border-width: 1px 1px 1px 1px;}
+#brdstats
+{ color: #666; text-transform: none; font-size: .8em}
+#brdfooter p, #modcontrols, .postfootright, .postfootleft, .postleft
+{ color: #666; font-size: .8em;}
+#brdstats
+{ padding-top: 15px;}
+.pun #main
+{width: 500px;}
+.pun textarea
+{ background-color: #fafafa; border: 1px solid #999 }
+.linkst li, .linksb li
+ { color: #666; font-size: .8em;}
