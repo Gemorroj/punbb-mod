@@ -1,18 +1,20 @@
 function insAtCaret(o, s)
 {
+    var r;
     o.focus();
-    if (typeof(document.selection) !== 'undefined') {
-        var r = document.selection.createRange();
-        if (r.parentElement() != o) {
+
+    if ("selection" in document) {
+        r = document.selection.createRange();
+        if (r.parentElement() !== o) {
             return;
         }
         r.text = s;
         r.select();
-    } else if (typeof(o.selectionStart) !== 'undefined') {
-        st = o.selectionStart;
-        o.value = o.value.substr(0, st) + s + o.value.substr(o.selectionEnd, o.value.length);
-        st += s.length;
-        o.setSelectionRange(st, st);
+    } else if ("selectionStart" in o) {
+        r = o.selectionStart;
+        o.value = o.value.substr(0, r) + s + o.value.substr(o.selectionEnd, o.value.length);
+        r += s.length;
+        o.setSelectionRange(r, r);
     } else {
         o.value += s;
     }

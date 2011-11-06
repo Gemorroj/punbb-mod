@@ -6,7 +6,7 @@
 
 function insert_text(open, close)
 {
-	msgfield = (document.all) ? document.all.req_message : document.forms['post']['req_message'];
+	var msgfield = document.forms.post.req_message;
 	// IE support
 	if (document.selection && document.selection.createRange)
 	{
@@ -66,10 +66,13 @@ function tag_url()
 		//alert("Error! " + error_no_url);
 		return false;
 	}
-	if (!enterTITLE)
-		return insert_text("[url]"+enterURL+"[/url]", "", false);
-	else
-		return insert_text("[url="+enterURL+"]" + enterTITLE + "[/url]", "", false);
+	if (!enterTITLE) {
+		return insert_text("[url]" + enterURL + "[/url]", "", false);
+    }
+    else
+    {
+        return insert_text("[url=" + enterURL + "]" + enterTITLE + "[/url]", "", false);
+    }
 }
 
 function tag_image()
@@ -92,5 +95,5 @@ function tag_email()
 		//alert(error_no_email);
 		return false;
 	}
-	return insert_text("[email]"+emailAddress+"[/email]", "", false);
+	return insert_text("[email]" + emailAddress + "[/email]", "", false);
 }

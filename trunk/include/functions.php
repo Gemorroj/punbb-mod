@@ -858,7 +858,7 @@ function maintenance_message()
     // START SUBST - <pun_include "*">
     while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_maint, $cur_include)) {
         if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.' . $cur_include[2])) {
-            error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template maintenance.tpl. There is no such file in folder /include/user/');
+            error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template maintenance.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
         }
 
         ob_start();
@@ -938,7 +938,7 @@ function redirect($destination_url, $message)
     // START SUBST - <pun_include "*">
     while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_redir, $cur_include)) {
         if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.' . $cur_include[2])) {
-            error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template redirect.tpl. There is no such file in folder /include/user/');
+            error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template redirect.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
         }
 
         ob_start();
@@ -1028,7 +1028,7 @@ function wap_redirect($destination_url)
 //
 // Display a simple error message
 //
-function error($message, $file, $line, $db_error = false)
+function error($message, $file, $line, $db_error = array())
 {
     global $pun_config;
 
@@ -1246,7 +1246,6 @@ function vote($to = 0, $vote = 1)
     if ($db->num_rows($q)) {
         message('Error');
     }
-
 
     return $db->query('INSERT INTO `' . $db->prefix . 'karma` SET `id`=' . $pun_user['id'] . ', `to`=' . intval($to) . ', `vote`="' . $vote . '", `time`=' . $_SERVER['REQUEST_TIME']) or error('Error', __FILE__, __LINE__, $db->error());
 }

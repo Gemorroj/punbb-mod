@@ -9,7 +9,7 @@ if (!$pun_user['g_read_board']) {
 
 
 if ($to = intval($_GET['to'])) {
-    vote($to, intval($_GET['vote']));
+    echo vote($to, intval($_GET['vote']));
     exit;
 }
 

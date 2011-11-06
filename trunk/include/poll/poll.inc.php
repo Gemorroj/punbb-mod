@@ -140,7 +140,7 @@ class _Poll
                 $answers[] = $result2[1];
             }
         }
-    
+
         return $answers;
     }
 

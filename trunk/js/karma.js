@@ -1,24 +1,22 @@
-function vote(user, karma)
-{
-    $.ajax({
-        async: true,
-        type: 'GET',
-        url: 'karma.php?to=' + user + '&vote=' + karma
+function _vote(user, karma) {
+    $("span.karma_" + user).empty();
+
+    var num = $("span.num_" + user);
+    var oldKarma = Number(num.html());
+
+    num.html('<img src="img/busy.gif" alt="" />');
+
+    $.get('karma.php?to=' + user + '&vote=' + karma, function (data) {
+        num.html(data ? oldKarma + karma : 'Ошибка');
     });
 }
 
 
-function karmaPlus(user, karma)
-{
-    $("span.karma_" + user).empty();
-    $("span.num_" + user).text(karma + 1);
-    vote(user, 1);
+function karmaPlus(user) {
+    _vote(user, 1);
 }
 
 
-function karmaMinus(user, karma)
-{
-    $("span.karma_" + user).empty();
-    $("span.num_" + user).text(karma - 1);
-    vote(user, -1);
+function karmaMinus(user) {
+    _vote(user, -1);
 }

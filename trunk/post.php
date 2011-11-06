@@ -104,17 +104,17 @@ if (($pun_user['is_guest'] && $_POST['form_user'] != 'Guest') || (!$pun_user['is
 // Image verifcation
 if ($pun_user['g_post_replies'] == 2) {
 // Make sure what they submitted is not empty
-if (!trim($_POST['req_image'])) {
+if (!trim($_POST['req_image_'])) {
     //unset($_SESSION['captcha_keystring']);
     message($lang_post['Text mismatch']);
 }
 
 
-if($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image']))){
+if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
     //unset($_SESSION['captcha_keystring']);
     message($lang_post['Text mismatch']);
 }
-if(!isset($_SESSION['captcha_keystring'])){
+if (!isset($_SESSION['captcha_keystring'])) {
     //unset($_SESSION['captcha_keystring']);
     message($lang_common['Bad request']);
 }
@@ -575,16 +575,26 @@ else{
 
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
-$required_fields = array('req_email' => $lang_common['E-mail'], 'req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message'], 'req_image' => $lang_post['Image text']);
+$required_fields = array(
+    'req_email' => $lang_common['E-mail'],
+    'req_subject' => $lang_common['Subject'],
+    'req_message' => $lang_common['Message']
+);
 $focus_element = array('post');
 
-if(!$pun_user['is_guest']){
+if (!$pun_user['is_guest']) {
     $focus_element[] = ($fid) ? 'req_subject' : 'req_message';
 } else {
     // BEGIN FIX UNDEFINED REQUIRED FIELDS FOR GUEST
     //ORIGINAL:
     //$required_fields['req_username'] = $lang_post['Guest name'];
-    $required_fields = array('req_email' => $lang_common['E-mail'], 'req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message'], 'req_username' => $lang_post['Guest name'], 'req_image' => $lang_post['Image text']);
+    $required_fields = array(
+        'req_email' => $lang_common['E-mail'],
+        'req_subject' => $lang_common['Subject'],
+        'req_message' => $lang_common['Message'],
+        'req_username' => $lang_post['Guest name'],
+        'req_image_' => $lang_post['Image text']
+    );
     //END FIX
     $focus_element[] = 'req_username';
 }
@@ -594,7 +604,7 @@ require_once PUN_ROOT.'header.php';
 
 echo '<div class="linkst"><div class="inbox"><ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &raquo; '.$forum_name;
 
-if(@$cur_posting['subject']){
+if (@$cur_posting['subject']) {
     echo '</li><li> &raquo; '.pun_htmlspecialchars($cur_posting['subject']);
 }
 
@@ -602,19 +612,19 @@ echo '</li></ul></div></div>';
 
 
 // If there are errors, we display them
-if($errors)
+if ($errors)
 {
 echo '<div id="posterror" class="block"><h2><span>'.$lang_post['Post errors'].'</span></h2><div class="box"><div class="inbox"><p>'.$lang_post['Post errors info'].'</p><ul>';
 
 
-while(list(, $cur_error) = each($errors)){
+while (list(, $cur_error) = each($errors)) {
     echo '<li><strong>'.$cur_error.'</strong></li>';
 }
 
 echo '</ul></div></div></div>';
 
 }
-else if(isset($_POST['preview']))
+else if (isset($_POST['preview']))
 {
     include_once PUN_ROOT.'include/parser.php';
     $preview_message = parse_message($message, $hide_smilies);
@@ -628,7 +638,7 @@ echo '<div class="blockform"><h2><span>'.$action.'</span></h2><div class="box">'
 
 
 // hcs AJAX POLL MOD BEGIN
-if($pun_config['poll_enabled'] == 1 && $fid){
+if ($pun_config['poll_enabled'] == 1 && $fid) {
     include_once PUN_ROOT.'include/poll/poll.inc.php';
     $Poll->showContainer();
     $cur_index = 8;
@@ -637,7 +647,7 @@ if($pun_config['poll_enabled'] == 1 && $fid){
 
 echo '<fieldset><legend>'.$lang_common['Write message legend'].'</legend><div class="infldset txtarea"><input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="' . (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])) . '" />';
 
-if($pun_user['is_guest'])
+if ($pun_user['is_guest'])
 {
     $email_label = ($pun_config['p_force_guest_email'] == 1) ? '<strong>'.$lang_common['E-mail'].'</strong>' : $lang_common['E-mail'];
     $email_form_name = ($pun_config['p_force_guest_email'] == 1) ? 'req_email' : 'email';
@@ -646,28 +656,28 @@ if($pun_user['is_guest'])
     echo '<label class="conl"><strong>'.$lang_post['Guest name'].'</strong><br /><input type="text" name="req_username" value="'.pun_htmlspecialchars(@$username).'" size="25" maxlength="25" tabindex="'.($cur_index++).'" /><br /></label><label class="conl">'.$email_label.'<br /><input type="text" name="'.$email_form_name.'" value="'.pun_htmlspecialchars(@$email).'" size="50" maxlength="50" tabindex="'.($cur_index++).'" /><br /></label><div class="clearer"></div>';
 }
 
-if($fid){
+if ($fid) {
     echo '<label><strong>'.$lang_common['Subject'].'</strong><br /><input class="longinput" type="text" name="req_subject" value="'.pun_htmlspecialchars(@$subject).'" size="80" maxlength="70" tabindex="'.($cur_index++).'" /><br /></label>';
 }
 require PUN_ROOT.'include/attach/post_buttons.php';
 ?>
-<label><textarea name="req_message" rows="12" cols="98" tabindex="<?php echo $cur_index++ ?>"><?php echo isset($_POST['req_message']) ? pun_htmlspecialchars($message) : (isset($quote) ? $quote : ''); ?></textarea><br /></label>
+<label><textarea name="req_message" rows="12" cols="98" tabindex="<?php echo $cur_index++; ?>"><?php echo isset($_POST['req_message']) ? pun_htmlspecialchars($message) : (isset($quote) ? $quote : ''); ?></textarea><br /></label>
 <?php
 // если есть проверка капчей
-if($pun_user['g_post_replies'] == 2){
-    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image" size="16" maxlength="16" /></td></tr></table>';
+if ($pun_user['g_post_replies'] == 2) {
+    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="4" /></td></tr></table>';
 }
 ?>
 <ul class="bblinks">
-<li><a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode'] ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
-<li><a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag'] ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
-<li><a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies'] ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
 </ul>
 </div>
 </fieldset>
 <?php
 $num_to_upload = min($file_limit, 20);
-if($can_upload && $num_to_upload>0){
+if ($can_upload && $num_to_upload > 0) {
     echo '<br class="clearb" /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
     include PUN_ROOT.'include/attach/post_input.php';
     echo '</fieldset>';
@@ -675,26 +685,26 @@ if($can_upload && $num_to_upload>0){
 
 
 $checkboxes = array();
-if(!$pun_user['is_guest'])
+if (!$pun_user['is_guest'])
 {
-    if($pun_config['o_smilies'] == 1){
+    if ($pun_config['o_smilies'] == 1) {
         $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
     }
     
-    if($is_admmod){
+    if ($is_admmod) {
         $checkboxes[] = '<label><input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];
     }
     
-    if($pun_config['o_subscriptions'] == 1){
+    if ($pun_config['o_subscriptions'] == 1) {
         $checkboxes[] = '<label><input type="checkbox" name="subscribe" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['subscribe']) ? ' checked="checked"' : '').' />'.$lang_post['Subscribe'];
     }
 }
-else if($pun_config['o_smilies'] == 1){
+else if ($pun_config['o_smilies'] == 1) {
     $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
 }
 
 
-if($checkboxes){
+if ($checkboxes) {
     echo '</div><div class="inform"><fieldset><legend>'.$lang_common['Options'].'</legend><div class="infldset"><div class="rbox">'.implode('<br /></label>', $checkboxes).'<br /></label></div></div></fieldset><input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" />';
 }
 
@@ -704,37 +714,36 @@ echo '</div><p><input type="submit" name="submit" value="'.$lang_common['Submit'
 // Check to see if the topic review is to be displayed.
 if ($tid && $pun_config['o_topic_review']) {
     include_once PUN_ROOT.'include/parser.php';
-    
+
     $result = $db->query('SELECT id, poster, message, hide_smilies, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT '.$pun_config['o_topic_review']) or error('Unable to fetch topic review', __FILE__, __LINE__, $db->error());
-    
-    
+
+
     echo '<div id="postreview" class="blockpost"><h2><span>'.$lang_post['Topic review'].'</span></h2>';
-    
-    
+
+
     //Set background switching on
     $bg_switch = true;
     $post_count = 0;
-    
-    while($cur_post = $db->fetch_assoc($result)){
+
+    while ($cur_post = $db->fetch_assoc($result)) {
         // Switch the background color for every message.
         $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
         $vtbg = ($bg_switch) ? ' roweven' : ' rowodd';
         $post_count++;
-        
+
         // QUICK QUOTE MOD BEGIN
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE ADDED
         $username = '<a href="javascript:pasteN(\''.pun_htmlspecialchars($cur_post['poster']).'\');">'.pun_htmlspecialchars($cur_post['poster']).'</a>';
         // QUICK QUOTE MOD END
-        
-        
-        
+
+
         $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
-        
+
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE MODIFIED
         echo '<div class="box'.$vtbg.'"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd>'.format_time($cur_post['posted']).'</dd></dl></div><div class="postright"><div class="postmsg">'.$cur_post['message'].'</div></div><div class="clearer"></div><div class="postfootright"><ul><li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\',\''.pun_htmlspecialchars($cur_post['poster']).'\');">'.$lang_post['Quote'].'</a></li></ul></div></div></div>';
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE ADDED
     }
-    
+
     echo '</div>';
 }
 

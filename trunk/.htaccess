@@ -39,9 +39,11 @@ php_value short_open_tag 1
 # отладка
 php_flag display_errors Off
 
+
 # Сессии
-php_value arg_separator.output "&amp;"
-php_value session.use_trans_sid 1
+php_value session.use_trans_sid 0
+php_value session.use_cookies 1
+php_value session.use_only_cookies 1
 
 
 # кодировка
@@ -51,7 +53,7 @@ php_value default_charset UTF-8
 
 # Максимальный размер файла для загрузки
 php_value upload_max_filesize 50M
-#php_value post_max_size 50M
+php_value post_max_size 50M
 
 
 # mbstring

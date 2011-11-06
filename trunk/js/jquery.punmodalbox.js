@@ -240,7 +240,7 @@
 				}
 			);
 		}
-	}
+	};
 
 
 	$.fn.modalBox = function (options) {

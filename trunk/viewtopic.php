@@ -321,7 +321,7 @@ foreach ($posts as $cur_post) {
                 } else if ($db->num_rows($db->query('SELECT 1 FROM `' . $db->prefix . 'karma` WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . $cur_post['poster_id'] . ' LIMIT 1'))) {
                     $user_info[] = '<dd>' . $lang_common['Karma'] . ': ' . $karma['karma'];
                 } else {
-                    $user_info[] = '<dd>' . $lang_common['Karma'] . ': <span class="num_' . $cur_post['poster_id'] . '">' . $karma['karma'] . '</span> <span class="karma_' . $cur_post['poster_id'] . '"><a href="javascript:karmaPlus(' . $cur_post['poster_id'] . ',' . $karma['karma'] . ');">+</a>/<a href="javascript:karmaMinus(' . $cur_post['poster_id'] . ',' . $karma['karma'] . ');">-</a></span>';
+                    $user_info[] = '<dd>' . $lang_common['Karma'] . ': <span class="num_' . $cur_post['poster_id'] . '">' . $karma['karma'] . '</span> <span class="karma_' . $cur_post['poster_id'] . '"><a href="javascript:karmaPlus(' . $cur_post['poster_id'] . ');">+</a>/<a href="javascript:karmaMinus(' . $cur_post['poster_id'] . ');">-</a></span>';
                 }
             }
 

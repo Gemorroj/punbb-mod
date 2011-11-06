@@ -75,12 +75,11 @@ poll.vote = function (id) {
         return false;
     }
 
-    $(p + " table td").each(function() {
+    $(p + " table td").each(function () {
         $(this).css({opacity: "0.4"});
     });
     $("#warning").empty();
-    $(p).css({position: 'relative'});
-    $(p).prepend("<div class=\"poll-overlay\"><img src=\"style/img/loading.gif\" alt=\"\"/></div>");
+    $(p).css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');
 
     $.ajax({
         type: "POST",

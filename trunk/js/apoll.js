@@ -15,10 +15,12 @@ poll.admin = function () {
     s.update = function (id) {
         $.modalBox.hideBox(function () {
             $('div.cnt_' + id).each(function (i) {
-                $(this).css({'position': 'relative'});
-                var height = $(this).height(), width = $(this).width(), $.modalBox.generateId('hider');
+                var obj = $(this);
 
-                $(this).append('<div id="' + hid + '" class="hider' + id + '">' + busy + '</div>');
+                obj.css({'position': 'relative'});
+                var height = obj.height(), width = obj.width(), hid = $.modalBox.generateId('hider');
+
+                obj.append('<div id="' + hid + '" class="hider' + id + '">' + busy + '</div>');
                 $('#' + hid).css({
                     'position': 'absolute',
                     'background-color': '#ffffff',

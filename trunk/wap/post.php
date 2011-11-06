@@ -106,20 +106,20 @@ if (isset($_POST['form_sent'])) {
     
     
     // Image verifcation
-    if($pun_user['g_post_replies'] == 2)
+    if ($pun_user['g_post_replies'] == 2)
     {
         // Make sure what they submitted is not empty
-        if(!trim($_POST['req_image'])){
+        if (!trim($_POST['req_image_'])) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
         
         
-        if($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image']))){
+        if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
-        if(!isset($_SESSION['captcha_keystring'])){
+        if (!isset($_SESSION['captcha_keystring'])) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_common['Bad request']);
         }
@@ -579,7 +579,11 @@ else if($fid)
 
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
-$required_fields = array('req_email' => $lang_common['E-mail'], 'req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message']);
+$required_fields = array(
+    'req_email' => $lang_common['E-mail'],
+    'req_subject' => $lang_common['Subject'],
+    'req_message' => $lang_common['Message']
+);
 $focus_element = array('post');
 
 if (!$pun_user['is_guest']) {
@@ -592,7 +596,8 @@ if (!$pun_user['is_guest']) {
         'req_email' => $lang_common['E-mail'],
         'req_subject' => $lang_common['Subject'],
         'req_message' => $lang_common['Message'],
-        'req_username' => $lang_post['Guest name']
+        'req_username' => $lang_post['Guest name'],
+        'req_image_' => $lang_post['Image text']
     );
     //END FIX
     $focus_element[] = 'req_username';
@@ -601,8 +606,8 @@ if (!$pun_user['is_guest']) {
 require_once PUN_ROOT . 'wap/header.php';
 
 echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / '.$forum_name;
-if(isset($cur_posting['subject'])){
-    echo ' / '.pun_htmlspecialchars($cur_posting['subject']);
+if (isset($cur_posting['subject'])) {
+    echo ' / ' . pun_htmlspecialchars($cur_posting['subject']);
 }
 echo '<br/></div>';
 
@@ -611,7 +616,7 @@ echo '<br/></div>';
 if ($errors) {
     echo '<div class="red">' . $lang_post['Post errors'] . '<br/></div><div class="msg2">';
 
-    while(list(, $cur_error) = each($errors)) {
+    while (list(, $cur_error) = each($errors)) {
         echo '&#187; '.$cur_error.'<br/>';
     }
 
@@ -665,7 +670,7 @@ echo '</textarea><br/>';
 
 // если есть проверка капчей
 if ($pun_user['g_post_replies'] == 2) {
-    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image" size="16" maxlength="16" /></td></tr></table>';
+    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="16" /></td></tr></table>';
 }
 
 $num_to_upload = min($file_limit, 20);
