@@ -215,16 +215,16 @@ if ($pun_config['poll_enabled'] == 1) {
         if ($_POST['pollid']) {
             if (is_array($_POST['poll_vote'])) {
                 foreach ($_POST['poll_vote'] as $var) {
-                    $q .= $var.'='.intval($var).'&';
+                    $q .= $var . '=' . $var . '&';
                 }
                 $q = rtrim($q, '&');
             } else {
-                $q = intval($_POST['poll_vote']);
+                $q = $_POST['poll_vote'];
             }
-            $Poll->vote($_POST['pollid'], $q);
+            $warning = $Poll->vote($_POST['pollid'], $q);
         }
 
-        $Poll->wap_showPoll($cur_topic['has_poll'], true);
+        $Poll->wap_showPoll($cur_topic['has_poll'], true, $warning);
     }
 }
 // hcs AJAX POLL MOD END

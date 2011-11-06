@@ -25,7 +25,8 @@ $lang_poll = array(
 'how long description'	=>	'Оставьте поле пустым, чтобы не ограничивать во времени',
 'list answers'	=>		'Список ответов',
 'list answers description'	=>		'Введите ваши варианты ответов, одна строка - один вариант',
-'create'		=>		'Create'
+'create'		=>		'Create',
+'voted'         =>      'Voted',
 
 
 

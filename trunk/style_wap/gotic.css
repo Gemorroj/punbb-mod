@@ -30,3 +30,4 @@ code{font-size:9pt;color:#000;background-color:#f0f0f0;display:block;border:1px 
 .copy{text-align:right;color:#333;font-size:smaller;}
 .p_cnt table td{border-right:1px solid #777;background-color:#f0f0f0;color:#000;width:99%;}
 .scrollbox{width:100%;overflow:auto;white-space:pre;font-size:x-small;}
+div#warning {color: #b00; font-weight: bold;}

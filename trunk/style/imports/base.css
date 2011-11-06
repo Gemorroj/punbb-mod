@@ -163,3 +163,4 @@ BORDER-RIGHT:1px solid #777;
 BACKGROUND-COLOR:rgb(173,173,173);
 }
 .paedit li{display:inline}
+div#warning {color: #b00; font-weight: bold;}

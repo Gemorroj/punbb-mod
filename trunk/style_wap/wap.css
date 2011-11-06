@@ -31,3 +31,4 @@ fieldset{border-radius:2pt;}
 .p_cnt:hover{box-shadow:-4pt 4pt 4pt #aaa;}
 .p_cnt table td{background-color:#f0f0f0;color:#000;width:99%;}
 .scrollbox{width:100%;overflow:auto;white-space:pre;font-size:x-small;}
+div#warning {color: #b00; font-weight: bold;}

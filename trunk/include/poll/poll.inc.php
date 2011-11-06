@@ -212,7 +212,7 @@ class _Poll
     }
 
 
-    function wap_showPoll($pollid, $buffered = true)
+    function wap_showPoll($pollid, $buffered = true, $warning = null)
     {
         global $pun_config, $pun_user, $lang_poll;
 
@@ -236,7 +236,7 @@ class _Poll
                 }
                 return $this->wap_showResult($pollid, $poll, $q, $total, $buffered, $pieces);
             } else {
-                return $this->wap_showQuest($pollid, $poll, $q, $buffered, $pieces);
+                return $this->wap_showQuest($pollid, $poll, $q, $buffered, $pieces, $warning);
             }
         } else {
             return $poll['error'];
@@ -270,9 +270,17 @@ class _Poll
     }
 
 
-    function wap_showQuest($pollid, $poll, $q, $buffered, $pieces)
+    function wap_showQuest($pollid, $poll, $q, $buffered, $pieces, $warning = null)
     {
         global $lang_poll, $pun_user, $lang_common;
+
+        if ($warning == 2) {
+            $warning = $lang_poll['voted'];
+        } else if ($warning == 1) {
+            $warning = $lang_poll['answer must select'];
+        } else {
+            $warning = null;
+        }
 
         if (!$buffered) {
             ob_start();
@@ -280,7 +288,7 @@ class _Poll
             header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
         }
 
-        echo '<div class="in"><fieldset><legend>' . $lang_poll['poll'] . '</legend><form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post"><input type="hidden" name="pollid" value="' . $pollid . '"/><table><tr><td colspan="2" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
+        echo '<div class="in"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div id="warning">' . pun_htmlspecialchars($warning) . '</div><form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post"><input type="hidden" name="pollid" value="' . $pollid . '"/><table><tr><td colspan="2" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
 
         $i = -1;
         foreach ($poll['data'] as $quest) {

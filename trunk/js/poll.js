@@ -16,17 +16,17 @@ poll.lng = ({
 $(document).ready(function () {
     poll.remove();
     $("#apinsert").modalBox({
-        ajax:"ajax.server.php?poll=gcfrm",
+        ajax: "ajax.server.php?poll=gcfrm",
         boxTimer: 0
     });
 });
 
-poll.remove = function() {
+poll.remove = function () {
     $("#apcreate").text(poll.lng.create).unbind('click').modalBox({title:poll.lng.create_poll, height: 600, width: 600, ajax: "ajax.server.php?poll=gcfrm"});
     $("#ppreview").slideUp(200).empty();
 };
 
-poll.pForm = function() {
+poll.pForm = function () {
     var b = '<br />', e = 0, d = $("#pdescription").val(), q = $("#pquestions").val();
     var s = poll.lng.fields_requered + b;
 
@@ -41,7 +41,7 @@ poll.pForm = function() {
     }
 
     if (e !== 0) {
-        $("#warning").html(s).show();
+        $("#warning").html(s).show("fast");
         return false;
     }
 
@@ -71,12 +71,12 @@ poll.vote = function (id) {
     var t = $(p + " input").attr("type");
 
     if (!$(p + " input:" + t + ":checked").prop("checked")) {
-        $("#warning").html(poll.lng.answer_must_select).show();
+        $("#warning").html(poll.lng.answer_must_select).show("fast");
         return false;
     }
 
     $(p + " table td").each(function () {
-        $(this).css({opacity: "0.4"});
+        $(this).css('opacity', "0.4");
     });
     $("#warning").empty();
     $(p).css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');

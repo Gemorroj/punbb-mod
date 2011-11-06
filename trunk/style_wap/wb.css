@@ -62,3 +62,4 @@ max-width:630px;overflow:auto;white-space:pre;margin:auto;
 .green{color:#0a0;font-weight:bold;}
 .copy{width:150px;background-color:#fff;border-right:1px dotted #000;border-bottom:1px dotted #000;border-left:1px dotted #000;text-align:center;color:#777;padding:2px 0px;margin:-1px 2% 3px auto;}
 /*By TiPsun*/
+div#warning {color: #b00; font-weight: bold;}
