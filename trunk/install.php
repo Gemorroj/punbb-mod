@@ -334,7 +334,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `online` (
 `idle` tinyint(1) NOT NULL default '0',
 UNIQUE KEY `online_user_id_ident_idx` (`user_id`,`ident`),
 KEY `online_user_id_idx` (`user_id`)
-) ENGINE=HEAP DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `posts` (

@@ -26,7 +26,7 @@ $pun_start = microtime(true);
 
 // Make sure PHP reports all errors except E_NOTICE. PunBB supports E_ALL, but a lot of scripts it may interact with, do not.
 //error_reporting(E_ALL ^ E_NOTICE);
-error_reporting(0);
+//error_reporting(0);
 
 // If a cookie name is not specified in config.php, we use the default (punbb_cookie)
 if (!$cookie_name) {

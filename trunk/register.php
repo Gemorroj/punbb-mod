@@ -195,7 +195,13 @@ if (isset($_GET['cancel'])) {
     $sex = intval($_POST['req_sex']);
 
     // Add the user
-    $db->query('INSERT INTO '.$db->prefix.'users (username, group_id, password, sex, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit) VALUES(\''.$db->escape($username).'\', '.$intial_group_id.', \''.$password_hash.'\', \''.$sex.'\', \''.$email1.'\', '.$email_setting.', '.$save_pass.', '.$timezone.' , \''.$db->escape($language).'\', \''.$pun_config['o_default_style'].'\', '.$now.', \''.get_remote_address().'\', '.$now.')') or error('Unable to create user', __FILE__, __LINE__, $db->error());
+    $db->query('
+        INSERT INTO '.$db->prefix.'users (
+            username, group_id, password, sex, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit
+        ) VALUES(
+            \''.$db->escape($username).'\', '.$intial_group_id.', \''.$password_hash.'\', \''.$sex.'\', \''.$email1.'\', '.$email_setting.', '.$save_pass.', '.$timezone.' , \''.$db->escape($language).'\', \''.$pun_config['o_default_style'].'\', '.$now.', \''.get_remote_address().'\', '.$now.'
+        )
+    ') or error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();
 
 
@@ -230,7 +236,7 @@ if (isset($_GET['cancel'])) {
 
         // The first row contains the subject
         $first_crlf = strpos($mail_tpl, "\n");
-        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf-8));
+        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
         $mail_message = trim(substr($mail_tpl, $first_crlf));
 
         $mail_subject = str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
