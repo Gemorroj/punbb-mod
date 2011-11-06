@@ -451,7 +451,11 @@ echo '<p class="con">'.$paging_links.'</p>';
 
 
 if ($pun_user['g_post_replies']) {
-    echo '<div class="blocktable"><strong><a class="in" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></strong></div>';
+    if ($cur_topic['closed']) {
+        echo '<div class="blocktable"><strong>' . $lang_topic['Topic closed'] . '</strong></div>';
+    } else {
+        echo '<div class="blocktable"><strong><a class="in" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></strong></div>';
+    }
 }
 
 
@@ -486,7 +490,7 @@ if ($quickpost) {
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';
