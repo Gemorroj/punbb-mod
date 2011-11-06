@@ -23,7 +23,7 @@ if (defined('PUN_HELP')) {
 // START SUBST - <pun_include "*">
 while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_main, $cur_include)) {
     if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.' . $cur_include[2])) {
-        error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template main.tpl. There is no such file in folder /include/user/');
+        error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
     }
 
     ob_start();

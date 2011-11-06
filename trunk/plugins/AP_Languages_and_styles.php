@@ -9,43 +9,37 @@ define('PUN_PLUGIN_LOADED', 1);
 define('PLUGIN_VERSION', '1.0 mod');
 
 function RoundSigDigs($number, $sigdigs){
-$multiplier = 1;
-while ($number < 0.1){
-$number *= 10;
-$multiplier /= 10;
-}
-while ($number >= 1){
-$number /= 10;
-$multiplier *= 10;
-}
-return round($number, $sigdigs) * $multiplier;
+    $multiplier = 1;
+    while ($number < 0.1) {
+        $number *= 10;
+        $multiplier /= 10;
+    }
+    while ($number >= 1) {
+        $number /= 10;
+        $multiplier *= 10;
+    }
+    return round($number, $sigdigs) * $multiplier;
 }
 
-if(isset($_POST['lang']))
-{
-// Do Post
-$db->query('UPDATE '.$db->prefix.'users SET language=\''.$_POST['form']['language'].'\' WHERE id>1') or error('Unable to set lang settings', __FILE__, __LINE__, $db->error());
-message('Языки установлены');
-}
-elseif(isset($_POST['style']))
-{
-// Do Post
-$db->query('UPDATE '.$db->prefix.'users SET style=\''.$_POST['form']['style'].'\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
-message('WEB стили установлены');
-}
-elseif(isset($_POST['style_wap']))
-{
-// Do Post
-$db->query('UPDATE '.$db->prefix.'users SET style_wap=\''.$_POST['form']['style_wap'].'\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
-message('WAP стили установлены');
-}
-else // If not, we show the form
-{
-// Display the admin navigation menu
-generate_admin_menu($plugin);
+if (isset($_POST['lang'])) {
+    // Do Post
+    $db->query('UPDATE '.$db->prefix.'users SET language=\''.$_POST['form']['language'].'\' WHERE id>1') or error('Unable to set lang settings', __FILE__, __LINE__, $db->error());
+    message('Языки установлены');
+} else if(isset($_POST['style'])) {
+    // Do Post
+    $db->query('UPDATE '.$db->prefix.'users SET style=\''.$_POST['form']['style'].'\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
+    message('WEB стили установлены');
+} else if(isset($_POST['style_wap'])) {
+    // Do Post
+    $db->query('UPDATE '.$db->prefix.'users SET style_wap=\''.$_POST['form']['style_wap'].'\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
+    message('WAP стили установлены');
+} else {
+    // If not, we show the form
+    // Display the admin navigation menu
+    generate_admin_menu($plugin);
 
 
-echo '<div class="block">
+    echo '<div class="block">
 <h2><span>Языковая и стилевая статистика/устнановка - v'.PLUGIN_VERSION.'</span></h2>
 <div class="box">
 <div class="inbox">
@@ -66,30 +60,30 @@ echo '<div class="block">
 <th scope="row">Используются языки</th>
 <td>';
 
-$result = $db->query('SELECT language, COUNT(*) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') or error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
-$number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
-while ($cur_lang = $db->fetch_assoc($result)) {
-    echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['language']).'</strong><br />';
-}
-
-echo '</td></tr><tr><th scope="row">Язык</th><td>';
-
-$languages = array();
-$d = dir(PUN_ROOT.'lang');
-while (($entry = $d->read()) !== false) {
-    if ($entry != '.' && $entry != '..' && is_dir(PUN_ROOT.'lang/'.$entry)) {
-        $languages[] = $entry;
+    $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') or error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
+    $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
+    while ($cur_lang = $db->fetch_assoc($result)) {
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['language']).'</strong><br />';
     }
-}
-$d->close();
 
-echo '<select name="form[language]">';
+    echo '</td></tr><tr><th scope="row">Язык</th><td>';
 
-while (list(, $temp) = @each($languages)) {
-    echo '<option value="'.$temp.'">'.$temp.'</option>';
-}
+    $languages = array();
+    $d = dir(PUN_ROOT.'lang');
+    while (($entry = $d->read()) !== false) {
+        if ($entry != '.' && $entry != '..' && is_dir(PUN_ROOT.'lang/'.$entry)) {
+            $languages[] = $entry;
+        }
+    }
+    $d->close();
 
-echo '</select>
+    echo '<select name="form[language]">';
+
+    while (list(, $temp) = @each($languages)) {
+        echo '<option value="'.$temp.'">'.$temp.'</option>';
+    }
+
+    echo '</select>
 <span>Все языки будут приведены к указанному.</span>
 </td>
 </tr>
@@ -113,33 +107,32 @@ echo '</select>
 <tr>
 <th scope="row">Используемые WEB стили</th><td>';
 
-$result = $db->query('SELECT style, COUNT(*) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number') or error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
-$number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
+    $result = $db->query('SELECT style, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number') or error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
+    $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
 
-while ($cur_lang = $db->fetch_assoc($result)) {
-    echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['style']).'</strong><br />';
-}
-
-echo '</td></tr><tr><th scope="row">WEB Стиль</th><td>';
-
-$styles = array();
-$d = dir(PUN_ROOT.'style');
-while (($entry = $d->read()) !== false) {
-    if(substr($entry, mb_strlen($entry)-4) == '.css') {
-        $styles[] = substr($entry, 0, mb_strlen($entry)-4);
+    while ($cur_lang = $db->fetch_assoc($result)) {
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['style']).'</strong><br />';
     }
-}
-$d->close();
+
+    echo '</td></tr><tr><th scope="row">WEB Стиль</th><td>';
+
+    $styles = array();
+    $d = dir(PUN_ROOT.'style');
+    while (($entry = $d->read()) !== false) {
+        if(substr($entry, mb_strlen($entry)-4) == '.css') {
+            $styles[] = substr($entry, 0, mb_strlen($entry)-4);
+        }
+    }
+    $d->close();
 
 
-echo '<select name="form[style]">';
+    echo '<select name="form[style]">';
 
+    while(list(, $temp) = @each($styles)){
+        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+    }
 
-while(list(, $temp) = @each($styles)){
-    echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
-}
-
-echo '</select>
+    echo '</select>
 <span>WEB стили всех пользователей будут приведены к указанному.</span>
 </td>
 </tr></table>
@@ -162,36 +155,33 @@ echo '</select>
 <tr>
 <th scope="row">Используемые WAP стили</th><td>';
 
-$result = $db->query('SELECT `style_wap`, COUNT(*) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`') or error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
-$number = $db->num_rows($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE id > 1'));
+    $result = $db->query('SELECT `style_wap`, COUNT(1) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`') or error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
+    $number = $db->num_rows($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE id > 1'));
 
-while($cur_lang = $db->fetch_assoc($result)){
-    echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['style_wap']).'</strong><br />';
-}
-
-
-echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
-
-$styles = array();
-$d = dir(PUN_ROOT.'style_wap');
-while (($entry = $d->read()) !== false) {
-    if (substr($entry, mb_strlen($entry) - 4) == '.css') {
-        $styles[] = substr($entry, 0, mb_strlen($entry) - 4);
+    while ($cur_lang = $db->fetch_assoc($result)) {
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100,3).'% <strong>'.str_replace('_',' ',$cur_lang['style_wap']).'</strong><br />';
     }
-}
-$d->close();
 
 
-echo '<select name="form[style_wap]">';
+    echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
+
+    $styles = array();
+    $d = dir(PUN_ROOT.'style_wap');
+    while (($entry = $d->read()) !== false) {
+        if (substr($entry, mb_strlen($entry) - 4) == '.css') {
+            $styles[] = substr($entry, 0, mb_strlen($entry) - 4);
+        }
+    }
+    $d->close();
 
 
-while (list(, $temp) = @each($styles)) {
-    echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
-}
+    echo '<select name="form[style_wap]">';
 
+    while (list(, $temp) = @each($styles)) {
+        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+    }
 
-
-echo '</select>
+    echo '</select>
 <span>WAP стили всех пользователей будут приведены к указанному.</span>
 </td>
 </tr></table>

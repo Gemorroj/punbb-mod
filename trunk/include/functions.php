@@ -46,7 +46,7 @@ function check_cookie(&$pun_user)
 
         // Set a default style if the user selected style no longer exists
         if (!@file_exists(PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '.css')) {
-            $pun_user['style'] = $pun_config['o_default_style_wap'];
+            $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
         }
 
         if (!$pun_user['disp_topics']) {
@@ -117,6 +117,7 @@ function set_default_user()
     $pun_user['timezone'] = $pun_config['o_server_timezone'];
     $pun_user['language'] = $pun_config['o_default_lang'];
     $pun_user['style'] = $pun_config['o_default_style'];
+    $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
     $pun_user['is_guest'] = true;
 }
 
