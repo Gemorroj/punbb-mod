@@ -50,6 +50,8 @@ if (isset($_GET['poll'])) {
             echo json_encode(array('status' => true, 'privat' => $obj->getPrivateMessages($_GET['getPrivatMessages'])));
         } else if (isset($_GET['getConfig'])) {
             echo json_encode(array('status' => true, 'config' => $obj->getConfig()));
+        } else if (isset($_GET['setMessage']) && isset($_GET['setMessageThemeId'])) {
+            echo json_encode(array('status' => true, 'forum' => $obj->setMessage($_GET['setMessage'], $_GET['setMessageThemeId'])));
         } else {
             echo json_encode(array('status' => true, 'forum' => $obj->getForums()));
         }
