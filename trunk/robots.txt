@@ -3,3 +3,7 @@ Disallow: profile.php
 Disallow: search.php
 Disallow: userlist.php
 Disallow: viewprintable.php
+Disallow: wap/profile.php
+Disallow: wap/search.php
+Disallow: wap/userlist.php
+Disallow: wap/viewprintable.php
