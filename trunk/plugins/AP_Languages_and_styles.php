@@ -8,7 +8,7 @@ if (!defined('PUN')) {
 define('PUN_PLUGIN_LOADED', 1);
 define('PLUGIN_VERSION', '1.0 mod');
 
-function RoundSigDigs($number, $sigdigs){
+function RoundSigDigs($number, $sigdigs) {
     $multiplier = 1;
     while ($number < 0.1) {
         $number *= 10;
@@ -71,7 +71,7 @@ if (isset($_POST['lang'])) {
     $languages = array();
     $d = dir(PUN_ROOT.'lang');
     while (($entry = $d->read()) !== false) {
-        if ($entry != '.' && $entry != '..' && is_dir(PUN_ROOT.'lang/'.$entry)) {
+        if ($entry != '.' && $entry != '..' && is_dir(PUN_ROOT.'lang/'  . $entry)) {
             $languages[] = $entry;
         }
     }
@@ -98,7 +98,7 @@ if (isset($_POST['lang'])) {
 <div class="blockform">
 <h2 class="block2"><span>WEB Стили</span></h2>
 <div class="box">
-<form id="style" method="post" action="'.$_SERVER['REQUEST_URI'].'">
+<form method="post" action="'.$_SERVER['REQUEST_URI'].'">
 <div class="inform">
 <fieldset>
 <legend>WEB Стили</legend>
@@ -117,10 +117,10 @@ if (isset($_POST['lang'])) {
     echo '</td></tr><tr><th scope="row">WEB Стиль</th><td>';
 
     $styles = array();
-    $d = dir(PUN_ROOT.'style');
+    $d = dir(PUN_ROOT . 'style');
     while (($entry = $d->read()) !== false) {
-        if(substr($entry, mb_strlen($entry)-4) == '.css') {
-            $styles[] = substr($entry, 0, mb_strlen($entry)-4);
+        if (pathinfo($entry, PATHINFO_EXTENSION) == 'css') {
+            $styles[] = pathinfo($entry, PATHINFO_FILENAME);
         }
     }
     $d->close();
@@ -128,8 +128,8 @@ if (isset($_POST['lang'])) {
 
     echo '<select name="form[style]">';
 
-    while(list(, $temp) = @each($styles)){
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+    while (list(, $temp) = @each($styles)) {
+        echo '<option value="' . $temp . '">' . str_replace('_', ' ', $temp) . '</option>';
     }
 
     echo '</select>
@@ -146,7 +146,7 @@ if (isset($_POST['lang'])) {
 <div class="blockform">
 <h2 class="block2"><span>WAP Стили</span></h2>
 <div class="box">
-<form id="style" method="post" action="'.$_SERVER['REQUEST_URI'].'">
+<form method="post" action="'.$_SERVER['REQUEST_URI'].'">
 <div class="inform">
 <fieldset>
 <legend>WAP Стили</legend>
@@ -166,10 +166,10 @@ if (isset($_POST['lang'])) {
     echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
 
     $styles = array();
-    $d = dir(PUN_ROOT.'style_wap');
+    $d = dir(PUN_ROOT . 'style_wap');
     while (($entry = $d->read()) !== false) {
-        if (substr($entry, mb_strlen($entry) - 4) == '.css') {
-            $styles[] = substr($entry, 0, mb_strlen($entry) - 4);
+        if (pathinfo($entry, PATHINFO_EXTENSION) == 'css') {
+            $styles[] = pathinfo($entry, PATHINFO_FILENAME);
         }
     }
     $d->close();
@@ -178,7 +178,7 @@ if (isset($_POST['lang'])) {
     echo '<select name="form[style_wap]">';
 
     while (list(, $temp) = @each($styles)) {
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="' . $temp . '">' . str_replace('_', ' ', $temp) . '</option>';
     }
 
     echo '</select>

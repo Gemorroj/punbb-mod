@@ -10,41 +10,36 @@ define('PUN_PLUGIN_LOADED', 1);
 
 // Confirm Page
 
-if(isset($_POST['confirm']))
-{
-// Make sure message body was entered
-if(!trim($_POST['message_body'])){
-message('Вы не ввели тело письма!');
-}
+if (isset($_POST['confirm'])) {
+    // Make sure message body was entered
+    if (!trim($_POST['message_body'])) {
+        message('Вы не ввели тело письма!');
+    }
 
-// Make sure message subject was entered
-if(!trim($_POST['message_subject'])){
-message('Вы не ввели тему письма!');
-}
+    // Make sure message subject was entered
+    if (!trim($_POST['message_subject'])) {
+        message('Вы не ввели тему письма!');
+    }
 
-// Make sure group id was entered
-if(!trim($_POST['g_id']) == ''){
-message('Вы не выбрали группу!');
-}
+    // Make sure group id was entered
+    if (!trim($_POST['g_id']) == '') {
+        message('Вы не выбрали группу!');
+    }
 
-// Display the admin navigation menu
-generate_admin_menu($plugin);
+    // Display the admin navigation menu
+    generate_admin_menu($plugin);
 
-$preview_message_body = nl2br(pun_htmlspecialchars($_POST['message_body']));
+    $preview_message_body = nl2br(pun_htmlspecialchars($_POST['message_body']));
 
-if($_POST['g_id'] != 0){
-$adv = 'and group_id = '.$_POST['g_id'];
-}
-else{
-$adv = '';
-}
+    if ($_POST['g_id'] != 0) {
+        $adv = 'and group_id = '.$_POST['g_id'];
+    } else {
+        $adv = '';
+    }
 
-$sql = 'SELECT COUNT(1) AS usercount FROM '.$db->prefix.'users WHERE username != "Guest" '.$adv.' ORDER BY username';
-// message($sql);
-$result = $db->query($sql) or error('Could not get user count from database', __FILE__, __LINE__, $db->error());
-$row = $db->fetch_assoc($result);
-
-?>
+    $result = $db->query('SELECT COUNT(1) AS usercount FROM '.$db->prefix.'users WHERE username != "Guest" '.$adv.' ORDER BY username') or error('Could not get user count from database', __FILE__, __LINE__, $db->error());
+    $row = $db->fetch_assoc($result);
+    ?>
 <div id="exampleplugin" class="blockform">
 <h2><span>Массовая рассылка - Подтверждение</span></h2>
 <div class="box">
@@ -54,15 +49,15 @@ $row = $db->fetch_assoc($result);
 </div>
 <h2 class="block2"><span>Подтверждение сообщения</span></h2>
 <div class="box">
-<form id="broadcastemail" method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
+<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 <div class="inform">
-<input type="hidden" name="message_subject" value="<?php echo pun_htmlspecialchars($_POST['message_subject']) ?>" />
-<input type="hidden" name="message_body" value="<?php echo pun_htmlspecialchars($_POST['message_body']) ?>" />
-<input type="hidden" name="g_id" value="<?php echo pun_htmlspecialchars($_POST['g_id']) ?>" />
+<input type="hidden" name="message_subject" value="<?php echo pun_htmlspecialchars($_POST['message_subject']); ?>" />
+<input type="hidden" name="message_body" value="<?php echo pun_htmlspecialchars($_POST['message_body']); ?>" />
+<input type="hidden" name="g_id" value="<?php echo pun_htmlspecialchars($_POST['g_id']); ?>" />
 <fieldset>
 <legend>Получатели сообщения</legend>
 <div class="infldset">
-[ <strong><?php echo $row['usercount'] ?></strong> ] Зарегистрированных пользователей получат это сообщение (включая администратора).
+[ <strong><?php echo $row['usercount']; ?></strong> ] Зарегистрированных пользователей получат это сообщение (включая администратора).
 </div>
 </fieldset>
 </div>
@@ -74,19 +69,19 @@ $row = $db->fetch_assoc($result);
 <tr>
 <th scope="row">Тема</th>
 <td>
-<?php echo pun_htmlspecialchars($_POST['message_subject']) ?>
+<?php echo pun_htmlspecialchars($_POST['message_subject']); ?>
 </td>
 </tr>
 <tr>
 <th scope="row">Тело письма</th>
 <td>
-<?php echo $preview_message_body ?>
+<?php echo $preview_message_body; ?>
 </td>
 </tr>
 <tr>
 <th scope="row">Группа</th>
 <td>
-<?php echo $_POST['g_id']?>
+<?php echo pun_htmlspecialchars($_POST['g_id']); ?>
 </td>
 </table>
 <div class="fsetsubmit"><input type="submit" name="send_message" value="Подтверждаю - Послать" tabindex="3" /></div>
@@ -97,68 +92,51 @@ $row = $db->fetch_assoc($result);
 </form>
 </div>
 </div>
-<?php
+    <?php
+} else if(isset($_POST['send_message'])) {
+    // Send the Message
+    require_once PUN_ROOT.'include/email.php';
 
-}
+    // Display the admin navigation menu
+    generate_admin_menu($plugin);
 
-// Send the Message
+    if ($_POST['g_id'] != 0) {
+        $gid = 'and group_id = '.$_POST['g_id'];
+    } else {
+        $gid = '';
+    }
 
-else if(isset($_POST['send_message']))
-{
-require_once PUN_ROOT.'include/email.php';
+    $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') or error('Could not get users from the database', __FILE__, __LINE__, $db->error());
+    while ($row = $db->fetch_assoc($result)) {
+        $addresses[$row['username']] = $row['email'];
+    }
 
-// Display the admin navigation menu
-generate_admin_menu($plugin);
+    $usercount = sizeof($addresses);
 
-if($_POST['g_id'] != 0){
-$gid = 'and group_id = '.$_POST['g_id'];
-}
-else{
-$gid = '';
-}
+    foreach ($addresses as $recipientname => $recipientemail) {
+        $mail_to = $recipientname.' <'.$recipientemail.'>';
+        $mail_subject = $_POST['message_subject'];
+        $mail_message = $_POST['message_body'];
 
-$sql = 'SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username';
-$result = $db->query($sql) or error('Could not get users from the database', __FILE__, __LINE__, $db->error());
-while($row = $db->fetch_assoc($result)){
-$addresses[$row['username']] = $row['email'];
-}
-
-$usercount = sizeof($addresses);
-
-foreach($addresses as $recipientname => $recipientemail)
-{
-$mail_to = $recipientname.' <'.$recipientemail.'>';
-$mail_subject = pun_htmlspecialchars($_POST['message_subject']);
-$mail_message = pun_htmlspecialchars($_POST['message_body']);
-
-pun_mail($mail_to, $mail_subject, $mail_message);
-}
-
-
-?>
+        pun_mail($mail_to, $mail_subject, $mail_message);
+    }
+    ?>
 <div class="block">
 <h2><span>Массовая рассылка - Сообщение отослано</span></h2>
 <div class="box">
 <div class="inbox">
-<p>Сообщение было отослано [ <strong><?php echo $usercount ?></strong> ] Зарегистрированным пользователям.</p>
+<p>Сообщение было отослано [ <strong><?php echo $usercount; ?></strong> ] Зарегистрированным пользователям.</p>
 <p>Вы так же получите администраторскую копию в через несколько минут.</p>
 <p>Пожалуйста просмотрите администраторскую копию для проверки.</p>
 </div>
 </div>
 </div>
-<?php
+    <?php
+} else {
+    // Display the Main Page
 
-}
-
-// --------------------------------------------------------------------
-
-// Display the Main Page
-
-else
-{
-// Display the admin navigation menu
-generate_admin_menu($plugin);
-
+    // Display the admin navigation menu
+    generate_admin_menu($plugin);
 ?>
 <div id="exampleplugin" class="blockform">
 <h2><span>Массовая рассылка e-mail</span></h2>
@@ -171,7 +149,7 @@ generate_admin_menu($plugin);
 
 <h2 class="block2"><span>Составление письма</span></h2>
 <div class="box">
-<form id="broadcastemail" method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
+<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 <div class="inform">
 <fieldset>
 <legend>Содержание письма</legend>
@@ -197,8 +175,8 @@ generate_admin_menu($plugin);
 <option value="0">Все группы</option>
 <?php
 $result = $db->query('SELECT g_id, g_title FROM '.$db->prefix.'groups WHERE g_title != "Guest" ORDER BY g_id');
-while($groups = $db->fetch_assoc($result)){
-echo '<option value='.$groups['g_id'].'>'.$groups['g_title'].'</option>';
+while ($groups = $db->fetch_assoc($result)) {
+    echo '<option value="'.$groups['g_id'].'">'.pun_htmlspecialchars($groups['g_title']).'</option>';
 }
 ?>
 </select>
@@ -213,6 +191,5 @@ echo '<option value='.$groups['g_id'].'>'.$groups['g_title'].'</option>';
 </div>
 </div>
 <?php
-
 }
 ?>

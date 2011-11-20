@@ -154,14 +154,14 @@ if (isset($_POST['prune'])) {
 <div class="inbox">
 <p>Этот плагин позволяет сокращать пользователей которые отвечали меньше определенного числа раз в течение заданного количество дней.</p>
 <p><strong>Внимание: Это на совсем и использовать нужно очень осторожно (рекомендуется сделать бэкап перед сокращением).</strong></p>
-<p>Так же вы можете вручную добавлять пользователей, это удобно для закрытых форумов (если вы отключили возможность регистрации в опциях.</p>
+<p>Так же вы можете вручную добавлять пользователей, это удобно для закрытых форумов (если вы отключили возможность регистрации в опциях.)</p>
 </div>
 </div>
 </div>
 <div class="blockform">
 <h2 class="block2"><span>Сокращение пользователей</span></h2>
 <div class="box">
-<form id="example" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 <div class="inform">
 <fieldset>
 <legend>Настройки</legend>
@@ -212,7 +212,7 @@ if (isset($_POST['prune'])) {
 
 <h2 class="block2"><span>Добавление пользователя</span></h2>
 <div class="box">
-<form id="example" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 <div class="inform">
 <fieldset>
 <legend>Параметры</legend>

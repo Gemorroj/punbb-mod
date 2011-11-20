@@ -9,44 +9,39 @@ if (!defined('PUN')) {
 
 
 define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', 0.1);
+define('PLUGIN_VERSION', 0.2);
 
 
+if ($_POST) {
+    if (isset($_POST['antispam'])) {
+        $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.intval($_POST['antispam']).'" WHERE `conf_name`="antispam_enabled" LIMIT 1') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
 
-if($_POST){
-
-if(isset($_POST['antispam'])){
-$db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.intval($_POST['antispam']).'" WHERE `conf_name`="antispam_enabled" LIMIT 1') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
-
-include PUN_ROOT.'include/cache.php';
-generate_config_cache();
-message('Данные для антиспама обновлены');
-}
+        include PUN_ROOT.'include/cache.php';
+        generate_config_cache();
+        message('Данные для антиспама обновлены');
+    }
 
 
-if(isset($_POST['regexp'])){
-$db->query('TRUNCATE TABLE `'.$db->prefix.'spam_regexp`');
+    if (isset($_POST['regexp'])) {
+        $db->query('TRUNCATE TABLE `'.$db->prefix.'spam_regexp`');
 
-$regexp = explode("\n",trim($_POST['regexp']));
-$all = sizeof($regexp);
-for ($i=0; $i<$all; ++$i) {
-    $db->query('INSERT INTO `'.$db->prefix.'spam_regexp` (`id`,`matches`,`regexpr`) VALUES ("0","0","'.trim($regexp[$i]).'")') or error('Unable to update board spam_regexp', __FILE__, __LINE__, $db->error());
-}
-unlink(PUN_ROOT.'cache/cache_spam_regexp.php');
-message('Данные для антиспама обновлены');
-}
+        $regexp = explode("\n", trim($_POST['regexp']));
+        $all = sizeof($regexp);
+        for ($i = 0; $i < $all; ++$i) {
+            $db->query('INSERT INTO `'.$db->prefix.'spam_regexp` (`id`,`matches`,`regexpr`) VALUES ("0","0","'.$db->escape(trim($regexp[$i])).'")') or error('Unable to update board spam_regexp', __FILE__, __LINE__, $db->error());
+        }
+        unlink(PUN_ROOT.'cache/cache_spam_regexp.php');
+        message('Данные для антиспама обновлены');
+    }
+} else {
+    generate_admin_menu($plugin);
 
-}
-else{
+    $regexp = null;
 
-generate_admin_menu($plugin);
-
-$regexp = null;
-
-$q = $db->query('SELECT `regexpr` FROM `spam_regexp`');
-while ($arr = $db->fetch_row($q)) {
-    $regexp .= $arr[0] . "\n";
-}
+    $q = $db->query('SELECT `regexpr` FROM `spam_regexp`');
+    while ($arr = $db->fetch_row($q)) {
+        $regexp .= $arr[0] . "\n";
+    }
 
 echo '<div class="block">
 <h2><span>Антиспам v'.PLUGIN_VERSION.'</span></h2>
@@ -69,14 +64,14 @@ echo '<div class="block">
 <th scope="row">Антиспам</th>
 <td>
 <input type="radio" name="antispam" value="1"';
-if($pun_config['antispam_enabled'] == 1){
-echo ' checked="checked"';
+if ($pun_config['antispam_enabled'] == 1) {
+    echo ' checked="checked"';
 }
-print ' /> <strong>Да</strong>&#160; &#160;<input type="radio" name="antispam" value="0"';
-if(!$pun_config['antispam_enabled']){
-echo ' checked="checked"';
+echo ' /> <strong>Да</strong>&#160; &#160;<input type="radio" name="antispam" value="0"';
+if (!$pun_config['antispam_enabled']) {
+    echo ' checked="checked"';
 }
-print '/> <strong>Нет</strong>
+echo '/> <strong>Нет</strong>
 <span>Включить / Отключить антиспам</span>
 </td>
 </tr>
@@ -96,7 +91,7 @@ print '/> <strong>Нет</strong>
 <tr>
 <th scope="row">Регулярные выражения</th>
 <td>
-<textarea name="regexp" rows="8" cols="68"/>'.htmlspecialchars($regexp,ENT_NOQUOTES,'UTF-8').'</textarea><br />
+<textarea name="regexp" rows="8" cols="68">' . pun_htmlspecialchars($regexp) . '</textarea><br />
 <span>Введите регулярные выражения для поиска спама. Каждое новое правило должно начинаться с новой строки.</span>
 </td>
 </tr>

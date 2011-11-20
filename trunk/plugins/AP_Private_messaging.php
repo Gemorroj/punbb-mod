@@ -28,10 +28,10 @@ if (isset($_POST['form_sent'])) {
         }
     }
 
-    while(list($id, $set) = @each($allow)) {
+    while (list($id, $set) = @each($allow)) {
         $db->query('UPDATE '.$db->prefix.'groups SET g_pm='.$set.' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
-    while(list($id, $set) = @each($limit)) {
+    while (list($id, $set) = @each($limit)) {
         $db->query('UPDATE '.$db->prefix.'groups SET g_pm_limit='.intval($set).' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     // Regenerate the config cache
@@ -91,9 +91,9 @@ $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM '.$db->prefix.
 while ($cur_group = $db->fetch_assoc($result)) {
 ?>
 <tr>
-<th scope="row"><?php echo $cur_group['g_title']; ?></th>
+<th scope="row"><?php echo pun_htmlspecialchars($cur_group['g_title']); ?></th>
 <td>
-<input type="radio" name="allow[<?php echo $cur_group['g_id'] ?>]" value="1"<?php if ($cur_group['g_pm'] == 1) echo ' checked="checked"'; ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]" value="0"<?php if ($cur_group['g_pm'] == 0) echo ' checked="checked"'; ?> /> <strong>Нет</strong>
+<input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]" value="1"<?php if ($cur_group['g_pm'] == 1) echo ' checked="checked"'; ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]" value="0"<?php if ($cur_group['g_pm'] == 0) echo ' checked="checked"'; ?> /> <strong>Нет</strong>
 <span>Разрешить этой группе использовать личные сообщения.</span>
 </td>
 </tr>

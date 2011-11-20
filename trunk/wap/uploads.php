@@ -4,7 +4,7 @@ session_name('bunbb_upload');
 session_start();
 
 // is it first time we run uploader?
-if (!$_SESSION['firsttime']) {
+if (!isset($_SESSION['firsttime'])) {
     // yep - init values
     $_SESSION['firsttime'] = true;
     $_SESSION['nump'] = 20;
