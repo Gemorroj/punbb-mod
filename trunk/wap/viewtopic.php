@@ -428,9 +428,8 @@ foreach ($posts as $cur_post) {
     /// MOD ANTISPAM BEGIN
     if ($is_admmod) {
         if (isset($cur_post['spam_id'])) {
-            $result = $db->query('SELECT `pattern` FROM `'.$db->prefix.'spam_repository` WHERE `id`='.$cur_post['spam_id'], true) or error('Unable to get spam_pattern for message', __FILE__, __LINE__, $db->error());
-            $spam = $db->fetch_assoc($result);
-            echo '<hr /><br />'.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($spam['pattern']).'<br /><br /> / <a href="#">'.$lang_misc['Antispam tread'].'</a> / <a href="#">'.$lang_misc['Antispam del'].'</a><hr />';
+            include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
+            echo '<hr />'.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($cur_post['pattern']).'<br /><a href="./antispam_misc.php?action=allow&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam tread'].'</a> | <a href="./antispam_misc.php?action=deny&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam del'].'</a><hr />';
         }
     }
     /// MOD ANTISPAM END

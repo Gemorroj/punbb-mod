@@ -204,6 +204,12 @@ if ($version = '0.5.8') {
         $error[] = mysql_error();
     }
 
+
+    $query = mysql_query('UPDATE `config` SET `conf_value` = "5" WHERE `config`.`conf_name` = "o_spam_gid";');
+    if (!$query) {
+        $error[] = mysql_error();
+    }
+
     $version = '0.5.9';	
 }
 

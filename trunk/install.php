@@ -207,7 +207,7 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_pms_enabled', '1'),
 ('o_pms_mess_per_page', '10'),
 ('o_regs_verify_image', '1'),
-('o_spam_gid', '.5.'),
+('o_spam_gid', '5'),
 ('file_allowed_ext', 'gif,png,jpg,zip,rar,7z,tgz,gz,bz2,mp3,wav,wma,3gp,avi,mpg,wmv,exe'),
 ('file_image_ext', 'gif,png,jpg'),
 ('file_max_width', '1600'),
