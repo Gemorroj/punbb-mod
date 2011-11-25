@@ -353,7 +353,7 @@ function generate_wap_navlinks()
     }
 
 
-    return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location=(\'' . $pun_config['o_base_url'] . '/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">' . implode('', $out) . '</select><br/><input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></div></form>';
+    return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location=(\'' . $pun_config['o_base_url'] . '/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">' . implode('', $out) . '</select> <input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></div></form>';
 }
 
 

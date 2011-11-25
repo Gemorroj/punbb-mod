@@ -111,7 +111,7 @@ if (!$pun_user['is_guest']) {
 }
 
 // Collect some statistics from the database
-$result = $db->query('SELECT COUNT(`id`) - 1 FROM `' . $db->prefix . 'users` LIMIT 1') or error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(1) - 1 FROM `' . $db->prefix . 'users` LIMIT 1') or error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
 $stats['total_users'] = $db->result($result);
 
 $result = $db->query('SELECT `id`, `username` FROM `' . $db->prefix . 'users` ORDER BY `registered` DESC LIMIT 1') or error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
