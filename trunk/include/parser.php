@@ -624,7 +624,7 @@ function parse_message($text, $hide_smilies, $post = 0)
     // AJAX POLL MOD END
 
     // If we split up the message before we have to concatenate it together again (code tags)
-    if ($inside) {
+    if (isset($inside) && $inside) {
         $outside = explode('<">', $text);
         $num_tokens = sizeof($outside);
         $text = '';
@@ -674,7 +674,7 @@ function parse_message($text, $hide_smilies, $post = 0)
                         if ($c[$i2] === '') {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
-                            if ($c[$i2][0] . $c[$i2][1] . $c[$i2][2] . $c[$i2][3] . $c[$i2][4] != '<span') {
+                            if (!isset($c[$i2][4]) || $c[$i2][0] . $c[$i2][1] . $c[$i2][2] . $c[$i2][3] . $c[$i2][4] != '<span') {
                                 $c[$i2] = $span . $c[$i2];
                             }
 
