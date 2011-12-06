@@ -93,15 +93,15 @@ class Informer
      * setMessage
      * 
      * @param string $message
-     * @param int $themeId
+     * @param int $topicId
      * @param bool $hideSmiles
      * @return array
      * @throws Exception
      */
-    public function setMessage ($message, $themeId, $hideSmiles = false)
+    public function setMessage ($message, $topicId, $hideSmiles = false)
     {
-        $themeId = intval($themeId);
-        if ($themeId <= 0) {
+        $topicId = intval($topicId);
+        if ($topicId <= 0) {
             throw new Exception ($this->_lang['Bad request']);
         }
         if ($this->_pun_user['is_guest']) {
@@ -135,7 +135,7 @@ class Informer
                 \'' . $this->_db->escape($message) . '\',
                 \'' . intval($hideSmiles) . '\',
                 ' . $_SERVER['REQUEST_TIME'] . ',
-                ' . $themeId . '
+                ' . $topicId . '
             )
         ', false);
 
@@ -153,7 +153,7 @@ class Informer
         $result = $this->_db->query('
             SELECT COUNT(1)
             FROM ' . $this->_db->prefix . 'posts
-            WHERE topic_id=' . $themeId
+            WHERE topic_id=' . $topicId
         );
         $num_replies = $this->_db->result($result, 0) - 1;
 
@@ -164,7 +164,7 @@ class Informer
             last_post=' . $_SERVER['REQUEST_TIME'] . ',
             last_post_id=' . $id . ',
             last_poster=\'' . $this->_db->escape($this->_pun_user['username']) . '\'
-            WHERE id=' . $themeId
+            WHERE id=' . $topicId
         );
 
         //update_search_index('post', $id, $message);
@@ -174,7 +174,7 @@ class Informer
             FROM ' . $this->_db->prefix . 'topics AS t
             INNER JOIN ' . $this->_db->prefix . 'forums AS f ON f.id=t.forum_id
             LEFT JOIN ' . $this->_db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $this->_pun_user['g_id'] . ')
-            WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id=' . $themeId
+            WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id=' . $topicId
         );
         $forumId = $this->_db->result($result, 0);
 
@@ -207,7 +207,7 @@ class Informer
         }
 
         $r = $this->_db->query('
-            SELECT p.poster, p.message, p.hide_smilies, p.posted
+            SELECT p.poster, p.message, p.hide_smilies, p.posted, p.topic_id
             FROM ' . $this->_db->prefix . 'posts AS p
             INNER JOIN ' . $this->_db->prefix . 'topics AS t ON t.id = p.topic_id
             LEFT JOIN ' . $this->_db->prefix . 'forum_perms AS fp ON (
@@ -230,7 +230,8 @@ class Informer
         return array (
             'message' => $this->_parseMessage($data['message'], $data['hide_smilies']),
             'poster' => $data['poster'],
-            'posted' => $data['posted']
+            'posted' => $data['posted'],
+            'topic_id' => $data['topic_id']
         );
     }
 

@@ -51,7 +51,7 @@ if (isset($_GET['poll'])) {
         } else if (isset($_GET['getConfig'])) {
             echo json_encode(array('status' => true, 'config' => $obj->getConfig()));
         } else if (isset($_GET['setMessage']) && isset($_GET['setMessageThemeId'])) {
-            echo json_encode(array('status' => true, 'forum' => $obj->setMessage($_GET['setMessage'], $_GET['setMessageThemeId'])));
+            echo json_encode(array('status' => true, 'forum' => $obj->setMessage($_GET['setMessage'], $_GET['setMessageTopicId'])));
         } else {
             echo json_encode(array('status' => true, 'forum' => $obj->getForums()));
         }
