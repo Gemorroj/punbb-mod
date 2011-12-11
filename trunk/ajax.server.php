@@ -33,30 +33,32 @@ if (isset($_GET['poll'])) {
     $cur_post = $db->fetch_assoc($result);
 
     echo '[quote=' . $cur_post['poster'] . ']' . $cur_post['message'] . '[/quote]' . "\n";
-} else if (isset($_GET['informer'])) {
-    include PUN_ROOT . 'include/informer/Informer.inc.php';
+} else if (isset($_GET['informer']) && isset($_GET['method'])) {
     header('Content-Type: application/json; charset=UTF-8');
 
     try {
-        $obj = new Informer($db, $pun_user, $lang_common, $pun_config);
+        switch ($_GET['method']) {
+            case 'getMessage':
+            case 'getPrivateMessage':
+            case 'getPrivateMessages':
+            case 'getConfig':
+            case 'setMessage':
+            case 'getForums':
+                include PUN_ROOT . 'include/informer/Informer.inc.php';
+                $obj = new Informer($db, $pun_user, $lang_common, $pun_config);
 
-        if (isset($_GET['getMessage']) && isset($_GET['getPrivatMessage'])) {
-            echo json_encode(array('status' => true, 'forum' => $obj->getMessage($_GET['getMessage']), 'privat' => $obj->getPrivateMessage($_GET['getPrivatMessage'])));
-        } else if (isset($_GET['getPrivatMessage'])) {
-            echo json_encode(array('status' => true, 'privat' => $obj->getPrivateMessage($_GET['getPrivatMessage'])));
-        } else if (isset($_GET['getMessage'])) {
-            echo json_encode(array('status' => true, 'forum' => $obj->getMessage($_GET['getMessage'])));
-        } else if (isset($_GET['getPrivatMessages'])) {
-            echo json_encode(array('status' => true, 'privat' => $obj->getPrivateMessages($_GET['getPrivatMessages'])));
-        } else if (isset($_GET['getConfig'])) {
-            echo json_encode(array('status' => true, 'config' => $obj->getConfig()));
-        } else if (isset($_GET['setMessage']) && isset($_GET['setMessageTopicId'])) {
-            echo json_encode(array('status' => true, 'forum' => $obj->setMessage($_GET['setMessage'], $_GET['setMessageTopicId'])));
-        } else {
-            echo json_encode(array('status' => true, 'forum' => $obj->getForums()));
+                $result = $obj->$_GET['method']($_GET);
+                break;
+
+
+            default:
+                throw new Exception($lang_common['Bad request']);
+                break;
         }
+
+        echo json_encode(array('status' => true, 'data' => $result));
     } catch (Exception $e) {
-        echo json_encode(array('status' => false, 'forum' => $e->getMessage()));
+        echo json_encode(array('status' => false, 'data' => $e->getMessage()));
     }
 }
 

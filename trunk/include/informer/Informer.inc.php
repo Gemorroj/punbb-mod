@@ -28,10 +28,11 @@ class Informer
     /**
      * getConfig
      * 
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getConfig ()
+    public function getConfig ($args = null)
     {
         return array(
             'timezone' => $this->_pun_user['timezone'],
@@ -44,10 +45,11 @@ class Informer
     /**
      * getForums
      * 
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getForums ()
+    public function getForums ($args = null)
     {
         if (!$this->_pun_user['g_read_board']) {
             throw new Exception ($this->_lang['No view']);
@@ -92,14 +94,17 @@ class Informer
     /**
      * setMessage
      * 
-     * @param string $message
-     * @param int $topicId
-     * @param bool $hideSmiles
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function setMessage ($message, $topicId, $hideSmiles = false)
+    public function setMessage ($args)
     {
+        $message = $args['message'];
+        $topicId = $args['topicId'];
+        $hideSmiles = $args['hideSmiles'];
+
+
         $topicId = intval($topicId);
         if ($topicId <= 0) {
             throw new Exception ($this->_lang['Bad request']);
@@ -193,12 +198,15 @@ class Informer
     /**
      * getMessage
      * 
-     * @param int $id
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getMessage ($id)
+    public function getMessage ($args)
     {
+        $id = $args['id'];
+
+
         if (!$this->_pun_user['g_read_board']) {
             throw new Exception ($this->_lang['No view']);
         }
@@ -239,12 +247,15 @@ class Informer
     /**
      * getPrivateMessage
      * 
-     * @param int $id
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getPrivateMessage ($id)
+    public function getPrivateMessage ($args)
     {
+        $id = $args['id'];
+
+
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
             throw new Exception ($this->_lang['No view']);
         }
@@ -281,12 +292,15 @@ class Informer
     /**
      * getPrivateMessages
      * 
-     * @param int $limit
+     * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getPrivateMessages ($limit)
+    public function getPrivateMessages ($args)
     {
+        $limit = $args['limit'];
+
+
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
             throw new Exception ($this->_lang['No view']);
         }
@@ -332,7 +346,7 @@ class Informer
      */
     private function _parseMessage ($message, $hide_smilies = false)
     {
-        require_once __DIR__ . '/../parser.php';
+        require_once dirname(__FILE__) . '/../parser.php';
         return parse_message($message, $hide_smilies);
     }
 }
