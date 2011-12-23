@@ -102,7 +102,7 @@ if ($basename == 'index.php') {
 
 // START SUBST - <pun_desc>//Описание форума на главной
 if ($basename == 'index.php' && $pun_config['o_board_desc']) {
-    $tpl_main = str_replace('<pun_desc>', '<div class="hd_bott">' . pun_htmlspecialchars($pun_config['o_board_desc']) . '</div>', $tpl_main);
+    $tpl_main = str_replace('<pun_desc>', '<div class="hd_bott">' . $pun_config['o_board_desc'] . '</div>', $tpl_main);
 } else {
     $tpl_main = str_replace('<pun_desc>', '', $tpl_main);
 }
