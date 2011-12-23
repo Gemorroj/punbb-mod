@@ -27,26 +27,23 @@ ob_start();
 
 if ($footer_style == 'index' || $footer_style == 'search') {
 /*
-if(!$pun_user['is_guest'])
-{
-echo '<div id="searchlinks" class="con">'.$lang_common['Search links'].'<br/></div>
-<div class="con"><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a><br/></div>
-<div class="con"><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a><br/></div>';
+    if (!$pun_user['is_guest']) {
+        echo '<div id="searchlinks" class="con">'.$lang_common['Search links'].'<br/></div>
+        <div class="con"><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a><br/></div>
+        <div class="con"><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a><br/></div>';
 
-if($pun_config['o_subscriptions'] == '1')
-echo '<div class="con"><a href="search.php?action=show_subscriptions">'.$lang_common['Show subscriptions'].'</a><br/></div>';
+        if ($pun_config['o_subscriptions'] == '1') {
+            echo '<div class="con"><a href="search.php?action=show_subscriptions">'.$lang_common['Show subscriptions'].'</a><br/></div>';
+        }
 
-echo '<div class="con"><a href="search.php?action=show_user&amp;user_id='.$pun_user['id'].'">'.$lang_common['Show your posts'].'</a><br/></div>';
-}
-else
-{
-if($pun_user['g_search'] == '1')
-{
-echo '<div id="searchlinks" class="con"> <strong>'.$lang_common['Search links'].'</strong><br/></div>
-<div class="con"><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a><br/></div>
-<div class="con"><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a><br/></div>';
-}
-}
+        echo '<div class="con"><a href="search.php?action=show_user&amp;user_id='.$pun_user['id'].'">'.$lang_common['Show your posts'].'</a><br/></div>';
+    } else {
+        if ($pun_user['g_search'] == '1') {
+            echo '<div id="searchlinks" class="con"> <strong>'.$lang_common['Search links'].'</strong><br/></div>
+            <div class="con"><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a><br/></div>
+            <div class="con"><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a><br/></div>';
+        }
+    }
 */
 } else if ($footer_style == 'viewforum' || $footer_style == 'viewtopic') {
     // Display the "Jump to" drop list
@@ -82,9 +79,9 @@ echo '<div id="searchlinks" class="con"> <strong>'.$lang_common['Search links'].
 
 // $db->get_num_queries() - show sql queries
 echo '
-<div class="foot"><a href="/">'.$_SERVER['HTTP_HOST'].'</a><br/><a class="red" href="' . PUN_ROOT . '">WEB</a></div>
+<div class="foot"><a href="/">' . $_SERVER['HTTP_HOST'] . '</a><br/><a class="red" href="' . PUN_ROOT . '">WEB</a></div>
 <div class="copy"><a href="http://wapinet.ru/forum/wap/">PunBB Mod Gemorroj</a><br/>
-<span class="red">'.sprintf('%.3f', microtime(true) - $pun_start).' s</span></div>';
+<span class="red">' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</span></div>';
 
 // End the transaction
 $db->end_transaction();

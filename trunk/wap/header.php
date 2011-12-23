@@ -95,22 +95,21 @@ $basename = basename($_SERVER['PHP_SELF']);
 
 // END SUBST - <pun_navlinks>
 
-//Logo на главной
+//Logo РЅР° РіР»Р°РІРЅРѕР№
 if ($basename == 'index.php') {
-    
-$tpl_main = str_replace('<pun_hd>','<div class="hd"><img src="' . PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '/logo.gif" title="' . $lang_common['Forum'] . ' '.$_SERVER['HTTP_HOST'].'" alt="' . $lang_common['Forum'] . ' '.$_SERVER['HTTP_HOST'].'"/></div>
+    $tpl_main = str_replace('<pun_hd>', '<div class="hd"><img src="' . PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '/logo.gif" title="' . $lang_common['Forum'] . ' ' . $_SERVER['HTTP_HOST'] . '" alt="' . $lang_common['Forum'] . ' ' . $_SERVER['HTTP_HOST'] . '"/></div>
 ', $tpl_main);
 }
 
-// START SUBST - <pun_desc>//Описание форума на главной
-//FIXME: убрать вывод <div class="hd_bott"></div> если нет описания форума
+// START SUBST - <pun_desc>//РћРїРёСЃР°РЅРёРµ С„РѕСЂСѓРјР° РЅР° РіР»Р°РІРЅРѕР№
+//FIXME: СѓР±СЂР°С‚СЊ РІС‹РІРѕРґ <div class="hd_bott"></div> РµСЃР»Рё РЅРµС‚ РѕРїРёСЃР°РЅРёСЏ С„РѕСЂСѓРјР°
 if ($basename == 'index.php') {
-        $tpl_main = str_replace('<pun_desc>', '<div class="hd_bott">' . $pun_config['o_board_desc'] . '</div>
+    $tpl_main = str_replace('<pun_desc>', '<div class="hd_bott">' . $pun_config['o_board_desc'] . '</div>
 ', $tpl_main);
 }
 // END SUBST - <pun_desc>
 
-// START SUBST - <pun_status>// Вы зашли как
+// START SUBST - <pun_status>// Р’С‹ Р·Р°С€Р»Рё РєР°Рє
 if ($pun_user['is_guest'] && $basename == 'index.php') {
     $tpl_temp .= '<div class="con">' . $lang_common['Not logged in'] . '</div>';
 } /*else if ($basename == 'index.php') {
@@ -151,19 +150,19 @@ $tpl_temp .= '<div class="in"><strong>RSS</strong><div class="box"><div><a href=
 
 
 // START SUBST - <pun_announcement>
-//Объявление только на главной
+//РћР±СЉСЏРІР»РµРЅРёРµ С‚РѕР»СЊРєРѕ РЅР° РіР»Р°РІРЅРѕР№
 if ($basename == 'index.php') {
-if ($pun_config['o_announcement'] == 1) {
-    ob_start();
-
-    echo '
-    <div class="incqbox">' . $lang_common['Announcement'] . '</div>
-    <div class="msg">' . $pun_config['o_announcement_message'] . '</div>';
-
-    $tpl_temp = trim(ob_get_contents());
-    $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);
-    ob_end_clean();
-}
+    if ($pun_config['o_announcement'] == 1) {
+        ob_start();
+    
+        echo '
+        <div class="incqbox">' . $lang_common['Announcement'] . '</div>
+        <div class="msg">' . $pun_config['o_announcement_message'] . '</div>';
+    
+        $tpl_temp = trim(ob_get_contents());
+        $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);
+        ob_end_clean();
+    }
 } else {
     $tpl_main = str_replace('<pun_announcement>', '', $tpl_main);
 }

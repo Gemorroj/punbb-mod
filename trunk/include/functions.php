@@ -307,7 +307,6 @@ function generate_wap_navlinks()
 
         $info = $lang_common['Not logged in'];
     } else {
-        
         if ($pun_user['g_id'] > PUN_MOD) {
             if ($pun_user['g_search'] == 1) {
                 $links['search.php'] = $lang_common['Search'];
@@ -355,20 +354,24 @@ function generate_wap_1_navlinks()
     global $pun_config, $lang_common, $pun_user;
 
     // Index and Userlist should always be displayed
-        if ($pun_user['is_guest']) {//-для гостя
+    if ($pun_user['is_guest']) {
+        //для гостя
         $links[] = '<a href="login.php">' . $lang_common['Login'] . '</a> ';
         $links[] = ' <a href="register.php">' . $lang_common['Register'] . '</a>';
-        
+
         $info = $lang_common['Not logged in'];
-    } else {//для юзеров
-         if ($pun_user['g_id'] > PUN_MOD) {
-            
+    } else {
+        if ($pun_user['g_id'] > PUN_MOD) {
+            //для юзеров
+
             $links[] = '<a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . ' (<span style="font-weight: bold">' . pun_htmlspecialchars($pun_user['username']) . '</span>)</a>';
             // PMS MOD BEGIN           
             include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
             // PMS MOD END
             $links[] = '<a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
-        } else {//для админов
+        } else {
+            //для админов
+
             $links[] = '<a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . ' (<span style="font-weight: bold">' . pun_htmlspecialchars($pun_user['username']) . '</span>)</a>';
             // PMS MOD BEGIN
             include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
@@ -376,7 +379,6 @@ function generate_wap_1_navlinks()
             $links[] = '<a href="../admin_index.php">' . $lang_common['Admin_m'] . '</a>';
             $links[] = '<a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
         }
-        
     }
 
     // Are there any additional navlinks we should insert into the array before imploding it?
@@ -389,7 +391,8 @@ function generate_wap_1_navlinks()
         }
     }
 
-    return '' . implode($lang_common['Link separator'] . '|', $links) . '';//сборка верхнего меню
+    //сборка верхнего меню
+    return implode($lang_common['Link separator'] . '|', $links);
 }
 
 
