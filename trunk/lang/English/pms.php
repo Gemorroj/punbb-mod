@@ -31,7 +31,8 @@ $lang_pms = array(
 	'Mark all'			=>		'Mark all messages as read',
 
 	// Viewtopic
-	'PM'					=>		'PM',
+	'PM'                      =>          'PM',
+    'Private'                 =>          'Private',
 
 	// Profile
 	'Quick message'	=> 	'Send private message',

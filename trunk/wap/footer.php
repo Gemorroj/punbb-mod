@@ -20,9 +20,6 @@ ob_end_clean();
 ob_start();
 
 
-echo '<div class="box">';
-
-
 //PMS MOD BEGIN
 //require(PUN_ROOT.'include/pms/footer_links.php');
 //PMS MOD END
@@ -84,7 +81,10 @@ echo '<div id="searchlinks" class="con"> <strong>'.$lang_common['Search links'].
 }
 
 // $db->get_num_queries() - show sql queries
-echo '<div class="con"><a href="/">'.$_SERVER['HTTP_HOST'].'</a><br/></div></div><div class="copy">PunBB Mod Gemorroj<br/>'.sprintf('%.3f', microtime(true) - $pun_start).' s</div>';
+echo '
+<div class="foot"><a href="/">'.$_SERVER['HTTP_HOST'].'</a><br/><a class="red" href="' . PUN_ROOT . '">WEB</a></div>
+<div class="copy"><a href="http://wapinet.ru/forum/wap/">PunBB Mod Gemorroj</a><br/>
+<span class="red">'.sprintf('%.3f', microtime(true) - $pun_start).' s</span></div>';
 
 // End the transaction
 $db->end_transaction();

@@ -82,41 +82,50 @@ $tpl_main = str_replace('<pun_page>', htmlspecialchars(basename($_SERVER['PHP_SE
 
 
 // START SUBST - <pun_title>
-//$tpl_main = str_replace('<pun_title>', '<div class="blocktable">'.pun_htmlspecialchars($pun_config['o_board_title']).'<br/></div>', $tpl_main);
+//$tpl_main = str_replace('<pun_title>', '<div class="blocktable">'.pun_htmlspecialchars($pun_config['o_board_title']).'</div>', $tpl_main);
 $tpl_main = str_replace('<pun_title>', null, $tpl_main);
 // END SUBST - <pun_title>
-
-
-// START SUBST - <pun_desc>
-$tpl_main = str_replace('<pun_desc>', $pun_config['o_board_desc'], $tpl_main);
-// END SUBST - <pun_desc>
 
 $basename = basename($_SERVER['PHP_SELF']);
 
 // START SUBST - <pun_navlinks>
-//$tpl_main = str_replace('<pun_navlinks>','<div id="brdmenu" class="con"><a href="index.php">'.$lang_common['Index'].'</a><br/></div>', $tpl_main);
+//$tpl_main = str_replace('<pun_navlinks>','<div id="brdmenu" class="con"><a href="index.php">'.$lang_common['Index'].'</a></div>', $tpl_main);
 
-$tpl_main = str_replace('<pun_navlinks>', '', $tpl_main);
+//$tpl_main = str_replace('<pun_navlinks>', '', $tpl_main);
 
 // END SUBST - <pun_navlinks>
 
-
-// START SUBST - <pun_status>
-if ($pun_user['is_guest'] && $basename == 'index.php') {
-    $tpl_temp .= '<div class="con">' . $lang_common['Not logged in'] . '<br/></div>';
-} else if ($basename == 'index.php') {
-    $tpl_temp .= '<div class="con">' . $lang_common['Logged in as'] . ' ' . pun_htmlspecialchars($pun_user['username']) . '<br/></div>';
+//Logo на главной
+if ($basename == 'index.php') {
+    
+$tpl_main = str_replace('<pun_hd>','<div class="hd"><img src="' . PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '/logo.gif" title="' . $lang_common['Forum'] . ' '.$_SERVER['HTTP_HOST'].'" alt="' . $lang_common['Forum'] . ' '.$_SERVER['HTTP_HOST'].'"/></div>
+', $tpl_main);
 }
+
+// START SUBST - <pun_desc>//Описание форума на главной
+//FIXME: убрать вывод <div class="hd_bott"></div> если нет описания форума
+if ($basename == 'index.php') {
+        $tpl_main = str_replace('<pun_desc>', '<div class="hd_bott">' . $pun_config['o_board_desc'] . '</div>
+', $tpl_main);
+}
+// END SUBST - <pun_desc>
+
+// START SUBST - <pun_status>// Вы зашли как
+if ($pun_user['is_guest'] && $basename == 'index.php') {
+    $tpl_temp .= '<div class="con">' . $lang_common['Not logged in'] . '</div>';
+} /*else if ($basename == 'index.php') {
+    $tpl_temp .= '<div class="con">' . $lang_common['Logged in as'] . ' ' . pun_htmlspecialchars($pun_user['username']) . '</div>';
+}*/
 
 if ($pun_user['g_id'] < PUN_GUEST) {
     $result_header = $db->query('SELECT COUNT(1) FROM `' . $db->prefix . 'reports` WHERE `zapped` IS NULL') or error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
     if ($db->result($result_header)) {
-        $tpl_temp .= '<div class="con"><a href="' . PUN_ROOT . 'admin_reports.php">' . $lang_admin['New reports'] . '</a><br/></div>';
+        $tpl_temp .= '<div class="con"><a href="' . PUN_ROOT . 'admin_reports.php">' . $lang_admin['New reports'] . '</a></div>';
     }
 
     if ($pun_config['o_maintenance'] == 1) {
-        $tpl_temp .= '<div class="con"><a href="' . PUN_ROOT . 'admin_options.php#maintenance">' . $lang_admin['maintenance'] . '</a><br/></div>';
+        $tpl_temp .= '<div class="con"><a href="' . PUN_ROOT . 'admin_options.php#maintenance">' . $lang_admin['maintenance'] . '</a></div>';
     }
 }
 // PMS MOD BEGIN
@@ -130,6 +139,8 @@ $tpl_main = str_replace('<div id="brdheader" class="block">', '<div>', $tpl_main
 $tpl_main = str_replace('<div class="box">', '<div>', $tpl_main);
 $tpl_main = str_replace('<div id="brdtitle" class="inbox">', '', $tpl_main);
 $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);
+$tpl_main = str_replace('<pun_hd>', '', $tpl_main);
+$tpl_main = str_replace('<pun_navlinks>', '', $tpl_main);
 // END WAP MOD
 
 
@@ -140,14 +151,19 @@ $tpl_temp .= '<div class="in"><strong>RSS</strong><div class="box"><div><a href=
 
 
 // START SUBST - <pun_announcement>
+//Объявление только на главной
+if ($basename == 'index.php') {
 if ($pun_config['o_announcement'] == 1) {
     ob_start();
 
-    echo '<div class="in"><strong>' . $lang_common['Announcement'] . '</strong><div class="box"><div>' . $pun_config['o_announcement_message'] . '</div></div></div>';
+    echo '
+    <div class="incqbox">' . $lang_common['Announcement'] . '</div>
+    <div class="msg">' . $pun_config['o_announcement_message'] . '</div>';
 
     $tpl_temp = trim(ob_get_contents());
     $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);
     ob_end_clean();
+}
 } else {
     $tpl_main = str_replace('<pun_announcement>', '', $tpl_main);
 }
@@ -162,7 +178,7 @@ define('PUN_HEADER', 1);
 
 
 if ($basename == 'profile.php' || $basename == 'search.php' || $basename == 'userlist.php' || $basename == 'uploads.php' || $basename == 'message_list.php' || $basename == 'message_send.php' || $basename == 'message_delete.php' || $basename == 'help.php' || $basename == 'misc.php' || $basename == 'filemap.php' || $basename == 'karma.php') {
-    echo '<div class="con"><a href="index.php">' . $lang_common['Index'] . '</a><br/></div>';
+    echo '<div class="con"><a href="index.php">' . $lang_common['Index'] . '</a></div>';
 }
 
 ?>

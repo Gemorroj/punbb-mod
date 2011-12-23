@@ -57,6 +57,11 @@ $result = $db->query('
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
+echo '
+<div class="navlinks">
+' . generate_wap_1_navlinks() . '
+</div>';
+
 $cur_category = $cat_count = 0;
 $out = '';
 while ($cur_forum = $db->fetch_assoc($result)) {
@@ -64,50 +69,61 @@ while ($cur_forum = $db->fetch_assoc($result)) {
 
     // A new category since last iteration?
     if ($cur_forum['cid'] != $cur_category) {
-        if ($cur_category) {
-        	$out .= '</div></div>';
-        }
+        /*if ($cur_category) {
+        	$out .= '';
+        }*/
 
         ++$cat_count;
-
-        $out .= '<div><strong>' . pun_htmlspecialchars($cur_forum['cat_name']) . '</strong><br/></div><div class="in">';
+//Категории
+        $out .= '
+                
+        <div class="cat"><span class="sp_cat">' . pun_htmlspecialchars($cur_forum['cat_name']) . '</span></div>';
         $cur_category = $cur_forum['cid'];
     }
 
-    // Is this a redirect forum?
+    // Is this a redirect forum?//Форум
     if ($cur_forum['redirect_url']) {
-        $forum_field = '<strong><a href="' . pun_htmlspecialchars($cur_forum['redirect_url']) . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</a></strong>';
+        $in_class = ( !($j % 2) ) ? 'in' : 'in2';
+        
+        $forum_field = '
+        <div class="' . $in_class . '"><a href="' . pun_htmlspecialchars($cur_forum['redirect_url']) . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</a>';
         $num_topics = $num_posts = '&#160;';
         $item_status = 'iredirect';
         $icon_text = $lang_common['Redirect icon'];
         $icon_type = 'icon';
-    } else {
-        $forum_field = '<strong><a href="viewforum.php?id=' . $cur_forum['fid'] . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</a></strong>';
+    } else {//ссылка на Форум
+        $in_class = ( !($j % 2) ) ? 'in' : 'in2';
+        $forum_field = '
+        <div class="' . $in_class . '"><a href="viewforum.php?id=' . $cur_forum['fid'] . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</a>';
         $num_topics = $cur_forum['num_topics'];
         $num_posts = $cur_forum['num_posts'];
-    }
+    }$j++;
 
     // If there is a last_post/last_poster.
     if ($cur_forum['last_post']) {
-        // MOD:
-        $last_post = '&#160;&#187; <a href="viewtopic.php?pid=' . $cur_forum['last_post_id'] . '#p' . $cur_forum['last_post_id'] . '">' . pun_htmlspecialchars($cur_forum['subject']) . '</a> (' . format_time($cur_forum['last_post']) . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_forum['last_poster']) . ')';
+        // MOD://Последний пост
+        $last_post = '<br/>
+        <span class="sub">&#187; <a href="viewtopic.php?pid=' . $cur_forum['last_post_id'] . '#p' . $cur_forum['last_post_id'] . '">' . pun_htmlspecialchars($cur_forum['subject']) . '</a> (' . format_time($cur_forum['last_post']) . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_forum['last_poster']) . ')</span>';
         // END MOD
     } else {
-        $last_post = '&#160;';
+        $last_post = '';
     }
-    $out .= $forum_field . ' (' . $num_topics . '/' . $num_posts . ')<br/>' . $last_post . '<hr/>';
+    $out .= $forum_field . ' (' . $num_topics . '/' . $num_posts . ')' . $last_post . '</div>';
 }
-echo rtrim($out, '<hr/>');
+echo rtrim($out, '');
 
 // Did we output any categories and forums?
 if ($cur_category > 0) {
-	echo '</div>';
+	echo '
+    ';
 } else {
-	echo '<div class="box"><p>' . $lang_index['Empty board'] . '</p></div>';
+	echo '
+    <div class="in">' . $lang_index['Empty board'] . '</div>';
 }
 
 if (!$pun_user['is_guest']) {
-	echo '<div><a class="con" href="search.php?action=show_new">' . $lang_common['Show new posts'] . '</a><br/><a class="con" href="misc.php?action=markread">' . $lang_common['Mark all as read'] . '</a><br/></div>';
+	echo '
+    <div class="go_to"><a class="but" href="search.php?action=show_new">' . $lang_common['Show new posts'] . '</a> <a class="but" href="misc.php?action=markread">' . $lang_common['Mark all as read'] . '</a></div>';
 }
 
 // Collect some statistics from the database
@@ -120,7 +136,9 @@ $stats['last_user'] = $db->fetch_assoc($result);
 $result = $db->query('SELECT SUM(`num_topics`), SUM(`num_posts`) FROM `' . $db->prefix . 'forums` LIMIT 1') or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
 list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
 
-echo '<div class="navlinks">' . generate_wap_navlinks() . '</div><div class="incqbox" style="color:#fff;margin:1%;padding:2pt;">' . $lang_index['No of users'] . ': ' . $stats['total_users'] . '<br/>' . $lang_index['No of topics'] . ': ' . $stats['total_topics'] . '<br/>' . $lang_index['No of posts'] . ': ' . $stats['total_posts'] . '<br/>';
+echo '
+<div class="navlinks">' . generate_wap_navlinks() . '</div>
+<div class="incqbox">' . $lang_index['No of users'] . ': ' . $stats['total_users'] . '<br/>' . $lang_index['No of topics'] . ': ' . $stats['total_topics'] . '<br/>' . $lang_index['No of posts'] . ': ' . $stats['total_posts'] . '<br/>';
 
 $num_users = 0;
 if ($pun_config['o_users_online'] == 1) {
@@ -131,23 +149,23 @@ if ($pun_config['o_users_online'] == 1) {
 
     while($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {
-            $users[] = '<a href="profile.php?id=' . $pun_user_online['user_id'] . '">' . pun_htmlspecialchars($pun_user_online['ident']) . '</a> ';
+            $users[] = '<a href="profile.php?id=' . $pun_user_online['user_id'] . '">' . pun_htmlspecialchars($pun_user_online['ident']) . '</a>';
         } else {
         	++$num_guests;
         }
     }
 
     $num_users = sizeof($users);
-    echo $lang_index['Users online'] . ': ' . $num_users . '<br/>' . $lang_index['Guests online'] . ': ' . $num_guests . '<br/>';
-}
-
-echo '</div><div class="red">';
-
-if ($pun_config['o_users_online'] && $num_users > 0) {
-	echo $lang_index['Online'] . ': ' . implode(', ', $users);
+    echo $lang_index['Users online'] . ': ' . $num_users . '<br/>' . $lang_index['Guests online'] . ': ' . $num_guests;
 }
 
 echo '</div>';
+
+if ($pun_config['o_users_online'] && $num_users > 0) {
+	echo '
+<div class="act">
+'.$lang_index['Online'] . ': ' . implode(', ', $users). '</div>';
+}
 
 $footer_style = 'index';
 require_once PUN_ROOT . 'wap/footer.php';

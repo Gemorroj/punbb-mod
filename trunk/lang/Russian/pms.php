@@ -31,7 +31,8 @@ $lang_pms = array(
     'Mark all'            =>        'Отметить все сообщения как прочитанные',
 
     // Viewtopic
-    'PM'                    =>        'ЛС',
+    'PM'                    =>          'ЛС',
+    'Private'               =>          'Приват',
 
     // Profile
     'Quick message'    =>     'Отправить личное сообщение',

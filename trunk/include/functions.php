@@ -225,7 +225,7 @@ function generate_navlinks()
     if ($pun_config['o_rules'] == 1) {
         $links[] = '<li id="navrules"><a href="misc.php?action=rules">' . $lang_common['Rules'] . '</a>';
     }
-
+//-для гостя
     if ($pun_user['is_guest']) {
         if ($pun_user['g_search'] == 1) {
             $links[] = '<li id="navsearch"><a href="search.php">' . $lang_common['Search'] . '</a>';
@@ -235,12 +235,13 @@ function generate_navlinks()
             $links[] = '<li id="nauploads"><a href="uploads.php">' . $lang_common['Uploader'] . '</a>';
         }
 
+        $links[] = '<li id="navwap"><a href="wap/">' . $lang_common['WAP'] . '</a>';
         $links[] = '<li id="navregister"><a href="register.php">' . $lang_common['Register'] . '</a>';
         $links[] = '<li id="navlogin"><a href="login.php">' . $lang_common['Login'] . '</a>';
 
         $info = $lang_common['Not logged in'];
     } else {
-        // PMS MOD BEGIN
+        // PMS MOD BEGIN//для юзеров
         include PUN_ROOT . 'include/pms/functions_navlinks.php';
 
         if ($pun_user['g_id'] > PUN_MOD) {
@@ -254,13 +255,15 @@ function generate_navlinks()
             }
 
             $links[] = '<li id="navfilemap"><a href="filemap.php">' . $lang_common['Attachments'] . '</a>';
+            $links[] = '<li id="navwap"><a href="wap/">' . $lang_common['WAP'] . '</a>';
             $links[] = '<li id="navlogout"><a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
-        } else {
+        } else {//для админов
             $links[] = '<li id="navsearch"><a href="search.php">' . $lang_common['Search'] . '</a>';
             $links[] = '<li id="navprofile"><a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . '</a>';
             $links[] = '<li id="navadmin"><a href="admin_index.php">' . $lang_common['Admin'] . '</a>';
             $links[] = '<li id="navuploads"><a href="uploads.php">' . $lang_common['Uploader'] . '</a>';
             $links[] = '<li id="navfilemap"><a href="filemap.php">' . $lang_common['Attachments'] . '</a>';
+            $links[] = '<li id="navwap"><a href="wap/">' . $lang_common['WAP'] . '</a>';
             $links[] = '<li id="navlogout"><a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
         }
 
@@ -302,34 +305,23 @@ function generate_wap_navlinks()
             $links['uploads.php'] = $lang_common['Uploader'];
         }
 
-        $links['register.php'] = $lang_common['Register'];
-        $links['login.php'] = $lang_common['Login'];
-
         $info = $lang_common['Not logged in'];
     } else {
-        // PMS MOD BEGIN
-        include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
-
+        
         if ($pun_user['g_id'] > PUN_MOD) {
             if ($pun_user['g_search'] == 1) {
                 $links['search.php'] = $lang_common['Search'];
             }
-
-            $links['profile.php?id=' . $pun_user['id']] = $lang_common['Profile'];
 
             if ($pun_config['uploads_conf'][$pun_user['group_id']]) {
                 $links['uploads.php'] = $lang_common['Uploader'];
             }
 
             $links['filemap.php'] = $lang_common['Attachments'];
-            $links['login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address()))] = $lang_common['Logout'];
         } else {
             $links['search.php'] = $lang_common['Search'];
-            $links['profile.php?id=' . $pun_user['id']] = $lang_common['Profile'];
-            $links[PUN_ROOT . 'admin_index.php'] = $lang_common['Admin'];
             $links['uploads.php'] = $lang_common['Uploader'];
-            $links['filemap.php'] = $lang_common['Attachments'];
-            $links['login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address()))] = $lang_common['Logout'];
+            $links['filemap.php'] = $lang_common['Attachments'];            
         }
         // PMS MOD END
     }
@@ -354,6 +346,50 @@ function generate_wap_navlinks()
 
 
     return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location=(\'' . $pun_config['o_base_url'] . '/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">' . implode('', $out) . '</select> <input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></div></form>';
+}
+
+
+//верхняя Wap-навигация//редактировать в индексе
+function generate_wap_1_navlinks()
+{
+    global $pun_config, $lang_common, $pun_user;
+
+    // Index and Userlist should always be displayed
+        if ($pun_user['is_guest']) {//-для гостя
+        $links[] = '<a href="login.php">' . $lang_common['Login'] . '</a> ';
+        $links[] = ' <a href="register.php">' . $lang_common['Register'] . '</a>';
+        
+        $info = $lang_common['Not logged in'];
+    } else {//для юзеров
+         if ($pun_user['g_id'] > PUN_MOD) {
+            
+            $links[] = '<a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . ' (<span style="font-weight: bold">' . pun_htmlspecialchars($pun_user['username']) . '</span>)</a>';
+            // PMS MOD BEGIN           
+            include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
+            // PMS MOD END
+            $links[] = '<a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
+        } else {//для админов
+            $links[] = '<a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . ' (<span style="font-weight: bold">' . pun_htmlspecialchars($pun_user['username']) . '</span>)</a>';
+            // PMS MOD BEGIN
+            include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
+            // PMS MOD END
+            $links[] = '<a href="../admin_index.php">' . $lang_common['Admin_m'] . '</a>';
+            $links[] = '<a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
+        }
+        
+    }
+
+    // Are there any additional navlinks we should insert into the array before imploding it?
+    if ($pun_config['o_additional_navlinks']) {
+        if (preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
+            // Insert any additional links into the $links array (at the correct index)
+            for ($i = 0, $all = sizeof($extra_links[1]); $i < $all; ++$i) {
+                array_splice($links, $extra_links[1][$i], 0, array('' . ($i + 1) . '">' . $extra_links[2][$i]));
+            }
+        }
+    }
+
+    return '' . implode($lang_common['Link separator'] . '|', $links) . '';//сборка верхнего меню
 }
 
 

@@ -26,6 +26,7 @@ setlocale(LC_TIME, $locale);
 define('ALPHANUM', '[:punct:]а-яА-ЯёЁ\w'); //[:alnum:]
 // FIX UTF REGULAR EXPRESSIONS BUG END
 
+
 // Language definitions for frequently used strings
 $lang_common = array(
 
@@ -126,6 +127,7 @@ $lang_common = array(
 
 
 // Stuff for the navigator (top of every page)
+'WAP'                   =>	'Мобильная версия',
 'Uploader'				 =>	'Загрузки',
 'Index'					=>	'Главная',
 'User list'				=>	'Пользователи',
@@ -140,6 +142,7 @@ $lang_common = array(
 'Logout'				=>	'Выйти',
 'Logged in as'			=>	'Вы зашли как',
 'Admin'					=>	'Администрирование',
+'Admin_m'				=>	'Админ панель',
 'Last visit'			=>	'Ваш последний визит',
 'Show new posts'		=>	'Новые сообщения',
 'Mark all as read'		=>	'Пометить все форумы как прочитанные',

@@ -125,6 +125,7 @@ $lang_common = array(
 
 
 // Stuff for the navigator (top of every page)
+'WAP'                   =>	'Veris mobile',
 'Uploader'			 =>	'Uploader',
 'Index'					=>	'Index',
 'User list'				=>	'User list',
@@ -139,6 +140,7 @@ $lang_common = array(
 'Logout'				=>	'Logout',
 'Logged in as'			=>	'Logged in as',
 'Admin'					=>	'Administration',
+'Admin_m'				=>	'Admin panel',
 'Last visit'			=>	'Last visit',
 'Show new posts'		=>	'Show new posts since last visit',
 'Mark all as read'		=>	'Mark all topics as read',
