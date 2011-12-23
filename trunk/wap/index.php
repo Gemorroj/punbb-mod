@@ -57,10 +57,7 @@ $result = $db->query('
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
-echo '
-<div class="navlinks">
-' . generate_wap_1_navlinks() . '
-</div>';
+echo '<div class="navlinks">' . generate_wap_1_navlinks() . '</div>';
 
 $cur_category = $cat_count = 0;
 $out = '';
@@ -131,8 +128,7 @@ $stats['last_user'] = $db->fetch_assoc($result);
 $result = $db->query('SELECT SUM(`num_topics`), SUM(`num_posts`) FROM `' . $db->prefix . 'forums` LIMIT 1') or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
 list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
 
-echo '
-<div class="navlinks">' . generate_wap_navlinks() . '</div>
+echo '<div class="navlinks">' . generate_wap_navlinks() . '</div>
 <div class="incqbox">' . $lang_index['No of users'] . ': ' . $stats['total_users'] . '<br/>' . $lang_index['No of topics'] . ': ' . $stats['total_topics'] . '<br/>' . $lang_index['No of posts'] . ': ' . $stats['total_posts'] . '<br/>';
 
 $num_users = 0;

@@ -351,7 +351,7 @@ function generate_wap_navlinks()
 //верхняя Wap-навигация//редактировать в индексе
 function generate_wap_1_navlinks()
 {
-    global $pun_config, $lang_common, $pun_user;
+    global $pun_config, $lang_common, $pun_user, $lang_pms;
 
     // Index and Userlist should always be displayed
     if ($pun_user['is_guest']) {
