@@ -40,8 +40,10 @@ $lang_common = array(
 
 // Topic/forum indicators
 'New icon'				=>	'There are new posts',
+'New icon_m'			=>	'new',
 'Normal icon'			=>	'<!-- -->',
 'Closed icon'			=>	'This topic is closed',
+'Closed icon_m'			    =>	'#',
 'Redirect icon'			=>	'Redirected forum',
 
 // Miscellaneous

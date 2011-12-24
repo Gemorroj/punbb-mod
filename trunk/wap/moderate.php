@@ -119,11 +119,11 @@ if (isset($_GET['tid'])) {
         }
 
 
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Moderate'];
+        $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
         require_once PUN_ROOT.'wap/header.php';
 
 
-        echo '<div><strong>'.$lang_misc['Delete posts'].'</strong><br/></div>
+        echo '<div><strong>'.$lang_misc['Delete posts'].'</strong></div>
 <div class="input">
 <form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">
 <div>
@@ -165,11 +165,11 @@ if (isset($_GET['tid'])) {
         $cur_topic['subject'] = censor_words($cur_topic['subject']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$cur_topic['subject'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$cur_topic['subject'];
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / <a href="viewforum.php?id='.$fid.'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> / '.pun_htmlspecialchars($cur_topic['subject']).'<br/></div>
+    echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / <a href="viewforum.php?id='.$fid.'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> / '.pun_htmlspecialchars($cur_topic['subject']).'</div>
 <div class="input">
 <form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">
 <div>';
@@ -258,11 +258,9 @@ if (isset($_GET['tid'])) {
         echo '</td></tr></table>';
     }
 
-    echo '<p class="con">'.$paging_links.'</p>
-<input type="submit" name="delete_posts" value="'.$lang_misc['Delete'].'"'.$button_status.' />
-</div>
-</form>
-</div>';
+    echo '<div class="con">'.$paging_links.'</div>
+<div class="go_to"><input type="submit" name="delete_posts" value="'.$lang_misc['Delete'].'"'.$button_status.' /></div></form>
+';
 
 
     require_once PUN_ROOT.'wap/footer.php';
@@ -333,19 +331,18 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $action = 'single';
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Moderate';
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div><strong>';
+    echo '<div class="inbox">
+<a href="index.php">'.$lang_common['Index'].'</a> &#187; ';
     echo $action == 'single' ? $lang_misc['Move topic'] : $lang_misc['Move topics'];
-    echo '</strong><br/></div>
-<div class="input">
+    echo '</div>
 <form method="post" action="moderate.php?fid='.$fid.'">
-<div>
+<div class="input">
 <input type="hidden" name="topics" value="'.$topics.'" />
-<fieldset>
-<legend>'.$lang_misc['Move legend'].'<br/></legend>
+<strong>'.$lang_misc['Move legend'].'</strong><br/>
 '.$lang_misc['Move to'].'<br/>
 <select name="move_to_forum">';
 
@@ -374,13 +371,10 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     if ($action == 'single') {
         echo ' checked="checked"';
     }
-    echo ' />'.$lang_misc['Leave redirect'].'<br />
-</fieldset>
-<br/>
-<input type="submit" name="move_topics_to" value="'.$lang_misc['Move'].'" />
-</div>
-</form>
-</div>';
+    echo ' />'.$lang_misc['Leave redirect'].'</div>
+<div class="go_to">
+<input type="submit" name="move_topics_to" value="'.$lang_misc['Move'].'" /></div></form>
+';
 
 
     require_once PUN_ROOT.'wap/footer.php';
@@ -450,24 +444,20 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     }
 
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Moderate'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div><strong>'.$lang_misc['Delete topics'].'</strong><br/></div>
-<div class="input">
+echo '
+<div class="inbox">
+<a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_misc['Delete topics'].'</strong></div>
 <form method="post" action="moderate.php?fid='.$fid.'">
-<div>
+<div class="input">
 <input type="hidden" name="topics" value="'.implode(',', array_map('intval', array_keys($topics))).'" />
-<fieldset>
-<legend>'.$lang_misc['Confirm delete legend'].'<br/></legend>
-'.$lang_misc['Delete topics comply'].'<br/>
-<input type="submit" name="delete_topics_comply" value="'.$lang_misc['Delete'].'" />
-</fieldset>
-</div>
-</form>
-</div>';
-
+<strong>'.$lang_misc['Confirm delete legend'].'</strong><br/>
+'.$lang_misc['Delete topics comply'].'</div>
+<div class="go_to"><input type="submit" name="delete_topics_comply" value="'.$lang_misc['Delete'].'" /></div></form>
+';
 
     require_once PUN_ROOT.'wap/footer.php';
 } else if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
@@ -546,7 +536,7 @@ if ($cur_forum['redirect_url']) {
     wap_message($lang_common['Bad request']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.pun_htmlspecialchars($cur_forum['forum_name']);
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.pun_htmlspecialchars($cur_forum['forum_name']);
 require_once PUN_ROOT.'wap/header.php';
 
 // Determine the topic offset (based on $_GET['p'])
@@ -559,11 +549,11 @@ $start_from = $pun_user['disp_topics'] * ($p - 1);
 // Generate paging links
 $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'moderate.php?fid='.$fid, 0);
 
-echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / '.pun_htmlspecialchars($cur_forum['forum_name']).'<br/></div>
-<div><strong>'.pun_htmlspecialchars($cur_forum['forum_name']).'</strong><br/></div>
-<div class="input">
-<form method="post" action="moderate.php?fid='.$fid.'">
-<div class="in">';
+
+//Moderation forum header
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; '.pun_htmlspecialchars($cur_forum['forum_name']).'</div>
+<form method="post" action="moderate.php?fid='.$fid.'">';
 
 
 
@@ -600,19 +590,21 @@ if ($db->num_rows($result)) {
         if ($pun_config['o_censoring'] == 1) {
             $cur_topic['subject'] = censor_words($cur_topic['subject']);
         }
-
+//icon Moved - "•»"
         if ($cur_topic['moved_to']) {
-            $subject = $lang_forum['Moved'].': <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
+            $subject = $lang_forum['Moved_m'].' <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
         } else if (!$cur_topic['closed']) {
             $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
         } else {
+//icon Closed - "#"
             $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
-            $icon_text = $lang_common['Closed icon'];
+            $icon_text = $lang_common['Closed icon_m'];
             $item_status = 'iclosed';
         }
-
+//icon new - "new"
         if ($cur_topic['last_post'] > $pun_user['last_visit'] && !$ghost_topic) {
-            $icon_text .= ' '.$lang_common['New icon'];
+            $icon_new_text = ' <span class="red">'.$lang_common['New icon_m'].'</span>';
+            //$icon_text .= ' '.$lang_common['New icon_m'];
             $item_status .= ' inew';
             $icon_type = 'icon inew';
             $subject = '<strong>'.$subject.'</strong>';
@@ -627,18 +619,19 @@ if ($db->num_rows($result)) {
         }
 
         // hcs AJAX POLL MOD BEGIN
+//icon poll - "?"
         if ($pun_config['poll_enabled'] == 1 && $cur_topic['has_poll']) {
             $icon_type .= ' ipoll';
-            $subject = '<span class="red">['.$lang_forum['poll'].'] </span>'.$subject;
-            $icon_text .= ' '.$lang_forum['poll'];
+            //$subject = '<strong>'.$lang_forum['poll_m'].' </strong>'.$subject;
+            $icon_text .= ' '.$lang_forum['poll_m'];
         }
         // hcs AJAX POLL MOD END
 
-
+//icon Sticky - "!"
         if ($cur_topic['sticky'] == 1) {
-            $subject = $lang_forum['Sticky'].': '.$subject;
+            //$subject = $lang_forum['Sticky_m'].' '.$subject;
             $item_status .= ' isticky';
-            $icon_text .= ' '.$lang_forum['Sticky'];
+            $icon_text .= ' '.$lang_forum['Sticky_m'];
         }
 
         $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
@@ -656,25 +649,32 @@ if ($db->num_rows($result)) {
         }
 
         $icon_text = trim($icon_text);
+//page assembly        
+        $out.= '
+        <div class="in">
+        <input type="checkbox" name="topics['.$cur_topic['id'].']" value="1" />';
+        
         if ($icon_text) {
-            $out.= '<div class="red">' . $icon_text . '<br/></div>';
+            $out.= ' <strong>' . $icon_text . '</strong>';
         }
-
-        $out.= '<input type="checkbox" name="topics['.$cur_topic['id'].']" value="1" /> '.$subject.'('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].')<br/>'.$last_post.'<hr/>';
+        
+        $out.= ' '.$subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].') '.$icon_new_text.'<br/>'.$last_post.'</div>
+';
     }
 
-    echo rtrim($out, '<hr/>');
+    echo rtrim($out, '');
 } else {
     $button_status = ' disabled="disabled"';
-    echo '<div class="red">'.$lang_forum['Empty forum'].'<br/></div>';
+    echo '<div class="in">'.$lang_forum['Empty forum'].'</div>';
 }
 
 
-echo '</div>
-<p class="con">'.$paging_links.'</p>
-<div><input type="submit" name="move_topics" value="'.$lang_misc['Move'].'"'.$button_status.' /> <input type="submit" name="delete_topics" value="'.$lang_misc['Delete'].'"'.$button_status.' /> <input type="submit" name="open" value="'.$lang_misc['Open'].'"'.$button_status.' /> <input type="submit" name="close" value="'.$lang_misc['Close'].'"'.$button_status.' /></div>
+echo '
+<div class="con">'.$paging_links.'</div>
+<div class="go_to">
+<input type="submit" name="move_topics" value="'.$lang_misc['Move'].'"'.$button_status.' /> <input type="submit" name="delete_topics" value="'.$lang_misc['Delete'].'"'.$button_status.' /> <input type="submit" name="open" value="'.$lang_misc['Open'].'"'.$button_status.' /> <input type="submit" name="close" value="'.$lang_misc['Close'].'"'.$button_status.' /></div>
 </form>
-</div>';
+';
 
 
 require_once PUN_ROOT.'wap/footer.php';

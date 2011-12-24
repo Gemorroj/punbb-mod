@@ -7,6 +7,10 @@ $lang_forum = array(
 'Views'			=>	'Views',
 'Moved'			=>	'Moved',
 'Sticky'		=>	'Sticky',
-'Empty forum'	=>	'Forum is empty.'
+'Empty forum'	=>	'Forum is empty.',
+//For the mobile version
+'poll_m'        =>	'?',
+'Moved_m'       =>	'&#149;&#187;',
+'Sticky_m'      =>	'!'
 
 );

@@ -43,8 +43,10 @@ $lang_common = array(
 
 // Topic/forum indicators
 'New icon'				=>	'Новые сообщения',
+'New icon_m'			=>	'new',
 'Normal icon'			=>	'',
 'Closed icon'			=>	'Тема закрыта',
+'Closed icon_m'			    =>	'#',
 'Redirect icon'			=>	'Форум перенесен',
 
 // Miscellaneous

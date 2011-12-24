@@ -6,7 +6,7 @@ include PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 $result_messages = $db->query('SELECT COUNT(id) FROM '.$db->prefix.'messages WHERE showed=0 AND owner='.$pun_user['id']) or error('Unable to check for new messages', __FILE__, __LINE__, $db->error());
 $new_msg = $db->fetch_row($result_messages);
 if($new_msg[0]>0){
-$tpl_temp .= '<ul><li><a href="message_list.php"> '.$lang_pms['New messages'].' ('.$new_msg[0]. ')</a></li></ul>';
+$tpl_temp .= '<div class="info"><a href="message_list.php"> '.$lang_pms['New messages'].' ('.$new_msg[0]. ')</a></div>';
 
 
 if($pun_user['popup_enable'] == 1)
@@ -34,7 +34,8 @@ $count = $db->fetch_row($result);
 
 // Display error message
 if($count[0] >= $pun_user['g_pm_limit']){
-$tpl_temp .= '<ul><li><a href="message_list.php">'.$lang_pms['Full inbox'].'</a></li></ul>';
+$tpl_temp .= '<div class="red"><a href="message_list.php">'.$lang_pms['Full inbox'].'</a></div>
+';
 }
 }
 ?>

@@ -61,7 +61,8 @@ $is_admmod = ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD &&
 
 // Can we or can we not post new topics?
 if ((!$cur_forum['post_topics'] && $pun_user['g_post_topics'] == 1) || $cur_forum['post_topics'] == 1 || $is_admmod) {
-    $post_link = '<div class="con"><a class="con" href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a><br/></div>';
+    $post_link = '
+    <div class="go_to"><a class="but" href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a></div>';
 } else {
     $post_link = null;
 }
@@ -79,12 +80,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
 }
 $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewforum.php?id='.$id);
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_forum['forum_name']);
+$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' &#187; '.$cur_forum['forum_name']);
 define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'wap/header.php';
 
 
-echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / '.pun_htmlspecialchars($cur_forum['forum_name']).'<br/></div><div class="in">';
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; '.pun_htmlspecialchars($cur_forum['forum_name']).'</div>';
 
 
 // Fetch list of topics to display on this page
@@ -106,7 +107,9 @@ $result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LI
 // If there are topics in this forum.
 if ($db->num_rows($result)) {
     $out = null;
-
+    $j = false;
+    $icon_new_text = false;
+    
     while ($cur_topic = $db->fetch_assoc($result)) {
         $icon_text = $lang_common['Normal icon'];
         $item_status = '';
@@ -121,14 +124,16 @@ if ($db->num_rows($result)) {
         if ($pun_config['o_censoring'] == 1) {
             $cur_topic['subject'] = censor_words($cur_topic['subject']);
         }
-
+//topic moved icon
         if ($cur_topic['moved_to']) {
-            $subject = '<strong>' . $lang_forum['Moved'] . ': <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a></strong> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
+//icon Moved - "•»"
+            $subject = '<strong>' . $lang_forum['Moved_m'] . '</strong> <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
         } else if (!$cur_topic['closed']) {
-            $subject = '<strong><a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a></strong> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
+            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
         } else {
-            $subject = '<strong><a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a></strong> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
-            $icon_text = $lang_common['Closed icon'];
+            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
+//icon Closed - "#"
+            $icon_text = $lang_common['Closed icon_m'];
             //$item_status = 'iclosed';
         }
         
@@ -136,10 +141,11 @@ if ($db->num_rows($result)) {
         // REAL MARK TOPIC AS READ MOD BEGIN
         if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && !is_reading( $cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
             // REAL MARK TOPIC AS READ MOD END
-            // $icon_text .= ' '.$lang_common['New icon'];
+//icon new - "new"
+            $icon_new_text = ' <span class="red">'.$lang_common['New icon_m'].'</span>';
             $item_status .= ' inew';
             $icon_type = 'icon inew';
-            $subject = '[new] ' . $subject;
+            $subject = $subject;
             // $subject_new_posts = '<span class="newtext">[ <a href="viewtopic.php?id='.$cur_topic['id'].'&amp;action=new" title="'.$lang_common['New posts info'].'">'.$lang_common['New posts'].'</a> ]</span>';
         } else {
             $subject_new_posts = null;
@@ -156,18 +162,19 @@ if ($db->num_rows($result)) {
         
         
         // hcs AJAX POLL MOD BEGIN
+//icon poll - "?"
         if ($pun_config['poll_enabled'] == 1 && $cur_topic['has_poll']) {
             $icon_type .= ' ipoll';
             //$subject = '<span class="stickytext">['.$lang_forum['poll'].'] </span>'.$subject;
-            $icon_text .= ' ' . $lang_forum['poll'];
+            $icon_text .= ' ' . $lang_forum['poll_m'];
         }
         // hcs AJAX POLL MOD END
         
-        
+//icon Sticky - "!"
         if ($cur_topic['sticky'] == 1) {
             //$subject = $lang_forum['Sticky'].': '.$subject;
             $item_status .= ' isticky';
-            $icon_text .= ' '.$lang_forum['Sticky'];
+            $icon_text .= ' '.$lang_forum['Sticky_m'];
         }
         
         $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
@@ -184,24 +191,37 @@ if ($db->num_rows($result)) {
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         }
         
-        if ($icon_text) {
-            $out.= '<div class="red">'.$icon_text.'<br/></div>';
+        // - ASSEMBLY OF TOPICS
+        if ($cur_topic['moved_to']) {//topic moved
+        $in_class = ($j = !$j) ? 'in' : 'in2';
+            $out .= '
+            <div class="' . $in_class . '">'.$subject . '</div>';
+             } else {
+            
+            $in_class = ($j = !$j) ? 'in' : 'in2';       
+            $out .= '
+            <div class="' . $in_class . '">';
+            //The topic icons
+            if ($icon_text) {
+            $out.= '<strong>'.$icon_text.'</strong> ';
         }
 
-        if ($cur_topic['moved_to']) {
-            $out .= $subject . '<hr/>';
-        } else {
-            $out .= $subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].')<br/>&#160;&#187; ' . $last_post . '<hr/>';
+            $out .= $subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].')'.$icon_new_text.'<br/>
+            <span class="sub">&#187; ' . $last_post . '</span></div>
+            ';
+            
         }
     }
 
-    echo rtrim($out, '<hr/>');
+    echo rtrim($out, '');
 
 } else {
-    echo $lang_forum['Empty forum'] . '<br/>';
+    echo '
+    <div class="in">' . $lang_forum['Empty forum'] . '</div>';
 }
 
-echo '</div><div class="con">' . $paging_links . '<br/></div>' . $post_link;
+echo '
+<div class="con">' . $paging_links . '</div>' . $post_link;
 
 $forum_id = $id;
 $footer_style = 'viewforum';
