@@ -61,8 +61,7 @@ $is_admmod = ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD &&
 
 // Can we or can we not post new topics?
 if ((!$cur_forum['post_topics'] && $pun_user['g_post_topics'] == 1) || $cur_forum['post_topics'] == 1 || $is_admmod) {
-    $post_link = '
-    <div class="go_to"><a class="but" href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a></div>';
+    $post_link = '<div class="go_to"><a class="but" href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a></div>';
 } else {
     $post_link = null;
 }
@@ -126,7 +125,7 @@ if ($db->num_rows($result)) {
         }
 //topic moved icon
         if ($cur_topic['moved_to']) {
-//icon Moved - "•»"
+//icon Moved - "â€¢Â»"
             $subject = '<strong>' . $lang_forum['Moved_m'] . '</strong> <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
         } else if (!$cur_topic['closed']) {
             $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']);
@@ -145,12 +144,11 @@ if ($db->num_rows($result)) {
             $icon_new_text = ' <span class="red">'.$lang_common['New icon_m'].'</span>';
             $item_status .= ' inew';
             $icon_type = 'icon inew';
-            $subject = $subject;
             // $subject_new_posts = '<span class="newtext">[ <a href="viewtopic.php?id='.$cur_topic['id'].'&amp;action=new" title="'.$lang_common['New posts info'].'">'.$lang_common['New posts'].'</a> ]</span>';
         } else {
             $subject_new_posts = null;
         }
-        
+
         // Should we display the dot or not? :)
         if (!$pun_user['is_guest'] && $pun_config['o_show_dot'] == 1) {
             if ($cur_topic['has_posted'] == $pun_user['id']) {
@@ -159,8 +157,8 @@ if ($db->num_rows($result)) {
                 $subject = ' ' . $subject;
             }
         }
-        
-        
+
+
         // hcs AJAX POLL MOD BEGIN
 //icon poll - "?"
         if ($pun_config['poll_enabled'] == 1 && $cur_topic['has_poll']) {
@@ -169,47 +167,41 @@ if ($db->num_rows($result)) {
             $icon_text .= ' ' . $lang_forum['poll_m'];
         }
         // hcs AJAX POLL MOD END
-        
+
 //icon Sticky - "!"
         if ($cur_topic['sticky'] == 1) {
             //$subject = $lang_forum['Sticky'].': '.$subject;
             $item_status .= ' isticky';
             $icon_text .= ' '.$lang_forum['Sticky_m'];
         }
-        
+
         $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
-        
+
         if ($num_pages_topic > 1) {
             $subject_multipage = '[ '.paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']).' ]';
         } else {
             $subject_multipage = null;
         }
-        
+
         // Should we show the "New posts" and/or the multipage links?
         if (!empty($subject_new_posts) || !empty($subject_multipage)) {
             $subject .= ' '.(!empty($subject_new_posts) ? $subject_new_posts : '');
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         }
-        
+
         // - ASSEMBLY OF TOPICS
-        if ($cur_topic['moved_to']) {//topic moved
         $in_class = ($j = !$j) ? 'in' : 'in2';
-            $out .= '
-            <div class="' . $in_class . '">'.$subject . '</div>';
-             } else {
-            
-            $in_class = ($j = !$j) ? 'in' : 'in2';       
-            $out .= '
-            <div class="' . $in_class . '">';
+        if ($cur_topic['moved_to']) {
+            //topic moved
+            $out .= '<div class="' . $in_class . '">'.$subject . '</div>';
+        } else {
+            $out .= '<div class="' . $in_class . '">';
             //The topic icons
             if ($icon_text) {
-            $out.= '<strong>'.$icon_text.'</strong> ';
-        }
+                $out.= '<strong>'.$icon_text.'</strong> ';
+            }
 
-            $out .= $subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].')'.$icon_new_text.'<br/>
-            <span class="sub">&#187; ' . $last_post . '</span></div>
-            ';
-            
+            $out .= $subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].')'.$icon_new_text.'<br/><span class="sub">&#187; ' . $last_post . '</span></div>';
         }
     }
 
@@ -220,8 +212,7 @@ if ($db->num_rows($result)) {
     <div class="in">' . $lang_forum['Empty forum'] . '</div>';
 }
 
-echo '
-<div class="con">' . $paging_links . '</div>' . $post_link;
+echo '<div class="con">' . $paging_links . '</div>' . $post_link;
 
 $forum_id = $id;
 $footer_style = 'viewforum';

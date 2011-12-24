@@ -126,6 +126,8 @@ PRIMARY KEY  (`conf_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
+$base_url = str_replace('\\', '/', dirname($_SERVER['PHP_SELF']));
+$base_url = $base_url == '/' ? '' : $base_url;
 mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_cur_version', '1.2.23'),
 ('o_board_title', 'Форум'),
@@ -173,7 +175,7 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_avatars_height', '60'),
 ('o_avatars_size', '10240'),
 ('o_search_all_forums', '1'),
-('o_base_url', 'http://".$_SERVER['HTTP_HOST'].str_replace('\\','/',dirname($_SERVER['PHP_SELF']))."'),
+('o_base_url', 'http://".$_SERVER['HTTP_HOST'] . $base_url . "'),
 ('o_admin_email', 'admin@".$_SERVER['HTTP_HOST']."'),
 ('o_webmaster_email', 'admin@".$_SERVER['HTTP_HOST']."'),
 ('o_subscriptions', '0'),

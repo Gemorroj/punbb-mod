@@ -8,7 +8,6 @@ if (!$pun_user['is_guest'] && $pun_user['g_pm'] == 1 && $pun_config['o_pms_enabl
     if ($new_msg[0] > 0) {
         $tpl_temp .= '<li class="pmlink"><strong><a href="message_list.php"> ' . $lang_pms['New messages'] . ' (' . $new_msg[0] . ')</a></strong></li>';
 
-
         if ($pun_user['popup_enable'] == 1) {
             $result = $db->query('SELECT id FROM ' . $db->prefix . 'messages WHERE popup=0 AND owner=' . $pun_user['id'] . ' ORDER BY id DESC') or error('Unable update popup status', __FILE__, __LINE__, $db->error());
             $return = $db->fetch_row($result);
