@@ -71,22 +71,23 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 
 
     if ($footer_style == 'viewforum' && $is_admmod) {
-        echo '<div class="con"><a class="but" href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a><br/></div>';
+        echo '
+        <div class="con"><a class="but" href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a></div>';
     } else if ($footer_style == 'viewtopic' && $is_admmod) {
-        echo '<div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a><br/></div><div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a><br/></div>';
-
+        echo '
+        <div class="con"><span class="sub">
+        <a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a>'.$lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a>';
 
         if ($cur_topic['closed'] == 1) {
-            echo '<div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;open='.$id.'">'.$lang_common['Open topic'].'</a><br/></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;open='.$id.'">'.$lang_common['Open topic'].'</a>';
         } else {
-            echo '<div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;close='.$id.'">'.$lang_common['Close topic'].'</a><br/></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;close='.$id.'">'.$lang_common['Close topic'].'</a>';
         }
 
-
         if ($cur_topic['sticky'] == 1) {
-            echo '<div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;unstick='.$id.'">'.$lang_common['Unstick topic'].'</a><br/></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;unstick='.$id.'">'.$lang_common['Unstick topic'].'</a><span></div>';
         } else {
-            echo '<div class="con"><a href="moderate.php?fid='.$forum_id.'&amp;stick='.$id.'">'.$lang_common['Stick topic'].'</a><br/></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;stick='.$id.'">'.$lang_common['Stick topic'].'</a><span></div>';
         }
     }
 

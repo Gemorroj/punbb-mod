@@ -232,7 +232,7 @@ class _Poll
 
             if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
-                    $pieces .= '<p style="text-align:right;font-size:9px">Punbb Poll System</p>';
+                    $pieces .= '<p style="text-align:right;font-size:7px">Вы гость</p>';
                 }
                 return $this->wap_showResult($pollid, $poll, $q, $total, $buffered, $pieces);
             } else {
@@ -254,13 +254,15 @@ class _Poll
             header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
         }
 
-        echo '<div class="in"><fieldset><legend>' . $lang_poll['poll']. '</legend><table><tr><td colspan="2" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
+        echo '
+        <div class="in"><strong>' . $lang_poll['poll']. '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
+        <div class="msg2"><span class="sub">';
 
         foreach ($poll['data'] as $quest) {
-            echo '<tr><td class="con">' . pun_htmlspecialchars($quest[0]) . ' [' . $quest[1] . ']</td><td class="con"> ' . round($quest[1] * $q, 1) . '% </td></tr>';
+            echo '<strong>' . pun_htmlspecialchars($quest[0]) . '</strong> [' . $quest[1] . '] ' . round($quest[1] * $q, 1) . '%<br />';
         }
 
-        echo '<tr><td colspan="2" style="text-align:center;">' . $lang_poll['total voters'] . ': ' . $poll['vcount'] . ' / ' . $lang_poll['votes'] . ': ' . $total . '</td></tr></table>' . $pieces . '</fieldset></div>';
+        echo $lang_poll['total voters'] . ': ' . $poll['vcount'] . ' | ' . $lang_poll['votes'] . ': ' . $total . ' ' . $pieces . '</span></div>';
 
         if (!$buffered) {
             $result = ob_get_contents();
@@ -287,24 +289,30 @@ class _Poll
         } else {
             header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
         }
-
-        echo '<div class="in"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div id="warning">' . pun_htmlspecialchars($warning) . '</div><form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post"><input type="hidden" name="pollid" value="' . $pollid . '"/><table><tr><td colspan="2" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
+        
+        echo '
+        <div class="in"><strong>' . $lang_poll['poll'] . '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
+        <div id="warning">' . pun_htmlspecialchars($warning) . '</div>
+        <form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post">
+        <div class="input2">        
+        <input type="hidden" name="pollid" value="' . $pollid . '"/>
+        ';
 
         $i = -1;
         foreach ($poll['data'] as $quest) {
             $i++;
-            echo '<tr><td class="con">';
-
+           
             if (!$poll['multiselect']) {
                 echo '<input type="radio" name="poll_vote" value="' . $i . '" />';
             } else {
                 echo '<input type="checkbox" name="poll_vote[' . $i . ']" value="' . $i . '" />';
             }
 
-            echo '</td><td class="con"> ' . pun_htmlspecialchars($quest[0]) . '</td></tr>';
+            echo ' ' . pun_htmlspecialchars($quest[0]) . '<br />
+            ';
         }
-
-        echo '<tr><td colspan="2" style="text-align:center;"><input type="submit" value="' . $lang_poll['vote'] . '"/></td></tr></table></form>' . $pieces . '</fieldset></div>';
+        echo '</div>
+        <div class="go_to"><input type="submit" value="' . $lang_poll['vote'] . '"/></div></form>' . $pieces;
 
         if (!$buffered) {
             $result = ob_get_contents();

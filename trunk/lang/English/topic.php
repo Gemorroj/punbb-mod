@@ -24,6 +24,15 @@ $lang_topic = array(
 'Subscribe'			=>	'Subscribe to this topic',
 'Quick post'		=>	'Quick post',
 
+//mobile
+'Online_m'			=>	'On',
+'Delete_m'			=>	'Del',
+'Edit_m'			=>	'Edit',
+'Quote_m'			=>	'Quote',
+'Post reply_m'		=>	'Reply',
+'Link separator_m'	=>	'|',
+//mobile end
+
 'Link separator'	=>	' | ',	// The text that separates links in posts (website, e-mail, report, edit etc.)
 'Mod controls'		=>	'Moderator controls',
 'Quote Hint'		=>	'Select text in the message and click on <em>Quote</em> link. Selected text will be quoted and placed in the quick post form with the name of its author.' // MOD Quick Quote Line

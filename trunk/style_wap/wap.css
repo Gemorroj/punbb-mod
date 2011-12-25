@@ -9,8 +9,6 @@ input[type="text"], input[type="password"]{color:#be012c;}
 textarea, select, option {color:#0e4d66;}
 optgroup{font-size:xx-small;color:#be012c;background-color:white;}
 
-table{border-radius:2pt;width:100%;text-align:left;border-collapse:collapse;border:1px solid #003;}
-th,td{border: 1px solid #003;}
 .msg td{border:none;}
 a{color: #054f61;text-decoration:none;}
 a:visited{color:#032f4a;}
@@ -22,7 +20,6 @@ a:active{color:#8c0120;}
 
 .hd_bott, .navlinks, .act{font-size: smaller;margin-bottom:1px;background: #eaecec url(wap/navlinks.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;padding:4px;}
 
-code{font-size:9pt;color:#000;background-color:#f0f0f0;display:block;border:1px solid #003;width:99%;}
 fieldset{border-radius:2pt;}
 .bbu{text-decoration:underline;}
 .bbs{text-decoration:line-through;}
@@ -43,28 +40,30 @@ a.but{font-size:8pt;line-height:2;color:#be012c;border:1px solid #0e4d66;backgro
 div.msg, .input{margin-bottom:1px;color:#0a3647; border:1px solid #c4d2d9;background:#f2f5f7 url(wap/msg.png) repeat-x;padding:4px;border-radius:2pt;}
 div.msg2, .input2{margin-bottom:1px;color:#06242f; border:1px solid #bdced2;background: #fbfdfd url(wap/msg2.png) repeat-x;padding:4px;border-radius:2pt;}
 
+.zag_in{font-size:x-small;color:#697378;min-height:60px;}
+.zag_in img{margin-top:-1px;margin-right:4px;float: left;}
+
 .blocktable{text-align:center;font-size:9pt;margin:1%;}
 
-.con, .cat{margin-bottom: 1px;color: #be012c;
-background: #eaecec url(wap/con_cat.png) repeat-x;border-radius:2pt;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;padding:3px 4px 4px;}
+.con, .cat{margin-bottom:1px;color:#be012c;background:#eaecec url(wap/con_cat.png) repeat-x;border-radius:2pt;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;padding:3px 4px 4px;}
 span.sp_cat{font-weight:bold;}
 
-.msg{background-color:#057;color:#fff;width:100%;}
-.msg2{background-color:#fff;color:#003;border:1px solid #003;width:auto;}
-.input{font-size:9pt;padding:0 0 0 1%;}
-.input a{font-weight:bold;text-decoration:none;}
-.red{color:#d00;font-weight:bold;}
-.green{color:#0a0;font-weight:bold;}
-.attach_list{background-color:#888;}
+.red, a.red, div#warning{background-color: #d75356;}.green, .info{background-color:#6abf82;}
 
-.p_cnt{margin:2pt;width:99%;}
-.p_cnt:hover{box-shadow:-4pt 4pt 4pt #aaa;}
-.p_cnt table td{background-color:#f0f0f0;color:#000;width:99%;}
-.scrollbox{width:100%;overflow:auto;white-space:pre;font-size:x-small;}
-div#warning {color: #b00; font-weight: bold;}
+table, td, tr, th{width:100%;margin:0;padding:0;border:0;text-align:left;}
+.p_cnt{font-size:9pt;color:#be012c;background-color:#faf8f2;border:1px solid #eed;width:99%;border-radius:2pt;margin-left:4px;}
+.p_cnt span{color:#039;}
+.p_cnt:hover{box-shadow:-1pt 1pt 3pt #edd;}
+.scrollbox{overflow:auto;white-space:pre;font-size:xx-small;}
+.red, a.red, .green, .info, div#warning{font-weight:bold;font-size:smaller;line-height:2;color:white;padding:0 2px 2px 2px;border-radius:2pt;}
 
-.red, a.red, .green, .info{font-weight:bold;font-size:smaller;line-height:2;color:white;padding:0 2px 2px 2px;border-radius:2pt;}
-.red, a.red{background-color: #d75356;}.green, .info{background-color: #6abf82;}
+code{font-size:9pt;color:black;background-color:#f0f4f6;display:block;width:99%;padding:4px;border:1px solid #acc;border-radius:2pt;}
+.code{color:#be012c;text-indent:8px;background-color:#fff;padding-left:4px;border:1px solid #dce1e2;border-radius:2pt;}
+.quote{font-size:smaller;font-style:italic;border:1px dashed #dce1e2;background-color:white;padding:4px;border-radius:2pt;}
+.attach_list{font-size:smaller;background-color:#ced8db;border:1px dashed #a3bec2;width:70%;padding:2px 3px;border-radius:2pt;}
+.attach_list a{color:#be012c;}
 
-.copy{font-size:smaller;text-align: right;padding:0 4px 5px;color: #0e4d66;background: #d8dfdf url(wap/copy.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;}
+.hr{font-weight:bold;font-size:7pt;padding-top:6px;width: 50%;border-top:1px dashed gray;margin:2px 3px 0;}
+p {margin: 0;}
+.copy{font-size:smaller;text-align:right;padding:0 4px 5px;color:#0e4d66;background:#d8dfdf url(wap/copy.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;}
 .foot {font-size:smaller;padding-top:2px;padding-left:4px;float:left;}
