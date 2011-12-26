@@ -167,51 +167,77 @@ wap_redirect('viewtopic.php?pid='.$id.'#p'.$id);
 
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_post['Edit post'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_post['Edit post'];
 $required_fields = array('req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message']);
 $focus_element = array('edit', 'req_message');
 require_once PUN_ROOT.'wap/header.php';
 
 $cur_index = 1;
 
-
-print '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / <a href="viewforum.php?id='.$cur_post['fid'].'">'.pun_htmlspecialchars($cur_post['forum_name']).'</a> / '.pun_htmlspecialchars($cur_post['subject']).'<br/></div>';
+print '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_post['fid'].'">'.pun_htmlspecialchars($cur_post['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_post['subject']).'</div>';
 
 // If there are errors, we display them
 if($errors){
-print '<div class="red">'.$lang_post['Post errors'].'<br/></div>
-<div class="box">'.$lang_post['Post errors info'];
+print '
+<div class="red">'.$lang_post['Post errors'].'</div>
+<div class="msg">'.$lang_post['Post errors info'];
 
 while(list(, $cur_error) = each($errors))
 {echo '&#187; '.$cur_error.'<br/>';}
 
-print '</div></div>';
+print '</div>';
 }
 else if($_POST['preview']){
 include_once PUN_ROOT.'include/parser.php';
-$preview_message = parse_message($message, $hide_smilies);
 
-print '<div>'.$lang_post['Post preview'].'<br/></div><div class="box">'.$preview_message.'</div></div></div>';
+$preview_message = parse_message($message, $hide_smilies);
+$preview_message = str_replace('<p>',null,$preview_message);
+$preview_message = str_replace('</p>',null,$preview_message);
+$preview_message = str_replace('<blockquote>',null,$preview_message);
+$preview_message = str_replace('</blockquote>',null,$preview_message);
+$preview_message = str_replace('</blockquote>',null,$preview_message);
+$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+$preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
+$preview_message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$preview_message);
+$preview_message = str_replace('</h4>','<br />',$preview_message);
+$preview_message = str_replace('</table></div></div></div>','</table></div></div>',$preview_message);
+$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+$preview_message = str_replace(' style="width:15px; height:15px;"','',$preview_message);
+$preview_message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$preview_message);
+$preview_message = str_replace('</div><br />','</div>',$preview_message);
+$preview_message = str_replace('<p class="right">','',$preview_message);
+
+print '
+<div class="info">'.$lang_post['Post preview'].'</div>
+<div class="msg">'.$preview_message.'</div>';
 }
 
-print '<div><strong>'.$lang_post['Edit post'].'</strong><br/></div>
-<div class="input">
+print '
+<div class="con">'.$lang_post['Edit post'].'</div>
 <form method="post" action="edit.php?id='.$id.'&amp;action=edit" enctype="multipart/form-data">
-<div>
-<fieldset>
-<legend>'.$lang_post['Edit post legend'].'<br/></legend>
+<div class="input">
 <input type="hidden" name="form_sent" value="1" />';
 if($can_edit_subject){
 echo $lang_common['Subject'].'<br />
 <input type="text" name="req_subject" tabindex="'.($cur_index++).'" value="'.pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']).'" /><br /></label>';
 }
 require PUN_ROOT.'include/attach/fetch.php';
-?>
-<textarea name="req_message" rows="4" cols="24" tabindex="<?php echo $cur_index++ ?>"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br />
-&#187; <a href="help.php#bbcode"><?php echo $lang_common['BBCode'] ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?><br/>
-&#187; <a href="help.php#img"><?php echo $lang_common['img tag'] ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?><br/>
-&#187; <a href="help.php#smilies"><?php echo $lang_common['Smilies'] ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?><br/>
-<?php
+
+//Message
+echo '
+'.$lang_common['Message'].':<br/>
+<textarea name="req_message" rows="4" cols="24" tabindex="'. $cur_index++ .'">'.pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']). '</textarea><br />';
+//Smilies/BBCode
+echo '
+<a href="help.php#bbcode">'.$lang_common['BBCode'].'</a>: ';
+echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo ' | <a href="help.php#img">'.$lang_common['img tag'].'</a>: ';
+echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo ' | <a href="help.php#smilies">'.$lang_common['Smilies'].'</a>: ';
+echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo '<br/>
+';
 
 // increase numer of rows to number of already attached files
 // $file_limit will grow up when user delete files and become lower on each upload
@@ -220,21 +246,27 @@ $num_to_upload = $file_limit/* + $uploaded_to_post*/;
 $num_to_upload = min($num_to_upload, 20);
 if($uploaded_to_post || ($can_upload && $num_to_upload>0))
 {
-echo '<fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
-include PUN_ROOT.'include/attach/view_attachments.php';
+//Attachments
+include PUN_ROOT.'include/attach/wap_view_attachments.php';
 if($can_upload && $num_to_upload>0)
+
+echo '</div>
+<div class="input2">'.$lang_fu['Choose a file'].'<br/>
+';
 {include PUN_ROOT.'include/attach/wap_post_input.php';}
-echo '</fieldset>';
+echo '';
 }
 
 $checkboxes = array();
 if($pun_config['o_smilies'] == 1)
 {
 if(isset($_POST['hide_smilies']) || $cur_post['hide_smilies'] == 1){
-$checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" checked="checked" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
+$checkboxes[] = '
+<input type="checkbox" name="hide_smilies" value="1" checked="checked" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
 }
 else{
-$checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
+$checkboxes[] = '
+<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
 }
 }
 
@@ -244,19 +276,19 @@ if((isset($_POST['form_sent']) && isset($_POST['silent'])) || !isset($_POST['for
 $checkboxes[] = '<input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" checked="checked" /> '.$lang_post['Silent edit'];
 }
 else{
-$checkboxes[] = '<input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Silent edit'];
+$checkboxes[] = '
+<input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Silent edit'];
 }
 }
 
 if($checkboxes)
-{echo implode('<br/>', $checkboxes).'<br/></fieldset>';}
+{echo implode('<br/>', $checkboxes).'<br/>';}
 
-print '<br/>
+print '</div>
+<div class="go_to">
 <input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="'.($cur_index++).'" accesskey="s" />
 <input type="submit" name="preview" value="'.$lang_post['Preview'].'" tabindex="'.($cur_index++).'" accesskey="p" />
-</div>
-</form>
-</div>';
+</div></form>';
 
 require_once PUN_ROOT.'wap/footer.php';
 ?>

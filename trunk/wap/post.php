@@ -553,7 +553,7 @@ else if ($fid)
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$action;
 $required_fields = array(
     'req_email' => $lang_common['E-mail'],
     'req_subject' => $lang_common['Subject'],
@@ -580,31 +580,55 @@ if (!$pun_user['is_guest']) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / '.$forum_name;
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; '.$forum_name;
 if (isset($cur_posting['subject'])) {
-    echo ' / ' . pun_htmlspecialchars($cur_posting['subject']);
+    echo ' &#187; ' . pun_htmlspecialchars($cur_posting['subject']);
 }
-echo '<br/></div>';
+echo '</div>';
 
 
 // If there are errors, we display them
 if ($errors) {
-    echo '<div class="red">' . $lang_post['Post errors'] . '<br/></div><div class="msg2">';
-
+    echo '
+    <div class="red">' . $lang_post['Post errors'] . '</div>
+    <div class="msg">';
     while (list(, $cur_error) = each($errors)) {
         echo '&#187; '.$cur_error.'<br/>';
     }
-
     echo '</div>';
+    
 } else if (isset($_POST['preview'])) {
     include_once PUN_ROOT.'include/parser.php';
-    $preview_message = parse_message($message, $hide_smilies);
+$preview_message = parse_message($message, $hide_smilies);
+    
+$preview_message = str_replace('<p>',null,$preview_message);
+$preview_message = str_replace('<p class="right">','',$preview_message);
+$preview_message = str_replace('</p>',null,$preview_message);
+$preview_message = str_replace('<blockquote>',null,$preview_message);
+$preview_message = str_replace('</blockquote>',null,$preview_message);
+$preview_message = str_replace('</blockquote>',null,$preview_message);
+$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+$preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
+$preview_message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$preview_message);
+$preview_message = str_replace('</h4>','<br />',$preview_message);
+$preview_message = str_replace('</table></div></div></div>','</table></div></div>',$preview_message);
+$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+$preview_message = str_replace(' style="width:15px; height:15px;"','',$preview_message);
+$preview_message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$preview_message);
+$preview_message = str_replace('</div><br />','</div>',$preview_message);
+    
 
-    echo '<table><tr class="msg2"><td>'.$lang_post['Post preview'].'</td></tr><tr class="msg"><td>'.$preview_message.'</td></tr></table>';
+    echo '
+    <div class="info">'.$lang_post['Post preview'].'</div>
+    <div class="msg">'.$preview_message.'</div>';
 }
 $cur_index = 1;
 
-echo '<div><strong>'.$action.'</strong><br/></div><div class="input">'.$form.'<div>';
+echo '
+<div class="con">'.$action.'</strong></div>
+'.$form.'
+<div class="input">';
 
 
 // hcs AJAX POLL MOD BEGIN
@@ -621,65 +645,89 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
 // hcs AJAX POLL MOD END
 
 
-echo '<fieldset><legend>'.$lang_common['Write message legend'].'<br/></legend><input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="' . (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])) . '" />';
+echo '
+<input type="hidden" name="form_sent" value="1" />
+<input type="hidden" name="form_user" value="' . (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])) . '" />';
 
 if ($pun_user['is_guest']) {
     $email_label = ($pun_config['p_force_guest_email'] == 1) ? '<strong>'.$lang_common['E-mail'].'</strong>' : $lang_common['E-mail'];
     $email_form_name = ($pun_config['p_force_guest_email'] == 1) ? 'req_email' : 'email';
 
-    echo '<strong>'.$lang_post['Guest name'].'</strong><br /><input type="text" name="req_username" value="'.@pun_htmlspecialchars(@$username).'" tabindex="'.($cur_index++).'" /><br />'.$email_label.'<br /><input type="text" name="'.$email_form_name.'" value="'.@pun_htmlspecialchars(@$email).'" tabindex="'.($cur_index++).'" /><br />';
+    echo '
+    <strong>'.$lang_post['Guest name'].'</strong><br />
+    <input type="text" name="req_username" value="'.@pun_htmlspecialchars(@$username).'" tabindex="'.($cur_index++).'" /><br />'.$email_label.'<br />
+    <input type="text" name="'.$email_form_name.'" value="'.@pun_htmlspecialchars(@$email).'" tabindex="'.($cur_index++).'" /><br />';
 }
 
 if ($fid) {
-    echo '<strong>'.$lang_common['Subject'].'</strong><br /><input type="text" name="req_subject" value="'.@pun_htmlspecialchars(@$subject).'" maxlength="70" tabindex="'.($cur_index++).'" /><br />';
+    echo '
+    <strong>'.$lang_common['Subject'].'</strong><br />
+    <input type="text" name="req_subject" value="'.@pun_htmlspecialchars(@$subject).'" maxlength="70" tabindex="'.($cur_index++).'" /><br />';
 }
 //require PUN_ROOT.'include/attach/post_buttons.php';
 
-echo '<textarea name="req_message" rows="4" cols="24" tabindex="'.($cur_index++).'">';
+echo '
+<textarea name="req_message" rows="4" cols="24" tabindex="'.($cur_index++).'">';
 if ($_POST['req_message']) {
     echo pun_htmlspecialchars($message);
 } else if ($quote) {
     echo $quote;
 }
-echo '</textarea><br/>';
+//Smilies/BBCode
+echo '</textarea><br />
+<a href="help.php#bbcode">'.$lang_common['BBCode'].'</a>: ';
+echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo ' | <a href="help.php#img">'.$lang_common['img tag'].'</a>: ';
+echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo ' | <a href="help.php#smilies">'.$lang_common['Smilies'].'</a>: ';
+echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo '</div>
+<div class="input2">';
 
-// если есть проверка капчей
+// captcha
 if ($pun_user['g_post_replies'] == 2) {
-    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="16" /></td></tr></table>';
+    echo '
+    <img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />'.$lang_post['Image text'].'<br />
+    <input type="text" name="req_image_" size="16" maxlength="16" /><br />';
 }
 
 $num_to_upload = min($file_limit, 20);
 
 
 if ($can_upload && $num_to_upload > 0) {
-    echo '<fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
+    echo '
+    '.$lang_fu['Attachments'].'<br/>';
     include PUN_ROOT.'include/attach/wap_post_input.php';
-    echo '</fieldset>';
 }
-
 
 $checkboxes = array();
 if (!$pun_user['is_guest']) {
     if ($pun_config['o_smilies'] == 1) {
-        $checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
+        $checkboxes[] = '
+        <input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
     }
     if ($is_admmod) {
-        $checkboxes[] = '<input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];
+        $checkboxes[] = '
+        <input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];
     }
     
     if ($pun_config['o_subscriptions'] == 1) {
-        $checkboxes[] = '<input type="checkbox" name="subscribe" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['subscribe']) ? ' checked="checked"' : '').' />'.$lang_post['Subscribe'];
+        $checkboxes[] = '
+        <input type="checkbox" name="subscribe" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['subscribe']) ? ' checked="checked"' : '').' />'.$lang_post['Subscribe'];
     }
 } else if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
+    $checkboxes[] = '
+    <input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
 }
 
 if ($checkboxes) {
-    echo implode('<br />', $checkboxes) . '<br /></fieldset>';
+    echo implode('<br />', $checkboxes);
 }
 
 
-echo '<br/><input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" /><input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="'.($cur_index++).'" accesskey="s" /> <input type="submit" name="preview" value="'.$lang_post['Preview'].'" tabindex="'.($cur_index++).'" accesskey="p" /></div></form></div>';
+echo '</div>
+<div class="go_to">
+<input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" /><input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="'.($cur_index++).'" accesskey="s" /> <input type="submit" name="preview" value="'.$lang_post['Preview'].'" tabindex="'.($cur_index++).'" accesskey="p" /></div></form>';
 
 require_once PUN_ROOT.'wap/footer.php';
 
