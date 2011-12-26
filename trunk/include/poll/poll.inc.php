@@ -254,9 +254,7 @@ class _Poll
             header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
         }
 
-        echo '
-        <div class="in"><strong>' . $lang_poll['poll']. '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
-        <div class="msg2"><span class="sub">';
+        echo '<div class="in"><strong>' . $lang_poll['poll']. '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div><div class="msg2"><span class="sub">';
 
         foreach ($poll['data'] as $quest) {
             echo '<strong>' . pun_htmlspecialchars($quest[0]) . '</strong> [' . $quest[1] . '] ' . round($quest[1] * $q, 1) . '%<br />';
@@ -289,30 +287,26 @@ class _Poll
         } else {
             header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
         }
-        
-        echo '
-        <div class="in"><strong>' . $lang_poll['poll'] . '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
-        <div id="warning">' . pun_htmlspecialchars($warning) . '</div>
-        <form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post">
-        <div class="input2">        
-        <input type="hidden" name="pollid" value="' . $pollid . '"/>
-        ';
+
+        echo '<div class="in"><strong>' . $lang_poll['poll'] . '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
+<div id="warning">' . pun_htmlspecialchars($warning) . '</div>
+<form action="viewtopic.php?' . pun_htmlspecialchars($_SERVER['QUERY_STRING']) . '" method="post">
+<div class="input2">
+<input type="hidden" name="pollid" value="' . $pollid . '"/>';
 
         $i = -1;
         foreach ($poll['data'] as $quest) {
             $i++;
-           
+
             if (!$poll['multiselect']) {
                 echo '<input type="radio" name="poll_vote" value="' . $i . '" />';
             } else {
                 echo '<input type="checkbox" name="poll_vote[' . $i . ']" value="' . $i . '" />';
             }
 
-            echo ' ' . pun_htmlspecialchars($quest[0]) . '<br />
-            ';
+            echo ' ' . pun_htmlspecialchars($quest[0]) . '<br />';
         }
-        echo '</div>
-        <div class="go_to"><input type="submit" value="' . $lang_poll['vote'] . '"/></div></form>' . $pieces;
+        echo '</div><div class="go_to"><input type="submit" value="' . $lang_poll['vote'] . '"/></div></form>' . $pieces;
 
         if (!$buffered) {
             $result = ob_get_contents();

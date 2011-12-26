@@ -219,7 +219,7 @@ if ($pun_config['poll_enabled'] == 1) {
                 }
                 $q = rtrim($q, '&');
             } else {
-                $q = $_POST['poll_vote'];
+                $q = 'poll_vote=' . $_POST['poll_vote'];
             }
             $warning = $Poll->vote($_POST['pollid'], $q);
         }
