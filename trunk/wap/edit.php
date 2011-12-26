@@ -229,13 +229,13 @@ echo '
 '.$lang_common['Message'].':<br/>
 <textarea name="req_message" rows="4" cols="24" tabindex="'. $cur_index++ .'">'.pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']). '</textarea><br />';
 //Smilies/BBCode
-echo '
-<a href="help.php#bbcode">'.$lang_common['BBCode'].'</a>: ';
-echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off'];
-echo ' | <a href="help.php#img">'.$lang_common['img tag'].'</a>: ';
-echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off'];
-echo ' | <a href="help.php#smilies">'.$lang_common['Smilies'].'</a>: ';
-echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off'];
+echo '<a href="help.php?id=3">'.$lang_common['Smilies'].'</a> ';
+echo ($pun_config['o_smilies'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>;' : '<span class="grey">' . $lang_common['off_m']. '</span>;';
+echo ' <a href="help.php?id=1">'.$lang_common['BBCode'].'</a> ';
+echo ($pun_config['p_message_bbcode'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>;' : '<span class="grey">' . $lang_common['off_m']. '</span>;';
+echo ' <a href="help.php?id=4">'.$lang_common['img tag'].'</a> ';
+echo ($pun_config['p_message_img_tag'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>' : '<span class="grey">' . $lang_common['off_m']. '</span>';
+//Smilies/BBCode end
 echo '<br/>
 ';
 

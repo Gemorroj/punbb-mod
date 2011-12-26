@@ -170,7 +170,7 @@ ob_start();
 define('PUN_HEADER', 1);
 
 
-if ($basename == 'profile.php' || $basename == 'search.php' || $basename == 'userlist.php' || $basename == 'uploads.php' || $basename == 'message_list.php' || $basename == 'message_send.php' || $basename == 'message_delete.php' || $basename == 'help.php' || $basename == 'misc.php' || $basename == 'filemap.php' || $basename == 'karma.php') {
+if ($basename == 'profile.php' || $basename == 'search.php' || $basename == 'userlist.php' || $basename == 'uploads.php' || $basename == 'message_list.php' || $basename == 'message_send.php' || $basename == 'message_delete.php' || $basename == 'misc.php' || $basename == 'filemap.php' || $basename == 'karma.php') {
     echo '<div class="con"><a href="index.php">' . $lang_common['Index'] . '</a></div>';
 }
 

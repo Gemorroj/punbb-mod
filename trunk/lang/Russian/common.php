@@ -68,6 +68,10 @@ $lang_common = array(
 'Click redirect'		=>	'Нажмите сюда, если вы не хотите больше ждать (или если браузер не перенаправляет Вас автоматически)',
 'on'					=>	'включено',		// as in "BBCode is on"
 'off'					=>	'выключено',
+
+'on_m'					=>	'вкл',		// as in "BBCode is on mobile"
+'off_m'					=>	'выкл',
+
 'Invalid e-mail'		=>	'E-mail адрес, который Вы ввели - неправильный',
 'required field'		=>	'это поле обязательно для заполнения в этой форме.',	// for javascript form validation
 'Last post'				=>	'Последнее сообщение',
