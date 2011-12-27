@@ -29,22 +29,20 @@ if (!$pun_config['o_regs_allow']) {
 if ($_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_register['Register'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_register['Register'];
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div><strong>'.$lang_register['Forum rules'].'</strong></div>
-<div class="input">
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Forum rules'].'</strong></div>
+<div class="info">'.$lang_register['Rules legend'].'</div>
 <form method="get" action="register.php?">
-<div>
-<fieldset>
-<legend>'.$lang_register['Rules legend'].'<br/></legend>
-'.$pun_config['o_rules_message'].'<br/>
-</fieldset>
-<input type="submit" name="agree" value="'.$lang_register['Agree'].'" /> <input type="submit" name="cancel" value="'.$lang_register['Cancel'].'" />
-</div>
-</form>
-</div>';
+<div class="input">
+'.$pun_config['o_rules_message'].'</div>
+<div class="go_to">
+<input type="submit" name="agree" value="'.$lang_register['Agree'].'" />
+<input type="submit" name="cancel" value="'.$lang_register['Cancel'].'" />
+</div></form>';
 
     require_once PUN_ROOT.'wap/footer.php';
 } else if (isset($_POST['form_sent'])) {
@@ -253,7 +251,7 @@ if ($_GET['cancel']) {
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_register['Register'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_register['Register'];
 
 // Image Verification mod BEGIN
 //
@@ -275,54 +273,65 @@ $focus_element = array('register', 'req_username');
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '<div><strong>'.$lang_register['Register'].'</strong></div>
-<div class="input">
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Register'].'</strong></div>
 <form method="post" action="register.php?action=register">
-<div class="red">'.$lang_register['Desc 1'].'<br/>'.$lang_register['Desc 2'].'<br/></div>
-<div>
-<fieldset>
-<legend>'.$lang_register['Username legend'].'<br/></legend>
-<input type="hidden" name="form_sent" value="1" />
+<div class="msg">'.$lang_register['Desc 1'].'</div>
+<div class="in2">'.$lang_register['Desc 2'].'</div>
+<div class="input2">
+<strong>'.$lang_register['Username legend'].'</strong>
+<input type="hidden" name="form_sent" value="1" /><br/>
 <strong>'.$lang_common['Username'].'</strong><br />
 <input type="text" name="req_username" maxlength="25" /><br />
-<strong>'.$lang_profile['sex'].'</strong><br/>
+<strong>'.$lang_profile['sex'].'</strong>
 <select name="req_sex"><option value="1">'.$lang_profile['m'].'</option><option value="0">'.$lang_profile['w'].'</option></select>
-</fieldset>';
+</div>
+';
 if (!$pun_config['o_regs_verify']) {
-    echo '<fieldset><legend>'.$lang_register['Pass legend 1'].'<br/></legend>
+    echo '
+<div class="input">
+<strong>'.$lang_register['Pass legend 1'].'</strong><br/>
 <strong>'.$lang_common['Password'].'</strong><br />
 <input type="password" name="req_password1" maxlength="16" /><br />
 <strong>'.$lang_prof_reg['Confirm pass'].'</strong><br />
 <input type="password" name="req_password2" maxlength="16" /><br />
-'.$lang_register['Pass info'].'<br/></fieldset>';
+'.$lang_register['Pass info'] . '</div>';
 }
 
 // IMAGE VERIFICATION MOD BEGIN
 if ($pun_config['o_regs_verify_image'] == 1) {
-    echo '<fieldset><legend>'.$lang_register['Image verification'].'<br/></legend>
+    echo '
+<div class="input2">
+<strong>'.$lang_register['Image verification'].'</strong><br/>
 <img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />
 <strong>'.$lang_register['Image text'].'</strong><br />
 <input type="text" name="req_image_" maxlength="4"/><br />
-'.$lang_register['Image info'].'<br/></fieldset>';
+'.$lang_register['Image info'] . '</div>';
 }
 // IMAGE VERIFICATION MOD END
 
-echo '<fieldset><legend>';
+echo '
+<div class="input"><strong>';
 if ($pun_config['o_regs_verify'] == 1) {
     echo $lang_prof_reg['E-mail legend 2'];
 } else {
     echo $lang_prof_reg['E-mail legend'];
 }
-echo '<br/></legend>';
+echo '</strong><br/>';
 if ($pun_config['o_regs_verify'] == 1) {
     echo $lang_register['E-mail info'].'<br/>';
 }
-echo '<strong>'.$lang_common['E-mail'].'</strong><br /><input type="text" name="req_email1" maxlength="50" /><br />';
+echo '
+<strong>'.$lang_common['E-mail'].'</strong><br />
+<input type="text" name="req_email1" maxlength="50" /><br />';
 if ($pun_config['o_regs_verify'] == 1) {
-    echo '<strong>'.$lang_register['Confirm e-mail'].'</strong><br /><input type="text" name="req_email2" maxlength="50" /><br />';
+    echo '
+    <strong>'.$lang_register['Confirm e-mail'].'</strong><br />
+    <input type="text" name="req_email2" maxlength="50" />';
 }
-echo '</fieldset><fieldset>
-<legend>'.$lang_prof_reg['Localisation legend'].'<br/></legend>
+echo '</div>
+<div class="input2">
+<strong>'.$lang_prof_reg['Localisation legend'].'</strong><br/>
 '.$lang_prof_reg['Timezone'].': '.$lang_prof_reg['Timezone info'].'<br/>
 <select name="timezone">';
 ?>
@@ -364,8 +373,10 @@ echo '</fieldset><fieldset>
 <option value="13"<?php if ($pun_config['o_server_timezone'] == 13 ) echo ' selected="selected"' ?>>+13</option>
 <option value="14"<?php if ($pun_config['o_server_timezone'] == 14 ) echo ' selected="selected"' ?>>+14</option>
 </select>
-<br />
 <?php
+
+echo '</div>
+<div class="input">';
 
 $languages = array();
 $d = dir(PUN_ROOT.'lang');
@@ -378,7 +389,7 @@ $d->close();
 
 // Only display the language selection box if there's more than one language available
 if (sizeof($languages) > 1) {
-    echo $lang_prof_reg['Language'].': '.$lang_prof_reg['Language info'].'<br/><select name="language">';
+    echo '<strong>'.$lang_prof_reg['Language'].'</strong>: '.$lang_prof_reg['Language info'].'<br/><select name="language">';
 
     while (list(, $temp) = @each($languages)) {
         if ($pun_config['o_default_lang'] == $temp) {
@@ -388,24 +399,21 @@ if (sizeof($languages) > 1) {
         }
     }
 
-    echo '</select><br />';
+    echo '</select>';
 }
 
-echo '</fieldset>
-<fieldset>
-<legend>'.$lang_prof_reg['Privacy options legend'].'<br/></legend>
+echo '</div>
+<div class="input2">
+<strong>'.$lang_prof_reg['Privacy options legend'].'</strong><br/>
 '.$lang_prof_reg['E-mail setting info'].'<br/>
 <input type="radio" name="email_setting" value="0" />'.$lang_prof_reg['E-mail setting 1'].'<br />
 <input type="radio" name="email_setting" value="1" checked="checked" />'.$lang_prof_reg['E-mail setting 2'].'<br />
 <input type="radio" name="email_setting" value="2" />'.$lang_prof_reg['E-mail setting 3'].'<br />
 '.$lang_prof_reg['Save user/pass info'].'<br/>
-<input type="checkbox" name="save_pass" value="1" checked="checked" />'.$lang_prof_reg['Save user/pass'].'<br />
-</fieldset>
-<br/>
+<input type="checkbox" name="save_pass" value="1" checked="checked" />'.$lang_prof_reg['Save user/pass'].'</div>
+<div class="go_to">
 <input type="submit" name="register" value="'.$lang_register['Register'].'" />
-</div>
-</form>
-</div>';
+</div></form>';
 
 
 require_once PUN_ROOT.'wap/footer.php';

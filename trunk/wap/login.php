@@ -129,27 +129,21 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
         }
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_login['Request pass'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_login['Request pass'];
     $required_fields = array('req_email' => $lang_common['E-mail']);
     $focus_element = array('request_pass', 'req_email');
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div><strong>'.$lang_login['Request pass'].'</strong></div>
-<div class="input">
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_login['Request pass'].'</strong></div>
 <form method="post" action="login.php?action=forget_2">
-<div>
-<fieldset>
-<legend>'.$lang_login['Request pass legend'].'<br/></legend>
+<div class="input">
+<strong>'.$lang_login['Request pass legend'].'</strong><br/>
 <input type="hidden" name="form_sent" value="1" />
 <input type="text" name="req_email" maxlength="50" /><br/>
-'.$lang_login['Request pass info'].'<br/>
-<input type="submit" name="request_pass" value="'.$lang_common['Submit'].'" />
-</fieldset>
-</div>
-</form>
-</div>';
-
+'.$lang_login['Request pass info'].'</div>
+<div class="go_to"><input type="submit" name="request_pass" value="'.$lang_common['Submit'].'" /></div></form>';
 
     require_once PUN_ROOT.'wap/footer.php';
 }
@@ -162,31 +156,28 @@ if (!$pun_user['is_guest']) {
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)
 $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($pun_config['o_base_url']).'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Login'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_common['Login'];
 $required_fields = array('req_username' => $lang_common['Username'], 'req_password' => $lang_common['Password']);
 $focus_element = array('login', 'req_username');
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '<div><strong>'.$lang_common['Login'].'</strong></div>
-<div class="input">
+echo '
+<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_common['Login'].'</strong></div>
 <form method="post" action="login.php?action=in">
-<div>
-<fieldset>
-<legend>'.$lang_login['Login legend'].'<br/></legend>
+<div class="input">
+<strong>'.$lang_login['Login legend'].'</strong><br/>
 <input type="hidden" name="form_sent" value="1" />
 <input type="hidden" name="redirect_url" value="'.$redirect_url.'" />
 <strong>'.$lang_common['Username'].'</strong><br />
 <input type="text" name="req_username" maxlength="25" tabindex="1" /><br />
 <strong>'.$lang_common['Password'].'</strong><br />
-<input type="password" name="req_password" maxlength="16" tabindex="2" /><br />
+<input type="password" name="req_password" maxlength="16" tabindex="2" /></div>
+<div class="go_to">
 <input type="submit" name="login" value="'.$lang_common['Login'].'" tabindex="3" />
-</fieldset>
-</div>
-</form>
-<a href="register.php" tabindex="4">'.$lang_login['Not registered'].'</a><br/>
-<a href="login.php?action=forget" tabindex="5">'.$lang_login['Forgotten pass'].'</a>
-</div>';
+</div></form>
+<div class="in2"> &#187; <a href="register.php" tabindex="4">'.$lang_login['Not registered'].'</a></div>
+<div class="in"> &#187; <a href="login.php?action=forget" tabindex="5">'.$lang_login['Forgotten pass'].'</a></div>';
 
 
 require_once PUN_ROOT.'wap/footer.php';

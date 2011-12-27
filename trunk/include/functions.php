@@ -451,20 +451,22 @@ function wap_generate_profile_menu($page = '')
 {
     global $lang_profile, $pun_config, $pun_user, $id;
 
-    echo '<div class="incqbox" style="margin:1%;padding:2pt;">
-<a href="profile.php?section=essentials&amp;id=' . $id . '">' . $lang_profile['Section essentials'] . '</a><br/>
-<a href="profile.php?section=personal&amp;id=' . $id . '">' . $lang_profile['Section personal'] . '</a><br/>
-<a href="profile.php?section=messaging&amp;id=' . $id . '">' . $lang_profile['Section messaging'] . '</a><br/>
-<a href="profile.php?section=personality&amp;id=' . $id . '">' . $lang_profile['Section personality'] . '</a><br/>
-<a href="profile.php?section=display&amp;id=' . $id . '">' . $lang_profile['Section display'] . '</a><br/>
-<a href="profile.php?section=privacy&amp;id=' . $id . '">' . $lang_profile['Section privacy'] . '</a><br/>
-<a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a><br/>';
+echo '
+<div class="navlinks">
+<a href="profile.php?section=essentials&amp;id=' . $id . '">' . $lang_profile['Section essentials'] . '</a> |
+<a href="profile.php?section=personal&amp;id=' . $id . '">' . $lang_profile['Section personal'] . '</a> |
+<a href="profile.php?section=messaging&amp;id=' . $id . '">' . $lang_profile['Section messaging'] . '</a> |
+<a href="profile.php?section=personality&amp;id=' . $id . '">' . $lang_profile['Section personality'] . '</a> |
+<a href="profile.php?section=display&amp;id=' . $id . '">' . $lang_profile['Section display'] . '</a> |
+<a href="profile.php?section=privacy&amp;id=' . $id . '">' . $lang_profile['Section privacy'] . '</a> |
+';
 
     if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_ban_users'] == 1)) {
-        echo '<a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a><br/>';
+        echo ' <strong><a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a></strong> |';
     }
 
-    echo '</div>';
+echo '
+<strong><a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a></strong></div>';
 
     return;
 }
