@@ -176,13 +176,14 @@ else{
 $subscraction = null;
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_topic['subject']);
+$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' &#187; '.$cur_topic['subject']);
 
 define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT.'wap/header.php';
 
 
-print '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> / <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> / '.pun_htmlspecialchars($cur_topic['subject']).'<br/></div>';
+echo '
+<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
 
 
 include_once PUN_ROOT.'include/parser.php';
@@ -266,7 +267,7 @@ $karma = ' ('.$karma[0].') <a href="karma.php?to='.$cur_post['poster_id'].'&amp;
 }
 
 
-$username = '<a href="profile.php?id='.$cur_post['poster_id'].'">'.pun_htmlspecialchars($cur_post['username']).'</a>'.$karma;
+$username = '<a href="profile.php?id='.$cur_post['poster_id'].'">'.pun_htmlspecialchars($cur_post['username']).'</a>';
 
 $user_title = get_title($cur_post);
 
@@ -276,17 +277,17 @@ $user_title = censor_words($user_title);
 
 // Format the online indicator
 if($cur_post['is_online'] == $cur_post['poster_id']){
-$is_online = '<span class="red">'.$lang_topic['Online'].'</span>';
+$is_online = '<span class="green">'.$lang_topic['Online_m'].'</span>';
 }
 
 if($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars'])
 {
 if($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif'))
-{$user_avatar = '</td><td><img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif" '.$img_size[3].' alt="" />';}
+{$user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif" '.$img_size[3].' alt="*" />';}
 else if($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg'))
-{$user_avatar = '</td><td><img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg" '.$img_size[3].' alt="" />';}
+{$user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg" '.$img_size[3].' alt="*" />';}
 else if($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png'))
-{$user_avatar = '</td><td><img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png" '.$img_size[3].' alt="" />';}
+{$user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png" '.$img_size[3].' alt="*" />';}
 }
 else
 {$user_avatar = null;}
@@ -345,7 +346,7 @@ if((!$cur_topic['post_replies'] && $pun_user['g_post_replies'] == 1) || $cur_top
 else
 {
 // MOD: QUICK REPLY - 1 LINE FOLLOWING CODE MODIFIED
-$post_actions[] = '<a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete'].'</a>'.$lang_topic['Link separator'].' <a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit'].'</a>'.$lang_topic['Link separator'].' <a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>';
+$post_actions[] = '<a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete_m'].'</a>'.$lang_topic['Link separator_m'].'<a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit_m'].'</a>'.$lang_topic['Link separator_m'].'<a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply_m'].'</a>';
 // QUICK QUOTE MOD END
 }
 
@@ -369,37 +370,50 @@ $signature_cache[$cur_post['poster_id']] = $signature;
 }
 }
 
-$cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="red">'.$lang_common['Code'].'<br/>',$cur_post['message']);
+$cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$cur_post['message']);
 $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
-
 $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-
+    
+$cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
+$cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
+$cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
+$cur_post['message'] = str_replace('<blockquote>','',$cur_post['message']);
+$cur_post['message'] = str_replace('</blockquote>','',$cur_post['message']);
+$cur_post['message'] = str_replace('<p>','',$cur_post['message']);
+$cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
+$cur_post['message'] = str_replace('</p>','',$cur_post['message']);
+$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+$cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
+$signature = str_replace(' style="width:15px; height:15px;"','',$signature);
 //$cur_post['message'] = preg_replace('/<div class="scrollbox".*>/iU','<div style="margin:2pt;">',$cur_post['message']);
 //$cur_post['message'] = str_replace('<code>',null,$cur_post['message']);
 //$cur_post['message'] = str_replace('</code></div></div></div>','</code></div>',$cur_post['message']);
 //$cur_post['message'] = str_replace('<span style="color: #000000">'.chr(10).'<span style="color: #0000BB">','<span style="color: #000000"><span style="color: #0000BB">',$cur_post['message']);
 //$cur_post['message'] = str_replace('</span>'.chr(10).'</code>','</span></code>',$cur_post['message']);
 
+$msg_class = ($j = !$j) ? 'msg' : 'msg2';
 
-print '<table class="msg2"><tr><td><div id="p'.$cur_post['id'].'"><strong><a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">#'.($start_from + $post_count).'</a><br/>'.format_time($cur_post['posted']).'<br/></strong><strong>'.$username.'</strong>';
-
-if($cur_post['poster_id']>1 && $is_online){
-echo '<br/>'.$is_online;
-}
-
-echo '</div>'.$user_avatar.'</td></tr></table>';
-if($str = implode($lang_topic['Link separator'], $post_actions)){
-	$str = '<div class="con">'.$str.' <br/></div>';
-}
-
-echo '<table class="msg"><tr><td>';
-
-
+echo '
+<div class="' . $msg_class . '">
+<div class="zag_in" id="p'.$cur_post['id'].'">'.$user_avatar.' 
+<a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">#'.($start_from + $post_count).'.</a> <strong>' . $username . '</strong>
+';
+if ($cur_post['poster_id']>1 && $is_online) {
+        echo $is_online;
+    }
+    echo $karma . '<br/>' . format_time($cur_post['posted']);
+    
+    if ($str = implode($lang_topic['Link separator_m'], $post_actions)) {
+    	$str = '<br/>' . $str;
+    }
+    echo $str . '</div>
+    ';
 /*
 echo sizeof($post_actions) ? '<span class="con">'.implode($lang_topic['Link separator'], $post_actions).' <br/></span>' : '';
 */
 
-echo '</td></tr><tr><td>'.$cur_post['message'].'</td></tr><tr><td>';
+echo $cur_post['message'];
 
 
 
@@ -416,28 +430,28 @@ if($is_admmod){
 if(isset($cur_post['spam_id'])){
 $result = $db->query('SELECT `pattern` FROM `'.$db->prefix.'spam_repository` WHERE `id`='.$cur_post['spam_id'], true) or error('Unable to get spam_pattern for message', __FILE__, __LINE__, $db->error());
 $spam = $db->fetch_assoc($result);
-print '<hr /><br />'.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($spam['pattern']).'<br /><br /> / <a href="#">'.$lang_misc['Antispam tread'].'</a> / <a href="#">'.$lang_misc['Antispam del'].'</a><hr />';
+echo '<br />
+'.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($spam['pattern']).'<br /><a href="#">'.$lang_misc['Antispam tread'].'</a> | <a href="#">'.$lang_misc['Antispam del'].'</a><br />';
 }
 }
 /// MOD ANTISPAM END
 
 if($cur_post['edited']){
-echo '<div><em>'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</em></div>';
+echo '<div class= "small">'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</div>';
 }
 
 if($signature)
-{echo '<div><hr />'.$signature.'</div>';}
+{echo '<div class="hr">'.$signature.'</div>';}
 
-
-print '</td></tr></table>'.$str;
-
+echo '</div>
+';
 }
 
-print '<p class="con">'.$paging_links.'</p>';
+echo '<div class="con">'.$paging_links.'</div>';
 
 
 if($pun_user['g_post_replies']){
-print '<div class="blocktable"><strong><a class="in" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></strong></div>';
+echo '<div class="go_to"><a class="but" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></div>';
 }
 
 
@@ -450,30 +464,34 @@ else
 {$form_user = 'Guest';}
 
 
-print '<div><strong>'.$lang_topic['Quick post'].'</strong><br/></div><div class="input">
+echo '
 <form method="post" action="post.php?tid='.$id.'">
-<div><fieldset><legend>'.$lang_common['Write message legend'].'<br/></legend>';
+<div class="input">
+'.$lang_topic['Quick post'].'<br/>
+<span class="small">'.$lang_common['Write message legend'].'</span><br/>';
 
 if($pun_config['o_antiflood']){
-print '<input type="hidden" name="form_t" value="'.time().'" />';
+echo '
+<input type="hidden" name="form_t" value="'.time().'" />';
 }
 
-print '<input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="'.$form_user.'" />';
+echo '
+<input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="'.$form_user.'" />';
 
 // ¬вод имени дл€ гостей
 if($pun_user['is_guest'])
-{print $lang_common['Username'].'<br/><input type="text" name="req_username" tabindex="1" /><br/>';}
+{print $lang_common['Username'].'<br/>
+<input type="text" name="req_username" tabindex="1" /><br/>';}
 
-print '<textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea><br/>';
+echo '<textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea><br/>';
 
 if($is_admmod)
-{print '<input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];}
+{echo '
+<input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];}
 
-print '</fieldset><br/>
-<input type="submit" name="submit" tabindex="2" value="'.$lang_common['Submit'].'" accesskey="s" />
-</div>
-</form>
-</div>';
+echo '<br/>
+<input type="submit" name="submit" tabindex="2" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>
+';
 }
 
 // Increment "num_views" for topic

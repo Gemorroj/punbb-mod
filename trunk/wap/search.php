@@ -432,16 +432,18 @@ while ($row = $db->fetch_assoc($result)) {
 }
 $db->free_result($result);
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_search['Search results'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_search['Search results'];
 require_once PUN_ROOT . 'wap/header.php';
 
 
 //Set background switching on for show as posts
 $bg_switch = true;
 
-if ($show_as == 'topics') {
-    echo '<div class="blocktable"><div class="box"><table border="1"><thead><tr><th>'.$lang_common['Topic'].'</th><th>'.$lang_common['Forum'].'</th><th>'.$lang_common['Replies'].'</th><th>'.$lang_common['Last post'].'</th></tr></thead><tbody>';
-}
+/*if ($show_as == 'topics') {
+echo '
+<div class="in">'.$lang_common['Forum'].' | '.$lang_common['Topic'].' | '.$lang_common['Replies'].' | '.$lang_common['Last post'].'</div>
+';
+}*/
 
 // Fetch the list of forums
 $result = $db->query('SELECT `id`, `forum_name` FROM `'.$db->prefix.'forums`') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
@@ -470,7 +472,7 @@ for ($i=0, $all=sizeof($search_set); $i<$all; ++$i) {
     
     $subject = '<a href="viewtopic.php?id='.$search_set[$i]['tid'].'">'.pun_htmlspecialchars($search_set[$i]['subject']).'</a>';
     if (!$pun_user['is_guest'] && $search_set[$i]['last_post'] > $pun_user['last_visit']) {
-        $icon = '<div class="icon inew"><div class="nosize">'.$lang_common['New icon'].'</div></div>';
+        $icon = '<div class="icon inew"><div class="nosize">'.$lang_common['New icon_m'].'</div></div>';
     }
 
     if ($pun_config['o_censoring'] == 1) {
@@ -495,28 +497,43 @@ for ($i=0, $all=sizeof($search_set); $i<$all; ++$i) {
     // Switch the background color for every message.
     $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
     $vtbg = ($bg_switch) ? ' rowodd' : ' roweven';
+    $j = false;
 
 
     // WAP MOD
-    $message = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="red"><pre>'.$lang_common['Code'].'<br/>',$message);
+    $message = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$message);
     $message = str_replace('<div class="codebox"><div class="incqbox">',null,$message);
-    $message = preg_replace('/<div class="scrollbox"(.*)>/iU','<code style="margin:2pt;">',$message);
-    $message = str_replace('<pre><code>',null,$message);
-    $message = str_replace('</code></pre></div></div></div>','</code></pre></div>',$message);
-    $message = str_replace('<span style="color: #000000">'.chr(10).'<span style="color: #0000BB">','<span style="color: #000000"><span style="color: #0000BB">',$message);
-    $message = str_replace('</span>'.chr(10).'</code>','</span></code>',$message);
+    $message = str_replace('</table></div></div></div>','</table></div></div>',$message);
+    
+    $message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$message);
+    $message = str_replace('</div><br />','</div>',$message);
+    $message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$message);
+    $message = str_replace('</h4>','<br />',$message);
+    $message = str_replace('<blockquote>','',$message);
+    $message = str_replace('</blockquote>','',$message);
+    $message = str_replace('<p>','',$message);
+    $message = str_replace('<p class="right">','',$message);
+    $message = str_replace('</p>','',$message);
+    $message = str_replace('<span style="color: #bbb">','<span class="small">',$message);
+    $message = str_replace(' style="width:15px; height:15px;"','',$message);
+    $signature = str_replace(' style="width:15px; height:15px;"','',$signature);
     ///////////
     
     
-    echo '<table class="msg2"><tr><td class="red">'.$forum.' &#187; '.$subject.' &#187; <a style="font-size:smaller;" href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.format_time($search_set[$i]['pposted']).'</a><br/>'.$pposter.'<br/>'.$lang_search['Replies'].': '.$search_set[$i]['num_replies'].'<br/><a href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.$lang_search['Go to post'].'</a><br/></td></tr></table><table class="msg"><tr><td>'.$message.'</td></tr></table>';
+echo '
+<div class="in">'.$forum.' &#187; '.$subject.' &#187; <a class="small" href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.format_time($search_set[$i]['pposted']).'</a></div>
+<div class="msg">
+'.$pposter.'<br/>
+<span class="sub">'.$lang_search['Replies'].': '.$search_set[$i]['num_replies'].' | <a href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.$lang_search['Go to post'].'</a></span><br/>
+'.$message.'</div>';
     } else {
-        $icon = '<div class="icon"><div class="nosize">'.$lang_common['Normal icon'].'</div></div>';
+        $icon = $lang_common['Normal icon'];
         
         $icon_text = $lang_common['Normal icon'];
         $item_status = '';
         $icon_type = 'icon';
         
-        $subject = '<a href="viewtopic.php?id='.$search_set[$i]['tid'].'">'.pun_htmlspecialchars($search_set[$i]['subject']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($search_set[$i]['poster']);
+        $subject = '<a href="viewtopic.php?id='.$search_set[$i]['tid'].'">'.pun_htmlspecialchars($search_set[$i]['subject']).'</a> ('.pun_htmlspecialchars($search_set[$i]['poster']) . ')';
         
         if($search_set[$i]['closed']){
             $icon_text = $lang_common['Closed icon'];
@@ -524,11 +541,11 @@ for ($i=0, $all=sizeof($search_set); $i<$all; ++$i) {
         }
         
         if(!$pun_user['is_guest'] && $search_set[$i]['last_post'] > $pun_user['last_visit']){
-            $icon_text .= ' '.$lang_common['New icon'];
+            $icon_text .= ' '.$lang_common['New icon_m'];
             $item_status .= ' inew';
             $icon_type = 'icon inew';
             $subject = '<strong>'.$subject.'</strong>';
-            $subject_new_posts = '[ <a href="viewtopic.php?id='.$search_set[$i]['tid'].'&amp;action=new" title="'.$lang_common['New posts info'].'">'.$lang_common['New posts'].'</a> ]';
+            $subject_new_posts = '<a class="red" href="viewtopic.php?id='.$search_set[$i]['tid'].'&amp;action=new" title="'.$lang_common['New posts info'].'">'.$lang_common['New posts'].'</a>';
         } else {
             $subject_new_posts = null;
         }
@@ -548,19 +565,24 @@ for ($i=0, $all=sizeof($search_set); $i<$all; ++$i) {
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         }
         
-        
-        echo '<tr><td><div>'.$subject.'<br/></div></td><td>'.$forum.'</td><td>'.$search_set[$i]['num_replies'].'</td><td><a href="viewtopic.php?pid='.$search_set[$i]['last_post_id'].'#p'.$search_set[$i]['last_post_id'].'">'.format_time($search_set[$i]['last_post']).'</a> '.$lang_common['by'].' '.pun_htmlspecialchars($search_set[$i]['last_poster']).'</td></tr>';
+ //search_id user topics
+
+$msg_class = ($j = !$j) ? 'msg' : 'msg2';
+
+echo '
+<div class="' . $msg_class . '">
+'.$forum.' &#187; '.$subject.'<br />
+<span class="sub">'.$lang_common['Replies'].': '.$search_set[$i]['num_replies'].'<br />
+<a href="viewtopic.php?pid='.$search_set[$i]['last_post_id'].'#p'.$search_set[$i]['last_post_id'].'">'.$lang_common['Last post'].'</a>: '.pun_htmlspecialchars($search_set[$i]['last_poster']).' ('.format_time($search_set[$i]['last_post']).')</span></div>
+';
     
     }
 }
-
-if($show_as == 'topics'){
-    echo '</tbody></table></div></div>';
-}
-
-
-echo '<div class="con">'.$paging_links.'<br/></div>';
-
+/*if($show_as == 'topics'){
+    echo '';
+}*/
+echo '<div class="con">'.$paging_links.'</div>
+';
 
 $footer_style = 'search';
 require_once PUN_ROOT.'wap/footer.php';
@@ -570,12 +592,23 @@ require_once PUN_ROOT.'wap/footer.php';
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_search['Search'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_search['Search'];
 $focus_element = array('search', 'keywords');
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '<div><strong>'.$lang_search['Search'].'</strong></div><div class="input"><form method="get" action="search.php?"><div><fieldset><legend>'.$lang_search['Search criteria legend'].'<br/></legend><input type="hidden" name="action" value="search" />'.$lang_search['Keyword search'].'<br /><input type="text" name="keywords" maxlength="100" /><br />'.$lang_search['Author search'].'<br /><input type="text" name="author" maxlength="25" /><br />'.$lang_search['Search info'].'</fieldset><fieldset><legend>'.$lang_search['Search in legend'].'<br/></legend>'.$lang_search['Forum search'].'<br /><select name="forum">';
+echo '
+<div class="con"><strong>'.$lang_search['Search'].'</strong></div>
+<form method="get" action="search.php?">
+<div class="input"><strong>'.$lang_search['Search criteria legend'].'</strong><br/>
+<input type="hidden" name="action" value="search" />'.$lang_search['Keyword search'].'<br />
+<input type="text" name="keywords" maxlength="100" /><br />
+'.$lang_search['Author search'].'<br />
+<input type="text" name="author" maxlength="25" /></div>
+<div class="input2">
+'.$lang_search['Search info'].'<strong>'.$lang_search['Search in legend'].'</strong><br/>
+'.$lang_search['Forum search'].'<br />
+<select name="forum">';
 
 if($pun_config['o_search_all_forums'] == 1 || $pun_user['g_id'] < PUN_GUEST){
 	echo '<option value="-1">'.$lang_search['All forums'].'</option>';
@@ -591,14 +624,42 @@ while ($cur_forum = $db->fetch_assoc($result)) {
             echo '</optgroup>';
         }
         
-        echo '<optgroup label="'.pun_htmlspecialchars($cur_forum['cat_name']).'">';
+        echo '
+        <optgroup label="'.pun_htmlspecialchars($cur_forum['cat_name']).'">';
         $cur_category = $cur_forum['cid'];
     }
     
-    echo '<option value="'.$cur_forum['fid'].'">'.pun_htmlspecialchars($cur_forum['forum_name']).'</option>';
+    echo '
+    <option value="'.$cur_forum['fid'].'">'.pun_htmlspecialchars($cur_forum['forum_name']).'</option>';
 }
 
-echo '</optgroup></select><br />'.$lang_search['Search in'].'<br /><select name="search_in"><option value="all">'.$lang_search['Message and subject'].'</option><option value="message">'.$lang_search['Message only'].'</option><option value="topic">'.$lang_search['Topic only'].'</option></select><br />'.$lang_search['Search in info'].'<br/></fieldset><fieldset><legend>'.$lang_search['Search results legend'].'<br/></legend>'.$lang_search['Sort by'].'<br /><select name="sort_by"><option value="0">'.$lang_search['Sort by post time'].'</option><option value="1">'.$lang_search['Sort by author'].'</option><option value="2">'.$lang_search['Sort by subject'].'</option><option value="3">'.$lang_search['Sort by forum'].'</option></select><br />'.$lang_search['Sort order'].'<br /><select name="sort_dir"><option value="DESC">'.$lang_search['Descending'].'</option><option value="ASC">'.$lang_search['Ascending'].'</option></select><br />'.$lang_search['Show as'].'<br /><select name="show_as"><option value="posts">'.$lang_search['Show as posts'].'</option><option value="topics">'.$lang_search['Show as topics'].'</option></select><br />'.$lang_search['Search results info'].'<br/></fieldset><br/><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form></div>';
+echo '</optgroup>
+</select><br />
+'.$lang_search['Search in'].'<br />
+<select name="search_in"><option value="all">'.$lang_search['Message and subject'].'</option>
+<option value="message">'.$lang_search['Message only'].'</option>
+<option value="topic">'.$lang_search['Topic only'].'</option>
+</select><br />
+'.$lang_search['Search in info'].'</div>
+<div class="input">
+<strong>'.$lang_search['Search results legend'].'</strong><br/>
+'.$lang_search['Sort by'].'<br />
+<select name="sort_by"><option value="0">'.$lang_search['Sort by post time'].'</option>
+<option value="1">'.$lang_search['Sort by author'].'</option>
+<option value="2">'.$lang_search['Sort by subject'].'</option>
+<option value="3">'.$lang_search['Sort by forum'].'</option>
+</select><br />
+'.$lang_search['Sort order'].'<br />
+<select name="sort_dir"><option value="DESC">'.$lang_search['Descending'].'</option>
+<option value="ASC">'.$lang_search['Ascending'].'</option>
+</select><br />
+'.$lang_search['Show as'].'<br />
+<select name="show_as">
+<option value="posts">'.$lang_search['Show as posts'].'</option>
+<option value="topics">'.$lang_search['Show as topics'].'</option>
+</select><br />
+'.$lang_search['Search results info'].'</div>
+<div class="go_to"><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
 
 require_once PUN_ROOT.'wap/footer.php';
 

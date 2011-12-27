@@ -33,7 +33,9 @@ if (isset($_GET['get_host'])) {
         $whois = null;
     }
 
-    wap_message('IP: '.$ip.$whois.'<br /><a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/><a href="'.PUN_ROOT.'admin_users.php?show_users='.$ip.'">Show more users for this IP</a>');
+    wap_message('IP: '.$ip.$whois.'<br />
+    &#187; <a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/>
+    &#187; <a href="'.PUN_ROOT.'admin_users.php?show_users='.$ip.'">'.$lang_common['Show IP'].'</a>');
 }
 
 

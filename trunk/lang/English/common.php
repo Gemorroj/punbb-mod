@@ -175,6 +175,9 @@ $lang_common = array(
 // For extern.php RSS feed
 'RSS Desc Active'		=>	'The most recently active topics at',	// board_title will be appended to this string
 'RSS Desc New'			=>	'The newest topics at',					// board_title will be appended to this string
-'Posted'				=>	'Posted'	// The date/time a topic was started
+'Posted'				=>	'Posted',	// The date/time a topic was started
+
+//wap moderate IP
+'Show IP'				=>	'Show more users for this IP'
 
 );

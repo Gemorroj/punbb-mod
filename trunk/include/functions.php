@@ -772,9 +772,9 @@ function wap_message($message, $no_back_link = false)
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];
         require_once PUN_ROOT . 'wap/header.php';
     }
-
-    echo '<div class="red">' . $message . '<br/></div>';
-
+    echo '
+    <div class="in">' . $message . '</div>
+    ';
     require_once PUN_ROOT . 'wap/footer.php';
     exit;
 }

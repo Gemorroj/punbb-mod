@@ -41,7 +41,7 @@ if ($_GET['action'] == 'all') {
 
 $username = pun_htmlspecialchars($db->result($db->query('SELECT `username` FROM `' . $db->prefix . 'users` WHERE `id` = ' . $id), 0));
 $str = '';
-
+$j = false;
 
 if ($num_hits) {
     $q = $db->query('
@@ -52,8 +52,10 @@ if ($num_hits) {
         ORDER BY `karma`.`time` DESC
         LIMIT ' . $start . ',' . $pun_user['disp_posts']
     );
-
-    $str.= '<div class="blocktable"><div class="box"><table border="1"><tr><th>' . $lang_common['Username'] . '</th><th>' . $lang_common['Vote'] . '</th><th>' . $lang_common['Date'] . '</th></tr>';
+ 
+$str.= '
+<div class="in">' . $lang_common['Username'] . ' | ' . $lang_common['Vote'] . ' | ' . $lang_common['Date'] . '</div>
+';
 
     while ($result = $db->fetch_assoc($q)) {
         if ($result['from']) {
@@ -61,15 +63,25 @@ if ($num_hits) {
         } else {
         	$user = $lang_common['Deleted'];
         }
-    	$str.= '<tr><td>' . $user . '</td><td>' . ($result['vote'] > 0 ? '<strong style="color: green;">+</strong>' : '<strong style="color: red;">-</strong>') . '</td><td>' . format_time($result['time']) . '</td></tr>';
+        $msg_class = ($j = !$j) ? 'msg' : 'msg2';
+$str.= '
+<div class="' . $msg_class . '">' . $user . ' ' . ($result['vote'] > 0 ? '<span class="green">+</span>' : '<span class="red">-</span>') . ' [' . format_time($result['time']) . ']</div>';
     }
 
-    $str.= '</table></div></div><div class="con">' . $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'karma.php?id=' . $id) . '<br/></div>';
+$str.= '
+<div class="con">' . $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'karma.php?id=' . $id) . '</div>
+';
+}
+else {  $str.= '
+<div class="in">' . $lang_common['Karma'] . ': ' . $karma['karma'] . '</div>';
+
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Karma'] . ' - ' . $username . ' (' . $karma['karma'] . ')';
+
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Karma'] . ' - ' . $username . ' (' . $karma['karma'] . ')';
 
 require_once PUN_ROOT . 'wap/header.php';
+
 
 echo $str;
 

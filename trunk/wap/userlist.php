@@ -23,7 +23,7 @@ $sort_by = (!isset($_GET['sort_by']) || $_GET['sort_by'] != 'username' && $_GET[
 $sort_dir = (!isset($_GET['sort_dir']) || $_GET['sort_dir'] != 'ASC' && $_GET['sort_dir'] != 'DESC') ? 'ASC' : mb_strtoupper($_GET['sort_dir']);
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['User list'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['User list'];
 if ($pun_user['g_search_users'] == 1) {
     $focus_element = array('userlist', 'username');
 }
@@ -32,11 +32,17 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'wap/header.php';
 
 
-echo '<div><strong>'.$lang_search['User search'].'</strong></div><div class="input"><form method="get" action="userlist.php?"><div><fieldset><legend>'.$lang_ul['User find legend'].'<br/></legend>';
+echo '
+<div class="con"><strong>'.$lang_search['User search'].'</strong></div>
+<form method="get" action="userlist.php?">
+<div class="input">
+<strong>'.$lang_ul['User find legend'].'</strong><br/>';
 if ($pun_user['g_search_users'] == 1) {
-    echo $lang_common['Username'].'<br /><input type="text" name="username" value="'.pun_htmlspecialchars($username).'" maxlength="25" /><br />';
+    echo $lang_common['Username'].'<br />
+    <input type="text" name="username" value="'.pun_htmlspecialchars($username).'" maxlength="25" /><br />';
 }
-echo $lang_ul['User group'].'<br /><select name="show_group"><option value="-1"' . (($show_group == -1) ? ' selected="selected"' : '') . '>'.$lang_ul['All users'].'</option>';
+echo $lang_ul['User group'].'<br />
+<select name="show_group"><option value="-1"' . (($show_group == -1) ? ' selected="selected"' : '') . '>'.$lang_ul['All users'].'</option>';
 
 $result = $db->query('SELECT g_id, g_title FROM '.$db->prefix.'groups WHERE g_id!='.PUN_GUEST.' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
@@ -49,11 +55,14 @@ while ($cur_group = $db->fetch_assoc($result)) {
 }
 
 
-echo '</select><br />'.$lang_search['Sort by'].'<br /><select name="sort_by"><option value="username"';
+echo '</select><br />
+'.$lang_search['Sort by'].'<br />
+<select name="sort_by"><option value="username"';
 if($sort_by == 'username'){
     echo ' selected="selected"';
 }
-echo '>'.$lang_common['Username'].'</option><option value="registered"';
+echo '>'.$lang_common['Username'].'</option>
+<option value="registered"';
 if($sort_by == 'registered'){
     echo ' selected="selected"';
 }
@@ -65,7 +74,9 @@ if($show_post_count){
     }
     echo '>'.$lang_ul['No of posts'].'</option>';
 }
-echo '</select><br />'.$lang_search['Sort order'].'<br /><select name="sort_dir"><option value="ASC"';
+echo '</select><br />
+'.$lang_search['Sort order'].'<br />
+<select name="sort_dir"><option value="ASC"';
 if($sort_dir == 'ASC'){
     echo ' selected="selected">';
 }
@@ -73,7 +84,9 @@ echo $lang_search['Ascending'].'</option><option value="DESC"';
 if($sort_dir == 'DESC'){
     echo ' selected="selected"';
 }
-echo '>'.$lang_search['Descending'].'</option></select><br />'.$lang_ul['User search info'].'</fieldset><br/><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form></div>';
+echo '>'.$lang_search['Descending'].'</option></select></div>
+<div class="input2">'.$lang_ul['User search info'].'</div>
+<div class="go_to"><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
 
 // Create any SQL for the WHERE clause
 $where_sql = array();
@@ -106,14 +119,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
 
 // Generate paging links
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0);
+$j = false;
 
 
+echo '<div class="con"><strong>'.$lang_common['User list'].'</strong></div>
+<div class="navlinks">
+'.$lang_common['Username'];
 
-echo '<div class="blocktable"><strong>'.$lang_common['User list'].'</strong><br/><div class="box"><table border="1"><thead><tr><th>'.$lang_common['Username'].'</th><th>'.$lang_common['Title'].'</th>';
 if($show_post_count){
-    echo '<th>'.$lang_common['Posts'].'</th>';
+    echo ' | ' . $lang_common['Posts'];
 }
-echo '<th>'.$lang_common['Registered'].'</th></tr></thead><tbody>';
+echo ' | ' .$lang_common['Title'].' | '.$lang_common['Registered'].'</div>';
 
 
 // Grab the users
@@ -122,17 +138,25 @@ if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $user_title_field = get_title($user_data);
 
-        echo '<tr><td><a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a></td><td>'.$user_title_field.'</td>';
+$in_class = ($j = !$j) ? 'in' : 'in2';
+
+echo '
+<div class="' . $in_class . '">
+<strong><a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a></strong> ';
         if ($show_post_count) {
-            echo '<td>'.$user_data['num_posts'].'</td>';
+            echo ' ['.$user_data['num_posts'].'] ';
         }
-        echo '<td>'.format_time($user_data['registered'], true).'</td></tr>';
+echo $user_title_field.' ('.format_time($user_data['registered'], true).')</div>';
     }
+
+   
 } else {
-    echo '<tr><td colspan="' . (($show_post_count) ? 4 : 3) . '">' . $lang_search['No hits'] . '</td></tr>';
+echo '
+<div class="msg">' . $lang_search['No hits']. '</div>';
 }
 
-echo '</tbody></table></div></div><div class="con">'.$paging_links.'<br/></div>';
+echo '
+<div class="con">'.$paging_links.'</div>';
 
 require_once PUN_ROOT.'wap/footer.php';
 

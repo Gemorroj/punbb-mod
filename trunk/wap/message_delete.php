@@ -44,28 +44,48 @@ wap_redirect('message_list.php?box='.intval($_POST['box']).'&amp;p='.intval($_PO
 }
 else
 {
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Delete message'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Delete message'];
 
 require_once PUN_ROOT.'wap/header.php';
 include_once PUN_ROOT.'include/parser.php';
 
 $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
 
-print '<div class="red">'.$lang_pms['Delete message'].'<br/></div>
-<div class="input">
+$cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
+$cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
+$cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
+$cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
+$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+$cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
+$cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
+$cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
+
+echo '
+<div class="red">'.$lang_pms['Delete message'].'</div>
 <form method="post" action="message_delete.php?id='.$id.'">
-<div>
-<fieldset>
+<div class="msg">
 <input type="hidden" name="box" value="'.intval($_GET['box']).'"/>
 <input type="hidden" name="p" value="'.intval($_GET['p']).'"/>
 '.$lang_pms['Sender'].': <strong>'.pun_htmlspecialchars($cur_post['sender']).'</strong><br/>
-'.$cur_post['message'].'
-<input type="submit" name="delete" value="'.$lang_delete['Delete'].'" />
-</fieldset>
-</div>
-</form>
-</div>';
+'.$cur_post['message'].'</div>
+<div class="go_to"><input type="submit" name="delete" value="'.$lang_delete['Delete'].'" /></div></form>
+';
 
+//links
+echo '
+<div class="navlinks">
+<a href="message_list.php?box=0">'.$lang_pms['Inbox'].'</a> |
+<a href="message_list.php?box=1">'.$lang_pms['Outbox'].'</a> |
+<a href="message_list.php?box=2">'.$lang_pms['Options'].'</a> |
+<a href="message_send.php">'.$lang_pms['New message'].'</a></div>';
 
 require_once PUN_ROOT.'wap/footer.php';
 }
