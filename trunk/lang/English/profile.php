@@ -120,6 +120,9 @@ $lang_profile = array(
 'Post display info'			=>	'If you are on a slow connection, disabling these options, particularly showing images in posts and signatures, will make pages load faster.',
 'Instructions'				=>	'When you update your profile, you will be redirected back to this page.',
 
+// Extra personal detail stuff
+'Preview'				=>	'Preview',
+
 // Administration stuff
 'Group membership legend'	=>	'Choose user group',
 'Save'						=>	'Save',

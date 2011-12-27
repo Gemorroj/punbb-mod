@@ -53,28 +53,24 @@ if (isset($_POST['delete_messages_comply'])) {
         wap_message($lang_common['Bad request']);
     }
 
-    // Delete messages
+// Delete messages
     $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN(' . $_POST['messages'] . ') AND owner=\''.$pun_user['id'].'\'') or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
     wap_redirect('message_list.php?box=' . intval($_POST['box']));
 }
 else
 {
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_pms['Multidelete'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_pms['Multidelete'];
 $idlist = is_array($_POST['delete_messages']) ? array_map('intval', $_POST['delete_messages']) : array();
 require_once PUN_ROOT.'wap/header.php';
-
-echo '<div class="input">
+//delete_messages
+echo '
 <form method="post" action="message_list.php?">
-<div>
-<fieldset>
-<legend>'.$lang_pms['Delete messages comply'].'<br/></legend>
+<div class="input">
+<strong>'.$lang_pms['Delete messages comply'].'</strong><br/>
 <input type="hidden" name="messages" value="'.htmlspecialchars(implode(',', array_values($idlist))).'"/>
-<input type="hidden" name="box" value="'.intval($_POST['box']).'"/>
-<input type="submit" name="delete_messages_comply" value="'.$lang_pms['Delete'].'" />
-</fieldset>
-</div>
-</form>
-</div>';
+<input type="hidden" name="box" value="'.intval($_POST['box']).'"/></div>
+<div class="go_to">
+<input type="submit" name="delete_messages_comply" value="'.$lang_pms['Delete'].'" /></div></form>';
 
 require_once PUN_ROOT.'wap/footer.php';
 }
@@ -87,7 +83,7 @@ else if(isset($_GET['action']) && $_GET['action'] == 'markall') {
     wap_redirect('message_list.php?box='.$box.'&amp;p='.$p);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Private Messages'].' - '.$name;
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Private Messages'].' - '.$name;
 
 
 if($box<2)
@@ -107,13 +103,8 @@ if ($_GET['action'] != 'all') {
 
 require_once PUN_ROOT.'wap/header.php';
 
-echo '<div class="incqbox" style="margin:1%;padding:2pt;">
-<a href="message_list.php?box=0">'.$lang_pms['Inbox'].'</a><br/>
-<a href="message_list.php?box=1">'.$lang_pms['Outbox'].'</a><br/>
-<a href="message_list.php?box=2">'.$lang_pms['Options'].'</a><br/>
-<a href="message_send.php">'.$lang_pms['New message'].'</a><br/>
-</div>';
-
+echo '
+<div class="con"><strong>'.$name.'</strong></div>';
 
 if($box<2)
 {
@@ -149,18 +140,18 @@ if ($pun_config['o_censoring'] == 1) {
 }
 
 // Format the online indicator
-$is_online = ($cur_post['is_online'] == $cur_post['id']) ? '<strong>'.$lang_topic['Online'].'</strong>' : $lang_topic['Offline'];
+$is_online = ($cur_post['is_online'] == $cur_post['id']) ? ' <span class="green">'.$lang_topic['Online_m'].'</span>' : $lang_topic['Offline'];
 
 if($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars'])
 {
 if($img_size = @getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.gif')){
-$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.gif" '.$img_size[3].' alt="" />';
+$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.gif" '.$img_size[3].' alt="*" />';
 }
 else if($img_size = @getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.jpg')){
-$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.jpg" '.$img_size[3].' alt="" />';
+$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.jpg" '.$img_size[3].' alt="*" />';
 }
 else if($img_size = @getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.png')){
-$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.png" '.$img_size[3].' alt="" />';
+$user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.png" '.$img_size[3].' alt="*" />';
 }
 }
 else{
@@ -207,13 +198,13 @@ $user_info[] = $lang_topic['Note'].': <strong>'.pun_htmlspecialchars($cur_post['
 }
 // Generation post action array (reply, delete etc.)
 if(!$status){
-$post_actions[] = '<a href="message_send.php?id='.$cur_post['id'].'&amp;reply='.$cur_post['mid'].'">'.$lang_pms['Reply'].'</a>';
+$post_actions[] = '<a href="message_send.php?id='.$cur_post['id'].'&amp;reply='.$cur_post['mid'].'">'.$lang_pms['Reply_m'].'</a>';
 }
 
-$post_actions[] = '<a href="message_delete.php?id='.$cur_post['mid'].'&amp;box='.$box.'&amp;p='.$p.'">'.$lang_pms['Delete'].'</a>';
+$post_actions[] = '<a href="message_delete.php?id='.$cur_post['mid'].'&amp;box='.$box.'&amp;p='.$p.'">'.$lang_pms['Delete_m'].'</a>';
 
 if(!$status){
-$post_actions[] = '<a href="message_send.php?id='.$cur_post['id'].'&amp;quote='.$cur_post['mid'].'">'.$lang_pms['Quote'].'</a>';
+$post_actions[] = '<a href="message_send.php?id='.$cur_post['id'].'&amp;quote='.$cur_post['mid'].'">'.$lang_pms['Quote_m'].'</a>';
 }
 
 }
@@ -235,39 +226,51 @@ $is_online = $lang_topic['Offline'];
 $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
 $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
 
+$cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
+$cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
+$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
+$cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
+$cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
+$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+$cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
+$cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
+$cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
+$cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
+
 // Do signature parsing/caching
 if(isset($cur_post['signature']) && $pun_user['show_sig']){
 $signature = parse_signature($cur_post['signature']);
 }
 
-
-echo '<table class="msg2">
-<tr><td>
-<strong>'.format_time($cur_post['posted']).'<br/>'.$username.'<br/></strong>';
+//message
+echo '
+<div class="msg">
+<div class="zag_in">
+'.@$user_avatar.' <strong>'.$username.'</strong>'.$is_online.' '.format_time($cur_post['posted']).'<br/>';
 if($user_info){
-echo implode('<br/>', $user_info);
+echo implode('<br/> ', $user_info);
 }
 if($cur_post['id'] > 1){
-echo '<br/>'.$is_online;
 }
-echo '</td><td>'.@$user_avatar.'</td></tr>
-</table>
-<table class="msg"><tr><td>'.$cur_post['message'].'</td></tr>
-<tr><td><span class="con">';
+echo ' ';
 if($post_actions){
-echo implode($lang_topic['Link separator'], $post_actions);
+echo implode($lang_topic['Link separator_m'], $post_actions);
 }
-print '</span></td></tr></table>';
-
+echo '</div>
+'.$cur_post['message'].'</div>
+';
 }
 
-echo '<div class="input">
+echo '
+
 <form method="post" action="message_list.php?">
-<div class="blocktable">
-<strong>'.$name.'<br/></strong>
-<div class="box">
-<table>
-<tr>';
+';
 
 if($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST){
 // Get total message count
@@ -280,39 +283,40 @@ else{
 $status = null;
 }
 
-echo '<th>'.$lang_pms['Subject'].$status.'</th><th>';
-if(!$box){
+//echo '<th>'.$lang_pms['Subject'].$status.'</th><th>';
+/*if(!$box){
 echo $lang_pms['Sender'];
 }
 else{
 echo $lang_pms['Receiver'];
-}
+}*/
 
-echo '</th><th>'.$lang_pms['Date'].'</th><th>'.$lang_pms['Delete'].'</th></tr>';
+//echo '</th><th>'.$lang_pms['Date'].'</th><th>'.$lang_pms['Delete'].'</th></tr>';
 
 // Fetch messages
 $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id'].' AND status='.$box.' ORDER BY posted DESC '.$limit) or error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
 $new_messages = $messages_exist = false;
-
+$j = false;
 // If there are messages in this folder.
 if($all = $db->num_rows($result))
 {
 $messages_exist = true;
 while($cur_mess = $db->fetch_assoc($result))
 {
-/*
+
 $icon_text = $lang_common['Normal icon'];
 $icon_type = 'icon';
 if($cur_mess['showed'] == '0')
 {
-$icon_text .= ' '.$lang_common['New icon'];
+$icon_text .= '<span class="red">'.$lang_common['New icon_m'].'</span>';
 $icon_type = 'icon inew';
 }
-*/
+
 
 ($new_messages == false && !$cur_mess['showed']) ? $new_messages = true : null;
 
 $subject = '<a href="message_list.php?id='.$cur_mess['id'].'&amp;p='.$p.'&amp;box='.$box.'">'.pun_htmlspecialchars($cur_mess['subject']).'</a>';
+
 
 if(isset($_GET['id'])){
 if($cur_mess['id'] == $_GET['id']){
@@ -320,19 +324,14 @@ $subject = '<strong>'.$subject.'</strong>';
 }
 }
 
-echo '<tr>
-<td>
-<div class="mes">'.$subject.'<br/></div>
-</td>
-<td><a href="profile.php?id='.$cur_mess['sender_id'].'">'.$cur_mess['sender'].'</a></td>
-<td>'.format_time($cur_mess['posted']).'</td>
-<td><input type="checkbox" name="delete_messages[]" value="'.$cur_mess['id'].'"/></td>
-</tr>';
+$in_class = ($j = !$j) ? 'in' : 'in2';
 
+echo '
+<div class="' . $in_class . '">&#187; '.$subject.' (<a href="profile.php?id='.$cur_mess['sender_id'].'">'.$cur_mess['sender'].'</a>) '.format_time($cur_mess['posted']).' '.$icon_text.' <input type="checkbox" name="delete_messages[]" value="'.$cur_mess['id'].'"/></div>';
 }
 }
 else{
-echo '<tr class="blocktable"><td colspan="4" class="red">'.$lang_pms['No messages'].'</td></tr>';
+echo '<div class="in">'.$lang_pms['No messages'].'</div>';
 }
 
 if($_GET['action'] == 'all'){
@@ -340,14 +339,11 @@ $p = $num_pages+1;
 }
 
 
-echo '</table>
-</div>
+echo '</div>
+<div class="go_to">
 <input type="hidden" name="box" value="' . $box . '"/>
-'.($all ? '<input type="submit" value="' . $lang_pms['Delete'] . '"/>' : '').'
-</div>
-</form>
-</div>
-<div class="con">'.$lang_common['Pages'].': '.paginate($num_pages, $p, 'message_list.php?box='.$box).'<br/></div>';
+'.($all ? '<input type="submit" value="' . $lang_pms['Delete'] . '"/>' : '').'</div></form>
+<div class="con">'.$lang_common['Pages'].': '.paginate($num_pages, $p, 'message_list.php?box='.$box).'</div>';
 
 if(isset($_GET['id']))
 {$forum_id = $id;}
@@ -366,31 +362,35 @@ if(!$db->num_rows($result)){
 wap_message($lang_common['Bad request']);
 }
 $user = $db->fetch_assoc($result);
-
-echo '<div><strong>'.$name.'</strong></div>
-<div class="input">
+//Messsage options
+echo '
 <form method="post" action="message_list.php?box=2">
-<div>
+<div class="input">
 <input type="hidden" name="form_sent" value="1" />
-<fieldset>
-<legend>'.$lang_pms['Options PM'].'<br/></legend>
+<strong>'.$lang_pms['Options PM'].'</strong><br/>
 <input type="checkbox" name="popup_enable" value="1"';
 if($user['popup_enable'] == 1){
 echo ' checked="checked"';
 }
-echo ' />'.$lang_pms['Use popup'].'<br /><input type="checkbox" name="messages_enable" value="1"';
+echo ' />'.$lang_pms['Use popup'].'<br />
+<input type="checkbox" name="messages_enable" value="1"';
 if($user['messages_enable'] == 1){
 echo ' checked="checked"';
 }
-echo ' />'.$lang_pms['Use messages'].'<br />
-</fieldset>
-<br/>
-<input type="submit" name="update" value="'.$lang_pms['Send'].'" />
-</div>
-</form>
-</div>';
+echo ' />'.$lang_pms['Use messages'].'</div>
+<div class="go_to">
+<input type="submit" name="update" value="'.$lang_pms['Send'].'" /></div></form>
+';
 
 }
+//links
+echo '
+<div class="navlinks">
+<a href="message_list.php?box=0">'.$lang_pms['Inbox'].'</a> |
+<a href="message_list.php?box=1">'.$lang_pms['Outbox'].'</a> |
+<a href="message_list.php?box=2">'.$lang_pms['Options'].'</a> |
+<a href="message_send.php">'.$lang_pms['New message'].'</a></div>';
+
 
 $footer_style = 'message_list';
 require_once PUN_ROOT.'wap/footer.php';

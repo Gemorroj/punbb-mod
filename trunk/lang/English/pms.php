@@ -17,6 +17,11 @@ $lang_pms = array(
 	'Reply'				=>		'Reply',
 	'Delete'				=>		'Delete',
 	'Quote'				=>		'Quote',
+    //Mobile
+    'Reply_m'                =>        'Reply',
+    'Delete_m'               =>        'Del',
+    'Quote_m'                =>        'Quote',
+    
 	'Date'				=>		'Date',
 	'Status'				=>		'Messages status:',
 	'Subject'			=>		'Subject',

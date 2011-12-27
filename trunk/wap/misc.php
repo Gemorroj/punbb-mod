@@ -20,9 +20,11 @@ if ($action == 'rules') {
     // Load the register.php language file
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_register['Forum rules'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_register['Forum rules'];
     require_once PUN_ROOT.'wap/header.php';
-    echo '<div><strong>' . $lang_register['Forum rules'] . '</strong><br/></div><div class="box">' . $pun_config['o_rules_message'] . '<br/></div>';
+    echo '
+    <div class="con"><strong>' . $lang_register['Forum rules'] . '</strong></div>
+    <div class="msg">' . $pun_config['o_rules_message'] . '</div>';
     require_once PUN_ROOT . 'wap/footer.php';
 } else if ($action == 'markread') {
     if ($pun_user['is_guest']) {
@@ -115,32 +117,27 @@ if ($action == 'rules') {
     // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to the users profile after the e-mail is sent)
     $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote($pun_config['o_base_url']) . '/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_misc['Send e-mail to'] . ' ' . pun_htmlspecialchars($recipient);
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_misc['Send e-mail to'] . ' ' . pun_htmlspecialchars($recipient);
     $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);
     $focus_element = array('email', 'req_subject');
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div>'.$lang_misc['Send e-mail to'].' <strong>'.pun_htmlspecialchars($recipient).'</strong><br/></div>
-    <div class="input">
+    echo '
+    <div class="con">'.$lang_misc['Send e-mail to'].' <strong>'.pun_htmlspecialchars($recipient).'</strong></div>
     <form method="post" action="misc.php?email='.$recipient_id.'">
-    <div>
-    <fieldset>
-    <legend>'.$lang_misc['Write e-mail'].'<br/></legend>
+    <div class="input">
+    <strong>'.$lang_misc['Write e-mail'].'</strong><br/>
     <input type="hidden" name="form_sent" value="1" />
     <input type="hidden" name="redirect_url" value="'.$redirect_url.'" />
-    <strong>'.$lang_misc['E-mail subject'].'</strong><br />
+    '.$lang_misc['E-mail subject'].'<br />
     <input type="text" name="req_subject" maxlength="70" tabindex="1" /><br />
-    <strong>'.$lang_misc['E-mail message'].'</strong><br/>
+    '.$lang_misc['E-mail message'].'<br/>
     <textarea name="req_message" rows="4" cols="24" tabindex="2"></textarea><br />
-    <br/>
-    '.$lang_misc['E-mail disclosure note'].'
-    </fieldset>
-    <br/>
+    '.$lang_misc['E-mail disclosure note'].'</div>
+    <div class="go_to">
     <input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="3" accesskey="s" />
-    </div>
-    </form>
-    </div>';
+    </div></form>';
 
     require_once PUN_ROOT.'wap/footer.php';
 } else if (isset($_GET['report'])) {
@@ -198,27 +195,22 @@ if ($action == 'rules') {
     }
 
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Report post'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Report post'];
     $required_fields = array('req_reason' => $lang_misc['Reason']);
     $focus_element = array('report', 'req_reason');
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div class="red">'.$lang_misc['Report post'].'<br/></div>
-    <div class="input">
+    echo 
+    '<div class="red">'.$lang_misc['Report post'].'</div>
     <form method="post" action="misc.php?report='.$post_id.'">
-    <div>
-    <fieldset>
-    <legend>'.$lang_misc['Reason desc'].'<br/></legend>
+    <div class="input">    
+    <strong>'.$lang_misc['Reason desc'].'</strong><br/>
     <input type="hidden" name="form_sent" value="1" />
-    <strong>'.$lang_misc['Reason'].'</strong><br />
-    <textarea name="req_reason" rows="4" cols="4"></textarea><br />
-    </fieldset>
-    <br/>
-    <input type="submit" name="submit" value="'.$lang_common['Submit'].'" accesskey="s" />
-    </div>
-    </form>
-    </div>';
+    '.$lang_misc['Reason'].'<br />
+    <textarea name="req_reason" rows="4" cols="24"></textarea></div>
+    <div class="go_to"><input type="submit" name="submit" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>
+    ';
 
     require_once PUN_ROOT.'wap/footer.php';
 } else if (isset($_GET['subscribe'])) {

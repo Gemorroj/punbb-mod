@@ -238,9 +238,7 @@ echo '
                 $mail_message = str_replace('<base_url>', $pun_config['o_base_url'], $mail_message);
                 $mail_message = str_replace('<activation_url>', $pun_config['o_base_url'] .
                     '/profile.php?action=change_email&id=' . $id . '&key=' . $new_email_key, $mail_message);
-                $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'] . ' ' .
-                    $lang_common['Mailer'], $mail_message);
-
+                $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'] . ' ' . $lang_common['Mailer'], $mail_message);
                 pun_mail($new_email, $mail_subject, $mail_message);
 
                 wap_message($lang_profile['Activate e-mail sent'] . ' <a href="mailto:' . $pun_config['o_admin_email'] .
@@ -1093,14 +1091,15 @@ pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['loc
 $user['location']) : $lang_profile['Unknown']; 
 echo '<br/>
 <strong>' . $lang_profile['Website'] . ':</strong> ' . $url . '<br/>
-<strong>' . $lang_common['E-mail'] . ':</strong> ' . $email_field . '<br/>';
+<strong>' . $lang_common['E-mail'] . ':</strong> ' . $email_field . '<br/>
+';
 
 // PMS MOD BEGIN 
-// ob_start();
-include PUN_ROOT . 'include/pms/wap_profile_send.php';
-//$ob = ob_get_contents();
-//ob_end_clean();
-//echo str_replace('</dd>', '<br/>', str_replace('<dd>', '', str_replace('</dt>', null, str_replace('<dt>', null, $ob))));
+ob_start();
+include PUN_ROOT . 'include/pms/profile_send.php';
+$ob = ob_get_contents();
+ob_end_clean();
+echo str_replace('<dt>', '<strong>', str_replace('</dt>', '</strong>', str_replace('<dd>',  null, str_replace('</dd>',  null, $ob))));
 // PMS MOD END
 echo '</div>';
 
@@ -1140,7 +1139,7 @@ echo '<strong>' . $lang_common['Last post'] . ':</strong> ' . $last_post . '<br/
 
     require_once PUN_ROOT . 'wap/footer.php';
 }
-//Профиль основной
+//profile general
 else {
     if (!$_GET['section'] || $_GET['section'] == 'essentials') {
         if ($pun_user['g_id'] < PUN_GUEST) {
