@@ -177,6 +177,8 @@ if($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['s
     }
     else if($img_size = @getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.png')){
         $user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.png" '.$img_size[3].' alt="" />';
+    } else {
+        $user_avatar = null;
     }
 }
 else{

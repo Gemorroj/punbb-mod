@@ -29,14 +29,13 @@ if ($_GET['action'] == 'change_pass') {
 
         $key = $_GET['key'];
 
-        $result = $db->query('SELECT activate_string, activate_key FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch new password', __file__,
-            __line__, $db->error());
+        $result = $db->query('SELECT activate_string, activate_key FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch new password', __FILE__, __LINE__, $db->error());
         list($new_password_hash, $new_password_key) = $db->fetch_row($result);
 
         if (!$key || $key != $new_password_key) {
             wap_message($lang_profile['Pass key bad'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.');
         } else {
-            $db->query('UPDATE ' . $db->prefix . 'users SET password=\'' . $new_password_hash . '\', activate_string=NULL, activate_key=NULL WHERE id=' . $id) or error('Unable to update password', __file__, __line__, $db->error());
+            $db->query('UPDATE ' . $db->prefix . 'users SET password=\'' . $new_password_hash . '\', activate_string=NULL, activate_key=NULL WHERE id=' . $id) or error('Unable to update password', __FILE__, __LINE__, $db->error());
 
             wap_message($lang_profile['Pass updated'], true);
         }
@@ -49,7 +48,7 @@ if ($_GET['action'] == 'change_pass') {
         } else
             if ($pun_user['g_id'] == PUN_MOD) {
                 // A moderator trying to change a users password?
-                $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __file__, __line__, $db->error());
+                $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                 if (!$db->num_rows($result)) {
                     wap_message($lang_common['Bad request']);
                 }
@@ -78,7 +77,7 @@ if ($_GET['action'] == 'change_pass') {
             wap_message($lang_prof_reg['Pass too short']);
         }
 
-        $result = $db->query('SELECT password, save_pass FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch password', __file__, __line__, $db->error());
+        $result = $db->query('SELECT password, save_pass FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch password', __FILE__, __LINE__, $db->error());
         list($db_password_hash, $save_pass) = $db->fetch_row($result);
 
         $authorized = false;
@@ -100,7 +99,7 @@ if ($_GET['action'] == 'change_pass') {
 
         $new_password_hash = pun_hash($new_password1);
 
-        $db->query('UPDATE ' . $db->prefix . 'users SET password=\'' . $new_password_hash . '\' WHERE id=' . $id) or error('Unable to update password', __file__, __line__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'users SET password=\'' . $new_password_hash . '\' WHERE id=' . $id) or error('Unable to update password', __FILE__, __LINE__, $db->error());
 
         if ($pun_user['id'] == $id) {
             $expire = ($save_pass == 1) ? $_SERVER['REQUEST_TIME'] + 31536000 : 0;
@@ -143,7 +142,7 @@ echo '
             } else if ($pun_user['g_id'] == PUN_MOD) {
                     // A moderator trying to change a users e-mail?
                     $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
-                        $id) or error('Unable to fetch user info', __file__, __line__, $db->error());
+                        $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                     if (!$db->num_rows($result)) {
                         wap_message($lang_common['Bad request']);
                     }
@@ -157,13 +156,13 @@ echo '
         if ($_GET['key']) {
             $key = $_GET['key'];
 
-            $result = $db->query('SELECT activate_string, activate_key FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch activation data', __file__, __line__, $db->error());
+            $result = $db->query('SELECT activate_string, activate_key FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch activation data', __FILE__, __LINE__, $db->error());
             list($new_email, $new_email_key) = $db->fetch_row($result);
 
             if ($key != $new_email_key) {
                 wap_message($lang_profile['E-mail key bad'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.');
             } else {
-                $db->query('UPDATE ' . $db->prefix . 'users SET email=activate_string, activate_string=NULL, activate_key=NULL WHERE id=' . $id) or error('Unable to update e-mail address', __file__, __line__, $db->error());
+                $db->query('UPDATE ' . $db->prefix . 'users SET email=activate_string, activate_string=NULL, activate_key=NULL WHERE id=' . $id) or error('Unable to update e-mail address', __FILE__, __LINE__, $db->error());
 
                 wap_message($lang_profile['E-mail updated'], true);
             }
@@ -198,7 +197,7 @@ echo '
                 // Check if someone else already has registered with that e-mail address
                 $result = $db->query('SELECT id, username FROM ' . $db->prefix .
                     'users WHERE email=\'' . $db->escape($new_email) . '\'') or error('Unable to fetch user info',
-                    __file__, __line__, $db->error());
+                    __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
                     if (!$pun_config['p_allow_dupe_email']) {
                         wap_message($lang_prof_reg['Dupe e-mail']);
@@ -223,7 +222,7 @@ echo '
 
                 $db->query('UPDATE ' . $db->prefix . 'users SET activate_string=\'' . $db->
                     escape($new_email) . '\', activate_key=\'' . $new_email_key . '\' WHERE id=' . $id) or
-                    error('Unable to update activation data', __file__, __line__, $db->error());
+                    error('Unable to update activation data', __FILE__, __LINE__, $db->error());
 
                 // Load the "activate e-mail" template
                 $mail_tpl = trim(file_get_contents(PUN_ROOT . 'lang/' . $pun_user['language'] .
@@ -371,7 +370,7 @@ echo '<div class="con"><strong>' . $lang_profile['Change e-mail'] . '</strong></
 
                 // Enable use_avatar (seems sane since the user just uploaded an avatar)
                 $db->query('UPDATE ' . $db->prefix . 'users SET use_avatar=1 WHERE id=' . $id) or
-                    error('Unable to update avatar state', __file__, __line__, $db->error());
+                    error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
                 wap_redirect('profile.php?section=personality&amp;id=' . $id);
             }
@@ -405,7 +404,7 @@ echo '
 
                 // Disable use_avatar
                 $db->query('UPDATE ' . $db->prefix . 'users SET use_avatar=0 WHERE id=' . $id) or
-                    error('Unable to update avatar state', __file__, __line__, $db->error());
+                    error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
                 wap_redirect('profile.php?section=personality&amp;id=' . $id);
             } else if (isset($_POST['update_group_membership'])) {
@@ -418,13 +417,13 @@ echo '
                     $new_group_id = intval($_POST['group_id']);
 
                     $db->query('UPDATE ' . $db->prefix . 'users SET group_id=' . $new_group_id .
-                        ' WHERE id=' . $id) or error('Unable to change user group', __file__, __line__,
+                        ' WHERE id=' . $id) or error('Unable to change user group', __FILE__, __LINE__,
                         $db->error());
 
                     // If the user was a moderator or an administrator, we remove him/her from the moderator list in all forums as well
                     if ($new_group_id > PUN_MOD) {
                         $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
-                            error('Unable to fetch forum list', __file__, __line__, $db->error());
+                            error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
                         while ($cur_forum = $db->fetch_assoc($result)) {
                             $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
@@ -435,7 +434,7 @@ echo '
                                 unset($cur_moderators[$username]);
                                 $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
 
-                                $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __file__, __line__, $db->error());
+                                $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
                             }
                         }
                     }
@@ -450,7 +449,7 @@ echo '
 
                         // Get the username of the user we are processing
                         $result = $db->query('SELECT username FROM ' . $db->prefix . 'users WHERE id=' .
-                            $id) or error('Unable to fetch user info', __file__, __line__, $db->error());
+                            $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                         $username = $db->result($result);
 
                         $moderator_in = (isset($_POST['moderator_in'])) ? array_keys($_POST['moderator_in']) :
@@ -458,7 +457,7 @@ echo '
 
                         // Loop through all forums
                         $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
-                            error('Unable to fetch forum list', __file__, __line__, $db->error());
+                            error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
                         while ($cur_forum = $db->fetch_assoc($result)) {
                             $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
@@ -470,7 +469,7 @@ echo '
 
                                 $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize
                                     ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
-                                    __file__, __line__, $db->error());
+                                    __FILE__, __LINE__, $db->error());
                             }
                             // If the user shouldn't have moderator access (and he/she already has it)
                             else
@@ -478,7 +477,7 @@ echo '
                                     unset($cur_moderators[$username]);
                                     $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
 
-                                    $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __file__, __line__, $db->error());
+                                    $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
                                 }
                         }
 
@@ -498,8 +497,8 @@ echo '
 
                                 // Get the username and group of the user we are deleting
                                 $result = $db->query('SELECT group_id, username FROM ' . $db->prefix .
-                                    'users WHERE id=' . $id) or error('Unable to fetch user info', __file__,
-                                    __line__, $db->error());
+                                    'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__,
+                                    __LINE__, $db->error());
                                 list($group_id, $username) = $db->fetch_row($result);
 
                                 if ($group_id == PUN_ADMIN) {
@@ -510,7 +509,7 @@ echo '
                                     // If the user is a moderator or an administrator, we remove him/her from the moderator list in all forums as well
                                     if ($group_id < PUN_GUEST) {
                                         $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
-                                            error('Unable to fetch forum list', __file__, __line__, $db->error());
+                                            error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
                                         while ($cur_forum = $db->fetch_assoc($result)) {
                                             $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
@@ -520,18 +519,18 @@ echo '
                                                 unset($cur_moderators[$username]);
                                                 $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
 
-                                                $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __file__, __line__, $db->error());
+                                                $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
                                             }
                                         }
                                     }
 
                                     // Delete any subscriptions
                                     $db->query('DELETE FROM ' . $db->prefix . 'subscriptions WHERE user_id=' . $id) or
-                                        error('Unable to delete subscriptions', __file__, __line__, $db->error());
+                                        error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
 
                                     // Remove him/her from the online list (if they happen to be logged in)
                                     $db->query('DELETE FROM ' . $db->prefix . 'online WHERE user_id=' . $id) or
-                                        error('Unable to remove user from online list', __file__, __line__, $db->error());
+                                        error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
 
                                     // Should we delete all posts made by this user?
                                     if ($_POST['delete_posts']) {
@@ -543,13 +542,13 @@ echo '
                                             'posts AS p INNER JOIN ' . $db->prefix .
                                             'topics AS t ON t.id=p.topic_id INNER JOIN ' . $db->prefix .
                                             'forums AS f ON f.id=t.forum_id WHERE p.poster_id=' . $id) or error('Unable to fetch posts',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
                                         if ($db->num_rows($result)) {
                                             while ($cur_post = $db->fetch_assoc($result)) {
                                                 // Determine whether this post is the "topic post" or not
                                                 $result2 = $db->query('SELECT id FROM ' . $db->prefix . 'posts WHERE topic_id=' .
                                                     $cur_post['topic_id'] . ' ORDER BY posted LIMIT 1') or error('Unable to fetch post info',
-                                                    __file__, __line__, $db->error());
+                                                    __FILE__, __LINE__, $db->error());
 
                                                 if ($db->result($result2) == $cur_post['id']) {
                                                     delete_topic($cur_post['topic_id']);
@@ -563,18 +562,18 @@ echo '
                                     } else {
                                         // Set all his/her posts to guest
                                         $db->query('UPDATE ' . $db->prefix . 'posts SET poster_id=1 WHERE poster_id=' .
-                                            $id) or error('Unable to update posts', __file__, __line__, $db->error());
+                                            $id) or error('Unable to update posts', __FILE__, __LINE__, $db->error());
 
                                         // Set all his/her attachments to guest
                                         $db->query('UPDATE ' . $db->prefix .
                                             'attachments SET poster_id=1 WHERE poster_id=' . $id) or error('Unable to update attachments',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
                                     }
 
 
                                     // Delete the user
                                     $db->query('DELETE FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to delete user',
-                                        __file__, __line__, $db->error());
+                                        __FILE__, __LINE__, $db->error());
 
                                     // PMS MOD BEGIN
                                     include PUN_ROOT . 'include/pms/profile_delete.php';
@@ -613,7 +612,7 @@ echo '
                                 if ($_POST['form_sent']) {
                                     // Fetch the user group of the user we are editing
                                     $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
-                                        $id) or error('Unable to fetch user info', __file__, __line__, $db->error());
+                                        $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                                     if (!$db->num_rows($result)) {
                                         wap_message($lang_common['Bad request']);
                                     }
@@ -684,7 +683,7 @@ echo '
                                                         // Check that the username is not already registered
                                                         $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE username=\'' .
                                                             $db->escape($form['username']) . '\' AND id!=' . $id) or error('Unable to fetch user info',
-                                                            __file__, __line__, $db->error());
+                                                            __FILE__, __LINE__, $db->error());
                                                         if ($db->num_rows($result)) {
                                                             wap_message($lang_profile['Dupe username']);
                                                         }
@@ -869,7 +868,7 @@ echo '
 
                                                 // If the save_pass setting has changed, we need to set a new cookie with the appropriate expire date
                                                 if ($pun_user['id'] == $id && $form['save_pass'] != $pun_user['save_pass']) {
-                                                    $result = $db->query('SELECT password FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user password hash', __file__, __line__, $db->error());
+                                                    $result = $db->query('SELECT password FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user password hash', __FILE__, __LINE__, $db->error());
                                                     pun_setcookie($id, $db->result($result), ($form['save_pass'] == 1) ? $_SERVER['REQUEST_TIME'] + 31536000 : 0);
                                                 }
 
@@ -897,29 +896,28 @@ echo '
                                     // If we changed the username we have to update some stuff
                                     if ($username_updated) {
                                         $db->query('UPDATE ' . $db->prefix . 'posts SET poster=\'' . $db->escape($form['username']) .
-                                            '\' WHERE poster_id=' . $id) or error('Unable to update posts', __file__,
-                                            __line__, $db->error());
+                                            '\' WHERE poster_id=' . $id) or error('Unable to update posts', __FILE__,
+                                            __LINE__, $db->error());
                                         $db->query('UPDATE ' . $db->prefix . 'topics SET poster=\'' . $db->escape($form['username']) .
                                             '\' WHERE poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
                                         $db->query('UPDATE ' . $db->prefix . 'topics SET last_poster=\'' . $db->escape($form['username']) .
                                             '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
                                         $db->query('UPDATE ' . $db->prefix . 'forums SET last_poster=\'' . $db->escape($form['username']) .
                                             '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update forums',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
                                         $db->query('UPDATE ' . $db->prefix . 'online SET ident=\'' . $db->escape($form['username']) .
                                             '\' WHERE ident=\'' . $db->escape($old_username) . '\'') or error('Unable to update online list',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
 
                                         // If the user is a moderator or an administrator we have to update the moderator lists
-                                        $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
-                                            $id) or error('Unable to fetch user info', __file__, __line__, $db->error());
+                                        $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                                         $group_id = $db->result($result);
 
                                         if ($group_id < PUN_GUEST) {
                                             $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
-                                                error('Unable to fetch forum list', __file__, __line__, $db->error());
+                                                error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
                                             while ($cur_forum = $db->fetch_assoc($result)) {
                                                 $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
@@ -932,7 +930,7 @@ echo '
 
                                                     $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize
                                                         ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
-                                                        __file__, __line__, $db->error());
+                                                        __FILE__, __LINE__, $db->error());
                                                 }
                                             }
                                         }
@@ -945,7 +943,7 @@ echo '
 $result = $db->query('SELECT u.username, u.email, u.title, u.realname, u.url, u.sex, u.birthday, u.jabber, u.icq, u.msn, u.aim, u.yahoo, u.location, u.use_avatar, u.signature, u.disp_topics, u.disp_posts, u.email_setting, u.save_pass, u.notify_with_post, u.show_smilies, u.show_img, u.show_img_sig, u.show_avatars, u.show_sig, u.timezone, u.language, u.style_wap, u.num_posts, u.num_files, u.file_bonus, u.last_post, u.registered, u.registration_ip, u.admin_note, g.g_id, g.g_user_title, u.mark_after, u.show_bbpanel_qpost FROM ' .
     $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix .
     'groups AS g ON g.g_id=u.group_id WHERE u.id=' . $id) or error('Unable to fetch user info',
-    __file__, __line__, $db->error());
+    __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
 
@@ -1050,23 +1048,17 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
     require_once PUN_ROOT . 'wap/header.php';
 
 
-echo '
-<div class="con">' . $lang_common['Profile'] . ' <strong>' . pun_htmlspecialchars($user['username']) . '</strong></div>';
+echo '<div class="con">' . $lang_common['Profile'] . ' <strong>' . pun_htmlspecialchars($user['username']) . '</strong></div>';
 //avatars Signature
-echo '
-<div class="input">
-
-';
+echo '<div class="input">';
     if ($pun_config['o_avatars']) {
         echo $avatar_field . '<br/>';
     }
-echo '
-<strong>' . $lang_profile['Signature'] . ':</strong> ';
+echo '<strong>' . $lang_profile['Signature'] . ':</strong> ';
 echo isset($parsed_signature) ? $parsed_signature : $lang_profile['No sig'];
 echo '</div>';
 //personal
-echo '
-<div class="input2">
+echo '<div class="input2">
 <strong>' . $lang_profile['Section personal'] . '</strong><br/>
 <strong>' . $lang_common['Username'] . ':</strong> ' . pun_htmlspecialchars($user['username']) . ' (' . $user['sex'] . ')<br/>';
 
@@ -1082,17 +1074,13 @@ echo '
     }
 echo '<br/>
 <strong>' . $lang_profile['Realname'] . ':</strong> ';
-echo ($user['realname']) ? pun_htmlspecialchars(($pun_config['o_censoring'] ==
-1) ? censor_words($user['realname']) : $user['realname']) : $lang_profile['Unknown'];
+echo ($user['realname']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['realname']) : $user['realname']) : $lang_profile['Unknown'];
 echo '<br/>
 <strong>' . $lang_profile['Location'] .':</strong> ';
-echo ($user['location']) ?
-pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['location']):
-$user['location']) : $lang_profile['Unknown']; 
+echo ($user['location']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['location']): $user['location']) : $lang_profile['Unknown']; 
 echo '<br/>
 <strong>' . $lang_profile['Website'] . ':</strong> ' . $url . '<br/>
-<strong>' . $lang_common['E-mail'] . ':</strong> ' . $email_field . '<br/>
-';
+<strong>' . $lang_common['E-mail'] . ':</strong> ' . $email_field . '<br/>';
 
 // PMS MOD BEGIN 
 ob_start();
@@ -1104,32 +1092,21 @@ echo str_replace('<dt>', '<strong>', str_replace('</dt>', '</strong>', str_repla
 echo '</div>';
 
 //messaging
-echo '
-<div class="input">';
-echo '
-<strong>' . $lang_profile['Section messaging'] . '</strong><br/>';
-echo '
-<strong>' . $lang_profile['Jabber'] . ':</strong> ';
-echo ($user['jabber']) ?
-pun_htmlspecialchars($user['jabber']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
+echo '<div class="input">';
+echo '<strong>' . $lang_profile['Section messaging'] . '</strong><br/>';
+echo '<strong>' . $lang_profile['Jabber'] . ':</strong> ';
+echo ($user['jabber']) ? pun_htmlspecialchars($user['jabber']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
 echo '<strong>' . $lang_profile['ICQ'] . ':</strong> ';
 echo ($user['icq']) ? $user['icq']. '<br/>' : $lang_profile['Unknown'] . '<br/>'; 
 echo '<strong>' . $lang_profile['MSN'] . ':</strong> ';
-echo ($user['msn']) ?
-pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['msn']) :
-$user['msn']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
+echo ($user['msn']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['msn']) : $user['msn']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
 echo '<strong>' . $lang_profile['AOL IM'] . ':</strong> ';
-echo ($user['aim']) ?
-pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['aim']) :
-$user['aim']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
+echo ($user['aim']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['aim']) : $user['aim']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
 echo '<strong>' . $lang_profile['Yahoo'] . ':</strong> ';
-echo ($user['yahoo']) ?
-pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['yahoo']) :
-$user['yahoo']) : $lang_profile['Unknown'];
+echo ($user['yahoo']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['yahoo']) : $user['yahoo']) : $lang_profile['Unknown'];
 echo '</div>';
 //User activity
-echo '
-<div class="input2">
+echo '<div class="input2">
 <strong>' . $lang_profile['User activity'] . '</strong><br/>';
 echo '<strong>' . $lang_common['Posts'] . ':</strong> ' . $posts_field . '<br/>
 <strong>' . $lang_common['Files'] . ':</strong> ' . $files_field . '<br/>
@@ -1193,8 +1170,7 @@ else {
         wap_generate_profile_menu('essentials');
 
 
-echo '
-<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section essentials'] . '</strong></div>
+echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section essentials'] . '</strong></div>
 <form method="post" action="profile.php?section=essentials&amp;id=' . $id . '">
 <div class="input">
 <input type="hidden" name="form_sent" value="1" />' . $username_field;
@@ -1333,8 +1309,7 @@ echo '</div>
         echo '</div>
 <div class="go_to">
 <input type="submit" name="update" value="' . $lang_common['Submit'] . '" />
-</div></form>
-';
+</div></form>';
     } else if ($_GET['section'] == 'personal') {
             if ($pun_user['g_set_title'] == 1) {
                 $title_field = $lang_common['Title'] . ' (<em>' . $lang_profile['Leave blank'] . '</em>)<br /><input type="text" name="title" value="' . pun_htmlspecialchars($user['title']) . '" maxlength="50" /><br />';
@@ -1348,8 +1323,7 @@ echo '</div>
             wap_generate_profile_menu('personal');
             $birthday = explode('.', $user['birthday']);
 
-echo '
-<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section personal'] . '</strong></div>
+echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section personal'] . '</strong></div>
 <form method="post" action="profile.php?section=personal&amp;id=' . $id . '">
 <div class="input">
 <strong>' . $lang_profile['Personal details legend'] . '</strong><br/>
@@ -1381,8 +1355,7 @@ echo '
                 wap_generate_profile_menu('messaging');
 
 
-echo '
-<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section messaging'] . '</strong></div>
+echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section messaging'] . '</strong></div>
 <form method="post" action="profile.php?section=messaging&amp;id=' . $id . '">
 <div class="input">
 <strong>' . $lang_profile['Contact details legend'] . '</strong><br/>
@@ -1433,8 +1406,7 @@ echo '
 echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section personality'] . '</strong></div>
 <form method="post" action="profile.php?section=personality&amp;id=' . $id . '">
 <div class="input">
-<input type="hidden" name="form_sent" value="1" />
-';
+<input type="hidden" name="form_sent" value="1" />';
                     if ($pun_config['o_avatars'] == 1) {
                         echo '<strong>' . $lang_profile['Avatar legend'] . '</strong>
                         <div class="zag_in">';
@@ -1449,13 +1421,10 @@ echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' -
                         echo ' />' . $lang_profile['Use avatar'] . '</div>
                         ' . $avatar_field . '</div>';
                     }
-echo '
-<div class="input2"><strong>' . $lang_profile['Signature legend'] . '</strong><br/>
+echo '<div class="input2"><strong>' . $lang_profile['Signature legend'] . '</strong><br/>
 <span class="sub">' . $lang_profile['Signature info'] . '</span><br/>
-' . $lang_profile['Sig max length'] . ': ' . $pun_config['p_sig_length'] . ' / ' .
-                        $lang_profile['Sig max lines'] . ': ' . $pun_config['p_sig_lines'] . '<br />
-<textarea name="signature" rows="4" cols="24">' . pun_htmlspecialchars($user['signature']) . '</textarea><br />
-';
+' . $lang_profile['Sig max length'] . ': ' . $pun_config['p_sig_length'] . ' / ' . $lang_profile['Sig max lines'] . ': ' . $pun_config['p_sig_lines'] . '<br />
+<textarea name="signature" rows="4" cols="24">' . pun_htmlspecialchars($user['signature']) . '</textarea><br />';
                     echo '<a href="help.php?id=3">' . $lang_common['Smilies'] . '</a> ';
                     if ($pun_config['o_smilies_sig']) {
                         echo '<span class="green">' . $lang_common['on_m'] . '</span>;';
@@ -1479,8 +1448,7 @@ echo '
 echo '</div>
 <div class="input">' . $signature_preview . '</div>
 <div class="go_to">
-<input type="submit" name="update" value="' . $lang_common['Submit'] . '" /></div></form>
-';
+<input type="submit" name="update" value="' . $lang_common['Submit'] . '" /></div></form>';
                 }
 //profile-display
                  else if ($_GET['section'] == 'display') {
@@ -1489,8 +1457,7 @@ echo '</div>
 
                         wap_generate_profile_menu('display');
 
-echo '
-<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section display'] . '</strong></div>
+echo '<div class="con"><strong>' . pun_htmlspecialchars($user['username']) . ' - ' . $lang_profile['Section display'] . '</strong></div>
 <form method="post" action="profile.php?section=display&amp;id=' . $id . '">
 <div class="input">
 <input type="hidden" name="form_sent" value="1" />';
@@ -1509,15 +1476,13 @@ echo '
                         switch (sizeof($styles)) {
                                 //////////////
                             case 1:
-                                echo '
-                                <input type="hidden" name="form[style_wap]" value="' . $styles[0] . '" />';
+                                echo '<input type="hidden" name="form[style_wap]" value="' . $styles[0] . '" />';
                                 break;
 
                             default:
                                 natsort($styles);
 
-                                echo '
-<strong>' . $lang_profile['Style legend'] . '</strong><br/>
+                                echo '<strong>' . $lang_profile['Style legend'] . '</strong><br/>
 ' . $lang_profile['Style info'] . '<br />
 <select name="form[style_wap]">';
 
@@ -1538,8 +1503,7 @@ echo '
                                 ///////////
                         }
 
-echo '
-<div class="input2">
+echo '<div class="input2">
 <strong>' . $lang_profile['Post display legend'] . '</strong><br/>' . $lang_profile['Post display info'] . '<br/><input type="checkbox" name="form[show_smilies]" value="1"';
                         if ($user['show_smilies'] == 1) {
                             echo ' checked="checked"';
@@ -1652,7 +1616,7 @@ echo '<div class="con">
 
                                         $result = $db->query('SELECT `g_id`, `g_title` FROM `' . $db->prefix .
                                             'groups` WHERE `g_id`!=' . PUN_GUEST . ' ORDER BY `g_title`') or error('Unable to fetch user group list',
-                                            __file__, __line__, $db->error());
+                                            __FILE__, __LINE__, $db->error());
 
                                         while ($cur_group = $db->fetch_assoc($result)) {
                                             if ($cur_group['g_id'] == $user['g_id'] || ($cur_group['g_id'] == $pun_config['o_default_user_group'] &&
@@ -1665,24 +1629,18 @@ echo '<div class="con">
                                         }
 
 
-                                        echo '</select>
-                                        <input type="submit" name="update_group_membership" value="' . $lang_profile['Save'] . '" />';
+                                        echo '</select><input type="submit" name="update_group_membership" value="' . $lang_profile['Save'] . '" />';
                                     }
 
-                                    echo '</div>
-<div class="input2">
- <strong>' . $lang_profile['Delete ban legend'] . '</strong><br/>
-<input type="submit" name="delete_user" value="' . $lang_profile['Delete user'] . '" /> <input type="submit" name="ban" value="' . $lang_profile['Ban user'] . '" />';
+                                    echo '</div><div class="input2"> <strong>' . $lang_profile['Delete ban legend'] . '</strong><br/><input type="submit" name="delete_user" value="' . $lang_profile['Delete user'] . '" /> <input type="submit" name="ban" value="' . $lang_profile['Ban user'] . '" />';
 
                                     if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
-                                        echo '</div>
-<div class="input">
-<strong>' . $lang_profile['Set mods legend'] . '</strong><br/>' . $lang_profile['Moderator in info'] . '<br/>';
+                                        echo '</div><div class="input"><strong>' . $lang_profile['Set mods legend'] . '</strong><br/>' . $lang_profile['Moderator in info'] . '<br/>';
 
                                         $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.moderators FROM ' .
                                             $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix .
                                             'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or
-                                            error('Unable to fetch category/forum list', __file__, __line__, $db->error());
+                                            error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
                                         $cur_category = 0;
                                         while ($cur_forum = $db->fetch_assoc($result)) {
@@ -1702,16 +1660,12 @@ echo '<div class="con">
                                         }
 
 
-                                        echo '</div>
-<div class="go_to"><input type="submit" name="update_forums" value="' . $lang_profile['Update forums'] . '" />';
+                                        echo '</div><div class="go_to"><input type="submit" name="update_forums" value="' . $lang_profile['Update forums'] . '" />';
 
                                     }
                                 }
 
-                                echo '</div></form>
-                                '
-                                ;
-
+                                echo '</div></form>';
                             }
 
     require_once PUN_ROOT . 'wap/footer.php';

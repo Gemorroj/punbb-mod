@@ -1,8 +1,6 @@
 <?php
 if ($attachments) {
-    echo '
-    <div class="attach_list"><strong>' . $lang_fu['Attachments'] . '</strong><br/>
-    ';
+    echo '<div class="attach_list"><strong>' . $lang_fu['Attachments'] . '</strong><br/>';
     $basename = basename($_SERVER['PHP_SELF']);
 
     foreach ($attachments as $attachment) {
@@ -34,13 +32,11 @@ if ($attachments) {
         } else {
             echo '<span class="red">' . $title . '</span> ' . $att_info;
         }
-        
-        echo '<br/>
-        ';
+
+        echo '<br/>';
     }
 
-    echo '</div>
-    ';
+    echo '</div>';
 }
 
 ?>

@@ -174,28 +174,28 @@ if (isset($_POST['form_sent'])) {
         } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
             $errors[] = $lang_prof_reg['Username IP'];
         }
-        
+
         if ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
             $errors[] = $lang_prof_reg['Username reserved chars'];
         }
-        
+
         if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[hide\]|\[hide=|\[/hide\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
             $errors[] = $lang_prof_reg['Username BBCode'];
         }
-        
+
         // Check username for any censored words
         $temp = censor_words($username);
         if ($temp != $username) {
             $errors[] = $lang_register['Username censor'];
         }
-        
+
         // Check that the username (or a too similar username) is not already registered
         $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE (username=\''.$db->escape($username).'\' OR username=\''.$db->escape(preg_replace('/[^\w]/', '', $username)).'\') AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
             $errors[] = $lang_register['Username dupe 1'].' '.pun_htmlspecialchars($busy).'. '.$lang_register['Username dupe 2'];
         }
-        
+
         if ($pun_config['p_force_guest_email'] == 1 || $email) {
             include_once PUN_ROOT.'include/email.php';
             if (!is_valid_email($email)) {
@@ -206,8 +206,8 @@ if (isset($_POST['form_sent'])) {
 
     // Clean up message from POST
     $message = pun_linebreaks(pun_trim($_POST['req_message']));
-    
-    
+
+
     if (!$message) {
         $errors[] = $lang_post['No message'];
     } else if (mb_strlen($message) > 65535) {
@@ -370,7 +370,7 @@ if (isset($_POST['form_sent'])) {
                             
                             $mail_subject = $mail_message = $mail_subject_full = $mail_message_full = null;
                         }
-                        
+
                         if ($notification_emails[$cur_subscriber['language']]) {
                             // We have to double check here because the templates could be missing
                             if (!$cur_subscriber['notify_with_post']) {
@@ -580,8 +580,7 @@ if (!$pun_user['is_guest']) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; '.$forum_name;
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; '.$forum_name;
 if (isset($cur_posting['subject'])) {
     echo ' &#187; ' . pun_htmlspecialchars($cur_posting['subject']);
 }
@@ -590,45 +589,36 @@ echo '</div>';
 
 // If there are errors, we display them
 if ($errors) {
-    echo '
-    <div class="red">' . $lang_post['Post errors'] . '</div>
-    <div class="msg">';
+    echo '<div class="red">' . $lang_post['Post errors'] . '</div><div class="msg">';
     while (list(, $cur_error) = each($errors)) {
         echo '&#187; '.$cur_error.'<br/>';
     }
     echo '</div>';
-    
 } else if (isset($_POST['preview'])) {
     include_once PUN_ROOT.'include/parser.php';
-$preview_message = parse_message($message, $hide_smilies);
-    
-$preview_message = str_replace('<p>',null,$preview_message);
-$preview_message = str_replace('<p class="right">','',$preview_message);
-$preview_message = str_replace('</p>',null,$preview_message);
-$preview_message = str_replace('<blockquote>',null,$preview_message);
-$preview_message = str_replace('</blockquote>',null,$preview_message);
-$preview_message = str_replace('</blockquote>',null,$preview_message);
-$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
-$preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
-$preview_message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$preview_message);
-$preview_message = str_replace('</h4>','<br />',$preview_message);
-$preview_message = str_replace('</table></div></div></div>','</table></div></div>',$preview_message);
-$preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
-$preview_message = str_replace(' style="width:15px; height:15px;"','',$preview_message);
-$preview_message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$preview_message);
-$preview_message = str_replace('</div><br />','</div>',$preview_message);
-    
+    $preview_message = parse_message($message, $hide_smilies);
 
-    echo '
-    <div class="info">'.$lang_post['Post preview'].'</div>
-    <div class="msg">'.$preview_message.'</div>';
+    $preview_message = str_replace('<p>',null,$preview_message);
+    $preview_message = str_replace('<p class="right">','',$preview_message);
+    $preview_message = str_replace('</p>',null,$preview_message);
+    $preview_message = str_replace('<blockquote>',null,$preview_message);
+    $preview_message = str_replace('</blockquote>',null,$preview_message);
+    $preview_message = str_replace('</blockquote>',null,$preview_message);
+    $preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+    $preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
+    $preview_message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$preview_message);
+    $preview_message = str_replace('</h4>','<br />',$preview_message);
+    $preview_message = str_replace('</table></div></div></div>','</table></div></div>',$preview_message);
+    $preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
+    $preview_message = str_replace(' style="width:15px; height:15px;"','',$preview_message);
+    $preview_message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$preview_message);
+    $preview_message = str_replace('</div><br />','</div>',$preview_message);
+
+    echo '<div class="info">'.$lang_post['Post preview'].'</div><div class="msg">'.$preview_message.'</div>';
 }
 $cur_index = 1;
 
-echo '
-<div class="con">'.$action.'</strong></div>
-'.$form.'
-<div class="input">';
+echo '<div class="con">'.$action.'</strong></div>'.$form.'<div class="input">';
 
 
 // hcs AJAX POLL MOD BEGIN
@@ -645,36 +635,31 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
 // hcs AJAX POLL MOD END
 
 
-echo '
-<input type="hidden" name="form_sent" value="1" />
+echo '<input type="hidden" name="form_sent" value="1" />
 <input type="hidden" name="form_user" value="' . (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])) . '" />';
 
 if ($pun_user['is_guest']) {
     $email_label = ($pun_config['p_force_guest_email'] == 1) ? '<strong>'.$lang_common['E-mail'].'</strong>' : $lang_common['E-mail'];
     $email_form_name = ($pun_config['p_force_guest_email'] == 1) ? 'req_email' : 'email';
 
-    echo '
-    <strong>'.$lang_post['Guest name'].'</strong><br />
+    echo '<strong>'.$lang_post['Guest name'].'</strong><br />
     <input type="text" name="req_username" value="'.@pun_htmlspecialchars(@$username).'" tabindex="'.($cur_index++).'" /><br />'.$email_label.'<br />
     <input type="text" name="'.$email_form_name.'" value="'.@pun_htmlspecialchars(@$email).'" tabindex="'.($cur_index++).'" /><br />';
 }
 
 if ($fid) {
-    echo '
-    <strong>'.$lang_common['Subject'].'</strong><br />
+    echo '<strong>'.$lang_common['Subject'].'</strong><br />
     <input type="text" name="req_subject" value="'.@pun_htmlspecialchars(@$subject).'" maxlength="70" tabindex="'.($cur_index++).'" /><br />';
 }
 //require PUN_ROOT.'include/attach/post_buttons.php';
 
-echo '
-<textarea name="req_message" rows="4" cols="24" tabindex="'.($cur_index++).'">';
+echo '<textarea name="req_message" rows="4" cols="24" tabindex="'.($cur_index++).'">';
 if ($_POST['req_message']) {
     echo pun_htmlspecialchars($message);
 } else if ($quote) {
     echo $quote;
 }
-echo '</textarea><br />
-';
+echo '</textarea><br />';
 //Smilies/BBCode
 echo '<a href="help.php?id=3">'.$lang_common['Smilies'].'</a> ';
 echo ($pun_config['o_smilies'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>;' : '<span class="grey">' . $lang_common['off_m']. '</span>;';
@@ -683,43 +668,35 @@ echo ($pun_config['p_message_bbcode'] == 1) ? '<span class="green">' . $lang_com
 echo ' <a href="help.php?id=4">'.$lang_common['img tag'].'</a> ';
 echo ($pun_config['p_message_img_tag'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>' : '<span class="grey">' . $lang_common['off_m']. '</span>';
 //Smilies/BBCode end
-echo '</div>
-<div class="input2">';
+echo '</div><div class="input2">';
 
 // captcha
 if ($pun_user['g_post_replies'] == 2) {
-    echo '
-    <img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />'.$lang_post['Image text'].'<br />
-    <input type="text" name="req_image_" size="16" maxlength="16" /><br />';
+    echo '<img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="16" /><br />';
 }
 
 $num_to_upload = min($file_limit, 20);
 
 
 if ($can_upload && $num_to_upload > 0) {
-    echo '
-    '.$lang_fu['Attachments'].'<br/>';
+    echo $lang_fu['Attachments'].'<br/>';
     include PUN_ROOT.'include/attach/wap_post_input.php';
 }
 
 $checkboxes = array();
 if (!$pun_user['is_guest']) {
     if ($pun_config['o_smilies'] == 1) {
-        $checkboxes[] = '
-        <input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
+        $checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
     }
     if ($is_admmod) {
-        $checkboxes[] = '
-        <input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];
+        $checkboxes[] = '<input type="checkbox" name="merge" value="1" checked="checked" />'.$lang_post['Merge posts'];
     }
     
     if ($pun_config['o_subscriptions'] == 1) {
-        $checkboxes[] = '
-        <input type="checkbox" name="subscribe" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['subscribe']) ? ' checked="checked"' : '').' />'.$lang_post['Subscribe'];
+        $checkboxes[] = '<input type="checkbox" name="subscribe" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['subscribe']) ? ' checked="checked"' : '').' />'.$lang_post['Subscribe'];
     }
 } else if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '
-    <input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
+    $checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
 }
 
 if ($checkboxes) {
