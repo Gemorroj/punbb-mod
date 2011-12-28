@@ -9,7 +9,7 @@ if(!$pun_user['g_read_board']){
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' :: '.$lang_common['Attachments']);
+$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' &#187; '.$lang_common['Attachments']);
 define('PUN_ALLOW_INDEX', 0);
 define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
@@ -108,7 +108,7 @@ if($fid_list){
 }
 
 $cur_category = $cur_forum = $cur_topic = 0;
-
+$j = false;
 /*
 // insert popup info panel & its data (javascript)
 if($pun_config['file_popup_info'] == '1')
@@ -116,8 +116,9 @@ if($pun_config['file_popup_info'] == '1')
 */
 
 if(isset($_GET['user_id'])){
-    echo '<div class="red">'.$lang_common['Member'].' - '.$lang_common['Info'].'<br/></div>
-    <div class="incqbox">'.$userstat.'</div>';
+    echo '
+    <div class="con">'.$lang_common['Member'].' - '.$lang_common['Info'].'</div>
+    <div class="msg">'.$userstat.'</div>';
 }
 
 $image_height = $pun_config['file_preview_height'];
@@ -125,29 +126,38 @@ $image_width = $pun_config['file_preview_width'];
 
 foreach($attachments as $row){
     if($row['cat_id'] != $cur_category || $row['forum_id'] != $cur_forum){
-        echo '<div class="red">'.pun_htmlspecialchars($categories[$row['cat_id']]).' &#187; <a href="viewforum.php?id='.$row['forum_id'].'">'.pun_htmlspecialchars($forums[$row['forum_id']]['forum_name']).'</a><br/></div>';
+        echo '
+        <div class="cat">'.pun_htmlspecialchars($categories[$row['cat_id']]).' &#187; <a href="viewforum.php?id='.$row['forum_id'].'">'.pun_htmlspecialchars($forums[$row['forum_id']]['forum_name']).'</a></div>';
         $cur_category = $row['cat_id'];
         $cur_forum = $row['forum_id'];
     }
     
      // A new topic since last iteration?
     if($row['tid'] != $cur_topic){
-        echo '<div class="box"><a href="viewtopic.php?id='.$row['tid'].'">'.pun_htmlspecialchars($row['subject']).'</a> <span style="font-size:smaller;">('.format_time($row['posted']).')</span></div>';
+        echo '
+        <div class="in">
+        <a href="viewtopic.php?id='.$row['tid'].'">'.pun_htmlspecialchars($row['subject']).'</a> <span class="small">('.format_time($row['posted']).')</span></div>';
         $cur_topic = $row['tid'];
     }
     
-    
     $att_info = '('.round($row['size']/1024,1).'kb, '.((preg_match('|^image/(.*)$|i', $row['mime'], $regs))? ($regs[1].' '.$row['image_dim'].', ') : '').'downloads: '.$row['downloads'].')';
     
+    $msg_class = ($j = !$j) ? 'msg' : 'msg2';
+        
+    echo '
+    <div class="' . $msg_class . '">';
     
     if($row['can_download']){
-        echo '<div class="attach_list"><a href="'.PUN_ROOT.'download.php?aid='.$row['id'].'">'.pun_htmlspecialchars($row['filename']).'</a> <span style="font-style:italic;font-size:smaller;">'.$att_info.'<br/></span></div>';
+        echo '
+        <a href="'.PUN_ROOT.'download.php?aid='.$row['id'].'">'.pun_htmlspecialchars($row['filename']).'</a> <span style="font-style:italic;font-size:smaller;">'.$att_info.'</span>';
     } else {
-        echo '<div class="attach_list">'.pun_htmlspecialchars($row['filename']).' '.$att_info.'</div>';
+        echo pun_htmlspecialchars($row['filename']).' '.$att_info;
     }
+    echo '</div>
+    ';
 }
 
-echo '<p class="con">'.$paging_links.'</p>';
+echo '<div class="con">'.$paging_links.'</div>';
 
 
 $footer_style = 'index';

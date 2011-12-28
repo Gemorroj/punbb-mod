@@ -214,14 +214,15 @@ if ($errors) {
     $preview_message = str_replace('</blockquote>',null,$preview_message);
     $preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
     $preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
-    $preview_message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$preview_message);
+    $preview_message = str_replace('<div class="incqbox">','<div class="quote">',$preview_message);
+    $preview_message = str_replace('<h4>',null,$preview_message);
     $preview_message = str_replace('</h4>','<br />',$preview_message);
     $preview_message = str_replace('</table></div></div></div>','</table></div></div>',$preview_message);
     $preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
-    $preview_message = str_replace(' style="width:15px; height:15px;"','',$preview_message);
+    $preview_message = str_replace(' style="width:15px; height:15px;"',null,$preview_message);
     $preview_message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$preview_message);
     $preview_message = str_replace('</div><br />','</div>',$preview_message);
-    $preview_message = str_replace('<p class="right">','',$preview_message);
+    $preview_message = str_replace('<p class="right">',null,$preview_message);
 
     echo '<div class="info">'.$lang_post['Post preview'].'</div><div class="msg">'.$preview_message.'</div>';
 }

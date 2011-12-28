@@ -142,7 +142,7 @@ $tpl_main = str_replace('<pun_navlinks>', '', $tpl_main);
 
 
 $tpl_main = str_replace('<pun_status>', $tpl_temp, $tpl_main);
-$tpl_temp .= '<div class="in"><strong>RSS</strong><div class="box"><div><a href="' . PUN_ROOT . 'rss.xml">RSS</a></div></div>';
+$tpl_temp .= '<div class="con"><strong>RSS</strong></div><div class="in"><div><a href="' . PUN_ROOT . 'rss.xml">RSS</a></div>';
 
 // END SUBST - <pun_status>
 
@@ -152,7 +152,10 @@ $tpl_temp .= '<div class="in"><strong>RSS</strong><div class="box"><div><a href=
 if ($basename == 'index.php' && $pun_config['o_announcement'] == 1) {
     ob_start();
 
-    echo '<div class="incqbox">' . $lang_common['Announcement'] . '</div><div class="msg">' . $pun_config['o_announcement_message'] . '</div>';
+    echo '
+    <div class="incqbox">' . $lang_common['Announcement'] . '</div>
+    <div class="msg">' . $pun_config['o_announcement_message'] . '</div>
+    ';
 
     $tpl_temp = trim(ob_get_contents());
     $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);
@@ -170,7 +173,7 @@ ob_start();
 define('PUN_HEADER', 1);
 
 
-if ($basename == 'profile.php' || $basename == 'search.php' || $basename == 'userlist.php' || $basename == 'uploads.php' || $basename == 'message_list.php' || $basename == 'message_send.php' || $basename == 'message_delete.php' || $basename == 'misc.php' || $basename == 'filemap.php' || $basename == 'karma.php') {
+if ($basename == 'profile.php' || $basename == 'search.php' || $basename == 'userlist.php' || $basename == 'message_list.php' || $basename == 'message_send.php' || $basename == 'message_delete.php' || $basename == 'misc.php' || $basename == 'filemap.php' || $basename == 'karma.php') {
     echo '<div class="inbox"><a href="index.php">' . $lang_common['Index'] . '</a></div>';
 }
 
