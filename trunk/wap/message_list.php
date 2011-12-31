@@ -299,11 +299,10 @@ if ($box < 2) {
     }
 
     if ($_GET['action'] == 'all') {
-        $p = $num_pages+1;
+        $p = $num_pages + 1;
     }
 
-    echo '</div>
-<div class="go_to">
+    echo '<div class="go_to">
 <input type="hidden" name="box" value="' . $box . '"/>
 '.($all ? '<input type="submit" value="' . $lang_pms['Delete'] . '"/>' : '').'</div></form>
 <div class="con">'.$lang_common['Pages'].': '.paginate($num_pages, $p, 'message_list.php?box='.$box).'</div>';

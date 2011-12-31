@@ -82,10 +82,12 @@ if ($footer_style == 'index' || $footer_style == 'search') {
         }
 
         if ($cur_topic['sticky'] == 1) {
-            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;unstick='.$id.'">'.$lang_common['Unstick topic'].'</a><span></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;unstick='.$id.'">'.$lang_common['Unstick topic'].'</a>';
         } else {
-            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;stick='.$id.'">'.$lang_common['Stick topic'].'</a><span></div>';
+            echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;stick='.$id.'">'.$lang_common['Stick topic'].'</a>';
         }
+
+        echo '</span></div>';
     }
 
 

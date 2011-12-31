@@ -603,7 +603,6 @@ if ($errors) {
     $preview_message = str_replace('</p>',null,$preview_message);
     $preview_message = str_replace('<blockquote>',null,$preview_message);
     $preview_message = str_replace('</blockquote>',null,$preview_message);
-    $preview_message = str_replace('</blockquote>',null,$preview_message);
     $preview_message = str_replace('<span style="color: #bbb">','<span class="small">',$preview_message);
     $preview_message = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$preview_message);
     $preview_message = str_replace('<div class="incqbox">','<div class="quote">',$preview_message);
@@ -619,7 +618,7 @@ if ($errors) {
 }
 $cur_index = 1;
 
-echo '<div class="con">'.$action.'</strong></div>'.$form.'<div class="input">';
+echo '<div class="con">'.$action.'</div>'.$form.'<div class="input">';
 
 
 // hcs AJAX POLL MOD BEGIN

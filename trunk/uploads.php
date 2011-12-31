@@ -377,7 +377,6 @@ if (!$upl_conf['p_view']) {
     }
 
     echo '</div></fieldset></div>';
-
 }
 echo '</div></div></div>';
 

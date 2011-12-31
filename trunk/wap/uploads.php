@@ -384,8 +384,6 @@ if (!$upl_conf['p_view']) {
             }
         }
         echo '</div>';
-    }else {
-        echo '<div class="red">' . $lang_uploads['Not allowed'] . '</div><div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>';
     }
 }
 
