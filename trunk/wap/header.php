@@ -152,10 +152,7 @@ $tpl_temp .= '<div class="con"><strong>RSS</strong></div><div class="in"><div><a
 if ($basename == 'index.php' && $pun_config['o_announcement'] == 1) {
     ob_start();
 
-    echo '
-    <div class="incqbox">' . $lang_common['Announcement'] . '</div>
-    <div class="msg">' . $pun_config['o_announcement_message'] . '</div>
-    ';
+    echo '<div class="incqbox">' . $lang_common['Announcement'] . '</div><div class="msg">' . $pun_config['o_announcement_message'] . '</div>';
 
     $tpl_temp = trim(ob_get_contents());
     $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);

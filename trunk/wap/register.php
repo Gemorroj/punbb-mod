@@ -33,8 +33,7 @@ if ($_GET['cancel']) {
     require_once PUN_ROOT.'wap/header.php';
 
 
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Forum rules'].'</strong></div>
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Forum rules'].'</strong></div>
 <div class="info">'.$lang_register['Rules legend'].'</div>
 <form method="get" action="register.php?">
 <div class="input">
@@ -273,8 +272,7 @@ $focus_element = array('register', 'req_username');
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Register'].'</strong></div>
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Register'].'</strong></div>
 <form method="post" action="register.php?action=register">
 <div class="msg">'.$lang_register['Desc 1'].'</div>
 <div class="in2">'.$lang_register['Desc 2'].'</div>
@@ -285,11 +283,9 @@ echo '
 <input type="text" name="req_username" maxlength="25" /><br />
 <strong>'.$lang_profile['sex'].'</strong>
 <select name="req_sex"><option value="1">'.$lang_profile['m'].'</option><option value="0">'.$lang_profile['w'].'</option></select>
-</div>
-';
+</div>';
 if (!$pun_config['o_regs_verify']) {
-    echo '
-<div class="input">
+    echo '<div class="input">
 <strong>'.$lang_register['Pass legend 1'].'</strong><br/>
 <strong>'.$lang_common['Password'].'</strong><br />
 <input type="password" name="req_password1" maxlength="16" /><br />
@@ -300,8 +296,7 @@ if (!$pun_config['o_regs_verify']) {
 
 // IMAGE VERIFICATION MOD BEGIN
 if ($pun_config['o_regs_verify_image'] == 1) {
-    echo '
-<div class="input2">
+    echo '<div class="input2">
 <strong>'.$lang_register['Image verification'].'</strong><br/>
 <img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />
 <strong>'.$lang_register['Image text'].'</strong><br />
@@ -310,8 +305,7 @@ if ($pun_config['o_regs_verify_image'] == 1) {
 }
 // IMAGE VERIFICATION MOD END
 
-echo '
-<div class="input"><strong>';
+echo '<div class="input"><strong>';
 if ($pun_config['o_regs_verify'] == 1) {
     echo $lang_prof_reg['E-mail legend 2'];
 } else {
@@ -321,13 +315,9 @@ echo '</strong><br/>';
 if ($pun_config['o_regs_verify'] == 1) {
     echo $lang_register['E-mail info'].'<br/>';
 }
-echo '
-<strong>'.$lang_common['E-mail'].'</strong><br />
-<input type="text" name="req_email1" maxlength="50" /><br />';
+echo '<strong>'.$lang_common['E-mail'].'</strong><br /><input type="text" name="req_email1" maxlength="50" /><br />';
 if ($pun_config['o_regs_verify'] == 1) {
-    echo '
-    <strong>'.$lang_register['Confirm e-mail'].'</strong><br />
-    <input type="text" name="req_email2" maxlength="50" />';
+    echo '<strong>'.$lang_register['Confirm e-mail'].'</strong><br /><input type="text" name="req_email2" maxlength="50" />';
 }
 echo '</div>
 <div class="input2">

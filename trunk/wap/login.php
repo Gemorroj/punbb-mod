@@ -30,7 +30,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     $authorized = false;
 
     if ($db_password_hash) {
-        $sha1_in_db = (strlen($db_password_hash) == 40) ? true : false;
+        $sha1_in_db = (strlen($db_password_hash) == 40);
         $sha1_available = (function_exists('sha1') || function_exists('mhash'));
 
         $form_password_hash = pun_hash($form_password);	// This could result in either an SHA-1 or an MD5 hash (depends on $sha1_available)
@@ -135,8 +135,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     require_once PUN_ROOT.'wap/header.php';
 
 
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_login['Request pass'].'</strong></div>
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_login['Request pass'].'</strong></div>
 <form method="post" action="login.php?action=forget_2">
 <div class="input">
 <strong>'.$lang_login['Request pass legend'].'</strong><br/>
@@ -162,8 +161,7 @@ $focus_element = array('login', 'req_username');
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_common['Login'].'</strong></div>
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_common['Login'].'</strong></div>
 <form method="post" action="login.php?action=in">
 <div class="input">
 <strong>'.$lang_login['Login legend'].'</strong><br/>

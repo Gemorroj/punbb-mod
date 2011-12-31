@@ -33,9 +33,7 @@ if (isset($_GET['get_host'])) {
         $whois = null;
     }
 
-    wap_message('IP: '.$ip.$whois.'<br />
-    &#187; <a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/>
-    &#187; <a href="'.PUN_ROOT.'admin_users.php?show_users='.$ip.'">'.$lang_common['Show IP'].'</a>');
+    wap_message('IP: '.$ip.$whois.'<br />&#187; <a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/>&#187; <a href="'.PUN_ROOT.'admin_users.php?show_users='.$ip.'">'.$lang_common['Show IP'].'</a>');
 }
 
 
@@ -125,8 +123,7 @@ if (isset($_GET['tid'])) {
         require_once PUN_ROOT.'wap/header.php';
 //moderate delete topic - final
 
-echo '
-<div class="con"><strong>'.$lang_misc['Delete posts'].'</strong></div>
+echo '<div class="con"><strong>'.$lang_misc['Delete posts'].'</strong></div>
 <form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">
 <div class="input">
 <strong>'.$lang_misc['Confirm delete legend'].'</strong><br/>
@@ -168,10 +165,8 @@ echo '
     require_once PUN_ROOT.'wap/header.php';
 
 //moderate delete topic
-echo '
-<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$fid.'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>
-<form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">
-';
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$fid.'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>
+<form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">';
 
 
     include_once PUN_ROOT.'include/parser.php';
@@ -218,56 +213,45 @@ echo '
         $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
 
         $cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);    
-    $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-    $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
-    $cur_post['message'] = str_replace('<h4>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-    $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<p class="right">',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-    $cur_post['message'] = str_replace(' style="width:15px; height:15px;"',null,$cur_post['message']);
-    $signature = str_replace(' style="width:15px; height:15px;"',null,$signature);
+        $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
+        $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
+        $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
+        $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
+        $cur_post['message'] = str_replace('<h4>',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
+        $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('<p class="right">',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
+        $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
+        $cur_post['message'] = str_replace(' style="width:15px; height:15px;"',null,$cur_post['message']);
+        $signature = str_replace(' style="width:15px; height:15px;"',null,$signature);
 
 
         // $class = fmod($start_from + $post_count, 2) ? 'msg' : 'msg2';
 
-
-$msg_class = ($j = !$j) ? 'msg' : 'msg2';
-
-echo '
-<div class="' . $msg_class . '">
+        echo '<div class="' . (($j = !$j) ? 'msg' : 'msg2') . '">
 <div class="zag_in">
 <a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">#'.($start_from + $post_count).'</a> <strong>'.$poster.' </strong> ('.$user_title.')<br/>
 '.format_time($cur_post['posted']).'<br/>
 IP: '.$cur_post['poster_ip'];
 
         if ($start_from + $post_count > 1) {
-            echo '<br/>
-            <span class="grey">'.$lang_misc['Select'].' <input type="checkbox" name="posts['.$cur_post['id'].']" value="1" /></span>';
+            echo '<br/><span class="grey">'.$lang_misc['Select'].' <input type="checkbox" name="posts['.$cur_post['id'].']" value="1" /></span>';
         }
 
-echo '</div>
-'.$cur_post['message'].'<br />';
+        echo '</div>'.$cur_post['message'].'<br />';
 
         if ($cur_post['edited']) {
-            echo '
-            <div class="small">'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</div>';
+            echo '<div class="small">'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</div>';
         }
-
-
-
 
         echo '</div>';
     }
 
-    echo '<div class="con">'.$paging_links.'</div>
-<div class="go_to"><input type="submit" name="delete_posts" value="'.$lang_misc['Delete'].'"'.$button_status.' /></div></form>';
+    echo '<div class="con">'.$paging_links.'</div><div class="go_to"><input type="submit" name="delete_posts" value="'.$lang_misc['Delete'].'"'.$button_status.' /></div></form>';
 
 
     require_once PUN_ROOT.'wap/footer.php';
@@ -342,8 +326,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     require_once PUN_ROOT.'wap/header.php';
 
 
-    echo '<div class="inbox">
-<a href="index.php">'.$lang_common['Index'].'</a> &#187; ';
+    echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; ';
     echo $action == 'single' ? $lang_misc['Move topic'] : $lang_misc['Move topics'];
     echo '</div>
 <form method="post" action="moderate.php?fid='.$fid.'">
@@ -653,19 +636,16 @@ if ($db->num_rows($result)) {
 
         $icon_text = trim($icon_text);
 //page assembly        
-        $out.= '
-        <div class="in">
-        <input type="checkbox" name="topics['.$cur_topic['id'].']" value="1" />';
-        
+        $out.= '<div class="in"><input type="checkbox" name="topics['.$cur_topic['id'].']" value="1" />';
+
         if ($icon_text) {
             $out.= ' <strong>' . $icon_text . '</strong>';
         }
-        
-        $out.= ' '.$subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].') '.$icon_new_text.'<br/>'.$last_post.'</div>
-';
+
+        $out.= ' '.$subject.' ('.$cur_topic['num_replies'].'/'.$cur_topic['num_views'].') '.$icon_new_text.'<br/>'.$last_post.'</div>';
     }
 
-    echo rtrim($out, '');
+    echo $out;
 } else {
     $button_status = ' disabled="disabled"';
     echo '<div class="in">'.$lang_forum['Empty forum'].'</div>';

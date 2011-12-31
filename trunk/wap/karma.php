@@ -53,9 +53,7 @@ if ($num_hits) {
         LIMIT ' . $start . ',' . $pun_user['disp_posts']
     );
  
-$str.= '
-<div class="in">' . $lang_common['Username'] . ' | ' . $lang_common['Vote'] . ' | ' . $lang_common['Date'] . '</div>
-';
+    $str .= '<div class="in">' . $lang_common['Username'] . ' | ' . $lang_common['Vote'] . ' | ' . $lang_common['Date'] . '</div>';
 
     while ($result = $db->fetch_assoc($q)) {
         if ($result['from']) {
@@ -63,25 +61,18 @@ $str.= '
         } else {
         	$user = $lang_common['Deleted'];
         }
-        $msg_class = ($j = !$j) ? 'msg' : 'msg2';
-$str.= '
-<div class="' . $msg_class . '">' . $user . ' ' . ($result['vote'] > 0 ? '<span class="green">+</span>' : '<span class="red">-</span>') . ' [' . format_time($result['time']) . ']</div>';
+        $str .= '<div class="' . (($j = !$j) ? 'msg' : 'msg2') . '">' . $user . ' ' . ($result['vote'] > 0 ? '<span class="green">+</span>' : '<span class="red">-</span>') . ' [' . format_time($result['time']) . ']</div>';
     }
 
-$str.= '
-<div class="con">' . $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'karma.php?id=' . $id) . '</div>
-';
-}
-else {  $str.= '
-<div class="in">' . $lang_common['Karma'] . ': ' . $karma['karma'] . '</div>';
-
+    $str .= '<div class="con">' . $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'karma.php?id=' . $id) . '</div>';
+} else {
+    $str .= '<div class="in">' . $lang_common['Karma'] . ': ' . $karma['karma'] . '</div>';
 }
 
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Karma'] . ' - ' . $username . ' (' . $karma['karma'] . ')';
 
 require_once PUN_ROOT . 'wap/header.php';
-
 
 echo $str;
 

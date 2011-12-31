@@ -32,17 +32,14 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'wap/header.php';
 
 
-echo '
-<div class="con"><strong>'.$lang_search['User search'].'</strong></div>
+echo '<div class="con"><strong>'.$lang_search['User search'].'</strong></div>
 <form method="get" action="userlist.php?">
 <div class="input">
 <strong>'.$lang_ul['User find legend'].'</strong><br/>';
 if ($pun_user['g_search_users'] == 1) {
-    echo $lang_common['Username'].'<br />
-    <input type="text" name="username" value="'.pun_htmlspecialchars($username).'" maxlength="25" /><br />';
+    echo $lang_common['Username'].'<br /><input type="text" name="username" value="'.pun_htmlspecialchars($username).'" maxlength="25" /><br />';
 }
-echo $lang_ul['User group'].'<br />
-<select name="show_group"><option value="-1"' . (($show_group == -1) ? ' selected="selected"' : '') . '>'.$lang_ul['All users'].'</option>';
+echo $lang_ul['User group'].'<br /><select name="show_group"><option value="-1"' . (($show_group == -1) ? ' selected="selected"' : '') . '>'.$lang_ul['All users'].'</option>';
 
 $result = $db->query('SELECT g_id, g_title FROM '.$db->prefix.'groups WHERE g_id!='.PUN_GUEST.' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
@@ -58,18 +55,18 @@ while ($cur_group = $db->fetch_assoc($result)) {
 echo '</select><br />
 '.$lang_search['Sort by'].'<br />
 <select name="sort_by"><option value="username"';
-if($sort_by == 'username'){
+if($sort_by == 'username') {
     echo ' selected="selected"';
 }
 echo '>'.$lang_common['Username'].'</option>
 <option value="registered"';
-if($sort_by == 'registered'){
+if ($sort_by == 'registered') {
     echo ' selected="selected"';
 }
 echo '>'.$lang_common['Registered'].'</option>';
-if($show_post_count){
-        echo '<option value="num_posts"';
-    if($sort_by == 'num_posts'){
+if ($show_post_count) {
+    echo '<option value="num_posts"';
+    if ($sort_by == 'num_posts') {
         echo ' selected="selected"';
     }
     echo '>'.$lang_ul['No of posts'].'</option>';
@@ -77,11 +74,11 @@ if($show_post_count){
 echo '</select><br />
 '.$lang_search['Sort order'].'<br />
 <select name="sort_dir"><option value="ASC"';
-if($sort_dir == 'ASC'){
+if ($sort_dir == 'ASC') {
     echo ' selected="selected">';
 }
 echo $lang_search['Ascending'].'</option><option value="DESC"';
-if($sort_dir == 'DESC'){
+if ($sort_dir == 'DESC') {
     echo ' selected="selected"';
 }
 echo '>'.$lang_search['Descending'].'</option></select></div>
@@ -92,10 +89,10 @@ echo '>'.$lang_search['Descending'].'</option></select></div>
 $where_sql = array();
 $like_command = 'LIKE';
 
-if($pun_user['g_search_users'] == 1 && $username){
+if ($pun_user['g_search_users'] == 1 && $username) {
     $where_sql[] = 'u.username ' . $like_command . ' \'' . $db->escape(str_replace('*', '%', $username)) . '\'';
 }
-if($show_group > -1){
+if ($show_group > -1) {
     $where_sql[] = 'u.group_id='.$show_group;
 }
 
@@ -126,7 +123,7 @@ echo '<div class="con"><strong>'.$lang_common['User list'].'</strong></div>
 <div class="navlinks">
 '.$lang_common['Username'];
 
-if($show_post_count){
+if ($show_post_count) {
     echo ' | ' . $lang_common['Posts'];
 }
 echo ' | ' .$lang_common['Title'].' | '.$lang_common['Registered'].'</div>';
@@ -138,25 +135,17 @@ if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $user_title_field = get_title($user_data);
 
-$in_class = ($j = !$j) ? 'in' : 'in2';
-
-echo '
-<div class="' . $in_class . '">
-<strong><a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a></strong> ';
+        echo '<div class="' . (($j = !$j) ? 'in' : 'in2') . '"><strong><a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a></strong> ';
         if ($show_post_count) {
             echo ' ['.$user_data['num_posts'].'] ';
         }
-echo $user_title_field.' ('.format_time($user_data['registered'], true).')</div>';
+        echo $user_title_field.' ('.format_time($user_data['registered'], true).')</div>';
     }
-
-   
 } else {
-echo '
-<div class="msg">' . $lang_search['No hits']. '</div>';
+    echo '<div class="msg">' . $lang_search['No hits']. '</div>';
 }
 
-echo '
-<div class="con">'.$paging_links.'</div>';
+echo '<div class="con">'.$paging_links.'</div>';
 
 require_once PUN_ROOT.'wap/footer.php';
 

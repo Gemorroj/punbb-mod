@@ -71,12 +71,9 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 
 
     if ($footer_style == 'viewforum' && $is_admmod) {
-        echo '
-        <div class="con"><a class="but" href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a></div>';
+        echo '<div class="con"><a class="but" href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a></div>';
     } else if ($footer_style == 'viewtopic' && $is_admmod) {
-        echo '
-        <div class="con"><span class="sub">
-        <a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a>'.$lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a>';
+        echo '<div class="con"><span class="sub"><a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a>'.$lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a>';
 
         if ($cur_topic['closed'] == 1) {
             echo $lang_topic['Link separator_m'].'<a href="moderate.php?fid='.$forum_id.'&amp;open='.$id.'">'.$lang_common['Open topic'].'</a>';
@@ -96,8 +93,7 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 
 
 // $db->get_num_queries() - show sql queries
-echo '
-<div class="foot"><a href="/">' . $_SERVER['HTTP_HOST'] . '</a><br/><a class="red" href="' . PUN_ROOT . '">WEB</a></div>
+echo '<div class="foot"><a href="/">' . $_SERVER['HTTP_HOST'] . '</a><br/><a class="red" href="' . PUN_ROOT . '">WEB</a></div>
 <div class="copy"><a href="http://wapinet.ru/forum/wap/">PunBB Mod Gemorroj</a><br/>
 <span class="red">' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</span></div>';
 
@@ -126,6 +122,5 @@ $db->close();
 
 // Spit out the page
 exit($tpl_main);
-
 
 ?> 

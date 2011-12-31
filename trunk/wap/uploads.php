@@ -127,8 +127,7 @@ if (isset($_GET['file'])) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-echo '
-<div class="inbox"><a href="index.php">' . $lang_common['Index'] . '</a> &#187; <a href="' . $_SERVER['PHP_SELF'] . '">' . $lang_uploads['Uploader'] . '</a></div>';
+echo '<div class="inbox"><a href="index.php">' . $lang_common['Index'] . '</a> &#187; <a href="' . $_SERVER['PHP_SELF'] . '">' . $lang_uploads['Uploader'] . '</a></div>';
 
 /*if (!isset($_GET['uploadit']) && $upl_conf['p_upload'] == 1) {
     echo ' &#187; <a href="' . $_SERVER['PHP_SELF'] . '?uploadit=1">' . $lang_uploads['Upload file'] . '</a>';
@@ -147,17 +146,14 @@ while ($ar = $db->fetch_assoc($result)) {
 
 $exts = trim($exts); // now we have all file types in one string
 if (!$upl_conf['p_view']) {
-echo '
-<div class="in"><strong>' . $lang_uploads['Not allowed'] . '</strong></div>
-<div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>';
+    echo '<div class="in"><strong>' . $lang_uploads['Not allowed'] . '</strong></div><div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>';
 } else if (isset($_GET['uploadit'])) {
     if ($upl_conf['p_upload'] == 1) {
         $maxsize = $upl_conf['u_fsize'];
         $rules = str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
         $rules = str_replace('%EXT%', $exts, $rules);
 
-echo '
-<div class="con">' . $lang_uploads['Upload file'] . '</div>
+        echo '<div class="con">' . $lang_uploads['Upload file'] . '</div>
 <form method="post" action="' . $_SERVER['PHP_SELF'] . '?" enctype="multipart/form-data">
 <div class="input">
 <strong>' . $lang_uploads['Upload rules'] . '</strong><br />
@@ -167,10 +163,7 @@ echo '
 <div class="go_to">
 <input type="submit" name="act" value="' . $lang_uploads['Upload file'] . '" /></div></form>';
     } else {
-        echo '
-        <div class="red">' . $lang_uploads['Not allowed'] . '</div>
-        <div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>
-        ';
+        echo '<div class="red">' . $lang_uploads['Not allowed'] . '</div><div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>';
     }
 } else if(isset($_POST['act'])) {
     // try to upload a file
@@ -220,17 +213,15 @@ echo '
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
 
-echo '
-<div class="con"><strong>' . $lang_uploads['File uploaded'] . '</strong></div>
+        echo '<div class="con"><strong>' . $lang_uploads['File uploaded'] . '</strong></div>
 <div class="msg"><a href="' . $_SERVER['PHP_SELF'] . '?file=' . rawurlencode($file_name) . '">' . $pun_config['o_base_url'] . '/uploads.php?file=' . pun_htmlspecialchars($file_name) . '</a></div>
-<div class="go_to">
-';
+<div class="go_to">';
 
-if (!isset($_GET['uploadit']) && $upl_conf['p_upload'] == 1) {
-    echo ' <a class="but" href="' . $_SERVER['PHP_SELF'] . '?uploadit=1">' . $lang_uploads['Upload file'] . '</a>';
-}
+        if (!isset($_GET['uploadit']) && $upl_conf['p_upload'] == 1) {
+            echo ' <a class="but" href="' . $_SERVER['PHP_SELF'] . '?uploadit=1">' . $lang_uploads['Upload file'] . '</a>';
+        }
 
-echo '</div>';
+        echo '</div>';
     }
 } else if(isset($_GET['del'])) {
     $delfile = $_GET['del'];
@@ -251,9 +242,7 @@ echo '</div>';
         @unlink(PUN_ROOT . 'uploaded/' . $delfile);
         $result = $db->query('DELETE FROM ' . $db->prefix . 'uploaded WHERE file=\'' . $db->escape($delfile) . '\'') or error('Unable to delete file from table', __FILE__, __LINE__, $db->error());
 //File deleted
-        echo '
-        <div class="con"><strong>' . $lang_uploads['Delete'] . '</strong></div>
-        <div class="msg">' . pun_htmlspecialchars($delfile) . $lang_uploads['File deleted'] . '</div>';
+        echo '<div class="con"><strong>' . $lang_uploads['Delete'] . '</strong></div><div class="msg">' . pun_htmlspecialchars($delfile) . $lang_uploads['File deleted'] . '</div>';
     }
 } else {
     $refr = '<a href="' . $_SERVER['PHP_SELF'] . '?u=' . $s_u . '&amp;sort=';
@@ -302,31 +291,25 @@ echo '</div>';
     $pages = array(5, 10, 20, 30, 50, 100);
 
 
-if ($upl_conf['p_upload'] == 1) {
-echo '
-<form method="post" action="' . $_SERVER['PHP_SELF'] . '?" enctype="multipart/form-data">
+    if ($upl_conf['p_upload'] == 1) {
+        echo '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?" enctype="multipart/form-data">
 <div class="input">' . $lang_uploads['Pages'] . '
 <select id="nump" name="nump">';
 
-    for ($i = 0, $all = sizeof($pages); $i < $all; ++$i) {
-        echo '<option value="' . $pages[$i] . '"';
-        if ($s_nump == $pages[$i]) {
-            echo ' selected="selected"';
-        }
-        echo '>' . $pages[$i] . '</option>';
-    }
-
-    echo '</select>
-    <input type="submit" name="filter" value="' . $lang_uploads['Enable filter'] . '" /></div></form>
-    ';
-   
-        if (!isset($_GET['uploadit']) && $upl_conf['p_upload'] == 1) {
-        echo '
-        <div class="go_to"><a class="but" href="' . $_SERVER['PHP_SELF'] . '?uploadit=1">' . $lang_uploads['Upload file'] . '</a></div>';
+        for ($i = 0, $all = sizeof($pages); $i < $all; ++$i) {
+            echo '<option value="' . $pages[$i] . '"';
+            if ($s_nump == $pages[$i]) {
+                echo ' selected="selected"';
             }
+            echo '>' . $pages[$i] . '</option>';
+        }
 
-   
-}
+        echo '</select><input type="submit" name="filter" value="' . $lang_uploads['Enable filter'] . '" /></div></form>';
+
+        if (!isset($_GET['uploadit']) && $upl_conf['p_upload'] == 1) {
+            echo '<div class="go_to"><a class="but" href="' . $_SERVER['PHP_SELF'] . '?uploadit=1">' . $lang_uploads['Upload file'] . '</a></div>';
+        }
+    }
 
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'uploaded WHERE ' . $sql . $sorto) or error('Error getting file list', __FILE__, __LINE__, $db->error());
@@ -344,18 +327,14 @@ echo '
     $flist = str_replace('%ALL%', $cp, $flist);
 
 
-if ($upl_conf['p_upload'] == 1) {
-echo ' 
-<div class="con"><strong>' . $flist . '</strong></div>
-<div class="msg">' . $lang_uploads['Upload warn'] . '</div>
+    if ($upl_conf['p_upload'] == 1) {
+        echo ' <div class="con"><strong>' . $flist . '</strong></div><div class="msg">' . $lang_uploads['Upload warn'] . '</div><div class="in">' . $refr . '1">' . $lang_uploads['File'] . '</a>|' . $refr . '2">' . $lang_uploads['Size'] . '</a>|' . $refr . '3">' . $lang_uploads['Posted by'] . '</a>|' . $refr . '5">' . $lang_uploads['Date'] . '</a>|' . $refr . '6">' . $lang_uploads['Downloaded'] . '</a>|' . $refr . '7">' . $lang_uploads['Desc'] . '</a></div>';
 
-<div class="in">' . $refr . '1">' . $lang_uploads['File'] . '</a>|' . $refr . '2">' . $lang_uploads['Size'] . '</a>|' . $refr . '3">' . $lang_uploads['Posted by'] . '</a>|' . $refr . '5">' . $lang_uploads['Date'] . '</a>|' . $refr . '6">' . $lang_uploads['Downloaded'] . '</a>|' . $refr . '7">' . $lang_uploads['Desc'] . '</a></div>';
+        /*if ($upl_conf['p_delete']) {
+            echo '|' . $lang_uploads['Delete'];
+        }*/
+    }
 
-    /*if ($upl_conf['p_delete']) {
-        echo '|' . $lang_uploads['Delete'];
-    }*/
-}
-    
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT * FROM ' . $db->prefix . 'uploaded WHERE ' . $sql . $sorto . ' LIMIT ' . $currec . ',' . $s_nump) or error('Error getting file list', __FILE__, __LINE__, $db->error());
     } else {
@@ -364,7 +343,7 @@ echo '
 
     // fetching file list
     while ($info = $db->fetch_assoc($result)) {
-                
+
         // lets do some words wrapping
         if (iconv_strlen($info['file']) > 30) {
             $fl = $info['file'];
@@ -381,30 +360,22 @@ echo '
             $fl = pun_htmlspecialchars($info['file']);
         }
         $ds = pun_htmlspecialchars($info['descr']);
-    
 
-$msg_class = ($j = !$j) ? 'msg' : 'msg2';
-echo'
-<div class="' . $msg_class . '">
-&bull; <strong><a href="' . $_SERVER['PHP_SELF'] . '?file=' . rawurlencode($info['file']) . '">' . $fl. '</a></strong> <span class="small">(' . round(filesize(PUN_ROOT . 'uploaded/' . $info['file']) / 1024, 1) . ' kb, <strong><a href="profile.php?id=' . $info['uid'] . '">' . pun_htmlspecialchars($info['user']) . '</a></strong>, ' . format_time($info['data'], true) . ' ' . date('H:i:s', $info['data']) . ', ' . $lang_uploads['Downloaded'] .':' . $info['downs'] . ' )';
-    
+        echo'<div class="' . (($j = !$j) ? 'msg' : 'msg2') . '">&#8226; <strong><a href="' . $_SERVER['PHP_SELF'] . '?file=' . rawurlencode($info['file']) . '">' . $fl. '</a></strong> <span class="small">(' . round(filesize(PUN_ROOT . 'uploaded/' . $info['file']) / 1024, 1) . ' kb, <strong><a href="profile.php?id=' . $info['uid'] . '">' . pun_htmlspecialchars($info['user']) . '</a></strong>, ' . format_time($info['data'], true) . ' ' . date('H:i:s', $info['data']) . ', ' . $lang_uploads['Downloaded'] .':' . $info['downs'] . ' )';
+
         if ($upl_conf['p_globaldelete']) {
             echo ' <a class="but" href="' . $_SERVER['PHP_SELF'] . '?del=' . rawurlencode($info['file']) . '">' . $lang_uploads['Delete'] . '</a>';
         } else if ($upl_conf['p_delete']) {
             if ($info['uid'] == $pun_user['id']) {
                 echo ' <a class="but" href="' . $_SERVER['PHP_SELF'] . '?del=' . rawurlencode($info['file']) . '">' . $lang_uploads['Delete'] . '</a>';
-            } else {
-                echo '';
             }
         }
-    
-        echo  '<br />' . $ds . '</span></div>
-';
+
+        echo  '<br />' . $ds . '</span></div>';
     } // while
-     
+
     if ($cp > 1) {
-        echo '
-        <div class="con">' . $lang_uploads['Go to page'];
+        echo '<div class="con">' . $lang_uploads['Go to page'];
         for ($i = 1; $i <= $cp; ++$i) {
             if (($i - 1) == $s_page) {
                 echo ' ' . $i . ' ';
@@ -414,12 +385,8 @@ echo'
         }
         echo '</div>';
     }else {
-        echo '
-        <div class="red">' . $lang_uploads['Not allowed'] . '</div>
-        <div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>
-        ';
+        echo '<div class="red">' . $lang_uploads['Not allowed'] . '</div><div class="msg">' . $lang_uploads['Not allowed mes'] . '</div>';
     }
-
 }
 
 $footer_style = 'index';

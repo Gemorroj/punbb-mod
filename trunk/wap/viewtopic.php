@@ -175,7 +175,7 @@ if ($pun_config['o_censoring'] == 1) {
 }
 
 
-// !$pun_user['is_guest'] && - Это поебень
+// !$pun_user['is_guest'] && - wft?
 $quickpost = false;
 if ($pun_config['o_quickpost'] == 1 &&
 // !$pun_user['is_guest'] &&
@@ -237,9 +237,27 @@ $post_count = 0; // Keep track of post numbers
 
 /// MOD ANTISPAM BEGIN
 if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
-    $result = $db->query('SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online, spam.pattern, spam.id AS spam_id FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id LEFT JOIN '.$db->prefix.'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0) LEFT JOIN '.$db->prefix.'spam_repository AS spam ON spam.post_id=p.id WHERE p.topic_id='.$id.' ORDER BY p.id LIMIT '.$start_from.','.$pun_user['disp_posts'], true) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online, spam.pattern, spam.id AS spam_id
+        FROM '.$db->prefix.'posts AS p
+        INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id
+        INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id
+        LEFT JOIN '.$db->prefix.'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
+        LEFT JOIN '.$db->prefix.'spam_repository AS spam ON spam.post_id=p.id WHERE p.topic_id='.$id.'
+        ORDER BY p.id
+        LIMIT '.$start_from.','.$pun_user['disp_posts'], true
+    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 } else {
-    $result = $db->query('SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id LEFT JOIN '.$db->prefix.'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0) WHERE p.topic_id='.$id.' ORDER BY p.id LIMIT '.$start_from.','.$pun_user['disp_posts'], true) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
+        FROM '.$db->prefix.'posts AS p
+        INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id
+        INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id
+        LEFT JOIN '.$db->prefix.'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
+        WHERE p.topic_id='.$id.'
+        ORDER BY p.id
+        LIMIT '.$start_from.','.$pun_user['disp_posts'], true
+    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 }
 /// MOD ANTISPAM END
 
@@ -254,6 +272,7 @@ $db->free_result($result);
 // Retrieve the attachments
 require PUN_ROOT.'include/attach/fetch.php';
 
+$j = false;
 foreach ($posts as $cur_post) {
     $post_count++;
     $signature = $is_online = $user_avatar = '';
@@ -266,7 +285,11 @@ foreach ($posts as $cur_post) {
         if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
             
             $q = $db->fetch_row($db->query('
-                SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
+                SELECT COUNT(1),
+                (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ')
+                FROM `' . $db->prefix . 'karma`
+                WHERE `vote` = "1"
+                AND `to` = ' . $cur_post['poster_id']
             ));
 
             $karma['plus'] = intval($q[0]);
@@ -298,14 +321,11 @@ foreach ($posts as $cur_post) {
 
         if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
             if ($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif')) {
-                $user_avatar = '
-                <img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif" alt="*" />';
+                $user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif" alt="*" />';
             } else if ($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg')) {
-                $user_avatar = '
-                <img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg" alt="*" />';
+                $user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg" alt="*" />';
             } else if ($img_size = @getimagesize('../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png')) {
-                $user_avatar = '
-                <img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png" alt="*" />';
+                $user_avatar = '<img src="../'.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png" alt="*" />';
             }
         } else {
             $user_avatar = '';
@@ -341,7 +361,7 @@ foreach ($posts as $cur_post) {
     // Generation post action array (quote, edit, delete etc.)
     if (!$is_admmod) {
         /*
-        if(!$pun_user['is_guest']){
+        if (!$pun_user['is_guest']) {
             $post_actions[] = '<a href="misc.php?report='.$cur_post['id'].'">'.$lang_topic['Report'].'</a>';
         }
         */
@@ -370,7 +390,7 @@ foreach ($posts as $cur_post) {
     }
 
     // Switch the background color for every message.
-    $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
+    $bg_switch = !$bg_switch;
     $vtbg = ($bg_switch) ? ' roweven' : ' rowodd';
 
 
@@ -410,14 +430,9 @@ foreach ($posts as $cur_post) {
     //$cur_post['message'] = str_replace('<span style="color: #000000">'.chr(10).'<span style="color: #0000BB">','<span style="color: #000000"><span style="color: #0000BB">',$cur_post['message']);
     //$cur_post['message'] = str_replace('</span>'.chr(10).'</code>','</span></code>',$cur_post['message']);
 
-//FIXMEE//$j = false;
-$msg_class = ($j = !$j) ? 'msg' : 'msg2';
-
-    echo '
-    <div class="' . $msg_class . '">
-    <div class="zag_in" id="p'.$cur_post['id'].'">'.$user_avatar.'    
-    <a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">#'.($start_from + $post_count).'.</a> <strong>' . $username . '</strong>
-    ';
+    echo '<div class="' . (($j = !$j) ? 'msg' : 'msg2') . '">
+<div class="zag_in" id="p'.$cur_post['id'].'">'.$user_avatar.'
+<a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">#'.($start_from + $post_count).'.</a> <strong>' . $username . '</strong>';
 
     if ($cur_post['poster_id']>1 && $is_online) {
         echo $is_online;
@@ -427,8 +442,7 @@ $msg_class = ($j = !$j) ? 'msg' : 'msg2';
     if ($str = implode($lang_topic['Link separator_m'], $post_actions)) {
     	$str = '<br/>' . $str;
     }
-    echo $str . '</div>
-    ';    
+    echo $str . '</div>';
     /*
     echo sizeof($post_actions) ? '<span class="con">'.implode($lang_topic['Link separator'], $post_actions).' <br/></span>' : '';
     */
@@ -447,15 +461,13 @@ $msg_class = ($j = !$j) ? 'msg' : 'msg2';
     if ($is_admmod) {
         if (isset($cur_post['spam_id'])) {
             include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
-            echo '<br/>
-            '.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($cur_post['pattern']).'<br /><a href="./antispam_misc.php?action=allow&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam tread'].'</a> | <a href="./antispam_misc.php?action=deny&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam del'].'</a><br />';
+            echo '<br/>'.$lang_misc['Antispam pattern'].' - '.pun_htmlspecialchars($cur_post['pattern']).'<br /><a href="./antispam_misc.php?action=allow&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam tread'].'</a> | <a href="./antispam_misc.php?action=deny&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam del'].'</a><br />';
         }
     }
     /// MOD ANTISPAM END
 
     if ($cur_post['edited']) {
-        echo '
-        <div class= "small">'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</div>';
+        echo '<div class= "small">'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</div>';
     }
 
     if ($signature) {
@@ -463,8 +475,7 @@ $msg_class = ($j = !$j) ? 'msg' : 'msg2';
     }
 
 
-    echo '</div>
-    ';
+    echo '</div>';
 }
 // end post
 echo '<div class="con">'.$paging_links.'</div>';
@@ -472,17 +483,14 @@ echo '<div class="con">'.$paging_links.'</div>';
 
 if ($pun_user['g_post_replies']) {
     if ($cur_topic['closed']) {
-        echo '
-        <div class="go_to"><strong> #' . $lang_topic['Topic closed'] . '</strong>';
-        // FIXMEE admin Post reply fo Topic closed
-        if($is_admmod){
-        $post_link .= ' <a class="but" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a>';
-    }
+        echo '<div class="go_to"><strong> #' . $lang_topic['Topic closed'] . '</strong>';
+        //FIXME:admin Post reply fo Topic closed
+        if ($is_admmod) {
+            $post_link .= ' <a class="but" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a>';
+        }
         echo '</div>';
-        
     } else {
-        echo '
-        <div class="go_to"><a class="but" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></div>';
+        echo '<div class="go_to"><a class="but" href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a></div>';
     }
 }
 
@@ -495,36 +503,28 @@ if ($quickpost) {
         $form_user = 'Guest';
     }
 
-    echo '
-    <form method="post" action="post.php?tid='.$id.'">
-    <div class="input">'.$lang_topic['Quick post'].':<br/>
-    <span class="small">'.$lang_common['Write message legend'].'</span><br/>';
+    echo '<form method="post" action="post.php?tid='.$id.'">
+<div class="input">'.$lang_topic['Quick post'].':<br/>
+<span class="small">'.$lang_common['Write message legend'].'</span><br/>';
 
     if ($pun_config['o_antiflood']) {
-        echo '
-        <input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" />';
+        echo '<input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" />';
     }
 
-    echo '
-    <input type="hidden" name="form_sent" value="1" />
-    <input type="hidden" name="form_user" value="'.$form_user.'" />';
+    echo '<input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="'.$form_user.'" />';
 
-    // Ввод имени для гостей
+    // input name for guest
     if ($pun_user['is_guest']) {
-        echo $lang_common['Username'].'<br/>
-        <input type="text" name="req_username" tabindex="1" /><br/>';
+        echo $lang_common['Username'].'<br/><input type="text" name="req_username" tabindex="1" /><br/>';
     }
 
-    echo '
-    <textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea>';
+    echo '<textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea>';
 
     if ($is_admmod) {
-        echo '<br/>
-        <input type="checkbox" name="merge" value="1" checked="checked" /><span class="small">'.$lang_post['Merge posts'].'</span>';
+        echo '<br/><input type="checkbox" name="merge" value="1" checked="checked" /><span class="small">'.$lang_post['Merge posts'].'</span>';
     }
 
-    echo '<br/>
-    <input type="submit" name="submit" tabindex="2" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
+    echo '<br/><input type="submit" name="submit" tabindex="2" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
 }
 
 // Increment "num_views" for topic
