@@ -464,7 +464,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     $search_set[$i]['message'] = censor_words($search_set[$i]['message']);
                 }
 
-                include_once PUN_ROOT.'include/parser.php';
+                include_once PUN_ROOT.'include/parser_m.php';
                 $message = parse_message($search_set[$i]['message'], 0);
 
                 $pposter = pun_htmlspecialchars($search_set[$i]['pposter']);
@@ -482,26 +482,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 // Switch the background color for every message.
                 $bg_switch = !$bg_switch;
                 $vtbg = ($bg_switch) ? ' rowodd' : ' roweven';
-
-
-                // WAP MOD
-                $message = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$message);
-                $message = str_replace('<div class="codebox"><div class="incqbox">',null,$message);
-                $message = str_replace('</table></div></div></div>','</table></div></div>',$message);
-
-                $message = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$message);
-                $message = str_replace('</div><br />','</div>',$message);
-                $message = str_replace('<div class="incqbox"><h4>','<div class="quote">',$message);
-                $message = str_replace('</h4>','<br />',$message);
-                $message = str_replace('<blockquote>','',$message);
-                $message = str_replace('</blockquote>','',$message);
-                $message = str_replace('<p>','',$message);
-                $message = str_replace('<p class="right">','',$message);
-                $message = str_replace('</p>','',$message);
-                $message = str_replace('<span style="color: #bbb">','<span class="small">',$message);
-                $message = str_replace(' style="width:15px; height:15px;"','',$message);
-                //$signature = str_replace(' style="width:15px; height:15px;"','',$signature);//TODO:copy-paste?
-                ///////////
 
 
                 echo '<div class="in">'.$forum.' &#187; '.$subject.' &#187; <a class="small" href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.format_time($search_set[$i]['pposted']).'</a></div>

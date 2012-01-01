@@ -2,7 +2,7 @@
 define('PUN_ROOT', '../');
 
 require PUN_ROOT . 'include/common.php';
-include_once PUN_ROOT . 'include/parser.php';
+include_once PUN_ROOT . 'include/parser_m.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
     wap_message($lang_common['No permission']);
@@ -131,7 +131,7 @@ if ($box < 2) {
             }
 
             // Format the online indicator
-            $is_online = ($cur_post['is_online'] == $cur_post['id']) ? ' <span class="green">'.$lang_topic['Online_m'].'</span>' : $lang_topic['Offline'];
+            $is_online = ($cur_post['is_online'] == $cur_post['id']) ? ' <span class="green">'.$lang_topic['Online_m'].'</span>' : ' <span class="grey">'.$lang_topic['Offline_m'].'</span>';
 
             if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
                 if ($img_size = @getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['id'].'.gif')) {
@@ -154,14 +154,14 @@ if ($box < 2) {
                         $cur_post['location'] = censor_words($cur_post['location']);
                     }
 
-                    $user_info[] = $lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);
+                    /*$user_info[] = $lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);*/
                 }
 
-                $user_info[] = $lang_common['Registered'].': '.date($pun_config['o_date_format'], $cur_post['registered']);
+               /* $user_info[] = $lang_common['Registered'].': '.date($pun_config['o_date_format'], $cur_post['registered']);*/
 
-                if ($pun_config['o_show_post_count'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
+                /*if ($pun_config['o_show_post_count'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
                     $user_info[] = $lang_common['Posts'].': '.$cur_post['num_posts'];
-                }
+                }*/
 
                 // Now let's deal with the contact links (E-mail and URL)
                 if ((!$cur_post['email_setting'] && !$pun_user['is_guest']) || $pun_user['g_id'] < PUN_GUEST) {
@@ -177,7 +177,7 @@ if ($box < 2) {
 
             //Moderator and Admin stuff
             if ($pun_user['g_id'] < PUN_GUEST) {
-                $user_info[] = 'IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['sender_ip'].'</a>';
+                $user_info[] = 'IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['sender_ip'].'</a><br/>';
 
                 if ($cur_post['admin_note']) {
                     $user_info[] = $lang_topic['Note'].': <strong>'.pun_htmlspecialchars($cur_post['admin_note']).'</strong>';
@@ -204,29 +204,12 @@ if ($box < 2) {
 
             $post_actions[] = '<a href="message_delete.php?id='.$cur_post['id'].'&amp;box='.$box.'&amp;p='.$p.'">'.$lang_pms['Delete'].'</a>';
 
-            $is_online = $lang_topic['Offline'];
+            $is_online = ' <span class="grey">'.$lang_topic['Offline_m'].'</span>';
         }
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
         $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
-        
-        $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
-        $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
-        $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-        $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-        $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-        $cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-        $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
         
         // Do signature parsing/caching
         if (isset($cur_post['signature']) && $pun_user['show_sig']) {
@@ -234,7 +217,7 @@ if ($box < 2) {
         }
 
         //message
-        echo '<div class="msg"><div class="zag_in">'.$user_avatar.' <strong>'.$username.'</strong>'.$is_online.' '.format_time($cur_post['posted']).'<br/>';
+        echo '<div class="msg"><div class="zag_in">'.$user_avatar.' <strong>'.$username.'</strong>'.$is_online.'<br/>'.format_time($cur_post['posted']).'<br/>';
         if ($user_info) {
             echo implode('<br/> ', $user_info);
         }

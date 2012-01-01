@@ -44,26 +44,10 @@ if (isset($_POST['delete'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Delete message'];
 
     require_once PUN_ROOT.'wap/header.php';
-    include_once PUN_ROOT.'include/parser.php';
+    include_once PUN_ROOT.'include/parser_m.php';
 
     $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
 
-    $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
-    $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox"><h4>','<div class="code">',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
-    $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-    $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-    $cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-    $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
 
     echo '<div class="red">'.$lang_pms['Delete message'].'</div>
 <form method="post" action="message_delete.php?id='.$id.'">

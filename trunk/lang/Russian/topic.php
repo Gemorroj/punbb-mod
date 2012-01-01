@@ -26,6 +26,7 @@ $lang_topic = array(
 
 //mobile
 'Online_m'			=>	'On',
+'Offline_m'			=>	'Off',
 'Delete_m'			=>	'Уд.',
 'Edit_m'			=>	'Ред.',
 'Quote_m'			=>	'Цит.',

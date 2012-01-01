@@ -200,7 +200,7 @@ class _Poll
 
             if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
-                    $pieces .= '<p style="text-align:right;font-size:9px">Punbb Ajax Poll System</p>';
+                    $pieces .= '<p style="text-align:right;font-size:7px">Вы гость</p>';
                 }
                 return $this->showResult($pollid, $poll, $q, $total, $buffered, $pieces);
             } else {

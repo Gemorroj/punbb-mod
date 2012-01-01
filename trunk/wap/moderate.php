@@ -169,7 +169,7 @@ echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187
 <form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">';
 
 
-    include_once PUN_ROOT.'include/parser.php';
+    include_once PUN_ROOT.'include/parser_m.php';
 
     $bg_switch = true; // Used for switching background color in posts
     $post_count = 0; // Keep track of post numbers
@@ -211,24 +211,6 @@ echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
-
-        $cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-        $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-        $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
-        $cur_post['message'] = str_replace('<h4>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-        $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<p class="right">',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
-        $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-        $cur_post['message'] = str_replace(' style="width:15px; height:15px;"',null,$cur_post['message']);
-        $signature = str_replace(' style="width:15px; height:15px;"',null,$signature);
-
 
         // $class = fmod($start_from + $post_count, 2) ? 'msg' : 'msg2';
 

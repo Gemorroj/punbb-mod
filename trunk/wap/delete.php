@@ -87,27 +87,8 @@ if (isset($_POST['delete'])) {
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_delete['Delete post'];
 require_once PUN_ROOT.'wap/header.php';
 
-include_once PUN_ROOT.'include/parser.php';
+include_once PUN_ROOT.'include/parser_m.php';
 $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
-
-$cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$cur_post['message']);
-$cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
-$cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-    
-$cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-$cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-$cur_post['message'] = str_replace('<div class="incqbox"><h4>','<div class="quote">',$cur_post['message']);
-$cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-$cur_post['message'] = str_replace('<blockquote>','',$cur_post['message']);
-$cur_post['message'] = str_replace('</blockquote>','',$cur_post['message']);
-$cur_post['message'] = str_replace('<p>','',$cur_post['message']);
-$cur_post['message'] = str_replace('<p class="right">','',$cur_post['message']);
-$cur_post['message'] = str_replace('</p>','',$cur_post['message']);
-$cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-$cur_post['message'] = str_replace(' style="width:15px; height:15px;"','',$cur_post['message']);
-$signature = str_replace(' style="width:15px; height:15px;"','',$signature);
-
-
 
 echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_post['fid'].'">'.pun_htmlspecialchars($cur_post['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_post['subject']).'</div>
 <div class="red">'.$lang_delete['Delete post'].'</div>

@@ -220,10 +220,10 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT.'wap/header.php';
 
 
-echo '<div class="con"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
+echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
 
 
-include_once PUN_ROOT.'include/parser.php';
+include_once PUN_ROOT.'include/parser_m.php';
 
 // !!!
 // hcs AJAX POLL MOD BEGIN
@@ -332,7 +332,10 @@ foreach ($posts as $cur_post) {
 
         // Format the online indicator
         if ($cur_post['is_online'] == $cur_post['poster_id']) {
-            $is_online = '<span class="green">'.$lang_topic['Online_m'].'</span>';
+            $is_online = ' <span class="green">'.$lang_topic['Online_m'].'</span>';
+        }else {
+            
+            $is_online = ' <span class="grey">'.$lang_topic['Offline_m'].'</span>';
         }
 
         if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
@@ -385,16 +388,16 @@ foreach ($posts as $cur_post) {
         if (!$cur_topic['closed']) {
             if ($cur_post['poster_id'] == $pun_user['id']) {
                 if ((($start_from + $post_count) == 1 && $pun_user['g_delete_topics'] == 1) || (($start_from + $post_count) > 1 && $pun_user['g_delete_posts'] == 1)) {
-                    $post_actions[] = '<a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete'].'</a>';
+                    $post_actions[] = '<a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete_m'].'</a>';
                 }
                 if ($pun_user['g_edit_posts'] == 1) {
-                    $post_actions[] = '<a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit'].'</a>';
+                    $post_actions[] = '<a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit_m'].'</a>';
                 }
             }
 
             // MOD: QUICK REPLY - FOLLOWING "IF" CODE BLOCK MODIFIED
             if ((!$cur_topic['post_replies'] && $pun_user['g_post_replies'] == 1) || $cur_topic['post_replies'] == 1) {
-                $post_actions[] = '<a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>';
+                $post_actions[] = '<a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply_m'].'</a>';
             }
             // QUICK QUOTE MOD END
         }
@@ -422,22 +425,6 @@ foreach ($posts as $cur_post) {
         }
     }
 
-    $cur_post['message'] = str_replace('<h4>'.$lang_common['Code'].':</h4>','<div class="code">'.$lang_common['Code'].'<br/>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="codebox"><div class="incqbox">',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</table></div></div></div>','</table></div></div>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div style="font-size:x-small;background-color:#999999;">','<div class="attach_list">',$cur_post['message']);
-    $cur_post['message'] = str_replace('</div><br />','</div>',$cur_post['message']);
-    $cur_post['message'] = str_replace('<div class="incqbox">','<div class="quote">',$cur_post['message']);
-    $cur_post['message'] = str_replace('<h4>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</h4>','<br />',$cur_post['message']);
-    $cur_post['message'] = str_replace('<blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</blockquote>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<p class="right">',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('</p>',null,$cur_post['message']);
-    $cur_post['message'] = str_replace('<span style="color: #bbb">','<span class="small">',$cur_post['message']);
-    $cur_post['message'] = str_replace(' style="width:15px; height:15px;"',null,$cur_post['message']);
-    $signature = str_replace(' style="width:15px; height:15px;"',null,$signature);
     //$cur_post['message'] = preg_replace('/<div class="scrollbox".*>/iU','<div style="margin:2pt;">',$cur_post['message']);
     //$cur_post['message'] = str_replace('<code>',null,$cur_post['message']);
     //$cur_post['message'] = str_replace('</code></div></div></div>','</code></div>',$cur_post['message']);
