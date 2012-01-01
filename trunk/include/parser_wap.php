@@ -109,6 +109,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
     $text = preg_replace($a, $b, $text);
 
     if (!$is_signature) {
+        $error = '';
         $overflow = check_tag_order($text, $error);
 
         if ($error) {
@@ -319,6 +320,7 @@ function split_text($text, $start, $end)
     $tokens = explode($start, $text);
 
     $outside[] = $tokens[0];
+    $inside = array();
 
     $num_tokens = sizeof($tokens);
     for ($i = 1; $i < $num_tokens; ++$i) {
@@ -696,8 +698,7 @@ function parse_message($text, $hide_smilies, $post = 0)
                     $num_line = '<tr><td>1</td></tr>';
                 }
 
-                 $text .= '<div class="code">' . $lang_common['Code'] . ':<br/>
-                <div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div>';
+                 $text .= '<div class="code">' . $lang_common['Code'] . ':<br/><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div>';
             }
         }
     }

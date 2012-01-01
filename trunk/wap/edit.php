@@ -132,7 +132,7 @@ if (isset($_POST['form_sent'])) {
 
     // Validate BBCode syntax
     if ($pun_config['p_message_bbcode'] == 1 && strpos($message, '[') !== false && strpos($message, ']') !== false) {
-        include_once PUN_ROOT.'include/parser_m.php';
+        include_once PUN_ROOT.'include/parser_wap.php';
         $message = preparse_bbcode($message, $errors);
     }
 
@@ -204,7 +204,7 @@ if ($errors) {
 
     echo '</div>';
 } else if ($_POST['preview']) {
-    include_once PUN_ROOT.'include/parser_m.php';
+    include_once PUN_ROOT.'include/parser_wap.php';
 
     $preview_message = parse_message($message, $hide_smilies);
     

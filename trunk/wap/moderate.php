@@ -169,7 +169,7 @@ echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187
 <form method="post" action="moderate.php?fid='.$fid.'&amp;tid='.$tid.'">';
 
 
-    include_once PUN_ROOT.'include/parser_m.php';
+    include_once PUN_ROOT.'include/parser_wap.php';
 
     $bg_switch = true; // Used for switching background color in posts
     $post_count = 0; // Keep track of post numbers

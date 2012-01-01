@@ -109,6 +109,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
     $text = preg_replace($a, $b, $text);
 
     if (!$is_signature) {
+        $error = '';
         $overflow = check_tag_order($text, $error);
 
         if ($error) {
@@ -319,6 +320,7 @@ function split_text($text, $start, $end)
     $tokens = explode($start, $text);
 
     $outside[] = $tokens[0];
+    $inside = array();
 
     $num_tokens = sizeof($tokens);
     for ($i = 1; $i < $num_tokens; ++$i) {

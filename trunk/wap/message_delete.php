@@ -44,7 +44,7 @@ if (isset($_POST['delete'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Delete message'];
 
     require_once PUN_ROOT.'wap/header.php';
-    include_once PUN_ROOT.'include/parser_m.php';
+    include_once PUN_ROOT.'include/parser_wap.php';
 
     $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
 

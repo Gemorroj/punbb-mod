@@ -464,7 +464,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     $search_set[$i]['message'] = censor_words($search_set[$i]['message']);
                 }
 
-                include_once PUN_ROOT.'include/parser_m.php';
+                include_once PUN_ROOT.'include/parser_wap.php';
                 $message = parse_message($search_set[$i]['message'], 0);
 
                 $pposter = pun_htmlspecialchars($search_set[$i]['pposter']);
