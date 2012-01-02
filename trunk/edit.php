@@ -52,7 +52,7 @@ if ($pun_user['is_guest']) {
     $topic_file_limit = intval($pun_config['file_max_post_files']);
 
     if ($pun_user['g_id'] == PUN_ADMIN) {
-    	$file_limit = 100;// just unlimited
+        $file_limit = 100;// just unlimited
     } else {
         $file_limit = min($forum_file_limit-$uploaded_to_forum, $global_file_limit-$pun_user['num_files'], $topic_file_limit-$uploaded_to_post);
     }
@@ -64,7 +64,7 @@ if (!$is_admmod && ($id != $topic_post_id && $pun_config['file_first_only'] == 1
 
 // Do we have permission to edit this post?
 if ((!$pun_user['g_edit_posts'] || $cur_post['poster_id'] != $pun_user['id'] || $cur_post['closed'] == 1) && !$is_admmod) {
-	message($lang_common['No permission']);
+    message($lang_common['No permission']);
 }
 
 // Load the post.php/edit.php language file
@@ -220,7 +220,7 @@ echo '<div id="postpreview" class="blockpost">
 <div class="blockform">
 <h2><span><?php echo $lang_post['Edit post'] ?></span></h2>
 <div class="box">
-<form id="post" name="post" method="post" action="edit.php?id=<?php echo $id ?>&amp;action=edit" onsubmit="return process_form(this)" enctype="multipart/form-data">
+<form id="edit" name="post" method="post" action="edit.php?id=<?php echo $id ?>&amp;action=edit" onsubmit="return process_form(this)" enctype="multipart/form-data">
 <div class="inform">
 <fieldset>
 <legend><?php echo $lang_post['Edit post legend'] ?></legend>
