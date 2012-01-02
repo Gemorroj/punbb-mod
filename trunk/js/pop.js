@@ -72,10 +72,10 @@ function gwPopup(e, layerid, noautoclose)
     gwTimeoutId = 0;
 
     if (!noautoclose) {
-        gwTimeoutId = window.setTimeout("gwCloseActive()", 2000);
+        gwTimeoutId = window.setTimeout(gwCloseActive, 2000);
         layer.onmouseout = function () {
             window.clearTimeout(gwTimeoutId);
-            gwTimeoutId = window.setTimeout("gwCloseActive()", 350);
+            gwTimeoutId = window.setTimeout(gwCloseActive, 350);
         };
         layer.onmouseover = function () {
             window.clearTimeout(gwTimeoutId);

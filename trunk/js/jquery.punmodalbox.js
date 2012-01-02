@@ -27,12 +27,11 @@
 		},
 		init : function () {
 			if ($.modalBox.settings.inited) {
-				return true
+				return true;
 			} else {
-				$.modalBox.settings.inited = true
+				$.modalBox.settings.inited = true;
 			}
-			$('head').append($.modalBox.settings.cssfile);
-			$('head').append($.modalBox.settings.cssiefix);
+			$('head').append($.modalBox.settings.cssfile).append($.modalBox.settings.cssiefix);
 			$('body').append($.modalBox.settings.html);
 			$('#modalbox,#modalbox-overlay').hide();
 			$("#modalbox-close a.modalbox-close").click(jQuery.modalBox.hideBox);
@@ -60,7 +59,7 @@
 				.appendTo('body');
 		},
 
-		resizeBoxes : function (def) {
+		resizeBoxes : function () {
 			// Get the page size, Get page scroll
 			var pageSize = $.modalBox.getPageSize(), pageScroll = $.modalBox.getPageScroll();
 
@@ -77,7 +76,7 @@
 		},
 
         getWindowSize : function () {
-            wSize = {};
+            var wSize = {};
 			if (self.innerHeight) {	// all except Explorer
 				if (document.documentElement.clientWidth) {
 					wSize.width = document.documentElement.clientWidth; 
@@ -92,11 +91,11 @@
 				wSize.width = document.body.clientWidth;
 				wSize.height = document.body.clientHeight;
 			}
-            return wSize
+            return wSize;
         },
 
 		getPageSize : function(){
-			var xScroll, yScroll;
+			var xScroll, yScroll, pageHeight, pageWidth, windowWidth, windowHeight;
 
 			if (window.innerHeight && window.scrollMaxY) {	
 				xScroll = window.innerWidth + window.scrollMaxX;
@@ -108,8 +107,6 @@
 				xScroll = document.body.offsetWidth;
 				yScroll = document.body.offsetHeight;
 			}
-
-			var windowWidth, windowHeight;
 
 			if (self.innerHeight) {	// all except Explorer
 				if (document.documentElement.clientWidth){
@@ -140,7 +137,7 @@
 				pageWidth = windowWidth;
 			}
 
-			return {'pageWidth':pageWidth,'pageHeight':pageHeight,'windowWidth':windowWidth,'windowHeight':windowHeight};
+			return {'pageWidth': pageWidth, 'pageHeight': pageHeight, 'windowWidth': windowWidth, 'windowHeight': windowHeight};
 		},
 
 		getPageScroll : function () {
@@ -156,7 +153,7 @@
 				xScroll = document.body.scrollLeft;	
 			}
 
-			return {'xScroll':xScroll,'yScroll':yScroll};
+			return {'xScroll': xScroll,'yScroll': yScroll};
 		},
 
 		generateId : function (prefix) {
@@ -170,13 +167,15 @@
 		},
 
 		showBox : function (def) {
-			if (!def) {def=$.modalBox.settings;}
-			$.modalBox.resizeBoxes(def);
+			if (!def) {
+                def = $.modalBox.settings;
+            }
+			$.modalBox.resizeBoxes();
 			$("#modalbox-header h2").text(def.title);
 			$('#modalbox-overlay').css({
 				opacity: $.modalBox.settings.oOpacity
 			}).fadeIn($.modalBox.settings.overlaySpeed, function () {
-				$('#modalbox-wrapper').css({'height':$.modalBox.settings.initHeight,'width':$.modalBox.settings.initWidth});
+				$('#modalbox-wrapper').css({'height': $.modalBox.settings.initHeight, 'width': $.modalBox.settings.initWidth});
 				$('#modalbox').slideDown(function () {
 					if (def.ajax) {
 						$.ajax({
@@ -187,16 +186,16 @@
 							success: function (data) {
 								$('#modalbox-loading').hide();
 								$('#modalbox-container').hide().html(data);
-								$.modalBox.resizeBoxes(def);
+								$.modalBox.resizeBoxes();
 
-                                cHeight = $('#modalbox-container').height();
-                                cWidth = $('#modalbox-container').width();
-                                wSize = $.modalBox.getWindowSize();                             
+                                var cHeight = $('#modalbox-container').height();
+                                var cWidth = $('#modalbox-container').width();
+                                var wSize = $.modalBox.getWindowSize();
 
 
-								s = Math.floor(Math.sqrt(cHeight*cWidth / 12));
-								rWidth = 4 * s;
-								rHeight = 3 * s;
+								var s = Math.floor(Math.sqrt(cHeight * cWidth / 12));
+								var rWidth = 4 * s;
+								var rHeight = 3 * s;
 
  								if (cHeight > wSize.height) {
 									rHeight = wSize.height - 8;
@@ -208,7 +207,7 @@
 									$.modalBox.settings.expandSpeed,
 									function () {
 										$('#modalbox-container').show();
-										$('#modalbox-wrapper').css({height:'auto'});
+										$('#modalbox-wrapper').css({height: 'auto'});
 									}
 								);
 
@@ -223,10 +222,11 @@
 		},
 
 		hideBox : function (def) {
-			$('#modalbox-header').css({width:'auto'});
+			$('#modalbox-header').css('width', 'auto');
 			$('#modalbox-wrapper').animate({
-				height	:	$.modalBox.settings.initHeight,
-				width	:	$.modalBox.settings.initWidth},
+				    height: $.modalBox.settings.initHeight,
+				    width: $.modalBox.settings.initWidth
+                },
 				$.modalBox.settings.expandSpeed,
 				function () {
 					$('#modalbox-loading').show();
@@ -242,9 +242,7 @@
 		}
 	};
 
-
 	$.fn.modalBox = function (options) {
-
 		var def = $.extend({
 			width			:	600,
 			height			:	480,

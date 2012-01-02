@@ -11,7 +11,7 @@ function insert_text(open, close)
 	if (document.selection && document.selection.createRange)
 	{
 		msgfield.focus();
-		sel = document.selection.createRange();
+		var sel = document.selection.createRange();
 		sel.text = open + sel.text + close;
 		msgfield.focus();
 	}
@@ -67,11 +67,11 @@ function tag_url()
 		return false;
 	}
 	if (!enterTITLE) {
-		return insert_text("[url]" + enterURL + "[/url]", "", false);
+		return insert_text("[url]" + enterURL + "[/url]", "");
     }
     else
     {
-        return insert_text("[url=" + enterURL + "]" + enterTITLE + "[/url]", "", false);
+        return insert_text("[url=" + enterURL + "]" + enterTITLE + "[/url]", "");
     }
 }
 
@@ -84,7 +84,7 @@ function tag_image()
 		//alert("Error! "+error_no_url);
 		return false;
 	}
-	return insert_text("[img]" + enterURL + "[/img]", "", false);
+	return insert_text("[img]" + enterURL + "[/img]", "");
 }
 
 function tag_email()
@@ -95,5 +95,5 @@ function tag_email()
 		//alert(error_no_email);
 		return false;
 	}
-	return insert_text("[email]" + emailAddress + "[/email]", "", false);
+	return insert_text("[email]" + emailAddress + "[/email]", "");
 }

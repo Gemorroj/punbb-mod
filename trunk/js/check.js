@@ -1,8 +1,6 @@
 function chekuncheck(s, d)
 {
-    var i = 0;
-
-    for (; i < d.elements.length; i++) {
+    for (var i = 0, l = d.elements.length; i < l; i++) {
         d.elements[i].checked = s.checked;
     }
 }

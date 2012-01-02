@@ -48,7 +48,7 @@ poll.pForm = function () {
     var l = q.split("\n");
     $("#ppreview").empty().append('<p><strong>' + d + '<strong></p>').append('<ol id="poansw"></ol><br class="clearb" />');
 
-    for (var i = 0; i < l.length; i++) {
+    for (var i = 0, all = l.length; i < all; i++) {
         $("<li></li>").text(l[i]).appendTo($("#poansw"));
     }
 
