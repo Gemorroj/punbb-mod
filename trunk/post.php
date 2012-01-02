@@ -6,7 +6,7 @@ require PUN_ROOT.'include/file_upload.php';
 
 // если проверка каптчей
 if ($pun_user['g_post_replies'] == 2) {
-	session_start();
+    session_start();
 }
 
 if (!$pun_user['g_read_board']) {
@@ -33,14 +33,14 @@ if ($tid) {
 
 
 if (!$db->num_rows($result)) {
-	message($lang_common['Bad request']);
+    message($lang_common['Bad request']);
 }
 
 $cur_posting = $db->fetch_assoc($result);
 
 // Is someone trying to post into a redirect forum?
 if ($cur_posting['redirect_url']) {
-	message($lang_common['Bad request']);
+    message($lang_common['Bad request']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
@@ -53,7 +53,7 @@ $can_upload = $is_admmod || (!$cur_posting['file_upload'] && $pun_user['g_file_u
 
 
 if ($pun_user['is_guest']) {
-	$file_limit = 0;
+    $file_limit = 0;
 } else {
     $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_posting['id'].' AND a.poster_id='.$pun_user['id']) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
     $uploaded_to_forum = $db->fetch_row($result); $uploaded_to_forum = $uploaded_to_forum[0];
@@ -117,7 +117,6 @@ if (isset($_POST['form_sent'])) {
         }
 
         unset($_SESSION['captcha_keystring']);
-        session_destroy();
     }
 
 

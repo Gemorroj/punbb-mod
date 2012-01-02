@@ -124,7 +124,6 @@ if (isset($_POST['form_sent'])) {
         }
 
         unset($_SESSION['captcha_keystring']);
-        session_destroy();
     }
 
 
