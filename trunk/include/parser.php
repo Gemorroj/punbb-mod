@@ -453,11 +453,18 @@ function handle_poll_tag($pid)
 function do_bbcode($text)
 {
     global $lang_common, $pun_user;
+    $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
 
     if (strpos($text, 'quote') !== false) {
-        $text = str_replace('[quote]', '</p><blockquote><div class="incqbox"><p>', $text);
-        $text = preg_replace('#\[quote=(&quot;|"|\'|)(.*)\\1\]#seU', '"</p><blockquote><div class=\"incqbox\"><h4>".str_replace(array(\'[\', \'\\"\'), array(\'&#91;\', \'"\'), \'$2\')." ".$lang_common[\'wrote\'].":</h4><p>"', $text);
-        $text = preg_replace('#\[\/quote\]\s*#', '</p></div></blockquote><p>', $text);
+        if ($wap) {
+            $text = str_replace('[quote]', '<div class="quote">', $text);
+            $text = preg_replace('#\[quote=(&quot;|"|\'|)(.*)\\1\]#seU', '"<div class=\"quote\"><strong>".str_replace(array(\'[\', \'\\"\'), array(\'&#91;\', \'"\'), \'$2\')." ".$lang_common[\'wrote\'].":</strong><br />"', $text);
+            $text = preg_replace('#\[\/quote\]\s*#', '</div>', $text);
+        } else {
+            $text = str_replace('[quote]', '</p><blockquote><div class="incqbox"><p>', $text);
+            $text = preg_replace('#\[quote=(&quot;|"|\'|)(.*)\\1\]#seU', '"</p><blockquote><div class=\"incqbox\"><h4>".str_replace(array(\'[\', \'\\"\'), array(\'&#91;\', \'"\'), \'$2\')." ".$lang_common[\'wrote\'].":</h4><p>"', $text);
+            $text = preg_replace('#\[\/quote\]\s*#', '</p></div></blockquote><p>', $text);
+        }
     }
 
     if (strpos($text, 'list') !== false) {
@@ -467,6 +474,42 @@ function do_bbcode($text)
         $text = str_replace('[/li]', '</li>', $text);
         $text = preg_replace('#\[\/listo\]\s*#', '</ol><p>', $text);
         $text = preg_replace('#\[\/list\]\s*#', '</ul><p>', $text);
+    }
+
+    if ($wap) {
+        $reArr = array(
+            '<strong>$1</strong>',
+            '<em>$1</em>',
+            '<span class="bbu">$1</span>',
+            '<span class="bbs">$1</span>',
+            '<code>$1</code>',
+            'handle_url_tag(\'$1\')',
+            'handle_url_tag(\'$1\', \'$2\')',
+            'handle_search_tag(\'forum\', \'$1\')', 'handle_search_tag(\'$1\', \'$2\')',
+            '<a href="mailto:$1">$1</a>', '<a href="mailto:$1">$2</a>',
+            '<span style="color: $1">$2</span>',
+            '<span style="text-align:center;">$1</span>',
+            '<span style="text-align:right;">$1</span>',
+            '<span style="font-size: $1px">$2</span>',
+            '<span style="font-family: $1">$2</span>'
+        );
+    } else {
+        $reArr = array(
+            '<strong>$1</strong>',
+            '<em>$1</em>',
+            '<span class="bbu">$1</span>',
+            '<span class="bbs">$1</span>',
+            '<code>$1</code>',
+            'handle_url_tag(\'$1\')',
+            'handle_url_tag(\'$1\', \'$2\')',
+            'handle_search_tag(\'forum\', \'$1\')', 'handle_search_tag(\'$1\', \'$2\')',
+            '<a href="mailto:$1">$1</a>', '<a href="mailto:$1">$2</a>',
+            '<span style="color: $1">$2</span>',
+            '</p><p class="center">$1</p><p>',
+            '</p><p class="right">$1</p><p>',
+            '<span style="font-size: $1px">$2</span>',
+            '<span style="font-family: $1">$2</span>'
+        );
     }
 
     // This thing takes a while! :)
@@ -487,25 +530,9 @@ function do_bbcode($text)
             '#\[size=([0-9]*)](.*?)\[/size\]#s',
             '#\[font=([a-zA-Z ]*)](.*?)\[/font\]#s'
         ),
-        array(
-            '<strong>$1</strong>',
-            '<em>$1</em>',
-            '<span class="bbu">$1</span>',
-            '<span class="bbs">$1</span>',
-            '<code>$1</code>',
-            'handle_url_tag(\'$1\')',
-            'handle_url_tag(\'$1\', \'$2\')',
-            'handle_search_tag(\'forum\', \'$1\')', 'handle_search_tag(\'$1\', \'$2\')',
-            '<a href="mailto:$1">$1</a>', '<a href="mailto:$1">$2</a>',
-            '<span style="color: $1">$2</span>',
-            '</p><p class="center">$1</p><p>',
-            '</p><p class="right">$1</p><p>',
-            '<span style="font-size: $1px">$2</span>',
-            '<span style="font-family: $1">$2</span>'
-        ),
+        $reArr,
         $text
     );
-
 }
 
 //
@@ -534,7 +561,7 @@ function do_smilies($text)
 
     $num_smilies = sizeof($smiley_text);
     for ($i = 0; $i < $num_smilies; ++$i) {
-        $text = preg_replace("#(?<=.\W|\W.|^\W)" . preg_quote($smiley_text[$i], '#') . "(?=.\W|\W.|\W$)#m", '$1<img src="' . PUN_ROOT . 'img/smilies/' . $smiley_img[$i] . '" style="width:15px; height:15px;" alt="' . substr($smiley_img[$i], 0, strrpos($smiley_img[$i], '.')) . '" />$2', $text);
+        $text = preg_replace("#(?<=.\W|\W.|^\W)" . preg_quote($smiley_text[$i], '#') . "(?=.\W|\W.|\W$)#m", '$1<img src="' . PUN_ROOT . 'img/smilies/' . $smiley_img[$i] . '" alt="' . substr($smiley_img[$i], 0, strrpos($smiley_img[$i], '.')) . '" />$2', $text);
     }
 
     // ::thumb###:: tag
@@ -560,9 +587,9 @@ function do_hide($text, $post = 0, $matches)
 
     if (pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap') {
         if ($basename == 'hide.php') {
-            return str_replace($matches[0], '<div style="font-size:x-small;background-color:#999999;">' . $matches[4] . '</div>', $text);
+            return str_replace($matches[0], '<div class="attach_list">' . $matches[4] . '</div>', $text);
         }
-        return str_replace($matches[0], '<div style="font-size:x-small;background-color:#999999;"><a href="hide.php?id=' . $post . '">' . $lang_topic['Show'] . '</a></div>', $text);
+        return str_replace($matches[0], '<div class="attach_list"><a href="hide.php?id=' . $post . '">' . $lang_topic['Show'] . '</a></div>', $text);
     }
 
     if ($basename == 'viewprintable.php') {
@@ -578,7 +605,7 @@ function do_hide($text, $post = 0, $matches)
 function parse_message($text, $hide_smilies, $post = 0)
 {
     global $pun_config, $lang_common, $pun_user;
-
+    $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
 
     if ($pun_config['o_censoring'] == 1) {
         $text = censor_words($text);
@@ -698,13 +725,23 @@ function parse_message($text, $hide_smilies, $post = 0)
                     $num_line = '<tr><td>1</td></tr>';
                 }
 
-                $text .= '</p><div class="codebox"><div class="incqbox"><h4>' . $lang_common['Code'] . ':</h4><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div></div><p>';
+                if ($wap) {
+                    $text .= '<div class="code">' . $lang_common['Code'] . ':<br/><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div>';
+                } else {
+                    $text .= '</p><div class="codebox"><div class="incqbox"><h4>' . $lang_common['Code'] . ':</h4><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div></div><p>';
+                }
             }
         }
     }
 
     // Add paragraph tag around post, but make sure there are no empty paragraphs
-    return str_replace('<p></p>', '', '<p>' . $text . '</p>');
+    if ($wap) {
+        $text = str_replace('<p></p>', '', $text);
+    } else {
+        $text = str_replace('<p></p>', '', '<p>' . $text . '</p>');
+    }
+
+    return $text;
 }
 
 

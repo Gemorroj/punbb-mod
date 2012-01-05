@@ -204,7 +204,7 @@ require_once PUN_ROOT.'wap/header.php';
 echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
 
 
-include_once PUN_ROOT.'include/parser_wap.php';
+include_once PUN_ROOT.'include/parser.php';
 
 // !!!
 // hcs AJAX POLL MOD BEGIN

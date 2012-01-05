@@ -1248,42 +1248,52 @@ function clear_empty_multiline($text)
 function generate_rss()
 {
     global $db, $pun_config;
-    include_once PUN_ROOT . 'include/parser.php';
+
+    // for wap parser
+    if (!function_exists('parse_message')) {
+        include_once PUN_ROOT . 'include/parser.php';
+    }
 
     $rss = fopen(PUN_ROOT . 'rss.xml', 'wb');
 
-fputs($rss, '<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="' . $pun_config['o_base_url'] . '/rss.xml" type="application/rss+xml" />
-<title>' . $pun_config['o_board_title'] . '</title>
-<link>' . $pun_config['o_base_url'] . '</link>
-<description>' . $pun_config['o_board_desc'] . '</description>
-<pubDate>' . date('r') . '</pubDate>
-<generator>RSS Generator</generator>' . "\r\n");
+    fputs($rss, '<?xml version="1.0" encoding="utf-8"?>' . "\r\n" .
+        '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">' .
+        '<channel>' .
+        '<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="' . $pun_config['o_base_url'] . '/rss.xml" type="application/rss+xml" />' .
+        '<title>' . $pun_config['o_board_title'] . '</title>' .
+        '<link>' . $pun_config['o_base_url'] . '</link>' .
+        '<description>' . $pun_config['o_board_desc'] . '</description>' .
+        '<pubDate>' . date('r') . '</pubDate>' .
+        '<generator>RSS Generator</generator>' . "\r\n");
 
     //$onlysubforum = 'WHERE t.forum_id=1'; //do not delete
 
-    $result = $db->query('SELECT t.id, t.poster, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_replies, p.message, p.poster, g.forum_name, g.id as forum_id FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'posts AS p ON p.topic_id=t.id ' . $onlysubforum . ' LEFT JOIN ' . $db->prefix . 'forums AS g ON t.forum_id=g.id GROUP BY p.topic_id ORDER BY posted DESC LIMIT 0, 10') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+        SELECT t.id, t.poster, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_replies, p.message, p.poster, g.forum_name, g.id as forum_id
+        FROM ' . $db->prefix . 'topics AS t
+        INNER JOIN ' . $db->prefix . 'posts AS p ON p.topic_id=t.id ' . $onlysubforum . '
+        LEFT JOIN ' . $db->prefix . 'forums AS g ON t.forum_id=g.id
+        GROUP BY p.topic_id
+        ORDER BY posted DESC LIMIT 0, 10
+    ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
-    //if($db->num_rows($result))
-    //{
-while ($cur_topic = $db->fetch_assoc($result)) {
-fputs($rss, '<item>
-<title>' . $cur_topic['subject'] . '</title>
-<link>' . $pun_config['o_base_url'] . '/viewtopic.php?id=' . $cur_topic['id'] . '</link>
-<comments>' . $pun_config['o_base_url'] . '/viewtopic.php?pid=' . $cur_topic['last_post_id'] . '#p' . $cur_topic['last_post_id'] . '</comments>
-<pubDate>' . date('r', $cur_topic['posted']) . '</pubDate>
-<dc:creator>' . $cur_topic['poster'] . '</dc:creator>
-<category>' . $cur_topic['forum_name'] . '</category>
-<guid>' . $pun_config['o_base_url'] . '/viewforum.php?id=' . $cur_topic['forum_id'] . '&amp;' . mt_rand() . '</guid>
-<description><![CDATA[' . parse_message($cur_topic['message'], 1) . ']]></description>
-</item>' . "\r\n");
-}
+    if ($db->num_rows($result)) {
+        while ($cur_topic = $db->fetch_assoc($result)) {
+            fputs($rss, '<item>' .
+                '<title>' . $cur_topic['subject'] . '</title>' .
+                '<link>' . $pun_config['o_base_url'] . '/viewtopic.php?id=' . $cur_topic['id'] . '</link>' .
+                '<comments>' . $pun_config['o_base_url'] . '/viewtopic.php?pid=' . $cur_topic['last_post_id'] . '#p' . $cur_topic['last_post_id'] . '</comments>' .
+                '<pubDate>' . date('r', $cur_topic['posted']) . '</pubDate>' .
+                '<dc:creator>' . $cur_topic['poster'] . '</dc:creator>' .
+                '<category>' . $cur_topic['forum_name'] . '</category>' .
+                '<guid>' . $pun_config['o_base_url'] . '/viewforum.php?id=' . $cur_topic['forum_id'] . '&amp;' . mt_rand() . '</guid>' .
+                '<description><![CDATA[' . parse_message($cur_topic['message'], 1) . ']]></description>' .
+                '</item>' . "\r\n");
+        }
+    }
+
     fputs($rss, '</channel></rss>');
     fclose($rss);
-    //}
-    return;
 }
 
 

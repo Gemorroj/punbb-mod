@@ -38,6 +38,9 @@ php_value short_open_tag 1
 
 # отладка
 php_flag display_errors Off
+php_value error_reporting -1
+php_flag log_errors On
+php_value error_log /error_log
 
 
 # Сессии
