@@ -87,7 +87,7 @@ if (isset($_POST['delete'])) {
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_delete['Delete post'];
 require_once PUN_ROOT.'wap/header.php';
 
-include_once PUN_ROOT.'include/parser_wap.php';
+include_once PUN_ROOT.'include/parser.php';
 $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
 
 echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_post['fid'].'">'.pun_htmlspecialchars($cur_post['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_post['subject']).'</div>

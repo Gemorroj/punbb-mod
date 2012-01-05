@@ -2,7 +2,7 @@
 define('PUN_ROOT', '../');
 
 require PUN_ROOT . 'include/common.php';
-include_once PUN_ROOT . 'include/parser_wap.php';
+include_once PUN_ROOT . 'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
     wap_message($lang_common['No permission']);

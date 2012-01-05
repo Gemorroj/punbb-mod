@@ -101,7 +101,7 @@ switch(@$_GET['id']) {
         echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="help.php">'.$lang_help['Help'].'</a> &#187; '.$lang_common['Smilies'].'</div>';
 
         // Display the smiley set
-        include_once PUN_ROOT . 'include/parser_wap.php';
+        include_once PUN_ROOT . 'include/parser.php';
 
         $num_smilies = sizeof($smiley_text);
         for ($i = 0; $i < $num_smilies; ++$i) {

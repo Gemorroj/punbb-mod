@@ -26,11 +26,9 @@ class DBLayer
         }
 
         if ($this->link_id) {
-            // utf-8
-            //mysql_set_charset('utf8', $this->link_id);
-            if (@mysql_select_db($db_name, $this->link_id)) {
-                return $this->link_id;
-            } else {
+            // set utf-8
+            mysql_set_charset('utf8', $this->link_id);
+            if (!@mysql_select_db($db_name, $this->link_id)) {
                 error('Unable to select database. MySQL reported: ' . mysql_error($this->link_id), __FILE__, __LINE__);
             }
         } else {
@@ -129,7 +127,7 @@ class DBLayer
     }
 
 
-    function free_result($query_id = false)
+    function free_result($query_id = null)
     {
         return ($query_id) ? @mysql_free_result($query_id) : false;
     }

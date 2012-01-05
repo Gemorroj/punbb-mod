@@ -23,7 +23,13 @@ function check_cookie(&$pun_user)
 
     if ($cookie['user_id'] > 1) {
         // Check if there's a user with the user ID and password hash from the cookie
-        $result = $db->query('SELECT u.*, g.*, o.logged, o.idle FROM ' . $db->prefix . 'users AS u INNER JOIN ' . $db->prefix . 'groups AS g ON u.group_id=g.g_id LEFT JOIN ' . $db->prefix . 'online AS o ON o.user_id=u.id WHERE u.id=' . intval($cookie['user_id'])) or error('Unable to fetch user information', __FILE__, __LINE__, $db->error());
+        $result = $db->query('
+            SELECT u.*, g.*, o.logged, o.idle
+            FROM ' . $db->prefix . 'users AS u
+            INNER JOIN ' . $db->prefix . 'groups AS g ON u.group_id=g.g_id
+            LEFT JOIN ' . $db->prefix . 'online AS o ON o.user_id=u.id
+            WHERE u.id=' . intval($cookie['user_id'])
+        ) or error('Unable to fetch user information', __FILE__, __LINE__, $db->error());
         $pun_user = $db->fetch_assoc($result);
 
         // If user authorisation failed
@@ -55,10 +61,6 @@ function check_cookie(&$pun_user)
 
         if (!$pun_user['disp_posts']) {
             $pun_user['disp_posts'] = $pun_config['o_disp_posts_default'];
-        }
-
-        if (!$pun_user['save_pass']) {
-            $expire = 0;
         }
 
         // Define this if you want this visit to affect the online list and the users last visit data
@@ -451,22 +453,19 @@ function wap_generate_profile_menu($page = '')
 {
     global $lang_profile, $pun_config, $pun_user, $id;
 
-echo '
-<div class="navlinks">
+    echo '<div class="navlinks">
 <a href="profile.php?section=essentials&amp;id=' . $id . '">' . $lang_profile['Section essentials'] . '</a> |
 <a href="profile.php?section=personal&amp;id=' . $id . '">' . $lang_profile['Section personal'] . '</a> |
 <a href="profile.php?section=messaging&amp;id=' . $id . '">' . $lang_profile['Section messaging'] . '</a> |
 <a href="profile.php?section=personality&amp;id=' . $id . '">' . $lang_profile['Section personality'] . '</a> |
 <a href="profile.php?section=display&amp;id=' . $id . '">' . $lang_profile['Section display'] . '</a> |
-<a href="profile.php?section=privacy&amp;id=' . $id . '">' . $lang_profile['Section privacy'] . '</a> |
-';
+<a href="profile.php?section=privacy&amp;id=' . $id . '">' . $lang_profile['Section privacy'] . '</a> |';
 
     if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_ban_users'] == 1)) {
         echo ' <strong><a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a></strong> |';
     }
 
-echo '
-<strong><a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a></strong></div>';
+    echo '<strong><a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a></strong></div>';
 
     return;
 }
@@ -1267,6 +1266,7 @@ function generate_rss()
         '<generator>RSS Generator</generator>' . "\r\n");
 
     //$onlysubforum = 'WHERE t.forum_id=1'; //do not delete
+    $onlysubforum = '';
 
     $result = $db->query('
         SELECT t.id, t.poster, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_replies, p.message, p.poster, g.forum_name, g.id as forum_id
@@ -1615,10 +1615,8 @@ class getf
         }
 
 		echo $this->data;
-        return;
     }
 
 }
-
 
 ?>
