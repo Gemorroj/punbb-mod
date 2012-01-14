@@ -1,31 +1,46 @@
-body{background-color:#000;color:#fff;margin:2px auto;max-width:90%;font-size:small;}
-th,td,p{color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px;}
-a:link,a:active,a:visited{color:#f90;text-decoration:none;}
-a:hover{text-decoration:none;color:#ff0;background-color:#900;border:1px solid #f90;padding:1px;position:relative;top:1px; }
-hr{border:1px dotted #c00;}
-textarea{width:92%;}
-table{background-color:#333;width:98%;border-collapse:collapse;border: 1px solid #003;}
-th,td{border: 1px solid #003;}
-.msg td{border:none;}
-code{font-size:9pt;color:#000;background-color:#f0f0f0;display:block;border:1px dotted #003;width:98%;}
-.bbu{text-decoration:underline;}
-.bbs{text-decoration:line-through;}
-.block{margin:1pt;}
-.red{color:#d00;font-style:italic;}
-.green{color:#0a0;font-style:italic;}
-form{color:#ff0;background-color:#000;border:1px dotted #f90;padding:1pt 1pt 2pt 1pt;}
-.in{color:#fc0;font-weight:bold;font-size:11px;padding:2pt 0 0 0;}
-a.in{background:url('xwab/button.gif');padding:5pt;color:#900;margin:50%;}
-.con{font-size:11px;padding:3pt 0 3pt 2pt;background-color:#000;}
-a.con{color:#903;border:1px dotted #903;background:#fc6;margin:2pt;padding:0;}
-.incqbox{font-size:10px;background:url('xwab/fon.gif');background-color:#900;}
-.navlinks,.copy{text-align:center;color:#333;font-size:smaller;}
-.box{background:url('xwab/fon.gif');background-color:#900;border-bottom:3px double #600;border-left:3px double #c00;border-top:3px double #c00;border-right:3px double #600;}
-.msg{border-bottom:1px solid #c30;border-left:1px dotted #c30;border-right:1px dotted #c30;width:98%;}
-.msg2{background-color:#111;width:auto;}
-.attach_list{background-color:#555;width:25%;}
-.input{font-size:9pt;padding:0 0 0 1%;}
-.blocktable{text-align:center;font-size:9pt;margin:1%;}
-.p_cnt table td{border-right:1px solid #777;background-color:#f0f0f0;color:#000;width:99%;font-style:normal;}
-.scrollbox{width:100%;overflow:auto;white-space:pre;font-size:x-small;}
-div#warning {color: #b00; font-weight: bold;}
+body{background:#000;color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px}
+img{vertical-align:middle;margin:0;padding:0;border:0}
+form{width:100%;margin:0;padding:0}
+a:link,a:active,a:visited{color:#F90;text-decoration:none;border:1px solid transparent;padding:1px}
+a:hover{text-decoration:none;color:#ff0;background:#900;border:1px solid #f90;padding:1px;position:relative;top:1px}
+
+.hd, .incqbox, .inbox{ background:url(xwab/fon_red.gif)repeat-x;background:#900; color:#fff;margin:3px 0;border:1px solid #c30;border-radius:6px;padding:5px}
+
+.con, .cat, .go_to, .info{color:#fff;background:#900 url(xwab/fon_red_con.gif) repeat-x;margin-bottom:1px;border-bottom:3px double#600; border-left:3px double#c00; border-top:3px double#c00; border-right:3px double#600;border-radius:6px;padding:5px}
+.sp_cat{font-weight:bold}
+
+.in, .in2, .box, .box2, .hd_bott, .navlinks, .msg, .input, .act{border:1px solid #c30;border-radius:6px;margin:1px;padding:5px}
+
+.msg2, .input2{background:#600;border:1px solid #c30;margin:1px;border-radius:6px;padding:5px}
+
+.zag_in{min-height:60px}
+.zag_in img{margin-right:4px;float:left}
+
+.bbu{text-decoration:underline}
+.bbs{text-decoration:line-through}
+
+.red{color:#d00}
+.green{color:#0fff0f}
+.grey{color:#b40000}
+.small{color:#ccc;font-size:smaller}
+div#warning {color:#b00; font-weight:bold}
+
+a.but{color:#903; border:1px solid #903; background:#fc6; padding:0 2px; line-height:1.5}
+
+.attach_list{border-top:1px solid #fff;margin:6px 0 8px}
+.quote, .quote .quote .quote{color:#aaa;font-size:smaller;font-style:italic;border:1px dashed #777;background:#222;padding:4px;margin-top:2pt;border-radius:2pt}
+.quote .quote, .quote .quote .quote .quote{background:black}
+
+hr{border:1px dotted #c00}
+.hr{font-weight:bold;font-size:7pt;padding-top:2px;width:50%;border-top:1px dashed gray;margin:5px 3px 0}
+
+code{font-size:9pt;display:block;line-height:2; border:1px dashed #c30;width:95%;padding:2px 4px;margin-top:4px}
+.code{color:#f90;font-style:normal;text-indent:8px;background:#444;padding-left:4px;margin-top:2pt;border:1px solid #222;border-radius:2pt}
+.scrollbox{overflow:auto;white-space:pre;font-size:xx-small;margin-top:2pt}
+table, td, tr, th{width:100%;margin:0;padding:0;border:0;text-align:left}
+.p_cnt{font-size:9pt;color:#be012c;background:#faf8f2;border:1px solid #eed;width:99%;border-radius:2pt;margin-left:4px}
+.p_cnt span{color:#039}
+.p_cnt:hover{box-shadow:-1pt 1pt 3pt #000}
+
+.foot{float:left;font-size:smaller}
+.copy{float:right;color:#333;font-size:smaller}
