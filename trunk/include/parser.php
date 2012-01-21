@@ -345,7 +345,11 @@ function handle_url_tag($url, $link = '')
 {
     global $pun_user;
 
-    $full_url = str_replace(array(' ', "'", '`', '"'), array('%20', '', '', ''), $url);
+    $full_url = str_replace(
+        array(' ', "'", '`', '"'),
+        array('%20', '%27', '%60', '%22'),
+        $url
+    );
     if (strpos($url, 'www.') === 0) { // If it starts with www, we add http://
         $full_url = 'http://' . $full_url;
     } else if (strpos($url, 'ftp.') === 0) { // Else if it starts with ftp, we add ftp://
@@ -355,7 +359,7 @@ function handle_url_tag($url, $link = '')
     }
 
     // Ok, not very pretty :-)
-    $link = ($link == '' || $link == $url) ? ((strlen($url) > 55) ? substr($url, 0, 39) . ' &#133; ' . substr($url, -10) : $url) : stripslashes($link);
+    $link = ($link == '' || $link == $url) ? ((mb_strlen($url) > 55) ? mb_substr($url, 0, 39) . ' &#133; ' . mb_substr($url, -10) : $url) : stripslashes($link);
 
     return '<a href="' . $full_url . '">' . $link . '</a>';
 }
