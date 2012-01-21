@@ -91,12 +91,28 @@ echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187
 if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
     // Without "the dot"
     // REAL MARK TOPIC AS READ MOD BEGIN
-    $sql = 'SELECT t.id, t.poster, t.has_poll, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_views, t.num_replies, t.closed, t.sticky, t.moved_to, lt.log_time, lf.mark_read FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id LEFT JOIN '.$db->prefix.'log_forums AS lf ON lf.forum_id=t.forum_id AND lf.user_id='.$pun_user['id'].' WHERE t.forum_id='.$id.' ORDER BY sticky DESC, '.(($cur_forum['sort_by'] == 1) ? 'posted' : 'last_post').' DESC LIMIT '.$start_from.', '.$pun_user['disp_topics'];
+    $sql = '
+        SELECT t.id, t.poster, t.has_poll, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_views, t.num_replies, t.closed, t.sticky, t.moved_to, lt.log_time, lf.mark_read
+        FROM '.$db->prefix.'topics AS t
+        LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id
+        LEFT JOIN '.$db->prefix.'log_forums AS lf ON lf.forum_id=t.forum_id AND lf.user_id='.$pun_user['id'].'
+        WHERE t.forum_id='.$id.'
+        ORDER BY sticky DESC, '.(($cur_forum['sort_by'] == 1) ? 'posted' : 'last_post').' DESC
+        LIMIT '.$start_from.', '.$pun_user['disp_topics'];
     // REAL MARK TOPIC AS READ MOD END
 } else {
     // With "the dot"
     // REAL MARK TOPIC AS READ MOD BEGIN
-    $sql = 'SELECT p.poster_id AS has_posted, t.has_poll, t.id, t.subject, t.poster, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_views, t.num_replies, t.closed, t.sticky, t.moved_to, lt.log_time, lf.mark_read FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id AND p.poster_id='.$pun_user['id'].' LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id LEFT JOIN '.$db->prefix.'log_forums AS lf ON lf.forum_id=t.forum_id AND lf.user_id='.$pun_user['id'].' WHERE t.forum_id='.$id.' GROUP BY t.id ORDER BY sticky DESC, '.(($cur_forum['sort_by'] == 1) ? 'posted' : 'last_post').' DESC LIMIT '.$start_from.', '.$pun_user['disp_topics'];
+    $sql = '
+        SELECT p.poster_id AS has_posted, t.has_poll, t.id, t.subject, t.poster, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_views, t.num_replies, t.closed, t.sticky, t.moved_to, lt.log_time, lf.mark_read
+        FROM '.$db->prefix.'topics AS t
+        LEFT JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id AND p.poster_id='.$pun_user['id'].'
+        LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id
+        LEFT JOIN '.$db->prefix.'log_forums AS lf ON lf.forum_id=t.forum_id AND lf.user_id='.$pun_user['id'].'
+        WHERE t.forum_id='.$id.'
+        GROUP BY t.id
+        ORDER BY sticky DESC, '.(($cur_forum['sort_by'] == 1) ? 'posted' : 'last_post').' DESC
+        LIMIT '.$start_from.', '.$pun_user['disp_topics'];
     // REAL MARK TOPIC AS READ MOD END
 }
 
@@ -138,7 +154,7 @@ if ($db->num_rows($result)) {
         
         
         // REAL MARK TOPIC AS READ MOD BEGIN
-        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && !is_reading( $cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
+        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && $cur_topic['last_poster'] != $pun_user['username'] && !is_reading($cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
             // REAL MARK TOPIC AS READ MOD END
 //icon new - "new"
             $icon_new_text = ' <span class="red">'.$lang_common['New icon_m'].'</span>';
