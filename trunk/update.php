@@ -193,11 +193,15 @@ if ($version = '0.5.8') {
         $error[] = mysql_error();
     }
 
-    $query = mysql_query('UPDATE `users` SET `style` = "", `style_wap` = "" WHERE `id` = 1;');
+    $query = mysql_query('UPDATE `users` SET `style` = "" WHERE `id` = 1;');
     if (!$query) {
         $error[] = mysql_error();
     }
 
+    $query = mysql_query('UPDATE `users` SET `style_wap` = "";');
+    if (!$query) {
+        $error[] = mysql_error();
+    }
 
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.9" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
@@ -209,6 +213,7 @@ if ($version = '0.5.8') {
     if (!$query) {
         $error[] = mysql_error();
     }
+
 
     $version = '0.5.9';	
 }
