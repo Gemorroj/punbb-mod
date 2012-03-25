@@ -1,5 +1,6 @@
 <?php
-class _jsHelper{
+class _jsHelper
+{
     var $js = array();
     var $jsInt = array();
 

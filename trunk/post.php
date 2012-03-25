@@ -452,7 +452,7 @@ if (isset($_POST['form_sent'])) {
 // If a topic id was specified in the url (it's a reply).
 if ($tid) {
     $action = $lang_post['Post a reply'];
-    $form = '<form id="post" method="post" action="post.php?action=post&amp;tid='.$tid.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"'.($file_limit ? ' enctype="multipart/form-data"' : '').'>';
+    $form = '<form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?action=post&amp;tid='.$tid.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"'.($file_limit ? ' enctype="multipart/form-data"' : '').'>';
 
     // If a quote-id was specified in the url.
     if (isset($_GET['qid'])) {
@@ -519,7 +519,7 @@ if ($tid) {
 // If a forum_id was specified in the url (new topic).
 else if ($fid) {
     $action = $lang_post['Post new topic'];
-    $form = '<form id="post" method="post" action="post.php?action=post&amp;fid='.$fid.'" onsubmit="return process_form(this)" enctype="multipart/form-data">';
+    $form = '<form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?action=post&amp;fid='.$fid.'" onsubmit="return process_form(this)" enctype="multipart/form-data">';
     
     $forum_name = pun_htmlspecialchars($cur_posting['forum_name']);
 } else {

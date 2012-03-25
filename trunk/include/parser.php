@@ -600,7 +600,7 @@ function do_hide($text, $post = 0, $matches)
         return str_replace($matches[0], '<div style="border:1px solid #bbb;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
     }
 
-    return str_replace($matches[0], '<div style="border:1px solid #bbb;"><input type="button" value="' . $lang_topic['Hide'] . '" onclick="javascript:$(\'#spoiler_' . (++$spoiler) . '\').toggle(\'fast\');"/><div id="spoiler_' . $spoiler . '" style="display: none;"><br/>' . $matches[4] . '</div></div>', $text);
+    return str_replace($matches[0], '<div style="border:1px solid #bbb;"><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(\'#spoiler_' . (++$spoiler) . '\').toggle(\'fast\');"/><div id="spoiler_' . $spoiler . '" style="display: none;"><br/>' . $matches[4] . '</div></div>', $text);
 }
 
 //

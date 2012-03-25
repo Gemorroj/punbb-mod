@@ -179,7 +179,7 @@ echo '<div class="linkst">
 
 
 // If there are errors, we display them
-if($errors)
+if ($errors)
 {
 
 echo '<div id="posterror" class="block">
@@ -189,8 +189,8 @@ echo '<div id="posterror" class="block">
 <p>'.$lang_post['Post errors info'].'</p>
 <ul>';
 
-while(list(, $cur_error) = each($errors)){
-echo '<li><strong>'.$cur_error.'</strong></li>';
+while (list(, $cur_error) = each($errors)) {
+    echo '<li><strong>'.$cur_error.'</strong></li>';
 }
 
 echo '</ul></div></div></div>';
@@ -218,32 +218,32 @@ echo '<div id="postpreview" class="blockpost">
 
 ?>
 <div class="blockform">
-<h2><span><?php echo $lang_post['Edit post'] ?></span></h2>
+<h2><span><?php echo $lang_post['Edit post']; ?></span></h2>
 <div class="box">
-<form id="edit" name="post" method="post" action="edit.php?id=<?php echo $id ?>&amp;action=edit" onsubmit="return process_form(this)" enctype="multipart/form-data">
+<form onkeypress="ctrlSend(event);" id="edit" name="post" method="post" action="edit.php?id=<?php echo $id; ?>&amp;action=edit" onsubmit="return process_form(this)" enctype="multipart/form-data">
 <div class="inform">
 <fieldset>
-<legend><?php echo $lang_post['Edit post legend'] ?></legend>
+<legend><?php echo $lang_post['Edit post legend']; ?></legend>
 <input type="hidden" name="form_sent" value="1" />
 <div class="infldset txtarea">
 <?php if ($can_edit_subject): ?>
-<label><?php echo $lang_common['Subject'] ?><br />
-<input class="longinput" type="text" name="req_subject" size="80" maxlength="70" tabindex="<?php echo $cur_index++ ?>" value="<?php echo pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']) ?>" /><br /></label>
+<label><?php echo $lang_common['Subject']; ?><br />
+<input class="longinput" type="text" name="req_subject" size="80" maxlength="70" tabindex="<?php echo $cur_index++; ?>" value="<?php echo pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']); ?>" /><br /></label>
 <?php
 endif;
 require PUN_ROOT.'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
-if($pun_config['file_popup_info'] == 1){
-include PUN_ROOT.'include/attach/popup_data.php';
+if ($pun_config['file_popup_info'] == 1) {
+    include PUN_ROOT.'include/attach/popup_data.php';
 }
 require PUN_ROOT.'include/attach/post_buttons.php';
 ?>
 <label>
 <textarea name="req_message" rows="20" cols="95" tabindex="<?php echo $cur_index++ ?>"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br /></label>
 <ul class="bblinks">
-<li><a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode'] ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
-<li><a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag'] ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
-<li><a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies'] ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
+<li><a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?></li>
 </ul>
 </div>
 </fieldset>
@@ -254,40 +254,35 @@ require PUN_ROOT.'include/attach/post_buttons.php';
 // but numer of rows is less or equal 20
 $num_to_upload = $file_limit/* + $uploaded_to_post*/;
 $num_to_upload = min($num_to_upload, 20);
-if($uploaded_to_post || ($can_upload && $num_to_upload>0))
-{
-echo '<br class="clearb" /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
-include PUN_ROOT.'include/attach/view_attachments.php';
-if($can_upload && $num_to_upload>0)
-{include PUN_ROOT.'include/attach/post_input.php';}
-echo '</fieldset>';
+if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
+    echo '<br class="clearb" /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
+    include PUN_ROOT.'include/attach/view_attachments.php';
+    if ($can_upload && $num_to_upload > 0) {
+        include PUN_ROOT.'include/attach/post_input.php';
+    }
+    echo '</fieldset>';
 }
 
 $checkboxes = array();
-if($pun_config['o_smilies'] == 1)
-{
-if(isset($_POST['hide_smilies']) || $cur_post['hide_smilies'] == 1){
-$checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" checked="checked" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
-}
-else{
-$checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
-}
+if ($pun_config['o_smilies'] == 1) {
+    if (isset($_POST['hide_smilies']) || $cur_post['hide_smilies'] == 1) {
+        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" checked="checked" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
+    } else {
+        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Hide smilies'];
+    }
 }
 
-if($is_admmod)
-{
-if((isset($_POST['form_sent']) && isset($_POST['silent'])) || !isset($_POST['form_sent'])){
-$checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" checked="checked" /> '.$lang_post['Silent edit'];
-}
-else{
-$checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Silent edit'];
-}
+if ($is_admmod) {
+    if ((isset($_POST['form_sent']) && isset($_POST['silent'])) || !isset($_POST['form_sent'])) {
+        $checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" checked="checked" /> '.$lang_post['Silent edit'];
+    } else{
+        $checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="'.($cur_index++).'" /> '.$lang_post['Silent edit'];
+    }
 }
 
 
-if($checkboxes)
-{
-echo '</div>
+if ($checkboxes) {
+    echo '</div>
 <div class="inform">
 <fieldset>
 <legend>'.$lang_common['Options'].'</legend>
@@ -298,7 +293,7 @@ echo '</div>
 </fieldset>';
 }
 
-print '</div><p>
+echo '</div><p>
 <input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="'.($cur_index++).'" accesskey="s" />
 <input type="submit" name="preview" value="'.$lang_post['Preview'].'" tabindex="'.($cur_index++).'" accesskey="p" />
 <a href="javascript:history.go(-1)">'.$lang_common['Go back'].'</a></p>

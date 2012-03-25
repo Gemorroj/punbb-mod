@@ -26,7 +26,7 @@ if (isset($_POST['regen_all_cache'])) {
 <div class="box">
 <div class="inbox">
 <p>Кэш пересоздан!</p>
-<p><a href="javascript: history.go(-1)">Назад</a></p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
 </div>
 </div>
 </div>
@@ -44,7 +44,7 @@ else if (isset($_POST['regen_ban_cache'])) {
 <div class="box">
 <div class="inbox">
 <p>Бан-кэш пересоздан!</p>
-<p><a href="javascript: history.go(-1)">Назад</a></p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
 </div>
 </div>
 </div>
@@ -62,7 +62,7 @@ else if (isset($_POST['regen_ranks_cache'])) {
 <div class="box">
 <div class="inbox">
 <p>Кэш рангов пересоздан!</p>
-<p><a href="javascript: history.go(-1)">Назад</a></p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
 </div>
 </div>
 </div>
@@ -80,7 +80,7 @@ else if (isset($_POST['regen_config_cache'])) {
 <div class="box">
 <div class="inbox">
 <p>Кэш настроек пересоздан!</p>
-<p><a href="javascript: history.go(-1)">Назад</a></p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
 </div>
 </div>
 </div>
@@ -98,7 +98,7 @@ else if (isset($_POST['regen_jump_cache'])) {
 <div class="box">
 <div class="inbox">
 <p>Кэш быстрого перехода перевоздан!</p>
-<p><a href="javascript: history.go(-1)">Назад</a></p>
+<p><a href="javascript:history.go(-1)">Назад</a></p>
 </div>
 </div>
 </div>

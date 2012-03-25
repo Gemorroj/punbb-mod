@@ -752,7 +752,7 @@ function message($message, $no_back_link = false)
 <div class="inbox">
 <p>' . $message . '</p>';
     if (!$no_back_link) {
-        echo '<p><a href="javascript: history.go(-1)">' . $lang_common['Go back'] . '</a></p>';
+        echo '<p><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>';
     }
     echo '</div></div></div>';
 

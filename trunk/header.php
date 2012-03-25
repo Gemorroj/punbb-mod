@@ -24,7 +24,7 @@ if (defined('PUN_ADMIN_CONSOLE')) {
 // START SUBST - <pun_include "*">
 while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_main, $cur_include)) {
     if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.'. $cur_include[2])) {
-        error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template main.tpl. There is no such file in folder /include/user/');
+        error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
     }
 
     ob_start();
@@ -64,7 +64,7 @@ if (!defined('PUN_ALLOW_INDEX')) {
 }
 
 
-echo '<title>'. $page_title.'</title><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" /><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/elektra.css" />';
+echo '<title>' . $page_title . '</title><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" /><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/elektra.css" />';
 
 
 
@@ -85,14 +85,12 @@ if (isset($required_fields)) {
 
 $basename = basename($_SERVER['PHP_SELF']);
 
-if (in_array($basename, array('post.php', 'viewtopic.php', 'search.php', 'edit.php'))) {
-    if ($jsHelper) {
-        $jsHelper->add(PUN_ROOT . 'js/jquery.js');
-    }
-    echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
+if (@$jsHelper) {
+    $jsHelper->add(PUN_ROOT . 'js/jquery.js');
 }
 
 if (in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
+    echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
     echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/resize.js"></script>';
 }
 
@@ -102,7 +100,7 @@ if (in_array($basename, array('message_list.php', 'moderate.php'))) {
 
 
 if ($basename == 'filemap.php') {
-echo '<style type="text/css">
+    echo '<style type="text/css">
 #map div{padding-top: 3px; padding-bottom: 2px;}
 #map .cat{padding-left: 30px; background: url(' . PUN_ROOT . 'img/folder_icon.gif) no-repeat 10px 2px; font-weight: bold}
 #map .frm{padding-left: 46px; background: url(' . PUN_ROOT . 'img/folder_icon.gif) no-repeat 26px 2px; font-weight: bold}

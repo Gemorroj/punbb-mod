@@ -24,7 +24,8 @@ function insAtCaret(o, s)
 
 function expandField(f, h)
 {
-    $(f).height($(f).height() + h);
+    var f = $(f);
+    f.height(f.height() + h);
 }
 
 
@@ -69,4 +70,22 @@ function pasteN(t)
     if (t !== '' && o) {
         insAtCaret(o, "[b]" + t + "[/b]\n");
     }
+}
+
+function ctrlSend(e)
+{
+    e = e || window.event;
+
+    if (e.ctrlKey === true && (e.keyCode === 10 || e.keyCode === 13)) {
+        e.cancelBubble = true;
+        e.returnValue = false;
+
+        if (e.stopPropagation) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
+        e.target.form.submit.click();
+    }
+    //return true;
 }

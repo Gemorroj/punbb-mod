@@ -486,7 +486,7 @@ foreach ($posts as $cur_post) {
     if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
         if (isset($cur_post['spam_id'])) {
             include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
-            echo '<hr /><br />'.$lang_misc['Antispam pattern'].' - '. pun_htmlspecialchars($cur_post['pattern']).'<br /><br /><a href="./antispam_misc.php?action=show&amp;id='.$cur_post['spam_id'].'" onclick=\'javascript:window.open("'.$pun_config['o_base_url'].'/antispam_misc.php?action=show&amp;id='.$cur_post['spam_id'].'", "Spam", "width=500,height=500,resizable=yes,scrollbars=yes"); return false;\' >'.$lang_misc['Antispam look mess'].'</a> | <a href="./antispam_misc.php?action=allow&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam tread'].'</a> | <a href="./antispam_misc.php?action=deny&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam del'].'</a>';
+            echo '<hr /><br />'.$lang_misc['Antispam pattern'].' - '. pun_htmlspecialchars($cur_post['pattern']).'<br /><br /><a href="./antispam_misc.php?action=show&amp;id='.$cur_post['spam_id'].'" onclick=\'window.open("'.$pun_config['o_base_url'].'/antispam_misc.php?action=show&amp;id='.$cur_post['spam_id'].'", "Spam", "width=500,height=500,resizable=yes,scrollbars=yes"); return false;\' >'.$lang_misc['Antispam look mess'].'</a> | <a href="./antispam_misc.php?action=allow&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam tread'].'</a> | <a href="./antispam_misc.php?action=deny&amp;id='.$cur_post['spam_id'].'">'.$lang_misc['Antispam del'].'</a>';
         }
     }
     /// MOD ANTISPAM END
@@ -529,7 +529,7 @@ if ($quickpost) {
         $form_user = 'Guest';
     }
 
-    echo '<div class="blockform"><h2><span>'.$lang_topic['Quick post'].'</span></h2><div class="box"><form id="post" method="post" action="post.php?tid='.$id.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"><div class="inform"><fieldset><legend>'.$lang_common['Write message legend'].'</legend><div class="infldset txtarea">';
+    echo '<div class="blockform"><h2><span>'.$lang_topic['Quick post'].'</span></h2><div class="box"><form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?tid='.$id.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"><div class="inform"><fieldset><legend>'.$lang_common['Write message legend'].'</legend><div class="infldset txtarea">';
 
     if ($pun_config['o_antiflood']) {
         echo '<input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" />';
