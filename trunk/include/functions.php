@@ -1574,22 +1574,22 @@ class getf
         }
 
         header('ETag: "' . $etag . '"');
-    
-    
+
+
         //header('Date: ' . gmdate('r'));
         //header('Content-Transfer-Encoding: binary');
         //header('Last-Modified: ' . gmdate('r'));
-    
+
         // Кэш
-        header('Cache-Control: public, must-revalidate, max-age=60');
-        header('Pragma: cache');
+        header('Cache-Control: public, max-age=86400');
+        header('Pragma: public');
         //header('Expires: Tue, 10 Apr 2038 01:00:00 GMT');
-    
-    
+
+
         //header('Connection: Close');
         header('Keep-Alive: timeout=10, max=60');
         header('Connection: Keep-Alive');
-    
+
         header('Accept-Ranges: bytes');
         header('Content-Length: ' . $range);
 
