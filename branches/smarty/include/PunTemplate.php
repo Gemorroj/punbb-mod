@@ -16,7 +16,7 @@ class PunTemplate extends Smarty
     {
         parent::__construct();
 
-        $dir = dirname(__DIR__);
+        $dir = dirname(__FILE__);
 
         $root = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', $dir)) . '/template/wap/' . $punDesignName . '/';
 
