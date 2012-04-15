@@ -1,0 +1,48 @@
+BODY {BACKGROUND-COLOR: #333333}
+.pun {COLOR: #ffffff}
+DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #333333}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #333333}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #333333}
+.pun H2, #brdmenu { BACKGROUND-COLOR: #000000; COLOR: #FFF;
+background-image:url(../img/Mercury2/cell.gif) }
+.pun TH {BACKGROUND-COLOR: #666666}
+.pun LEGEND {COLOR: #ffcc00}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #ffffff}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #333333}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #666666}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #666666}
+DIV.blockpost H2 {BACKGROUND-COLOR: #000000; COLOR: #FFF;
+background-image:url(../img/Mercury2/cell.gif) }
+DIV.blockpost H2 SPAN.conr {COLOR: #000000; }
+.pun HR {BACKGROUND-COLOR: #666666; COLOR: #666666}
+DIV.box {BORDER-COLOR: #000000}
+DIV.blockpost DIV.box {BORDER-COLOR: ##00ffff #00ffff #00ffff}
+.pun TD {BORDER-COLOR: #333333}
+.pun TH {BORDER-COLOR: #333333}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #666666 #FFF #FFF #666666}
+.pun DIV>FIELDSET {BORDER-COLOR: #000000}
+.pun A:link, .pun A:visited {COLOR: #ffcc00}
+.pun A:hover {COLOR: #ffffff}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #ffffff}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #ffcc00}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {background:url(../img/Mercury2/icon.gif)}
+DIV.inew {background:url(../img/Mercury2/icon_new.gif)}
+TR.isticky DIV.icon {background:url(../img/Mercury2/sticky.gif)}
+TR.isticky DIV.inew {background:url(../img/Mercury2/sticky_new.gif)}
+TR.iclosed DIV.icon {background:url(../img/Mercury2/closed.gif)}
+TR.iredirect DIV.icon {background:url(../img/Oxygen2/redirect.gif)}
+.pun p.postlink, #conr
+{
+TEXT-ALIGN: CENTER;
+POSITION: RELATIVE;
+TOP : 0px;
+LEFT: 6px;
+BACKGROUND-COLOR: #000000;
+BACKGROUND-IMAGE: url(../img/Mercury2/bg_button.gif);
+filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#666666,strength=2);
+}

@@ -1,0 +1,55 @@
+body{font-family:verdana,times,serif;font-size:small;color:#06242f;background:#dce1e2;margin:0;padding:1px;border:3px solid #ebebeb}
+img{vertical-align:middle;margin:0;padding:0;border:0}
+form{width:100%;margin:0;padding:0}
+input, textarea, select{border:1px solid #bdcfd7;background:#fff;margin:1px 2px;border-radius:2pt}
+input[type="submit"]{color:#0e4d66}
+input[type="text"], input[type="password"]{color:#be012c}
+textarea, select, option {color:#0e4d66}
+optgroup{font-size:xx-small;color:#be012c;background:#fff}
+
+a{color:#054f61;text-decoration:none}
+a:visited{color:#032f4a}
+a:hover{color:#be012c;text-decoration:underline}
+a:active{color:#8c0120}
+a.but{font-size:8pt;line-height:2;color:#be012c;border:1px solid #0e4d66;background:#fff;padding:2px 4px;border-radius:2pt}
+
+.hd{font-size:smaller;background:#eaecec url(wap/head.png) repeat-x;height:33px;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc}
+.hd img{vertical-align:middle;margin:1px 6px 0}
+.hd_bott, .navlinks, .act{font-size:smaller;margin-bottom:1px;background:#eaecec url(wap/navlinks.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;padding:4px}
+.con, .cat{margin-bottom:1px;color:#be012c;background:#eaecec url(wap/con_cat.png) repeat-x;border-radius:2pt;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;padding:3px 4px 4px}
+span.sp_cat{font-weight:bold}
+.box, .box2, .in, .in2{margin:0 1px 1px;color:#fff;border:1px solid #105b78;background:#007090 url(wap/box.png) repeat-x;padding:3px 4px 4px;border-radius:2pt}
+.box a, .box2 a, .in a, .in2 a{color:#dde2e6}
+.box a:hover, .box2 a:hover, .in a:hover, .in2 a:hover{text-decoration:none;color:#fff;background:#1b86a0}
+.small, span.sub{font-size:7pt}
+.go_to{margin:0 1px 1px;color:#fff;border:1px solid #06242f;background:#055772 url(wap/go_to.png) repeat-x;padding:2px 5px;border-radius:2pt}
+.incqbox, .inbox{margin-bottom:1px;color:#dce2e2;border:1px solid #475e61;background:#828a8e url(wap/inbox.png) repeat-x;padding:4px;border-radius:2pt}
+.incqbox a, .inbox a{color:#fff}
+.msg, .input{margin-bottom:1px;color:#0a3647;border:1px solid #c4d2d9;background:#f2f5f7 url(wap/msg.png) repeat-x;padding:4px;border-radius:2pt}
+.msg2, .input2{margin-bottom:1px;color:#06242f;border:1px solid #bdced2;background:#fbfdfd url(wap/msg2.png) repeat-x;padding:4px;border-radius:2pt}
+.zag_in{font-size:x-small;color:#697378;min-height:60px}
+.zag_in img{margin-top:-1px;margin-right:4px;float:left}
+
+code{font-size:9pt;color:black;background:#f0f4f6;display:block;width:99%;padding:4px;border:1px solid #acc;border-radius:2pt}
+.code{color:#be012c;font-style:normal;text-indent:8px;background:#fff;padding-left:4px;border:1px solid #dce1e2;border-radius:2pt}
+table, td, tr, th{width:100%;margin:0;padding:0;border:0;text-align:left}
+.p_cnt{font-size:9pt;color:#be012c;background:#faf8f2;border:1px solid #eed;width:99%;border-radius:2pt;margin-left:4px}
+.p_cnt span{color:#039}
+.p_cnt:hover{box-shadow:-1pt 1pt 3pt #edd}
+.scrollbox{overflow:auto;white-space:pre;font-size:xx-small}
+.bbu{text-decoration:underline}
+.bbs{text-decoration:line-through}
+.red, a.red, .green, .info, div#warning, .grey{font-weight:bold;font-size:smaller;line-height:2;color:#fff;padding:1px 2px 2px 2px;border-radius:2pt}
+.red, a.red, div#warning{background:#d75356}.green,.info{background:#6abf82}.grey{background:#889}
+
+.quote, .quote .quote .quote{font-size:smaller;font-style:italic;border:1px dashed #dce1e2;background:#fff;padding:4px;margin-top:4px;border-radius:2pt}
+.quote .quote, .quote .quote .quote .quote{background:#f2f5f7}
+.attach_list{font-size:smaller;background:#ced8db;border:1px dashed #a3bec2;width:70%;padding:2px 3px;border-radius:2pt}
+.attach_list a{color:#be012c}
+
+hr{text-align:left;width:75%;margin:1pt}
+.hr{font-weight:bold;font-size:7pt;padding-top:4px;width:50%;border-top:1px dashed gray;margin:2px 3px 0}
+p {margin:0}
+
+.foot {font-size:smaller;padding-top:2px;padding-left:4px;float:left}
+.copy{font-size:smaller;text-align:right;padding:0 4px 5px;color:#0e4d66;background:#d8dfdf url(wap/copy.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt}

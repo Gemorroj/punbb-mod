@@ -1,0 +1,49 @@
+body{text-align:center;background : url(../img/sibirsky_org/back.gif);}
+.pun {COLOR: #333}
+DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #f8f8f8}
+.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #f1f1f1}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #f5f5f5}
+TH.tc3 {width: 70px}
+.pun H2, #brdmenu {BACKGROUND: url(../img/sibirsky_org/fon111.gif); COLOR: #FFF; font-weight: bold; height: 16px;}
+.pun H2 {font-weight: bold;BACKGROUND: #7897BB url(../img/sibirsky_org/fon111.gif);border-top: 1px solid #7897BB;border-left: 1px solid #7897BB;border-right: 1px solid #7897BB; height: 16px;}
+.pun TH {BACKGROUND-COLOR: #eeeeee;}
+.pun LEGEND {COLOR: #5A799D}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #7897BB}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #f8f8f8}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #f1f1f1}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #f1f1f1}
+DIV.blockpost H2 {BACKGROUND-COLOR: #7897bb}
+DIV.blockpost H2 SPAN.conr {COLOR: #CCC}
+.pun HR {BACKGROUND-COLOR: #35567C; COLOR: #35567C}
+DIV.box {BORDER-COLOR: #7897BB}
+DIV.blockpost DIV.box {BORDER: 1px solid #7897BB;BORDER-TOP: 1px solid #7897BB;}
+.pun TD {BORDER-COLOR: #d6e1f1}
+.pun TH {BORDER-COLOR: #d6e1f1}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #7897BB #7897BB #7897BB #7897BB}
+.pun A:link, .pun A:visited {COLOR: #005cb1;}
+.pun A:hover {COLOR: #B42000; text-decoration:none; background-color: #EEEEEE;}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF;}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #35567C;}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {BACKGROUND: url(../img/sibirsky_org/inactive_topic.gif);}
+DIV.inew {BACKGROUND: url(../img/sibirsky_org/active_topic.gif);}
+TR.isticky DIV.icon {background:url(../img/sibirsky_org/inactive_topic.gif)}
+TR.isticky DIV.inew {background:url(../img/sibirsky_org/active_topic.gif)}
+TR.iclosed DIV.icon {background:url(../img/sibirsky_org/closed.png)}
+DIV.iredirect {background:url(../img/sibirsky_org/link.png)}
+#brdmenu {BACKGROUND: url(../img/sibirsky_org/fon111.gif); border-top: 1px solid #7897BB;border-bottom: 1px solid #7897BB; BACKGROUND-COLOR: #7897BB;}
+.pun H1 span
+{
+color: #3A3B3C;
+font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+#punindex #brdstats div.box div.inbox dl.conl,
+#punforum #brdstats div.box div.inbox dl.conl
+{
+background: transparent url(../img/sibirsky_org/stats.gif) no-repeat 0% 50%;
+padding-left: 38px;
+}

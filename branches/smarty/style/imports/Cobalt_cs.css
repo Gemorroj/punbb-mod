@@ -1,0 +1,45 @@
+BODY {BACKGROUND-COLOR: #2A2A2A}
+.pun {COLOR: #D4D4D4}
+DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #383838}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #383838}
+TD.tc2, TD.tc3, TD.tcmod, #brdfooter DIV.box {BACKGROUND-COLOR: #424242}
+#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #484848}
+.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #353533}
+.pun H2, #brdmenu {BACKGROUND-COLOR: #565656; COLOR: #D4D4D4}
+.pun TH, .bgc4 {BACKGROUND-COLOR: #484848}
+.pun LEGEND {COLOR: #60A0DC}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #D4D4D4}
+.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #2A2A2A; COLOR: #D4D4D4}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright, #postpreview {BACKGROUND-COLOR: #383838}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #424242}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #424242}
+DIV.blockpost H2 {BACKGROUND-COLOR: #565656}
+DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
+.pun HR {BACKGROUND-COLOR: #606060; COLOR: #606060}
+DIV.box {BORDER-COLOR: #565656}
+DIV.blockpost DIV.box {BORDER-COLOR: #565656 #525252 #525252}
+.pun TD {BORDER-COLOR: #565656}
+.pun TH {BORDER-COLOR: #484848}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #606060}
+.pun DIV>FIELDSET {BORDER-COLOR: #ACA899}
+.pun A:link, .pun A:visited {COLOR: #60A0DC}
+.pun A:hover {COLOR: #80D6FF}
+.pun H2 A:link, .pun H2 A:visited {COLOR: #D4D4D4}
+.pun H2 A:hover {COLOR: #D4D4D4}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
+LI.maintenancelink A:hover {COLOR: #FF5010}
+DIV.icon {BORDER-COLOR: #484848 #404040 #3C3C3C #444444}
+TR.iredirect DIV.icon {BORDER-COLOR: #383838 #383838 #383838 #383838}
+DIV.inew {BORDER-COLOR: #5496D8 #4B85C0 #4377AC #4F8DCB}
+code {color: #80D6FF;}
+div.postmsg li {color: #999;}
+DIV.spoilerbox p {color: #353533;}
+IMG.postimg {
+padding: 1px;
+margin: 2px 5px;
+border: 1px solid #565656;
+background: #353533;
+}
+DIV.postmsg a:hover IMG.postimg {border: 1px solid #60A0DC;}

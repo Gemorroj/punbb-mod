@@ -1,0 +1,48 @@
+BODY {BACKGROUND-COLOR: #FFF}
+.pun {COLOR: #333}
+DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #F1F1F1}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #F1F1F1}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #DEDFDF}
+.pun H2, #brdmenu {BACKGROUND-COLOR: #B84623; COLOR: #FFF}
+.pun TH {BACKGROUND-COLOR: #D1D1D1}
+.pun LEGEND {COLOR: #822100}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #333}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #DEDFDF}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #F1F1F1}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #F1F1F1}
+DIV.blockpost H2 {BACKGROUND-COLOR: #D25028}
+DIV.blockpost H2 SPAN.conr {COLOR: #FCCFC1}
+.pun HR {BACKGROUND-COLOR: #333; COLOR: #333}
+DIV.box {BORDER-COLOR: #B84623}
+DIV.blockpost DIV.box {BORDER-COLOR: #D25028 #B84623 #B84623}
+.pun TD {BORDER-COLOR: #E1C3C3}
+.pun TH {BORDER-COLOR: #D1D1D1}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ACA899 #FFF #FFF #ACA899}
+.pun DIV>FIELDSET {BORDER-COLOR: #ACA899}
+.pun A:link, .pun A:visited {COLOR: #822100}
+.pun A:hover {COLOR: #CA3300}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #FFF}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {BORDER-COLOR: #E6E6E6 #DEDEDE #DADADA #E2E2E2}
+TR.iredirect DIV.icon {BORDER-COLOR: #F1F1F1 #F1F1F1 #F1F1F1 #F1F1F1}
+DIV.inew {BORDER-COLOR: #C23000 #AF2C00 #992600 #AC2B00}
+code {
+color: #E37655;
+}
+div.postmsg li {
+color: #666;
+}
+IMG.postimg {
+padding: 1px;
+margin: 2px 5px;
+border: 1px solid #D2613F;
+background: #F1F1F1;
+}
+DIV.postmsg a:hover IMG.postimg {
+border: 1px solid #CA3300;
+}

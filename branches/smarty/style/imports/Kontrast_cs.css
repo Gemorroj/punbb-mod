@@ -1,0 +1,45 @@
+BODY {BACKGROUND-COLOR: #FFF}
+.pun {COLOR: #333}
+DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #F1F1F1}
+#adminconsole TD, #adminconsole TH {BORDER-COLOR: #F1F1F1}
+TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #DEDFDF}
+.pun H2, #brdmenu {BACKGROUND-COLOR: #555; COLOR: #FFF}
+.pun H2 {BACKGROUND: #555 url(../img/Kontrast/bg-barre.gif);border-left: 1px solid #333;border-right: 1px solid #333}
+.pun TH {BACKGROUND-COLOR: #D1D1D1}
+.pun LEGEND {COLOR: #000}
+.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #333}
+DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #F1F1F1}
+DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #DEDFDF}
+DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #DEDFDF}
+DIV.blockpost H2 {BACKGROUND-COLOR: #555}
+DIV.blockpost H2 SPAN.conr {COLOR: #CCC}
+.pun HR {BACKGROUND-COLOR: #333; COLOR: #333}
+DIV.box {BORDER-COLOR: #333}
+DIV.blockpost DIV.box {BORDER:0;BORDER-TOP:1px solid #333}
+.pun TD {BORDER-COLOR: #CCC}
+.pun TH {BORDER-COLOR: #D1D1D1}
+.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ACA899 #FFF #FFF #ACA899}
+.pun DIV>FIELDSET {BORDER-COLOR: #ACA899}
+.pun A:link, .pun A:visited {COLOR: #000}
+.pun A:hover {COLOR: #333}
+.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF}
+.pun H2 A:hover, #brdmenu A:hover {COLOR: #FFF}
+LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
+LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
+LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
+LI.maintenancelink A:hover {COLOR: #B42000}
+DIV.icon {BACKGROUND: url(../img/Kontrast/nonew.gif);}
+DIV.inew {BACKGROUND: url(../img/Kontrast/new.gif)}
+#punwrap {
+background: url(../img/Kontrast/bg.gif);
+}
+.pun {
+background: url(../img/Kontrast/haut.gif);
+}
+#brdtitle {
+background: url(../img/Kontrast/logo.gif);
+}
+#brdfooter {
+background: url(../img/Kontrast/bas.gif);
+}
