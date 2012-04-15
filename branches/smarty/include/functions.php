@@ -752,7 +752,7 @@ function message($message, $no_back_link = false)
 <div class="inbox">
 <p>' . $message . '</p>';
     if (!$no_back_link) {
-        echo '<p><a href="javascript: history.go(-1)">' . $lang_common['Go back'] . '</a></p>';
+        echo '<p><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>';
     }
     echo '</div></div></div>';
 
@@ -1581,8 +1581,8 @@ class getf
         //header('Last-Modified: ' . gmdate('r'));
     
         // Кэш
-        header('Cache-Control: public, must-revalidate, max-age=60');
-        header('Pragma: cache');
+        header('Cache-Control: public, max-age=86400');
+        header('Pragma: public');
         //header('Expires: Tue, 10 Apr 2038 01:00:00 GMT');
     
     
