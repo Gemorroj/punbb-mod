@@ -287,17 +287,21 @@ $db->free_result($result);
 // Retrieve the attachments
 require_once PUN_ROOT . 'include/attach/fetch.php';
 
-require_once PUN_ROOT . 'wap/footer.php';
+if ($pun_config['o_quickjump']) {
+    
+    require_once PUN_ROOT . 'include/quickjump.php';
+}
 
 // Increment "num_views" for topic
 $db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_topic['subject']);
-$smarty->assign('conditions', $conditions);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('pun_config', $pun_config);
+
+$smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);
+$smarty->assign('can_download', $can_download);
 $smarty->assign('quickpost', $quickpost);
 
 $smarty->assign('lang_topic', $lang_topic);
@@ -306,6 +310,7 @@ $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);
 
+$smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_topic['subject']);
 $smarty->assign('forum_id', $id);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);
@@ -315,10 +320,7 @@ $smarty->assign('posts', $posts);
 $smarty->assign('start_from', $start_forum);
 
 $smarty->assign('attachments', $attachments);
-$smarty->assign('can_download', $can_download);
-
 $smarty->assign('paging_links', $paging_links);
 
 $smarty->assign('basename', baseName($_SERVER['PHP_SELF']));
-
 $smarty->display('viewtopic.tpl');
