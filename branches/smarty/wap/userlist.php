@@ -80,7 +80,6 @@ if ($db->num_rows($result)) {
 }
 
 require_once PUN_ROOT . 'wap/header.php';
-require_once PUN_ROOT . 'wap/footer.php';
 
 /*
 echo '<pre>';
