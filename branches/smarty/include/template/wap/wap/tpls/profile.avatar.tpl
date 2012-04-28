@@ -6,6 +6,9 @@
 
 <div class="con">
     <strong>{$lang_profile.$Upload_avatar}</strong>
+
+<br/><s>{basename($smarty.const.__FILE__)}</s>
+
 </div>
 <form method="post" enctype="multipart/form-data" action="profile.php?action=upload_avatar2&amp;id={$id}">
 <div class="input">

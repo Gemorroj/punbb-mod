@@ -8,6 +8,9 @@
 {assign var='Confirm_new_pass' value='Confirm new pass'}
 <div class="con">
     <strong>{$lang_profile.$Change_pass}</strong>
+
+<br/><s>{basename($smarty.const.__FILE__)}</s>
+
 </div>
 <form method="post" action="profile.php?action=change_pass&amp;id={$id}">
 <div class="input">

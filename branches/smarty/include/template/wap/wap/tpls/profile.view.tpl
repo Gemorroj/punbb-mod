@@ -1,8 +1,25 @@
-{* NOT COMPILE *}
+{include file='header.tpl'}
 
 <div class="con">
     {$lang_common.Profile} <strong>{$user.username|escape}</strong>
 </div>
+
+{* PHP.arrayKeyNames -> Smarty.Names *}
+
+{assign var='No_avatar' value='No avatar'}
+{assign var='No_sig' value='No sig'}
+{assign var='Section_personal' value='Section personal'}
+{assign var='Email' value='E-mail'}
+{assign var='Send_email' value='Send e-mail'}
+{assign var='Section_messaging' value='Section messaging'}
+{assign var='AOL_IM' value='AOL IM'}
+{assign var='User_activity' value='User activity'}
+{assign var='Show_karma' value='Show karma'}
+{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+{assign var='Last_post' value='Last post'}
+
+{assign var='Show_files' value='Show files'}
+{assign var='Show_posts' value='Show posts'}
 
 <div class="input">
 {if $pun_config.o_avatars}
@@ -32,7 +49,7 @@
 {* Personal *}
 <div class="input2">
 <strong>{$lang_profile.$Section_personal}</strong><br/>
-<strong>{$lang_common.Username}:</strong> {$user.username|escape} ({$use.sex})<br/>
+<strong>{$lang_common.Username}:</strong> {$user.username|escape} ({if $user.sex == 1}{$lang_profile.m}{else}{$lang_profile.w}{/if})<br/>
 {if $user.birthday}
 <strong>{$lang_profile.birthday}:</strong> {$user.birthday}<br/>
 {/if}
@@ -73,12 +90,12 @@
     {$lang_profile.Unknown}
 {/if}
 <br/>
-<strong>{$lang_common.E-mail}:</strong>
+<strong>{$lang_common.$Email}:</strong>
 {if ! $user.email_setting && ! $pun_user.is_guest}
     <a href="mailto:{$user.email}">{$user.email}</a>
 {else}
     {if $user.email_setting == 1 && ! $pun_user.is_guest}
-        <a href="misc.php?email={$id}">{$lang_common.$Send_e-mail}</a>
+        <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a>
     {else}
         {$lang_profile.Private}
     {/if}
@@ -121,7 +138,7 @@
     {else}
         {$user.aim|escape}
     {/if}
-{esle}
+{else}
     {$lang_profile.Unknown}
 {/if}
 <br/>
@@ -140,8 +157,25 @@
 {* User activity *}
 <div class="input2">
 <strong>{$lang_profile.$User_activity}</strong><br/>
-<strong>{$lang_common.Posts}:</strong> {$posts_field}<br/>
-<strong>{$lang_common.Files}:</strong> {$files_field}<br/>
+<strong>{$lang_common.Posts}:</strong>
+{if $pun_config.o_show_post_count == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
+{$user.num_posts}
+{/if}
+
+{if $pun_user.g_search == 1}
+{if $user.num_posts}- <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a>{/if}
+{/if}
+<br/>
+
+<strong>{$lang_common.Files}:</strong>
+{if $pun_config.o_show_post_count == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
+{$user.num_files}
+{/if}
+
+{if $pun_user.g_search == 1}
+{if $user.num_files}- <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a>{/if}
+{/if}
+<br/>
 
 {* Karma *}
 {if $pun_config.o_show_post_karma == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
@@ -152,4 +186,4 @@
 <strong>{$lang_common.Registered}:</strong> {$user.registered|date_format:$date_format}
 </div>
 
-{**}
+{include file='footer.tpl'}

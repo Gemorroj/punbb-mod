@@ -2,7 +2,6 @@
 define('PUN_ROOT', '../');
 require_once PUN_ROOT . 'include/common.php';
 require_once PUN_ROOT . 'wap/header.php';
-require_once PUN_ROOT . 'wap/footer.php';
 
 $id = intval(@$_GET['id']);
 if ($id < 2) {
@@ -117,6 +116,7 @@ if ($_GET['action'] == 'change_pass') {
 //change_pass
 $smarty->assign('id', $id);
 $smarty->assign('pun_user', $pun_user);
+$smarty->assign('pun_start', $pun_start);
 $smarty->assign('lang_profile', $lang_profile);
 $smarty->assign('lang_common', $lang_common);
 $smarty->display('profile.password.tpl');
@@ -570,22 +570,18 @@ exit();
 
                                     wap_redirect('index.php');
                                 }
-//Delete user
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Profile'] . ' &#187; ' . $lang_profile['Delete user']. ' ' . pun_htmlspecialchars($username);
-require_once PUN_ROOT . 'wap/header.php';
-
-echo '
-<div class="con"><strong>' . $lang_profile['Confirm delete user'] . '</strong></div>
-<form method="post" action="profile.php?id=' . $id . '">
-<div class="input"><strong>' . $lang_profile['Confirm delete legend'] . '</strong></div>
-<div class="input2">
-' . $lang_profile['Confirmation info'] . ' <strong>' . pun_htmlspecialchars($username) . '</strong>.<br/>
-<input type="checkbox" name="delete_posts" value="1" checked="checked" />' . $lang_profile['Delete posts'] . '</div>
-<div class="input2">
-<strong>' . $lang_profile['Delete warning'] . '</strong></div>
-<div class="go_to"><input type="submit" name="delete_user_comply" value="' . $lang_profile['Delete'] . '" /></div></form>';
-
-                                require_once PUN_ROOT . 'wap/footer.php';
+                                
+                                //Delete user
+                                $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Profile'] . ' &#187; ' . $lang_profile['Delete user']. ' ' . pun_htmlspecialchars($username);
+                                
+                                $smarty->assign('page_title', $page_title);
+                                $smarty->assign('id', $id);
+                                $smarty->assign('pun_user', $pun_user);
+                                $smarty->assign('lang_profile', $lang_profile);
+                                $smarty->assign('username', $username);
+                                $smarty->display('profile.delete.tpl');
+                                exit();
+                                
                             } else
                                 if ($_POST['form_sent']) {
                                     // Fetch the user group of the user we are editing
@@ -951,13 +947,6 @@ $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 //}
 
-if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-    $karma = $lang_common['Karma'] . ': ' . $karma['karma'] . ' (+' . $karma['plus'] . '/-' . $karma['minus'] . ') - <a href="karma.php?id=' . $id . '">' . $lang_common['Show karma'] . '</a><br/>';
-} else {
-    $karma = '';
-}
-
-
 // View or edit?
 if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
     PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_edit_users']) ||
@@ -1003,96 +992,26 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         }
     }
 
-    $posts_field = $files_field = '';
-
-    if ($pun_config['o_show_post_count'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-        $posts_field = $user['num_posts'];
-        $files_field = $user['num_files'];
-    }
-    if ($pun_user['g_search'] == 1) {
-        $posts_field .= (($posts_field) ? ' - <a href="search.php?action=show_user&amp;user_id=' . $id . '">' . $lang_profile['Show posts'] . '</a>' : '');
-        $files_field .= (($files_field) ? ' - <a href="filemap.php?user_id=' . $id . '">' . $lang_profile['Show files'] . '</a>' : '');
-    }
-
-    if ($user['sex'] == 1) {
-        $user['sex'] = $lang_profile['m'];
-    } else {
-        $user['sex'] = $lang_profile['w'];
-    }
-
 //view Profile
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Profile'] . ' &#187; ' . $lang_profile['Preview'];
     define('PUN_ALLOW_INDEX', 1);
-    require_once PUN_ROOT . 'wap/header.php';
-
-
-echo '<div class="con">' . $lang_common['Profile'] . ' <strong>' . pun_htmlspecialchars($user['username']) . '</strong></div>';
-//avatars Signature
-echo '<div class="input">';
-    if ($pun_config['o_avatars']) {
-        echo $avatar_field . '<br/>';
-    }
-echo '<strong>' . $lang_profile['Signature'] . ':</strong> ';
-echo isset($parsed_signature) ? $parsed_signature : $lang_profile['No sig'];
-echo '</div>';
-//personal
-echo '<div class="input2">
-<strong>' . $lang_profile['Section personal'] . '</strong><br/>
-<strong>' . $lang_common['Username'] . ':</strong> ' . pun_htmlspecialchars($user['username']) . ' (' . $user['sex'] . ')<br/>';
-
-    if ($user['birthday']) {
-        print '<strong>' . $lang_profile['birthday'] . ':</strong> ' . $user['birthday'] . '<br/>';
-    }
-
-    echo '<strong>' . $lang_common['Title'] . ':</strong> ';
-    if ($pun_config['o_censoring'] == 1) {
-        echo censor_words($user_title_field);
-    } else {
-        echo $user_title_field;
-    }
-echo '<br/>
-<strong>' . $lang_profile['Realname'] . ':</strong> ';
-echo ($user['realname']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['realname']) : $user['realname']) : $lang_profile['Unknown'];
-echo '<br/>
-<strong>' . $lang_profile['Location'] .':</strong> ';
-echo ($user['location']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['location']): $user['location']) : $lang_profile['Unknown']; 
-echo '<br/>
-<strong>' . $lang_profile['Website'] . ':</strong> ' . $url . '<br/>
-<strong>' . $lang_common['E-mail'] . ':</strong> ' . $email_field . '<br/>';
-
-// PMS MOD BEGIN 
-ob_start();
-include PUN_ROOT . 'include/pms/profile_send.php';
-$ob = ob_get_contents();
-ob_end_clean();
-echo str_replace('<dt>', '<strong>', str_replace('</dt>', '</strong>', str_replace('<dd>',  null, str_replace('</dd>',  null, $ob))));
-// PMS MOD END
-echo '</div>';
-
-//messaging
-echo '<div class="input">';
-echo '<strong>' . $lang_profile['Section messaging'] . '</strong><br/>';
-echo '<strong>' . $lang_profile['Jabber'] . ':</strong> ';
-echo ($user['jabber']) ? pun_htmlspecialchars($user['jabber']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
-echo '<strong>' . $lang_profile['ICQ'] . ':</strong> ';
-echo ($user['icq']) ? $user['icq']. '<br/>' : $lang_profile['Unknown'] . '<br/>'; 
-echo '<strong>' . $lang_profile['MSN'] . ':</strong> ';
-echo ($user['msn']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['msn']) : $user['msn']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
-echo '<strong>' . $lang_profile['AOL IM'] . ':</strong> ';
-echo ($user['aim']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['aim']) : $user['aim']). '<br/>' : $lang_profile['Unknown'] . '<br/>';
-echo '<strong>' . $lang_profile['Yahoo'] . ':</strong> ';
-echo ($user['yahoo']) ? pun_htmlspecialchars(($pun_config['o_censoring'] == 1) ? censor_words($user['yahoo']) : $user['yahoo']) : $lang_profile['Unknown'];
-echo '</div>';
-//User activity
-echo '<div class="input2">
-<strong>' . $lang_profile['User activity'] . '</strong><br/>';
-echo '<strong>' . $lang_common['Posts'] . ':</strong> ' . $posts_field . '<br/>
-<strong>' . $lang_common['Files'] . ':</strong> ' . $files_field . '<br/>
-' . $karma;
-echo '<strong>' . $lang_common['Last post'] . ':</strong> ' . $last_post . '<br/>
-<strong>' . $lang_common['Registered'] . ':</strong> ' . format_time($user['registered'], true) . '</div>';
-
-    require_once PUN_ROOT . 'wap/footer.php';
+    //preview
+    $smarty->assign('id', $id);
+    $smarty->assign('pun_user', $pun_user);
+    $smarty->assign('pun_config', $pun_config);
+    $smarty->assign('pun_start', $pun_start);
+    $smarty->assign('lang_profile', $lang_profile);
+    $smarty->assign('lang_common', $lang_common);
+    
+    $smarty->assign('user', $user);
+    $smarty->assign('karma', $karma);
+    $smarty->assign('last_post', $last_post);
+    
+    $smarty->assign('posts_field', $posts_field);
+    $smarty->assign('user_title_field', $user_title_field);
+    
+    $smarty->display('profile.view.tpl');
+    exit();
 }
 //profile general
 else {

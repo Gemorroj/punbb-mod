@@ -1,7 +1,16 @@
-{**}
+{include file='header.tpl'}
+
+{assign var='Confirm_delete_user' value='Confirm delete user'}
+{assign var='Confirm_delete_legend' value='Confirm delete legend'}
+{assign var='Confirmation_info' value='Confirmation info'}
+{assign var='Delete_warning' value='Delete warning'}
+{assign var='Delete_posts' value='Delete posts'}
 
 <div class="con">
     <strong>{$lang_profile.$Confirm_delete_user}</strong>
+
+<br/><s>{basename($smarty.const.__FILE__)}</s>
+
 </div>
 <form method="post" action="profile.php?id={$id}">
 <div class="input">
@@ -19,4 +28,4 @@
 </div>
 </form>
 
-{**}
+{include file='footer.tpl'}
