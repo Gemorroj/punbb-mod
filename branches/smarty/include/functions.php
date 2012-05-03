@@ -449,6 +449,9 @@ function generate_profile_menu($page = '')
 }
 
 
+/**
+ * Перенесено в файл: include/template/wap/{$theme}/tpls/profile.navi.tpl
+**
 function wap_generate_profile_menu($page = '')
 {
     global $lang_profile, $pun_config, $pun_user, $id;
@@ -469,7 +472,7 @@ function wap_generate_profile_menu($page = '')
 
     return;
 }
-
+*/
 
 //
 // Update posts, topics, last_post, last_post_id and last_poster for a forum

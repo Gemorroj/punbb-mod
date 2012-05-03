@@ -56,9 +56,9 @@
 
 <strong>{$lang_common.Title}:</strong> 
 {if $pun_config.o_censoring == 1}
-    {censor_words($user_title_field)}
+    {censor_words(get_title($user))}
 {else}
-    {$user_title_field}
+    {get_title($user)}
 {/if}
 <br/>
 <strong>{$lang_profile.Realname}:</strong> 
