@@ -7,7 +7,7 @@ require_once PUN_ROOT . 'wap/header.php';
 $smarty->assign('pun_config', $pun_config);
 $smarty->assign('pun_user', $pun_user);
 
-require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
+//require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
 
 // This particular function doesn't require forum-based moderator access. It can be used
 // by all moderators and admins.
