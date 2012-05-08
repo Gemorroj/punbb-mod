@@ -978,6 +978,19 @@ else {
     
     if (! $_GET['section'] || $_GET['section'] == 'essentials') {
         
+        $d = dir(PUN_ROOT . 'lang');
+        while (($entry = $d->read()) !== false) {
+            if ($entry[0] != '.' && is_dir(PUN_ROOT . 'lang/' . $entry) && file_exists(PUN_ROOT . 'lang/' . $entry . '/common.php')) {
+                $languages[] = $entry;
+            }
+        }
+        $d->close();
+
+        // Only display the language selection box if there's more than one language available
+        if (sizeof($languages) > 1) {
+            natsort($languages);
+        }
+        
         $smarty->assign('id', $id);
         $smarty->assign('pun_user', $pun_user);
         $smarty->assign('pun_config', $pun_config);
@@ -1000,7 +1013,14 @@ else {
     else
     if ($_GET['section'] == 'personal') {
         
+        $smarty->assign('id', $id);
+        $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('user', $user);
         
+        $smarty->display('profile.personal.tpl');
+        exit();
     }
     else
     if ($_GET['section'] == 'messaging') {
