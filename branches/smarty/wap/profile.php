@@ -951,7 +951,7 @@ unset($q);
 if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && ! $pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD && $user['g_id'] < PUN_GUEST)))) {
     
     //view Profile
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['Profile'] . ' &#187; ' . $lang_profile['Preview'];
+    $page_title = $pun_config['o_board_title'] . ' &#187; ' . $lang_common['Profile'] . ' &#187; ' . $lang_profile['Preview'];
     define('PUN_ALLOW_INDEX', 1);
     //preview
     $smarty->assign('id', $id);
@@ -964,7 +964,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     $smarty->assign('user', $user);
     $smarty->assign('karma', $karma);
     $smarty->assign('last_post', $last_post);
-    
+    $smarty->assign('parsed_signature', $parsed_signature);
     $smarty->assign('posts_field', $posts_field);
     $smarty->assign('user_title_field', $user_title_field);
     
@@ -1025,12 +1025,28 @@ else {
     else
     if ($_GET['section'] == 'messaging') {
         
+        $smarty->assign('id', $id);
+        $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('user', $user);
         
+        $smarty->display('profile.messaging.tpl');
+        exit();
     }
     else
     if ($_GET['section'] == 'personality') {
         
+        $smarty->assign('id', $id);
+        $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_config', $pun_config);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('user', $user);
+        $smarty->assign('parsed_signature', $parsed_signature);
         
+        $smarty->display('profile.personality.tpl');
+        exit();
     }
     else
     if ($_GET['section'] == 'display') {
