@@ -1051,12 +1051,41 @@ else {
     else
     if ($_GET['section'] == 'display') {
         
+        $styles = array();
+        $d = dir(PUN_ROOT . 'style_wap');
+        while (($entry = $d->read()) !== false) {
+            
+            if (substr($entry, strlen($entry) - 4) == '.css') {
+                
+                $styles[] = substr($entry, 0, strlen($entry) - 4);
+            }
+        }
+        $d->close();
         
+        $smarty->assign('id', $id);
+        $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_config', $pun_config);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('user', $user);
+        $smarty->assign('styles', $styles);
+        
+        $smarty->display('profile.display.tpl');
+        exit();
     }
     else
     if ($_GET['section'] == 'privacy') {
         
+        $smarty->assign('id', $id);
+        $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_config', $pun_config);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('lang_prof_reg', $lang_prof_reg);
+        $smarty->assign('user', $user);
         
+        $smarty->display('profile.privacy.tpl');
+        exit();
     }
     else
     if ($_GET['section'] == 'admin') {
