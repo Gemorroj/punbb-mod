@@ -3,7 +3,7 @@ session_start();
 
 define('PUN_ROOT', '../');
 require PUN_ROOT.'include/common.php';
-
+require_once PUN_ROOT . 'wap/header.php';
 
 // If we are logged in, we shouldn't be here
 if (!$pun_user['is_guest']) {
@@ -29,21 +29,15 @@ if (!$pun_config['o_regs_allow']) {
 if ($_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_register['Register'];
-    require_once PUN_ROOT.'wap/header.php';
-
-
-echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Forum rules'].'</strong></div>
-<div class="info">'.$lang_register['Rules legend'].'</div>
-<form method="get" action="register.php?">
-<div class="input">
-'.$pun_config['o_rules_message'].'</div>
-<div class="go_to">
-<input type="submit" name="agree" value="'.$lang_register['Agree'].'" />
-<input type="submit" name="cancel" value="'.$lang_register['Cancel'].'" />
-</div></form>';
-
-    require_once PUN_ROOT.'wap/footer.php';
+    $page_title = $pun_config['o_board_title'].' :: '.$lang_register['Register'];
+    
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('lang_common', $lang_common);
+    $smarty->assign('lang_register', $lang_register);
+    
+    $smarty->display('register.agree.tpl');
+    exit();
+    
 } else if (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
     $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.get_remote_address().'\' AND registered>'.(time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
@@ -266,107 +260,9 @@ $required_fields = array(
     'req_email2' => $lang_common['E-mail'] . ' 2'
 );
 
-
 // Image Verification mod end
-$focus_element = array('register', 'req_username');
-require_once PUN_ROOT.'wap/header.php';
+//$focus_element = array('register', 'req_username');
 
-
-echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <strong>'.$lang_register['Register'].'</strong></div>
-<form method="post" action="register.php?action=register">
-<div class="msg">'.$lang_register['Desc 1'].'</div>
-<div class="in2">'.$lang_register['Desc 2'].'</div>
-<div class="input2">
-<strong>'.$lang_register['Username legend'].'</strong>
-<input type="hidden" name="form_sent" value="1" /><br/>
-<strong>'.$lang_common['Username'].'</strong><br />
-<input type="text" name="req_username" maxlength="25" /><br />
-<strong>'.$lang_profile['sex'].'</strong>
-<select name="req_sex"><option value="1">'.$lang_profile['m'].'</option><option value="0">'.$lang_profile['w'].'</option></select>
-</div>';
-if (!$pun_config['o_regs_verify']) {
-    echo '<div class="input">
-<strong>'.$lang_register['Pass legend 1'].'</strong><br/>
-<strong>'.$lang_common['Password'].'</strong><br />
-<input type="password" name="req_password1" maxlength="16" /><br />
-<strong>'.$lang_prof_reg['Confirm pass'].'</strong><br />
-<input type="password" name="req_password2" maxlength="16" /><br />
-'.$lang_register['Pass info'] . '</div>';
-}
-
-// IMAGE VERIFICATION MOD BEGIN
-if ($pun_config['o_regs_verify_image'] == 1) {
-    echo '<div class="input2">
-<strong>'.$lang_register['Image verification'].'</strong><br/>
-<img src="'.$pun_config['o_base_url'].'/include/captcha/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />
-<strong>'.$lang_register['Image text'].'</strong><br />
-<input type="text" name="req_image_" maxlength="4"/><br />
-'.$lang_register['Image info'] . '</div>';
-}
-// IMAGE VERIFICATION MOD END
-
-echo '<div class="input"><strong>';
-if ($pun_config['o_regs_verify'] == 1) {
-    echo $lang_prof_reg['E-mail legend 2'];
-} else {
-    echo $lang_prof_reg['E-mail legend'];
-}
-echo '</strong><br/>';
-if ($pun_config['o_regs_verify'] == 1) {
-    echo $lang_register['E-mail info'].'<br/>';
-}
-echo '<strong>'.$lang_common['E-mail'].'</strong><br /><input type="text" name="req_email1" maxlength="50" /><br />';
-if ($pun_config['o_regs_verify'] == 1) {
-    echo '<strong>'.$lang_register['Confirm e-mail'].'</strong><br /><input type="text" name="req_email2" maxlength="50" />';
-}
-echo '</div>
-<div class="input2">
-<strong>'.$lang_prof_reg['Localisation legend'].'</strong><br/>
-'.$lang_prof_reg['Timezone'].': '.$lang_prof_reg['Timezone info'].'<br/>
-<select name="timezone">';
-?>
-<option value="-12"<?php if ($pun_config['o_server_timezone'] == -12 ) echo ' selected="selected"' ?>>-12</option>
-<option value="-11"<?php if ($pun_config['o_server_timezone'] == -11) echo ' selected="selected"' ?>>-11</option>
-<option value="-10"<?php if ($pun_config['o_server_timezone'] == -10) echo ' selected="selected"' ?>>-10</option>
-<option value="-9.5"<?php if ($pun_config['o_server_timezone'] == -9.5) echo ' selected="selected"' ?>>-9.5</option>
-<option value="-9"<?php if ($pun_config['o_server_timezone'] == -9 ) echo ' selected="selected"' ?>>-09</option>
-<option value="-8.5"<?php if ($pun_config['o_server_timezone'] == -8.5) echo ' selected="selected"' ?>>-8.5</option>
-<option value="-8"<?php if ($pun_config['o_server_timezone'] == -8 ) echo ' selected="selected"' ?>>-08 PST</option>
-<option value="-7"<?php if ($pun_config['o_server_timezone'] == -7 ) echo ' selected="selected"' ?>>-07 MST</option>
-<option value="-6"<?php if ($pun_config['o_server_timezone'] == -6 ) echo ' selected="selected"' ?>>-06 CST</option>
-<option value="-5"<?php if ($pun_config['o_server_timezone'] == -5 ) echo ' selected="selected"' ?>>-05 EST</option>
-<option value="-4"<?php if ($pun_config['o_server_timezone'] == -4 ) echo ' selected="selected"' ?>>-04 AST</option>
-<option value="-3.5"<?php if ($pun_config['o_server_timezone'] == -3.5) echo ' selected="selected"' ?>>-3.5</option>
-<option value="-3"<?php if ($pun_config['o_server_timezone'] == -3 ) echo ' selected="selected"' ?>>-03 ADT</option>
-<option value="-2"<?php if ($pun_config['o_server_timezone'] == -2 ) echo ' selected="selected"' ?>>-02</option>
-<option value="-1"<?php if ($pun_config['o_server_timezone'] == -1) echo ' selected="selected"' ?>>-01</option>
-<option value="0"<?php if ($pun_config['o_server_timezone'] == 0) echo ' selected="selected"' ?>>00 GMT</option>
-<option value="1"<?php if ($pun_config['o_server_timezone'] == 1) echo ' selected="selected"' ?>>+01 CET</option>
-<option value="2"<?php if ($pun_config['o_server_timezone'] == 2 ) echo ' selected="selected"' ?>>+02</option>
-<option value="3"<?php if ($pun_config['o_server_timezone'] == 3 ) echo ' selected="selected"' ?>>+03</option>
-<option value="3.5"<?php if ($pun_config['o_server_timezone'] == 3.5 ) echo ' selected="selected"' ?>>+03.5</option>
-<option value="4"<?php if ($pun_config['o_server_timezone'] == 4 ) echo ' selected="selected"' ?>>+04</option>
-<option value="4.5"<?php if ($pun_config['o_server_timezone'] == 4.5 ) echo ' selected="selected"' ?>>+04.5</option>
-<option value="5"<?php if ($pun_config['o_server_timezone'] == 5 ) echo ' selected="selected"' ?>>+05</option>
-<option value="5.5"<?php if ($pun_config['o_server_timezone'] == 5.5 ) echo ' selected="selected"' ?>>+05.5</option>
-<option value="6"<?php if ($pun_config['o_server_timezone'] == 6 ) echo ' selected="selected"' ?>>+06</option>
-<option value="6.5"<?php if ($pun_config['o_server_timezone'] == 6.5 ) echo ' selected="selected"' ?>>+06.5</option>
-<option value="7"<?php if ($pun_config['o_server_timezone'] == 7 ) echo ' selected="selected"' ?>>+07</option>
-<option value="8"<?php if ($pun_config['o_server_timezone'] == 8 ) echo ' selected="selected"' ?>>+08</option>
-<option value="9"<?php if ($pun_config['o_server_timezone'] == 9 ) echo ' selected="selected"' ?>>+09</option>
-<option value="9.5"<?php if ($pun_config['o_server_timezone'] == 9.5 ) echo ' selected="selected"' ?>>+09.5</option>
-<option value="10"<?php if ($pun_config['o_server_timezone'] == 10) echo ' selected="selected"' ?>>+10</option>
-<option value="10.5"<?php if ($pun_config['o_server_timezone'] == 10.5 ) echo ' selected="selected"' ?>>+10.5</option>
-<option value="11"<?php if ($pun_config['o_server_timezone'] == 11) echo ' selected="selected"' ?>>+11</option>
-<option value="11.5"<?php if ($pun_config['o_server_timezone'] == 11.5 ) echo ' selected="selected"' ?>>+11.5</option>
-<option value="12"<?php if ($pun_config['o_server_timezone'] == 12 ) echo ' selected="selected"' ?>>+12</option>
-<option value="13"<?php if ($pun_config['o_server_timezone'] == 13 ) echo ' selected="selected"' ?>>+13</option>
-<option value="14"<?php if ($pun_config['o_server_timezone'] == 14 ) echo ' selected="selected"' ?>>+14</option>
-</select>
-<?php
-
-echo '</div>
-<div class="input">';
 
 $languages = array();
 $d = dir(PUN_ROOT.'lang');
@@ -377,34 +273,15 @@ while (($entry = $d->read()) !== false) {
 }
 $d->close();
 
-// Only display the language selection box if there's more than one language available
-if (sizeof($languages) > 1) {
-    echo '<strong>'.$lang_prof_reg['Language'].'</strong>: '.$lang_prof_reg['Language info'].'<br/><select name="language">';
+$smarty->assign('pun_start', $pun_start);
 
-    while (list(, $temp) = @each($languages)) {
-        if ($pun_config['o_default_lang'] == $temp) {
-            echo '<option value="'.$temp.'" selected="selected">'.$temp.'</option>';
-        } else {
-            echo '<option value="'.$temp.'">'.$temp.'</option>';
-        }
-    }
+$smarty->assign('page_title', $page_title);
+$smarty->assign('lang_common', $lang_common);
+$smarty->assign('lang_register', $lang_register);
+$smarty->assign('lang_profile', $lang_profile);
+$smarty->assign('pun_config', $pun_config);
+$smarty->assign('lang_prof_reg', $lang_prof_reg);
 
-    echo '</select>';
-}
+$smarty->assign('languages', $languages);
 
-echo '</div>
-<div class="input2">
-<strong>'.$lang_prof_reg['Privacy options legend'].'</strong><br/>
-'.$lang_prof_reg['E-mail setting info'].'<br/>
-<input type="radio" name="email_setting" value="0" />'.$lang_prof_reg['E-mail setting 1'].'<br />
-<input type="radio" name="email_setting" value="1" checked="checked" />'.$lang_prof_reg['E-mail setting 2'].'<br />
-<input type="radio" name="email_setting" value="2" />'.$lang_prof_reg['E-mail setting 3'].'<br />
-'.$lang_prof_reg['Save user/pass info'].'<br/>
-<input type="checkbox" name="save_pass" value="1" checked="checked" />'.$lang_prof_reg['Save user/pass'].'</div>
-<div class="go_to">
-<input type="submit" name="register" value="'.$lang_register['Register'].'" />
-</div></form>';
-
-
-require_once PUN_ROOT.'wap/footer.php';
-?>
+$smarty->display('register.tpl');

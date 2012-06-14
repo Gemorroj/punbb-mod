@@ -1014,6 +1014,8 @@ else {
     if ($_GET['section'] == 'personal') {
         
         $smarty->assign('id', $id);
+        $smarty->assign('pun_user', $pun_user);
+        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1026,6 +1028,8 @@ else {
     if ($_GET['section'] == 'messaging') {
         
         $smarty->assign('id', $id);
+        $smarty->assign('pun_user', $pun_user);
+        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1039,6 +1043,7 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_user', $pun_user);
         $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1064,6 +1069,7 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_user', $pun_user);
         $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1078,6 +1084,7 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
+        $smarty->assign('pun_user', $pun_user);
         $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
