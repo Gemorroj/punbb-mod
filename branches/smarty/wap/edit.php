@@ -183,6 +183,22 @@ if (isset($_POST['form_sent'])) {
     }
 }
 
-require_once PUN_ROOT . 'wap/header.php';
+require_once PUN_ROOT.'wap/header.php';
+
+if ($_POST['preview']) {
+    
+    include_once PUN_ROOT . 'include/parser.php';
+}
+
+$smarty->assign('lang_common', $lang_common);
+$smarty->assign('cur_post', $cur_post);
+$smarty->assign('lang_post', $lang_post);
+$smarty->assign('hide_smilies', $hide_smilies);
+$smarty->assign('message', $message);
+$smarty->assign('id', $id);
+$smarty->assign('can_edit_subject', $can_edit_subject);
+$smarty->assign('cur_index', $cur_index);
+$smarty->assign('pun_config', $pun_config);
+//$smarty->assign('', $);
 
 $smarty->display('edit.tpl');

@@ -84,22 +84,13 @@ if (isset($_POST['delete'])) {
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_delete['Delete post'];
+$page_title = $pun_config['o_board_title'].' &#187; '.$lang_delete['Delete post'];
 require_once PUN_ROOT.'wap/header.php';
+include_once PUN_ROOT.'include/parser.php'; //parser.php будет использоваться в шаблоне.
 
-include_once PUN_ROOT.'include/parser.php';
-$cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+$smarty->assign('id', $id);
+$smarty->assign('lang_common', $lang_common);
+$smarty->assign('cur_post', $cur_post);
+$smarty->assign('lang_delete', $lang_delete);
 
-echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_post['fid'].'">'.pun_htmlspecialchars($cur_post['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_post['subject']).'</div>
-<div class="red">'.$lang_delete['Delete post'].'</div>
-<div class="msg2"><strong>'.$lang_delete['Warning'].'</strong></div>
-
-<form method="post" action="delete.php?id='.$id.'">
-<div class="input">
-'.$lang_common['Author'].': <strong>'.pun_htmlspecialchars($cur_post['poster']).'</strong><br/>
-'.$cur_post['message'].'</div>
-<div class="go_to">
-<input type="submit" name="delete" value="'.$lang_delete['Delete'].'" /></div></form>';
-
-require_once PUN_ROOT.'wap/footer.php';
-?>
+$smarty->display('delete.tpl');

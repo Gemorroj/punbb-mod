@@ -493,5 +493,7 @@ $smarty->assign('pun_user', $pun_user);
 $smarty->assign('pun_config', $pun_config);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('cur_index', $cur_index);
+//$smarty->assign('can_download', $can_download);
+//$smarty->assign('can_upload', $can_upload);
 
 $smarty->display('post.tpl');

@@ -1,3 +1,5 @@
+{include file='header.tpl'}
+
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a> &#187; <a href="viewforum.php?id={$cur_post.fid}">{$cur_post.forum_name|escape}</a> &#187; {$cur_post.subject|escape}</div>
 
@@ -13,10 +15,10 @@
 {/foreach}
 </div>
 {elseif $smarty.post.preview}
-{include file='{$smarty.const.PUN_ROOT}include/parser.php'}
+{*include file="`$smarty.const.PUN_ROOT`include/parser.php"*}
 {assign var='Post_preview' value='Post preview'}
 <div class="info">{$lang_post.$Post_preview}</div>
-<div class="msg">{* parse_message($message, $hide_smilies) *}</div>
+<div class="msg">{parse_message($message, $hide_smilies)}</div>
 {/if}
 
 {assign var='Edit_post' value='Edit post'}
@@ -27,14 +29,14 @@
 <input type="hidden" name="form_sent" value="1" />
 {if $can_edit_subject}
 {$lang_common.Subject}<br/>
-<input type="text" name="req_subject" tabindex="{assign var='cur_index' value=$cur_index+1}" value="{{$smarty.post.req_subject|define:$cur_post.subject}|escape}" /><br/>
+<input type="text" name="req_subject" tabindex="{assign var='cur_index' value=$cur_index+1}" value="{{$smarty.post.req_subject|default:$cur_post.subject}|escape}" /><br/>
 <!-- /label -->
 {/if}
 
 {* include file='{$smarty.const.PUN_ROOT}include/attach/fetch.php' *}
 
 {$lang_common.Message}:<br/>
-<textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{{$message|define:$cur_post.message}|escape}</textarea><br/>
+<textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{{$message|default:$cur_post.message}|escape}</textarea><br/>
 <a href="help.php?id=3">{$lang_common.Smilies}</a>
 {if $pun_config.o_smilies == 1}
 <span class="green">{$lang_common.on_m}</span>;
@@ -85,3 +87,5 @@ if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
 <input type="submit" name="preview" value="{$lang_post.Preview}" tabindex="{assign var='cur_index' value=$cur_index+1}" accesskey="p" />
 </div>
 </form>
+
+{include file='footer.tpl'}
