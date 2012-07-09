@@ -20,10 +20,16 @@ if ($action == 'rules') {
     // Load the register.php language file
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_register['Forum rules'];
-    require_once PUN_ROOT.'wap/header.php';
-    echo '<div class="con"><strong>' . $lang_register['Forum rules'] . '</strong></div><div class="msg">' . $pun_config['o_rules_message'] . '</div>';
-    require_once PUN_ROOT . 'wap/footer.php';
+    $page_title = $pun_config['o_board_title'] . ' :: ' . $lang_register['Forum rules'];
+    
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('lang_register', $lang_register);
+    $smarty->assign('pun_config', $pun_config);
+    
+    $smarty->display('misc.rules.tpl');
+    
+    exit();
+    
 } else if ($action == 'markread') {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);
@@ -115,28 +121,20 @@ if ($action == 'rules') {
     // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to the users profile after the e-mail is sent)
     $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote($pun_config['o_base_url']) . '/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_misc['Send e-mail to'] . ' ' . pun_htmlspecialchars($recipient);
+    $page_title = $pun_config['o_board_title'] . ' &#187; ' . $lang_misc['Send e-mail to'] . ' ' . $recipient;
     $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);
     $focus_element = array('email', 'req_subject');
-    require_once PUN_ROOT.'wap/header.php';
-
-
-    echo '<div class="con">'.$lang_misc['Send e-mail to'].' <strong>'.pun_htmlspecialchars($recipient).'</strong></div>
-<form method="post" action="misc.php?email='.$recipient_id.'">
-<div class="input">
-<strong>'.$lang_misc['Write e-mail'].'</strong><br/>
-<input type="hidden" name="form_sent" value="1" />
-<input type="hidden" name="redirect_url" value="'.$redirect_url.'" />
-'.$lang_misc['E-mail subject'].'<br />
-<input type="text" name="req_subject" maxlength="70" tabindex="1" /><br />
-'.$lang_misc['E-mail message'].'<br/>
-<textarea name="req_message" rows="4" cols="24" tabindex="2"></textarea><br />
-'.$lang_misc['E-mail disclosure note'].'</div>
-<div class="go_to">
-<input type="submit" name="submit" value="'.$lang_common['Submit'].'" tabindex="3" accesskey="s" />
-</div></form>';
-
-    require_once PUN_ROOT.'wap/footer.php';
+    
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('lang_misc', $lang_misc);
+    $smarty->assign('lang_common', $lang_common);
+    $smarty->assign('recipient', $recipient);
+    $smarty->assign('redirect_url', $redirect_url);    
+    
+    $smarty->display('misc.email.tpl');
+    
+    exit();
+    
 } else if (isset($_GET['report'])) {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);
@@ -190,24 +188,20 @@ if ($action == 'rules') {
 
         wap_redirect('viewtopic.php?pid='.$post_id.'#p'.$post_id);
     }
-
-
+    
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Report post'];
     $required_fields = array('req_reason' => $lang_misc['Reason']);
     $focus_element = array('report', 'req_reason');
-    require_once PUN_ROOT.'wap/header.php';
-
-
-    echo '<div class="red">'.$lang_misc['Report post'].'</div>
-<form method="post" action="misc.php?report='.$post_id.'">
-<div class="input">
-<strong>'.$lang_misc['Reason desc'].'</strong><br/>
-<input type="hidden" name="form_sent" value="1" />
-'.$lang_misc['Reason'].'<br />
-<textarea name="req_reason" rows="4" cols="24"></textarea></div>
-<div class="go_to"><input type="submit" name="submit" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
-
-    require_once PUN_ROOT.'wap/footer.php';
+    
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('lang_misc', $lang_misc);
+    $smarty->assign('lang_common', $lang_common);
+    $smarty->assign('recipient', $post_id); 
+    
+    $smarty->display('misc.report.tpl');
+    
+    exit();
+    
 } else if (isset($_GET['subscribe'])) {
     if ($pun_user['is_guest'] || $pun_config['o_subscriptions'] != 1) {
         wap_message($lang_common['No permission']);

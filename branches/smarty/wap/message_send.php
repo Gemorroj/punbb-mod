@@ -1,6 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
 require PUN_ROOT.'include/common.php';
+require_once PUN_ROOT.'wap/header.php';
 
 if(!$pun_config['o_pms_enabled'] || $pun_user['is_guest'] || !$pun_user['g_pm']){
     wap_message($lang_common['No permission']);
@@ -182,73 +183,17 @@ if(isset($_GET['reply']) || isset($_GET['quote'])){
         $quote = '[quote='.$message['sender'].']'.$message['message'].'[/quote]';
     }
     // Add subject
-    $subject = 'RE: '.$message['subject'];
+    $subject = 'RE:' == substr($message['subject'], 3) ? $message['subject'] : 'RE: ' . $message['subject'];
 }
 
-$action = $lang_pms['Send a message'];
-$form = '<form method="post" id="post" action="message_send.php?action=send">';
-
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$action;
-$form_name = 'post';
-
-$cur_index = 1;
-
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Send a message'];
 
 if($pun_user['messages_enable'] != 1){
     wap_message($lang_pms['PM disabled'] . ' <a href="message_list.php?&box=2">'. $lang_pms['Options PM'] .'</a>');
 }
-$required_fields = array('req_message' => $lang_common['Message'], 'req_subject' => $lang_common['Subject'], 'req_username' => $lang_pms['Send to']);
 
-require_once PUN_ROOT.'wap/header.php';
+$smarty->assign('lang_pms', $lang_pms);
+$smarty->assign('lang_common', $lang_common);
 
-?>
-<div class="con"><strong><?php echo $action; ?></strong></div>
-<?php echo $form; ?>
-<div class="input">
-<strong><?php echo $lang_common['Write message legend'] ?></strong><br/>
-<input type="hidden" name="form_sent" value="1" />
-<input type="hidden" name="topic_redirect" value="<?php echo isset($_GET['tid']) ? intval($_GET['tid']) : ''; ?>" />
-<input type="hidden" name="topic_redirect" value="<?php echo isset($_POST['from_profile']) ? $from_profile : ''; ?>" />
-<input type="hidden" name="form_user" value="<?php echo (!$pun_user['is_guest']) ? pun_htmlspecialchars($pun_user['username']) : 'Guest'; ?>" />
-<?php echo $lang_pms['Send to']; ?><br />
-<?php echo '
-<input type="text" name="req_username" maxlength="25" value="'.pun_htmlspecialchars(@$username).'" tabindex="'.($cur_index++).'" />'; ?><br />
-<?php echo $lang_common['Subject']; ?><br />
-<input class="longinput" type='text' name='req_subject' value='<?php echo pun_htmlspecialchars($subject); ?>' maxlength="70" tabindex='<?php echo $cur_index++; ?>' /><br />
-<?php echo $lang_common['Message']; ?><br />
-<textarea name="req_message" rows="4" cols="24" tabindex="<?php echo $cur_index++; ?>"><?php echo pun_htmlspecialchars($quote); ?></textarea><br />
-<?php
-
-//Smilies/BBCode
-echo '<a href="help.php?id=3">'.$lang_common['Smilies'].'</a> ';
-echo ($pun_config['o_smilies'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>;' : '<span class="grey">' . $lang_common['off_m']. '</span>;';
-echo ' <a href="help.php?id=1">'.$lang_common['BBCode'].'</a> ';
-echo ($pun_config['p_message_bbcode'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span>;' : '<span class="grey">' . $lang_common['off_m']. '</span>;';
-echo ' <a href="help.php?id=4">'.$lang_common['img tag'].'</a> ';
-echo ($pun_config['p_message_img_tag'] == 1) ? '<span class="green">' . $lang_common['on_m']. '</span><br />' : '<span class="grey">' . $lang_common['off_m']. '</span><br />';
-//Smilies/BBCode end
-
-$checkboxes = array();
-
-if($pun_config['o_smilies'] == 1){
-    $checkboxes[] = '<input type="checkbox" name="hide_smilies" value="1" tabindex="'.($cur_index++).'"'.(isset($_POST['hide_smilies']) ? ' checked="checked"' : '').' />'.$lang_post['Hide smilies'];
+$smarty->display('message_send.tpl');
 }
-
-$checkboxes[] = '<input type="checkbox" name="savemessage" value="1" checked="checked" tabindex="'.($cur_index++).'" />'.$lang_pms['Save message'];
-
-if($checkboxes){
-    echo implode('<br/>', $checkboxes);
-}
-
-echo '</div>
-<div class="go_to">
-<input type="submit" name="submit" value="'.$lang_pms['Send'].'" tabindex="'.($cur_index++).'" accesskey="s" />
-</div></form>
-
-<div class="navlinks">
-<a href="message_list.php?box=0">'.$lang_pms['Inbox'].'</a> | <a href="message_list.php?box=1">'.$lang_pms['Outbox'].'</a> | <a href="message_list.php?box=2">'.$lang_pms['Options'].'</a> | <a href="message_send.php">'.$lang_pms['New message'].'</a></div>
-';
-
-require_once PUN_ROOT.'wap/footer.php';
-}
-?>
