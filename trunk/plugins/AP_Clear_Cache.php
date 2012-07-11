@@ -15,6 +15,7 @@ if (isset($_POST['regen_all_cache'])) {
     generate_config_cache();
     generate_bans_cache();
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     // Display the admin navigation menu
     generate_admin_menu($plugin);
@@ -90,6 +91,7 @@ else if (isset($_POST['regen_config_cache'])) {
 else if (isset($_POST['regen_jump_cache'])) {
     // We re-generate it
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
     // Display the admin navigation menu
     generate_admin_menu($plugin);
 ?>
