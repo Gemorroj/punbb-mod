@@ -77,7 +77,7 @@ $smarty->assign('lang_pms', $lang_pms);
 $smarty->assign('pun_config', $pun_config);
 $smarty->assign('pun_user', $pun_user);
 
-$smarty->assign('basename', baseName($_SERVER['PHP_SELF']));
+$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
 
 // Collect some statistics from the database
 $result = $db->query('SELECT COUNT(1) - 1 FROM `' . $db->prefix . 'users` LIMIT 1') or error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());

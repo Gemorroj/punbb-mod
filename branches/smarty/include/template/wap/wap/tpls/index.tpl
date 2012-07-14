@@ -11,13 +11,15 @@
     {if $pun_user.is_guest}
         <a href="login.php">{$lang_common.Login}</a>{$Link_separator_m}<a href="register.php">{$lang_common.Register}</a>
     {else}
-        {if $pun_user.g_id > $smarty.const.PUN_MOD}
-            <a href="profile.php?id={$pun_user.id}">{$lang_common.Profile} (<span style="font-weight: bold">{$pun_user.username|escape}</span>)</a>
-            {if $pun_config.o_pms_enabled && $pun_user.g_pm == 1}
-                {$Link_separator_m}<a href="message_list.php">{$lang_pms.Private}</a>
-            {/if}
-        {else}
-            <a href="{$smarty.const.PUN_ROOT}admin_index.php">{$lang_common.Admin_m}</a>
+        
+        <a href="profile.php?id={$pun_user.id}">{$lang_common.Profile} (<span style="font-weight: bold">{$pun_user.username|escape}</span>)</a>
+        {if $pun_config.o_pms_enabled && $pun_user.g_pm == 1}
+            {$Link_separator_m}<a href="message_list.php">{$lang_pms.Private}</a>
+        {/if}
+        
+        {* Тут какая-то фигня. Был знак ">" и не работало. Может я когда переводил напутал сам, или так было. *}
+        {if $pun_user.g_id == $smarty.const.PUN_MOD or $pun_user.g_id == $smarty.const.PUN_ADMIN}
+            {$Link_separator_m}<a href="{$smarty.const.PUN_ROOT}admin_index.php">{$lang_common.Admin_m}</a>
         {/if}
         
         {$Link_separator_m}<a href="login.php?action=out&amp;id={$pun_user.id}&amp;csrf_token={$logout}">{$lang_common.Logout}</a>
