@@ -1,7 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
-require PUN_ROOT.'include/common.php';
-
+require_once PUN_ROOT.'include/common.php';
+require_once PUN_ROOT . 'wap/header.php';
 
 // Load the search.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/search.php';
@@ -503,7 +503,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $db->free_result($result);
 
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_search['Search results'];
-        require_once PUN_ROOT . 'wap/header.php';
+//        require_once PUN_ROOT . 'wap/header.php';
 
 
         //Set background switching on for show as posts
@@ -520,135 +520,30 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         while ($row = $db->fetch_row($result)) {
             $forum_list[] = $row;
         }
-
-        $j = false;
-        // Finally, lets loop through the results and output them
-        for ($i = 0, $all = sizeof($search_set); $i < $all; ++$i) {
-            reset($forum_list);
-            while (list(, $temp) = each($forum_list)) {
-                if ($temp[0] == $search_set[$i]['forum_id']) {
-                    $forum = '<a href="viewforum.php?id=' . $temp[0] . '">' . pun_htmlspecialchars($temp[1]) . '</a>';
-                }
-            }
-
-            if ($pun_config['o_censoring'] == 1) {
-                $search_set[$i]['subject'] = censor_words($search_set[$i]['subject']);
-            }
-
-            if ($show_as == 'posts') {
-                // $icon = '<div class="icon"><div class="nosize">'.$lang_common['Normal icon'].'</div></div>';
-
-                $subject = '<a href="viewtopic.php?id='.$search_set[$i]['tid'].'">'.pun_htmlspecialchars($search_set[$i]['subject']).'</a>';
-                if (!$pun_user['is_guest'] && $search_set[$i]['last_post'] > $pun_user['last_visit']) {
-                    $icon = '<div class="icon inew"><div class="nosize">'.$lang_common['New icon_m'].'</div></div>';
-                }
-
-                if ($pun_config['o_censoring'] == 1) {
-                    $search_set[$i]['message'] = censor_words($search_set[$i]['message']);
-                }
-
-                include_once PUN_ROOT.'include/parser.php';
-                $message = parse_message($search_set[$i]['message'], 0);
-
-                $pposter = pun_htmlspecialchars($search_set[$i]['pposter']);
-
-                if ($search_set[$i]['poster_id'] > 1) {
-                    $pposter = '<strong><a href="profile.php?id='.$search_set[$i]['poster_id'].'">'.$pposter.'</a></strong>';
-                }
-
-                if (mb_strlen($message) > 999) {
-                    $message .= ' &hellip;';
-                }
-
-                $vtpost1 = (!$i) ? ' vtp1' : '';
-
-                // Switch the background color for every message.
-                $bg_switch = !$bg_switch;
-                $vtbg = ($bg_switch) ? ' rowodd' : ' roweven';
-
-
-                echo '<div class="in">'.$forum.' &#187; '.$subject.' &#187; <a class="small" href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.format_time($search_set[$i]['pposted']).'</a></div>
-<div class="msg">
-'.$pposter.'<br/>
-<span class="sub">'.$lang_search['Replies'].': '.$search_set[$i]['num_replies'].' | <a href="viewtopic.php?pid='.$search_set[$i]['pid'].'#p'.$search_set[$i]['pid'].'">'.$lang_search['Go to post'].'</a></span><br/>
-'.$message.'</div>';
-            } else {
-                $icon = $lang_common['Normal icon'];
-
-                $icon_text = $lang_common['Normal icon'];
-                $item_status = '';
-                $icon_type = 'icon';
-
-                $subject = '<a href="viewtopic.php?id='.$search_set[$i]['tid'].'">'.pun_htmlspecialchars($search_set[$i]['subject']).'</a> ('.pun_htmlspecialchars($search_set[$i]['poster']) . ')';
-
-                if ($search_set[$i]['closed']){
-                    $icon_text = $lang_common['Closed icon'];
-                    $item_status = 'iclosed';
-                }
-
-                if (!$pun_user['is_guest'] && $search_set[$i]['last_post'] > $pun_user['last_visit']) {
-                    $icon_text .= ' '.$lang_common['New icon_m'];
-                    $item_status .= ' inew';
-                    $icon_type = 'icon inew';
-                    $subject = '<strong>'.$subject.'</strong>';
-                    $subject_new_posts = '<a class="red" href="viewtopic.php?id='.$search_set[$i]['tid'].'&amp;action=new" title="'.$lang_common['New posts info'].'">'.$lang_common['New posts'].'</a>';
-                } else {
-                    $subject_new_posts = null;
-                }
-
-
-                $num_pages_topic = ceil(($search_set[$i]['num_replies'] + 1) / $pun_user['disp_posts']);
-
-                if ($num_pages_topic > 1) {
-                    $subject_multipage = '[ '.paginate($num_pages_topic, -1, 'viewtopic.php?id='.$search_set[$i]['tid'], 0).' ]';
-                } else {
-                    $subject_multipage = null;
-                }
-
-                // Should we show the "New posts" and/or the multipage links?
-                if (!empty($subject_new_posts) || !empty($subject_multipage)) {
-                    $subject .= ' '.(!empty($subject_new_posts) ? $subject_new_posts : '');
-                    $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
-                }
-
-                //search_id user topics
-
-                echo '<div class="' . (($j = !$j) ? 'msg' : 'msg2') . '">
-'.$forum.' &#187; '.$subject.'<br />
-<span class="sub">'.$lang_common['Replies'].': '.$search_set[$i]['num_replies'].'<br />
-<a href="viewtopic.php?pid='.$search_set[$i]['last_post_id'].'#p'.$search_set[$i]['last_post_id'].'">'.$lang_common['Last post'].'</a>: '.pun_htmlspecialchars($search_set[$i]['last_poster']).' ('.format_time($search_set[$i]['last_post']).')</span></div>';
-            }
-        }
-
-        echo '<div class="con">'.$paging_links.'</div>';
-
-        $footer_style = 'search';
-        require_once PUN_ROOT.'wap/footer.php';
-    } else {
+        
+        include_once PUN_ROOT.'include/parser.php';
+        
+        $smarty->assign('lang_common', $lang_common);
+        $smarty->assign('search_set', $search_set);
+        
+        $smarty->assign('forum_list', $forum_list);
+        $smarty->assign('pun_config', $pun_config);
+        $smarty->assign('show_as', $show_as);
+        
+        $smarty->assign('lang_search', $lang_search);
+        $smarty->assign('pun_user', $pun_user);
+        $smarty->assign('paging_links', $paging_links);
+        /*
+        $smarty->assign('', $);
+        $smarty->assign('', $);
+        $smarty->assign('', $);
+        */
+        $smarty->display('search.result.tpl');
+        exit();
+    }
+    else {
         wap_message($lang_search['No hits']);
     }
-}
-
-
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_search['Search'];
-$focus_element = array('search', 'keywords');
-require_once PUN_ROOT.'wap/header.php';
-
-
-echo '<div class="con"><strong>'.$lang_search['Search'].'</strong></div>
-<form method="get" action="search.php?">
-<div class="input"><strong>'.$lang_search['Search criteria legend'].'</strong><br/>
-<input type="hidden" name="action" value="search" />'.$lang_search['Keyword search'].'<br />
-<input type="text" name="keywords" maxlength="100" /><br />
-'.$lang_search['Author search'].'<br />
-<input type="text" name="author" maxlength="25" /></div>
-<div class="input2">
-'.$lang_search['Search info'].'<strong>'.$lang_search['Search in legend'].'</strong><br/>
-'.$lang_search['Forum search'].'<br />
-<select name="forum">';
-
-if ($pun_config['o_search_all_forums'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-	echo '<option value="-1">'.$lang_search['All forums'].'</option>';
 }
 
 $result = $db->query('
@@ -661,49 +556,19 @@ $result = $db->query('
     ORDER BY c.disp_position, c.id, f.disp_position
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
-$cur_category = 0;
 while ($cur_forum = $db->fetch_assoc($result)) {
-    // A new category since last iteration?
-    if ($cur_forum['cid'] != $cur_category) {
-        if ($cur_category) {
-            echo '</optgroup>';
-        }
-
-        echo '<optgroup label="'.pun_htmlspecialchars($cur_forum['cat_name']).'">';
-        $cur_category = $cur_forum['cid'];
-    }
-
-    echo '<option value="'.$cur_forum['fid'].'">'.pun_htmlspecialchars($cur_forum['forum_name']).'</option>';
+    
+    $forums[] = $cur_forum;
 }
 
-echo '</optgroup>
-</select><br />
-'.$lang_search['Search in'].'<br />
-<select name="search_in"><option value="all">'.$lang_search['Message and subject'].'</option>
-<option value="message">'.$lang_search['Message only'].'</option>
-<option value="topic">'.$lang_search['Topic only'].'</option>
-</select><br />
-'.$lang_search['Search in info'].'</div>
-<div class="input">
-<strong>'.$lang_search['Search results legend'].'</strong><br/>
-'.$lang_search['Sort by'].'<br />
-<select name="sort_by"><option value="0">'.$lang_search['Sort by post time'].'</option>
-<option value="1">'.$lang_search['Sort by author'].'</option>
-<option value="2">'.$lang_search['Sort by subject'].'</option>
-<option value="3">'.$lang_search['Sort by forum'].'</option>
-</select><br />
-'.$lang_search['Sort order'].'<br />
-<select name="sort_dir"><option value="DESC">'.$lang_search['Descending'].'</option>
-<option value="ASC">'.$lang_search['Ascending'].'</option>
-</select><br />
-'.$lang_search['Show as'].'<br />
-<select name="show_as">
-<option value="posts">'.$lang_search['Show as posts'].'</option>
-<option value="topics">'.$lang_search['Show as topics'].'</option>
-</select><br />
-'.$lang_search['Search results info'].'</div>
-<div class="go_to"><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></div></form>';
+$smarty->debugging = true;
 
-require_once PUN_ROOT.'wap/footer.php';
+$smarty->assign('page_title', $pun_config['o_board_title'] . ' :: ' . $lang_search['Search']);
 
-?>
+$smarty->assign('forums', $forums);
+$smarty->assign('lang_search', $lang_search);
+$smarty->assign('pun_config', $pun_config);
+$smarty->assign('pun_user', $pun_user);
+$smarty->assign('lang_common', $lang_common);
+
+$smarty->display('search.tpl');
