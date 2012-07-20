@@ -310,6 +310,9 @@ $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);
 
+include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
+$smarty->assign('lang_misc', $lang_misc);
+
 $smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_topic['subject']);
 $smarty->assign('forum_id', $id);
 $smarty->assign('id', $id);

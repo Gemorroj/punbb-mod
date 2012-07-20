@@ -100,7 +100,6 @@
 
 {if $is_admmod and isset($cur_post.spam_id)}
 {* Анти-спам *}
-{include file='`$smarty.const.PUN_ROOT`lang/`$pun_user.language`/misc.php'}
 
 <div class="antispam">
 {$lang_misc.$Antispam_pattern} - {$cur_post.pattern|escape}<br/>
