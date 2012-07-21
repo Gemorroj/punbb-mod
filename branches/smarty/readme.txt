@@ -1,14 +1,16 @@
 Форум PunBB
 Версия: 1.2.23
-Версия модификации: 0.5.9
+Версия модификации: 0.6.0
 
 Автор: Rickard Andersson ( http://punbb.org )
-Модификация: Gemorroj ( http://wapinet.ru )
+Модификация: Gemorroj, tipsun, LookOfff
+
 Обсуждение мода, а так же новые модификации можно найти здесь
 http://wapinet.ru/forum/viewtopic.php?id=69
 http://wapinet.ru/forum/wap/viewtopic.php?id=69
 
 
+Описание:
 Форум имеет 2 версии - WAP и WEB
 Возможность смены как WAP, так и WEB оформления
 Развитую систему прав пользователей
@@ -16,6 +18,7 @@ http://wapinet.ru/forum/wap/viewtopic.php?id=69
 Админ панель (WEB) с множеством настроек
 И многое другое...
 
+Установка:
 Права на папки cache/, tmp/, uploaded/, uploads/, img/avatars/, img/thumb/ - 777
 На файл rss.xml, /lang/Russian/stopwords.txt, /lang/English/stopwords.txt права - 666
 
@@ -43,6 +46,3 @@ img/avatars/
 Заливаем файлы из архива, заносим нужные данные в config.php
 Заходим по адресу http://ваш_сайт/форум/update.php
 Если обновление проходит без ошибок, авторизуемся на форуме админом и меняем настройки под себя
-
--------
-Gemorroj
