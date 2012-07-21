@@ -5,8 +5,8 @@ $_SERVER['REMOTE_ADDR'] = (isset($_SERVER['HTTP_X_REAL_IP']) && preg_match('/^([
 $db_host = 'localhost'; // Хост
 $db_name = 'forum';     // Имя БД
 $db_username = 'root';  // Имя пользователя БД
-$db_password = '';      // Проль пользователя БД
-$p_connect = false;     // Постоянное соединение (включать только если у форума большая посещаемость)
+$db_password = '';      // Пароль пользователя БД
+$p_connect = false;     // Постоянное соединение
 $db_prefix = null;
 
 

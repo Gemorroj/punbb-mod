@@ -1,7 +1,6 @@
 var gwActivePopup = null, gwTimeoutId = 0;
 
-function gwCloseActive()
-{
+function gwCloseActive() {
     if (gwActivePopup) {
         gwActivePopup.style.visibility = 'hidden';
         gwActivePopup = null;
@@ -9,8 +8,7 @@ function gwCloseActive()
 }
 
 
-function elementX(el)
-{
+function elementX(el) {
     var x = el.offsetLeft, parent = el.offsetParent;
     while (parent !== null) {
         x += parent.offsetLeft;
@@ -20,8 +18,7 @@ function elementX(el)
 }
 
 
-function elementY(el)
-{
+function elementY(el) {
     var y = el.offsetTop, parent = el.offsetParent;
     while (parent !== null) {
         y += parent.offsetTop;
@@ -31,8 +28,7 @@ function elementY(el)
 }
 
 
-function gwPopup(e, layerid, noautoclose)
-{
+function gwPopup(e, layerid, noautoclose) {
     var isEvent = true, x = null, y = null, layer = document.getElementById(layerid);
 
     gwCloseActive();
@@ -85,8 +81,7 @@ function gwPopup(e, layerid, noautoclose)
 }
 
 
-function downloadPopup(e, aid)
-{
+function downloadPopup(e, aid) {
     gwCloseActive();
     var title = document.getElementById('pun-title'), body = document.getElementById('pun-body'), desc = document.getElementById('pun-desc'), funcdata = ATTACH_DATA[aid];
     var atime = funcdata[0];

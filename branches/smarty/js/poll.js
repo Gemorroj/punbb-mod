@@ -68,9 +68,9 @@ poll.pForm = function () {
 
 poll.vote = function (id) {
     var p = ".p_cnt_" + id;
-    var t = $(p + " input").attr("type");
+    var ch = $(p + " input:checked");
 
-    if (!$(p + " input:" + t + ":checked").prop("checked")) {
+    if (ch.length < 1) {
         $("#warning").html(poll.lng.answer_must_select).show("fast");
         return false;
     }
@@ -86,7 +86,7 @@ poll.vote = function (id) {
         url: "ajax.server.php?poll=sres",
         dataType: "html",
         cache: false,
-        data: {"p": id, "q": $(p + " :" + t + ":checked").serialize()},
+        data: {"p": id, "q": ch.serialize()},
         success: function (data) {
             $(p).html(data);
         }

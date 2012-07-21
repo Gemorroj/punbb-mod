@@ -1,5 +1,4 @@
-function insAtCaret(o, s)
-{
+function insAtCaret(o, s) {
     var r;
     o.focus();
 
@@ -22,15 +21,13 @@ function insAtCaret(o, s)
 }
 
 
-function expandField(f, h)
-{
-    var f = $(f);
+function expandField(f, h) {
+    f = $(f);
     f.height(f.height() + h);
 }
 
 
-function pasteQ(p, n)
-{
+function pasteQ(p, n) {
     var t = '', x = '';
 
     if (document.getSelection) {
@@ -64,16 +61,14 @@ function pasteQ(p, n)
 }
 
 
-function pasteN(t)
-{
+function pasteN(t) {
     var o = document.forms.post.req_message;
     if (t !== '' && o) {
         insAtCaret(o, "[b]" + t + "[/b]\n");
     }
 }
 
-function ctrlSend(e)
-{
+function ctrlSend(e) {
     e = e || window.event;
 
     if (e.ctrlKey === true && (e.keyCode === 10 || e.keyCode === 13)) {

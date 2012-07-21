@@ -14,7 +14,7 @@ poll.admin = function () {
     };
     s.update = function (id) {
         $.modalBox.hideBox(function () {
-            $('div.cnt_' + id).each(function (i) {
+            $('div.cnt_' + id).each(function () {
                 var obj = $(this);
 
                 obj.css({'position': 'relative'});
