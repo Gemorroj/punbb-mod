@@ -35,7 +35,7 @@
 
 {assign var='post_count' value=($post_count + 1)}
 
-<div class="{if ($j = ! $j)}msg{else}msg2{/if}">
+<div class="{if $j = !$j}msg{else}msg2{/if}">
 <div class="zag_in" id="p{$cur_post.id}">
 
 {if $cur_post.poster_id > 1 and $pun_config.o_avatars == 1 && $cur_post.use_avatar == 1 && $pun_user.show_avatars}
@@ -117,22 +117,22 @@
     {foreach from=$attachments[$cur_post.id] item=attachment}
 
         {if $can_download}
-            
+
             {if $basename == 'edit.php'}
                 <input type="checkbox" name="delete_image[]" value="{$attachment.id}" /> {$lang_fu.$Mark_to_Delete}
             {/if}
-            
+
             <a href="{$pun_config.o_base_url}/download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>
         {else}
             <span class="red">{$attachment.filename|escape}</span>
         {/if}
-        
+
         {if $attachment.size >= 1048576}
             {round($attachment.size / 1048576, 0)} mb
         {else}
             {round($attachment.size / 1024, 0)} kb
         {/if}
-        
+
         {if 'image' == strTok($attachment.mime, '/')}
             , {strtok('/')} {$attachment.image_dim}
         {/if}
@@ -168,10 +168,10 @@
     {* Кнопка для ответа *}
     <div class="go_to">
     {if $cur_topic.closed}
-            <strong>#{$lang_topic.$Topic_closed}</strong>
-            {if $is_admmod}
-                <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
-            {/if}
+        <strong>#{$lang_topic.$Topic_closed}</strong>
+        {if $is_admmod}
+            <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
+        {/if}
     {else}
         <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
     {/if}
@@ -181,7 +181,7 @@
 {if $quickpost}
 {* Форма для быстрого ответа *}
 <form method="post" action="post.php?tid={$id}">
-    
+
     <div class="input">
         {$lang_topic.$Quick_post}:<br/>
         <span class="small">{$lang_common.$Write_message_legend}</span><br/>
@@ -189,22 +189,22 @@
     {if $pun_config.o_antiflood}
         <input type="hidden" name="form_t" value="{$smarty.server.REQUEST_TIME}" />
     {/if}
-    
+
     <input type="hidden" name="form_sent" value="1" />
     <input type="hidden" name="form_user" value="{$pun_user.username|escape|default:'Guest'}" />
-    
+
     <!-- input name for guest -->
     {if $pun_user.is_guest}
         {$lang_common.Username}<br/>
         <input type="text" name="req_username" tabindex="1" /><br/>
     {/if}
-    
+
     <textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea><br/>
 
     {if $is_admmod}
         <input type="checkbox" name="merge" value="1" checked="checked" />&#160;<span class="small">{$lang_post.$Merge_posts}</span><br/>
     {/if}
-    
+
     <input type="submit" name="submit" tabindex="2" value="{$lang_common.Submit}" accesskey="s" />
     </div>
 </form>

@@ -1,6 +1,6 @@
 <?php
 define('PUN_ROOT', '../');
-require PUN_ROOT.'include/common.php';
+require PUN_ROOT . 'include/common.php';
 
 if (!$pun_user['g_read_board']) {
 	wap_message($lang_common['No view']);
@@ -9,8 +9,9 @@ if (!$pun_user['g_read_board']) {
 // Load the index.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/index.php';
 
-if ($pun_config['o_pms_enabled'] && $pun_user['g_pm'] == 1)
-require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
+if ($pun_config['o_pms_enabled'] && $pun_user['g_pm'] == 1) {
+    include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
+}
 
 require_once PUN_ROOT . 'wap/header.php';
 

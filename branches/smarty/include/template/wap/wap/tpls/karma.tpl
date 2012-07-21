@@ -13,7 +13,7 @@
     {else}
     {$lang_common.Deleted}
     {/if}
-    
+
     {if $cur_karma.vote > 0}
     <span class="green">+</span>
     {else}

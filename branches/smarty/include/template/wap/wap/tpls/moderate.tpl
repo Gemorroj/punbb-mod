@@ -18,7 +18,7 @@
 
 {foreach from=$topics item=cur_topic}
 
-<div class="{if ($j = ! $j)}msg{else}msg2{/if}">
+<div class="{if $j = ! $j}msg{else}msg2{/if}">
 <input type="checkbox" name="topics[{$cur_topic.id}]" value="1" />
 {* +SUBJECT *}
 

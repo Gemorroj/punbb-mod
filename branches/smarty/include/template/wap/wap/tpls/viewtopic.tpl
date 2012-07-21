@@ -35,7 +35,7 @@
 
 {assign var='post_count' value=($post_count + 1)}
 
-<div class="{if ($j = ! $j)}msg{else}msg2{/if}">
+<div class="{if $j = ! $j}msg{else}msg2{/if}">
 <div class="zag_in" id="p{$cur_post.id}">
 
 {if $cur_post.poster_id > 1 and $pun_config.o_avatars == 1 && $cur_post.use_avatar == 1 && $pun_user.show_avatars}

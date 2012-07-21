@@ -17,7 +17,7 @@
 
 {foreach from=$topics item=cur_topic}
 
-<div class="{if ($j = ! $j)}msg{else}msg2{/if}">
+<div class="{if $j = ! $j}msg{else}msg2{/if}">
 
 {* +SUBJECT *}
 
