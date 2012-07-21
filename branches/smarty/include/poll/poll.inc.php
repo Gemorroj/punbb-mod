@@ -50,7 +50,6 @@ class _Poll
             }
 
             $db->query('INSERT INTO ' . $db->prefix . 'polls (description, time, multiselect, data, expire, owner) VALUES(\'' . $db->escape($poll['pdescription']) . '\', ' . time() . ', \'' . $db->escape($poll['pmultiselect']) . '\', \'' . $db->escape(serialize($this->convertQustions($poll['pquestions']))) . '\', \'' . $db->escape($poll['pexpire']) . '\', ' . $userid . ')') or error('Unable to create poll.', __FILE__ , __LINE__ , $db->error());
-            $this->validData = false;
             return $db->insert_id();
         }
 
@@ -78,9 +77,7 @@ class _Poll
 
     function updatePoll($fromAjax)
     {
-        $poll = array();
-        $data = explode('&', $_POST['d']);
-        foreach ($data as $val) {
+        foreach (explode('&', $_POST['d']) as $val) {
             $current = explode('=', $val);
             echo urldecode($current[0]) . '=' . urldecode($current[1]) . '<br />';
         }
@@ -118,8 +115,9 @@ class _Poll
 
     function convertQustions($value)
     {
-        $result = explode("\n", $value);
-        foreach ($result as $value) {
+        $questions = array();
+
+        foreach (explode("\n", $value) as $value) {
             $value = trim($value);
             if ($value && $value != "\n" && $value != "\t") {
                 $questions[] = array($value, 0);
@@ -131,11 +129,12 @@ class _Poll
 
     function convertAnswers($value)
     {
+        $answers = array();
+
         if (is_int($value)) {
             $answers[] = $value;
         } else {
-            $result = explode('&', $value);
-            foreach ($result as $value) {
+            foreach (explode('&', $value) as $value) {
                 $result2 = explode('=', $value);
                 $answers[] = $result2[1];
             }
