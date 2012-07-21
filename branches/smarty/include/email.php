@@ -47,7 +47,7 @@ function pun_mail($to, $subject, $message, $from = '')
 
     // Default sender/return address
     if (!$from) {
-        $from = '"=?' . $lang_common['lang_encoding'] . '?B?' . base64_encode($sender) . '?=" <' . $pun_config['o_webmaster_email'] . '>';
+        $from = '"=?UTF-8?B?' . base64_encode($sender) . '?=" <' . $pun_config['o_webmaster_email'] . '>';
     }
 
     // Do a little spring cleaning
@@ -55,8 +55,8 @@ function pun_mail($to, $subject, $message, $from = '')
     $subject = trim(preg_replace('#[\n\r]+#s', '', $subject));
     $from = trim(preg_replace('#[\n\r:]+#s', '', $from));
 
-    $subject = '=?' . $lang_common['lang_encoding'] . '?B?' . base64_encode($subject) . '?=';
-    $headers = 'From: ' . $from . "\r\n" . 'Date: ' . date('r') . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-transfer-encoding: 8bit' . "\r\n" . 'Content-type: text/plain; charset=' . $lang_common['lang_encoding'] . "\r\n" . 'X-Mailer: PunBB Mailer';
+    $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    $headers = 'From: ' . $from . "\r\n" . 'Date: ' . date('r') . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-transfer-encoding: 8bit' . "\r\n" . 'Content-type: text/plain; charset=UTF-8' . "\r\n" . 'X-Mailer: PunBB Mailer';
 
     // Make sure all linebreaks are CRLF in message (and strip out any NULL bytes)
     $message = str_replace(array("\n", "\0"), array("\r\n", ''), pun_linebreaks($message));

@@ -7,7 +7,7 @@ require_once PUN_ROOT . 'wap/header.php';
 
 // If we are logged in, we shouldn't be here
 if (!$pun_user['is_guest']) {
-    header('Location: index.php', true, 301);
+    header('Location: index.php');
     exit;
 }
 
@@ -279,7 +279,6 @@ $smarty->assign('page_title', $page_title);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_register', $lang_register);
 $smarty->assign('lang_profile', $lang_profile);
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('lang_prof_reg', $lang_prof_reg);
 
 $smarty->assign('languages', $languages);

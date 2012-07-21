@@ -198,7 +198,6 @@ $smarty->assign('message', $message);
 $smarty->assign('id', $id);
 $smarty->assign('can_edit_subject', $can_edit_subject);
 $smarty->assign('cur_index', $cur_index);
-$smarty->assign('pun_config', $pun_config);
-//$smarty->assign('', $);
+
 
 $smarty->display('edit.tpl');

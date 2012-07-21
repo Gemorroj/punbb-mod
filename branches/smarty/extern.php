@@ -104,7 +104,7 @@ if ($_GET['action'] == 'active' || $_GET['action'] == 'new') {
         header('Pragma: public');
 
         // It's time for some syndication!
-        echo '<?xml version="1.0" encoding="' . $lang_common['lang_encoding'] . '"?>' . "\n".
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n".
         '<!DOCTYPE rss PUBLIC "-//Netscape Communications//DTD RSS 0.91//EN" "http://my.netscape.com/publish/formats/rss-0.91.dtd">' . "\n" .
         '<rss version="0.91"><channel><title>' . pun_htmlspecialchars($pun_config['o_board_title']) . '</title><link>' . $pun_config['o_base_url'] . '/</link><description>' . pun_htmlspecialchars($rss_description . ' ' . $pun_config['o_board_title']) . '</description><language>en-us</language>' . "\r\n";
 

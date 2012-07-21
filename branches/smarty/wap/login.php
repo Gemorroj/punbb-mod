@@ -11,18 +11,18 @@ if (isset($_GET['action'])) {
 }
 
 define('PUN_ROOT', '../');
-require PUN_ROOT.'include/common.php';
-require PUN_ROOT.'wap/header.php';
+require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'wap/header.php';
 
 // Load the login.php language file
-require PUN_ROOT.'lang/'.$pun_user['language'].'/login.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/login.php';
 
 
 if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     $form_username = trim($_POST['req_username']);
     $form_password = trim($_POST['req_password']);
 
-    $username_sql = 'username=\''.$db->escape($form_username).'\'';
+    $username_sql = 'username="'.$db->escape($form_username).'"';
 
     $result = $db->query('SELECT id, group_id, password, save_pass FROM '.$db->prefix.'users WHERE '.$username_sql) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     list($user_id, $group_id, $db_password_hash, $save_pass) = $db->fetch_row($result);
@@ -64,7 +64,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     wap_redirect(htmlspecialchars($_POST['redirect_url']));
 } else if ($_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
-        header('Location: index.php', true, 301);
+        header('Location: index.php');
         exit;
     }
 
@@ -130,7 +130,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     }
 
     $page_title = $pun_config['o_board_title'].' :: '.$lang_login['Request pass'];
-    
+
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_login', $lang_login);
@@ -141,7 +141,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
 
 
 if (!$pun_user['is_guest']) {
-    header('Location: index.php', true, 301);
+    header('Location: index.php');
 }
 
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)

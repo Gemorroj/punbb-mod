@@ -3,13 +3,13 @@ define('PUN_ROOT', '../');
 require PUN_ROOT.'include/common.php';
 
 
-if(!$pun_user['g_read_board']){
-message($lang_common['No view']);
+if (!$pun_user['g_read_board']) {
+    wap_message($lang_common['No view']);
 }
 
 $id = intval($_GET['id']);
-if($id < 1){
-wap_message($lang_common['Bad request']);
+if ($id < 1) {
+    wap_message($lang_common['Bad request']);
 }
 
 // Load the viewtopic.php language file
@@ -25,8 +25,8 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
 $result = $db->query('SELECT t.subject, t.num_replies, f.id AS forum_id, f.forum_name, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id WHERE t.id='.$id) or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 
-if(!$db->num_rows($result)){
-wap_message($lang_common['Bad request']);
+if (!$db->num_rows($result)) {
+    wap_message($lang_common['Bad request']);
 }
 
 $cur_topic = $db->fetch_assoc($result);
@@ -37,8 +37,7 @@ include_once PUN_ROOT.'include/parser.php';
 
 // Retrieve the posts (and their respective poster)
 $result = $db->query('SELECT p.poster AS username, p.message, p.posted FROM '.$db->prefix.'posts AS p WHERE p.topic_id='.$id.' ORDER BY p.id') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-while($cur_post = $db->fetch_assoc($result))
-{
+while ($cur_post = $db->fetch_assoc($result)) {
     $cur_post['message'] = parse_message($cur_post['message'], true);
     $posts[] = $cur_post;
 }
@@ -50,12 +49,7 @@ require PUN_ROOT . 'wap/header.php';
 $smarty->assign('page_title', $page_title);
 $smarty->assign('posts', $posts);
 $smarty->assign('lang_common', $lang_common);
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('cur_topic', $cur_topic);
 $smarty->assign('id', $id);
-/*
-$smarty->assign('', $);
-$smarty->assign('', $);
-*/
 
 $smarty->display('viewprintable.tpl');

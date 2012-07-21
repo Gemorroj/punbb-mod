@@ -740,11 +740,9 @@ function paginate($num_pages, $cur_page, $link_to)
 //
 function message($message, $no_back_link = false)
 {
-    global $db, $lang_common, $pun_config, $pun_start, $tpl_main;
+    global $db, $pun_user, $lang_common, $pun_config, $pun_start, $tpl_main;
 
     if (!defined('PUN_HEADER')) {
-        global $pun_user;
-
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];
         require_once PUN_ROOT . 'header.php';
     }
@@ -766,18 +764,19 @@ function message($message, $no_back_link = false)
 
 function wap_message($message, $no_back_link = false)
 {
-    global $db, $lang_common, $pun_config, $pun_start, $tpl_main;
+    global $db, $pun_user, $lang_common, $pun_config, $pun_start, $tpl_main, $smarty;
 
     if (!defined('PUN_HEADER')) {
-        global $pun_user;
-
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];
         require_once PUN_ROOT . 'wap/header.php';
     }
-    echo '
-    <div class="in">' . $message . '</div>
-    ';
-    require_once PUN_ROOT . 'wap/footer.php';
+
+
+    $smarty->assign('message', $message);
+    $smarty->assign('pun_user', $pun_user);
+    $smarty->assign('lang_common', $lang_common);
+    $smarty->assign('no_back_link', $no_back_link);
+    $smarty->display('message.tpl');
     exit;
 }
 
@@ -925,11 +924,6 @@ function maintenance_message()
     // END SUBST - <pun_content_direction>
 
 
-    // START SUBST - <pun_char_encoding>
-    $tpl_maint = str_replace('<pun_char_encoding>', $lang_common['lang_encoding'], $tpl_maint);
-    // END SUBST - <pun_char_encoding>
-
-
     // START SUBST - <pun_head>
     ob_start();
 
@@ -1006,11 +1000,6 @@ function redirect($destination_url, $message)
     // END SUBST - <pun_content_direction>
 
 
-    // START SUBST - <pun_char_encoding>
-    $tpl_redir = str_replace('<pun_char_encoding>', $lang_common['lang_encoding'], $tpl_redir);
-    // END SUBST - <pun_char_encoding>
-
-
     // START SUBST - <pun_head>
     ob_start();
 
@@ -1056,7 +1045,7 @@ function redirect($destination_url, $message)
 
     // Close the db connection (and free up any result data)
     $db->close();
-    header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+    header('Content-Type: text/html; charset=UTF-8');
     exit($tpl_redir);
 }
 

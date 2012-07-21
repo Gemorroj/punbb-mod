@@ -7,7 +7,7 @@ require PUN_ROOT.'include/common.php';
 
 // If we are logged in, we shouldn't be here
 if (!$pun_user['is_guest']) {
-    header('Location: index.php', true, 301);
+    header('Location: index.php');
     exit;
 }
 

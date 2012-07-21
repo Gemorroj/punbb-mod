@@ -10,11 +10,10 @@
         <meta http-equiv="Last-Modified" content="{$smarty.now|date_format:'r'} GMT" />
         <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" />
         <meta http-equiv="Pragma" content="no-cache" />
-        {* <pun_char_encoding> *}
-        <meta http-equiv="Content-Type" content="text/html; charset={$lang_common.lang_encoding}" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         {*+ <pun_head> *}
         <title>{$page_title|escape}</title>
-        <link rel="stylesheet" type="text/css" href="{$punDesignDir}style.css" />
+        <link rel="stylesheet" type="text/css" href="{$pun_config.o_base_url}/style_wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}.css" />
         {*- <pun_head> *}
         {* <pun_rssname> *}
         {* <pun_rss> *}
@@ -26,7 +25,7 @@
         {if $basename == 'index.php'}
             {* <pun_hd> *}
             <div class="hd">
-                <img src="{$punDesignDir}imgs/logo.gif" title="{$lang_common.Forum} {$smarty.server.HTTP_HOST}" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}" />
+                <img src="{$pun_config.o_base_url}/style_wap/{$pun_user.style_wap}/logo.gif" title="{$lang_common.Forum} {$smarty.server.HTTP_HOST}" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}" />
             </div>
 
 

@@ -1,9 +1,6 @@
 <?php
-
-/*
 // Determine what locale to use
-switch (PHP_OS)
-{
+switch (PHP_OS) {
 	case 'WINNT':
 	case 'WIN32':
 		$locale = 'english';
@@ -22,15 +19,12 @@ switch (PHP_OS)
 
 // Attempt to set the locale
 setlocale(LC_CTYPE, $locale);
-*/
 
 // Language definitions for frequently used strings
 $lang_common = array(
 
 // Text orientation and encoding
 'lang_direction'		=>	'ltr',	// ltr (Left-To-Right) or rtl (Right-To-Left)
-'lang_encoding'			=>	'utf-8',
-'lang_multibyte'		=>	false,
 
 // Notices
 'Bad request'			=>	'Bad request. The link you followed is incorrect or outdated.',

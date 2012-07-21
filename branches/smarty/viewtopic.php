@@ -108,10 +108,10 @@ if (!$pun_user['is_guest']) {
         }
     }
     if (!$find_new) {
-        $_SERVER['REQUEST_TIME'] += 10;
-        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'] .' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        $requestTime = $_SERVER['REQUEST_TIME'] + 10;
+        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime .' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
         if ($db->affected_rows() < 1) {
-            $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$_SERVER['REQUEST_TIME'].')');
+            $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$requestTime.')');
             $dberror = $db->error();
             if ($dberror['error_no'] && $dberror['error_no'] != 1062) {
                 error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());

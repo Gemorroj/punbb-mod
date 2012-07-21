@@ -27,7 +27,7 @@ if (isset($_GET['poll'])) {
             break;
     }
 } else if (isset($_GET['quote'])) {
-    header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+    header('Content-Type: text/html; charset=UTF-8');
 
     $result = $db->query('SELECT poster, message FROM ' . $db->prefix . 'posts WHERE id=' . intval($_GET['quote'])) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $cur_post = $db->fetch_assoc($result);

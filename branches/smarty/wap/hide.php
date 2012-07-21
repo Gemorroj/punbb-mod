@@ -298,7 +298,6 @@ $db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 
 
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('pun_config', $pun_config);
 
 $smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);

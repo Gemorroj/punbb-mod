@@ -24,12 +24,11 @@ if ($action == 'rules') {
     
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_register', $lang_register);
-    $smarty->assign('pun_config', $pun_config);
     
     $smarty->display('misc.rules.tpl');
     
     exit();
-    
+
 } else if ($action == 'markread') {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);

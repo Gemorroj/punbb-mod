@@ -4,7 +4,6 @@ require PUN_ROOT . 'include/common.php';
 
 require_once PUN_ROOT . 'wap/header.php';
 
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('pun_user', $pun_user);
 
 //require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
@@ -260,8 +259,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         
         $forums[] = $forum;
     }
-    
-    $smarty->assign('pun_config', $pun_config);
+
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_misc', $lang_misc);

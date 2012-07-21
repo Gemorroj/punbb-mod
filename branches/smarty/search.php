@@ -13,15 +13,6 @@ if (!$pun_user['g_read_board']) {
 	message($lang_search['No search permission']);
 }
 
-// Detect two byte character sets
-
-
-// UTF FIX BEGIN
-// ORIGINAL:
-//$multibyte = (isset($lang_common['lang_multibyte']) && $lang_common['lang_multibyte']) ? true : false;
-$multibyte = false;
-// UTF FIX END
-
 
 // Figure out what to do :-)
 if (isset($_GET['action']) || isset($_GET['search_id'])) {

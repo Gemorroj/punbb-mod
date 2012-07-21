@@ -121,7 +121,6 @@ if ($pun_config['o_quickjump']) {
 $smarty->assign('is_admmod', $is_admmod);
 
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('pun_config', $pun_config);
 
 $smarty->assign('cur_forum', $cur_forum);
 

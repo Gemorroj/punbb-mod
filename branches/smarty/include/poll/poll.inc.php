@@ -250,7 +250,7 @@ class _Poll
         if (!$buffered) {
             ob_start();
         } else {
-            header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="in"><strong>' . $lang_poll['poll']. '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div><div class="msg2"><span class="sub">';
@@ -284,7 +284,7 @@ class _Poll
         if (!$buffered) {
             ob_start();
         } else {
-            header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="in"><strong>' . $lang_poll['poll'] . '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div>
@@ -322,7 +322,7 @@ class _Poll
         if (!$buffered) {
             ob_start();
         } else{
-            header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="p_cnt p_cnt_' . $pollid . '"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div class="cnt_' . $pollid . '"><table><tr><td colspan="3" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
@@ -368,7 +368,7 @@ class _Poll
         if (!$buffered) {
             ob_start();
         } else {
-            header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="p_cnt p_cnt_' . $pollid . '"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div id="warning" style="display:none;"></div><table><tr><td colspan="2"><center>' . pun_htmlspecialchars($poll['description']) . '</center></td></tr>';
@@ -461,7 +461,7 @@ class _Poll
         global $lang_poll, $pun_user, $lang_common;
     
         if ($fromAjax) {
-            header('Content-Type: text/html; charset=' . $lang_common['lang_encoding']);
+            header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="pun blockform"><form id="pollcreate" method="post" action="#" enctype="multipart/form-data"><fieldset><div class="inform infldset"><div id="warning" style="display:none;"></div><table class="aligntop" cellspacing="0"><tr><th scope="row">' . $lang_poll['quest'] . '</th><td><textarea name="pdescription" class="wide" id="pdescription" wrap="off" tabindex="2"></textarea><span>' . $lang_poll['quest description'] . '</span></td></tr><tr><th scope="row">' . $lang_poll['allow multiselect'] . '</th><td><input type="radio" name="pmultiselect" value="1" tabindex="3" id="poll_yes" /><label for="poll_yes" style="display: inline;"> <strong>' . $lang_poll['yes'] . '</strong></label> <input type="radio" name="pmultiselect" value="0" checked="checked" tabindex="4" id="poll_no"/><label for="poll_no" style="display: inline;"> <strong>' . $lang_poll['no'] . '</strong></label><br/><span>' . $lang_poll['multiselect description'] . '</span></td></tr><tr><th scope="row">' . $lang_poll['how long'] . '</th><td><input name="pexpire" class="wide" id="pexpire" type="text" value="" tabindex="5" /><span>' . $lang_poll['how long description'] . '</span></td></tr><tr><th scope="row">' . $lang_poll['list answers'] . '</th><td><textarea class="wide" rows="8" name="pquestions" id="pquestions" wrap="off" tabindex="6"></textarea><span>' . $lang_poll['list answers description'] . '</span></td></tr></table>';

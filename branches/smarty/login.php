@@ -64,7 +64,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in')
     redirect(pun_htmlspecialchars($_POST['redirect_url']), $lang_login['Login redirect']);
 } else if($_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
-        header('Location: index.php', true, 301);
+        header('Location: index.php');
         exit;
     }
 

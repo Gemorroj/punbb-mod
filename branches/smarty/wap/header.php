@@ -1,5 +1,5 @@
 <?php
-if (!defined('PUN') or ! defined('PUN_ROOT')) exit();
+if (!defined('PUN') or !defined('PUN_ROOT')) exit;
 define('PUN_HEADER', 1);
 
 
@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 require_once(PUN_ROOT . 'include/PunTemplate.php');
 $smarty = new PunTemplate($pun_user['style_wap']);
 $smarty->assign('pun_start', $pun_start);
+$smarty->assign('pun_config', $pun_config);
 
 if ($pun_user['g_id'] < PUN_GUEST) {
 

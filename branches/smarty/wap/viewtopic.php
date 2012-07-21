@@ -37,25 +37,25 @@ if ($pid) {
     $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$id.' ORDER BY `posted`') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $num_posts = $db->num_rows($result);
 
-    for ($i = 0; $i<$num_posts; ++$i) {
-        
+    for ($i = 0; $i < $num_posts; ++$i) {
+
         $cur_id = $db->result($result, $i);
-        
+
         if ($cur_id == $pid) break;
     }
 
     ++$i; // we started at 0
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
-    
+
 } else if ($_GET['action'] == 'new' && ! $pun_user['is_guest']) {
     // If action=new, we redirect to the first new post (if any)
-    
+
     $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $first_new_post_id = $db->result($result);
 
     if ($first_new_post_id) {
-        
+
         $link = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . str_replace(array('\\', '//'), array('/', '/'), dirname($_SERVER['PHP_SELF']) . '/');
 
         header('Location: ' . $link . 'viewtopic.php?pid=' . $first_new_post_id . '#p' . $first_new_post_id, true, 301);
@@ -63,7 +63,7 @@ if ($pid) {
         // If there is no new post, we go to the last post
         header('Location: ' . $link . 'viewtopic.php?id=' . $id . '&action=last', true, 301);
     }
-    
+
     exit();
 } else if($_GET['action'] == 'last') {
     // If action=last, we redirect to the last post
@@ -72,25 +72,25 @@ if ($pid) {
     $last_post_id = $db->result($result);
 
     if ($last_post_id) {
-        
+
         $link = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . str_replace(array('\\', '//'), array('/', '/'), dirname($_SERVER['PHP_SELF']) . '/');
-        header('Location: ' . $link . 'viewtopic.php?pid='.$last_post_id.'#p'.$last_post_id,true,301);
-        
+        header('Location: ' . $link . 'viewtopic.php?pid=' . $last_post_id . '#p' . $last_post_id, true, 301);
+
         exit();
     }
 }
 
 // Fetch some info about the topic
 if (! $pun_user['is_guest']) {
-    
+
     $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 } else {
-    
+
     $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 }
 
-if (! $db->num_rows($result)) {
-    
+if (!$db->num_rows($result)) {
+
     wap_message($lang_common['Bad request']);
 }
 
@@ -98,14 +98,14 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (! $pun_user['is_guest']) {
-    
+
     $message_stack = array();
-    
+
     if ($cur_topic['log_time'] == null) {
-        
+
         $db->query('INSERT INTO '.$db->prefix.'log_topics (user_id, forum_id, topic_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$_SERVER['REQUEST_TIME'].')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
-        
+
         $db->query('UPDATE '.$db->prefix.'log_topics SET forum_id='.$cur_topic['forum_id'].', log_time='.$_SERVER['REQUEST_TIME'].' WHERE topic_id='.$id.' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
@@ -115,20 +115,20 @@ if (! $pun_user['is_guest']) {
     while ($topic = $db->fetch_assoc($result)) {
         
         if ((! $topic['log_time'] && $topic['last_post'] > $pun_user['last_visit']) || ($topic['log_time'] < $topic['last_post'] && $topic['last_post'] > $pun_user['last_visit'])){
-            
+
             $find_new = true;
             break;
         }
     }
 
     if (! $find_new) {
-        
-        $_SERVER['REQUEST_TIME'] += 10;
-        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'] .' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
-        
+
+        $requestTime = $_SERVER['REQUEST_TIME'] + 10;
+        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime .' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+
         if ($db->affected_rows() < 1) {
             
-            $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$_SERVER['REQUEST_TIME'].')');
+            $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$requestTime.')');
             $dberror = $db->error();
             
             if ($dberror['error_no'] && $dberror['error_no'] != 1062) {
@@ -297,7 +297,6 @@ $db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 
 
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('pun_config', $pun_config);
 
 $smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);

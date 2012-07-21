@@ -24,17 +24,16 @@ switch(@$_GET['id']) {
         $smarty->assign('page_title', $page_title);
         
         $smarty->display('help.1.tpl');
-    break;
+        break;
 
     //url/images
     case 2:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_help['Links and images'];
         
         $smarty->assign('page_title', $page_title);
-        $smarty->assign('pun_config', $pun_config);
         
         $smarty->display('help.2.tpl');
-    break;
+        break;
 
     //smilies
     case 3:
@@ -49,7 +48,7 @@ switch(@$_GET['id']) {
         
         $smarty->display('help.3.tpl');
         
-    break;
+        break;
 
 
     //url tag
@@ -59,7 +58,7 @@ switch(@$_GET['id']) {
         $smarty->assign('page_title', $page_title);
         
         $smarty->display('help.4.tpl');
-    break;
+        break;
     
 
     default:
@@ -68,7 +67,7 @@ switch(@$_GET['id']) {
         $smarty->assign('page_title', $page_title);
         
         $smarty->display('help.tpl');
-    break;
+        break;
 }
 
 require_once PUN_ROOT . 'wap/footer.php';

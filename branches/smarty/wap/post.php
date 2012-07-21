@@ -490,7 +490,6 @@ $smarty->assign('message', $message);
 $smarty->assign('quote', $quote);
 $smarty->assign('file_limit', $file_limit);
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('cur_index', $cur_index);
 //$smarty->assign('can_download', $can_download);

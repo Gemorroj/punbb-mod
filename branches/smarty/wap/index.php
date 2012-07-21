@@ -75,7 +75,6 @@ $smarty->assign('lang_common', $lang_common);
 
 $smarty->assign('lang_pms', $lang_pms);
 
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('pun_user', $pun_user);
 
 $smarty->assign('basename', basename($_SERVER['PHP_SELF']));

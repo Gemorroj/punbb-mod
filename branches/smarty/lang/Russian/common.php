@@ -1,21 +1,20 @@
 <?php
 // Determine what locale to use
-switch (PHP_OS)
-{
-case 'WINNT':
-case 'WIN32':
-$locale = 'russian';
-break;
+switch (PHP_OS) {
+    case 'WINNT':
+    case 'WIN32':
+        $locale = 'russian';
+        break;
 
-case 'FreeBSD':
-case 'NetBSD':
-case 'OpenBSD':
-$locale = 'ru_RU.utf-8';
-break;
+    case 'FreeBSD':
+    case 'NetBSD':
+    case 'OpenBSD':
+        $locale = 'ru_RU.utf-8';
+        break;
 
-default:
-$locale = 'ru_RU';
-break;
+    default:
+        $locale = 'ru_RU';
+        break;
 }
 
 // Attempt to set the locale
@@ -32,8 +31,6 @@ $lang_common = array(
 
 // Text orientation and encoding
 'lang_direction' => 'ltr',	// ltr (Left-To-Right) or rtl (Right-To-Left)
-'lang_encoding' => 'utf-8',
-'lang_multibyte' => true,
 
 // Notices
 'Bad request'			=>	'Неверный запрос. Ссылка, по которой вы пришли неверная или устаревшая.',

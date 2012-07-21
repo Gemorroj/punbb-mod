@@ -37,7 +37,7 @@ $page_title = pun_htmlspecialchars($pun_config['o_board_title'] . ' / ' . $cur_t
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html dir="'.$lang_common['lang_direction'].'">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset='.$lang_common['lang_encoding'].'" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="'.PUN_ROOT.'style/imports/printable.css" type="text/css">
 <title>'.$page_title.'</title>
 </head>

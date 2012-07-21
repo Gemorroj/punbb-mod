@@ -23,7 +23,7 @@ if ($_GET['action'] == 'change_pass') {
     if (isset($_GET['key'])) {
         // If the user is already logged in we shouldn't be here :)
         if (!$pun_user['is_guest']) {
-            header('Location: index.php', true, 301);
+            header('Location: index.php');
             exit;
         }
 
@@ -363,7 +363,6 @@ exit();
             $smarty->assign('page_title', $page_title);
             $smarty->assign('id', $id);
             $smarty->assign('pun_user', $pun_user);
-            $smarty->assign('pun_config', $pun_config);
             $smarty->assign('lang_profile', $lang_profile);
             $smarty->assign('lang_common', $lang_common);
             $smarty->display('profile.avatar.tpl');
@@ -956,7 +955,6 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     //preview
     $smarty->assign('id', $id);
     $smarty->assign('pun_user', $pun_user);
-    $smarty->assign('pun_config', $pun_config);
     $smarty->assign('pun_start', $pun_start);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->assign('lang_common', $lang_common);
@@ -993,7 +991,6 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
@@ -1015,7 +1012,6 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1029,7 +1025,6 @@ else {
         
         $smarty->assign('id', $id);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
@@ -1044,7 +1039,6 @@ else {
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
         $smarty->assign('user', $user);
@@ -1070,7 +1064,6 @@ else {
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
         $smarty->assign('user', $user);
@@ -1085,7 +1078,6 @@ else {
         $smarty->assign('id', $id);
         $smarty->assign('pun_start', $pun_start);
         $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_common', $lang_common);
         $smarty->assign('lang_prof_reg', $lang_prof_reg);

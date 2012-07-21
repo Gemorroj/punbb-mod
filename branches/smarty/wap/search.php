@@ -13,16 +13,6 @@ if (!$pun_user['g_read_board']) {
 	wap_message($lang_search['No search permission']);
 }
 
-// Detect two byte character sets
-
-
-// UTF FIX BEGIN
-// ORIGINAL:
-//$multibyte = (isset($lang_common['lang_multibyte']) && $lang_common['lang_multibyte']) ? true : false;
-$multibyte = false;
-// UTF FIX END
-
-
 // Figure out what to do :-)
 if (isset($_GET['action']) || isset($_GET['search_id'])) {
     $forum = (isset($_GET['forum'])) ? intval($_GET['forum']) : -1;
@@ -527,7 +517,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $smarty->assign('search_set', $search_set);
         
         $smarty->assign('forum_list', $forum_list);
-        $smarty->assign('pun_config', $pun_config);
         $smarty->assign('show_as', $show_as);
         
         $smarty->assign('lang_search', $lang_search);
@@ -567,7 +556,6 @@ $smarty->assign('page_title', $pun_config['o_board_title'] . ' :: ' . $lang_sear
 
 $smarty->assign('forums', $forums);
 $smarty->assign('lang_search', $lang_search);
-$smarty->assign('pun_config', $pun_config);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('lang_common', $lang_common);
 
