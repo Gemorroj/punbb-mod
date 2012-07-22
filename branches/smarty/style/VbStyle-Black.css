@@ -4,7 +4,7 @@
 font-family: Verdana, Geneva, Lucida, 'Lucida grande', Arial, Helvetica, sans-serif;
 }
 .pun {FONT-SIZE: 11px; LINE-HEIGHT: normal}
-* HTML .pun {FONT-SIZE: 68.75%}
+* html .pun {FONT-SIZE: 68.75%}
 .pun table, .pun input, .pun select, .pun optgroup, .pun textarea, div.postmsg p.postedit {FONT-SIZE: 1em}
 .pun pre {FONT-FAMILY: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace}
 .pun h2, .pun h4 {font-size: 9px;}

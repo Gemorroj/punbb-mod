@@ -80,7 +80,7 @@ border-right: 1px solid #89959B;
 padding: 6px 6px;
 }
 .pun h2 span {
-background-position: 0% 50%;
+background-position: 0 50%;
 background-repeat: no-repeat;
 background-image: url(../img/VbStyle-Black/forum_arrow.gif);
 padding: 11px;
@@ -94,7 +94,7 @@ td.tcr {
 background-color: #E4EAF2;
 }
 td.tcr a{
-background: transparent url(../img/VbStyle-Black/forum_post.gif) no-repeat 0% 0%;
+background: transparent url(../img/VbStyle-Black/forum_post.gif) no-repeat 0 0;
 padding-left: 12px;
 }
 .pun div.postfootleft p {
