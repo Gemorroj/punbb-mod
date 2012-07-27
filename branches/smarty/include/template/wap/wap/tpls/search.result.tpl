@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-{assign var='date_format' value='%Y-%m-%d %H:%M:%S'}
+
 
 {assign var='j' value='false'}
 {assign var='forum' value=''}

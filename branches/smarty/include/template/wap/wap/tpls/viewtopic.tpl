@@ -22,8 +22,7 @@
 {* Кеш пользовательских подписей *}
 {assign var='signature_cache' value=''}
 
-{* Образец показа даты/времени *}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 {* Счетчик сообщений *}
 {assign var='post_cont' value='0'}

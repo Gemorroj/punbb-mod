@@ -6,7 +6,7 @@
 </div>
 <form method="post" action="moderate.php?fid={$fid}">
 
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 {assign var='Post_topic' value='Post topic'}
 {assign var='Empty_forum' value='Empty forum'}

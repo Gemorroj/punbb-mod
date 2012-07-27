@@ -183,7 +183,7 @@ if(isset($_GET['reply']) || isset($_GET['quote'])){
         $quote = '[quote='.$message['sender'].']'.$message['message'].'[/quote]';
     }
     // Add subject
-    $subject = 'RE:' == substr($message['subject'], 3) ? $message['subject'] : 'RE: ' . $message['subject'];
+    $subject = 'RE:' == substr($message['subject'], 0, 3) ? $message['subject'] : 'RE: ' . $message['subject'];
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Send a message'];
@@ -192,8 +192,13 @@ if($pun_user['messages_enable'] != 1){
     wap_message($lang_pms['PM disabled'] . ' <a href="message_list.php?&box=2">'. $lang_pms['Options PM'] .'</a>');
 }
 
+$smarty->assign('username', $username);
+$smarty->assign('subject', $subject);
+$smarty->assign('quote', $quote);
+
 $smarty->assign('lang_pms', $lang_pms);
 $smarty->assign('lang_common', $lang_common);
+$smarty->assign('lang_post', $lang_post);
 
 $smarty->display('message_send.tpl');
 }

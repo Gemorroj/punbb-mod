@@ -10,7 +10,7 @@
 {assign var='Posted_by' value='Posted by'}
 {assign var='Go_to_page' value='Go to page'}
 
-{assign var='date_format' value='%Y-%m-%d %H:%M:%S'}
+
 
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a> &#187; <a href="{$smarty.server.PHP_SELF}">{$lang_uploads.Uploader}</a>

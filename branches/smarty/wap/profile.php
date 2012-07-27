@@ -1089,6 +1089,52 @@ else {
     else
     if ($_GET['section'] == 'admin') {
         
+        if ($pun_user['g_id'] > PUN_MOD ||
+            ($pun_user['g_id'] == PUN_MOD &&
+             ! $pun_config['p_mod_ban_users'])) {
+            
+            wap_message($lang_common['Bad request']);
+        }
         
+        $page_title = $pun_config['o_board_title'] . ' &#187; ' . $lang_common['Profile'] . ' - ' . $lang_profile['Section admin'];
+        //wap_generate_profile_menu('admin');
+        
+        if ($pun_user['g_id'] <> PUN_MOD) {
+            
+            if ($pun_user['id'] != $id) {
+                
+                $result = $db->query('SELECT `g_id`, `g_title` FROM `' . $db->prefix .
+                    'groups` WHERE `g_id`!=' . PUN_GUEST . ' ORDER BY `g_title`') or error('Unable to fetch user group list',
+                    __FILE__, __LINE__, $db->error());
+                
+                while ($cur_group = $db->fetch_assoc($result)) {
+                    
+                    $groups[] = $cur_group;
+                }
+            }
+            
+            if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
+                
+                $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.moderators FROM ' .
+                    $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix .
+                    'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or
+                    error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+
+                while ($cur_forum = $db->fetch_assoc($result)) {
+                    
+                    $forums[] = $cur_forum;
+                }
+            }
+        }
+        
+        $smarty->assign('groups', $groups);
+        $smarty->assign('forums', $forums);
+        $smarty->assign('pun_user', $pun_user);
+        $smarty->assign('user', $user);
+        $smarty->assign('lang_profile', $lang_profile);
+        $smarty->assign('id', $id);
+        
+        $smarty->display('profile.admin.tpl');
+        exit();
     }
 }

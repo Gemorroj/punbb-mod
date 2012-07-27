@@ -15,7 +15,7 @@
 {assign var='AOL_IM' value='AOL IM'}
 {assign var='User_activity' value='User activity'}
 {assign var='Show_karma' value='Show karma'}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 {assign var='Last_post' value='Last post'}
 
 {assign var='Show_files' value='Show files'}

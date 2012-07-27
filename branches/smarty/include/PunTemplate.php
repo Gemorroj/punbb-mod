@@ -18,7 +18,7 @@ class PunTemplate extends Smarty
 
         $dir = dirname(__FILE__);
 
-        $root = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', $dir)) . '/template/wap/' . $punDesignName . '/';
+        //$root = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', $dir)) . '/template/wap/' . $punDesignName . '/';
 
         $punDesignDir = $dir . '/template/wap/' . $punDesignName;
 
@@ -30,6 +30,6 @@ class PunTemplate extends Smarty
         $this->caching = Smarty::CACHING_OFF;
         $this->compile_check = true; // dev mode
 
-        $this->assign('punDesignDir', $root);
+        //$this->assign('punDesignDir', $root);
     }
 }

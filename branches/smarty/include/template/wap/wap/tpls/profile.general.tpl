@@ -1,8 +1,7 @@
 {include file='header.tpl'}
 {include file='profile.navi.tpl'}
 
-{* Образец показа даты/времени *}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 {assign var='Section_essentials' value='Section essentials'}
 {assign var='Change_pass' value='Change pass'}

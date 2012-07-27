@@ -1,6 +1,5 @@
 {include file='header.tpl'}
 
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
 
 <div class="in">
 {$lang_common.Username} | {$lang_common.Vote} | {$lang_common.Date}

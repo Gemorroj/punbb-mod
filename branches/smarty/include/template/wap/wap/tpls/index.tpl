@@ -1,6 +1,6 @@
 {include file='header.tpl'}
 
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 {assign var='Show_new_posts' value='Show new posts'}
 {assign var='Mark_all_as_read' value='Mark all as read'}
 {assign var='Empty_board' value='Empty board'}

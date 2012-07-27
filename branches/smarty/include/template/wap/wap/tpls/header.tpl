@@ -2,6 +2,7 @@
 {assign var='New_reports'   value='New reports'}
 {assign var='Full_inbox'    value='Full inbox'}
 {assign var='New_messages'  value='New messages'}
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">

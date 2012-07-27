@@ -5,7 +5,7 @@
     <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$cur_forum.forum_name|escape}
 </div>
 
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 {assign var='Post_topic' value='Post topic'}
 {assign var='Empty_forum' value='Empty forum'}

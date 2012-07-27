@@ -1,7 +1,6 @@
 {include file='header.tpl'}
 
-{* Образец показа даты/времени *}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 <div class="con">
 <strong>{$name}</strong>
@@ -28,7 +27,7 @@
 <span class="grey">{$lang_topic.Offline_m}</span>
 {/if}
 <br/>
-{$cur_post.posted}<br/>
+{$cur_post.posted|date_format:$date_format}<br/>
 
 {if $smarty.get.id > 0}
 {assign var='Link_separator_m' value='Link separator_m'}

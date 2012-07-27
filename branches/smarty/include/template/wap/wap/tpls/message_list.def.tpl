@@ -1,7 +1,6 @@
 {include file='header.tpl'}
 
-{* Образец показа даты/времени *}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 <div class="con">
 <strong>{$name}</strong>

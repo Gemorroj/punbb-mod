@@ -1,7 +1,6 @@
 {include file='header.tpl'}
 
-{* Образец показа даты/времени *}
-{assign var='date_format' value='%d/%m/%y %H:%I:%S'}
+
 
 {assign var='User_search' value='User search'}
 {assign var='User_find_legend' value='User find legend'}
