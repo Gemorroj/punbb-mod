@@ -9,8 +9,7 @@
 {assign var='Upload_warn' value='Upload warn'}
 {assign var='Posted_by' value='Posted by'}
 {assign var='Go_to_page' value='Go to page'}
-
-
+{assign var='Upload_rules' value='Upload rules'}
 
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a> &#187; <a href="{$smarty.server.PHP_SELF}">{$lang_uploads.Uploader}</a>

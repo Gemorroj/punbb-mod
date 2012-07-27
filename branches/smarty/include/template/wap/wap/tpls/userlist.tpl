@@ -1,8 +1,12 @@
 {include file='header.tpl'}
 
-
-
 {assign var='User_search' value='User search'}
+
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_search.$User_search}
+</div>
+
 {assign var='User_find_legend' value='User find legend'}
 {assign var='User_group' value='User group'}
 {assign var='All_users' value='All users'}

@@ -5,6 +5,12 @@
 {assign var='Section_display' value='Section display'}
 {assign var='Section_privacy' value='Section privacy'}
 {assign var='Section_admin' value='Section admin'}
+{assign var='Profile_menu' value='Profile menu'}
+
+{* Навигация: Главная / Профиль *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_profile.$Profile_menu}
+</div>
 
 <div class="navlinks">
 <a href="profile.php?section=essentials&amp;id={$id}">{$lang_profile.$Section_essentials}</a> |

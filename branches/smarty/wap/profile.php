@@ -18,6 +18,9 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 // Load the profile.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 
+// Общий заголовок
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'];
+$smarty->assign('page_title', $page_title);
 
 if ($_GET['action'] == 'change_pass') {
     if (isset($_GET['key'])) {
@@ -109,7 +112,7 @@ if ($_GET['action'] == 'change_pass') {
         wap_redirect('profile.php?section=essentials&amp;id=' . $id);
     }
 
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' / ' . $lang_profile['Change pass'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Change pass'];
     $required_fields = array('req_old_password' => $lang_profile['Old pass'], 'req_new_password1' => $lang_profile['New pass'], 'req_new_password2' => $lang_profile['Confirm new pass']);
     $focus_element = array('change_pass', (($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1'));
 
@@ -233,7 +236,7 @@ exit();
                     '">' . $pun_config['o_admin_email'] . '</a>.', true);
             }
 
-        $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' / ' . $lang_profile['Change e-mail'];
+        $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Change e-mail'];
         $required_fields = array('req_new_email' => $lang_profile['New e-mail'], 'req_password' => $lang_common['Password']);
         $focus_element = array('change_email', 'req_new_email');
 
@@ -357,7 +360,7 @@ exit();
             }
             
             //upload_avatar
-            $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' / ' . $lang_profile['Upload avatar'];
+            $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Upload avatar'];
             $required_fields = array('req_file' => $lang_profile['File']);
             $focus_element = array('upload_avatar', 'req_file');
             
@@ -572,7 +575,7 @@ exit();
                                 }
                                 
                                 //Delete user
-                                $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' / ' . $lang_profile['Delete user']. ' - ' . $username;
+                                $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Delete user']. ' ' . $username;
                                 
                                 $smarty->assign('page_title', $page_title);
                                 $smarty->assign('id', $id);
@@ -951,7 +954,7 @@ unset($q);
 if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && ! $pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD && $user['g_id'] < PUN_GUEST)))) {
     
     //view Profile
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' / ' . $lang_profile['Preview'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Preview'];
     define('PUN_ALLOW_INDEX', 1);
     //preview
     $smarty->assign('page_title', $page_title);
