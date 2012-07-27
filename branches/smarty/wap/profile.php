@@ -1137,6 +1137,7 @@ else {
         $smarty->assign('forums', $forums);
         $smarty->assign('pun_user', $pun_user);
         $smarty->assign('user', $user);
+        $smarty->assign('lang_common', $lang_common);
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('id', $id);
         
