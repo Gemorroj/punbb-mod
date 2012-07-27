@@ -1,5 +1,9 @@
 {include file='header.tpl'}
 
+{if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
+{include file='profile.navi.tpl'}
+{/if}
+
 <div class="con">
     {$lang_common.Profile} <strong>{$user.username|escape}</strong>
 </div>

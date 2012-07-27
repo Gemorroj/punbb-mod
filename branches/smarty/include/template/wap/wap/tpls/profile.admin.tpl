@@ -1,4 +1,5 @@
 {include file='header.tpl'}
+{include file='profile.navi.tpl'}
 
 {assign var='Section_admin' value='Section admin'}
 {assign var='Delete_ban_legend' value='Delete ban legend'}

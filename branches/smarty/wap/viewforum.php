@@ -124,7 +124,8 @@ $smarty->assign('pun_user', $pun_user);
 
 $smarty->assign('cur_forum', $cur_forum);
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_forum['forum_name']);
+$page_title = $pun_config['o_board_title'] . ' / ' . $cur_forum['forum_name'];
+$smarty->assign('page_title', $page_title);
 
 $smarty->assign('conditions', $conditions);
 

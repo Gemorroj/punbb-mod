@@ -3,7 +3,7 @@
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a> &#187;
 
-{if $tip}
+{if $tid}
 <a href="viewforum.php?id={$cur_posting.id}">{$cur_posting.forum_name|escape}</a>
 {elseif $fid}
 {$cur_posting.forum_name|escape}

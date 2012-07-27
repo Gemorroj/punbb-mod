@@ -475,10 +475,11 @@ if (isset($_POST['form_sent'])) {
     }
 }
 
-require_once 'header.php';
+require_once PUN_ROOT . 'wap/header.php';
 
 //var_dump($smarty);
-
+$page_title = $pun_config['o_board_title'].' / '.$lang_post['Post a reply'];;
+$smarty->assign('page_title', $page_title);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('tid', $tid);

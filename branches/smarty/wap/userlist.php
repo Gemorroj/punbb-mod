@@ -23,7 +23,7 @@ $sort_by = (!isset($_GET['sort_by']) || $_GET['sort_by'] != 'username' && $_GET[
 $sort_dir = (!isset($_GET['sort_dir']) || $_GET['sort_dir'] != 'ASC' && $_GET['sort_dir'] != 'DESC') ? 'ASC' : mb_strtoupper($_GET['sort_dir']);
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_common['User list'];
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['User list'];
 if ($pun_user['g_search_users'] == 1) {
     $focus_element = array('userlist', 'username');
 }
@@ -86,7 +86,7 @@ echo '<pre>';
 var_dump($smarty);
 echo '</pre>';
 */
-
+$smarty->assign('page_title', $page_title);
 $smarty->assign('pun_user', $username);
 $smarty->assign('show_group', $show_group);
 $smarty->assign('sort_by', $sort_by);

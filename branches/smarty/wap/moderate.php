@@ -147,7 +147,9 @@ if (isset($_GET['tid'])) {
             wap_redirect('viewtopic.php?id='.$tid);
         }
         
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
+        $page_title = $pun_config['o_board_title'].' / '.$lang_misc['Moderate'];
+        
+        $smarty->assign('page_title', $page_title);
         
         $smarty->display('moderate.delete_topic.tpl');
         exit();
@@ -251,7 +253,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $action = 'single';
     }
     
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
+    $page_title = $pun_config['o_board_title'].' / '.$lang_misc['Moderate'];
     
     $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
     
@@ -260,6 +262,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $forums[] = $forum;
     }
 
+    $smarty->assign('page_title', $page_title);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_misc', $lang_misc);
@@ -342,8 +345,9 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         wap_redirect('viewforum.php?id='.$fid);
     }
     
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Moderate'];
+    $page_title = $pun_config['o_board_title'].' / '.$lang_misc['Moderate'];
     
+    $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_forum', $lang_forum);
     $smarty->assign('lang_common', $lang_common);
     $smarty->assign('cur_forum', $cur_forum);
@@ -454,7 +458,7 @@ if ($cur_forum['redirect_url']) {
     wap_message($lang_common['Bad request']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.pun_htmlspecialchars($cur_forum['forum_name']);
+$page_title = $pun_config['o_board_title'].' / '.$cur_forum['forum_name'];
 
 // Determine the topic offset (based on $_GET['p'])
 $num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
@@ -485,7 +489,7 @@ while ($topic = $db->fetch_assoc($result)) {
 }
 
 // If there are topics in this forum.
-
+$smarty->assign('page_title', $page_title);
 $smarty->assign('lang_forum', $lang_forum);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('cur_forum', $cur_forum);

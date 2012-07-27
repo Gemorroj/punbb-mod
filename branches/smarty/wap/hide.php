@@ -215,7 +215,7 @@ if (!$pun_user['is_guest'] && $pun_config['o_subscriptions'] == 1) {
     $subscraction = null;
 }
 */
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' &#187; '.$cur_topic['subject']);
+$page_title = $pun_config['o_board_title'].' / '.$cur_topic['subject'];
 
 define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT.'wap/header.php';
@@ -310,7 +310,7 @@ $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_topic['subject']);
+$smarty->assign('page_title', $page_title);
 $smarty->assign('forum_id', $id);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);

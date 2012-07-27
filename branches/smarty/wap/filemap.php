@@ -9,7 +9,7 @@ if (!$pun_user['g_read_board']) {
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' &#187; '.$lang_common['Attachments']);
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Attachments'];
 define('PUN_ALLOW_INDEX', 0);
 define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
@@ -109,7 +109,7 @@ if($fid_list){
     }
 }
 
-
+$smarty->assign('page_title', $page_title);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('user', $user);
 $smarty->assign('attachments', $attachments);

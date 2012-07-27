@@ -15,8 +15,8 @@ if ($pun_config['o_pms_enabled'] && $pun_user['g_pm'] == 1) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-//$page_title = pun_htmlspecialchars($pun_config['o_board_title']);
-$smarty->assign('page_title', $pun_config['o_board_title']);
+$page_title = $pun_config['o_board_title'];
+$smarty->assign('page_title', $page_title);
 
 define('PUN_ALLOW_INDEX', 1);
 //require_once PUN_ROOT . 'wap/header.php';

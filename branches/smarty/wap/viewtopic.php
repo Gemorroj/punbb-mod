@@ -216,12 +216,7 @@ if (!$pun_user['is_guest'] && $pun_config['o_subscriptions'] == 1) {
 }
 */
 
-//$page_title = pun_htmlspecialchars($pun_config['o_board_title'] . ' &#187; ' . $cur_topic['subject']);
 define('PUN_ALLOW_INDEX', 1);
-//require_once PUN_ROOT.'wap/header.php';
-
-
-//echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
 
 include_once PUN_ROOT . 'include/parser.php';
 
@@ -295,6 +290,9 @@ if ($pun_config['o_quickjump']) {
 // Increment "num_views" for topic
 $db->query('UPDATE LOW_PRIORITY '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
+$page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['forum_name'] . ' / ' . $cur_topic['subject'];
+$smarty->assign('page_title', $page_title);
+
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
 
@@ -312,7 +310,6 @@ $smarty->assign('lang_pms', $lang_pms);
 include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 $smarty->assign('lang_misc', $lang_misc);
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ': ' . $cur_topic['subject']);
 $smarty->assign('forum_id', $id);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);

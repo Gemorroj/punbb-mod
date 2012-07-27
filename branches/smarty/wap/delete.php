@@ -84,10 +84,11 @@ if (isset($_POST['delete'])) {
 }
 
 
-$page_title = $pun_config['o_board_title'].' &#187; '.$lang_delete['Delete post'];
+$page_title = $pun_config['o_board_title'].' / '.$lang_delete['Delete post'];
 require_once PUN_ROOT.'wap/header.php';
 include_once PUN_ROOT.'include/parser.php'; //parser.php будет использоваться в шаблоне.
 
+$smarty->assign('page_title', $page_title);
 $smarty->assign('id', $id);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('cur_post', $cur_post);

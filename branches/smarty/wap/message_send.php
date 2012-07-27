@@ -186,12 +186,13 @@ if(isset($_GET['reply']) || isset($_GET['quote'])){
     $subject = 'RE:' == substr($message['subject'], 0, 3) ? $message['subject'] : 'RE: ' . $message['subject'];
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_pms['Send a message'];
+$page_title = $pun_config['o_board_title'].' / '.$lang_pms['Send a message'];
 
 if($pun_user['messages_enable'] != 1){
     wap_message($lang_pms['PM disabled'] . ' <a href="message_list.php?&box=2">'. $lang_pms['Options PM'] .'</a>');
 }
 
+$smarty->assign('page_title', $page_title);
 $smarty->assign('username', $username);
 $smarty->assign('subject', $subject);
 $smarty->assign('quote', $quote);

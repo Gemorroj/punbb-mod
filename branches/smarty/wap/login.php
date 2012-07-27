@@ -129,7 +129,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
         }
     }
 
-    $page_title = $pun_config['o_board_title'].' :: '.$lang_login['Request pass'];
+    $page_title = $pun_config['o_board_title'].' / '.$lang_login['Request pass'];
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_common', $lang_common);
@@ -147,7 +147,7 @@ if (!$pun_user['is_guest']) {
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)
 $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($pun_config['o_base_url']).'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
-$page_title = $pun_config['o_board_title'].' :: '.$lang_common['Login'];
+$page_title = $pun_config['o_board_title'].' / '.$lang_common['Login'];
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('lang_common', $lang_common);

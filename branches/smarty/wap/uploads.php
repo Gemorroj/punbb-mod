@@ -71,7 +71,7 @@ require PUN_ROOT . 'include/common.php';
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/uploads.php';
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_uploads['Uploader'];
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_uploads['Uploader'];
 
 // Check permissions
 $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = ' . $pun_user['g_id']));
@@ -315,7 +315,7 @@ function dir_size($dir)
 }
 
 //$smarty->debugging = true;
-
+$smarty->assign('page_title', $page_title);
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_uploads', $lang_uploads);
 $smarty->assign('upl_conf', $upl_conf);

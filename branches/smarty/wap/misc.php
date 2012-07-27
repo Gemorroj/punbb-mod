@@ -20,7 +20,7 @@ if ($action == 'rules') {
     // Load the register.php language file
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
 
-    $page_title = $pun_config['o_board_title'] . ' :: ' . $lang_register['Forum rules'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Forum rules'];
     
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_register', $lang_register);
@@ -120,7 +120,7 @@ if ($action == 'rules') {
     // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to the users profile after the e-mail is sent)
     $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote($pun_config['o_base_url']) . '/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
-    $page_title = $pun_config['o_board_title'] . ' &#187; ' . $lang_misc['Send e-mail to'] . ' ' . $recipient;
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_misc['Send e-mail to'] . ' - ' . $recipient;
     $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);
     $focus_element = array('email', 'req_subject');
     
@@ -188,7 +188,7 @@ if ($action == 'rules') {
         wap_redirect('viewtopic.php?pid='.$post_id.'#p'.$post_id);
     }
     
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_misc['Report post'];
+    $page_title = $pun_config['o_board_title'].' / '.$lang_misc['Report post'];
     $required_fields = array('req_reason' => $lang_misc['Reason']);
     $focus_element = array('report', 'req_reason');
     

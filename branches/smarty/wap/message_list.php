@@ -55,7 +55,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN(' . $_POST['messages'] . ') AND owner=\''.$pun_user['id'].'\'') or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
         wap_redirect('message_list.php?box=' . intval($_POST['box']));
     } else {
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' &#187; ' . $lang_pms['Multidelete'];
+        $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Multidelete'];
         $idlist = is_array($_POST['delete_messages']) ? array_map('intval', $_POST['delete_messages']) : array();
         
         $smarty->assign('page_title', $page_title);
@@ -75,7 +75,8 @@ else if(isset($_GET['action']) && $_GET['action'] == 'markall') {
     wap_redirect('message_list.php?box='.$box.'&amp;p='.$p);
 }
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ' :: ' . $lang_pms['Private Messages'] . ' - ' . $name);
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Private Messages'] . ' - ' . $name;
+$smarty->assign('page_title', $page_title);
 
 if ($box < 2) {
     // Get message count

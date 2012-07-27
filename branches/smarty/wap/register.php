@@ -29,7 +29,7 @@ if (!$pun_config['o_regs_allow']) {
 if ($_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
-    $page_title = $pun_config['o_board_title'].' :: '.$lang_register['Register'];
+    $page_title = $pun_config['o_board_title'].' / '.$lang_register['Register'];
     
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_common', $lang_common);
@@ -244,7 +244,7 @@ if ($_GET['cancel']) {
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_register['Register'];
+$page_title = $pun_config['o_board_title'].' / '.$lang_register['Register'];
 
 // Image Verification mod BEGIN
 //

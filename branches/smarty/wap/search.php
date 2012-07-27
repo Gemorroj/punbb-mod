@@ -492,7 +492,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }
         $db->free_result($result);
 
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$lang_search['Search results'];
+        $page_title = $pun_config['o_board_title'].' / '.$lang_search['Search results'];
 //        require_once PUN_ROOT . 'wap/header.php';
 
 
@@ -513,6 +513,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         
         include_once PUN_ROOT.'include/parser.php';
         
+        $smarty->assign('page_title', $page_title);
         $smarty->assign('lang_common', $lang_common);
         $smarty->assign('search_set', $search_set);
         
@@ -552,7 +553,8 @@ while ($cur_forum = $db->fetch_assoc($result)) {
 
 $smarty->debugging = true;
 
-$smarty->assign('page_title', $pun_config['o_board_title'] . ' :: ' . $lang_search['Search']);
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_search['Search'];
+$smarty->assign('page_title', $page_title);
 
 $smarty->assign('forums', $forums);
 $smarty->assign('lang_search', $lang_search);
