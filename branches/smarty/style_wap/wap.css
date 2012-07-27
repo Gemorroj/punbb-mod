@@ -1,4 +1,4 @@
-body{font-family:verdana,times,serif;font-size:small;color:#06242f;background:#dce1e2;margin:0;padding:1px;border:3px solid #ebebeb}
+body{margin:auto;max-width:640px; font-family:verdana,times,serif;font-size:small;color:#06242f;background:#dce1e2;padding:1px;border:3px solid #ebebeb}
 img{vertical-align:middle;margin:0;padding:0;border:0}
 form{width:100%;margin:0;padding:0}
 input, textarea, select{border:1px solid #bdcfd7;background:#fff;margin:1px 2px;border-radius:2pt}

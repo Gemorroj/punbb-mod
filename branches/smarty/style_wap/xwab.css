@@ -1,4 +1,4 @@
-body{background:#000;color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px}
+body{margin:0px auto;max-width:640px; background:#000;color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px}
 img{vertical-align:middle;margin:0;padding:0;border:0}
 form{width:100%;margin:0;padding:0}
 a:link,a:active,a:visited{color:#F90;text-decoration:none;border:1px solid transparent;padding:1px}
