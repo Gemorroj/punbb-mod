@@ -113,7 +113,7 @@ if ($action == 'rules') {
 
         pun_mail($recipient_email, $mail_subject, $mail_message, '"' . str_replace('"', '', $pun_user['username']) . '" <' . $pun_user['email'] . '>');
 
-        wap_redirect(htmlspecialchars($_POST['redirect_url']));
+        wap_redirect($_POST['redirect_url']);
     }
 
 

@@ -98,10 +98,10 @@ if ($_GET['action'] == 'active' || $_GET['action'] == 'new') {
         $url_action = ($_GET['action'] == 'active') ? '&amp;action=new' : '';
 
         // Send XML/no cache headers
-        header('Content-Type: text/xml');
+        header('Content-Type: application/xml');
         header('Expires: ' . date('r') . ' GMT');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Pragma: public');
+        header('Cache-Control: no-store, must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: no-cache');
 
         // It's time for some syndication!
         echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n".

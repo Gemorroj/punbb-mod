@@ -12,7 +12,7 @@ if ($to = intval($_GET['to'])) {
     
     vote($to, intval($_GET['vote']));
     $pid = intval($_GET['pid']);
-    wap_redirect('http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/viewtopic.php?pid=' . $pid . '#p' . $pid);
+    wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
     exit;
 }
 

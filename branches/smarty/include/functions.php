@@ -346,7 +346,7 @@ function generate_wap_navlinks()
     }
 
 
-    return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location=(\'' . $pun_config['o_base_url'] . '/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">' . implode('', $out) . '</select> <input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></div></form>';
+    return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location.assign(\'' . $pun_config['o_base_url'] . '/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">' . implode('', $out) . '</select> <input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></div></form>';
 }
 
 
@@ -1059,10 +1059,7 @@ function wap_redirect($destination_url)
         //echo $destination_url;
     }
 
-    header('Cache-Control: no-store, no-cache, must-revalidate');// HTTP/1.1
-    header('Cache-Control: post-check=0, pre-check=0', false);
-    header('Pragma: no-cache');// HTTP/1.0
-    header('Location: ' . str_replace('&amp;', '&', $destination_url), true, 301);
+    header('Location: ' . $destination_url, true, 301);
     exit;
 }
 

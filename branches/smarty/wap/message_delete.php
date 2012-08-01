@@ -38,7 +38,7 @@ if (isset($_POST['delete'])) {
     $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id) or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
     // Redirect
-    wap_redirect('message_list.php?box='.intval($_POST['box']).'&amp;p='.intval($_POST['p']));
+    wap_redirect('message_list.php?box='.intval($_POST['box']).'&p='.intval($_POST['p']));
 } else {
     
     $page_title = $pun_config['o_board_title'].' / '.$lang_pms['Delete message'];

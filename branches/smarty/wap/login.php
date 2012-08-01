@@ -61,7 +61,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     $expire = ($save_pass == 1) ? time() + 31536000 : 0;
     pun_setcookie($user_id, $form_password_hash, $expire);
 
-    wap_redirect(htmlspecialchars($_POST['redirect_url']));
+    wap_redirect($_POST['redirect_url']);
 } else if ($_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
         header('Location: index.php');

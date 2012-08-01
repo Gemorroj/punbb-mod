@@ -109,7 +109,7 @@ if ($_GET['action'] == 'change_pass') {
             pun_setcookie($pun_user['id'], $new_password_hash, $expire);
         }
 
-        wap_redirect('profile.php?section=essentials&amp;id=' . $id);
+        wap_redirect('profile.php?section=essentials&id=' . $id);
     }
 
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Change pass'];
@@ -356,7 +356,7 @@ exit();
                 $db->query('UPDATE ' . $db->prefix . 'users SET use_avatar=1 WHERE id=' . $id) or
                     error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
-                wap_redirect('profile.php?section=personality&amp;id=' . $id);
+                wap_redirect('profile.php?section=personality&id=' . $id);
             }
             
             //upload_avatar
@@ -387,7 +387,7 @@ exit();
                 $db->query('UPDATE ' . $db->prefix . 'users SET use_avatar=0 WHERE id=' . $id) or
                     error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
-                wap_redirect('profile.php?section=personality&amp;id=' . $id);
+                wap_redirect('profile.php?section=personality&id=' . $id);
             } else if (isset($_POST['update_group_membership'])) {
                     if ($pun_user['g_id'] > PUN_ADMIN) {
                         wap_message($lang_common['No permission']);
@@ -420,7 +420,7 @@ exit();
                         }
                     }
 
-                    wap_redirect('profile.php?section=admin&amp;id=' . $id);
+                    wap_redirect('profile.php?section=admin&id=' . $id);
                 } else if ($_POST['update_forums']) {
                         if ($pun_user['g_id'] > PUN_ADMIN) {
                             wap_message($lang_common['No permission']);
@@ -462,13 +462,13 @@ exit();
                                 }
                         }
 
-                        wap_redirect('profile.php?section=admin&amp;id=' . $id);
+                        wap_redirect('profile.php?section=admin&id=' . $id);
                     } else if ($_POST['ban']) {
                             if ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_ban_users'])) {
                                 wap_message($lang_common['No permission']);
                             }
 
-                            wap_redirect(PUN_ROOT . 'admin_bans.php?add_ban=' . $id);
+                            wap_redirect('admin_bans.php?add_ban=' . $id);
                         } else if ($_POST['delete_user'] || $_POST['delete_user_comply']) {
                                 if ($pun_user['g_id'] > PUN_ADMIN) {
                                     wap_message($lang_common['No permission']);
@@ -913,7 +913,7 @@ exit();
                                         }
                                     }
 
-                                    wap_redirect('profile.php?section=' . htmlspecialchars($_GET['section']) . '&amp;id=' . $id);
+                                    wap_redirect('profile.php?section=' . htmlspecialchars($_GET['section']) . '&id=' . $id);
                                 }
 
 // REAL MARK TOPIC AS READ MOD BEGIN
