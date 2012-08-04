@@ -169,3 +169,7 @@ background-color:rgb(173,173,173);
 div#warning {
 color: #b00; font-weight: bold;
 }
+.spoiler{
+    border:1px solid #bbb;
+    display: none;
+}

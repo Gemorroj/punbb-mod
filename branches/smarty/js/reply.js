@@ -31,7 +31,7 @@ function toggleOne(id, display_kind) {
     if (null == id || id == "") return false;
     if (null == display_kind || display_kind == "") display_kind = "block";
     var obj = document.getElementById(id);
-    obj.style.display = (obj.style.display == "none")? display_kind: "none";
+    obj.style.display = (obj.style.display == "none") ? display_kind: "none";
     return false;
 }
 

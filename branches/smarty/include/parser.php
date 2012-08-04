@@ -598,10 +598,10 @@ function do_hide($text, $post = 0, $matches)
     }
 
     if ($basename == 'viewprintable.php') {
-        return str_replace($matches[0], '<div style="border:1px solid #bbb;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
+        return str_replace($matches[0], '<div class="spoiler" style="display: block;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
     }
 
-    return str_replace($matches[0], '<div style="border:1px solid #bbb;"><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(\'#spoiler_' . (++$spoiler) . '\').toggle(\'fast\');"/><div id="spoiler_' . $spoiler . '" style="display: none;"><br/>' . $matches[4] . '</div></div>', $text);
+    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(\'#spoiler_' . (++$spoiler) . '\').slideToggle(200);"/><div class="spoiler" id="spoiler_' . $spoiler . '"><br/>' . $matches[4] . '</div></div>', $text);
 }
 
 //
