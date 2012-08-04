@@ -44,10 +44,10 @@ width: auto;
 overflow: visible;
 margin-right: 10px
 }
-div.linkst .conl, div.linksb .conl, div.postlinksb .conl {width:18em}
+div.linkst .conl, div.linksb .conl, div.postlinksb .conl {width:20em}
 div.linkst .conr, div.linksb .conr, div.postlinksb .conr {width:16em}
 form div.linksb .conr {width: 32em}
-.linkst ul, .linksb ul, .postlinksb ul {margin-left: 18em}
+.linkst ul, .linksb ul, .postlinksb ul {margin-left: 20em}
 div.block2col {padding-bottom: 1px}
 div.block2col div.blockform, div.block2col div.blockform div.postlinksb, div.block2col div.block, #viewprofile dd {
 margin-left: 14em
