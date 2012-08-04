@@ -207,7 +207,7 @@ include_once PUN_ROOT . 'include/parser.php';
 if ($pun_config['poll_enabled'] == 1) {
     include PUN_ROOT . 'include/poll/poll.inc.php';
     if ($cur_topic['has_poll']) {
-        $Poll->showPoll($cur_topic['has_poll'], true);
+        echo $Poll->showPoll($cur_topic['has_poll']);
     }
 }
 // hcs AJAX POLL MOD END
@@ -541,7 +541,7 @@ if ($quickpost) {
     echo '<label><textarea name="req_message" id="req_message" rows="6" cols="64" tabindex="1"></textarea></label><ul id="buttonmenu"><li><a id="dectxt" href="javascript:resizeTextarea(-80)">-</a></li><li><a id="inctxt" href="javascript:resizeTextarea(80)">+</a></li></ul><ul class="bblinks"><li><a href="help.php#bbcode" onclick="window.open(this.href); return false;">' . $lang_common['BBCode'] . '</a>: ' . (($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#img" onclick="window.open(this.href); return false;">' . $lang_common['img tag'] . '</a>: ' . (($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#smilies" onclick="window.open(this.href); return false;">' . $lang_common['Smilies'] . '</a>: ' . (($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li></ul>';
 
     if ($is_admmod) {
-        echo '<label><input type="checkbox" name="merge" value="1" checked="checked" />' . $lang_post['Merge posts'] . '<br /></label>';
+        echo '<label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked" />' . $lang_post['Merge posts'] . '<br /></label>';
     }
 
     echo '</div></fieldset></div><p><input type="submit" name="submit" tabindex="2" value="' . $lang_common['Submit'] . '" accesskey="s" /></p></form></div></div>';

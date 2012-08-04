@@ -585,7 +585,7 @@ echo '<div class="blockform"><h2><span>' . $action . '</span></h2><div class="bo
 // hcs AJAX POLL MOD BEGIN
 if ($pun_config['poll_enabled'] == 1 && $fid) {
     include_once PUN_ROOT . 'include/poll/poll.inc.php';
-    $Poll->showContainer();
+    echo $Poll->showContainer();
     $cur_index = 8;
 }
 // hcs AJAX POLL MOD END
@@ -637,18 +637,18 @@ if ($can_upload && $num_to_upload > 0) {
 $checkboxes = array();
 if (!$pun_user['is_guest']) {
     if ($pun_config['o_smilies'] == 1) {
-        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
     }
 
     if ($is_admmod) {
-        $checkboxes[] = '<label><input type="checkbox" name="merge" value="1" checked="checked" />' . $lang_post['Merge posts'];
+        $checkboxes[] = '<label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked" />' . $lang_post['Merge posts'];
     }
 
     if ($pun_config['o_subscriptions'] == 1) {
-        $checkboxes[] = '<label><input type="checkbox" name="subscribe" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['subscribe']) ? ' checked="checked"' : '') . ' />' . $lang_post['Subscribe'];
+        $checkboxes[] = '<label for="subscribe"><input type="checkbox" id="subscribe" name="subscribe" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['subscribe']) ? ' checked="checked"' : '') . ' />' . $lang_post['Subscribe'];
     }
 } else if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+    $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
 }
 
 

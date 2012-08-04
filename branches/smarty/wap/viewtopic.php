@@ -82,15 +82,12 @@ if ($pid) {
 
 // Fetch some info about the topic
 if (!$pun_user['is_guest']) {
-
     $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'subscriptions AS s ON (t.id=s.topic_id AND s.user_id=' . $pun_user['id'] . ') LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') LEFT JOIN ' . $db->prefix . 'log_topics AS lt ON (lt.user_id=' . $pun_user['id'] . ' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id=' . $id . ' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 } else {
-
     $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id=' . $id . ' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 }
 
 if (!$db->num_rows($result)) {
-
     wap_message($lang_common['Bad request']);
 }
 
@@ -223,6 +220,7 @@ include_once PUN_ROOT . 'include/parser.php';
 
 // !!!
 // hcs AJAX POLL MOD BEGIN
+$show_poll = '';
 if ($pun_config['poll_enabled'] == 1) {
     include PUN_ROOT . 'include/poll/poll.inc.php';
 
@@ -239,7 +237,7 @@ if ($pun_config['poll_enabled'] == 1) {
             $warning = $Poll->vote($_POST['pollid'], $q);
         }
 
-        $Poll->wap_showPoll($cur_topic['has_poll'], true, $warning);
+        $show_poll = $Poll->wap_showPoll($cur_topic['has_poll'], $warning);
     }
 }
 // hcs AJAX POLL MOD END
@@ -291,6 +289,8 @@ if ($pun_config['o_quickjump']) {
 $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['forum_name'] . ' / ' . $cur_topic['subject'];
+
+$smarty->assign('show_poll', $show_poll);
 $smarty->assign('page_title', $page_title);
 
 $smarty->assign('pun_start', $pun_start);

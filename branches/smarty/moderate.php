@@ -369,7 +369,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 </select>
 <br /></label>
 <div class="rbox">
-<label><input type="checkbox" name="with_redirect" value="1"';
+<label for="with_redirect"><input type="checkbox" id="with_redirect" name="with_redirect" value="1"';
     if ($action == 'single') {
         echo ' checked="checked"';
     }

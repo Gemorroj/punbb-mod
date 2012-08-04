@@ -3,27 +3,28 @@ define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
 
 if (isset($_GET['poll'])) {
+    header('Content-Type: text/html; charset=UTF-8');
     include PUN_ROOT . 'include/poll/poll.inc.php';
 
     switch ($_GET['poll']) {
         case 'sres': // SEND RESULT
             $Poll->vote($_POST['p'], $_POST['q']);
-            $Poll->showPoll($_POST['p'], true);
+            echo $Poll->showPoll($_POST['p']);
             break;
 
 
         case 'gcfrm': // GET FORM FOR CREATE POLL
-            $Poll->showForm(true);
+            echo $Poll->showForm();
             break;
 
 
         case 'gefrm': // GET FORM FOR EDIT POLL
-            $Poll->showEditForm(true, @$_GET['pid']);
+            echo $Poll->showEditForm(@$_GET['pid']);
             break;
 
 
         case 'update': // Update POLL
-            $Poll->updatePoll(true);
+            echo $Poll->updatePoll();
             break;
     }
 } else if (isset($_GET['quote'])) {

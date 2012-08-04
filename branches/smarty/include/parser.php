@@ -448,7 +448,7 @@ function handle_poll_tag($pid)
 
     $poll_tag = '';
     if ($_SERVER['SCRIPT_NAME'] != '/post.php') {
-        $poll_tag = $Poll->showPoll($pid, false);
+        $poll_tag = $Poll->showPoll($pid);
     }
 
     return $poll_tag;

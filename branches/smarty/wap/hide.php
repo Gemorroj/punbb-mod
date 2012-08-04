@@ -222,13 +222,12 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'wap/header.php';
 
 
-//echo '<div class="inbox"><a href="index.php">'.$lang_common['Index'].'</a> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</div>';
-
 
 include_once PUN_ROOT . 'include/parser.php';
 
 // !!!
 // hcs AJAX POLL MOD BEGIN
+$show_poll = '';
 if ($pun_config['poll_enabled'] == 1) {
     include PUN_ROOT . 'include/poll/poll.inc.php';
 
@@ -245,7 +244,7 @@ if ($pun_config['poll_enabled'] == 1) {
             $warning = $Poll->vote($_POST['pollid'], $q);
         }
 
-        $Poll->wap_showPoll($cur_topic['has_poll'], true, $warning);
+        $show_poll = $Poll->wap_showPoll($cur_topic['has_poll'], $warning);
     }
 }
 // hcs AJAX POLL MOD END
@@ -297,6 +296,7 @@ if ($pun_config['o_quickjump']) {
 // Increment "num_views" for topic
 $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
+$smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
 

@@ -52,18 +52,7 @@
 
 <div class="input">
 
-{*
-if ($pun_config['poll_enabled'] == 1 && $fid) {
-    if (!$_GET['poll']) {
-        include PUN_ROOT.'lang/'.$pun_user['language'].'/poll.php';
-        echo '<a href="post.php?fid='.$fid.'&amp;poll=1">'.$lang_poll['poll'].'</a><br/>';
-    } else {
-        include_once PUN_ROOT.'include/poll/poll.inc.php';
-        $Poll->wap_showContainer();
-        $cur_index = 8;
-    }
-}
-*}
+{$poll_container}
 
 <input type="hidden" name="form_sent" value="1" />
 <input type="hidden" name="form_user" value="{$pun_user.username|escape|default:'Guest'}" />
@@ -121,18 +110,18 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
 
 {if ! $pun_user.is_guest}
     {if $pun_config.o_smilies == 1}
-    <input type="checkbox" name="hide_smilies" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smarty.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/>
+        <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smarty.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/></label>
     {/if}
     
     {if $is_admmod}
-    <input type="checkbox" name="merge" value="1" checked="checked" />{$lang_post.$Merge_posts}<br/>
+        <label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked" />{$lang_post.$Merge_posts}<br/></label>
     {/if}
     
     {if $pun_config.o_subscriptions == 1}
-    <input type="checkbox" name="subscribe" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smarty.post.subscribe)}checked="checked"{/if} />{$lang_post.Subscribe}<br/>
+        <label for="subscribe"><input type="checkbox" id="subscribe" name="subscribe" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smarty.post.subscribe)}checked="checked"{/if} />{$lang_post.Subscribe}<br/></label>
     {/if}
 {elseif $pun_config.o_smilies == 1}
-<input type="checkbox" name="hide_smilies" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smary.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}
+    <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}" {if isset($smary.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/></label>
 {/if}
 
 </div>

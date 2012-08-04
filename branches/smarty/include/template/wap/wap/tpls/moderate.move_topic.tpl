@@ -34,7 +34,8 @@
 {/foreach}
 </optgroup>
 </select><br/>
-<input type="checkbox" name="with_redirect" value="1" {if $action == 'single'}checked="checked"{/if}/>{$lang_misc.$Leave_redirect}</div>
+<label for="with_redirect"><input type="checkbox" id="with_redirect" name="with_redirect" value="1" {if $action == 'single'}checked="checked"{/if}/>{$lang_misc.$Leave_redirect}</label>
+</div>
 <div class="go_to">
 <input type="submit" name="move_topics_to" value="{$lang_misc.Move}" />
 </div>

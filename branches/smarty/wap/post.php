@@ -469,9 +469,20 @@ if (isset($_POST['form_sent'])) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
+
+// hcs AJAX POLL MOD BEGIN
+$poll_container = '';
+if ($pun_config['poll_enabled'] == 1 && $fid) {
+    include_once PUN_ROOT . 'include/poll/poll.inc.php';
+    $poll_container = $Poll->wap_showContainer();
+}
+// hcs AJAX POLL MOD END
+
+
 //var_dump($smarty);
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Post a reply'];
-;
+
+$smarty->assign('poll_container', $poll_container);
 $smarty->assign('page_title', $page_title);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('tid', $tid);

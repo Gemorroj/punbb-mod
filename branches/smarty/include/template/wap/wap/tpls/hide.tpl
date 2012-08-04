@@ -1,10 +1,5 @@
 {include file='header.tpl'}
 
-{* Навигация: Главная / Форум / Тема *}
-<div class="inbox">
-    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;<a href="viewforum.php?id={$cur_topic.forum_id}">{$cur_topic.forum_name|escape}</a>&#160;&#187;&#160;{$cur_topic.subject|escape}
-</div>
-
 {* Ключи массивов с пробелами *}
 {assign var='Last_edit' value='Last edit'}
 {assign var='Link_separator_m' value='Link separator_m'}
@@ -22,6 +17,14 @@
 {* Кеш пользовательских подписей *}
 {assign var='signature_cache' value=''}
 
+
+
+{* Навигация: Главная / Форум / Тема *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;<a href="viewforum.php?id={$cur_topic.forum_id}">{$cur_topic.forum_name|escape}</a>&#160;&#187;&#160;{$cur_topic.subject|escape}
+</div>
+
+{$show_poll}
 
 
 {* Счетчик сообщений *}
@@ -201,7 +204,7 @@
     <textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea><br/>
 
     {if $is_admmod}
-        <input type="checkbox" name="merge" value="1" checked="checked" />&#160;<span class="small">{$lang_post.$Merge_posts}</span><br/>
+        <label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked" />&#160;<span class="small">{$lang_post.$Merge_posts}</span><br/></label>
     {/if}
 
     <input type="submit" name="submit" tabindex="2" value="{$lang_common.Submit}" accesskey="s" />
