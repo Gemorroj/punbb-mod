@@ -69,12 +69,6 @@
             {/if}
             {*- <pun_status> *}
 
-            <div class="in">
-                <div>
-                    <a href="{$smarty.const.PUN_ROOT}rss.xml">RSS</a>
-                </div>
-            </div>
-
             {if $pun_config.o_announcement == 1}
                 {* <pun_announcement> *}
                 <div class="incqbox">
