@@ -261,7 +261,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('pun_user', $pun_user);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_misc', $lang_misc);
 
     $smarty->assign('fid', $fid);
@@ -346,7 +345,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_forum', $lang_forum);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('cur_forum', $cur_forum);
     $smarty->assign('lang_misc', $lang_misc);
 
@@ -483,7 +481,6 @@ while ($topic = $db->fetch_assoc($result)) {
 // If there are topics in this forum.
 $smarty->assign('page_title', $page_title);
 $smarty->assign('lang_forum', $lang_forum);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('cur_forum', $cur_forum);
 $smarty->assign('lang_misc', $lang_misc);
 

@@ -13,7 +13,6 @@ if (!$pun_user['g_read_board']) {
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/help.php';
 require_once PUN_ROOT . 'wap/header.php';
 
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_help', $lang_help);
 
 switch (@$_GET['id']) {

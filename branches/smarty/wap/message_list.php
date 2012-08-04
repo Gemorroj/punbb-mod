@@ -172,7 +172,6 @@ if ($box < 2) {
     $smarty->assign('lang_pms', $lang_pms);
     $smarty->assign('messages', $messages);
     $smarty->assign('page_links', $page_links);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('all', $all);
 
     $smarty->display('message_list.tpl');

@@ -306,7 +306,6 @@ $smarty->assign('can_download', $can_download);
 $smarty->assign('quickpost', $quickpost);
 
 $smarty->assign('lang_topic', $lang_topic);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);

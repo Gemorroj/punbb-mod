@@ -32,7 +32,6 @@ if ($_GET['cancel']) {
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
 
     $smarty->assign('page_title', $page_title);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_register', $lang_register);
 
     $smarty->display('register.agree.tpl');
@@ -276,7 +275,6 @@ $d->close();
 $smarty->assign('pun_start', $pun_start);
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_register', $lang_register);
 $smarty->assign('lang_profile', $lang_profile);
 $smarty->assign('lang_prof_reg', $lang_prof_reg);

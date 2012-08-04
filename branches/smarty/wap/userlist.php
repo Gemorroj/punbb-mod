@@ -97,7 +97,6 @@ $smarty->assign('show_post_count', $show_post_count);
 $smarty->assign('pun_user', $pun_user);
 
 $smarty->assign('lang_ul', $lang_ul);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_search', $lang_search);
 $smarty->assign('p', $p);
 

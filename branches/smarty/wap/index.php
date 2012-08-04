@@ -71,7 +71,6 @@ while ($cur_forum = $db->fetch_assoc($result)) {
 $smarty->assign('forums', $forums);
 
 $smarty->assign('lang_index', $lang_index);
-$smarty->assign('lang_common', $lang_common);
 
 $smarty->assign('lang_pms', $lang_pms);
 

@@ -47,7 +47,6 @@ require PUN_ROOT . 'wap/header.php';
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('posts', $posts);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('cur_topic', $cur_topic);
 $smarty->assign('id', $id);
 

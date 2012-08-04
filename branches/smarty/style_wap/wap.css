@@ -23,7 +23,7 @@ span.sp_cat{font-weight:bold}
 .box a:hover, .box2 a:hover, .in a:hover, .in2 a:hover{text-decoration:none;color:#fff;background:#1b86a0}
 .small, span.sub{font-size:7pt}
 .go_to{margin:0 1px 1px;color:#fff;border:1px solid #06242f;background:#055772 url(wap/go_to.png) repeat-x;padding:2px 5px;border-radius:2pt}
-.incqbox, .inbox{margin-bottom:1px;color:#dce2e2;border:1px solid #475e61;background:#828a8e url(wap/inbox.png) repeat-x;padding:4px;border-radius:2pt}
+.incqbox, .inbox{font-size:8pt;margin-bottom:1px;color:#dce2e2;border:1px solid #475e61;background:#828a8e url(wap/inbox.png) repeat-x;padding:4px;border-radius:2pt}
 .incqbox a, .inbox a{color:#fff}
 .msg, .input{margin-bottom:1px;color:#0a3647;border:1px solid #c4d2d9;background:#f2f5f7 url(wap/msg.png) repeat-x;padding:4px;border-radius:2pt}
 .msg2, .input2{margin-bottom:1px;color:#06242f;border:1px solid #bdced2;background:#fbfdfd url(wap/msg2.png) repeat-x;padding:4px;border-radius:2pt}

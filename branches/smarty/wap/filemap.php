@@ -110,7 +110,6 @@ if ($fid_list) {
 }
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('user', $user);
 $smarty->assign('attachments', $attachments);
 $smarty->assign('categories', $categories);

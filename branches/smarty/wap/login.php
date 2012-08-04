@@ -132,7 +132,6 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_login['Request pass'];
 
     $smarty->assign('page_title', $page_title);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_login', $lang_login);
 
     $smarty->display('login.forget.tpl');
@@ -150,7 +149,6 @@ $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Login'];
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_login', $lang_login);
 $smarty->assign('redirect_url', $redirect_url);
 

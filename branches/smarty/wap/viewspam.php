@@ -25,7 +25,6 @@ $return['message'] = parse_message($return['message'], 1);
 
 require PUN_ROOT . 'wap/header.php';
 
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('mod_title', $mod_title);
 $smarty->assign('lang_misc', $lang_misc);
 $smarty->assign('return', $return);

@@ -5,12 +5,8 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{$lang_common.lang_direction}">
     <head>
-        <meta http-equiv="Expires" content="Thu, 21 Jul 1977 07:30:00 GMT" />
-        <meta http-equiv="Last-Modified" content="{$smarty.now|date_format:'r'} GMT" />
-        <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" />
-        <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         {*+ <pun_head> *}
         <title>{$page_title|escape}</title>

@@ -123,7 +123,6 @@ if ($_GET['action'] == 'change_pass') {
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('pun_start', $pun_start);
     $smarty->assign('lang_profile', $lang_profile);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->display('profile.password.tpl');
     exit();
 
@@ -246,7 +245,6 @@ if ($_GET['action'] == 'change_pass') {
     $smarty->assign('id', $id);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_profile', $lang_profile);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->display('profile.email.tpl');
     exit();
 
@@ -372,7 +370,6 @@ if ($_GET['action'] == 'change_pass') {
     $smarty->assign('id', $id);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_profile', $lang_profile);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->display('profile.avatar.tpl');
     exit();
 
@@ -969,7 +966,6 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('pun_start', $pun_start);
     $smarty->assign('lang_profile', $lang_profile);
-    $smarty->assign('lang_common', $lang_common);
 
     $smarty->assign('user', $user);
     $smarty->assign('karma', $karma);
@@ -1006,7 +1002,6 @@ else {
         $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
         $smarty->assign('languages', $languages);
-        $smarty->assign('lang_common', $lang_common);
 
         $smarty->assign('user', $user);
         $smarty->assign('karma', $karma);
@@ -1024,7 +1019,6 @@ else {
             $smarty->assign('pun_user', $pun_user);
             $smarty->assign('pun_start', $pun_start);
             $smarty->assign('lang_profile', $lang_profile);
-            $smarty->assign('lang_common', $lang_common);
             $smarty->assign('user', $user);
 
             $smarty->display('profile.personal.tpl');
@@ -1036,7 +1030,6 @@ else {
                 $smarty->assign('pun_user', $pun_user);
                 $smarty->assign('pun_start', $pun_start);
                 $smarty->assign('lang_profile', $lang_profile);
-                $smarty->assign('lang_common', $lang_common);
                 $smarty->assign('user', $user);
 
                 $smarty->display('profile.messaging.tpl');
@@ -1048,7 +1041,6 @@ else {
                     $smarty->assign('pun_start', $pun_start);
                     $smarty->assign('pun_user', $pun_user);
                     $smarty->assign('lang_profile', $lang_profile);
-                    $smarty->assign('lang_common', $lang_common);
                     $smarty->assign('user', $user);
                     $smarty->assign('parsed_signature', $parsed_signature);
 
@@ -1072,7 +1064,6 @@ else {
                         $smarty->assign('pun_start', $pun_start);
                         $smarty->assign('pun_user', $pun_user);
                         $smarty->assign('lang_profile', $lang_profile);
-                        $smarty->assign('lang_common', $lang_common);
                         $smarty->assign('user', $user);
                         $smarty->assign('styles', $styles);
 
@@ -1085,7 +1076,6 @@ else {
                             $smarty->assign('pun_start', $pun_start);
                             $smarty->assign('pun_user', $pun_user);
                             $smarty->assign('lang_profile', $lang_profile);
-                            $smarty->assign('lang_common', $lang_common);
                             $smarty->assign('lang_prof_reg', $lang_prof_reg);
                             $smarty->assign('user', $user);
 
@@ -1138,7 +1128,6 @@ else {
                                 $smarty->assign('forums', $forums);
                                 $smarty->assign('pun_user', $pun_user);
                                 $smarty->assign('user', $user);
-                                $smarty->assign('lang_common', $lang_common);
                                 $smarty->assign('lang_profile', $lang_profile);
                                 $smarty->assign('id', $id);
 

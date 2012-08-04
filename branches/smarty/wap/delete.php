@@ -90,7 +90,6 @@ include_once PUN_ROOT . 'include/parser.php'; //parser.php будет испол
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('id', $id);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('cur_post', $cur_post);
 $smarty->assign('lang_delete', $lang_delete);
 

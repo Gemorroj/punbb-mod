@@ -514,7 +514,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         include_once PUN_ROOT . 'include/parser.php';
 
         $smarty->assign('page_title', $page_title);
-        $smarty->assign('lang_common', $lang_common);
         $smarty->assign('search_set', $search_set);
 
         $smarty->assign('forum_list', $forum_list);
@@ -558,6 +557,5 @@ $smarty->assign('page_title', $page_title);
 $smarty->assign('forums', $forums);
 $smarty->assign('lang_search', $lang_search);
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('lang_common', $lang_common);
 
 $smarty->display('search.tpl');

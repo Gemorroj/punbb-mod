@@ -313,7 +313,6 @@ function dir_size($dir)
 
 //$smarty->debugging = true;
 $smarty->assign('page_title', $page_title);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('lang_uploads', $lang_uploads);
 $smarty->assign('upl_conf', $upl_conf);
 $smarty->assign('rules', $rules);

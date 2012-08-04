@@ -199,7 +199,6 @@ if (isset($_POST['form_sent'])) {
     $smarty->assign('quote', $quote);
 
     $smarty->assign('lang_pms', $lang_pms);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_post', $lang_post);
 
     $smarty->display('message_send.tpl');

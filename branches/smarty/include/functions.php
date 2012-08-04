@@ -774,7 +774,6 @@ function wap_message($message, $no_back_link = false)
 
     $smarty->assign('message', $message);
     $smarty->assign('pun_user', $pun_user);
-    $smarty->assign('lang_common', $lang_common);
     $smarty->assign('no_back_link', $no_back_link);
     $smarty->display('message.tpl');
     exit;

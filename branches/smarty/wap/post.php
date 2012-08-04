@@ -474,7 +474,6 @@ $page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Post a reply'];
 ;
 $smarty->assign('page_title', $page_title);
 $smarty->assign('pun_start', $pun_start);
-$smarty->assign('lang_common', $lang_common);
 $smarty->assign('tid', $tid);
 $smarty->assign('fid', $fid);
 $smarty->assign('cur_posting', $cur_posting);

@@ -3,14 +3,12 @@ if (!defined('PUN') or !defined('PUN_ROOT')) exit;
 define('PUN_HEADER', 1);
 
 
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-
 require_once(PUN_ROOT . 'include/PunTemplate.php');
 $smarty = new PunTemplate($pun_user['style_wap']);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_config', $pun_config);
 $smarty->assign('date_format', '%Y.%m.%d %H:%I');
+$smarty->assign('lang_common', $lang_common);
 
 if ($pun_user['g_id'] < PUN_GUEST) {
 

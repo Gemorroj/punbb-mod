@@ -131,7 +131,6 @@ $smarty->assign('page_title', $page_title);
 $smarty->assign('conditions', $conditions);
 
 $smarty->assign('lang_forum', $lang_forum);
-$smarty->assign('lang_common', $lang_common);
 
 $smarty->assign('topics', $topics);
 
