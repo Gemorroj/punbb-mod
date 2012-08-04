@@ -548,7 +548,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 }
 
                 if (mb_strlen($message) > 999) {
-                    $message .= ' &hellip;';
+                    $message .= ' &#x2026;';
                 }
 
                 $vtpost1 = (!$i) ? ' vtp1' : '';
@@ -557,7 +557,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 $bg_switch = !$bg_switch;
                 $vtbg = ($bg_switch) ? ' rowodd' : ' roweven';
 
-                echo '<div class="blockpost searchposts' . $vtbg . '"><h2>' . $forum . ' &raquo; ' . $subject . ' &raquo; <a href="viewtopic.php?pid=' . $search_set[$i]['pid'] . '#p' . $search_set[$i]['pid'] . '">' . format_time($search_set[$i]['pposted']) . '</a></h2><div class="box"><div class="inbox"><div class="postleft"><dl><dt>' . $pposter . '</dt><dd>' . $lang_search['Replies'] . ': ' . $search_set[$i]['num_replies'] . '</dd><dd>' . $icon . '</dd><dd><p class="clearb"><a href="viewtopic.php?pid=' . $search_set[$i]['pid'] . '#p' . $search_set[$i]['pid'] . '">' . $lang_search['Go to post'] . '</a></p></dd></dl></div><div class="postright"><div class="postmsg">' . $message . '</div></div><div class="clearer"></div></div></div></div>';
+                echo '<div class="blockpost searchposts' . $vtbg . '"><h2>' . $forum . ' &#187; ' . $subject . ' &#187; <a href="viewtopic.php?pid=' . $search_set[$i]['pid'] . '#p' . $search_set[$i]['pid'] . '">' . format_time($search_set[$i]['pposted']) . '</a></h2><div class="box"><div class="inbox"><div class="postleft"><dl><dt>' . $pposter . '</dt><dd>' . $lang_search['Replies'] . ': ' . $search_set[$i]['num_replies'] . '</dd><dd>' . $icon . '</dd><dd><p class="clearb"><a href="viewtopic.php?pid=' . $search_set[$i]['pid'] . '#p' . $search_set[$i]['pid'] . '">' . $lang_search['Go to post'] . '</a></p></dd></dl></div><div class="postright"><div class="postmsg">' . $message . '</div></div><div class="clearer"></div></div></div></div>';
             } else {
                 $icon = '<div class="icon"><div class="nosize">' . $lang_common['Normal icon'] . '</div></div>';
 

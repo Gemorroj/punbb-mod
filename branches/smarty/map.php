@@ -58,7 +58,7 @@ while ($cur_topic = $db->fetch_assoc($result)) {
         echo '<p> <strong>' . pun_htmlspecialchars($forums[$cur_topic['forum_id']]) . '</strong></p>';
         $cur_forum = $cur_topic['forum_id'];
     }
-    echo '<p> &raquo; ' . pun_htmlspecialchars($cur_topic['poster']) . ':<br /><a href="viewtopic.php?id=' . $cur_topic['id'] . '">"' . pun_htmlspecialchars($cur_topic['subject']) . '</a></p>';
+    echo '<p> &#187; ' . pun_htmlspecialchars($cur_topic['poster']) . ':<br /><a href="viewtopic.php?id=' . $cur_topic['id'] . '">"' . pun_htmlspecialchars($cur_topic['subject']) . '</a></p>';
 }
 
 echo '</div></div><br /><div class="clearer"></div>';

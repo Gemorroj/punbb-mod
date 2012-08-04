@@ -38,7 +38,7 @@ if (isset($_POST['form_sent'])) {
     require_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
 
-    redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &hellip;');
+    redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &#x2026;');
 } else {
     // Display the admin navigation menu
     generate_admin_menu($plugin);

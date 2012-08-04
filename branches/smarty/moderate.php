@@ -177,7 +177,7 @@ if (isset($_GET['tid'])) {
     echo '<div class="linkst">
 <div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; <a href="viewforum.php?id=' . $fid . '">' . pun_htmlspecialchars($cur_topic['forum_name']) . '</a></li><li> &raquo; ' . pun_htmlspecialchars($cur_topic['subject']) . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; <a href="viewforum.php?id=' . $fid . '">' . pun_htmlspecialchars($cur_topic['forum_name']) . '</a></li><li> &#187; ' . pun_htmlspecialchars($cur_topic['subject']) . '</li></ul>
 <div class="clearer"></div>
 </div>
 </div>
@@ -566,7 +566,7 @@ $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderat
 echo '<div class="linkst">
 <div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&raquo; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&#187; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul>
 <div class="clearer"></div>
 </div>
 </div>

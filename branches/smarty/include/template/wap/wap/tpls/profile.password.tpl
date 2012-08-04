@@ -9,25 +9,25 @@
 <div class="con">
     <strong>{$lang_profile.$Change_pass}</strong>
 
-<br/><s>{basename($smarty.const.__FILE__)}</s>
+    <br/><s>{basename($smarty.const.__FILE__)}</s>
 
 </div>
 <form method="post" action="profile.php?action=change_pass&amp;id={$id}">
-<div class="input">
-<strong>{$lang_profile.$Change_pass_legend}</strong><br/>
-<input type="hidden" name="form_sent" value="1" />
-{if $pun_user.g_id > $smarty.const.PUN_MOD}
-{$lang_profile.$Old_pass}<br/>
-<input type="password" name="req_old_password" maxlength="16" /><br/>
-{/if}
-{$lang_profile.$New_pass}<br/>
-<input type="password" name="req_new_password1" maxlength="16" /><br/>
-{$lang_profile.$Confirm_new_pass}<br/>
-<input type="password" name="req_new_password2" maxlength="16" />
-</div>
-<div class="go_to">
-<input type="submit" name="update" value="{$lang_common.Submit}" />
-</div>
+    <div class="input">
+        <strong>{$lang_profile.$Change_pass_legend}</strong><br/>
+        <input type="hidden" name="form_sent" value="1"/>
+    {if $pun_user.g_id > $smarty.const.PUN_MOD}
+            {$lang_profile.$Old_pass}<br/>
+        <input type="password" name="req_old_password" maxlength="16"/><br/>
+    {/if}
+        {$lang_profile.$New_pass}<br/>
+        <input type="password" name="req_new_password1" maxlength="16"/><br/>
+        {$lang_profile.$Confirm_new_pass}<br/>
+        <input type="password" name="req_new_password2" maxlength="16"/>
+    </div>
+    <div class="go_to">
+        <input type="submit" name="update" value="{$lang_common.Submit}"/>
+    </div>
 </form>
 
 {include file='footer.tpl'}

@@ -68,8 +68,8 @@ if ($db->num_rows($result)) {
         <div class="infldset">
         <table cellspacing="0">
         <tr>
-        <th scope="row">' . $lang_admin['Forum'] . ' &raquo; ' . $lang_admin['Theme'] . ' &raquo; ' . $lang_admin['Mess'] . '</th>
-        <td>' . $forum . ' &raquo; ' . $topic . ' &raquo; ' . $postid . '</td>
+        <th scope="row">' . $lang_admin['Forum'] . ' &#187; ' . $lang_admin['Theme'] . ' &#187; ' . $lang_admin['Mess'] . '</th>
+        <td>' . $forum . ' &#187; ' . $topic . ' &#187; ' . $postid . '</td>
         </tr>
         <tr>
         <th scope="row">' . $lang_admin['Report from'] . ' ' . $reporter . '<div><input type="submit" name="zap_id[' . $cur_report['id'] . ']" value="' . $lang_admin['Process'] . '" /></div></th>
@@ -121,8 +121,8 @@ if ($db->num_rows($result)) {
         <div class="infldset">
         <table cellspacing="0">
         <tr>
-        <th scope="row">' . $lang_admin['Forum'] . ' &raquo; ' . $lang_admin['Theme'] . ' &raquo; ' . $lang_admin['Mess'] . '</th>
-        <td>' . $forum . ' &raquo; ' . $topic . ' &raquo; ' . $post_id . '</td>
+        <th scope="row">' . $lang_admin['Forum'] . ' &#187; ' . $lang_admin['Theme'] . ' &#187; ' . $lang_admin['Mess'] . '</th>
+        <td>' . $forum . ' &#187; ' . $topic . ' &#187; ' . $post_id . '</td>
         </tr>
         <tr>
         <th scope="row">' . $lang_admin['Report from'] . ' ' . $reporter . '<div class="topspace">' . $lang_admin['Treated'] . ' ' . $zapped_by . '</div></th>

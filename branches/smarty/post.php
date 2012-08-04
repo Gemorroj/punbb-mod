@@ -552,10 +552,10 @@ if (!$pun_user['is_guest']) {
 require_once PUN_ROOT . 'header.php';
 
 
-echo '<div class="linkst"><div class="inbox"><ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; ' . $forum_name;
+echo '<div class="linkst"><div class="inbox"><ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; ' . $forum_name;
 
 if (@$cur_posting['subject']) {
-    echo '</li><li> &raquo; ' . pun_htmlspecialchars($cur_posting['subject']);
+    echo '</li><li> &#187; ' . pun_htmlspecialchars($cur_posting['subject']);
 }
 
 echo '</li></ul></div></div>';

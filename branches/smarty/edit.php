@@ -172,7 +172,7 @@ $cur_index = 1;
 
 echo '<div class="linkst">
 <div class="inbox">
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; <a href="viewforum.php?id=' . $cur_post['fid'] . '">' . pun_htmlspecialchars($cur_post['forum_name']) . '</a></li><li> &raquo; ' . pun_htmlspecialchars($cur_post['subject']) . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; <a href="viewforum.php?id=' . $cur_post['fid'] . '">' . pun_htmlspecialchars($cur_post['forum_name']) . '</a></li><li> &#187; ' . pun_htmlspecialchars($cur_post['subject']) . '</li></ul>
 </div>
 </div>';
 
@@ -276,17 +276,17 @@ if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
 $checkboxes = array();
 if ($pun_config['o_smilies'] == 1) {
     if (isset($_POST['hide_smilies']) || $cur_post['hide_smilies'] == 1) {
-        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" checked="checked" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" checked="checked" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
     } else {
-        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
     }
 }
 
 if ($is_admmod) {
     if ((isset($_POST['form_sent']) && isset($_POST['silent'])) || !isset($_POST['form_sent'])) {
-        $checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="' . ($cur_index++) . '" checked="checked" /> ' . $lang_post['Silent edit'];
+        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="' . ($cur_index++) . '" checked="checked" /> ' . $lang_post['Silent edit'];
     } else {
-        $checkboxes[] = '<label><input type="checkbox" name="silent" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Silent edit'];
+        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Silent edit'];
     }
 }
 

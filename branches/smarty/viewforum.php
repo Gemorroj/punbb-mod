@@ -86,7 +86,7 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'header.php';
 
 
-echo '<div class="linkst"><div class="inbox"><p class="pagelink conl">' . $paging_links . '</p>' . $post_link . '<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&raquo; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul><div class="clearer"></div></div></div><div id="vf" class="blocktable"><h2><span>' . pun_htmlspecialchars($cur_forum['forum_name']) . '</span></h2><div class="box"><div class="inbox"><table cellspacing="0"><thead><tr><th class="tcl" scope="col">' . $lang_common['Topic'] . '</th><th class="tc2" scope="col">' . $lang_common['Replies'] . '</th><th class="tc3" scope="col">' . $lang_forum['Views'] . '</th><th class="tcr" scope="col">' . $lang_common['Last post'] . '</th></tr></thead><tbody>';
+echo '<div class="linkst"><div class="inbox"><p class="pagelink conl">' . $paging_links . '</p>' . $post_link . '<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&#187; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul><div class="clearer"></div></div></div><div id="vf" class="blocktable"><h2><span>' . pun_htmlspecialchars($cur_forum['forum_name']) . '</span></h2><div class="box"><div class="inbox"><table cellspacing="0"><thead><tr><th class="tcl" scope="col">' . $lang_common['Topic'] . '</th><th class="tc2" scope="col">' . $lang_common['Replies'] . '</th><th class="tc3" scope="col">' . $lang_forum['Views'] . '</th><th class="tcr" scope="col">' . $lang_common['Last post'] . '</th></tr></thead><tbody>';
 
 // Fetch list of topics to display on this page
 if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
@@ -203,7 +203,7 @@ if ($db->num_rows($result)) {
     echo '<tr><td class="tcl" colspan="4">' . $lang_forum['Empty forum'] . '</td></tr>';
 }
 
-echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><p class="pagelink conl">' . $paging_links . '</p>' . $post_link . '<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&raquo; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul><div class="clearer"></div></div></div>';
+echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><p class="pagelink conl">' . $paging_links . '</p>' . $post_link . '<ul><li><a href="index.php">' . $lang_common['Index'] . '</a> </li><li>&#187; ' . pun_htmlspecialchars($cur_forum['forum_name']) . '</li></ul><div class="clearer"></div></div></div>';
 
 $forum_id = $id;
 $footer_style = 'viewforum';

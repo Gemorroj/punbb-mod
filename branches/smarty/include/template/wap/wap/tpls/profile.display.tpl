@@ -20,49 +20,55 @@
 {assign var='Mark_as_read_after'  value='Mark as read after'}
 
 <div class="con">
-<strong>{$user.username|escape} - {$lang_profile.$Section_display}</strong>
+    <strong>{$user.username|escape} - {$lang_profile.$Section_display}</strong>
 </div>
 <form method="post" action="profile.php?section=display&amp;id={$id}">
-<div class="input">
-<input type="hidden" name="form_sent" value="1" />
+    <div class="input">
+        <input type="hidden" name="form_sent" value="1"/>
 
-<strong>{$lang_profile.$Style_legend}</strong><br/>
-{$lang_profile.$Style_info}<br />
-<select name="form[style_wap]">
-{foreach from=$styles item=temp}
-    {if $user.style_wap == $temp}
-        <option value="{$temp}" selected="selected">{str_replace('_', ' ', $temp)}</option>
-    {else}
-        <option value="{$temp}">{str_replace('_', ' ', $temp)}</option>
+        <strong>{$lang_profile.$Style_legend}</strong><br/>
+        {$lang_profile.$Style_info}<br/>
+        <select name="form[style_wap]">
+        {foreach from=$styles item=temp}
+            {if $user.style_wap == $temp}
+                <option value="{$temp}" selected="selected">{str_replace('_', ' ', $temp)}</option>
+                {else}
+                <option value="{$temp}">{str_replace('_', ' ', $temp)}</option>
+            {/if}
+        {/foreach}
+        </select>
+    </div>
+    <div class="input2">
+        <strong>{$lang_profile.$Post_display_legend}</strong><br/>
+        {$lang_profile.$Post_display_info}<br/>
+        <input type="checkbox" name="form[show_smilies]" value="1"{if $user.show_smilies == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_smilies}<br/>
+        <input type="checkbox" name="form[show_sig]" value="1"{if $user.show_sig == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_sigs}<br/>
+    {if $pun_config.o_avatars == 1}
+        <input type="checkbox" name="form[show_avatars]" value="1"{if $user.show_avatars == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_avatars}<br/>
     {/if}
-{/foreach}
-</select>
-</div>
-<div class="input2">
-<strong>{$lang_profile.$Post_display_legend}</strong><br/>
-{$lang_profile.$Post_display_info}<br/>
-<input type="checkbox" name="form[show_smilies]" value="1"{if $user.show_smilies == 1} checked="checked"{/if}/>{$lang_profile.$Show_smilies}<br/>
-<input type="checkbox" name="form[show_sig]" value="1"{if $user.show_sig == 1} checked="checked"{/if}/>{$lang_profile.$Show_sigs}<br />
-{if $pun_config.o_avatars == 1}
-<input type="checkbox" name="form[show_avatars]" value="1"{if $user.show_avatars == 1} checked="checked"{/if}/>{$lang_profile.$Show_avatars}<br />
-{/if}
-<input type="checkbox" name="form[show_img]" value="1"{if $user.show_img == 1} checked="checked"{/if}/>{$lang_profile.$Show_images}<br />
-<input type="checkbox" name="form[show_img_sig]" value="1"{if $user.show_img_sig == 1} checked="checked"{/if}/>{$lang_profile.$Show_images_sigs}
-</div>
-<div class="input">
-<strong>{$lang_profile.$Pagination_legend}</strong><br/>
-{$lang_profile.$Topics_per_page}<br />
-<input type="text" name="form[disp_topics]" value="{$user.disp_topics}" maxlength="3" /><br />
-{$lang_profile.$Posts_per_page}<br />
-<input type="text" name="form[disp_posts]" value="{$user.disp_posts}" maxlength="3" /><br />
-{$lang_profile.$Paginate_info} {$lang_profile.$Leave_blank}
-</div>
-<div class="input2">
-<strong>{$lang_profile.$Mark_as_read_legend}</strong><br/>
-{$lang_profile.$Mark_as_read_after}<br />
-<input type="text" name="form[mark_after]" value="{($user.mark_after / 86400)}" maxlength="3" /></div>
-<div class="go_to">
-<input type="submit" name="update" value="{$lang_common.Submit}" />
-</div></form>
+        <input type="checkbox" name="form[show_img]" value="1"{if $user.show_img == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_images}<br/>
+        <input type="checkbox" name="form[show_img_sig]" value="1"{if $user.show_img_sig == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_images_sigs}
+    </div>
+    <div class="input">
+        <strong>{$lang_profile.$Pagination_legend}</strong><br/>
+        {$lang_profile.$Topics_per_page}<br/>
+        <input type="text" name="form[disp_topics]" value="{$user.disp_topics}" maxlength="3"/><br/>
+        {$lang_profile.$Posts_per_page}<br/>
+        <input type="text" name="form[disp_posts]" value="{$user.disp_posts}" maxlength="3"/><br/>
+    {$lang_profile.$Paginate_info} {$lang_profile.$Leave_blank}
+    </div>
+    <div class="input2">
+        <strong>{$lang_profile.$Mark_as_read_legend}</strong><br/>
+        {$lang_profile.$Mark_as_read_after}<br/>
+        <input type="text" name="form[mark_after]" value="{($user.mark_after / 86400)}" maxlength="3"/></div>
+    <div class="go_to">
+        <input type="submit" name="update" value="{$lang_common.Submit}"/>
+    </div>
+</form>
 
 {include file='footer.tpl'}

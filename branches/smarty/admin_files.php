@@ -115,7 +115,7 @@ if (isset($_POST['save'])) {
     include_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
 
-    redirect('admin_files.php', 'Options updated. Redirecting &hellip;');
+    redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
 } else // If not, we show the "Show text" form
 {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Files';

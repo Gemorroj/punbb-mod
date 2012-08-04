@@ -331,7 +331,7 @@ else if (isset($_POST['add_edit_group'])) {
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
 
-    redirect('admin_groups.php', 'Группа ' . (($_POST['mode'] == 'edit') ? 'отредактирована' : 'добавлена') . '. Перенаправление &hellip;');
+    redirect('admin_groups.php', 'Группа ' . (($_POST['mode'] == 'edit') ? 'отредактирована' : 'добавлена') . '. Перенаправление &#x2026;');
 } // Set default group
 else if (isset($_POST['set_default_group'])) {
 //confirm_referrer('admin_groups.php');
@@ -347,7 +347,7 @@ else if (isset($_POST['set_default_group'])) {
     include_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
 
-    redirect('admin_groups.php', 'Группа по умолчанию задана. Перенаправление &hellip;');
+    redirect('admin_groups.php', 'Группа по умолчанию задана. Перенаправление &#x2026;');
 } // Remove a group
 else if (isset($_GET['del_group'])) {
 //confirm_referrer('admin_groups.php');
@@ -381,7 +381,7 @@ else if (isset($_GET['del_group'])) {
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
 
-        redirect('admin_groups.php', 'Группа удалена. Перенаправление &hellip;');
+        redirect('admin_groups.php', 'Группа удалена. Перенаправление &#x2026;');
     }
 
 

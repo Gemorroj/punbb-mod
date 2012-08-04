@@ -72,7 +72,7 @@ $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smili
 
 echo '<div class="linkst">
 <div class="inbox">
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; <a href="viewforum.php?id=' . $cur_post['fid'] . '">' . pun_htmlspecialchars($cur_post['forum_name']) . '</a></li><li> &raquo; ' . pun_htmlspecialchars($cur_post['subject']) . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; <a href="viewforum.php?id=' . $cur_post['fid'] . '">' . pun_htmlspecialchars($cur_post['forum_name']) . '</a></li><li> &#187; ' . pun_htmlspecialchars($cur_post['subject']) . '</li></ul>
 </div>
 </div>
 <div class="blockform">

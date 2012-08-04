@@ -128,7 +128,7 @@ if (isset($_GET['user_id'])) {
 echo '<div class="linkst">
 <div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; ' . $lang_common['Attachments'] . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; ' . $lang_common['Attachments'] . '</li></ul>
 <div class="clearer"></div>
 </div>
 </div>
@@ -185,7 +185,7 @@ echo '<br/></div></div><br/>
 <div class="linkst">
 <div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
-<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &raquo; ' . $lang_common['Attachments'] . '</li></ul>
+<ul><li><a href="index.php">' . $lang_common['Index'] . '</a></li><li> &#187; ' . $lang_common['Attachments'] . '</li></ul>
 <div class="clearer"></div>
 </div>
 </div>';

@@ -28,7 +28,7 @@ if (isset($_POST['add_forum'])) {
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
 
-    redirect('admin_forums.php', 'Форум добавлен. Перенаправление &hellip;');
+    redirect('admin_forums.php', 'Форум добавлен. Перенаправление &#x2026;');
 } // Make new forum with the same permissions
 else if (isset($_GET['clone_forum'])) {
     $forum_id = intval($_GET['clone_forum']);
@@ -48,7 +48,7 @@ else if (isset($_GET['clone_forum'])) {
     generate_quickjump_cache();
 
 // Immediatelly edit newborn forum
-    redirect('admin_forums.php?edit_forum=' . $new_forum_id, 'Форум клонирован. Перенаправление &hellip;');
+    redirect('admin_forums.php?edit_forum=' . $new_forum_id, 'Форум клонирован. Перенаправление &#x2026;');
 } // Delete a forum
 else if (isset($_GET['del_forum'])) {
 //confirm_referrer('admin_forums.php');
@@ -85,7 +85,7 @@ else if (isset($_GET['del_forum'])) {
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
 
-        redirect('admin_forums.php', 'Форум удален. Перенаправление &hellip;');
+        redirect('admin_forums.php', 'Форум удален. Перенаправление &#x2026;');
     } else // If the user hasn't confirmed the delete
     {
         $result = $db->query('SELECT forum_name FROM ' . $db->prefix . 'forums WHERE id=' . $forum_id) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
@@ -136,7 +136,7 @@ else if (isset($_POST['update_positions'])) {
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
 
-    redirect('admin_forums.php', 'Форумы обновлены. Перенаправление &hellip;');
+    redirect('admin_forums.php', 'Форумы обновлены. Перенаправление &#x2026;');
 } else if (isset($_GET['edit_forum'])) {
     $forum_id = intval($_GET['edit_forum']);
     if ($forum_id < 1) {
@@ -205,7 +205,7 @@ else if (isset($_POST['update_positions'])) {
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
 
-        redirect('admin_forums.php', 'Форум обновлен. Перенаправление &hellip;');
+        redirect('admin_forums.php', 'Форум обновлен. Перенаправление &#x2026;');
     } else if (isset($_POST['revert_perms'])) {
 //confirm_referrer('admin_forums.php');
 
@@ -215,7 +215,7 @@ else if (isset($_POST['update_positions'])) {
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
 
-        redirect('admin_forums.php?edit_forum=' . $forum_id, 'Разрешения возвращены к начальным. Перенаправление &hellip;');
+        redirect('admin_forums.php?edit_forum=' . $forum_id, 'Разрешения возвращены к начальным. Перенаправление &#x2026;');
     }
 
 

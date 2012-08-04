@@ -58,23 +58,23 @@ if (isset($_POST['save_options'])) {
         $result = $db->query($query);
         $k++;
     }
-    redirect($_SERVER['REQUEST_URI'], 'Permissions updated, redirecting &hellip;');
+    redirect($_SERVER['REQUEST_URI'], 'Permissions updated, redirecting &#x2026;');
 } else if (isset($_POST['save_types'])) {
     $k = 1;
     while ($k <= $_POST['num_types']) {
         $db->query('UPDATE ' . $db->prefix . 'uploads_types SET type="' . $db->escape($_POST['cat' . $k]) . '", exts="' . $db->escape($_POST['ext' . $k]) . '" WHERE id=' . $k) or error('Unable to update info about types', __FILE__, __LINE__, $db->error());
         $k++;
     }
-    redirect($_SERVER['REQUEST_URI'], 'Types updated, redirecting &hellip;');
+    redirect($_SERVER['REQUEST_URI'], 'Types updated, redirecting &#x2026;');
 } else if (isset($_POST['add_type'])) {
     $db->query('INSERT INTO ' . $db->prefix . 'uploads_types (type,exts) VALUES ("' . $db->escape($_POST['cat0']) . '","' . $db->escape($_POST['ext0']) . '")') or error('Unable to add new type', __FILE__, __LINE__, $db->error());
-    redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &hellip;');
+    redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &#x2026;');
 } else if (isset($_GET['action']) && isset($_GET['id'])) {
     if ($_GET['action'] == 'delete') {
         $db->query('DELETE FROM ' . $db->prefix . 'uploads_types WHERE id=' . intval($_GET['id'])) or error('Unable to delete a type', __FILE__, __LINE__, $db->error());
-        redirect('admin_loader.php?plugin=' . $plugin, 'Type deleted, redirecting &hellip;');
+        redirect('admin_loader.php?plugin=' . $plugin, 'Type deleted, redirecting &#x2026;');
     } else {
-        redirect('admin_loader.php?plugin=' . $plugin, 'Action unknown, redirecting &hellip;');
+        redirect('admin_loader.php?plugin=' . $plugin, 'Action unknown, redirecting &#x2026;');
     }
 }
 

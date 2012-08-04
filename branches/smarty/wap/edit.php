@@ -99,6 +99,10 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php';
 // Start with a clean slate
 $errors = array();
 
+$hide_smilies = @$_POST['hide_smilies'];
+if ($hide_smilies != 1) {
+    $hide_smilies = 0;
+}
 
 if (isset($_POST['form_sent'])) {
     /*
@@ -143,10 +147,6 @@ if (isset($_POST['form_sent'])) {
     //require PUN_ROOT.'include/antispam/antispam_start.php';
     /// MOD ANTISPAM END
 
-    $hide_smilies = $_POST['hide_smilies'];
-    if ($hide_smilies != 1) {
-        $hide_smilies = 0;
-    }
 
     // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
@@ -187,14 +187,15 @@ if (isset($_POST['form_sent'])) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-if ($_POST['preview']) {
-
+$preview_message = '';
+if (@$_POST['preview']) {
     include_once PUN_ROOT . 'include/parser.php';
+    $preview_message = parse_message($message, $hide_smilies);
 }
 
 $smarty->assign('cur_post', $cur_post);
 $smarty->assign('lang_post', $lang_post);
-$smarty->assign('hide_smilies', $hide_smilies);
+$smarty->assign('preview_message', preview_message);
 $smarty->assign('message', $message);
 $smarty->assign('id', $id);
 $smarty->assign('can_edit_subject', $can_edit_subject);

@@ -19,10 +19,10 @@
 
 {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.gif")}
     {assign var='avatar_format' value='gif'}
-{else}
+    {else}
     {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.jpg")}
         {assign var='avatar_format' value='jpg'}
-    {else}
+        {else}
         {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.png")}
             {assign var='avatar_format' value='png'}
         {/if}
@@ -30,71 +30,73 @@
 {/if}
 
 <div class="con">
-<strong>{$user.username|escape} - {$lang_profile.$Section_personality}</strong>
+    <strong>{$user.username|escape} - {$lang_profile.$Section_personality}</strong>
 </div>
 <form method="post" action="profile.php?section=personality&amp;id={$id}">
-<div class="input">
-<input type="hidden" name="form_sent" value="1" />
-{if $pun_config.o_avatars == 1}
-    <strong>{$lang_profile.$Avatar_legend}</strong>
-    <div class="zag_in">
-        {if $avatar_format}
-            <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.{$avatar_format}" alt="" />
-        {/if}
-    {$lang_profile.$Avatar_info}<br />
-    <input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/>
-    {$lang_profile.$Use_avatar}
-    </div>
-{/if}
-    <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a> |
+    <div class="input">
+        <input type="hidden" name="form_sent" value="1"/>
+    {if $pun_config.o_avatars == 1}
+        <strong>{$lang_profile.$Avatar_legend}</strong>
+
+        <div class="zag_in">
+            {if $avatar_format}
+                <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.{$avatar_format}" alt=""/>
+            {/if}
+                {$lang_profile.$Avatar_info}<br/>
+            <input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/>
+            {$lang_profile.$Use_avatar}
+        </div>
+    {/if}
+        <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a> |
     {if $avatar_format}
         <a href="profile.php?action=delete_avatar&amp;id={$id}">{$lang_profile.$Delete_avatar}</a>
-    {else}
+        {else}
         <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Upload_avatar}</a>
     {/if}
-</div>
+    </div>
 
-<div class="input2">
-<strong>{$lang_profile.$Signature_legend}</strong><br/>
-<span class="sub">{$lang_profile.$Signature_info}</span><br/>
-{$lang_profile.$Sig_max_length}: {$pun_config.p_sig_length} / {$lang_profile.$Sig_max_lines}: {$pun_config.p_sig_lines}<br />
-<textarea name="signature" rows="4" cols="24">{$user.signature|escape}</textarea><br />
+    <div class="input2">
+        <strong>{$lang_profile.$Signature_legend}</strong><br/>
+        <span class="sub">{$lang_profile.$Signature_info}</span><br/>
+    {$lang_profile.$Sig_max_length}: {$pun_config.p_sig_length} / {$lang_profile.$Sig_max_lines}
+        : {$pun_config.p_sig_lines}<br/>
+        <textarea name="signature" rows="4" cols="24">{$user.signature|escape}</textarea><br/>
 
-<a href="help.php?id=3">{$lang_common.Smilies}</a>
-{if $pun_config.o_smilies_sig}
-<span class="green">{$lang_common.on_m}</span>;
-{else}
-<span class="grey">{$lang_common.off_m}</span>;
-{/if}
+        <a href="help.php?id=3">{$lang_common.Smilies}</a>
+    {if $pun_config.o_smilies_sig}
+        <span class="green">{$lang_common.on_m}</span>;
+        {else}
+        <span class="grey">{$lang_common.off_m}</span>;
+    {/if}
 
-<a href="help.php?id=1">{$lang_common.BBCode}</a>
-{if $pun_config.p_sig_bbcode}
-<span class="green">{$lang_common.on_m}</span>;
-{else}
-<span class="grey">{$lang_common.off_m}</span>;
-{/if}
+        <a href="help.php?id=1">{$lang_common.BBCode}</a>
+    {if $pun_config.p_sig_bbcode}
+        <span class="green">{$lang_common.on_m}</span>;
+        {else}
+        <span class="grey">{$lang_common.off_m}</span>;
+    {/if}
 
-<a href="help.php?id=4">{$lang_common.$img_tag}</a>
-{if $pun_config.p_sig_img_tag}
-<span class="green">{$lang_common.on_m}</span>
-{else}
-<span class="grey">{$lang_common.off_m}</span>
-{/if}
+        <a href="help.php?id=4">{$lang_common.$img_tag}</a>
+    {if $pun_config.p_sig_img_tag}
+        <span class="green">{$lang_common.on_m}</span>
+        {else}
+        <span class="grey">{$lang_common.off_m}</span>
+    {/if}
 
-</div>
+    </div>
 
-<div class="input">
-{if $user.signature}
-{$lang_profile.$Sig_preview}
-<div class="hr">{$parsed_signature}</div>
-{else}
-{$lang_profile.$No_sig}
-{/if}
-</div>
+    <div class="input">
+    {if $user.signature}
+        {$lang_profile.$Sig_preview}
+        <div class="hr">{$parsed_signature}</div>
+        {else}
+        {$lang_profile.$No_sig}
+    {/if}
+    </div>
 
-<div class="go_to">
-<input type="submit" name="update" value="{$lang_common.Submit}" />
-</div>
+    <div class="go_to">
+        <input type="submit" name="update" value="{$lang_common.Submit}"/>
+    </div>
 </form>
 
 {include file='footer.tpl'}

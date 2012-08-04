@@ -699,7 +699,7 @@ function paginate($num_pages, $cur_page, $link_to)
         if ($cur_page > 3) {
             $pages[] = '<a href="' . $link_to . '&amp;p=1">1</a>';
             if ($cur_page != 4) {
-                $pages[] = '&hellip;';
+                $pages[] = '&#x2026;';
             }
         }
 
@@ -716,7 +716,7 @@ function paginate($num_pages, $cur_page, $link_to)
 
         if ($cur_page <= ($num_pages - 3)) {
             if ($cur_page != ($num_pages - 3)) {
-                $pages[] = '&hellip;';
+                $pages[] = '&#x2026;';
             }
 
             $pages[] = '<a href="' . $link_to . '&amp;p=' . $num_pages . '">' . $num_pages . '</a>';

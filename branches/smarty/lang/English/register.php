@@ -5,7 +5,7 @@ $lang_register = array(
 
 // Miscellaneous
 'No new regs'				=>	'This forum is not accepting new registrations.',
-'Reg cancel redirect'		=>	'Registration cancelled. Redirecting &hellip;',
+'Reg cancel redirect'		=>	'Registration cancelled. Redirecting &#x2026;',
 'Forum rules'				=>	'Forum rules',
 'Rules legend'				=>	'You must agree to the following in order to register',
 'Agree'						=>	'Agree',
@@ -20,7 +20,7 @@ $lang_register = array(
 
 // Registration e-mail stuff
 'Reg e-mail'				=>	'Thank you for registering. Your password has been sent to the specified address. If it does not arrive you can contact the forum administrator at',
-'Reg complete'				=>	'Registration complete. Logging in and redirecting &hellip;',
+'Reg complete'				=>	'Registration complete. Logging in and redirecting &#x2026;',
 
 //Image Verification stuff
 'Image verification'			=>	'Image Verification',

@@ -35,7 +35,7 @@ $lang_fu = array(
 'or just'			=> 'or just',
 'one slot'			=> 'one slot',
 'Upload just one'		=> 'Upload just one',
-'Show all smilies'		=> 'Show all smilies&hellip;',
+'Show all smilies'		=> 'Show all smilies&#x2026;',
 'show quota'			=> 'show quota',
 'hide quota'			=> 'hide quota',
 

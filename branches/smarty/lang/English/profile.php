@@ -25,7 +25,7 @@ $lang_profile = array(
 // Password stuff
 'Pass key bad'				=>	'The specified password activation key was incorrect or has expired. Please re-request a new password. If that fails, contact the forum administrator at',
 'Pass updated'				=>	'Your password has been updated. You can now login with your new password.',
-'Pass updated redirect'		=>	'Password updated. Redirecting &hellip;',
+'Pass updated redirect'		=>	'Password updated. Redirecting &#x2026;',
 'Wrong pass'				=>	'Wrong old password.',
 'Change pass'				=>	'Change password',
 'Change pass legend'		=>	'Enter and confirm your new password',
@@ -55,8 +55,8 @@ $lang_profile = array(
 'bytes'						=>	'bytes',
 'Move failed'				=>	'The server was unable to save the uploaded file. Please contact the forum administrator at',
 'Unknown failure'			=>	'An unknown error occurred. Please try again.',
-'Avatar upload redirect'	=>	'Avatar uploaded. Redirecting &hellip;',
-'Avatar deleted redirect'	=>	'Avatar deleted. Redirecting &hellip;',
+'Avatar upload redirect'	=>	'Avatar uploaded. Redirecting &#x2026;',
+'Avatar deleted redirect'	=>	'Avatar deleted. Redirecting &#x2026;',
 'Avatar desc'				=>	'An avatar is a small image that will be displayed under your username in your posts. It must not be any bigger than',
 'Upload avatar'				=>	'Upload avatar',
 'Upload avatar legend'		=>	'Enter an avatar file to upload',
@@ -67,7 +67,7 @@ $lang_profile = array(
 // Form validation stuff
 'Dupe username'				=>	'Someone else has already registered with that username. Please go back and try a different username.',
 'Forbidden title'			=>	'The title you entered contains a forbidden word. You must choose a different title.',
-'Profile redirect'			=>	'Profile updated. Redirecting &hellip;',
+'Profile redirect'			=>	'Profile updated. Redirecting &#x2026;',
 
 // Profile display stuff
 'Not activated'				=>	'This user has not activated his/her account yet. The account is activated when he/she logs in the first time.',
@@ -139,9 +139,9 @@ $lang_profile = array(
 'Delete warning'			=>	'Warning! Deleted users and/or posts cannot be restored. If you choose not to delete the posts made by this user, the posts can only be deleted manually at a later time.',
 'Delete posts'				=>	'Delete any posts and topics this user has made.',
 'Delete'					=>	'Delete',		// submit button (confirm user delete)
-'User delete redirect'		=>	'User deleted. Redirecting &hellip;',
-'Group membership redirect'	=>	'Group membership saved. Redirecting &hellip;',
-'Update forums redirect'	=>	'Forum moderator rights updated. Redirecting &hellip;',
+'User delete redirect'		=>	'User deleted. Redirecting &#x2026;',
+'Group membership redirect'	=>	'Group membership saved. Redirecting &#x2026;',
+'Update forums redirect'	=>	'Forum moderator rights updated. Redirecting &#x2026;',
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 'Mark as read legend'		=>	'Mark topics & forums as reading',
@@ -153,7 +153,7 @@ $lang_profile = array(
 'Show bb-panel'             =>  'Show BB-panel',
 
 
-'Ban redirect'				=>	'Redirecting &hellip;',
+'Ban redirect'				=>	'Redirecting &#x2026;',
 
 'sex' => 'Sex',
 'm' => 'M',
