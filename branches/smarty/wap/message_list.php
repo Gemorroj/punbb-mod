@@ -146,13 +146,11 @@ if ($box < 2) {
     // If there are messages in this folder.
     if ($all = $db->num_rows($result)) {
         while ($cur_mess = $db->fetch_assoc($result)) {
-
             $messages[] = $cur_mess;
         }
     }
 
     if ($_GET['action'] == 'all') {
-
         $p = $num_pages + 1;
     }
 
@@ -163,7 +161,6 @@ if ($box < 2) {
     }
 
     ////////
-    //$smarty->debugging = true;
     $smarty->assign('name', $name);
     $smarty->assign('cur_post', $cur_post);
     $smarty->assign('pun_user', $pun_user);

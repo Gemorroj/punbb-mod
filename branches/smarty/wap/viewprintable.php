@@ -43,7 +43,6 @@ while ($cur_post = $db->fetch_assoc($result)) {
 
 require PUN_ROOT . 'wap/header.php';
 
-//$smarty->debugging = true;
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('posts', $posts);

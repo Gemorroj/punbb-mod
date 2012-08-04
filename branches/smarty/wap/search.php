@@ -545,11 +545,9 @@ $result = $db->query('
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
 while ($cur_forum = $db->fetch_assoc($result)) {
-
     $forums[] = $cur_forum;
 }
 
-$smarty->debugging = true;
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_search['Search'];
 $smarty->assign('page_title', $page_title);

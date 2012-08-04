@@ -311,7 +311,6 @@ function dir_size($dir)
     return $sz;
 }
 
-//$smarty->debugging = true;
 $smarty->assign('page_title', $page_title);
 $smarty->assign('lang_uploads', $lang_uploads);
 $smarty->assign('upl_conf', $upl_conf);
