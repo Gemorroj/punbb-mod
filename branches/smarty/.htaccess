@@ -1,12 +1,3 @@
-# Расскоментируйте нижеследующий блок и замените на ваш адрес, если хотите,
-# чтобы при запросе c суффиксом www, 
-# клиент автоматически переходил на адрес без www
-# RewriteEngine On
-# Options +FollowSymlinks
-# RewriteBase /
-# RewriteCond %{HTTP_HOST} ^www.ваш_URL$
-# RewriteRule ^(.*)$ http://ваш_URL/$1 [R=301,L]
-
 Options -Indexes
 
 <Files ~ "config.php$">
@@ -47,6 +38,8 @@ php_value error_log /error_log
 php_value session.use_trans_sid 0
 php_value session.use_cookies 1
 php_value session.use_only_cookies 1
+php_value session.use_only_cookies 1
+php_value session.cookie_httponly 1
 
 
 # кодировка
@@ -55,8 +48,8 @@ php_value default_charset UTF-8
 
 
 # Максимальный размер файла для загрузки
-php_value upload_max_filesize 50M
-php_value post_max_size 50M
+php_value upload_max_filesize 150M
+php_value post_max_size 150M
 
 
 # mbstring

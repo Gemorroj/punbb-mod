@@ -4,7 +4,7 @@ function generate_spam_regexp_cache()
     global $db;
 
     // Get the ban list from the DB
-    $result = $db->query('SELECT `id`, `regexpr` FROM '.$db->prefix.'spam_regexp', true) or error('Unable to fetch spam_regexp', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id`, `regexpr` FROM ' . $db->prefix . 'spam_regexp', true) or error('Unable to fetch spam_regexp', __FILE__, __LINE__, $db->error());
 
     $output = array();
     while ($cur_regexp = $db->fetch_assoc($result)) {

@@ -7,8 +7,7 @@ Ajax Poll for punbb
 
 poll script
 PLEASE, DO NOT REMOVE LINK TO punbb.ru FROM CODE! THANKS!
-
-************************************************************************/
+ ************************************************************************/
 
 
 //define('PUN_ROOT', '../../');
@@ -49,7 +48,7 @@ class _Poll
                 $poll['pexpire'] = 365;
             }
 
-            $db->query('INSERT INTO ' . $db->prefix . 'polls (description, time, multiselect, data, expire, owner) VALUES(\'' . $db->escape($poll['pdescription']) . '\', ' . time() . ', \'' . $db->escape($poll['pmultiselect']) . '\', \'' . $db->escape(serialize($this->convertQustions($poll['pquestions']))) . '\', \'' . $db->escape($poll['pexpire']) . '\', ' . $userid . ')') or error('Unable to create poll.', __FILE__ , __LINE__ , $db->error());
+            $db->query('INSERT INTO ' . $db->prefix . 'polls (description, time, multiselect, data, expire, owner) VALUES(\'' . $db->escape($poll['pdescription']) . '\', ' . time() . ', \'' . $db->escape($poll['pmultiselect']) . '\', \'' . $db->escape(serialize($this->convertQustions($poll['pquestions']))) . '\', \'' . $db->escape($poll['pexpire']) . '\', ' . $userid . ')') or error('Unable to create poll.', __FILE__, __LINE__, $db->error());
             return $db->insert_id();
         }
 
@@ -61,7 +60,7 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT has_poll FROM ' . $db->prefix . 'topics WHERE id IN (' . $topics. ')') or error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT has_poll FROM ' . $db->prefix . 'topics WHERE id IN (' . $topics . ')') or error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
         $polls_ids = '';
         while ($row = $db->fetch_row($result)) {
             if ($row[0]) {
@@ -90,7 +89,7 @@ class _Poll
 
         if (!$this->isVoted($pid, $pun_user['id'])) {
             $q = $this->convertAnswers($q);
-    
+
             if (!$this->validAnswers($q)) {
                 return 1;
             }
@@ -101,15 +100,15 @@ class _Poll
                 $poll['data'][$value][1]++;
             }
 
-            $db->query('UPDATE ' . $db->prefix . 'polls SET data = \'' . $db->escape(serialize($poll['data'])) . '\', vcount=vcount+1 WHERE id=' . $pid) or error('Unable to update polls. ', __FILE__ , __LINE__ , $db->error());
+            $db->query('UPDATE ' . $db->prefix . 'polls SET data = \'' . $db->escape(serialize($poll['data'])) . '\', vcount=vcount+1 WHERE id=' . $pid) or error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
 
-            $db->query('INSERT INTO ' . $db->prefix . 'log_polls (pid, uid) VALUES(' . $pid . ',' . $pun_user['id'] . ')') or error('Unable to update voters. ', __FILE__ , __LINE__ , $db->error());
+            $db->query('INSERT INTO ' . $db->prefix . 'log_polls (pid, uid) VALUES(' . $pid . ',' . $pun_user['id'] . ')') or error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
             $this->setPolled($pid, $pun_user['id']);
             return 0;
         } else {
             return 2;
         }
-    
+
     }
 
 
@@ -195,7 +194,7 @@ class _Poll
                 $q = 100 / $total;
             }
 
-            $pieces	= '';
+            $pieces = '';
 
             if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
@@ -227,7 +226,7 @@ class _Poll
                 $q = 100 / $total;
             }
 
-            $pieces	= '';
+            $pieces = '';
 
             if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
@@ -253,7 +252,7 @@ class _Poll
             header('Content-Type: text/html; charset=UTF-8');
         }
 
-        echo '<div class="in"><strong>' . $lang_poll['poll']. '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div><div class="msg2"><span class="sub">';
+        echo '<div class="in"><strong>' . $lang_poll['poll'] . '</strong>: ' . pun_htmlspecialchars($poll['description']) . '</div><div class="msg2"><span class="sub">';
 
         foreach ($poll['data'] as $quest) {
             echo '<strong>' . pun_htmlspecialchars($quest[0]) . '</strong> [' . $quest[1] . '] ' . round($quest[1] * $q, 1) . '%<br />';
@@ -321,12 +320,12 @@ class _Poll
 
         if (!$buffered) {
             ob_start();
-        } else{
+        } else {
             header('Content-Type: text/html; charset=UTF-8');
         }
 
         echo '<div class="p_cnt p_cnt_' . $pollid . '"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div class="cnt_' . $pollid . '"><table><tr><td colspan="3" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
-        
+
         $bg_switch = false;
         foreach ($poll['data'] as $quest) {
             $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
@@ -456,10 +455,10 @@ class _Poll
     }
 
 
-    function showForm ($fromAjax = true)
+    function showForm($fromAjax = true)
     {
         global $lang_poll, $pun_user, $lang_common;
-    
+
         if ($fromAjax) {
             header('Content-Type: text/html; charset=UTF-8');
         }

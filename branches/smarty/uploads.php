@@ -45,13 +45,13 @@ if (!isset($_SESSION['firsttime'])) {
 // setup locale variables
 
 $s_nump = $_SESSION['nump'];
-$s_cat  = $_SESSION['cat'];
+$s_cat = $_SESSION['cat'];
 $s_file = $_SESSION['file'];
 $s_user = $_SESSION['user'];
 $s_desc = $_SESSION['desc'];
 
 $s_sort = $_SESSION['sort'];
-$s_u    = $_SESSION['u'];
+$s_u = $_SESSION['u'];
 $s_page = $_SESSION['page'];
 
 ////////////// lets do some checks - you never know what there will be...
@@ -75,7 +75,7 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/uploads.php';
 // Check permissions
 $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = ' . $pun_user['g_id']));
 if (!$upl_conf) {
-    $upl_conf= $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = 0'));
+    $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = 0'));
 }
 
 
@@ -112,7 +112,7 @@ if (isset($_GET['file'])) {
 
     // update number of downloads
     $result = $db->query('UPDATE ' . $db->prefix . 'uploaded SET downs=downs+1 WHERE file=\'' . $db->escape($file_name) . '\' LIMIT 1') or error($lang_uploads['Err counter'], __FILE__, __LINE__, $db->error());
-    
+
     if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
         message($lang_common['Bad request']);
     } else {
@@ -157,7 +157,7 @@ if (!$upl_conf['p_view']) {
     } else {
         echo '<div id="announce" class="block"><h2><span><strong>' . $lang_uploads['Not allowed'] . '</strong></span></h2><div class="box"><div class="inbox"><div><strong>' . $lang_uploads['Not allowed mes'] . '</strong></div></div></div></div>';
     }
-} else if(isset($_POST['act'])) {
+} else if (isset($_POST['act'])) {
     // try to upload a file
     $temp_name = $_FILES['file']['tmp_name'];
     $file_name = $_FILES['file']['name'];
@@ -174,11 +174,11 @@ if (!$upl_conf['p_view']) {
         error('The directory is full. Contact administrator, please.', __FILE__, __LINE__, $db->error());
     } else if (!$file_name) {
         error($lang_uploads['Err no file'], __FILE__, __LINE__, $db->error());
-    } else if(file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
+    } else if (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
-    } else if($file_size > $upl_conf['u_fsize']) {
+    } else if ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } else if(!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
+    } else if (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
@@ -208,7 +208,7 @@ if (!$upl_conf['p_view']) {
 
         echo '<div class="inform"><fieldset><legend>' . $lang_uploads['Upload file'] . '</legend><div class="infldset"><div><strong>' . $lang_uploads['File uploaded'] . '<a href="' . $_SERVER['PHP_SELF'] . '?file=' . rawurlencode($file_name) . '">' . $pun_config['o_base_url'] . '/uploads.php?file=' . pun_htmlspecialchars($file_name) . '</a></strong></div></div></fieldset></div>';
     }
-} else if(isset($_GET['del'])) {
+} else if (isset($_GET['del'])) {
     $delfile = $_GET['del'];
     $delfile = strtr($delfile, '/', ' '); // убираем любые слыши и бэкслэши, которые используются в Lin-Win в качестве пути
     $delfile = strtr($delfile, '\\', ' ');
@@ -295,9 +295,9 @@ if (!$upl_conf['p_view']) {
         }
         echo '>' . $cats[$i] . '</option>';
     }
-    
+
     echo '</select></td><td><input type="text" id="file" name="file" size="20" maxlength="200" value="' . pun_htmlspecialchars($s_file) . '" /></td><td><input type="text" id="user" name="user" size="20" maxlength="100" value="' . pun_htmlspecialchars($s_user) . '" /></td><td><input type="text" id="desc" name="desc" size="20" maxlength="200" value="' . pun_htmlspecialchars($s_desc) . '" /></td></tr><tr><td colspan="5"><input type="hidden" name="page" value="0" /><input type="submit" name="filter" value="' . $lang_uploads['Enable filter'] . '" />&#160; &#160; &#160; <input name="filter" type="submit" onclick="nump.value=\'20\';cat.value=\'0\';file.value=\'\';user.value=\'\';desc.value=\'\';window.location=\'' . $_SERVER['PHP_SELF'] . '\';" value="' . $lang_uploads['Reset filter'] . '" /></td></tr></table></form></div></fieldset></div>';
-    
+
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'uploaded WHERE ' . $sql . $sorto) or error('Error getting file list', __FILE__, __LINE__, $db->error());
     } else {

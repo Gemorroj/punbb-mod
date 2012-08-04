@@ -37,8 +37,8 @@ if (isset($_POST['prune'])) {
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
     $username = pun_trim($_POST['username']);
-    $email1 = pun_strtolower(trim($_POST['email']));
-    $email2 = pun_strtolower(trim($_POST['email']));
+    $email1 = mb_strtolower(trim($_POST['email']));
+    $email2 = mb_strtolower(trim($_POST['email']));
 
     if ($_POST['random_pass'] == 1) {
         $password1 = random_pass(8);
@@ -52,11 +52,11 @@ if (isset($_POST['prune'])) {
     $username = preg_replace('#\s+#s', ' ', $username);
 
     // Validate username and passwords
-    if (pun_strlen($username) < 2) {
+    if (mb_strlen($username) < 2) {
         message($lang_prof_reg['Username too short']);
-    } else if (pun_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } else if (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         message($lang_common['Bad request']);
-    } else if (pun_strlen($password1) < 4) {
+    } else if (mb_strlen($password1) < 4) {
         message($lang_prof_reg['Pass too short']);
     } else if ($password1 != $password2) {
         message($lang_prof_reg['Pass not match']);
@@ -147,110 +147,128 @@ if (isset($_POST['prune'])) {
     // Display the admin navigation menu
     generate_admin_menu($plugin);
 
-?>
+    ?>
 <div class="block">
-<h2><span>Управление пользователями - v<?php echo PLUGIN_VERSION; ?></span></h2>
-<div class="box">
-<div class="inbox">
-<p>Этот плагин позволяет сокращать пользователей которые отвечали меньше определенного числа раз в течение заданного количество дней.</p>
-<p><strong>Внимание: Это на совсем и использовать нужно очень осторожно (рекомендуется сделать бэкап перед сокращением).</strong></p>
-<p>Так же вы можете вручную добавлять пользователей, это удобно для закрытых форумов (если вы отключили возможность регистрации в опциях.)</p>
-</div>
-</div>
+    <h2><span>Управление пользователями - v<?php echo PLUGIN_VERSION; ?></span></h2>
+
+    <div class="box">
+        <div class="inbox">
+            <p>Этот плагин позволяет сокращать пользователей которые отвечали меньше определенного числа раз в течение
+                заданного количество дней.</p>
+
+            <p><strong>Внимание: Это на совсем и использовать нужно очень осторожно (рекомендуется сделать бэкап перед
+                сокращением).</strong></p>
+
+            <p>Так же вы можете вручную добавлять пользователей, это удобно для закрытых форумов (если вы отключили
+                возможность регистрации в опциях.)</p>
+        </div>
+    </div>
 </div>
 <div class="blockform">
-<h2 class="block2"><span>Сокращение пользователей</span></h2>
-<div class="box">
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-<div class="inform">
-<fieldset>
-<legend>Настройки</legend>
-<div class="infldset">
-<table class="aligntop" cellspacing="0">
-<tr>
-<th scope="row">Сокращать по</th>
-<td>
-<input type="radio" name="prune_by" value="1" checked="checked" />&#160;<strong>Дате регистрации</strong>&#160;&#160;&#160;<input type="radio" name="prune_by" value="0" />&#160;<strong>Последнему посещению</strong>
-<span>Решите с момента даты регистрации или последнего посещения отсчитывать минимальное количество дней.</span>
-</td>
-</tr>
-<tr>
-<th scope="row">Минимум дней с регистрации/последего посещения</th>
-<td>
-<input type="text" name="days" value="28" size="25" tabindex="1" />
-<span>Минимум дней от настроек выше, с которого сократятся пользователи.</span>
-</td>
-</tr>
-<tr>
-<th scope="row">Максимум сообщений</th>
-<td>
-<input type="text" name="posts" value="1" size="25" tabindex="1" />
-<span>Пользователи с большим количеством сообщений не сократятся. т.е. значение 1 удалит пользователей без сообщений.</span>
-</td>
-</tr>
-<tr>
-<th scope="row">Удалять администраторов и модераторов?</th>
-<td>
-<input type="radio" name="admods_delete" value="1" /> <strong>Да</strong>&#160; &#160;<input type="radio" name="admods_delete" value="0" checked="checked" /> <strong>Нет</strong>
-<span>Если да, любой отвечающий условиям модератор или администратор тоже сократится.</span>
-</td>
-</tr>
-<tr>
-<th scope="row">Статус пользователя</th>
-<td>
-<input type="radio" name="verified" value="1" /> <strong>Удалить любых</strong>&#160; &#160;<input type="radio" name="verified" value="0" checked="checked" /> <strong>Удалить только проверенных</strong>&#160; &#160;<input type="radio" name="verified" value="2" /> <strong>Удалить только не проверенных</strong>
-<span>Решите проверенные или не проверенные пользователи должны быть удалены.</span>
-</td>
-</tr>
-</table>
-</div>
-</fieldset>
-</div>
-<p class="submitend"><input type="submit" name="prune" value="Отправить" tabindex="2" /></p>
-</form>
-</div>
+    <h2 class="block2"><span>Сокращение пользователей</span></h2>
 
-<h2 class="block2"><span>Добавление пользователя</span></h2>
-<div class="box">
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-<div class="inform">
-<fieldset>
-<legend>Параметры</legend>
-<div class="infldset">
-<table class="aligntop" cellspacing="0">
-<tr>
-<th scope="row">Имя пользователя</th>
-<td>
-<input type="text" name="username" size="25" tabindex="3" />
-</td>
-</tr>
-<tr>
-<th scope="row">Email</th>
-<td>
-<input type="text" name="email" size="50" tabindex="3" />
-</td>
-</tr>
-<tr>
-<th scope="row">Сгенерировать случайный пароль?</th>
-<td>
-<input type="radio" name="random_pass" value="1" /> <strong>Да</strong>&#160; &#160;<input type="radio" name="random_pass" value="0" checked="checked" /> <strong>Нет</strong>
-<span>Если да, случайный пароль будет сгенерирован и отослан по адресу выше.</span>
-</td>
-</tr>
-<tr>
-<th scope="row">Пароль</th>
-<td>
-<input type="text" name="password" size="25" tabindex="3" />
-<span>Если не хотите случайный пароль.</span>
-</td>
-</tr>
-</table>
-</div>
-</fieldset>
-</div>
-<p class="submitend"><input type="submit" name="add_user" value="Отправить" tabindex="4" /></p>
-</form>
-</div>
+    <div class="box">
+        <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <div class="inform">
+                <fieldset>
+                    <legend>Настройки</legend>
+                    <div class="infldset">
+                        <table class="aligntop" cellspacing="0">
+                            <tr>
+                                <th scope="row">Сокращать по</th>
+                                <td>
+                                    <input type="radio" name="prune_by" value="1" checked="checked"/>&#160;<strong>Дате
+                                    регистрации</strong>&#160;&#160;&#160;<input type="radio" name="prune_by"
+                                                                                 value="0"/>&#160;<strong>Последнему
+                                    посещению</strong>
+                                    <span>Решите с момента даты регистрации или последнего посещения отсчитывать минимальное количество дней.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Минимум дней с регистрации/последего посещения</th>
+                                <td>
+                                    <input type="text" name="days" value="28" size="25" tabindex="1"/>
+                                    <span>Минимум дней от настроек выше, с которого сократятся пользователи.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Максимум сообщений</th>
+                                <td>
+                                    <input type="text" name="posts" value="1" size="25" tabindex="1"/>
+                                    <span>Пользователи с большим количеством сообщений не сократятся. т.е. значение 1 удалит пользователей без сообщений.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Удалять администраторов и модераторов?</th>
+                                <td>
+                                    <input type="radio" name="admods_delete" value="1"/> <strong>Да</strong>&#160;
+                                    &#160;<input type="radio" name="admods_delete" value="0" checked="checked"/>
+                                    <strong>Нет</strong>
+                                    <span>Если да, любой отвечающий условиям модератор или администратор тоже сократится.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Статус пользователя</th>
+                                <td>
+                                    <input type="radio" name="verified" value="1"/> <strong>Удалить любых</strong>&#160;
+                                    &#160;<input type="radio" name="verified" value="0" checked="checked"/> <strong>Удалить
+                                    только проверенных</strong>&#160; &#160;<input type="radio" name="verified"
+                                                                                   value="2"/> <strong>Удалить только не
+                                    проверенных</strong>
+                                    <span>Решите проверенные или не проверенные пользователи должны быть удалены.</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+            <p class="submitend"><input type="submit" name="prune" value="Отправить" tabindex="2"/></p>
+        </form>
+    </div>
+
+    <h2 class="block2"><span>Добавление пользователя</span></h2>
+
+    <div class="box">
+        <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <div class="inform">
+                <fieldset>
+                    <legend>Параметры</legend>
+                    <div class="infldset">
+                        <table class="aligntop" cellspacing="0">
+                            <tr>
+                                <th scope="row">Имя пользователя</th>
+                                <td>
+                                    <input type="text" name="username" size="25" tabindex="3"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>
+                                    <input type="text" name="email" size="50" tabindex="3"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Сгенерировать случайный пароль?</th>
+                                <td>
+                                    <input type="radio" name="random_pass" value="1"/> <strong>Да</strong>&#160;
+                                    &#160;<input type="radio" name="random_pass" value="0" checked="checked"/> <strong>Нет</strong>
+                                    <span>Если да, случайный пароль будет сгенерирован и отослан по адресу выше.</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Пароль</th>
+                                <td>
+                                    <input type="text" name="password" size="25" tabindex="3"/>
+                                    <span>Если не хотите случайный пароль.</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+            <p class="submitend"><input type="submit" name="add_user" value="Отправить" tabindex="4"/></p>
+        </form>
+    </div>
 </div>
 
 <?php

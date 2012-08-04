@@ -10,7 +10,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 $register_globals = @ini_get('register_globals');
 if ($register_globals == 1 || strtolower($register_globals) == 'on') {
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,11 +32,11 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 </div>
 </body>
 </html>';
-exit;
+    exit;
 }
 
 if (!function_exists('mb_internal_encoding')) {
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -58,11 +58,11 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 </div>
 </body>
 </html>';
-exit;
+    exit;
 }
 
 if (version_compare(PHP_VERSION, '5.2.3', '<')) {
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -84,7 +84,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 </div>
 </body>
 </html>';
-exit;
+    exit;
 }
 
 
@@ -168,16 +168,16 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_additional_navlinks', ''),
 ('o_report_method', '0'),
 ('o_regs_report', '0'),
-('o_mailing_list', 'admin@".$_SERVER['HTTP_HOST']."'),
+('o_mailing_list', 'admin@" . $_SERVER['HTTP_HOST'] . "'),
 ('o_avatars', '1'),
 ('o_avatars_dir', 'img/avatars'),
 ('o_avatars_width', '60'),
 ('o_avatars_height', '60'),
 ('o_avatars_size', '10240'),
 ('o_search_all_forums', '1'),
-('o_base_url', 'http://".$_SERVER['HTTP_HOST'] . $base_url . "'),
-('o_admin_email', 'admin@".$_SERVER['HTTP_HOST']."'),
-('o_webmaster_email', 'admin@".$_SERVER['HTTP_HOST']."'),
+('o_base_url', 'http://" . $_SERVER['HTTP_HOST'] . $base_url . "'),
+('o_admin_email', 'admin@" . $_SERVER['HTTP_HOST'] . "'),
+('o_webmaster_email', 'admin@" . $_SERVER['HTTP_HOST'] . "'),
 ('o_subscriptions', '0'),
 ('o_smtp_host', NULL),
 ('o_smtp_user', NULL),
@@ -569,7 +569,7 @@ KEY `users_username_idx` (`username`(3))
 
 mysql_query("INSERT INTO `users` (`id`, `group_id`, `username`, `password`, `email`, `title`, `realname`, `url`, `jabber`, `icq`, `msn`, `aim`, `yahoo`, `location`, `use_avatar`, `signature`, `disp_topics`, `disp_posts`, `email_setting`, `save_pass`, `notify_with_post`, `show_smilies`, `show_img`, `show_img_sig`, `show_avatars`, `show_sig`, `timezone`, `language`, `style`, `style_wap`, `num_posts`, `last_post`, `registered`, `registration_ip`, `last_visit`, `admin_note`, `activate_string`, `activate_key`, `popup_enable`, `messages_enable`, `mark_after`) VALUES
 (1, 3, 'Guest', 'Guest', 'Guest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '0.0.0.0', 0, NULL, NULL, NULL, 1, 1, 1296000),
-(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@".$_SERVER['HTTP_HOST']."', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', '', '', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (mysql_error());
+(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@" . $_SERVER['HTTP_HOST'] . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', '', '', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `attachments` (
@@ -610,7 +610,6 @@ PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
 
 
-
 mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
   `id` int(10) unsigned NOT NULL default '0',
   `to` int(10) unsigned NOT NULL default '0',
@@ -622,16 +621,15 @@ mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die(mysql_error());
 
 
-
-@chmod(PUN_ROOT.'uploads/',0777);
-@chmod(PUN_ROOT.'uploaded/',0777);
-@chmod(PUN_ROOT.'cache/',0777);
-@chmod(PUN_ROOT.'tmp/',0777);
-@chmod(PUN_ROOT.'img/avatars/',0777);
-@chmod(PUN_ROOT.'img/thumb/',0777);
-@chmod(PUN_ROOT.'rss.xml',0666);
-@chmod(PUN_ROOT.'lang/Russian/stopwords.txt',0666);
-@chmod(PUN_ROOT.'lang/English/stopwords.txt',0666);
+@chmod(PUN_ROOT . 'uploads/', 0777);
+@chmod(PUN_ROOT . 'uploaded/', 0777);
+@chmod(PUN_ROOT . 'cache/', 0777);
+@chmod(PUN_ROOT . 'tmp/', 0777);
+@chmod(PUN_ROOT . 'img/avatars/', 0777);
+@chmod(PUN_ROOT . 'img/thumb/', 0777);
+@chmod(PUN_ROOT . 'rss.xml', 0666);
+@chmod(PUN_ROOT . 'lang/Russian/stopwords.txt', 0666);
+@chmod(PUN_ROOT . 'lang/English/stopwords.txt', 0666);
 
 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

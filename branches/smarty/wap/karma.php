@@ -1,15 +1,15 @@
 <?php
 define('PUN_ROOT', '../');
 
-require PUN_ROOT.'include/common.php';
+require PUN_ROOT . 'include/common.php';
 
-if (! $pun_user['g_read_board']) {
-    
+if (!$pun_user['g_read_board']) {
+
     wap_message($lang_common['No view']);
 }
 
 if ($to = intval($_GET['to'])) {
-    
+
     vote($to, intval($_GET['vote']));
     $pid = intval($_GET['pid']);
     wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
@@ -32,7 +32,7 @@ $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_
 
 $start = ($p - 1) * $pun_user['disp_posts'];
 if ($_GET['action'] == 'all') {
-    
+
     $p = $num_pages + 1;
     $pun_user['disp_posts'] = $num_hits;
     $start = 0;
@@ -41,7 +41,7 @@ if ($_GET['action'] == 'all') {
 $username = $db->result($db->query('SELECT `username` FROM `' . $db->prefix . 'users` WHERE `id` = ' . $id), 0);
 
 if ($num_hits) {
-        $q = $db->query('
+    $q = $db->query('
         SELECT `karma`.*, `users`.`username` AS `from`
         FROM `' . $db->prefix . 'karma` AS `karma`
         LEFT JOIN `' . $db->prefix . 'users` AS `users` ON `users`.`id` = `karma`.`id`
@@ -49,12 +49,12 @@ if ($num_hits) {
         ORDER BY `karma`.`time` DESC
         LIMIT ' . $start . ',' . $pun_user['disp_posts']
     );
-    
+
     while ($result = $db->fetch_assoc($q)) {
-        
+
         $array[] = $result;
     }
-    
+
     $page_links = paginate($num_pages, $p, 'karma.php?id=' . $id);
 }
 

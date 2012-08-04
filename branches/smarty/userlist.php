@@ -23,75 +23,75 @@ $sort_by = (!isset($_GET['sort_by']) || $_GET['sort_by'] != 'username' && $_GET[
 $sort_dir = (!isset($_GET['sort_dir']) || $_GET['sort_dir'] != 'ASC' && $_GET['sort_dir'] != 'DESC') ? 'ASC' : strtoupper($_GET['sort_dir']);
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['User list'];
-if($pun_user['g_search_users'] == 1){
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['User list'];
+if ($pun_user['g_search_users'] == 1) {
     $focus_element = array('userlist', 'username');
 }
 
 define('PUN_ALLOW_INDEX', 1);
-require_once PUN_ROOT.'header.php';
+require_once PUN_ROOT . 'header.php';
 
 
-echo '<div class="blockform"><h2><span>'.$lang_search['User search'].'</span></h2>
+echo '<div class="blockform"><h2><span>' . $lang_search['User search'] . '</span></h2>
 <div class="box">
 <form id="userlist" method="get" action="userlist.php?">
 <div class="inform">
 <fieldset>
-<legend>'.$lang_ul['User find legend'].'</legend>
+<legend>' . $lang_ul['User find legend'] . '</legend>
 <div class="infldset">';
 if ($pun_user['g_search_users'] == 1) {
-    echo '<label class="conl">'.$lang_common['Username'].'<br /><input type="text" name="username" value="'.pun_htmlspecialchars($username).'" size="25" maxlength="25" /><br /></label>';
+    echo '<label class="conl">' . $lang_common['Username'] . '<br /><input type="text" name="username" value="' . pun_htmlspecialchars($username) . '" size="25" maxlength="25" /><br /></label>';
 }
-echo '<label class="conl">'.$lang_ul['User group'].'<br /><select name="show_group"><option value="-1"';
-if ($show_group == -1){
+echo '<label class="conl">' . $lang_ul['User group'] . '<br /><select name="show_group"><option value="-1"';
+if ($show_group == -1) {
     echo ' selected="selected"';
 }
-echo '>'.$lang_ul['All users'].'</option>';
+echo '>' . $lang_ul['All users'] . '</option>';
 
-$result = $db->query('SELECT g_id, g_title FROM '.$db->prefix.'groups WHERE g_id!='.PUN_GUEST.' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
 while ($cur_group = $db->fetch_assoc($result)) {
-    if($cur_group['g_id'] == $show_group){
-        echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+    if ($cur_group['g_id'] == $show_group) {
+        echo '<option value="' . $cur_group['g_id'] . '" selected="selected">' . pun_htmlspecialchars($cur_group['g_title']) . '</option>';
     } else {
-        echo '<option value="'.$cur_group['g_id'].'">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="' . $cur_group['g_id'] . '">' . pun_htmlspecialchars($cur_group['g_title']) . '</option>';
     }
 }
 
 
 echo '</select>
 <br /></label>
-<label class="conl">'.$lang_search['Sort by'].'<br /><select name="sort_by">
+<label class="conl">' . $lang_search['Sort by'] . '<br /><select name="sort_by">
 <option value="username"';
-if($sort_by == 'username'){
+if ($sort_by == 'username') {
     echo ' selected="selected"';
 }
-echo '>'.$lang_common['Username'].'</option><option value="registered"';
-if($sort_by == 'registered'){
+echo '>' . $lang_common['Username'] . '</option><option value="registered"';
+if ($sort_by == 'registered') {
     echo ' selected="selected"';
 }
-echo '>'.$lang_common['Registered'].'</option>';
+echo '>' . $lang_common['Registered'] . '</option>';
 if ($show_post_count) {
     echo '<option value="num_posts"';
-    if($sort_by == 'num_posts'){
+    if ($sort_by == 'num_posts') {
         echo ' selected="selected"';
     }
-    echo '>'.$lang_ul['No of posts'].'</option>';
+    echo '>' . $lang_ul['No of posts'] . '</option>';
 }
-echo '</select><br /></label><label class="conl">'.$lang_search['Sort order'].'<br /><select name="sort_dir"><option value="ASC"';
-if($sort_dir == 'ASC'){
+echo '</select><br /></label><label class="conl">' . $lang_search['Sort order'] . '<br /><select name="sort_dir"><option value="ASC"';
+if ($sort_dir == 'ASC') {
     echo ' selected="selected"';
 }
-echo '>'.$lang_search['Ascending'].'</option><option value="DESC"';
-if($sort_dir == 'DESC'){
+echo '>' . $lang_search['Ascending'] . '</option><option value="DESC"';
+if ($sort_dir == 'DESC') {
     echo ' selected="selected"';
 }
-echo '>'.$lang_search['Descending'].'</option></select><br /></label>
-<p class="clearb">'.$lang_ul['User search info'].'</p>
+echo '>' . $lang_search['Descending'] . '</option></select><br /></label>
+<p class="clearb">' . $lang_ul['User search info'] . '</p>
 </div>
 </fieldset>
 </div>
-<p><input type="submit" name="search" value="'.$lang_common['Submit'].'" accesskey="s" /></p>
+<p><input type="submit" name="search" value="' . $lang_common['Submit'] . '" accesskey="s" /></p>
 </form>
 </div>
 </div>';
@@ -100,15 +100,15 @@ echo '>'.$lang_search['Descending'].'</option></select><br /></label>
 $where_sql = array();
 $like_command = 'LIKE';
 
-if($pun_user['g_search_users'] == 1 && $username){
-    $where_sql[] = 'u.username '.$like_command.' \''.$db->escape(str_replace('*', '%', $username)).'\'';
+if ($pun_user['g_search_users'] == 1 && $username) {
+    $where_sql[] = 'u.username ' . $like_command . ' \'' . $db->escape(str_replace('*', '%', $username)) . '\'';
 }
-if($show_group > -1){
-    $where_sql[] = 'u.group_id='.$show_group;
+if ($show_group > -1) {
+    $where_sql[] = 'u.group_id=' . $show_group;
 }
 
 // Fetch user count
-$result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'users AS u WHERE u.id>1'.(($where_sql) ? ' AND '.implode(' AND ', $where_sql) : '')) or error('Unable to fetch user list count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'users AS u WHERE u.id>1' . (($where_sql) ? ' AND ' . implode(' AND ', $where_sql) : '')) or error('Unable to fetch user list count', __FILE__, __LINE__, $db->error());
 $num_users = $db->result($result);
 
 
@@ -144,7 +144,7 @@ if ($show_post_count) {
 echo '<th class="tcr" scope="col">' . $lang_common['Registered'] . '</th></tr></thead><tbody>';
 
 // Grab the users
-$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM '.$db->prefix.'users AS u LEFT JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id WHERE u.id>1'.(!empty($where_sql) ? ' AND '.implode(' AND ', $where_sql) : '').' ORDER BY '.$sort_by.' '.$sort_dir.', u.id ASC ' . ($start_from != -1 ? 'LIMIT '.$start_from.', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM ' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id WHERE u.id>1' . (!empty($where_sql) ? ' AND ' . implode(' AND ', $where_sql) : '') . ' ORDER BY ' . $sort_by . ' ' . $sort_dir . ', u.id ASC ' . ($start_from != -1 ? 'LIMIT ' . $start_from . ', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $user_title_field = get_title($user_data);
@@ -166,6 +166,6 @@ echo '</tbody></table>
 </div>
 <div class="linksb"><div class="inbox"><p class="pagelink">' . $paging_links . '</p></div></div>';
 
-require_once PUN_ROOT.'footer.php';
+require_once PUN_ROOT . 'footer.php';
 
 ?>

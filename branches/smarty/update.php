@@ -16,11 +16,11 @@ $version = @$arr['conf_value'];
 if (!$version || $version == 1 || ($version < '0.5.2')) {
 
     $query = mysql_query('INSERT INTO `config` (`conf_name`, `conf_value`) VALUES ("o_antiflood", "1"), ("o_antiflood_a", "5"), ("o_antiflood_b", "3600")');
-    
+
     if (!$query) {
         $error[] = mysql_error();
     }
-    
+
     $query = mysql_query('
         CREATE TABLE `spam_regexp` (
         `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
@@ -29,20 +29,20 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
         PRIMARY KEY ( `id` )
         ) ENGINE = MYISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
     ');
-    
+
     if (!$query) {
         $error[] = mysql_error();
     }
-    
+
     $query = mysql_query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES ("0", "0", "/.*все бесплатно.*/isuU");') or die (mysql_error());
-    
+
     if (!$query) {
         $error[] = mysql_error();
     }
-    
-    
+
+
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.1" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
-    
+
     if (!$query) {
         $error[] = mysql_error();
     }
@@ -51,14 +51,13 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
 }
 
 
-
 if ($version == '0.5.1') {
 
     $query = mysql_query('ALTER TABLE `search_words` CHANGE `word` `word` VARBINARY( 128 ) NOT NULL');
     if (!$query) {
         $error[] = mysql_error();
     }
-    
+
     $query = mysql_query('
         ALTER TABLE `users`
         ADD `sex` ENUM( "0", "1" ) NOT NULL AFTER `url` ,
@@ -67,8 +66,8 @@ if ($version == '0.5.1') {
     if (!$query) {
         $error[] = mysql_error();
     }
-    
-    
+
+
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.2" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
 
     if (!$query) {
@@ -91,7 +90,7 @@ if ($version == '0.5.2') {
     if (!$query) {
         $error[] = mysql_error();
     }
-    
+
     $query = mysql_query('
         CREATE TABLE IF NOT EXISTS `karma` (
         `id` int(10) unsigned NOT NULL default "0",
@@ -123,7 +122,7 @@ if ($version = '0.5.3') {
         $error[] = mysql_error();
     }
 
-    $version = '0.5.4';	
+    $version = '0.5.4';
 }
 
 if ($version = '0.5.4') {
@@ -133,7 +132,7 @@ if ($version = '0.5.4') {
         $error[] = mysql_error();
     }
 
-    $version = '0.5.5';	
+    $version = '0.5.5';
 }
 
 if ($version = '0.5.5') {
@@ -142,13 +141,13 @@ if ($version = '0.5.5') {
     if (!$query) {
         $error[] = mysql_error();
     }
-    
+
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.6" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
         $error[] = mysql_error();
     }
-    
-    $version = '0.5.6';	
+
+    $version = '0.5.6';
 }
 
 if ($version = '0.5.6') {
@@ -163,7 +162,7 @@ if ($version = '0.5.6') {
         $error[] = mysql_error();
     }
 
-    $version = '0.5.7';	
+    $version = '0.5.7';
 }
 
 if ($version = '0.5.7') {
@@ -184,7 +183,7 @@ if ($version = '0.5.7') {
         $error[] = mysql_error();
     }
 
-    $version = '0.5.8';	
+    $version = '0.5.8';
 }
 
 if ($version = '0.5.8') {
@@ -215,7 +214,7 @@ if ($version = '0.5.8') {
     }
 
 
-    $version = '0.5.9';	
+    $version = '0.5.9';
 }
 
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
@@ -224,8 +223,8 @@ header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
 
-if(@$error){
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+if (@$error) {
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -241,10 +240,10 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <div class="box">
 <div class="inbox">
 <p>';
-foreach ($error as $v) {
-    echo $v . '<br/>';
-}
-echo '</p>
+    foreach ($error as $v) {
+        echo $v . '<br/>';
+    }
+    echo '</p>
 </div>
 </div>
 </div>
@@ -252,7 +251,7 @@ echo '</p>
 </div>
 </body>
 </html>';
-exit;
+    exit;
 }
 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

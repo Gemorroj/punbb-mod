@@ -8,7 +8,7 @@ if (!$pun_user['g_read_board']) {
 }
 
 if (!isset($_GET['aid'])) {
-	error('Invalid image parameters', __FILE__, __LINE__);
+    error('Invalid image parameters', __FILE__, __LINE__);
 }
 $aid = intval($_GET['aid']);
 
@@ -31,7 +31,7 @@ list($file, $location, $mime, $poster_id, $moderators, $file_download) = $db->fe
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = array();
 if ($moderators) {
-	$mods_array = unserialize($moderators);
+    $mods_array = unserialize($moderators);
 }
 $is_admmod = ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 $can_download = (!$file_download && $pun_user['g_file_download'] == 1) || $file_download == 1 || $is_admmod;
@@ -59,7 +59,7 @@ $db->query('
     UPDATE LOW_PRIORITY `' . $db->prefix . 'attachments`
     SET `downloads` = `downloads` + 1
     WHERE `id`=' . $aid
-, true) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
+    , true) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
 
 @set_time_limit(999);
 

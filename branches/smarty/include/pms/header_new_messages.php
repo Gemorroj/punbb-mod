@@ -13,7 +13,7 @@ if (!$pun_user['is_guest'] && $pun_user['g_pm'] == 1 && $pun_config['o_pms_enabl
             $return = $db->fetch_row($result);
 
             if ($return[0]) {
-                $tpl_temp .='<script type="text/javascript">window.open("message_popup.php?id=' . $return[0] . '","NewPM","width=500,height=250,resizable=yes,scrollbars=yes");</script>';
+                $tpl_temp .= '<script type="text/javascript">window.open("message_popup.php?id=' . $return[0] . '","NewPM","width=500,height=250,resizable=yes,scrollbars=yes");</script>';
                 $db->query('UPDATE ' . $db->prefix . 'messages SET popup=1 WHERE popup=0 AND owner=' . $pun_user['id']) or error('Unable to update popup status', __FILE__, __LINE__, $db->error());
             }
         }

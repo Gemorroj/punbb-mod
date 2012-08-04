@@ -12,8 +12,7 @@ Included from: edit.php, filemap.php, viewtopic.php
 
 Incoming variables:
 $attachments: array - cache of attachments records
-
-************************************************************************/
+ ************************************************************************/
 
 echo '<script type="text/javascript">
 O_BASE_URL="' . $pun_config['o_base_url'] . '";';

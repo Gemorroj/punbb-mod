@@ -45,7 +45,7 @@ if (!isset($_SESSION['firsttime'])) {
 // setup locale variables
 
 $s_nump = $_SESSION['nump'];
-$s_cat  = $_SESSION['cat'];
+$s_cat = $_SESSION['cat'];
 $s_file = $_SESSION['file'];
 $s_user = $_SESSION['user'];
 $s_desc = $_SESSION['desc'];
@@ -76,7 +76,7 @@ $page_title = $pun_config['o_board_title'] . ' / ' . $lang_uploads['Uploader'];
 // Check permissions
 $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = ' . $pun_user['g_id']));
 if (!$upl_conf) {
-    $upl_conf= $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = 0'));
+    $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = 0'));
 }
 
 
@@ -113,13 +113,13 @@ if (isset($_GET['file'])) {
 
     // update number of downloads
     $result = $db->query('UPDATE ' . $db->prefix . 'uploaded SET downs=downs+1 WHERE file=\'' . $db->escape($file_name) . '\' LIMIT 1') or error($lang_uploads['Err counter'], __FILE__, __LINE__, $db->error());
-    
+
     if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
         wap_message($lang_common['Bad request']);
     } else {
         header('Location: ' . PUN_ROOT . 'uploaded/' . $file_name, true, 301);
     }
-    
+
     // include_once PUN_ROOT.'include/functions.php';
     // getf(file_get_contents(PUN_ROOT.'uploaded/'.$file_name),$file_name,1,0,0);
     exit;
@@ -128,7 +128,7 @@ if (isset($_GET['file'])) {
 require_once PUN_ROOT . 'wap/header.php';
 
 //////////////////////////////////////////////////////
-$result = $db->query('SELECT id,type,exts FROM ' . $db->prefix.'uploads_types') or error('Unable to get types', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id,type,exts FROM ' . $db->prefix . 'uploads_types') or error('Unable to get types', __FILE__, __LINE__, $db->error());
 $exts = '';
 $cats = $ids = array();
 while ($ar = $db->fetch_assoc($result)) {
@@ -141,22 +141,21 @@ while ($ar = $db->fetch_assoc($result)) {
 $exts = trim($exts); // now we have all file types in one string
 
 if (isset($_GET['uploadit'])) {
-    
+
     if ($upl_conf['p_upload'] == 1) {
-        
+
         $maxsize = $upl_conf['u_fsize'];
         $rules = str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
         $rules = str_replace('%EXT%', $exts, $rules);
     }
-}
-else if(isset($_POST['act'])) {
-    
+} else if (isset($_POST['act'])) {
+
     // try to upload a file
     $temp_name = $_FILES['file']['tmp_name'];
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
     $file_size = @round(($_FILES['file']['size']) / 1024);
-    
+
     $result = $_FILES['file']['error'];
     if ($upl_conf['p_upload'] != 1) {
         error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
@@ -167,11 +166,11 @@ else if(isset($_POST['act'])) {
         error('The directory is full. Contact administrator, please.', __FILE__, __LINE__, $db->error());
     } else if (!$file_name) {
         error($lang_uploads['Err no file'], __FILE__, __LINE__, $db->error());
-    } else if(file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
+    } else if (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
-    } else if($file_size > $upl_conf['u_fsize']) {
+    } else if ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } else if(!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
+    } else if (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
@@ -198,9 +197,8 @@ else if(isset($_POST['act'])) {
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
     }
-}
-else if(isset($_GET['del'])) {
-    
+} else if (isset($_GET['del'])) {
+
     $delfile = $_GET['del'];
     $delfile = strtr($delfile, '/', ' '); // убираем любые слыши и бэкслэши, которые используются в Lin-Win в качестве пути
     $delfile = strtr($delfile, '\\', ' ');
@@ -213,16 +211,15 @@ else if(isset($_GET['del'])) {
             error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
         }
     }
-    
+
     if (!file_exists(PUN_ROOT . 'uploaded/' . $delfile)) {
         error($lang_uploads['Err file not found'], __FILE__, __LINE__, $db->error());
     } else {
         @unlink(PUN_ROOT . 'uploaded/' . $delfile);
         $result = $db->query('DELETE FROM ' . $db->prefix . 'uploaded WHERE file=\'' . $db->escape($delfile) . '\'') or error('Unable to delete file from table', __FILE__, __LINE__, $db->error());
     }
-}
-else {
-    
+} else {
+
     $sql = 1;
     // lets try to filter records
     if (strlen($s_file) > 0) {
@@ -265,7 +262,7 @@ else {
     if ($s != 5) {
         $sorto .= ', data DESC';
     }
-    
+
     $pages = array(5, 10, 20, 30, 50, 100);
 
     if ($upl_conf['p_globalview']) {
@@ -282,15 +279,15 @@ else {
     $flist = str_replace('%NUM%', $allrec, $lang_uploads['File list']);
     $flist = str_replace('%CUR%', $temppage, $flist);
     $flist = str_replace('%ALL%', $cp, $flist);
-    
+
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT * FROM ' . $db->prefix . 'uploaded WHERE ' . $sql . $sorto . ' LIMIT ' . $currec . ',' . $s_nump) or error('Error getting file list', __FILE__, __LINE__, $db->error());
     } else {
         $result = $db->query('SELECT * FROM ' . $db->prefix . 'uploaded WHERE ' . $sql . ' AND uid = ' . $pun_user['id'] . $sorto . ' LIMIT ' . $currec . ',' . $s_nump) or error('Error getting file list', __FILE__, __LINE__, $db->error());
     }
-    
+
     while ($info = $db->fetch_assoc($result)) {
-        
+
         $files[] = $info;
     }
 }

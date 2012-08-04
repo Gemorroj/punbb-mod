@@ -2,7 +2,7 @@
 session_start();
 
 define('PUN_ROOT', '../');
-require PUN_ROOT.'include/common.php';
+require PUN_ROOT . 'include/common.php';
 require_once PUN_ROOT . 'wap/header.php';
 
 // If we are logged in, we shouldn't be here
@@ -12,13 +12,13 @@ if (!$pun_user['is_guest']) {
 }
 
 // Load the register.php language file
-require PUN_ROOT.'lang/'.$pun_user['language'].'/register.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
 
 // Load the register.php/profile.php language file
-require PUN_ROOT.'lang/'.$pun_user['language'].'/prof_reg.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 
 // Profile
-require PUN_ROOT.'lang/'.$pun_user['language'].'/profile.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 
 if (!$pun_config['o_regs_allow']) {
     wap_message($lang_register['No new regs']);
@@ -29,18 +29,18 @@ if (!$pun_config['o_regs_allow']) {
 if ($_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
-    $page_title = $pun_config['o_board_title'].' / '.$lang_register['Register'];
-    
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
+
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_common', $lang_common);
     $smarty->assign('lang_register', $lang_register);
-    
+
     $smarty->display('register.agree.tpl');
     exit();
-    
+
 } else if (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.get_remote_address().'\' AND registered>'.(time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE registration_ip=\'' . get_remote_address() . '\' AND registered>' . (time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
 
     if ($db->num_rows($result)) {
@@ -76,7 +76,7 @@ if ($_GET['cancel']) {
     if ($pun_config['o_regs_verify'] == 1) {
         $email2 = strtolower(trim($_POST['req_email2']));
 
-        $password1 = random_pass(mt_rand(8,9));
+        $password1 = random_pass(mt_rand(8, 9));
         $password2 = $password1;
     } else {
         $password1 = trim($_POST['req_password1']);
@@ -114,16 +114,16 @@ if ($_GET['cancel']) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(preg_replace('/[^\w]/', '', $username)).'\')') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM ' . $db->prefix . 'users WHERE UPPER(username)=UPPER(\'' . $db->escape($username) . '\') OR UPPER(username)=UPPER(\'' . $db->escape(preg_replace('/[^\w]/', '', $username)) . '\')') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
-        wap_message($lang_register['Username dupe 1'].' '.pun_htmlspecialchars($busy).'. '.$lang_register['Username dupe 2']);
+        wap_message($lang_register['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_register['Username dupe 2']);
     }
 
 
     // Validate e-mail
-    require PUN_ROOT.'include/email.php';
+    require PUN_ROOT . 'include/email.php';
 
     if (!is_valid_email($email1)) {
         wap_message($lang_common['Invalid e-mail']);
@@ -137,7 +137,7 @@ if ($_GET['cancel']) {
             wap_message($lang_prof_reg['Banned e-mail']);
         }
 
-        $banned_email = true;	// Used later when we send an alert e-mail
+        $banned_email = true; // Used later when we send an alert e-mail
     } else {
         $banned_email = false;
     }
@@ -145,7 +145,7 @@ if ($_GET['cancel']) {
     // Check if someone else already has registered with that e-mail address
     $dupe_list = array();
 
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM ' . $db->prefix . 'users WHERE email=\'' . $email1 . '\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         if (!$pun_config['p_allow_dupe_email']) {
             wap_message($lang_prof_reg['Dupe e-mail']);
@@ -159,7 +159,7 @@ if ($_GET['cancel']) {
     // Make sure we got a valid language string
     if ($_POST['language']) {
         $language = preg_replace('#[\.\\\/]#', '', $_POST['language']);
-        if (!file_exists(PUN_ROOT.'lang/'.$language.'/common.php')) {
+        if (!file_exists(PUN_ROOT . 'lang/' . $language . '/common.php')) {
             wap_message($lang_common['Bad request']);
         }
     } else {
@@ -170,7 +170,7 @@ if ($_GET['cancel']) {
     $save_pass = ($_POST['save_pass'] != 1) ? 0 : 1;
 
     $email_setting = intval($_POST['email_setting']);
-    if ($email_setting < 0 || $email_setting > 2){
+    if ($email_setting < 0 || $email_setting > 2) {
         $email_setting = 1;
     }
 
@@ -184,10 +184,10 @@ if ($_GET['cancel']) {
 
     // Add the user
     $db->query('
-        INSERT INTO '.$db->prefix.'users (
+        INSERT INTO ' . $db->prefix . 'users (
             username, group_id, password, sex, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit
         ) VALUES(
-            \''.$db->escape($username).'\', '.$intial_group_id.', \''.$password_hash.'\', \''.$sex.'\', \''.$email1.'\', '.$email_setting.', '.$save_pass.', '.$timezone.' , \''.$db->escape($language).'\', \''.$pun_config['o_default_style'].'\', '.$now.', \''.get_remote_address().'\', '.$now.'
+            \'' . $db->escape($username) . '\', ' . $intial_group_id . ', \'' . $password_hash . '\', \'' . $sex . '\', \'' . $email1 . '\', ' . $email_setting . ', ' . $save_pass . ', ' . $timezone . ' , \'' . $db->escape($language) . '\', \'' . $pun_config['o_default_style'] . '\', ' . $now . ', \'' . get_remote_address() . '\', ' . $now . '
         )
     ') or error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();
@@ -195,7 +195,7 @@ if ($_GET['cancel']) {
     // If we previously found out that the e-mail was banned
     if ($banned_email && $pun_config['o_mailing_list']) {
         $mail_subject = 'Alert - Banned e-mail detected';
-        $mail_message = 'User "'.$username.'" registered with banned e-mail address: '.$email1."\n\n".'User profile: '.$pun_config['o_base_url'].'/profile.php?id='.$new_uid."\n\n".'-- '."\n".'Forum Mailer'."\n".'(Do not reply to this message)';
+        $mail_message = 'User "' . $username . '" registered with banned e-mail address: ' . $email1 . "\n\n" . 'User profile: ' . $pun_config['o_base_url'] . '/profile.php?id=' . $new_uid . "\n\n" . '-- ' . "\n" . 'Forum Mailer' . "\n" . '(Do not reply to this message)';
 
         pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
     }
@@ -203,7 +203,7 @@ if ($_GET['cancel']) {
     // If we previously found out that the e-mail was a dupe
     if ($dupe_list && $pun_config['o_mailing_list']) {
         $mail_subject = 'Alert - Duplicate e-mail detected';
-        $mail_message = 'User "'.$username.'" registered with an e-mail address that also belongs to: '.implode(', ', $dupe_list)."\n\n".'User profile: '.$pun_config['o_base_url'].'/profile.php?id='.$new_uid."\n\n".'-- '."\n".'Forum Mailer'."\n".'(Do not reply to this message)';
+        $mail_message = 'User "' . $username . '" registered with an e-mail address that also belongs to: ' . implode(', ', $dupe_list) . "\n\n" . 'User profile: ' . $pun_config['o_base_url'] . '/profile.php?id=' . $new_uid . "\n\n" . '-- ' . "\n" . 'Forum Mailer' . "\n" . '(Do not reply to this message)';
 
         pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
     }
@@ -211,7 +211,7 @@ if ($_GET['cancel']) {
     // Should we alert people on the admin mailing list that a new user has registered?
     if ($pun_config['o_regs_report'] == 1) {
         $mail_subject = 'Alert - New registration';
-        $mail_message = 'User "'.$username.'" registered in the forums at '.$pun_config['o_base_url']."\n\n".'User profile: '.$pun_config['o_base_url'].'/profile.php?id='.$new_uid."\n\n".'-- '."\n".'Forum Mailer'."\n".'(Do not reply to this message)';
+        $mail_message = 'User "' . $username . '" registered in the forums at ' . $pun_config['o_base_url'] . "\n\n" . 'User profile: ' . $pun_config['o_base_url'] . '/profile.php?id=' . $new_uid . "\n\n" . '-- ' . "\n" . 'Forum Mailer' . "\n" . '(Do not reply to this message)';
 
         pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
     }
@@ -219,7 +219,7 @@ if ($_GET['cancel']) {
     // Must the user verify the registration or do we log him/her in right now?
     if ($pun_config['o_regs_verify'] == 1) {
         // Load the "welcome" template
-        $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/welcome.tpl'));
+        $mail_tpl = trim(file_get_contents(PUN_ROOT . 'lang/' . $pun_user['language'] . '/mail_templates/welcome.tpl'));
 
         // The first row contains the subject
         $first_crlf = strpos($mail_tpl, "\n");
@@ -227,15 +227,15 @@ if ($_GET['cancel']) {
         $mail_message = trim(substr($mail_tpl, $first_crlf));
 
         $mail_subject = str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
-        $mail_message = str_replace('<base_url>', $pun_config['o_base_url'].'/', $mail_message);
+        $mail_message = str_replace('<base_url>', $pun_config['o_base_url'] . '/', $mail_message);
         $mail_message = str_replace('<username>', $username, $mail_message);
         $mail_message = str_replace('<password>', $password1, $mail_message);
-        $mail_message = str_replace('<login_url>', $pun_config['o_base_url'].'/login.php', $mail_message);
-        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+        $mail_message = str_replace('<login_url>', $pun_config['o_base_url'] . '/login.php', $mail_message);
+        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'] . ' ' . $lang_common['Mailer'], $mail_message);
 
         pun_mail($email1, $mail_subject, $mail_message);
 
-        wap_message($lang_register['Reg e-mail'].' <a href="mailto:'.$pun_config['o_admin_email'].'">'.$pun_config['o_admin_email'].'</a>.', true);
+        wap_message($lang_register['Reg e-mail'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.', true);
     }
 
     pun_setcookie($new_uid, $password_hash, ($save_pass) ? $now + 31536000 : 0);
@@ -244,7 +244,7 @@ if ($_GET['cancel']) {
 }
 
 
-$page_title = $pun_config['o_board_title'].' / '.$lang_register['Register'];
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
 
 // Image Verification mod BEGIN
 //
@@ -265,9 +265,9 @@ $required_fields = array(
 
 
 $languages = array();
-$d = dir(PUN_ROOT.'lang');
+$d = dir(PUN_ROOT . 'lang');
 while (($entry = $d->read()) !== false) {
-    if ($entry[0] != '.' && is_dir(PUN_ROOT.'lang/'.$entry) && file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+    if ($entry[0] != '.' && is_dir(PUN_ROOT . 'lang/' . $entry) && file_exists(PUN_ROOT . 'lang/' . $entry . '/common.php')) {
         $languages[] = $entry;
     }
 }

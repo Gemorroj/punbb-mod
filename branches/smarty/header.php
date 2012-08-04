@@ -23,7 +23,7 @@ if (defined('PUN_ADMIN_CONSOLE')) {
 
 // START SUBST - <pun_include "*">
 while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_main, $cur_include)) {
-    if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.'. $cur_include[2])) {
+    if (!file_exists(PUN_ROOT . 'include/user/' . $cur_include[1] . '.' . $cur_include[2])) {
         error('Unable to process user include ' . htmlspecialchars($cur_include[0]) . ' from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
     }
 
@@ -46,7 +46,7 @@ $tpl_main = str_replace('<pun_rssname>', $pun_config['o_board_title'], $tpl_main
 // END SUBST - <pun_rssname>
 
 // START SUBST - <pun_rss>
-$tpl_main = str_replace('<pun_rss>', PUN_ROOT.'rss.xml', $tpl_main);
+$tpl_main = str_replace('<pun_rss>', PUN_ROOT . 'rss.xml', $tpl_main);
 // END SUBST - <pun_rss>
 
 
@@ -60,7 +60,6 @@ if (!defined('PUN_ALLOW_INDEX')) {
 
 
 echo '<title>' . $page_title . '</title><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" /><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/elektra.css" />';
-
 
 
 if (defined('PUN_ADMIN_CONSOLE')) {
@@ -106,7 +105,7 @@ if ($basename == 'filemap.php') {
 
 $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 if (strpos($user_agent, 'msie') !== false && strpos($user_agent, 'windows') !== false && strpos($user_agent, 'opera') === false) {
-    echo '<script type="text/javascript" src="'.PUN_ROOT.'style/imports/minmax.js"></script>';
+    echo '<script type="text/javascript" src="' . PUN_ROOT . 'style/imports/minmax.js"></script>';
 }
 
 $tpl_temp = trim(ob_get_contents());
@@ -125,9 +124,9 @@ if (isset($focus_element)) {
 
 
 if (isset($hint_box)) {
-	$tpl_temp = $hint_box;
+    $tpl_temp = $hint_box;
 } else {
-	$tpl_temp = null;
+    $tpl_temp = null;
 }
 
 
@@ -155,7 +154,7 @@ $tpl_main = str_replace('<pun_navlinks>', '<div id="brdmenu" class="inbox">' . g
 if ($pun_user['is_guest']) {
     /// MOD PRINTABLE TOPIC BEGIN
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>' . $lang_common['Not logged in'] . '</li></ul>';
-    
+
     /// MOD PRINTABLE TOPIC BEGIN
     if ($basename == 'viewtopic.php' && $id) {
         $tpl_temp .= '<ul class="conr"><li><span class="printable"><a href="viewprintable.php?id=' . $id . '">' . $lang_common['Print version'] . '</a></span></li></ul><div class="clearer"></div></div>';
@@ -164,8 +163,8 @@ if ($pun_user['is_guest']) {
     }
     /// MOD PRINTABLE TOPIC END
 } else {
-    $tpl_temp.= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>' . $lang_common['Logged in as'] . ' <strong>' . pun_htmlspecialchars($pun_user['username']) . '</strong></li><li>' . $lang_common['Last visit'] . ': ' . format_time($pun_user['last_visit']) . '</li>';
-    
+    $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>' . $lang_common['Logged in as'] . ' <strong>' . pun_htmlspecialchars($pun_user['username']) . '</strong></li><li>' . $lang_common['Last visit'] . ': ' . format_time($pun_user['last_visit']) . '</li>';
+
     if ($pun_user['g_id'] < PUN_GUEST) {
         $result_header = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'reports WHERE zapped IS NULL') or error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
@@ -208,9 +207,9 @@ $tpl_temp .= '<div id="announce" class="block"><h2><span>RSS</span></h2><div cla
 // START SUBST - <pun_announcement>
 if ($pun_config['o_announcement'] == 1) {
     ob_start();
-    
+
     echo '<div id="announce" class="block"><h2><span>' . $lang_common['Announcement'] . '</span></h2><div class="box"><div class="inbox"><div>' . $pun_config['o_announcement_message'] . '</div></div></div></div>';
-    
+
     $tpl_temp = trim(ob_get_contents());
     $tpl_main = str_replace('<pun_announcement>', $tpl_temp, $tpl_main);
     ob_end_clean();

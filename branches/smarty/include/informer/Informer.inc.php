@@ -10,13 +10,13 @@ class Informer
 
     /**
      * Constructor
-     * 
-     * @param resource $db
+     *
+     * @param DBLayer $db
      * @param array $pun_user
      * @param array $lang
      * @param array $pun_config
      */
-    public function __construct ($db, $pun_user, $lang, $pun_config)
+    public function __construct(DBLayer $db, $pun_user, $lang, $pun_config)
     {
         $this->_db = $db;
         $this->_pun_user = $pun_user;
@@ -27,12 +27,12 @@ class Informer
 
     /**
      * getConfig
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getConfig ($args = null)
+    public function getConfig($args = null)
     {
         return array(
             'timezone' => $this->_pun_user['timezone'],
@@ -44,12 +44,12 @@ class Informer
 
     /**
      * getForums
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getForums ($args = null)
+    public function getForums($args = null)
     {
         if (!$this->_pun_user['g_read_board']) {
             throw new Exception ($this->_lang['No view']);
@@ -93,12 +93,12 @@ class Informer
 
     /**
      * setMessage
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function setMessage ($args)
+    public function setMessage($args)
     {
         $message = $args['message'];
         $topicId = $args['topicId'];
@@ -187,7 +187,7 @@ class Informer
         generate_rss();
 
 
-        return array (
+        return array(
             'message' => $this->_parseMessage($message, $hideSmiles),
             'poster' => $this->_pun_user['username'],
             'posted' => $_SERVER['REQUEST_TIME']
@@ -197,12 +197,12 @@ class Informer
 
     /**
      * getMessage
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getMessage ($args)
+    public function getMessage($args)
     {
         $id = $args['id'];
 
@@ -224,7 +224,7 @@ class Informer
                 AND (fp.read_forum IS NULL OR fp.read_forum = 1)
             )
             WHERE p.id = ' . $id
-        , false);
+            , false);
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -235,7 +235,7 @@ class Informer
 
         $data = $this->_db->fetch_assoc($r);
 
-        return array (
+        return array(
             'message' => $this->_parseMessage($data['message'], $data['hide_smilies']),
             'poster' => $data['poster'],
             'posted' => $data['posted'],
@@ -246,12 +246,12 @@ class Informer
 
     /**
      * getPrivateMessage
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getPrivateMessage ($args)
+    public function getPrivateMessage($args)
     {
         $id = $args['id'];
 
@@ -268,7 +268,7 @@ class Informer
             FROM ' . $this->_db->prefix . 'messages AS m
             WHERE m.owner = ' . $this->_pun_user['id'] . '
             AND m.id = ' . $id
-        , false);
+            , false);
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -279,7 +279,7 @@ class Informer
 
         $data = $this->_db->fetch_assoc($r);
 
-        return array (
+        return array(
             'subject' => $data['subject'],
             'message' => $this->_parseMessage($data['message'], $data['smileys']),
             'poster' => $data['sender'],
@@ -288,15 +288,14 @@ class Informer
     }
 
 
-
     /**
      * getPrivateMessages
-     * 
+     *
      * @param array $args
      * @return array
      * @throws Exception
      */
-    public function getPrivateMessages ($args)
+    public function getPrivateMessages($args)
     {
         $limit = $args['limit'];
 
@@ -314,7 +313,7 @@ class Informer
             WHERE m.owner = ' . $this->_pun_user['id'] . '
             ORDER BY m.id DESC
             LIMIT ' . $limit
-        , false);
+            , false);
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -326,7 +325,7 @@ class Informer
 
         $out = array();
         while ($data = $this->_db->fetch_assoc($r)) {
-            $out[$data['id']] = array (
+            $out[$data['id']] = array(
                 'subject' => $data['subject'],
                 'message' => $this->_parseMessage($data['message'], $data['smileys']),
                 'poster' => $data['sender'],
@@ -339,15 +338,16 @@ class Informer
 
     /**
      * _parseMessage
-     * 
+     *
      * @param string $message
      * @param bool $hide_smilies
      * @return string
      */
-    private function _parseMessage ($message, $hide_smilies = false)
+    private function _parseMessage($message, $hide_smilies = false)
     {
         require_once dirname(__FILE__) . '/../parser.php';
         return parse_message($message, $hide_smilies);
     }
 }
+
 ?>

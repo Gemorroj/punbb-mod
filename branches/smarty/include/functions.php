@@ -259,7 +259,7 @@ function generate_navlinks()
             $links[] = '<li id="navfilemap"><a href="filemap.php">' . $lang_common['Attachments'] . '</a>';
             $links[] = '<li id="navwap"><a href="wap/">' . $lang_common['WAP'] . '</a>';
             $links[] = '<li id="navlogout"><a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
-        } else {//для админов
+        } else { //для админов
             $links[] = '<li id="navsearch"><a href="search.php">' . $lang_common['Search'] . '</a>';
             $links[] = '<li id="navprofile"><a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . '</a>';
             $links[] = '<li id="navadmin"><a href="admin_index.php">' . $lang_common['Admin'] . '</a>';
@@ -322,7 +322,7 @@ function generate_wap_navlinks()
         } else {
             $links['search.php'] = $lang_common['Search'];
             $links['uploads.php'] = $lang_common['Uploader'];
-            $links['filemap.php'] = $lang_common['Attachments'];            
+            $links['filemap.php'] = $lang_common['Attachments'];
         }
         // PMS MOD END
     }
@@ -451,12 +451,12 @@ function generate_profile_menu($page = '')
 
 /**
  * Перенесено в файл: include/template/wap/{$theme}/tpls/profile.navi.tpl
-**
+ **
 function wap_generate_profile_menu($page = '')
 {
-    global $lang_profile, $pun_config, $pun_user, $id;
+global $lang_profile, $pun_config, $pun_user, $id;
 
-    echo '<div class="navlinks">
+echo '<div class="navlinks">
 <a href="profile.php?section=essentials&amp;id=' . $id . '">' . $lang_profile['Section essentials'] . '</a> |
 <a href="profile.php?section=personal&amp;id=' . $id . '">' . $lang_profile['Section personal'] . '</a> |
 <a href="profile.php?section=messaging&amp;id=' . $id . '">' . $lang_profile['Section messaging'] . '</a> |
@@ -464,15 +464,15 @@ function wap_generate_profile_menu($page = '')
 <a href="profile.php?section=display&amp;id=' . $id . '">' . $lang_profile['Section display'] . '</a> |
 <a href="profile.php?section=privacy&amp;id=' . $id . '">' . $lang_profile['Section privacy'] . '</a> |';
 
-    if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_ban_users'] == 1)) {
-        echo ' <strong><a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a></strong> |';
-    }
-
-    echo '<strong><a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a></strong></div>';
-
-    return;
+if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_ban_users'] == 1)) {
+echo ' <strong><a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a></strong> |';
 }
-*/
+
+echo '<strong><a href="profile.php?preview=1&amp;id=' . $id . '">' . $lang_profile['Preview'] . '</a></strong></div>';
+
+return;
+}
+ */
 
 //
 // Update posts, topics, last_post, last_post_id and last_poster for a forum
@@ -540,7 +540,7 @@ function delete_post($post_id, $topic_id)
     global $db;
 
     $result = $db->query('SELECT `id`, `poster`, `posted` FROM `' . $db->prefix . 'posts` WHERE `topic_id` = ' . $topic_id . ' ORDER BY `id` DESC LIMIT 2') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-    list($last_id, $poster, ) = $db->fetch_row($result);
+    list($last_id, $poster,) = $db->fetch_row($result);
     list($second_last_id, $second_poster, $second_posted) = $db->fetch_row($result);
 
     // Delete the post
@@ -597,7 +597,7 @@ function censor_words($text)
             // FIX UTF REGULAR EXPRESSIONS BUG END
         }
     } else {
-        $text = substr(preg_replace($search_for, $replace_with, ' ' . $text . ' '), 1, - 1);
+        $text = substr(preg_replace($search_for, $replace_with, ' ' . $text . ' '), 1, -1);
     }
 
     return $text;
@@ -1141,7 +1141,7 @@ function display_saved_queries()
     // Get the queries so that we can print them out
     $saved_queries = $db->get_saved_queries();
 
-echo '<div id="debug" class="blocktable">
+    echo '<div id="debug" class="blocktable">
 <h2><span>' . $lang_common['Debug table'] . '</span></h2>
 <div class="box">
 <div class="inbox">
@@ -1159,7 +1159,7 @@ echo '<div id="debug" class="blocktable">
         $query_time_total += $cur_query[1];
         echo '<tr><td class="tcl">' . (($cur_query[1]) ? $cur_query[1] : ' ') . '</td><td class="tcr">' . pun_htmlspecialchars($cur_query[0]) . '</td></tr>';
     }
-echo '<tr>
+    echo '<tr>
 <td class="tcl" colspan="2">Total query time: ' . $query_time_total . ' s</td>
 </tr>
 </tbody>
@@ -1224,6 +1224,7 @@ function convert_forum_url(&$text)
     $url = str_replace('/', '\/', str_replace('.', '\.', $pun_config['o_base_url'] . '/viewforum.php\?'));
     $text = replace('SELECT forum_name FROM ' . $db->prefix . 'forums WHERE id=', '/(?<=^|\s)' . $url . 'id=([0-9]+)\b/', $text);
 }
+
 // MOD CONVENIENT FORUM URL END
 
 
@@ -1288,7 +1289,7 @@ function generate_rss()
 
 function vote($to = 0, $vote = 1)
 {
-	global $db, $pun_user;
+    global $db, $pun_user;
 
     $vote = (($vote == 1) ? 1 : -1);
     $q = $db->query('SELECT 1 FROM `' . $db->prefix . 'karma` WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . intval($to)) or error('Error', __FILE__, __LINE__, $db->error());
@@ -1299,8 +1300,6 @@ function vote($to = 0, $vote = 1)
 
     return $db->query('INSERT INTO `' . $db->prefix . 'karma` SET `id`=' . $pun_user['id'] . ', `to`=' . intval($to) . ', `vote`="' . $vote . '", `time`=' . $_SERVER['REQUEST_TIME']) or error('Error', __FILE__, __LINE__, $db->error());
 }
-
-
 
 
 class getf
@@ -1477,10 +1476,10 @@ class getf
         ini_set('output_handler', '');
         ob_end_clean();
 
-        $this->file    = $file;
-        $this->mime    = $mime;
+        $this->file = $file;
+        $this->mime = $mime;
         $this->charset = $charset;
-        $this->attach  = $attach;
+        $this->attach = $attach;
 
         if (!$this->file) {
             return 'File not found';
@@ -1541,11 +1540,10 @@ class getf
         }
 
 
-
         // Хэш
         $etag = md5($this->data);
         $etag = substr($etag, 0, 4) . '-' . substr($etag, 5, 5) . '-' . substr($etag, 10, 8);
-    
+
         if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             if ($_SERVER['HTTP_IF_NONE_MATCH'] == '"' . $etag . '"') {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
@@ -1563,32 +1561,30 @@ class getf
         }
 
         header('ETag: "' . $etag . '"');
-    
-    
+
+
         //header('Date: ' . gmdate('r'));
         //header('Content-Transfer-Encoding: binary');
         //header('Last-Modified: ' . gmdate('r'));
-    
+
         // Кэш
         header('Cache-Control: public, max-age=86400');
         header('Pragma: public');
         //header('Expires: Tue, 10 Apr 2038 01:00:00 GMT');
-    
-    
+
+
         //header('Connection: Close');
         header('Keep-Alive: timeout=10, max=60');
         header('Connection: Keep-Alive');
-    
+
         header('Accept-Ranges: bytes');
         header('Content-Length: ' . $range);
-
 
 
         // Если докачка
         if ($file_range['from']) {
             header('Content-Range: bytes ' . $file_range['from'] . '-' . $file_range['to'] . '/' . $sz);
         }
-
 
 
         if ($this->mime == 'text/plain') {
@@ -1600,10 +1596,10 @@ class getf
 
         // Если отдаем как аттач
         if ($this->attach) {
-        	header('Content-Disposition: attachment; filename="' . basename($this->file) . '"');
+            header('Content-Disposition: attachment; filename="' . basename($this->file) . '"');
         }
 
-		echo $this->data;
+        echo $this->data;
     }
 
 }

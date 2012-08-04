@@ -30,7 +30,7 @@ $pun_start = microtime(true);
 
 // If a cookie name is not specified in config.php, we use the default (punbb_cookie)
 if (!$cookie_name) {
-	$cookie_name = 'punbb_cookie';
+    $cookie_name = 'punbb_cookie';
 }
 
 // Define a few commonly used constants

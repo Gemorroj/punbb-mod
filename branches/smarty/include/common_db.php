@@ -51,7 +51,8 @@ class DBLayer
 
     function query($sql, $unbuffered = false)
     {
-        if (defined('PUN_SHOW_QUERIES')) {
+        $stat = defined('PUN_SHOW_QUERIES');
+        if ($stat) {
             $q_start = microtime(true);
         }
 
@@ -62,7 +63,7 @@ class DBLayer
         }
 
         if ($this->query_result) {
-            if (defined('PUN_SHOW_QUERIES')) {
+            if ($stat) {
                 $this->saved_queries[] = array($sql, sprintf('%.5f', microtime(true) - $q_start));
             }
 
@@ -70,7 +71,7 @@ class DBLayer
 
             return $this->query_result;
         } else {
-            if (defined('PUN_SHOW_QUERIES')) {
+            if ($stat) {
                 $this->saved_queries[] = array($sql, 0);
             }
 

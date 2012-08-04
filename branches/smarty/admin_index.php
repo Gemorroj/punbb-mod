@@ -10,7 +10,7 @@ require PUN_ROOT . 'include/common_admin.php';
 include PUN_ROOT . 'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
-	message($lang_common['No permission']);
+    message($lang_common['No permission']);
 }
 
 
@@ -19,29 +19,29 @@ $action = isset($_GET['action']) ? $_GET['action'] : null;
 // Check for upgrade
 if ($action == 'check_upgrade') {
     if (!ini_get('allow_url_fopen')) {
-    	message($lang_admin['index_allow_url_fopen']);
+        message($lang_admin['index_allow_url_fopen']);
     }
 
     $fp = @fopen('http://punbb.informer.com/latest_version', 'r');
     $latest_version = trim(@fread($fp, 16));
     @fclose($fp);
 
-	if ($latest_version == ''){
-		message($lang_admin['index_fail_update']);
+    if ($latest_version == '') {
+        message($lang_admin['index_fail_update']);
     }
 
-	$latest_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $latest_version);
-	$cur_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $cur_version);
+    $latest_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $latest_version);
+    $cur_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $cur_version);
 
-	if (version_compare($cur_version, $latest_version, '>=')) {
-		message($lang_admin['index_update_no']);
-	} else {
-		message($lang_admin['index_update_yes']);
-	}
+    if (version_compare($cur_version, $latest_version, '>=')) {
+        message($lang_admin['index_update_no']);
+    } else {
+        message($lang_admin['index_update_yes']);
+    }
 } else if ($action == 'phpinfo' && $pun_user['g_id'] == PUN_ADMIN) {
     // Is phpinfo() a disabled function?
     if (strpos(strtolower((string)@ini_get('disable_functions')), 'phpinfo') !== false) {
-    	message($lang_admin['phpinfo']);
+        message($lang_admin['phpinfo']);
     }
 
     phpinfo();
@@ -51,14 +51,14 @@ if ($action == 'check_upgrade') {
 
     $tables = null;
     while ($row = $db->fetch_row($result)) {
-        $tables.= '`' . $row[0] . '`, ';
+        $tables .= '`' . $row[0] . '`, ';
     }
     $tables = rtrim($tables, ', ');
 
     if ($db->query('OPTIMIZE TABLE ' . $tables) && $db->query('ANALYZE TABLE ' . $tables)) {
-    	message('Tables Optimized');
+        message('Tables Optimized');
     } else {
-    	message('Tables NOT Optimized');
+        message('Tables NOT Optimized');
     }
 }
 
@@ -73,9 +73,9 @@ if (@file_exists('/proc/loadavg') && is_readable('/proc/loadavg')) {
     $load_averages = @explode(' ', $load_averages);
     $server_load = isset($load_averages[2]) ? $load_averages[0] . ' ' . $load_averages[1] . ' ' . $load_averages[2] : 'Not available';
 } else if (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages)) {
-	$server_load = $load_averages[1] . ' ' . $load_averages[2] . ' ' . $load_averages[3];
+    $server_load = $load_averages[1] . ' ' . $load_averages[2] . ' ' . $load_averages[3];
 } else {
-	$server_load = 'Not available';
+    $server_load = 'Not available';
 }
 
 
@@ -104,17 +104,17 @@ while ($status = $db->fetch_assoc($result)) {
 $total_size = $total_size / 1024;
 
 if ($total_size > 1024) {
-	$total_size = round($total_size / 1024, 2) . ' mb';
+    $total_size = round($total_size / 1024, 2) . ' mb';
 } else {
-	$total_size = round($total_size, 2) . ' kb';
+    $total_size = round($total_size, 2) . ' kb';
 }
 
 
 // See if php accelerator is loaded
 if (extension_loaded('memcache')) {
-	$php_accelerator = '<a href="http://turck-mmcache.sourceforge.net/">Turck MMCache</a>';
+    $php_accelerator = '<a href="http://turck-mmcache.sourceforge.net/">Turck MMCache</a>';
 } else if (isset($_PHPA)) {
-	$php_accelerator = '<a href="http://www.php-accelerator.co.uk/">ionCube PHP Accelerator</a>';
+    $php_accelerator = '<a href="http://www.php-accelerator.co.uk/">ionCube PHP Accelerator</a>';
 } else if (extension_loaded('apc')) {
     $php_accelerator = '<a href="http://pecl.php.net/package/apc">APC</a>';
 } else if (extension_loaded('eaccelerator')) {
@@ -124,7 +124,7 @@ if (extension_loaded('memcache')) {
 } else if (extension_loaded('xcache')) {
     $php_accelerator = '<a href="http://xcache.lighttpd.net/">XCache</a>';
 } else {
-	$php_accelerator = 'N/A';
+    $php_accelerator = 'N/A';
 }
 
 

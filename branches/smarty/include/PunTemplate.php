@@ -9,7 +9,7 @@ class PunTemplate extends Smarty
 {
     /**
      * Конструктор
-     * 
+     *
      * @param string $punDesignName
      */
     public function __construct($punDesignName)

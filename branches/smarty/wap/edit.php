@@ -1,7 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
-require PUN_ROOT.'include/common.php';
-require PUN_ROOT.'include/file_upload.php';
+require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'include/file_upload.php';
 
 
 if (!$pun_user['g_read_board']) {
@@ -34,11 +34,11 @@ $result = $db->query('
     p.poster_id,
     p.message,
     p.hide_smilies
-    FROM '.$db->prefix.'posts AS p
-    INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id
-    INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
-    LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
-    WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id='.$id
+    FROM ' . $db->prefix . 'posts AS p
+    INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id
+    INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id
+    LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ')
+    WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id=' . $id
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result)) {
     wap_message($lang_common['Bad request']);
@@ -51,7 +51,7 @@ $mods_array = ($cur_post['moderators']) ? unserialize($cur_post['moderators']) :
 $is_admmod = ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
-$result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id FROM ' . $db->prefix . 'posts WHERE topic_id=' . $cur_post['tid'] . ' ORDER BY posted LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 $topic_post_id = $db->result($result);
 
 $can_edit_subject = ($id == $topic_post_id && ((!$pun_user['g_edit_subjects_interval'] || ($_SERVER['REQUEST_TIME'] - $cur_post['posted']) < $pun_user['g_edit_subjects_interval']) || $is_admmod)) ? true : false;
@@ -62,23 +62,25 @@ $can_upload = (!$cur_post['file_upload'] && $pun_user['g_file_upload'] == 1) || 
 if ($pun_user['is_guest']) {
     $file_limit = 0;
 } else {
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_post['fid'].' AND a.poster_id='.$pun_user['id']) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
-    $uploaded_to_forum = $db->fetch_row($result); $uploaded_to_forum = $uploaded_to_forum[0];
+    $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'attachments AS a ON t.id=a.topic_id WHERE t.forum_id=' . $cur_post['fid'] . ' AND a.poster_id=' . $pun_user['id']) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $uploaded_to_forum = $db->fetch_row($result);
+    $uploaded_to_forum = $uploaded_to_forum[0];
 
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'attachments AS a WHERE a.post_id='.$id) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
-    $uploaded_to_post = $db->fetch_row($result); $uploaded_to_post = $uploaded_to_post[0];
+    $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'attachments AS a WHERE a.post_id=' . $id) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $uploaded_to_post = $db->fetch_row($result);
+    $uploaded_to_post = $uploaded_to_post[0];
 
-    $forum_file_limit = ($cur_post['file_limit'])? intval($cur_post['file_limit']): intval($pun_user['g_file_limit']);
+    $forum_file_limit = ($cur_post['file_limit']) ? intval($cur_post['file_limit']) : intval($pun_user['g_file_limit']);
 
     $global_file_limit = $pun_user['g_file_limit'] + $pun_user['file_bonus'];
 
     $topic_file_limit = intval($pun_config['file_max_post_files']);
 
-    if($pun_user['g_id'] == PUN_ADMIN) {
+    if ($pun_user['g_id'] == PUN_ADMIN) {
         // just unlimited
         $file_limit = 100;
     } else {
-        $file_limit = min($forum_file_limit-$uploaded_to_forum, $global_file_limit-$pun_user['num_files'], $topic_file_limit-$uploaded_to_post);
+        $file_limit = min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit - $uploaded_to_post);
     }
 }
 
@@ -92,7 +94,7 @@ if ((!$pun_user['g_edit_posts'] || $cur_post['poster_id'] != $pun_user['id'] || 
 }
 
 // Load the post.php/edit.php language file
-require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php';
 
 // Start with a clean slate
 $errors = array();
@@ -132,7 +134,7 @@ if (isset($_POST['form_sent'])) {
 
     // Validate BBCode syntax
     if ($pun_config['p_message_bbcode'] == 1 && strpos($message, '[') !== false && strpos($message, ']') !== false) {
-        include_once PUN_ROOT.'include/parser.php';
+        include_once PUN_ROOT . 'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
 
@@ -148,13 +150,13 @@ if (isset($_POST['form_sent'])) {
 
     // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
-        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited='.time().', edited_by=\''.$db->escape($pun_user['username']).'\'' : '';
+        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited=' . time() . ', edited_by=\'' . $db->escape($pun_user['username']) . '\'' : '';
 
-        include PUN_ROOT.'include/search_idx.php';
+        include PUN_ROOT . 'include/search_idx.php';
 
         if ($can_edit_subject) {
             // Update the topic and any redirect topics
-            $db->query('UPDATE '.$db->prefix.'topics SET subject=\''.$db->escape($subject).'\' WHERE id='.$cur_post['tid'].' OR moved_to='.$cur_post['tid']) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE ' . $db->prefix . 'topics SET subject=\'' . $db->escape($subject) . '\' WHERE id=' . $cur_post['tid'] . ' OR moved_to=' . $cur_post['tid']) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
             // We changed the subject, so we need to take that into account when we update the search words
             update_search_index('edit', $id, $message, $subject);
@@ -163,14 +165,14 @@ if (isset($_POST['form_sent'])) {
         }
 
         // Update the post
-        $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\', hide_smilies=\''.$hide_smilies.'\''.$edited_sql.' WHERE id='.$id) or error('Unable to update post', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'posts SET message=\'' . $db->escape($message) . '\', hide_smilies=\'' . $hide_smilies . '\'' . $edited_sql . ' WHERE id=' . $id) or error('Unable to update post', __FILE__, __LINE__, $db->error());
 
         $uploaded = $deleted = 0;
         $attach_result = process_deleted_files($id, $deleted) . process_uploaded_files($cur_post['tid'], $id, $uploaded);
 
         // If the posting user is logged in, increment his/her post count
-        if (!$pun_user['is_guest'] && ($uploaded-$deleted) != 0) {
-            $db->query('UPDATE LOW_PRIORITY '.$db->prefix.'users SET num_files=num_files+'.($uploaded-$deleted).' WHERE id='.$pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+        if (!$pun_user['is_guest'] && ($uploaded - $deleted) != 0) {
+            $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'users SET num_files=num_files+' . ($uploaded - $deleted) . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
         }
 
         /// MOD ANTISPAM BEGIN
@@ -179,14 +181,14 @@ if (isset($_POST['form_sent'])) {
 
         generate_rss();
 
-        wap_redirect('viewtopic.php?pid='.$id.'#p'.$id);
+        wap_redirect('viewtopic.php?pid=' . $id . '#p' . $id);
     }
 }
 
-require_once PUN_ROOT.'wap/header.php';
+require_once PUN_ROOT . 'wap/header.php';
 
 if ($_POST['preview']) {
-    
+
     include_once PUN_ROOT . 'include/parser.php';
 }
 

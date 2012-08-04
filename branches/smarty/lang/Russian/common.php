@@ -177,10 +177,6 @@ $lang_common = array(
 // MOD Printable topic version string
 'Print version'			=>	'Версия для печати',
 
-// For extern.php RSS feed
-'RSS Desc Active'		=>	'Активные темы',	// board_title will be appended to this string
-'RSS Desc New'			=>	'Новые темы',					// board_title will be appended to this string
-'Posted'				=>	'Создано',	// The date/time a topic was started
 
 //wap moderate IP
 'Show IP'				=>	'Показать еще пользователем с этим IP'

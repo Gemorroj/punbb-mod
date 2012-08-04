@@ -733,7 +733,7 @@ function parse_message($text, $hide_smilies, $post = 0)
                 if ($wap) {
                     $text .= '<div class="code">' . $lang_common['Code'] . ':<br/><table class="p_cnt" style="white-space: pre;font-family:Courier New;font-size:8pt;">' . str_replace('&nbsp;', '&#160;', $code) . '</table></div>';
                 } else {
-                    $text .= '</p><div class="codebox"><div class="incqbox"><h4>' . $lang_common['Code'] . ':</h4><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') .'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div></div><p>';
+                    $text .= '</p><div class="codebox"><div class="incqbox"><h4>' . $lang_common['Code'] . ':</h4><div class="scrollbox"' . (basename($_SERVER['PHP_SELF']) != 'viewprintable.php' ? ' style="height: ' . $height_str . '"' : '') . '><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>' . $num_line . '</table></td><td><table>' . str_replace('&nbsp;', '&#160;', $code) . '</table></td></tr></table></div></div></div><p>';
                 }
             }
         }

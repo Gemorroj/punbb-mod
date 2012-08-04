@@ -13,23 +13,20 @@ Incoming variables;
 
 Outgoing variables:
 $attachments: array - cache of attachments records
-
-************************************************************************/
+ ************************************************************************/
 
 // there are different sources to include fetch.php
 switch (basename($_SERVER['PHP_SELF'])) {
-    
-    default:
-    case 'viewforum.php':
-    break;
-    
     case 'viewtopic.php':
         $att_sql = 'SELECT * FROM ' . $db->prefix . 'attachments WHERE topic_id=' . intval($id) . ' AND post_id in (' . implode(',', $pids) . ')';
-    break;
-    
+        break;
+
     case 'edit.php':
         $att_sql = 'SELECT * FROM ' . $db->prefix . 'attachments WHERE post_id=' . intval($id);
-    break;
+        break;
+
+    default:
+        break;
 }
 
 // prepare attachments cache data

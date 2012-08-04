@@ -3,7 +3,7 @@ define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-	wap_message($lang_common['No view']);
+    wap_message($lang_common['No view']);
 }
 
 // Load the index.php language file
@@ -64,7 +64,7 @@ $result = $db->query('
 // REAL MARK TOPIC AS READ MOD END
 
 while ($cur_forum = $db->fetch_assoc($result)) {
-    
+
     $forums[] = $cur_forum;
 }
 
@@ -99,21 +99,21 @@ if ($pun_config['o_users_online'] == 1) {
 
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {
-            
+
             $users[] = $pun_user_online;
         } else {
-            
-        	++$num_guests;
+
+            ++$num_guests;
         }
     }
 
     $num_users = sizeof($users);
-    
+
     if ($num_users > 0) {
         $smarty->assign('num_users', $num_users);
         $smarty->assign('users', $users);
     }
-    
+
     if ($num_guests) $smarty->assign('num_guests', $num_guests);
 }
 

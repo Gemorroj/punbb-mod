@@ -1,25 +1,26 @@
 <?php
-class _jsHelper{
+class _jsHelper
+{
     var $js = array();
     var $jsInt = array();
 
     function _jsHelper()
     {
-        
+
     }
 
 
     function add($path)
     {
-        if (!in_array($path,$this->js)) {
+        if (!in_array($path, $this->js)) {
             $this->js[] = $path;
         }
     }
 
- 
+
     function addInternal($script)
     {
-        if (!in_array($script,$this->js)) {
+        if (!in_array($script, $this->js)) {
             $this->jsInt[] = $script;
         }
     }

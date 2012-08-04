@@ -90,7 +90,7 @@ function server_parse($socket, $expected_response)
     }
 
     if (!(substr($server_response, 0, 3) == $expected_response)) {
-        error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
+        error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "' . $server_response . '"', __FILE__, __LINE__);
     }
 }
 
@@ -161,4 +161,5 @@ function smtp_mail($to, $subject, $message, $headers = '')
 
     return true;
 }
+
 ?>

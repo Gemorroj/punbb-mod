@@ -12,7 +12,7 @@ require PUN_ROOT . 'include/common_admin.php';
 include PUN_ROOT . 'lang/Russian/admin.php';
 
 
-if($pun_user['g_id'] > PUN_ADMIN) {
+if ($pun_user['g_id'] > PUN_ADMIN) {
     message($lang_common['No permission']);
 }
 
@@ -43,7 +43,7 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at'])) {
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>' . pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_admin['maintenance'] . '&#8230;</title><style type="text/css">body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style></head><body><div>' . $lang_admin['maintenance_go'] . '<br /><br />';
     include PUN_ROOT . 'include/search_idx.php';
-    
+
     // Fetch posts to process
     $result = $db->query('SELECT DISTINCT t.id, p.id, p.message FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'posts AS p ON t.id=p.topic_id WHERE t.id >= ' . $start_at . ' AND t.id < ' . $end_at . ' ORDER BY t.id') or error('Unable to fetch topic/post info', __FILE__, __LINE__, $db->error());
     $cur_topic = 0;
@@ -68,7 +68,7 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at'])) {
 
     // Check if there is more work to do
     $result = $db->query('SELECT id FROM ' . $db->prefix . 'topics WHERE id > ' . $cur_topic . ' ORDER BY id ASC LIMIT 1') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
-    
+
     $query_str = ($db->num_rows($result)) ? '?i_per_page=' . $per_page . '&i_start_at=' . $db->result($result) : '';
 
     $db->close();
