@@ -284,8 +284,7 @@ $db->free_result($result);
 require_once PUN_ROOT . 'include/attach/fetch.php';
 
 if ($pun_config['o_quickjump']) {
-
-    require_once PUN_ROOT . 'include/quickjump.php';
+    include_once PUN_ROOT . 'include/quickjump.php';
 }
 
 // Increment "num_views" for topic
@@ -307,7 +306,7 @@ $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);
 
-include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 $smarty->assign('lang_misc', $lang_misc);
 
 $smarty->assign('forum_id', $id);
@@ -321,5 +320,7 @@ $smarty->assign('start_from', $start_forum);
 $smarty->assign('attachments', $attachments);
 $smarty->assign('paging_links', $paging_links);
 
-$smarty->assign('basename', baseName($_SERVER['PHP_SELF']));
+$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
+
+
 $smarty->display('viewtopic.tpl');

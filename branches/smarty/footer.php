@@ -46,8 +46,8 @@ if ($footer_style == 'index' || $footer_style == 'search') {
     // Display the "Jump to" drop list
     if ($pun_config['o_quickjump'] == 1) {
         // Load cached quickjump
-        @include PUN_ROOT . 'cache/cache_quickjump_' . $forum_id . '.php';
-        if (!defined('PUN_QJ_LOADED')) {
+        $quickjump = @include PUN_ROOT . 'cache/cache_quickjump_' . $forum_id . '.php';
+        if (!$quickjump) {
             include_once PUN_ROOT . 'include/cache.php';
             generate_quickjump_cache($forum_id);
             include PUN_ROOT . 'cache/cache_quickjump_' . $forum_id . '.php';

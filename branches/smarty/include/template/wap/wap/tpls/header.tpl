@@ -2,12 +2,11 @@
 {assign var='New_reports'   value='New reports'}
 {assign var='Full_inbox'    value='Full inbox'}
 {assign var='New_messages'  value='New messages'}
-
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$lang_common.lang_direction}">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" content="{$pun_xhtml}; charset=UTF-8" />
         {*+ <pun_head> *}
         <title>{$page_title|escape}</title>
         <link rel="stylesheet" type="text/css" href="{$pun_config.o_base_url}/style_wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}.css" />

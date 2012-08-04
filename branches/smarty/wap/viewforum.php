@@ -114,9 +114,9 @@ if ($db->num_rows($result)) {
     }
 }
 
-if ($pun_config['o_quickjump']) {
 
-    require_once PUN_ROOT . 'include/quickjump.php';
+if ($pun_config['o_quickjump']) {
+    include_once PUN_ROOT . 'include/quickjump.php';
 }
 
 $smarty->assign('is_admmod', $is_admmod);
@@ -143,8 +143,7 @@ $smarty->assign('p', $p);
 
 $smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewforum.php?id=' . $id));
 
-$smarty->assign('basename', baseName($_SERVER['PHP_SELF']));
+$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
+
 
 $smarty->display('viewforum.tpl');
-
-?>

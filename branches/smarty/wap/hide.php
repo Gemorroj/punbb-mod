@@ -322,5 +322,5 @@ $smarty->assign('start_from', $start_forum);
 $smarty->assign('attachments', $attachments);
 $smarty->assign('paging_links', $paging_links);
 
-$smarty->assign('basename', baseName($_SERVER['PHP_SELF']));
+$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
 $smarty->display('hide.tpl');

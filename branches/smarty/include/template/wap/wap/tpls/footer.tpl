@@ -18,7 +18,7 @@
     $basename == 'help.php' ||
     $basename == 'misc.php' ||
     $basename == 'filemap.php' ||
-    $basename == 'karma.php' or
+    $basename == 'karma.php' ||
     $basename == 'index.php'}
     
     <div class="navlinks">

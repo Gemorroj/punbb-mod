@@ -117,15 +117,9 @@ function generate_quickjump_cache($group_id = false)
             error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
 
-        $output = '<?php
-if (!defined(\'PUN\')) {
-    exit;
-}
-define(\'PUN_QJ_LOADED\', 1);
-
-echo \'<form id="qjump" method="get" action="viewforum.php">
+        $output = '<form id="qjump" method="get" action="viewforum.php">
 <div><label>' . $lang_common['Jump to'] . '<br />
-<select name="id" onchange="window.location.href=\\\'' . $pun_config['o_base_url'] . '/viewforum.php?id=\\\'+this.options[this.selectedIndex].value;">';
+<select name="id" onchange="window.location.assign(\'' . $pun_config['o_base_url'] . '/viewforum.php?id=\'+this.options[this.selectedIndex].value);">';
 
 
         $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
@@ -150,8 +144,7 @@ echo \'<form id="qjump" method="get" action="viewforum.php">
             $output .= '>' . pun_htmlspecialchars($cur_forum['forum_name']) . $redirect_tag . '</option>';
         }
 
-        $output .= '</optgroup></select><input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></label></div></form>\';
-?>';
+        $output .= '</optgroup></select><input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></label></div></form>';
 
         fputs($fh, $output);
         fclose($fh);
@@ -188,11 +181,10 @@ function generate_wap_quickjump_cache($group_id = false)
             error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
 
-        $output = '<?php if (! defined(\'PUN\')) exit(); define(\'PUN_QJ_LOADED\', 1); ?>'
-            . '<form id="qjump" method="get" action="viewforum.php">'
+        $output = '<form id="qjump" method="get" action="viewforum.php">'
             . '<div class="inbox">'
             . '<label>' . $lang_common['Jump to'] . '<br />'
-            . '<select name="id" onchange="window.location.href=\\\'' . $pun_config['o_base_url'] . '/wap/viewforum.php?id=\\\'+this.options[this.selectedIndex].value;">';
+            . '<select name="id" onchange="window.location.assign(\'' . $pun_config['o_base_url'] . '/wap/viewforum.php?id=\'+this.options[this.selectedIndex].value);">';
 
         $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
