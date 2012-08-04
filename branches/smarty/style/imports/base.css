@@ -109,7 +109,7 @@ height: 0
 }
 #posterror ul li {list-style: square inside}
 #viewprofile dt {text-align: right}
-div.txtarea {width: 75%}
+div.txtarea {width: 95%}
 div.txtarea textarea, input.longinput {width: 100%}
 .pun label {display: block}
 #qjump select {width: 50%}

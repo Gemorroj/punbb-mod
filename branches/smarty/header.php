@@ -86,7 +86,6 @@ if (@$jsHelper) {
 
 if (in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
     echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
-    echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/resize.js"></script>';
 }
 
 if (in_array($basename, array('message_list.php', 'moderate.php'))) {

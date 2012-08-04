@@ -23,7 +23,8 @@ $smiley_text = array(
     ':lol:',
     ':mad:',
     ':rolleyes:',
-    ':cool:'
+    ':cool:',
+    ':confused:'
 );
 $smiley_img = array(
     'roll.png',
@@ -43,9 +44,9 @@ $smiley_img = array(
     'lol.png',
     'mad.png',
     'roll.png',
-    'cool.png'
+    'cool.png',
+    'confused.png'
 );
-//$smiley_img = array('smile.gif', 'smile.gif', 'neutral.gif', 'neutral.gif', 'sad.gif', 'sad.gif', 'big_smile.gif', 'big_smile.gif', 'yikes.gif', 'yikes.gif', 'yikes.gif', 'hmm.gif', 'tongue.gif', 'lol.gif', 'mad.gif', 'roll.gif', 'cool.gif');
 
 // Uncomment the next row if you add smilies that contain any of the characters &"'<>
 //$smiley_text = array_map('pun_htmlspecialchars', $smiley_text);

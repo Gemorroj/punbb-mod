@@ -161,8 +161,8 @@ var error_no_email = \'' . $lang_fu['JS no email'] . '\';
 </li>
 <li><a href="#" onclick="return false;">/</a>
 <ul>
-<li><a id="dectxt" href="javascript:resize_text_area(-100)">-</a></li>
-<li><a id="inctxt" href="javascript:resize_text_area(100)">+</a></li>
+<li><a id="dectxt" href="javascript:resizeTextarea(-100)">-</a></li>
+<li><a id="inctxt" href="javascript:resizeTextarea(100)">+</a></li>
 </ul>
 </li>
 </ul>
