@@ -4,13 +4,14 @@ if (!defined('PUN')) {
     exit;
 }
 
+$footer_style = isset($footer_style) ? $footer_style : '';
 $tpl_temp = trim(ob_get_contents());
 $tpl_main = str_replace('<pun_main>', $tpl_temp, $tpl_main);
 ob_end_clean();
 // END SUBST - <pun_main>
 
 // JS_HELPER MOD BEGIN
-if ($jsHelper) {
+if (@$jsHelper) {
     $tpl_main = str_replace('<pun_js_helper>', $jsHelper->headerOut(), $tpl_main);
 }
 // JS_HELPER MOD END
