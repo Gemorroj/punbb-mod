@@ -5,16 +5,19 @@
         href="viewforum.php?id={$fid}">{$cur_topic.forum_name|escape}</a> &#187; {$cur_topic.subject|escape}</div>
 <form method="post" action="moderate.php?fid={$fid}&amp;tid={$tid}">
 
+{assign var='j' value='false'}
+{assign var='Last_edit' value='Last edit'}
+
 {foreach from=$posts item=cur_post}
 
-    {$post_count++}
+    {assign var='post_count' value=$post_count+1}
 
     <div class="{if $j = !$j}msg{else}msg2{/if}">
         <div class="zag_in">
             <a href="viewtopic.php?pid={$cur_post.id}#p{$cur_post.id}">#{($start_from + $post_count)}</a>
             <strong>{if $cur_post.poster_id > 1}<a
                     href="profile.php?id={$cur_post.poster_id}">{$cur_post.poster|escape}</a>{else}{$cur_post.poster|escape}{/if}
-            </strong> ({$user_title})<br/>
+            </strong> ({get_title($cur_post)})<br/>
                 {$cur_post.posted|date_format:$date_format}<br/>
             IP: {$cur_post.poster_ip}
 
@@ -28,7 +31,7 @@
 
         {if $cur_post.edited}
             <div class="small">
-                {$lang_topic.$Last_edit} {$cur_post.edited_by|escape} ($cur_post.edited|date_format:$date_format})
+                {$lang_topic.$Last_edit} {$cur_post.edited_by|escape} ({$cur_post.edited|date_format:$date_format})
             </div>
         {/if}
     </div>

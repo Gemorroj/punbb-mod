@@ -1,5 +1,9 @@
 {include file='header.tpl'}
 
+{assign var='Delete_posts' value='Delete posts'}
+{assign var='Confirm_delete_legend' value='Confirm delete legend'}
+{assign var='Delete_posts_comply' value='Delete posts comply'}
+
 <div class="con">
     <strong>{$lang_misc.$Delete_posts}</strong>
 </div>

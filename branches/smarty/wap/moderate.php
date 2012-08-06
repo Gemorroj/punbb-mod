@@ -97,7 +97,7 @@ if (isset($_GET['tid'])) {
     if (isset($_POST['delete_posts']) || isset($_POST['delete_posts_comply'])) {
 
         $posts = $_POST['posts'];
-
+        
         if (!$posts) {
 
             wap_message($lang_misc['No posts selected']);
@@ -148,8 +148,12 @@ if (isset($_GET['tid'])) {
         $page_title = $pun_config['o_board_title'] . ' / ' . $lang_misc['Moderate'];
 
         $smarty->assign('page_title', $page_title);
-
-        $smarty->display('moderate.delete_topic.tpl');
+        $smarty->assign('lang_misc', $lang_misc);
+        $smarty->assign('fid', $fid);
+        $smarty->assign('tid', $tid);
+        $smarty->assign('posts', $posts);
+        
+        $smarty->display('moderate.delete_posts.tpl');
         exit();
     }
 
@@ -166,8 +170,50 @@ if (isset($_GET['tid'])) {
     $_GET['p'] = intval($_GET['p']);
     $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
     $start_from = $pun_user['disp_posts'] * ($p - 1);
-
+    
+    $posts = $db->fetch_assoc($result);
+    
     // Generate paging links
+    $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'moderate.php?fid='.$fid.'&amp;tid='.$tid);
+    
+    if ($pun_config['o_censoring'] == 1) {
+        $cur_topic['subject'] = censor_words($cur_topic['subject']);
+    }
+    
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$cur_topic['subject'];
+    
+    //moderate delete topic
+
+    include_once PUN_ROOT.'include/parser.php';
+    
+    //$bg_switch = true; // Used for switching background color in posts
+    //$post_count = 0; // Keep track of post numbers
+    //$j = false;
+
+    if ($_GET['action'] != 'all') {
+        $act_all = ' LIMIT '.$start_from.', '.$pun_user['disp_posts'];
+    } else {
+        $act_all = null;
+    }
+    
+    // Retrieve the posts (and their respective poster)
+    $result = $db->query('SELECT u.title, u.num_posts, g.g_id, g.g_user_title, p.id, p.poster, p.poster_id, p.poster_ip, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id WHERE p.topic_id='.$tid.' ORDER BY p.id'.$act_all, true) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    
+    while ($cur_post = $db->fetch_assoc($result)) {
+        
+        $posts[] = $cur_post;
+    }
+    
+    $smarty->assign('lang_common', $lang_common);
+    $smarty->assign('fid', $fid);
+    $smarty->assign('tid', $tid);
+    $smarty->assign('posts', $posts);
+    $smarty->assign('cur_topic', $cur_topic);
+    $smarty->assign('start_from', $start_from);
+    $smarty->assign('lang_misc', $lang_misc);
+    $smarty->assign('lang_topic', $lang_topic);
+    $smarty->assign('paging_links', $paging_links);
+    
     $smarty->display('moderate.show_delete_posts.tpl');
     exit();
 }
