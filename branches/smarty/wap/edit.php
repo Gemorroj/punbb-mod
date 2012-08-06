@@ -195,7 +195,7 @@ if (@$_POST['preview']) {
 
 $smarty->assign('cur_post', $cur_post);
 $smarty->assign('lang_post', $lang_post);
-$smarty->assign('preview_message', preview_message);
+$smarty->assign('preview_message', $preview_message);
 $smarty->assign('message', $message);
 $smarty->assign('id', $id);
 $smarty->assign('can_edit_subject', $can_edit_subject);
