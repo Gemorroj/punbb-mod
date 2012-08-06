@@ -46,7 +46,7 @@
 
 {if $tid}
 <form method="post" action="post.php?action=post&amp;tid={$tid}" {if $file_limit}enctype="multipart/form-data"{/if}>
-    {elseif $fid}
+{elseif $fid}
 <form method="post" action="post.php?action=post&amp;fid={$fid}" enctype="multipart/form-data">
 {/if}
 
@@ -76,7 +76,7 @@
                tabindex="{assign var='cur_index' value=$cur_index+1}"/><br/>
     {/if}
 
-        <textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{if $smarty.post.req_message}{$message|escape}{elseif $quote}{$quote}{/if}</textarea><br/>
+        <textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{if $smarty.post.req_message}{$message|escape}{elseif $quote}{$quote|escape}{/if}</textarea><br/>
 
         <a href="help.php?id=3">{$lang_common.Smilies}</a>
         {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span

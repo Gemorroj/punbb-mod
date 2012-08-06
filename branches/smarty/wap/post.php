@@ -467,6 +467,74 @@ if (isset($_POST['form_sent'])) {
     }
 }
 
+// If a topic id was specified in the url (it's a reply).
+if ($tid) {
+
+    // If a quote-id was specified in the url.
+    if (isset($_GET['qid'])) {
+        $qid = intval($_GET['qid']);
+        if ($qid < 1) {
+            wap_message($lang_common['Bad request']);
+        }
+
+        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) or error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        if (!$db->num_rows($result)) {
+            wap_message($lang_common['Bad request']);
+        }
+
+        list($q_poster, $q_message) = $db->fetch_row($result);
+        
+        //$q_message = pun_htmlspecialchars(str_replace('[/img]', '[/url]', str_replace('[img]', '[url]', $q_message)));
+        $q_message = str_replace(array('[img]', '[/img]'), array('[url]', '[/url]'), $q_message);
+        // pun_htmlspecialchars => {$quote|escape} in post.tpl
+
+        if ($pun_config['p_message_bbcode'] == 1) {
+            // If username contains a square bracket, we add "" or '' around it (so we know when it starts and ends)
+            if (strpos($q_poster, '[') !== false || strpos($q_poster, ']') !== false) {
+                if (strpos($q_poster, "'") !== false) {
+                    $q_poster = '"'.$q_poster.'"';
+                } else {
+                    $q_poster = "'".$q_poster."'";
+                }
+            } else {
+                // Get the characters at the start and end of $q_poster
+                $ends = substr($q_poster, 0, 1) . substr($q_poster, -1, 1);
+
+                // Deal with quoting "Username" or 'Username' (becomes '"Username"' or "'Username'")
+                if ($ends == "''") {
+                    $q_poster = '"'.$q_poster.'"';
+                } else if ($ends == '""') {
+                    $q_poster = "'".$q_poster."'";
+                }
+            }
+
+            $quote = '[quote='.$q_poster.']'.$q_message.'[/quote]'."\n";
+        } else {
+            $quote = '> '.$q_poster.' '.$lang_common['wrote'].':'."\n".'> '.$q_message."\n";
+        }
+    } else if (isset($_GET['rid'])) {
+        $rid = intval($_GET['rid']);
+        if ($rid < 1) {
+            wap_message($lang_common['Bad request']);
+        }
+
+        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) or error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        if (!$db->num_rows($result)) {
+            wap_message($lang_common['Bad request']);
+        }
+        list($q_poster) = $db->fetch_row($result);
+        if ($pun_config['p_message_bbcode'] == 1) {
+            $quote = '[b]' . $q_poster . '[/b]';
+        } else {
+            $quote = $q_poster;
+        }
+    }
+}
+else {
+    wap_message($lang_common['Bad request']);
+}
+
+
 require_once PUN_ROOT . 'wap/header.php';
 
 
