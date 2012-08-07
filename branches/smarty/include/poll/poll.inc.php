@@ -282,13 +282,13 @@ class _Poll
         foreach ($poll['data'] as $quest) {
             $i++;
 
+            $out .= '<label for="poll_' . $i . '">';
             if (!$poll['multiselect']) {
-                $out .= '<input type="radio" name="poll_vote" value="' . $i . '" />';
+                $out .= '<input id="poll_' . $i . '" type="radio" name="poll_vote" value="' . $i . '" />';
             } else {
-                $out .= '<input type="checkbox" name="poll_vote[' . $i . ']" value="' . $i . '" />';
+                $out .= '<input id="poll_' . $i . '" type="checkbox" name="poll_vote[' . $i . ']" value="' . $i . '" />';
             }
-
-            $out .= ' ' . pun_htmlspecialchars($quest[0]) . '<br />';
+            $out .= ' ' . pun_htmlspecialchars($quest[0]) . '<br /></label>';
         }
         $out .= '</div><div class="go_to"><input type="submit" value="' . $lang_poll['vote'] . '"/></div></form>' . $pieces;
 
@@ -427,7 +427,7 @@ class _Poll
     function wap_showContainer()
     {
         global $lang_poll;
-        return '<fieldset><legend>' . $lang_poll['poll'] . '</legend><input type="hidden" name="has_poll" value="1" /><textarea name="pdescription" rows="1" cols="12"></textarea><br/>' . $lang_poll['allow multiselect'] . '<br/><input type="radio" name="pmultiselect" value="1"/>' . $lang_poll['yes'] . ' <input type="radio" name="pmultiselect" value="0" checked="checked"/>' . $lang_poll['no'] . '<br/>' . $lang_poll['how long'] . '<br/><input name="pexpire" type="text" value=""/><br/>' . $lang_poll['list answers'] . '<br/><textarea rows="2" cols="12" name="pquestions"></textarea></fieldset>';
+        return '<fieldset><legend>' . $lang_poll['poll'] . '</legend><input type="hidden" name="has_poll" value="1" /><textarea name="pdescription" rows="1" cols="12"></textarea><br/>' . $lang_poll['allow multiselect'] . '<br/><label for="multiselect_yes"><input type="radio" id="multiselect_yes" name="pmultiselect" value="1"/>' . $lang_poll['yes'] . '</label> <label for="multiselect_no"><input type="radio" id="multiselect_no" name="pmultiselect" value="0" checked="checked"/>' . $lang_poll['no'] . '</label><br/>' . $lang_poll['how long'] . '<br/><input name="pexpire" type="text" value=""/><br/>' . $lang_poll['list answers'] . '<br/><textarea rows="2" cols="12" name="pquestions"></textarea></fieldset>';
     }
 
 
