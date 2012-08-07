@@ -493,5 +493,6 @@ $smarty->assign('lang_misc', $lang_misc);
 
 $smarty->assign('fid', $fid);
 $smarty->assign('topics', $topics);
+$smarty->assign('paging_links', $paging_links);
 
 $smarty->display('moderate.tpl');
