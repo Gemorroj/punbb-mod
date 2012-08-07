@@ -530,7 +530,7 @@ if ($tid) {
         }
     }
 }
-else {
+else if (! $fid) {
     wap_message($lang_common['Bad request']);
 }
 
