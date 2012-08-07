@@ -957,7 +957,7 @@ function maintenance_message()
 //
 // Display $message and redirect user to $destination_url
 //
-function redirect($destination_url, $message)
+function redirect($destination_url, $message = '', $redirect_code = 301)
 {
     global $db, $pun_config, $lang_common, $pun_user;
 
@@ -970,8 +970,8 @@ function redirect($destination_url, $message)
     $destination_url = preg_replace('/([\r\n])|(%0[ad])|(;[\s]*data[\s]*:)/i', '', $destination_url);
 
     // If the delay is 0 seconds, we might as well skip the redirect all together
-    if (!$pun_config['o_redirect_delay']) {
-        header('Location: ' . str_replace('&amp;', '&', $destination_url), true, 301);
+    if (!$pun_config['o_redirect_delay'] || !$message) {
+        header('Location: ' . str_replace('&amp;', '&', $destination_url), true, $redirect_code);
         exit;
     }
 
@@ -1049,7 +1049,7 @@ function redirect($destination_url, $message)
 }
 
 
-function wap_redirect($destination_url)
+function wap_redirect($destination_url, $redirect_code = 301)
 {
     // Prefix with o_base_url (unless there's already a valid URI)
     if (strpos($destination_url, 'http://') !== 0 && strpos($destination_url, 'https://') !== 0 && strpos($destination_url, 'ftp://') !== 0 && strpos($destination_url, 'ftps://') !== 0 && strpos($destination_url, '/') !== 0) {
@@ -1058,7 +1058,7 @@ function wap_redirect($destination_url)
         //echo $destination_url;
     }
 
-    header('Location: ' . $destination_url, true, 301);
+    header('Location: ' . $destination_url, true, $redirect_code);
     exit;
 }
 

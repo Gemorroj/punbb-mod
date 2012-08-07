@@ -7,7 +7,6 @@ require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php');
 require_once(PUN_ROOT . 'wap/header.php');
 
 if (!$pun_user['g_read_board']) {
-
     wap_message($lang_common['No view']);
 }
 
@@ -15,7 +14,6 @@ $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
 
 if ($id < 1 && $pid < 1) {
-
     wap_message($lang_common['Bad request']);
 }
 
@@ -27,7 +25,6 @@ if ($pid) {
 
     $result = $db->query('SELECT `topic_id` FROM `' . $db->prefix . 'posts` WHERE `id`=' . $pid) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
-
         wap_message($lang_common['Bad request']);
     }
 
@@ -38,10 +35,10 @@ if ($pid) {
     $num_posts = $db->num_rows($result);
 
     for ($i = 0; $i < $num_posts; ++$i) {
-
         $cur_id = $db->result($result, $i);
-
-        if ($cur_id == $pid) break;
+        if ($cur_id == $pid) {
+            break;
+        }
     }
 
     ++$i; // we started at 0
@@ -55,16 +52,11 @@ if ($pid) {
     $first_new_post_id = $db->result($result);
 
     if ($first_new_post_id) {
-
-        $link = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . str_replace(array('\\', '//'), array('/', '/'), dirname($_SERVER['PHP_SELF']) . '/');
-
-        header('Location: ' . $link . 'viewtopic.php?pid=' . $first_new_post_id . '#p' . $first_new_post_id, true, 301);
+        wap_redirect('viewtopic.php?pid=' . $first_new_post_id . '#p' . $first_new_post_id);
     } else {
         // If there is no new post, we go to the last post
-        header('Location: ' . $link . 'viewtopic.php?id=' . $id . '&action=last', true, 301);
+        wap_redirect('viewtopic.php?id=' . $id . '&action=last');
     }
-
-    exit();
 } else if ($_GET['action'] == 'last') {
     // If action=last, we redirect to the last post
 
@@ -72,11 +64,7 @@ if ($pid) {
     $last_post_id = $db->result($result);
 
     if ($last_post_id) {
-
-        $link = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . str_replace(array('\\', '//'), array('/', '/'), dirname($_SERVER['PHP_SELF']) . '/');
-        header('Location: ' . $link . 'viewtopic.php?pid=' . $last_post_id . '#p' . $last_post_id, true, 301);
-
-        exit();
+        wap_redirect('viewtopic.php?pid=' . $last_post_id . '#p' . $last_post_id);
     }
 }
 
@@ -99,10 +87,8 @@ if (!$pun_user['is_guest']) {
     $message_stack = array();
 
     if ($cur_topic['log_time'] == null) {
-
         $db->query('INSERT INTO ' . $db->prefix . 'log_topics (user_id, forum_id, topic_id, log_time) VALUES (' . $pun_user['id'] . ', ' . $cur_topic['forum_id'] . ', ' . $id . ', ' . $_SERVER['REQUEST_TIME'] . ')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
-
         $db->query('UPDATE ' . $db->prefix . 'log_topics SET forum_id=' . $cur_topic['forum_id'] . ', log_time=' . $_SERVER['REQUEST_TIME'] . ' WHERE topic_id=' . $id . ' AND user_id=' . $pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
@@ -112,7 +98,6 @@ if (!$pun_user['is_guest']) {
     while ($topic = $db->fetch_assoc($result)) {
 
         if ((!$topic['log_time'] && $topic['last_post'] > $pun_user['last_visit']) || ($topic['log_time'] < $topic['last_post'] && $topic['last_post'] > $pun_user['last_visit'])) {
-
             $find_new = true;
             break;
         }
@@ -129,7 +114,6 @@ if (!$pun_user['is_guest']) {
             $dberror = $db->error();
 
             if ($dberror['error_no'] && $dberror['error_no'] != 1062) {
-
                 error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());
             }
         }
@@ -173,20 +157,17 @@ $start_from = $pun_user['disp_posts'] * ($p - 1);
 // ORIGINAL
 //$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ($_GET['action'] == 'all') {
-
     $p = ($num_pages + 1);
 }
 
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
 
 if ($_GET['action'] == 'all' && !$pid) {
-
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
 /// MOD VIEW ALL PAGES IN ONE END
 
 if ($pun_config['o_censoring'] == 1) {
-
     $cur_topic['subject'] = censor_words($cur_topic['subject']);
 }
 
@@ -309,7 +290,7 @@ $smarty->assign('lang_pms', $lang_pms);
 require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 $smarty->assign('lang_misc', $lang_misc);
 
-$smarty->assign('forum_id', $id);
+$smarty->assign('forum_id', $cur_topic['forum_id']);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);
 

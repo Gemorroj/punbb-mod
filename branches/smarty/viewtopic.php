@@ -54,19 +54,19 @@ else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
     $first_new_post_id = $db->result($result);
 
     if ($first_new_post_id) {
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])) . '/viewtopic.php?pid=' . $first_new_post_id . '#p' . $first_new_post_id, true, 301);
-    } else { // If there is no new post, we go to the last post
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])) . '/viewtopic.php?id=' . $id . '&action=last', true, 301);
+        redirect('viewtopic.php?pid=' . $first_new_post_id . '#p' . $first_new_post_id, '');
+    } else {
+        // If there is no new post, we go to the last post
+        redirect('viewtopic.php?id=' . $id . '&action=last', '');
     }
-    exit;
-} // If action=last, we redirect to the last post
-else if ($_GET['action'] == 'last') {
+} else if ($_GET['action'] == 'last') {
+    // If action=last, we redirect to the last post
+
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $last_post_id = $db->result($result);
 
     if ($last_post_id) {
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])) . '/viewtopic.php?pid=' . $last_post_id . '#p' . $last_post_id, true, 301);
-        exit;
+        redirect('viewtopic.php?pid=' . $last_post_id . '#p' . $last_post_id, '');
     }
 }
 

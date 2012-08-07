@@ -311,7 +311,7 @@ $smarty->assign('lang_post', $lang_post);
 $smarty->assign('lang_pms', $lang_pms);
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('forum_id', $id);
+$smarty->assign('forum_id', $cur_topic['forum_id']);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);
 

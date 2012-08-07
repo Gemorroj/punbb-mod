@@ -13,27 +13,22 @@ $smarty->assign('pun_user', $pun_user);
 if (isset($_GET['get_host'])) {
 
     if ($pun_user['g_id'] > PUN_MOD) {
-
         wap_message($lang_common['No permission']);
     }
 
     // Is get_host an IP address or a post ID?
     if (preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $_GET['get_host'])) {
-
         $ip = $_GET['get_host'];
     } else {
-
         $get_host = intval($_GET['get_host']);
 
         if ($get_host < 1) {
-
             wap_message($lang_common['Bad request']);
         }
 
         $result = $db->query('SELECT poster_ip FROM `' . $db->prefix . 'posts` WHERE id=' . $get_host) or error('Unable to fetch post IP address', __FILE__, __LINE__, $db->error());
 
         if (!$db->num_rows($result)) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -41,10 +36,8 @@ if (isset($_GET['get_host'])) {
     }
 
     if ($whois = gethostbyaddr($ip) != $ip) {
-
         $whois = ' (' . $whois . ')';
     } else {
-
         $whois = null;
     }
 
@@ -53,10 +46,8 @@ if (isset($_GET['get_host'])) {
 
 
 // All other functions require moderator/admin access
-$fid = intval($_GET['fid']);
-
+$fid = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
 if ($fid < 1) {
-
     wap_message($lang_common['Bad request']);
 }
 
@@ -66,7 +57,6 @@ $moderators = $db->result($result);
 $mods_array = ($moderators) ? unserialize($moderators) : array();
 
 if ($pun_user['g_id'] != PUN_ADMIN && ($pun_user['g_id'] != PUN_MOD || !array_key_exists($pun_user['username'], $mods_array))) {
-
     wap_message($lang_common['No permission']);
 }
 
@@ -77,17 +67,13 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 if (isset($_GET['tid'])) {
 
     $tid = intval($_GET['tid']);
-
     if ($tid < 1) {
-
         wap_message($lang_common['Bad request']);
     }
 
     // Fetch some info about the topic
     $result = $db->query('SELECT t.subject, t.num_replies, f.id AS forum_id, forum_name FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'subscriptions AS s ON (t.id=s.topic_id AND s.user_id=' . $pun_user['id'] . ') LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id=' . $fid . ' AND t.id=' . $tid . ' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
-
     if (!$db->num_rows($result)) {
-
         wap_message($lang_common['Bad request']);
     }
 
@@ -97,18 +83,14 @@ if (isset($_GET['tid'])) {
     if (isset($_POST['delete_posts']) || isset($_POST['delete_posts_comply'])) {
 
         $posts = $_POST['posts'];
-        
         if (!$posts) {
-
             wap_message($lang_misc['No posts selected']);
         }
 
         if (isset($_POST['delete_posts_comply'])) {
 
             //confirm_referrer('moderate.php');
-
             if (preg_match('/[^0-9,]/', $posts)) {
-
                 wap_message($lang_common['Bad request']);
             }
 
@@ -116,7 +98,6 @@ if (isset($_GET['tid'])) {
             $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'posts WHERE id IN(' . $posts . ') AND topic_id=' . $tid) or error('Unable to check posts', __FILE__, __LINE__, $db->error());
 
             if ($db->num_rows($result) != substr_count($posts, ',') + 1) {
-
                 wap_message($lang_common['Bad request']);
             }
 
@@ -170,22 +151,22 @@ if (isset($_GET['tid'])) {
     $_GET['p'] = intval($_GET['p']);
     $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
     $start_from = $pun_user['disp_posts'] * ($p - 1);
-    
+
     $posts = $db->fetch_assoc($result);
-    
+
     // Generate paging links
     $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'moderate.php?fid='.$fid.'&amp;tid='.$tid);
-    
+
     if ($pun_config['o_censoring'] == 1) {
         $cur_topic['subject'] = censor_words($cur_topic['subject']);
     }
-    
+
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$cur_topic['subject'];
-    
+
     //moderate delete topic
 
     include_once PUN_ROOT.'include/parser.php';
-    
+
     //$bg_switch = true; // Used for switching background color in posts
     //$post_count = 0; // Keep track of post numbers
     //$j = false;
@@ -195,12 +176,11 @@ if (isset($_GET['tid'])) {
     } else {
         $act_all = null;
     }
-    
+
     // Retrieve the posts (and their respective poster)
     $result = $db->query('SELECT u.title, u.num_posts, g.g_id, g.g_user_title, p.id, p.poster, p.poster_id, p.poster_ip, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id WHERE p.topic_id='.$tid.' ORDER BY p.id'.$act_all, true) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-    
+
     while ($cur_post = $db->fetch_assoc($result)) {
-        
         $posts[] = $cur_post;
     }
     
@@ -213,7 +193,7 @@ if (isset($_GET['tid'])) {
     $smarty->assign('lang_misc', $lang_misc);
     $smarty->assign('lang_topic', $lang_topic);
     $smarty->assign('paging_links', $paging_links);
-    
+
     $smarty->display('moderate.show_delete_posts.tpl');
     exit();
 }
@@ -226,7 +206,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         //confirm_referrer('moderate.php');
 
         if (preg_match('/[^0-9,]/', $_POST['topics'])) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -234,7 +213,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $move_to_forum = intval($_POST['move_to_forum']);
 
         if (!$topics || $move_to_forum < 1) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -242,7 +220,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'topics WHERE id IN(' . implode(',', $topics) . ') AND forum_id=' . $fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
 
         if ($db->num_rows($result) != sizeof($topics)) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -278,7 +255,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
 
         if (!$topics) {
-
             wap_message($lang_misc['No topics selected']);
         }
 
@@ -289,7 +265,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $topics = intval($_GET['move_topics']);
 
         if ($topics < 1) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -301,7 +276,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
     while ($forum = $db->fetch_assoc($result)) {
-
         $forums[] = $forum;
     }
 
@@ -323,7 +297,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
 
     if (!$topics) {
-
         wap_message($lang_misc['No topics selected']);
     }
 
@@ -332,7 +305,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         //confirm_referrer('moderate.php');
 
         if (preg_match('/[^0-9,]/', $topics)) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -342,13 +314,11 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'topics WHERE id IN(' . $topics . ') AND forum_id=' . $fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
 
         if ($db->num_rows($result) != substr_count($topics, ',') + 1) {
-
             wap_message($lang_common['Bad request']);
         }
 
         // hcs AJAX POLL MOD BEGIN
         if ($pun_config['poll_enabled'] == 1) {
-
             include PUN_ROOT . 'include/poll/poll.inc.php';
             $Poll->deleteTopic($topics);
         }
@@ -365,13 +335,11 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         $post_ids = null;
         while ($row = $db->fetch_row($result)) {
-
             $post_ids .= ($post_ids) ? ',' . $row[0] : $row[0];
         }
 
         // We have to check that we actually have a list of post ID's since we could be deleting just a redirect topic
         if ($post_ids) {
-
             strip_search_index($post_ids);
         }
 
@@ -412,7 +380,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         $topics = isset($_POST['topics']) ? @array_map('intval', @array_keys($_POST['topics'])) : array();
 
         if (!$topics) {
-
             wap_message($lang_misc['No topics selected']);
         }
 
@@ -430,7 +397,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         $topic_id = ($action) ? intval($_GET['close']) : intval($_GET['open']);
 
         if ($topic_id < 1) {
-
             wap_message($lang_common['Bad request']);
         }
 
@@ -449,7 +415,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     $stick = intval($_GET['stick']);
 
     if ($stick < 1) {
-
         wap_message($lang_common['Bad request']);
     }
 
@@ -465,7 +430,6 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     $unstick = intval($_GET['unstick']);
 
     if ($unstick < 1) {
-
         wap_message($lang_common['Bad request']);
     }
 
@@ -483,7 +447,6 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/forum.php';
 $result = $db->query('SELECT f.forum_name, f.redirect_url, f.num_topics FROM ' . $db->prefix . 'forums AS f LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id=' . $fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 if (!$db->num_rows($result)) {
-
     wap_message($lang_common['Bad request']);
 }
 
@@ -491,7 +454,6 @@ $cur_forum = $db->fetch_assoc($result);
 
 // Is this a redirect forum? In that case, abort!
 if ($cur_forum['redirect_url']) {
-
     wap_message($lang_common['Bad request']);
 }
 
@@ -508,7 +470,6 @@ $start_from = $pun_user['disp_topics'] * ($p - 1);
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderate.php?fid=' . $fid, 0);
 
 if ($_GET['action'] != 'all') {
-
     $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];
 } else {
 
@@ -520,7 +481,6 @@ if ($_GET['action'] != 'all') {
 $result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, last_post_id, last_poster, num_views, num_replies, closed, sticky, moved_to FROM ' . $db->prefix . 'topics WHERE forum_id=' . $fid . ' ORDER BY sticky DESC, last_post DESC' . $act_all) or error('Unable to fetch topic list for forum', __FILE__, __LINE__, $db->error());
 
 while ($topic = $db->fetch_assoc($result)) {
-
     $topics[] = $topic;
 }
 

@@ -39,7 +39,7 @@ if (isset($_GET['get_host'])) {
 
 
 // All other functions require moderator/admin access
-$fid = intval(@$_GET['fid']);
+$fid = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
 if ($fid < 1) {
     message($lang_common['Bad request']);
 }
