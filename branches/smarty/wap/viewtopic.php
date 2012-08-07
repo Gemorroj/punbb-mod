@@ -260,10 +260,11 @@ while ($cur_post = $db->fetch_assoc($result)) {
 $db->free_result($result);
 
 // Retrieve the attachments
-require_once PUN_ROOT . 'include/attach/fetch.php';
+require PUN_ROOT . 'include/attach/fetch.php';
 
 if ($pun_config['o_quickjump']) {
-    include_once PUN_ROOT . 'include/quickjump.php';
+    $forum_id = $cur_topic['forum_id'];
+    include_once PUN_ROOT . 'include/wap_quickjump.php';
 }
 
 // Increment "num_views" for topic

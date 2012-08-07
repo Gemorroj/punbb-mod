@@ -289,8 +289,8 @@ $db->free_result($result);
 require PUN_ROOT . 'include/attach/fetch.php';
 
 if ($pun_config['o_quickjump']) {
-
-    require_once PUN_ROOT . 'include/quickjump.php';
+    $forum_id = $cur_topic['forum_id'];
+    include_once PUN_ROOT . 'include/wap_quickjump.php';
 }
 
 // Increment "num_views" for topic

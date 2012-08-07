@@ -106,9 +106,7 @@ $result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LI
 
 // If there are topics in this forum.
 if ($db->num_rows($result)) {
-
     while ($cur_topic = $db->fetch_assoc($result)) {
-
         $cur_topic['num_pages_topic'] = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
         $topics[] = $cur_topic;
     }
@@ -116,7 +114,8 @@ if ($db->num_rows($result)) {
 
 
 if ($pun_config['o_quickjump']) {
-    include_once PUN_ROOT . 'include/quickjump.php';
+    $forum_id = $id;
+    include_once PUN_ROOT . 'include/wap_quickjump.php';
 }
 
 $smarty->assign('is_admmod', $is_admmod);

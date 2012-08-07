@@ -1,12 +1,12 @@
 <?php
-if (! defined('PUN') or ! defined('PUN_ROOT')) exit();
+if (!defined('PUN') or ! defined('PUN_ROOT')) exit();
 
 ob_start();
-$quickjump = @include_once PUN_ROOT . 'cache/cache_wap_quickjump_' . $id . '.php';
+$quickjump = @include_once PUN_ROOT . 'cache/cache_wap_quickjump_' . $forum_id . '.php';
 ob_end_clean();
 
 if (!$quickjump) {
-    $group_id = $id;
+    $group_id = $forum_id;
 
     if ($group_id !== false) {
         $groups[0] = $group_id;
@@ -24,7 +24,7 @@ if (!$quickjump) {
     while (list(, $group_id) = each($groups)) {
         // Output wap quickjump as PHP code
         $fh = fopen(PUN_ROOT . 'cache/cache_wap_quickjump_' . $group_id . '.php', 'wb');
-        if (! $fh) {
+        if (!$fh) {
             error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
 
