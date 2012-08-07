@@ -198,6 +198,7 @@ $num_to_upload = min($file_limit, 20);
 $smarty->assign('num_to_upload', $num_to_upload);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
+//$smarty->assign('upload_to_post', $upload_to_post);
 
 if ($uploaded_to_post) {
     // Retrieve the attachments

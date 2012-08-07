@@ -99,8 +99,7 @@
         <input type="text" name="req_image_" size="16" maxlength="16"/><br/>
     {/if}
 
-    {assign var='num_to_upload' value=min($file_limit, 20)}
-
+    {* Attachmenst *}
     {if $can_upload && $num_to_upload > 0}
             {$lang_fu.Attachments}<br/>
     <input type="file" name="attach[]"/><br/>

@@ -64,7 +64,10 @@
 
     {if $uploaded_to_post || ($can_upload && $num_to_upload > 0)}
         {* Attachments *}
-        {include file='attachments.tpl'}
+        {if $attachments[$cur_post.id]}
+            
+            {include file='attachments.tpl'}
+        {/if}
         {if $can_upload && $num_to_upload > 0}
             </div>
             <div class="input2">{$lang_fu.$Choose_a_file}<br/>

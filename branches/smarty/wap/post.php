@@ -567,4 +567,7 @@ $smarty->assign('cur_index', $cur_index);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
 
+$num_to_upload = min($file_limit, 20);
+$smarty->assign('num_to_upload', $num_to_upload);
+
 $smarty->display('post.tpl');
