@@ -103,7 +103,7 @@
 
     {if $can_upload && $num_to_upload > 0}
             {$lang_fu.Attachments}<br/>
-    {include file='{$smarty.const.PUN_ROOT}include/attach/wap_post_input.php'}
+    <input type="file" name="attach[]"/><br/>
     {/if}
 
     {assign var='Hide_smilies' value='Hide smilies'}

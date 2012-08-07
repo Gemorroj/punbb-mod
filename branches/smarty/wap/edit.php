@@ -193,6 +193,22 @@ if (@$_POST['preview']) {
     $preview_message = parse_message($message, $hide_smilies);
 }
 
+//+ Attachments//
+$num_to_upload = min($file_limit, 20);
+$smarty->assign('num_to_upload', $num_to_upload);
+$smarty->assign('can_download', $can_download);
+$smarty->assign('can_upload', $can_upload);
+
+if ($uploaded_to_post) {
+    // Retrieve the attachments
+    $smarty->assign('basename', basename(__FILE__));
+    $cur_post['id'] = $id;
+    require_once PUN_ROOT . 'include/attach/fetch.php';
+    $smarty->assign('lang_fu', $lang_fu);
+    $smarty->assign('attachments', $attachments);
+}
+//- Attachments//
+
 $smarty->assign('cur_post', $cur_post);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('preview_message', $preview_message);
@@ -200,6 +216,5 @@ $smarty->assign('message', $message);
 $smarty->assign('id', $id);
 $smarty->assign('can_edit_subject', $can_edit_subject);
 $smarty->assign('cur_index', $cur_index);
-
 
 $smarty->display('edit.tpl');

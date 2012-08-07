@@ -62,18 +62,15 @@
     {/if}
         <br/>
 
-    {*
-    $num_to_upload = $file_limit;
-    $num_to_upload = min($num_to_upload, 20);
-    if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
-        //Attachments
-        include PUN_ROOT.'include/attach/wap_view_attachments.php';
-        if ($can_upload && $num_to_upload > 0) {
-            echo '</div><div class="input2">'.$lang_fu['Choose a file'].'<br/>';
-        }
-        include PUN_ROOT.'include/attach/wap_post_input.php';
-    }
-    *}
+    {if $uploaded_to_post || ($can_upload && $num_to_upload > 0)}
+        {* Attachments *}
+        {include file='attachments.tpl'}
+        {if $can_upload && $num_to_upload > 0}
+            </div>
+            <div class="input2">{$lang_fu.$Choose_a_file}<br/>
+        {/if}
+        <input type="file" name="attach[]"/><br/>
+    {/if}
 
     {if $pun_config.o_smilies == 1}
         {assign var='Hide_smilies' value='Hide smilies'}
