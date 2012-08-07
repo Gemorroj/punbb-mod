@@ -252,6 +252,19 @@ if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
 
 $posts = $pids = array();
 while ($cur_post = $db->fetch_assoc($result)) {
+    $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+
+    $signature = '';
+    if ($cur_post['signature'] && $pun_user['show_sig']) {
+        if (isset($signature_cache[$cur_post['poster_id']])) {
+            $signature = $signature_cache[$cur_post['poster_id']];
+        } else {
+            $signature = parse_signature($cur_post['signature']);
+            $signature_cache[$cur_post['poster_id']] = $signature;
+        }
+    }
+    $cur_post['signature'] = $signature;
+    $cur_post['user_avatar'] = pun_show_avatar();
 
     $posts[] = $cur_post;
     $pids[] = $cur_post['id']; // Need to fetch attachments from db.

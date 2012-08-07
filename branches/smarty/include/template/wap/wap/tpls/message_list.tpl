@@ -9,11 +9,8 @@
 {if isset($smarty.get.id)}
 <div class="msg">
     <div class="zag_in">
-        {if $cur_post.poster_id > 1 and $pun_config.o_avatars == 1 && $cur_post.use_avatar == 1 && $pun_user.show_avatars}
         {* Аватарка *}
-            <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$cur_post.poster_id}.{$cur_post.avatar_type}"
-                 alt="*"/>&#160;
-        {/if}
+            {$cur_post.user_avatar}
         <strong>
             {if $smarty.get.id > 0}
                 <a href="profile.php?id={$cur_post.id}">{$cur_post.username|escape}</a>

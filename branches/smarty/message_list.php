@@ -168,19 +168,7 @@ if ($box < 2) {
 // Format the online indicator
             $is_online = ($cur_post['is_online'] == $cur_post['id']) ? '<strong>' . $lang_topic['Online'] . '</strong>' : $lang_topic['Offline'];
 
-            if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
-                if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.gif')) {
-                    $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.gif" ' . $img_size[3] . ' alt="" />';
-                } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.jpg')) {
-                    $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.jpg" ' . $img_size[3] . ' alt="" />';
-                } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.png')) {
-                    $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['id'] . '.png" ' . $img_size[3] . ' alt="" />';
-                } else {
-                    $user_avatar = null;
-                }
-            } else {
-                $user_avatar = null;
-            }
+            $user_avatar = pun_show_avatar();
 
 // We only show location, register date, post count and the contact links if "Show user info" is enabled
             if ($pun_config['o_show_user_info'] == 1) {

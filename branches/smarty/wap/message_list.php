@@ -101,7 +101,7 @@ if ($box < 2) {
         list($status, $owner) = $db->fetch_row($result);
         $status == 0 ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
-        $result = $db->query('SELECT m.id AS mid,m.subject,m.sender_ip,m.message,m.smileys,m.posted,m.showed,u.id,u.group_id as g_id,g.g_user_title,u.username,u.registered,u.email,u.title,u.url,u.icq,u.msn,u.aim,u.yahoo,u.location,u.use_avatar,u.email_setting,u.num_posts,u.admin_note,u.signature,o.user_id AS is_online FROM ' . $db->prefix . 'messages AS m,' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.idle=0) LEFT JOIN ' . $db->prefix . 'groups AS g ON u.group_id = g.g_id WHERE ' . $where . ' AND m.id=' . $id) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT m.id AS mid,m.subject,m.sender_id AS poster_id,m.sender_ip,m.message,m.smileys,m.posted,m.showed,u.id,u.group_id as g_id,g.g_user_title,u.username,u.registered,u.email,u.title,u.url,u.icq,u.msn,u.aim,u.yahoo,u.location,u.use_avatar,u.email_setting,u.num_posts,u.admin_note,u.signature,o.user_id AS is_online FROM ' . $db->prefix . 'messages AS m,' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.idle=0) LEFT JOIN ' . $db->prefix . 'groups AS g ON u.group_id = g.g_id WHERE ' . $where . ' AND m.id=' . $id) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
         $cur_post = $db->fetch_assoc($result);
 
         if ($owner != $pun_user['id']) {
@@ -131,6 +131,7 @@ if ($box < 2) {
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
         $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
+        $cur_post['user_avatar'] = pun_show_avatar();
     }
 
     if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST) {
@@ -146,6 +147,9 @@ if ($box < 2) {
     // If there are messages in this folder.
     if ($all = $db->num_rows($result)) {
         while ($cur_mess = $db->fetch_assoc($result)) {
+            $cur_mess['message'] = parse_message($cur_mess['message'], $cur_mess['smileys']);
+            $cur_mess['user_avatar'] = pun_show_avatar();
+
             $messages[] = $cur_mess;
         }
     }

@@ -889,6 +889,26 @@ function pun_trim($str)
     return trim($str);
 }
 
+
+function pun_show_avatar()
+{
+    global $pun_config, $pun_user, $cur_post;
+
+    $user_avatar = '';
+    if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
+        if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif')) {
+            $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif" alt="" />';
+        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg')) {
+            $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg" alt="" />';
+        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png')) {
+            $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png" alt="" />';
+        }
+    }
+
+    return $user_avatar;
+}
+
+
 //
 // Display a message when board is in maintenance mode
 //

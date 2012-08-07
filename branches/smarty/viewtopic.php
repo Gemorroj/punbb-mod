@@ -302,17 +302,7 @@ foreach ($posts as $cur_post) {
         // Format the online indicator
         $is_online = ($cur_post['is_online'] == $cur_post['poster_id']) ? '<strong>' . $lang_topic['Online'] . '</strong>' : $lang_topic['Offline'];
 
-        if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
-            if ($img_size = @getimagesize($pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif')) {
-                $user_avatar = '<img src="' . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif" alt="" />';
-            } else if ($img_size = @getimagesize($pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg')) {
-                $user_avatar = '<img src="' . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg" alt="" />';
-            } else if ($img_size = @getimagesize($pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png')) {
-                $user_avatar = '<img src="' . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png" alt="" />';
-            }
-        } else {
-            $user_avatar = '';
-        }
+        $user_avatar = pun_show_avatar();
 
         // We only show location, register date, post count and the contact links if "Show user info" is enabled
         if ($pun_config['o_show_user_info'] == 1) {

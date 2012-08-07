@@ -41,11 +41,8 @@
 <div class="{if $j = ! $j}msg{else}msg2{/if}">
     <div class="zag_in" id="p{$cur_post.id}">
 
-        {if $cur_post.poster_id > 1 and $pun_config.o_avatars == 1 && $cur_post.use_avatar == 1 && $pun_user.show_avatars}
         {* Аватарка *}
-            <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$cur_post.poster_id}.{$cur_post.avatar_type}"
-                 alt="*"/>&#160;
-        {/if}
+            {$cur_post.user_avatar}
 
     {* Номер сообщения и имя пользователя *}
         <a href="viewtopic.php?pid={$cur_post.id}#p{$cur_post.id}">#{($start_from + $post_count)}
@@ -107,7 +104,7 @@
     </div>
 
 {* Сообщение *}
-    {parse_message($cur_post.message, $cur_post.hide_smilies, $cur_post.id)}
+    {$cur_post.message}
 
     {if $is_admmod and isset($cur_post.spam_id)}
     {* Анти-спам *}
@@ -159,15 +156,12 @@
         </div>
     {/if}
 
-    {if $cur_post.signature && $pun_user.show_sig}
     {* Подпись пользователя *}
-        {if ! isset($signature_cache[$cur_post.poster_id])}
-            {$signature_cache[$cur_post.poster_id] = parse_signature($cur_post.signature)}
+        {if $cur_post.signature}
+            <div class="hr">
+                {$cur_post.signature}
+            </div>
         {/if}
-        <div class="hr">
-            {$signature_cache[$cur_post.poster_id]}
-        </div>
-    {/if}
 
 </div>
 {/foreach}

@@ -42,12 +42,12 @@
             class="grey">{$lang_common.off_m}</span>{/if}<br/>
 
     {if $pun_config.o_smilies == 1}
-        <input type="checkbox" name="hide_smilies" value="1"
+        <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1"
                tabindex="{assign var='cur_index' value='`$cur_index` + 1'}"{if isset($smarty.post.hide_smilies)}
-               checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/>
+               checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/></label>
     {/if}
-        <input type="checkbox" name="savemessage" value="1" checked="checked"
-               tabindex="{assign var='cur_index' value='`$cur_index` + 1'}"/>{$lang_pms.$Save_message}
+        <label for="savemessage"><input type="checkbox" id="savemessage" name="savemessage" value="1" checked="checked"
+               tabindex="{assign var='cur_index' value='`$cur_index` + 1'}"/>{$lang_pms.$Save_message}</label>
     </div>
     <div class="go_to">
         <input type="submit" name="submit" value="{$lang_pms.Send}"
