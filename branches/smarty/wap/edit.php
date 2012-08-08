@@ -210,6 +210,8 @@ if ($uploaded_to_post) {
 }
 //- Attachments//
 
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Edit post'];
+$smarty->assign('page_title', $page_title);
 $smarty->assign('cur_post', $cur_post);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('preview_message', $preview_message);

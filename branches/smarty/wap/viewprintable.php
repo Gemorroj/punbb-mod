@@ -36,6 +36,7 @@ include_once PUN_ROOT . 'include/parser.php';
 
 // Retrieve the posts (and their respective poster)
 $result = $db->query('SELECT p.poster AS username, p.message, p.posted FROM ' . $db->prefix . 'posts AS p WHERE p.topic_id=' . $id . ' ORDER BY p.id') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$posts = array();
 while ($cur_post = $db->fetch_assoc($result)) {
     $cur_post['message'] = parse_message($cur_post['message'], true);
     $posts[] = $cur_post;
