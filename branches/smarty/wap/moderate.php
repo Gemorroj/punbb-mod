@@ -161,7 +161,7 @@ if (isset($_GET['tid'])) {
         $cur_topic['subject'] = censor_words($cur_topic['subject']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' &#187; '.$cur_topic['subject'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['subject'];
 
     //moderate delete topic
 
@@ -184,8 +184,9 @@ if (isset($_GET['tid'])) {
         $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
         $posts[] = $cur_post;
     }
-    
-    $smarty->assign('lang_common', $lang_common);
+
+
+    $smarty->assign('page_title', $page_title);
     $smarty->assign('fid', $fid);
     $smarty->assign('tid', $tid);
     $smarty->assign('posts', $posts);
@@ -473,7 +474,6 @@ $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderat
 if ($_GET['action'] != 'all') {
     $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];
 } else {
-
     $act_all = null;
 }
 
