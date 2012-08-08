@@ -4,12 +4,10 @@ define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-
     wap_message($lang_common['No view']);
 }
 
 if ($to = intval($_GET['to'])) {
-
     vote($to, intval($_GET['vote']));
     $pid = intval($_GET['pid']);
     wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
@@ -32,7 +30,6 @@ $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_
 
 $start = ($p - 1) * $pun_user['disp_posts'];
 if ($_GET['action'] == 'all') {
-
     $p = $num_pages + 1;
     $pun_user['disp_posts'] = $num_hits;
     $start = 0;
@@ -51,7 +48,6 @@ if ($num_hits) {
     );
 
     while ($result = $db->fetch_assoc($q)) {
-
         $array[] = $result;
     }
 

@@ -40,7 +40,6 @@ if (isset($_POST['delete'])) {
     // Redirect
     wap_redirect('message_list.php?box=' . intval($_POST['box']) . '&p=' . intval($_POST['p']));
 } else {
-
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Delete message'];
 
     require_once PUN_ROOT . 'wap/header.php';

@@ -34,7 +34,7 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title><?php echo $pun_config['o_board_title']; ?>: Private Message Services</title>
+    <title><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>: Private Message Services</title>
     <link rel="stylesheet" type="text/css"
           href="<?php print PUN_ROOT; ?>style/<?php echo $pun_user['style'] . '.css'; ?>"/>
 </head>

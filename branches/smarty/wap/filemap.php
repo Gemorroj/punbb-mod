@@ -66,13 +66,14 @@ if (!$fid_list) {
     $num_rows = 0;
 } else {
     // get number of topics and which we have to start from
-    $result = $db->query('SELECT COUNT(*)
-    FROM
-    ' . $db->prefix . 'attachments AS a INNER JOIN
-    ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
-    ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
-    WHERE f.id in (' . $fid_list . ') ' . (isset($_GET['user_id']) ? (' AND (a.poster_id=' . $user_id . ')') : '')) or
-        error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+        SELECT COUNT(1)
+        FROM
+        ' . $db->prefix . 'attachments AS a INNER JOIN
+        ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
+        ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
+        WHERE f.id in (' . $fid_list . ') ' . (isset($_GET['user_id']) ? (' AND (a.poster_id=' . $user_id . ')') : '')
+    ) or error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
     $num_rows = $db->fetch_row($result);
     $num_rows = $num_rows[0];
 }

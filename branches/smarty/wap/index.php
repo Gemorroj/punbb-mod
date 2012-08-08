@@ -64,7 +64,6 @@ $result = $db->query('
 // REAL MARK TOPIC AS READ MOD END
 
 while ($cur_forum = $db->fetch_assoc($result)) {
-
     $forums[] = $cur_forum;
 }
 
@@ -98,10 +97,8 @@ if ($pun_config['o_users_online'] == 1) {
 
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {
-
             $users[] = $pun_user_online;
         } else {
-
             ++$num_guests;
         }
     }
