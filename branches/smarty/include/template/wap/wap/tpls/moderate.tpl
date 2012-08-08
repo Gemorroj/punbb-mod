@@ -46,12 +46,11 @@
         {/if}
 
         <a href="viewtopic.php?id={$cur_topic.moved_to|default:$cur_topic.id}">
-
             {if $pun_config.o_censoring == 1}
-    {censor_words($cur_topic.subject)|escape}
-{else}
-    {$cur_topic.subject|escape}
-{/if}
+                {censor_words($cur_topic.subject)|escape}
+            {else}
+                {$cur_topic.subject|escape}
+            {/if}
         </a>
 
         {if $cur_topic.num_pages_topic > 1}
@@ -72,7 +71,7 @@
 <span class="sub">
 &#187;&#160;<a
         href="viewtopic.php?pid={$cur_topic.last_post_id}#p{$cur_topic.last_post_id}">{$cur_topic.last_post|date_format:$date_format}</a>&#160;{$lang_common.by}
-    &#160;{$cur_topic.last_poster|escape};
+    &#160;{$cur_topic.last_poster|escape}
 </span>
         {/if}
     </div>

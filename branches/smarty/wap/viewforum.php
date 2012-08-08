@@ -142,7 +142,5 @@ $smarty->assign('p', $p);
 
 $smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewforum.php?id=' . $id));
 
-$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
-
 
 $smarty->display('viewforum.tpl');

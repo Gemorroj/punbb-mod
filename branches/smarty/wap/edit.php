@@ -202,7 +202,6 @@ $smarty->assign('can_upload', $can_upload);
 
 if ($uploaded_to_post) {
     // Retrieve the attachments
-    $smarty->assign('basename', basename(__FILE__));
     $cur_post['id'] = $id;
     require_once PUN_ROOT . 'include/attach/fetch.php';
     $smarty->assign('lang_fu', $lang_fu);

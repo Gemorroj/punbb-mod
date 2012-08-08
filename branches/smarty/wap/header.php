@@ -20,9 +20,9 @@ $smarty->assign('pun_config', $pun_config);
 $smarty->assign('date_format', '%Y.%m.%d %H:%I');
 $smarty->assign('lang_common', $lang_common);
 $smarty->assign('pun_xhtml', $pun_xhtml);
+$smarty->assign('basename', basename($_SERVER['PHP_SELF']));
 
 if ($pun_user['g_id'] < PUN_GUEST) {
-
     $result_header = $db->query('SELECT COUNT(1) FROM `' . $db->prefix . 'reports` WHERE `zapped` IS NULL') or error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
     if ($db->result($result_header)) {
