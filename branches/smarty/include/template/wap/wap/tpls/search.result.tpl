@@ -1,7 +1,5 @@
 {include file='header.tpl'}
 
-
-
 {assign var='j' value='false'}
 {assign var='forum' value=''}
 
@@ -9,6 +7,12 @@
 {assign var='New_posts_info' value='New posts info'}
 {assign var='New_posts' value='New posts'}
 {assign var='Last_post' value='Last post'}
+{assign var='Search_results' value='Search results'}
+
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_search.$Search_results}
+</div>
 
 {foreach from=$search_set item=searchResult}
     {foreach from=$forum_list item=i}

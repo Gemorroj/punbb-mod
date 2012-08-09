@@ -82,15 +82,18 @@
     {/if}
 {/if}
 
-{if $basename == 'profile.php' ||
+{*
+$basename == 'profile.php' ||
 $basename == 'search.php' ||
-$basename == 'userlist.php' ||
 $basename == 'message_list.php' ||
 $basename == 'message_send.php' ||
 $basename == 'message_delete.php' ||
-$basename == 'misc.php' ||
 $basename == 'filemap.php' ||
-$basename == 'karma.php'}
+
+$basename == 'karma.php'
+*}
+
+{if $basename == 'misc.php'}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a>

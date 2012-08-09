@@ -58,6 +58,12 @@ require_once PUN_ROOT . 'wap/header.php';
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . $username . ' (' . $karma['karma'] . ')';
 
+/*
+$smarty->assign('id', $id);
+$smarty->assign('pun_user', $pun_user);
+$smarty->assign('username', $username);
+*/
+
 $smarty->assign('page_title', $page_title);
 $smarty->assign('array', $array);
 $smarty->assign('karma', $karma);

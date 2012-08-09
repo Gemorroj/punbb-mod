@@ -28,8 +28,8 @@ $basename == 'index.php'}
     {if $pun_config.o_rules == 1}
             {$lang_topic.$Link_separator_m}<a href="misc.php?action=rules">{$lang_common.Rules}</a>
     {/if}
-
-    {if $pun_user.g_search == 1 and $pun_user.g_id > $smarty.const.PUN_MOD}
+    
+    {if $pun_user.g_search == 1 or $pun_user.g_id > $smarty.const.PUN_MOD}
             {$lang_topic.$Link_separator_m}<a href="search.php">{$lang_common.Search}</a>
     {/if}
 

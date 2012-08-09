@@ -24,6 +24,11 @@
 {assign var='Show_as_topics' value='Show as topics'}
 {assign var='Search_results_info' value='Search results info'}
 
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_search.Search}
+</div>
+
 <div class="con">
     <strong>{$lang_search.Search}</strong>
 </div>

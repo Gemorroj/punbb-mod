@@ -2,6 +2,12 @@
 
 {if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
 {include file='profile.navi.tpl'}
+{else}
+    {assign var='Profile_menu' value='Profile menu'}
+    {* Навигация: Главная / Профиль *}
+    <div class="inbox">
+        <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_profile.$Profile_menu}
+    </div>
 {/if}
 
 <div class="con">

@@ -3,7 +3,16 @@
 {assign var='Options_PM' value='Options PM'}
 {assign var='Use_popup' value='Use popup'}
 {assign var='Use_messages' value='Use messages'}
-{assign var='' value=''}
+{assign var='Private_Messages' value='Private Messages'}
+
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_pms.$Private_Messages}
+</div>
+
+<div class="con">
+    <strong>{$name}</strong>
+</div>
 
 <form method="post" action="message_list.php?box=2">
     <div class="input">

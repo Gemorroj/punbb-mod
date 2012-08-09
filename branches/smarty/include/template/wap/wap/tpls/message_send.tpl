@@ -8,10 +8,17 @@
 {assign var='Hide_smilies' value='Hide smilies'}
 {assign var='Save_message' value='Save message'}
 {assign var='New_message' value='New message'}
+{assign var='Private_Messages' value='Private Messages'}
+
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_pms.$Private_Messages}
+</div>
 
 <div class="con">
     <strong>{$lang_pms.$Send_a_message}</strong>
 </div>
+
 <form method="post" id="post" action="message_send.php?action=send">
     <div class="input">
         <strong>{$lang_common.$Write_message_legend}</strong><br/>

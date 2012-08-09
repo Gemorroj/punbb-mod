@@ -39,6 +39,8 @@ switch ($box) {
         break;
 }
 
+$smarty->assign('name', $name);
+
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : intval($_GET['p']);
 
 // Delete multiple posts
@@ -165,7 +167,6 @@ if ($box < 2) {
     }
 
     ////////
-    $smarty->assign('name', $name);
     $smarty->assign('cur_post', $cur_post);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_topic', $lang_topic);
@@ -174,7 +175,7 @@ if ($box < 2) {
     $smarty->assign('messages', $messages);
     $smarty->assign('page_links', $page_links);
     $smarty->assign('all', $all);
-
+    
     $smarty->display('message_list.tpl');
 
     exit();
@@ -198,7 +199,6 @@ if ($box < 2) {
     $smarty->assign('lang_pms', $lang_pms);
     $smarty->assign('user', $user);
     //$smarty->assign('', $);
-
     $smarty->display('message_list.options.tpl');
 
     exit();

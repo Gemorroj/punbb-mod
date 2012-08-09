@@ -1,6 +1,11 @@
 {include file='header.tpl'}
 
+{assign var='Private_Messages' value='Private Messages'}
 
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_pms.$Private_Messages}
+</div>
 
 <div class="con">
     <strong>{$name}</strong>

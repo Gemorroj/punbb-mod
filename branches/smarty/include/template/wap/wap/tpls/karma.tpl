@@ -1,5 +1,18 @@
 {include file='header.tpl'}
 
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_common.Karma}
+</div>
+
+{*
+<div class="con">
+    {$lang_common.Karma}
+    {if $id != $pun_user.id}
+        <strong>{$username|escape}</strong>
+    {/if}
+</div>
+*}
 
 <div class="in">
 {$lang_common.Username} | {$lang_common.Vote} | {$lang_common.Date}
