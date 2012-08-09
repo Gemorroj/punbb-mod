@@ -5,7 +5,7 @@ if (isset($_GET['action'])) {
 
 define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
-
+require PUN_ROOT . 'wap/header.php';
 
 // Load the misc.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
