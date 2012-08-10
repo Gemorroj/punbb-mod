@@ -558,12 +558,13 @@ $smarty->assign('fid', $fid);
 $smarty->assign('cur_posting', $cur_posting);
 $smarty->assign('errors', $errors);
 $smarty->assign('lang_post', $lang_post);
-$smarty->assign('message', $message);
-$smarty->assign('quote', $quote);
+$smarty->assign('message', @$message);
+$smarty->assign('quote', @$quote);
 $smarty->assign('file_limit', $file_limit);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('is_admmod', $is_admmod);
-$smarty->assign('cur_index', $cur_index);
+$smarty->assign('subject', @$subject);
+$smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
 

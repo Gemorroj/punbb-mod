@@ -12,6 +12,7 @@ if (!$pun_user['g_read_board']) {
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 
 if ($id < 1 && $pid < 1) {
     wap_message($lang_common['Bad request']);
@@ -45,7 +46,7 @@ if ($pid) {
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
 
-} else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
+} else if ($action == 'new' && !$pun_user['is_guest']) {
     // If action=new, we redirect to the first new post (if any)
 
     $result = $db->query('SELECT MIN(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id . ' AND posted>' . $pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -57,7 +58,7 @@ if ($pid) {
         // If there is no new post, we go to the last post
         wap_redirect('viewtopic.php?id=' . $id . '&action=last');
     }
-} else if ($_GET['action'] == 'last') {
+} else if ($action == 'last') {
     // If action=last, we redirect to the last post
 
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -156,13 +157,13 @@ $start_from = $pun_user['disp_posts'] * ($p - 1);
 /// MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
 //$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
-if ($_GET['action'] == 'all') {
+if ($action == 'all') {
     $p = ($num_pages + 1);
 }
 
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
 
-if ($_GET['action'] == 'all' && !$pid) {
+if ($action == 'all' && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
 /// MOD VIEW ALL PAGES IN ONE END
@@ -291,7 +292,6 @@ $smarty->assign('page_title', $page_title);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
 
-$smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('quickpost', $quickpost);
@@ -310,7 +310,7 @@ $smarty->assign('p', $p);
 
 $smarty->assign('cur_topic', $cur_topic);
 $smarty->assign('posts', $posts);
-$smarty->assign('start_from', $start_forum);
+$smarty->assign('start_from', $start_from);
 
 $smarty->assign('attachments', $attachments);
 $smarty->assign('paging_links', $paging_links);

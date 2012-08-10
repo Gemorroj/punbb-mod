@@ -1,11 +1,13 @@
 {include file='header.tpl'}
 
+{assign var='cur_index' value='0'}
+
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <a
         href="viewforum.php?id={$cur_post.fid}">{$cur_post.forum_name|escape}</a> &#187; {$cur_post.subject|escape}
 </div>
 
-{if $errors}
+{if isset($errors)}
 <div class="red">
     {assign var='Post_errors' value='Post errors'}
 {$lang_post.$Post_errors}
@@ -16,11 +18,10 @@
         &#187; {$cur_error}<br/>
     {/foreach}
 </div>
-    {elseif $smarty.post.preview}
-{*include file="`$smarty.const.PUN_ROOT`include/parser.php"*}
+    {elseif isset($smarty.post.preview)}
     {assign var='Post_preview' value='Post preview'}
-<div class="info">{$lang_post.$Post_preview}</div>
-<div class="msg">{$preview_message}</div>
+    <div class="info">{$lang_post.$Post_preview}</div>
+    <div class="msg">{$preview_message}</div>
 {/if}
 
 {assign var='Edit_post' value='Edit post'}
@@ -64,12 +65,13 @@
 
     {if $uploaded_to_post || ($can_upload && $num_to_upload > 0)}
         {* Attachments *}
-        {if $attachments[$cur_post.id]}
+        {if isset($attachments[$cur_post.id])}
             
             {include file='attachments.tpl'}
         {/if}
         {if $can_upload && $num_to_upload > 0}
             </div>
+            {assign var='Choose_a_file' value='Choose a file'}
             <div class="input2">{$lang_fu.$Choose_a_file}<br/>
         {/if}
         <input type="file" name="attach[]"/><br/>
@@ -82,7 +84,7 @@
                tabindex="{assign var='cur_index' value=$cur_index+1}"/> {$lang_post.$Hide_smilies}<br/></label>
     {/if}
 
-    {if $is_admmod}
+    {if isset($is_admmod)}
         <label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}"
                {if (isset($smarty.post.form_sent) && isset($smarty.post.silent)) || ! isset($smarty.post.form_sent)}checked="checked"{/if} /> {$lang_post.$Silent_edit}
         <br/></label>

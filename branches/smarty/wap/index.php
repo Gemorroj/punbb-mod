@@ -89,7 +89,7 @@ list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
 
 $smarty->assign('stats', $stats);
 
-$num_users = 0;
+$num_guests = $num_users = 0;
 if ($pun_config['o_users_online'] == 1) {
     // Fetch users online info and generate strings for output
     $result = $db->query('SELECT user_id, ident FROM ' . $db->prefix . 'online WHERE idle=0 ORDER BY ident', true) or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
@@ -108,8 +108,8 @@ if ($pun_config['o_users_online'] == 1) {
         $smarty->assign('num_users', $num_users);
         $smarty->assign('users', $users);
     }
-
-    if ($num_guests) $smarty->assign('num_guests', $num_guests);
+    
+    $smarty->assign('num_guests', $num_guests);
 }
 
 $smarty->assign('logout', sha1($pun_user['id'] . sha1(get_remote_address())));

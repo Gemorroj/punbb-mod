@@ -105,6 +105,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
 $result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 // If there are topics in this forum.
+$topics = array();
 if ($db->num_rows($result)) {
     while ($cur_topic = $db->fetch_assoc($result)) {
         $cur_topic['num_pages_topic'] = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
@@ -126,8 +127,6 @@ $smarty->assign('cur_forum', $cur_forum);
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_forum['forum_name'];
 $smarty->assign('page_title', $page_title);
-
-$smarty->assign('conditions', $conditions);
 
 $smarty->assign('lang_forum', $lang_forum);
 

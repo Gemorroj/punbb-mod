@@ -6,6 +6,8 @@ require_once PUN_ROOT . 'wap/header.php';
 
 $smarty->assign('pun_user', $pun_user);
 
+$getPageNumber = isset($_GET['p']) ? (int) $_GET['p'] : 1;
+
 //require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
 
 // This particular function doesn't require forum-based moderator access. It can be used
@@ -145,11 +147,10 @@ if (isset($_GET['tid'])) {
     // Used to disable the Move and Delete buttons if there are no replies to this topic
     $button_status = (!$cur_topic['num_replies']) ? ' disabled="bisabled"' : '';
 
-    // Determine the post offset (based on $_GET['p'])
+    // Determine the post offset (based on $getPageNumber)
     $num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
-    $_GET['p'] = intval($_GET['p']);
-    $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+    $p = ($getPageNumber <= 1 || $getPageNumber > $num_pages) ? 1 : $getPageNumber;
     $start_from = $pun_user['disp_posts'] * ($p - 1);
 
     $posts = $db->fetch_assoc($result);
@@ -171,7 +172,7 @@ if (isset($_GET['tid'])) {
     //$post_count = 0; // Keep track of post numbers
     //$j = false;
 
-    if ($_GET['action'] != 'all') {
+    if (@$_GET['action'] != 'all') {
         $act_all = ' LIMIT '.$start_from.', '.$pun_user['disp_posts'];
     } else {
         $act_all = null;
@@ -284,6 +285,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     $smarty->assign('page_title', $page_title);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_misc', $lang_misc);
+    $smarty->assign('action', $action);
 
     $smarty->assign('fid', $fid);
     $smarty->assign('topics', $topics);
@@ -356,18 +358,19 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         wap_redirect('viewforum.php?id=' . $fid);
     }
-
+    
+    require PUN_ROOT . 'lang/' . $pun_user['language'] . '/forum.php';
+    
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_misc['Moderate'];
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_forum', $lang_forum);
-    $smarty->assign('cur_forum', $cur_forum);
     $smarty->assign('lang_misc', $lang_misc);
 
     $smarty->assign('fid', $fid);
     $smarty->assign('topics', $topics);
 
-    $smarty->display('moderate.delete_topic.tpl');
+    $smarty->display('moderate.delete_topics.tpl');
     exit();
 } else if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
 
@@ -461,17 +464,16 @@ if ($cur_forum['redirect_url']) {
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_forum['forum_name'];
 
-// Determine the topic offset (based on $_GET['p'])
+// Determine the topic offset (based on $getPageNumber)
 $num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 
-$_GET['p'] = intval($_GET['p']);
-$p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+$p = ($getPageNumber <= 1 || $getPageNumber > $num_pages) ? 1 : $getPageNumber;
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 
 // Generate paging links
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderate.php?fid=' . $fid, 0);
 
-if ($_GET['action'] != 'all') {
+if (@$_GET['action'] != 'all') {
     $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];
 } else {
     $act_all = null;

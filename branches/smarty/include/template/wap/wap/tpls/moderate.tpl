@@ -53,7 +53,7 @@
             {/if}
         </a>
 
-        {if $cur_topic.num_pages_topic > 1}
+        {if isset($cur_topic.num_pages_topic) and $cur_topic.num_pages_topic > 1}
             [{paginate($cur_topic.num_pages_topic, -1, "viewtopic.php?id={$cur_topic.id}")}]
         {/if}
         &#160;{$lang_common.by}&#160;{$cur_topic.poster|escape}
@@ -80,10 +80,10 @@
     {assign var='button_status' value='1'}
     <div class="in">{$lang_forum.$Empty_forum}</div>
 {/foreach}
-
+{assign var='button_status' value='0'}
     <div class="con">{$paging_links}</div>
 
-{if (! $cur_forum.post_topics && $pun_user.g_post_topics == 1) || $cur_forum.post_topics == 1 || $is_admmod}
+{if (! isset($cur_forum.post_topics) && $pun_user.g_post_topics == 1) || $cur_forum.post_topics == 1 || $is_admmod}
     <div class="go_to">
         <input type="submit" name="move_topics" value="{$lang_misc.Move}" {if $button_status}disabled="disabled"{/if} />
         <input type="submit" name="delete_topics" value="{$lang_misc.Delete}"

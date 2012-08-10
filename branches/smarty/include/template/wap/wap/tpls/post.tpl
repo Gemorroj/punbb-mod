@@ -1,5 +1,7 @@
 {include file='header.tpl'}
 
+{assign var='cur_index' value='0'}
+
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187;
 
@@ -76,7 +78,7 @@
                tabindex="{assign var='cur_index' value=$cur_index+1}"/><br/>
     {/if}
 
-        <textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{if $smarty.post.req_message}{$message|escape}{elseif $quote}{$quote|escape}{/if}</textarea><br/>
+        <textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{if isset($smarty.post.req_message)}{$message|escape}{elseif $quote}{$quote|escape}{/if}</textarea><br/>
 
         <a href="help.php?id=3">{$lang_common.Smilies}</a>
         {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span

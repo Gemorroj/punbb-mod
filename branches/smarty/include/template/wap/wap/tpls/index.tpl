@@ -86,7 +86,7 @@
     {$lang_index.$Users_online}: {$num_users|default:'0'}<br/>
     {$lang_index.$Guests_online}: {$num_guests|default:'0'}
 
-    {if $num_users}
+    {if isset($num_users) and $num_users > 0}
     </div>
     <div class="act">
         {$lang_index.Online}:

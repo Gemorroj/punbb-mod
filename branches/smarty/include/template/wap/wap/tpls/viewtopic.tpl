@@ -29,7 +29,7 @@
 
 
 {* Счетчик сообщений *}
-{assign var='post_cont' value='0'}
+{assign var='post_count' value=0}
 
 {* Для чередующегося цвета фона сообщения *}
 {assign var='j' value='false'}

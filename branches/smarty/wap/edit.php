@@ -198,11 +198,12 @@ $num_to_upload = min($file_limit, 20);
 $smarty->assign('num_to_upload', $num_to_upload);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
-//$smarty->assign('upload_to_post', $upload_to_post);
+$smarty->assign('uploaded_to_post', $uploaded_to_post);
+
+$cur_post['id'] = $id;
 
 if ($uploaded_to_post) {
     // Retrieve the attachments
-    $cur_post['id'] = $id;
     require_once PUN_ROOT . 'include/attach/fetch.php';
     $smarty->assign('lang_fu', $lang_fu);
     $smarty->assign('attachments', $attachments);
@@ -212,11 +213,12 @@ if ($uploaded_to_post) {
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Edit post'];
 $smarty->assign('page_title', $page_title);
 $smarty->assign('cur_post', $cur_post);
+$smarty->assign('pun_user', $pun_user);
 $smarty->assign('lang_post', $lang_post);
 $smarty->assign('preview_message', $preview_message);
-$smarty->assign('message', $message);
+$smarty->assign('message', @$message);
 $smarty->assign('id', $id);
+$smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('can_edit_subject', $can_edit_subject);
-$smarty->assign('cur_index', $cur_index);
 
 $smarty->display('edit.tpl');

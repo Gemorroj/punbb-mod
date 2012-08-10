@@ -7,11 +7,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{$lang_common.lang_direction}">
 <head>
     <meta http-equiv="Content-Type" content="{$pun_xhtml}; charset=UTF-8"/>
-{*+ <pun_head> *}
+{* + <pun_head> *}
     <title>{$page_title|escape}</title>
     <link rel="stylesheet" type="text/css"
           href="{$pun_config.o_base_url}/style_wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}.css"/>
-{*- <pun_head> *}
+{* - <pun_head> *}
 {* <pun_rssname> *}
 {* <pun_rss> *}
     <link rel="alternate" type="application/rss+xml" title="{$pun_config.o_board_title}"
@@ -35,7 +35,7 @@
     </div>
     {/if}
 
-{*+ <pun_status> *}
+{* + <pun_status> *}
     {if $pun_user.is_guest}
     <div class="con">
         {$lang_common.$Not_logged_in}
@@ -44,7 +44,7 @@
 
     {if $pun_user.g_id < $smarty.const.PUN_GUEST}
 
-        {if $result_header} {* Query to db *}
+        {if isset($result_header)} {* Query to db *}
         <div class="con">
             <a href="{$smarty.const.PUN_ROOT}admin_reports.php">{$lang_admin.$New_reports}</a>
         </div>
@@ -58,18 +58,18 @@
     {/if}
 
 {* require PUN_ROOT . 'include/pms/wap_header_new_messages.php'; *}
-    {if $conditions.count_new_msgs}
+    {if isset($conditions.count_new_msgs)}
     <div class="info">
         <a href="message_list.php"> {$lang_pms.$New_messages} ({$conditions.count_new_msgs}) </a>
     </div>
     {/if}
 
-    {if $conditions.full_inbox}
+    {if isset($conditions.full_inbox)}
     <div class="red">
         <a href="message_list.php">{$lang_pms.$Full_inbox}</a>
     </div>
     {/if}
-{*- <pun_status> *}
+{* - <pun_status> *}
 
     {if $pun_config.o_announcement == 1}
     {* <pun_announcement> *}

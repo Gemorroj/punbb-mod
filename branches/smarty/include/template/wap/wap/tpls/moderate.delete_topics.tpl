@@ -1,5 +1,9 @@
 {include file='header.tpl'}
 
+{assign var='Delete_topics' value='Delete topics'}
+{assign var='Confirm_delete_legend' value='Confirm delete legend'}
+{assign var='Delete_topics_comply' value='Delete topics comply'}
+
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <strong>{$lang_misc.$Delete_topics}</strong></div>
 <form method="post" action="moderate.php?fid={$fid}">
