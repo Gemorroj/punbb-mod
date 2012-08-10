@@ -127,6 +127,7 @@ if ($action == 'rules') {
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_misc', $lang_misc);
     $smarty->assign('recipient', $recipient);
+    $smarty->assign('recipient_id', $recipient_id);
     $smarty->assign('redirect_url', $redirect_url);
 
     $smarty->display('misc.email.tpl');
@@ -193,7 +194,7 @@ if ($action == 'rules') {
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_misc', $lang_misc);
-    $smarty->assign('recipient', $post_id);
+    $smarty->assign('post_id', $post_id);
 
     $smarty->display('misc.report.tpl');
 

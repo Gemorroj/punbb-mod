@@ -220,5 +220,6 @@ $smarty->assign('message', @$message);
 $smarty->assign('id', $id);
 $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('can_edit_subject', $can_edit_subject);
+$smarty->assign('is_admmod', $is_admmod);
 
 $smarty->display('edit.tpl');

@@ -84,7 +84,7 @@
                tabindex="{assign var='cur_index' value=$cur_index+1}"/> {$lang_post.$Hide_smilies}<br/></label>
     {/if}
 
-    {if isset($is_admmod)}
+    {if $is_admmod}
         <label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="{assign var='cur_index' value=$cur_index+1}"
                {if (isset($smarty.post.form_sent) && isset($smarty.post.silent)) || ! isset($smarty.post.form_sent)}checked="checked"{/if} /> {$lang_post.$Silent_edit}
         <br/></label>
