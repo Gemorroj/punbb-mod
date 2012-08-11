@@ -13,45 +13,7 @@
 </div>
 {/if}
 
-{* + <pun_status> *}
-{if $pun_user.is_guest}
-<div class="con">
-{assign var='Not_logged_in' value='Not logged in'}
-{$lang_common.$Not_logged_in}
-</div>
-{/if}
-
-{if $pun_user.g_id < $smarty.const.PUN_GUEST}
-{if isset($conditions.reports)}
-{* Результат расчитывается в /wap/header.php *}
-<div class="con">
-{assign var='New_reports' value='New reports'}
-<a href="{$smarty.const.PUN_ROOT}admin_reports.php">{$lang_admin.$New_reports}&#160;({$conditions.reports})</a>
-</div>
-{/if}
-{if $pun_config.o_maintenance == 1}
-<div class="con">
-<a href="{$smarty.const.PUN_ROOT}admin_options.php#maintenance">{$lang_admin.maintenance}</a>
-</div>
-{/if}
-{/if}
-
-{if isset($conditions.count_new_msgs)}
-{* Результат расчитывается в /include/pms/wap_header_new_messages.php *}
-<div class="info">
-{assign var='New_messages' value='New messages'}
-<a href="message_list.php">{$lang_pms.$New_messages}&#160;({$conditions.count_new_msgs})</a>
-</div>
-{/if}
-
-{if isset($conditions.full_inbox)}
-{* Результат расчитывается в /include/pms/wap_header_new_messages.php *}
-<div class="red">
-{assign var='Full_inbox'   value='Full inbox'}
-<a href="message_list.php">{$lang_pms.$Full_inbox}</a>
-</div>
-{/if}
-{* - <pun_status> *}
+{include file='notification.tpl'}
 
 {if $pun_config.o_announcement == 1}
 {* <pun_announcement> *}
@@ -64,19 +26,19 @@
 {/if}
 
 <div class="navlinks">
-{assign var='Link_separator' value='Link separator'}
+{assign var='Link_separator_m' value='Link separator_m'}
 {if $pun_user.is_guest}
-<a href="login.php">{$lang_common.Login}</a>{$lang_common.$Link_separator}<a href="register.php">{$lang_common.Register}</a>
+<a href="login.php">{$lang_common.Login}</a>{$lang_index.$Link_separator_m}<a href="register.php">{$lang_common.Register}</a>
 {else}
 <a href="profile.php?id={$pun_user.id}">{$lang_common.Profile}&#160;(<span style="font-weight: bold">{$pun_user.username|escape}</span>)</a>
 {if $pun_config.o_pms_enabled && $pun_user.g_pm == 1}
-{$lang_common.$Link_separator}<a href="message_list.php">{$lang_pms.Private}</a>
+{$lang_index.$Link_separator_m}<a href="message_list.php">{$lang_pms.Private}</a>
 {/if}
 {* Тут какая-то фигня. Был знак ">" и не работало. Может я когда переводил напутал сам, или так было. *}
 {if $pun_user.g_id == $smarty.const.PUN_MOD or $pun_user.g_id == $smarty.const.PUN_ADMIN}
-{$lang_common.$Link_separator}<a href="{$smarty.const.PUN_ROOT}admin_index.php">{$lang_common.Admin_m}</a>
+{$lang_index.$Link_separator_m}<a href="{$smarty.const.PUN_ROOT}admin_index.php">{$lang_common.Admin_m}</a>
 {/if}
-{$lang_common.$Link_separator}<a href="login.php?action=out&amp;id={$pun_user.id}&amp;csrf_token={$logout}">{$lang_common.Logout}</a>
+{$lang_index.$Link_separator_m}<a href="login.php?action=out&amp;id={$pun_user.id}&amp;csrf_token={$logout}">{$lang_common.Logout}</a>
 {/if}
 </div>
 

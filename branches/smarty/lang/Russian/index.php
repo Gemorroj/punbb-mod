@@ -16,6 +16,7 @@ $lang_index = array(
 'Online'				=>	'Активны',	// As in "Online: User A, User B etc."
 'Board info'			=>	'Информация о форуме',
 'Board stats'			=>	'Статистика форума',
-'User info'				=>	'Информация о пользователе'
+'User info'				=>	'Информация о пользователе',
+'Link separator_m'		=>	'|'
 
 );

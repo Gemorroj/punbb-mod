@@ -17,5 +17,6 @@ $lang_index = array(
 'Board info'			=>	'Board information',
 'Board stats'			=>	'Board statistics',
 'User info'				=>	'User information'
+'Link separator_m'		=>	'|'
 
 );

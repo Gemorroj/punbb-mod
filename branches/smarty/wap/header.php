@@ -25,7 +25,7 @@ if ($pun_user['g_id'] < PUN_GUEST) {
     $result = $db->query('SELECT COUNT(1) FROM `' . $db->prefix . 'reports` WHERE `zapped` IS NULL') or error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
     
     if ($count = $db->result($result, 0)) {
-        $smarty->append('conditions', array('reports' => $count));
+        $smarty->assign('reports', $count);
     }
 }
 
