@@ -4,11 +4,13 @@ require_once PUN_ROOT . 'include/common.php';
 require_once PUN_ROOT . 'wap/header.php';
 
 $id = intval(@$_GET['id']);
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+
 if ($id < 2) {
     wap_message($lang_common['Bad request']);
 }
 
-if (!$pun_user['g_read_board'] && ($_GET['action'] != 'change_pass' || !isset($_GET['key']))) {
+if (!$pun_user['g_read_board'] && ($action != 'change_pass' || !isset($_GET['key']))) {
     wap_message($lang_common['No view']);
 }
 
@@ -22,7 +24,7 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'];
 $smarty->assign('page_title', $page_title);
 
-if ($_GET['action'] == 'change_pass') {
+if ($action == 'change_pass') {
     if (isset($_GET['key'])) {
         // If the user is already logged in we shouldn't be here :)
         if (!$pun_user['is_guest']) {
@@ -120,13 +122,11 @@ if ($_GET['action'] == 'change_pass') {
 //change_pass
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
-    $smarty->assign('pun_user', $pun_user);
-    $smarty->assign('pun_start', $pun_start);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.password.tpl');
     exit();
 
-} else if ($_GET['action'] == 'change_email') {
+} else if ($action == 'change_email') {
     // Make sure we are allowed to change this users e-mail
     if ($pun_user['id'] != $id) {
         if ($pun_user['g_id'] > PUN_MOD) { // A regular user trying to change another users e-mail?
@@ -243,12 +243,11 @@ if ($_GET['action'] == 'change_pass') {
     //change_email
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
-    $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.email.tpl');
     exit();
 
-} else if ($_GET['action'] == 'upload_avatar' || $_GET['action'] == 'upload_avatar2') {
+} else if ($action == 'upload_avatar' || $action == 'upload_avatar2') {
     if (!$pun_config['o_avatars']) {
         wap_message($lang_profile['Avatars disabled']);
     }
@@ -368,12 +367,11 @@ if ($_GET['action'] == 'change_pass') {
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
-    $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.avatar.tpl');
     exit();
 
-} else if ($_GET['action'] == 'delete_avatar') {
+} else if ($action == 'delete_avatar') {
     if ($pun_user['id'] != $id && $pun_user['g_id'] > PUN_MOD) {
         wap_message($lang_common['No permission']);
     }
@@ -422,7 +420,7 @@ if ($_GET['action'] == 'change_pass') {
     }
 
     wap_redirect('profile.php?section=admin&id=' . $id);
-} else if ($_POST['update_forums']) {
+} else if (isset($_POST['update_forums']) and $_POST['update_forums']) {
     if ($pun_user['g_id'] > PUN_ADMIN) {
         wap_message($lang_common['No permission']);
     }
@@ -463,13 +461,13 @@ if ($_GET['action'] == 'change_pass') {
     }
 
     wap_redirect('profile.php?section=admin&id=' . $id);
-} else if ($_POST['ban']) {
+} else if (isset($_POST['ban']) and $_POST['ban']) {
     if ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_ban_users'])) {
         wap_message($lang_common['No permission']);
     }
 
     wap_redirect('admin_bans.php?add_ban=' . $id);
-} else if ($_POST['delete_user'] || $_POST['delete_user_comply']) {
+} else if (isset($_POST['delete_user']) and $_POST['delete_user'] || isset($_POST['delete_user_comply']) and $_POST['delete_user_comply']) {
     if ($pun_user['g_id'] > PUN_ADMIN) {
         wap_message($lang_common['No permission']);
     }
@@ -579,14 +577,13 @@ if ($_GET['action'] == 'change_pass') {
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
-    $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->assign('username', $username);
     $smarty->display('profile.delete.tpl');
     exit();
 
 } else
-    if ($_POST['form_sent']) {
+    if (isset($_POST['form_sent']) and $_POST['form_sent']) {
         // Fetch the user group of the user we are editing
         $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
             $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
@@ -934,8 +931,6 @@ if (!$db->num_rows($result)) {
 
 $user = $db->fetch_assoc($result);
 
-$last_post = format_time($user['last_post']);
-
 if ($user['signature']) {
     include_once PUN_ROOT . 'include/parser.php';
     $parsed_signature = parse_signature($user['signature']);
@@ -954,26 +949,27 @@ $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 //}
 
+$smarty->assign('id',           $id);
+$smarty->assign('user',         $user);
+$smarty->assign('lang_profile', $lang_profile);
+
 // View or edit?
 if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD && $user['g_id'] < PUN_GUEST)))) {
 
     //view Profile
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Preview'];
-    define('PUN_ALLOW_INDEX', 1);
-    //preview
-    $smarty->assign('page_title', $page_title);
-    $smarty->assign('id', $id);
-    $smarty->assign('pun_user', $pun_user);
-    $smarty->assign('pun_start', $pun_start);
-    $smarty->assign('lang_profile', $lang_profile);
-
-    $smarty->assign('user', $user);
-    $smarty->assign('karma', $karma);
-    $smarty->assign('last_post', $last_post);
-    $smarty->assign('parsed_signature', $parsed_signature);
-    $smarty->assign('posts_field', $posts_field);
-    $smarty->assign('user_title_field', $user_title_field);
-
+    
+    $smarty->assign('page_title',       $page_title);
+    $smarty->assign('karma',            $karma);
+    $smarty->assign('parsed_signature',@$parsed_signature);
+    
+    $pun_config['o_avatars']  = 1;
+    $cur_post['use_avatar']   = 1;
+    $pun_user['show_avatars'] = 1;
+    $cur_post['poster_id']    = $id;
+    
+    $smarty->assign('user_avatar', pun_show_avatar());
+    
     $smarty->display('profile.view.tpl');
     exit();
 } //profile general
@@ -981,8 +977,9 @@ else {
 
     include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 
-    if (!$_GET['section'] || $_GET['section'] == 'essentials') {
+    if (! (isset($_GET['section']) and $_GET['section']) || $_GET['section'] == 'essentials') {
 
+        $languages = array();
         $d = dir(PUN_ROOT . 'lang');
         while (($entry = $d->read()) !== false) {
             if ($entry[0] != '.' && is_dir(PUN_ROOT . 'lang/' . $entry) && file_exists(PUN_ROOT . 'lang/' . $entry . '/common.php')) {
@@ -996,54 +993,40 @@ else {
             natsort($languages);
         }
 
-        $smarty->assign('id', $id);
-        $smarty->assign('pun_user', $pun_user);
-        $smarty->assign('pun_start', $pun_start);
-        $smarty->assign('lang_profile', $lang_profile);
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
-        $smarty->assign('languages', $languages);
-
-        $smarty->assign('user', $user);
-        $smarty->assign('karma', $karma);
-        $smarty->assign('last_post', $last_post);
-
-        $smarty->assign('posts_field', $posts_field);
-        $smarty->assign('user_title_field', $user_title_field);
-
+        $smarty->assign('languages',     $languages);
+        $smarty->assign('karma',         $karma);
+        
         $smarty->display('profile.general.tpl');
         exit();
     } else
         if ($_GET['section'] == 'personal') {
-
-            $smarty->assign('id', $id);
-            $smarty->assign('pun_user', $pun_user);
-            $smarty->assign('pun_start', $pun_start);
-            $smarty->assign('lang_profile', $lang_profile);
-            $smarty->assign('user', $user);
-
+            
+            if ($user['birthday']) {
+                
+                $birthday = explode('.', $user['birthday']);
+                $smarty->assign('birthday', $birthday);
+            }
+            
             $smarty->display('profile.personal.tpl');
             exit();
         } else
             if ($_GET['section'] == 'messaging') {
-
-                $smarty->assign('id', $id);
-                $smarty->assign('pun_user', $pun_user);
-                $smarty->assign('pun_start', $pun_start);
-                $smarty->assign('lang_profile', $lang_profile);
-                $smarty->assign('user', $user);
 
                 $smarty->display('profile.messaging.tpl');
                 exit();
             } else
                 if ($_GET['section'] == 'personality') {
 
-                    $smarty->assign('id', $id);
-                    $smarty->assign('pun_start', $pun_start);
-                    $smarty->assign('pun_user', $pun_user);
-                    $smarty->assign('lang_profile', $lang_profile);
-                    $smarty->assign('user', $user);
-                    $smarty->assign('parsed_signature', $parsed_signature);
-
+                    $smarty->assign('parsed_signature',@$parsed_signature);
+                    
+                    $pun_config['o_avatars']  = 1;
+                    $cur_post['use_avatar']   = 1;
+                    $pun_user['show_avatars'] = 1;
+                    $cur_post['poster_id']    = $id;
+                    
+                    $smarty->assign('user_avatar', pun_show_avatar());
+                    
                     $smarty->display('profile.personality.tpl');
                     exit();
                 } else
@@ -1060,11 +1043,6 @@ else {
                         }
                         $d->close();
 
-                        $smarty->assign('id', $id);
-                        $smarty->assign('pun_start', $pun_start);
-                        $smarty->assign('pun_user', $pun_user);
-                        $smarty->assign('lang_profile', $lang_profile);
-                        $smarty->assign('user', $user);
                         $smarty->assign('styles', $styles);
 
                         $smarty->display('profile.display.tpl');
@@ -1072,12 +1050,7 @@ else {
                     } else
                         if ($_GET['section'] == 'privacy') {
 
-                            $smarty->assign('id', $id);
-                            $smarty->assign('pun_start', $pun_start);
-                            $smarty->assign('pun_user', $pun_user);
-                            $smarty->assign('lang_profile', $lang_profile);
                             $smarty->assign('lang_prof_reg', $lang_prof_reg);
-                            $smarty->assign('user', $user);
 
                             $smarty->display('profile.privacy.tpl');
                             exit();
@@ -1103,6 +1076,7 @@ else {
                                             'groups` WHERE `g_id`!=' . PUN_GUEST . ' ORDER BY `g_title`') or error('Unable to fetch user group list',
                                             __FILE__, __LINE__, $db->error());
 
+                                        $groups = array();
                                         while ($cur_group = $db->fetch_assoc($result)) {
 
                                             $groups[] = $cur_group;
@@ -1116,6 +1090,7 @@ else {
                                             'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or
                                             error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
+                                        $forums = array();
                                         while ($cur_forum = $db->fetch_assoc($result)) {
 
                                             $forums[] = $cur_forum;
@@ -1126,10 +1101,6 @@ else {
                                 $smarty->assign('page_title', $page_title);
                                 $smarty->assign('groups', $groups);
                                 $smarty->assign('forums', $forums);
-                                $smarty->assign('pun_user', $pun_user);
-                                $smarty->assign('user', $user);
-                                $smarty->assign('lang_profile', $lang_profile);
-                                $smarty->assign('id', $id);
 
                                 $smarty->display('profile.admin.tpl');
                                 exit();

@@ -483,6 +483,7 @@ if (@$_GET['action'] != 'all') {
 // Select topics
 $result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, last_post_id, last_poster, num_views, num_replies, closed, sticky, moved_to FROM ' . $db->prefix . 'topics WHERE forum_id=' . $fid . ' ORDER BY sticky DESC, last_post DESC' . $act_all) or error('Unable to fetch topic list for forum', __FILE__, __LINE__, $db->error());
 
+$topics = array();
 while ($topic = $db->fetch_assoc($result)) {
     $topics[] = $topic;
 }

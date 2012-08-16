@@ -19,7 +19,7 @@
 {assign var='Show_karma' value='Show karma'}
 {assign var='Admin_note' value='Admin note'}
 
-{*+ $username_field *}
+{* + $username_field *}
 <div class="con">
     <strong>{$user.username|escape} - {$lang_profile.$Section_essentials}</strong>
 </div>
@@ -38,7 +38,7 @@
         {else}
         {$lang_common.Username}: {$user.username|escape}
     {/if}
-    {*- $username_field *}
+    {* - $username_field *}
 
     {if $pun_user.id == $id || $pun_user.g_id == $smarty.const.PUN_ADMIN || ($user.g_id > $smarty.const.PUN_MOD && $pun_config.p_mod_change_passwords == 1)}
         <a href="profile.php?action=change_pass&amp;id={$id}">{$lang_profile.$Change_pass}</a><br/>
@@ -47,7 +47,7 @@
     </div>
     <div class="input2">
         <strong>{$lang_prof_reg.$Email_legend}</strong><br/>
-    {*+ $email_field *}
+    {* + $email_field *}
     {if $pun_user.g_id < $smarty.const.PUN_GUEST}
         <strong>{$lang_common.$Email}</strong><br/>
         <input type="text" name="req_email" value="{$user.email}" maxlength="50"/><br/>
@@ -62,7 +62,7 @@
             <input type="text" name="req_email" value="{$user.email}" maxlength="50"/>
         {/if}
     {/if}
-    {*- $email_field *}
+    {* - $email_field *}
     </div>
     <div class="input">
         <strong>{$lang_prof_reg.$Localisation_legend}</strong><br/>
@@ -124,13 +124,13 @@
     (<a href="moderate.php?get_host={$user.registration_ip}">{$user.registration_ip}</a>)
 {/if}
 
-    <br/>{$lang_common.$Last_post}: {$last_post}<br/>
+    <br/>{$lang_common.$Last_post}: {$user.last_post|date_format:$date_format|default:$lang_profile.Unknown}<br/>
 {if $pun_config.o_show_post_karma == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
     {$lang_common.Karma}: {$karma.karma} (+{$karma.plus}/-{$karma.minus}) - <a
         href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
 {/if}
 
-{*+ posts and files *}
+{* + posts and files *}
 {if $pun_user.g_id == $smarty.const.PUN_ADMIN}
     {$lang_common.Posts}: <input type="text" name="num_posts" value="{$user.num_posts}" size="3" maxlength="8"/> - <a
         href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
@@ -148,7 +148,7 @@
         <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
     {/if}
 {/if}
-{*- posts and files*}
+{* - posts and files*}
 
 {if $pun_user.g_id < $smarty.const.PUN_GUEST}
 </div>

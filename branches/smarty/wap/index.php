@@ -57,6 +57,7 @@ $result = $db->query(
 or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 //- Add topic title info to last post column mod
 
+$forums = array();
 while ($cur_forum = $db->fetch_assoc($result)) {
     
     $forums[] = $cur_forum;

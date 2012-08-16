@@ -17,18 +17,6 @@
 {assign var='img_tag' value='img tag'}
 {assign var='No_sig' value='No sig'}
 
-{if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.gif")}
-    {assign var='avatar_format' value='gif'}
-    {else}
-    {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.jpg")}
-        {assign var='avatar_format' value='jpg'}
-        {else}
-        {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.png")}
-            {assign var='avatar_format' value='png'}
-        {/if}
-    {/if}
-{/if}
-
 <div class="con">
     <strong>{$user.username|escape} - {$lang_profile.$Section_personality}</strong>
 </div>
@@ -39,8 +27,8 @@
         <strong>{$lang_profile.$Avatar_legend}</strong>
 
         <div class="zag_in">
-            {if $avatar_format}
-                <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.{$avatar_format}" alt=""/>
+            {if $user_avatar}
+                {$user_avatar}
             {/if}
                 {$lang_profile.$Avatar_info}<br/>
             <input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/>
@@ -48,7 +36,7 @@
         </div>
     {/if}
         <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a> |
-    {if $avatar_format}
+    {if $user_avatar}
         <a href="profile.php?action=delete_avatar&amp;id={$id}">{$lang_profile.$Delete_avatar}</a>
         {else}
         <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Upload_avatar}</a>

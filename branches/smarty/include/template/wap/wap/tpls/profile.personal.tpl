@@ -1,7 +1,7 @@
 {include file='header.tpl'}
 {include file='profile.navi.tpl'}
 
-{assign var='birthday' value=explode('.', $user['birthday'])}
+
 
 {assign var='Personal_details_legend' value='Personal details legend'}
 {assign var='Section_personal' value='Section personal'}
@@ -25,9 +25,9 @@
 
         </select><br/>
         {$lang_profile.birthday}<br/>
-        <input type="text" value="{$birthday[0]}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input
-            type="text" value="{$birthday[1]}" name="month" title="{$lang_profile.month}" size="2"
-            maxlength="2"/>.<input type="text" value="{$birthday[2]}" name="year" title="{$lang_profile.year}" size="4"
+        <input type="text" value="{$birthday[0]|default}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input
+            type="text" value="{$birthday[1]|default}" name="month" title="{$lang_profile.month}" size="2"
+            maxlength="2"/>.<input type="text" value="{$birthday[2]|default}" name="year" title="{$lang_profile.year}" size="4"
                                    maxlength="4"/><br/>
         {$lang_profile.Realname}<br/>
         <input type="text" name="form[realname]" value="{$user.realname|escape}"

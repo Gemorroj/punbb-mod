@@ -33,22 +33,10 @@
 
 <div class="input">
 {if $pun_config.o_avatars}
-    {if $user.use_avatar == 1}
-        {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.gif")}
-            <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.gif" alt=""/>
-            {else}
-            {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.jpg")}
-                <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.jpg" alt=""/>
-                {else}
-                {if is_file("{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.png")}
-                    <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$id}.png" alt=""/>
-                    {else}
-                    {$lang_profile.$No_avatar}
-                {/if}
-            {/if}
-        {/if}
-        {else}
+    {if ! $user.use_avatar and $user_avatar}
         {$lang_profile.$No_avatar}
+        {else}
+        {$user_avatar}
     {/if}
     <br/>
 {/if}
@@ -195,7 +183,7 @@
         href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
 {/if}
 
-    <strong>{$lang_common.$Last_post}:</strong> {$last_post}<br/>
+    <strong>{$lang_common.$Last_post}:</strong> {$user.last_post|date_format:$date_format|default:$lang_profile.Unknown}<br/>
     <strong>{$lang_common.Registered}:</strong> {$user.registered|date_format:$date_format}
 </div>
 
