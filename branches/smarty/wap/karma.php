@@ -1,73 +1,119 @@
 <?php
+
 define('PUN_ROOT', '../');
 
-require PUN_ROOT . 'include/common.php';
+require_once(PUN_ROOT . 'include/common.php');
 
-if (!$pun_user['g_read_board']) {
+if (! $pun_user['g_read_board']) {
+    
     wap_message($lang_common['No view']);
 }
 
-if ($to = intval($_GET['to'])) {
-    vote($to, intval($_GET['vote']));
-    $pid = intval($_GET['pid']);
+$to = isset($_GET['to']) ? (int) $_GET['to'] : null;
+
+if ($to) {
+    
+    vote($to, (int) @$_GET['vote']);
+    
+    $pid = (int) @$_GET['pid'];
     wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
-    exit;
+    exit();
 }
 
-$id = intval($_GET['id']);
-$q = $db->fetch_row($db->query('SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $id . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $id));
+$id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-$karma['plus'] = intval($q[0]);
-$karma['minus'] = intval($q[1]);
-$karma['karma'] = $karma['plus'] - $karma['minus'];
-unset($q);
+// Гость записанный в таблице пользователей (`users`) имеет id = 1. Зачем тогда его учитывать?
+if (1 > $id) {
+    
+    wap_message($lang_common['Bad request']);
+}
 
+$q = 'SELECT `username` '
+   . 'FROM `' . $db->prefix . 'users` '
+   . 'WHERE `id` = ' . $id;
+$q = $db->query($q);
+
+// Если пользователя с таким id нет, то чью карму то показывать?
+if (! ($q && $username = $db->result($q, 0))) {
+    
+    wap_message($lang_common['Bad request']);
+}
+
+$subQ = '(SELECT COUNT(1) '
+      . 'FROM `' . $db->prefix . 'karma` '
+      . 'WHERE `vote` = \'-1\' '
+      . 'AND `to` = ' . $id
+      . ')';
+
+$q = 'SELECT '
+   . 'COUNT(1), '
+   . $subQ . ' '
+   . 'FROM `' . $db->prefix . 'karma` '
+   . 'WHERE `vote` = \'1\' '
+   . 'AND `to` = ' . $id;
+
+$karma = array();
+list (
+$karma['plus'],
+$karma['minus']
+) = $db->fetch_row($db->query($q));
+unset($subQ);
+
+$karma['total'] = $karma['plus'] - $karma['minus'];
+
+// Count items per page
 $num_hits = $karma['plus'] + $karma['minus'];
 
-$num_pages = ceil($num_hits / $pun_user['disp_posts']);
-
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
-
-$start = ($p - 1) * $pun_user['disp_posts'];
-if ($_GET['action'] == 'all') {
-    $p = $num_pages + 1;
-    $pun_user['disp_posts'] = $num_hits;
-    $start = 0;
-}
-
-$username = $db->result($db->query('SELECT `username` FROM `' . $db->prefix . 'users` WHERE `id` = ' . $id), 0);
-
 if ($num_hits) {
-    $q = $db->query('
-        SELECT `karma`.*, `users`.`username` AS `from`
-        FROM `' . $db->prefix . 'karma` AS `karma`
-        LEFT JOIN `' . $db->prefix . 'users` AS `users` ON `users`.`id` = `karma`.`id`
-        WHERE `karma`.`to` = ' . $id . '
-        ORDER BY `karma`.`time` DESC
-        LIMIT ' . $start . ',' . $pun_user['disp_posts']
-    );
-
+    
+    //+ Pagination
+    $num_pages = ceil($num_hits / $pun_user['disp_posts']);
+    $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
+    $start = ($p - 1) * $pun_user['disp_posts'];
+    if (@$_GET['action'] == 'all') {
+        
+        $p = $num_pages + 1;
+        $pun_user['disp_posts'] = $num_hits;
+        $start = 0;
+    }
+    //- Pagination
+    
+    $q = 'SELECT `karma`.*, '
+       . '`users`.`username` AS `from`'
+       . 'FROM `' . $db->prefix . 'karma` AS `karma` '
+       . 'LEFT JOIN `' . $db->prefix . 'users` AS `users` '
+       . 'ON `users`.`id` = `karma`.`id` '
+       . 'WHERE `karma`.`to` = ' . $id . ' '
+       . 'ORDER BY `karma`.`time` DESC '
+       . 'LIMIT ' . $start . ',' . $pun_user['disp_posts'];
+    
+    $q = $db->query($q);
+    
     while ($result = $db->fetch_assoc($q)) {
+        
         $array[] = $result;
     }
-
+    
     $page_links = paginate($num_pages, $p, 'karma.php?id=' . $id);
 }
 
-require_once PUN_ROOT . 'wap/header.php';
+require_once(PUN_ROOT . 'wap/header.php');
 
-$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . $username . ' (' . $karma['karma'] . ')';
+// Language: Общий языковой пакет с файлом common.
+
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . @$username . ' (' . $karma['total'] . ')';
+$smarty->assign('page_title', $page_title);
+
+$smarty->assign('karma', @$karma);
+$smarty->assign('array', @$array);
+$smarty->assign('page_links', @$page_links);
 
 /*
+// + nanoMod / uncomment in tpl too
 $smarty->assign('id', $id);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('username', $username);
+// - nanoMod
 */
-
-$smarty->assign('page_title', $page_title);
-$smarty->assign('array', $array);
-$smarty->assign('karma', $karma);
-$smarty->assign('pun_start', $pun_start);
-$smarty->assign('page_links', $page_links);
 
 $smarty->display('karma.tpl');

@@ -4,7 +4,6 @@ define('PUN_ROOT', '../');
 define('PUN_ALLOW_INDEX', 1); //?
 
 require_once(PUN_ROOT . 'include/common.php');
-$page_title = $pun_config['o_board_title'];
 
 if (! $pun_user['g_read_board']) {
     
@@ -112,7 +111,10 @@ if ($pun_config['o_users_online'] == 1) {
         }
     }
     
-    $num_users = $users ? sizeof($users) : 0;
+    if ($users) {
+        
+        $num_users = sizeof($users);
+    }
 }
 
 //+ Language
@@ -127,6 +129,8 @@ if ($pun_config['o_pms_enabled'] && $pun_user['g_pm'] == 1) {
 // Template Manager aka Smarty
 // Механизм проверки ящика сообщений, отчетов...
 require_once(PUN_ROOT . 'wap/header.php');
+
+$page_title = $pun_config['o_board_title'];
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('forums',     $forums);

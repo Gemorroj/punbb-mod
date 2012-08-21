@@ -256,8 +256,8 @@ if ($action == 'change_pass') {
         wap_message($lang_common['No permission']);
     }
 
-    if ($_POST['form_sent']) {
-        if (!$_FILES['req_file']) {
+    if (isset($_POST['form_sent'])) {
+        if (! $_FILES['req_file']) {
             wap_message($lang_profile['No file']);
         }
 
@@ -1057,11 +1057,11 @@ else {
                         } else
                             if ($_GET['section'] == 'admin') {
 
-                                if ($pun_user['g_id'] > PUN_MOD ||
-                                    ($pun_user['g_id'] == PUN_MOD &&
-                                        !$pun_config['p_mod_ban_users'])
+                                if ($pun_user['g_id'] > PUN_MOD
+                                    || ($pun_user['g_id'] == PUN_MOD
+                                    && ! $pun_config['p_mod_ban_users'])
                                 ) {
-
+                                    
                                     wap_message($lang_common['Bad request']);
                                 }
 
@@ -1072,10 +1072,16 @@ else {
 
                                     if ($pun_user['id'] != $id) {
 
-                                        $result = $db->query('SELECT `g_id`, `g_title` FROM `' . $db->prefix .
-                                            'groups` WHERE `g_id`!=' . PUN_GUEST . ' ORDER BY `g_title`') or error('Unable to fetch user group list',
-                                            __FILE__, __LINE__, $db->error());
-
+                                        $result = $db->query(
+                                        'SELECT `g_id`, `g_title` '
+                                        . 'FROM `' . $db->prefix . 'groups` '
+                                        . 'WHERE `g_id`!=' . PUN_GUEST . ' '
+                                        . 'ORDER BY `g_title`')
+                                        or error('Unable to fetch user group list',
+                                                 __FILE__,
+                                                 __LINE__,
+                                                 $db->error());
+                                        
                                         $groups = array();
                                         while ($cur_group = $db->fetch_assoc($result)) {
 
@@ -1092,16 +1098,21 @@ else {
 
                                         $forums = array();
                                         while ($cur_forum = $db->fetch_assoc($result)) {
-
+                                            
+                                            if ($cur_forum['moderators']) {
+                                                
+                                                $cur_forum['is_moderator'] = in_array($id, unserialize($cur_forum['moderators']));
+                                            }
+                                            
                                             $forums[] = $cur_forum;
                                         }
                                     }
                                 }
-
+                                
                                 $smarty->assign('page_title', $page_title);
-                                $smarty->assign('groups', $groups);
-                                $smarty->assign('forums', $forums);
-
+                                $smarty->assign('groups', @$groups);
+                                $smarty->assign('forums', @$forums);
+                                
                                 $smarty->display('profile.admin.tpl');
                                 exit();
                             }
