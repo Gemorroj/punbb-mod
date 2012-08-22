@@ -53,7 +53,7 @@ if (! ($user = $db->fetch_assoc($q))
     wap_message($lang_common['Bad request']);
 }
 
-$subQ = '(SELECT COUNT(1)'
+$subQ = '(SELECT COUNT(1) '
       . 'FROM `' . $db->prefix . 'karma` '
       . 'WHERE `vote` = \'-1\' '
       . 'AND `to` = ' . $id
