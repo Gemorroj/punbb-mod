@@ -1074,7 +1074,7 @@ function wap_redirect($destination_url, $redirect_code = 301)
     // Prefix with o_base_url (unless there's already a valid URI)
     if (strpos($destination_url, 'http://') !== 0 && strpos($destination_url, 'https://') !== 0 && strpos($destination_url, 'ftp://') !== 0 && strpos($destination_url, 'ftps://') !== 0 && strpos($destination_url, '/') !== 0) {
         //echo $destination_url . "\n";
-        $destination_url = ($_SERVER['HTTPS'] ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/' . $destination_url;
+        $destination_url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/' . $destination_url;
         //echo $destination_url;
     }
 

@@ -10,31 +10,45 @@ if (! $pun_user['g_read_board']) {
 }
 
 $to = isset($_GET['to']) ? (int) $_GET['to'] : null;
+$id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-if ($to) {
+if (null !== $to) {
     
     vote($to, (int) @$_GET['vote']);
     
-    $pid = (int) @$_GET['pid'];
-    wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
-    exit();
+    $pid = isset($_GET['pid']) ? (int) $_GET['pid'] : null;
+    
+    if (null === $pid) {
+        
+        $id =& $to;
+    }
+    else {
+        
+        wap_redirect('viewtopic.php?pid=' . $pid . '#p' . $pid);
+        exit();
+    }
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : null;
-
-// Гость записанный в таблице пользователей (`users`) имеет id = 1. Зачем тогда его учитывать?
-if (1 > $id) {
+// Наличие необходимых данных для работы скрипта
+if (null === $id) {
     
     wap_message($lang_common['Bad request']);
 }
 
-$q = 'SELECT `username` '
+$q = 'SELECT `group_id`, `username` '
    . 'FROM `' . $db->prefix . 'users` '
    . 'WHERE `id` = ' . $id;
-$q = $db->query($q);
+$q = $db->query($q)
+or error('Unable to fetch username',
+         __FILE__,
+         __LINE__,
+         $db->error());
 
 // Если пользователя с таким id нет, то чью карму то показывать?
-if (! ($q && $username = $db->result($q, 0))) {
+// Гостей не учитываем.
+if (! ($user = $db->fetch_assoc($q))
+    || PUN_GUEST == $user['group_id']
+) {
     
     wap_message($lang_common['Bad request']);
 }
@@ -52,11 +66,17 @@ $q = 'SELECT '
    . 'WHERE `vote` = \'1\' '
    . 'AND `to` = ' . $id;
 
+$q = $db->query($q)
+or error('Unable to count votes',
+         __FILE__,
+         __LINE__,
+         $db->error());
+
 $karma = array();
 list (
 $karma['plus'],
 $karma['minus']
-) = $db->fetch_row($db->query($q));
+) = $db->fetch_row($q);
 unset($subQ);
 
 $karma['total'] = $karma['plus'] - $karma['minus'];
@@ -87,11 +107,16 @@ if ($num_hits) {
        . 'ORDER BY `karma`.`time` DESC '
        . 'LIMIT ' . $start . ',' . $pun_user['disp_posts'];
     
-    $q = $db->query($q);
+    $q = $db->query($q)
+    or error('Unable to fetch votes',
+             __FILE__,
+             __LINE__,
+             $db->error());
     
+    $votes = array();
     while ($result = $db->fetch_assoc($q)) {
         
-        $array[] = $result;
+        $votes[] = $result;
     }
     
     $page_links = paginate($num_pages, $p, 'karma.php?id=' . $id);
@@ -101,19 +126,17 @@ require_once(PUN_ROOT . 'wap/header.php');
 
 // Language: Общий языковой пакет с файлом common.
 
-$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . @$username . ' (' . $karma['total'] . ')';
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . $user['username'] . ' (' . $karma['total'] . ')';
 $smarty->assign('page_title', $page_title);
 
 $smarty->assign('karma', @$karma);
-$smarty->assign('array', @$array);
+$smarty->assign('votes', @$votes);
 $smarty->assign('page_links', @$page_links);
 
-/*
-// + nanoMod / uncomment in tpl too
+//*/ + nanoMod / (un)comment in tpl too
 $smarty->assign('id', $id);
 $smarty->assign('pun_user', $pun_user);
-$smarty->assign('username', $username);
-// - nanoMod
-*/
+$smarty->assign('username', $user['username']);
+//*/ - nanoMod
 
 $smarty->display('karma.tpl');
