@@ -20,7 +20,7 @@ if (null !== $to) {
     
     if (null === $pid) {
         
-        $id =& $to;
+        $id = $to;
     }
     else {
         
@@ -53,18 +53,20 @@ if (! ($user = $db->fetch_assoc($q))
     wap_message($lang_common['Bad request']);
 }
 
-$subQ = '(SELECT COUNT(1) '
+$subQ = '(SELECT COUNT(1)'
       . 'FROM `' . $db->prefix . 'karma` '
       . 'WHERE `vote` = \'-1\' '
       . 'AND `to` = ' . $id
       . ')';
 
 $q = 'SELECT '
-   . 'COUNT(1), '
-   . $subQ . ' '
+   . 'COUNT(1) AS `plus`, '
+   . $subQ . ' AS `minus` '
    . 'FROM `' . $db->prefix . 'karma` '
    . 'WHERE `vote` = \'1\' '
    . 'AND `to` = ' . $id;
+
+unset($subQ);
 
 $q = $db->query($q)
 or error('Unable to count votes',
@@ -73,11 +75,14 @@ or error('Unable to count votes',
          $db->error());
 
 $karma = array();
-list (
-$karma['plus'],
-$karma['minus']
-) = $db->fetch_row($q);
-unset($subQ);
+if (! ($karma = $db->fetch_assoc($q))) {
+    
+    $q = $db->query($q)
+    or error('Unable to fetch votes count',
+             __FILE__,
+             __LINE__,
+             $db->error());
+}
 
 $karma['total'] = $karma['plus'] - $karma['minus'];
 
@@ -129,13 +134,12 @@ require_once(PUN_ROOT . 'wap/header.php');
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Karma'] . ' - ' . $user['username'] . ' (' . $karma['total'] . ')';
 $smarty->assign('page_title', $page_title);
 
-$smarty->assign('karma', @$karma);
+$smarty->assign('karma', $karma);
 $smarty->assign('votes', @$votes);
 $smarty->assign('page_links', @$page_links);
 
 //*/ + nanoMod / (un)comment in tpl too
 $smarty->assign('id', $id);
-$smarty->assign('pun_user', $pun_user);
 $smarty->assign('username', $user['username']);
 //*/ - nanoMod
 
