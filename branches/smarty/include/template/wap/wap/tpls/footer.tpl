@@ -44,7 +44,7 @@ $basename == 'index.php'}
     {fetch file="{$smarty.const.PUN_ROOT}cache/cache_wap_quickjump_{$forum_id}.php"}
 {/if}
 
-{if isset($is_admmod)}
+{if isset($is_admmod) && $is_admmod}
     {if $basename == 'viewforum.php'}
     <div class="con">
         <a class="but" href="moderate.php?fid={$forum_id}&amp;p={$p}">{$lang_common.$Moderate_forum}</a>

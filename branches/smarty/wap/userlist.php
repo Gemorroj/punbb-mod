@@ -61,12 +61,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
     $p = $num_pages + 1;
     $start_from = -1;
 } else {
-    $_GET['p'] = intval($_GET['p']);
-    $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+    $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = 50 * ($p - 1);
 }
 
 // Generate paging links
+
+$paging_links = paginate($num_pages,
+                         $p,
+                         'userlist.php?username=' . urlencode($username)
+                         . '&amp;show_group=' . $show_group
+                         . '&amp;sort_by=' . $sort_by
+                         . '&amp;sort_dir=' . mb_strtoupper($sort_dir),
+                         0);
 
 //$smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0));
 
@@ -87,19 +94,19 @@ var_dump($smarty);
 echo '</pre>';
 */
 $smarty->assign('page_title', $page_title);
-$smarty->assign('pun_user', $username);
+$smarty->assign('username', $username);
 $smarty->assign('show_group', $show_group);
 $smarty->assign('sort_by', $sort_by);
 $smarty->assign('sort_dir', $sort_dir);
 
-$smarty->assign('pun_start', $show_post_count);
+
 $smarty->assign('show_post_count', $show_post_count);
-$smarty->assign('pun_user', $pun_user);
+
 
 $smarty->assign('lang_ul', $lang_ul);
 $smarty->assign('lang_search', $lang_search);
 $smarty->assign('p', $p);
-
+$smarty->assign('paging_links', $paging_links);
 $smarty->assign('groups', $groups);
 $smarty->assign('users', $users);
 
