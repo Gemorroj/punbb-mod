@@ -359,15 +359,19 @@ if ($action == 'change_pass') {
 
         wap_redirect('profile.php?section=personality&id=' . $id);
     }
-
+    
+    $avatarSize  = ceil($pun_config['o_avatars_size'] / 1024); // kb
+    $avatarSize .= '&#160;kb';
+    
     //upload_avatar
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Upload avatar'];
-    $required_fields = array('req_file' => $lang_profile['File']);
-    $focus_element = array('upload_avatar', 'req_file');
-
+    $page_title = $pun_config['o_board_title']
+                . ' / ' . $lang_common['Profile']
+                . ' - ' . $lang_profile['Upload avatar'];
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
     $smarty->assign('lang_profile', $lang_profile);
+    $smarty->assign('avatarSize', $avatarSize);
+    
     $smarty->display('profile.avatar.tpl');
     exit();
 
@@ -1064,19 +1068,19 @@ else {
                                     
                                     wap_message($lang_common['Bad request']);
                                 }
-
-                                $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Section admin'];
+                                
                                 //wap_generate_profile_menu('admin');
-
+                                
                                 if ($pun_user['g_id'] <> PUN_MOD) {
 
                                     if ($pun_user['id'] != $id) {
-
-                                        $result = $db->query(
-                                        'SELECT `g_id`, `g_title` '
-                                        . 'FROM `' . $db->prefix . 'groups` '
-                                        . 'WHERE `g_id`!=' . PUN_GUEST . ' '
-                                        . 'ORDER BY `g_title`')
+                                        
+                                        $q = 'SELECT `g_id`, `g_title` '
+                                           . 'FROM `' . $db->prefix . 'groups` '
+                                           . 'WHERE `g_id`!=' . PUN_GUEST . ' '
+                                           . 'ORDER BY `g_title`;';
+                                        
+                                        $result = $db->query($q)
                                         or error('Unable to fetch user group list',
                                                  __FILE__,
                                                  __LINE__,
@@ -1088,14 +1092,27 @@ else {
                                             $groups[] = $cur_group;
                                         }
                                     }
-
+                                    
                                     if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
-
-                                        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.moderators FROM ' .
-                                            $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix .
-                                            'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or
-                                            error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
-
+                                        
+                                        $q = 'SELECT `c`.`id` AS `cid`, '
+                                           . '`c`.`cat_name`, '
+                                           . '`f`.`id` AS `fid`, '
+                                           . '`f`.`forum_name`, `f`.`moderators` '
+                                           . 'FROM `' . $db->prefix . 'categories` AS `c` '
+                                           . 'INNER JOIN `' . $db->prefix . 'forums` AS `f` '
+                                           . 'ON `c`.`id`=`f`.`cat_id` '
+                                           . 'WHERE `f`.`redirect_url` IS NULL '
+                                           . 'ORDER BY `c`.`disp_position`, '
+                                           . '`c`.`id`, '
+                                           . '`f`.`disp_position`;';
+                                        
+                                        $result = $db->query($q)
+                                        or error('Unable to fetch category/forum list',
+                                                 __FILE__,
+                                                 __LINE__,
+                                                 $db->error());
+                                        
                                         $forums = array();
                                         while ($cur_forum = $db->fetch_assoc($result)) {
                                             
@@ -1109,6 +1126,9 @@ else {
                                     }
                                 }
                                 
+                                $page_title = $pun_config['o_board_title']
+                                            . ' / ' . $lang_common['Profile']
+                                            . ' - ' . $lang_profile['Section admin'];
                                 $smarty->assign('page_title', $page_title);
                                 $smarty->assign('groups', @$groups);
                                 $smarty->assign('forums', @$forums);
