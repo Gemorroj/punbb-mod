@@ -88,6 +88,6 @@
     {/if}
 {/foreach}
 
-<div class="con">{$paging_links}</div>
+<div class="con">{$lang_common.Pages}: {$paging_links}</div>
 
 {include file='footer.tpl'}

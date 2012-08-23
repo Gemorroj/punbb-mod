@@ -46,7 +46,8 @@
         {if $pun_config.o_search_all_forums == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
             <option value="-1">{$lang_search.$All_forums}</option>
         {/if}
-
+        
+        {assign var="cur_category" value=""}
         {foreach from=$forums item=cur_forum}
             {if $cur_forum.cid != $cur_category}
                 {if $cur_category}

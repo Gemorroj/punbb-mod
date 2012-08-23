@@ -69,7 +69,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
 
     // If a valid search_id was supplied we attempt to fetch the search results from the db
-    if ($search_id) {
+    if (@$search_id) {
         $ident = ($pun_user['is_guest']) ? get_remote_address() : $pun_user['username'];
 
         $result = $db->query('
@@ -465,23 +465,24 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 WHERE t.id IN(' . $search_results . ')
                 ORDER BY ' . $sort_by_sql;
         }
-
+        
+        //+ Pagination
         // Determine the topic or post offset (based on $_GET['p'])
         $per_page = ($show_as == 'posts') ? $pun_user['disp_posts'] : $pun_user['disp_topics'];
         $num_pages = ceil($num_hits / $per_page);
-
-        $_GET['p'] = intval($_GET['p']);
-        $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+        $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
         $start_from = $per_page * ($p - 1);
-
+        
         // Generate paging links
-        if ($_GET['action'] == 'all') {
+        if (@$_GET['action'] == 'all') {
             $p = $num_pages + 1;
             $per_page = $num_hits;
+            $start_from = 0;
         }
-
-        $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'search.php?search_id=' . $search_id);
-
+        
+        $paging_links = paginate($num_pages, $p, 'search.php?search_id=' . $search_id);
+        //- Pagination
+        
         $sql .= ' ' . $sort_dir . ' LIMIT ' . $start_from . ', ' . $per_page;
 
         $result = $db->query($sql) or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
@@ -520,13 +521,8 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $smarty->assign('show_as', $show_as);
 
         $smarty->assign('lang_search', $lang_search);
-        $smarty->assign('pun_user', $pun_user);
         $smarty->assign('paging_links', $paging_links);
-        /*
-        $smarty->assign('', $);
-        $smarty->assign('', $);
-        $smarty->assign('', $);
-        */
+
         $smarty->display('search.result.tpl');
         exit();
     } else {
@@ -544,6 +540,7 @@ $result = $db->query('
     ORDER BY c.disp_position, c.id, f.disp_position
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
+$forums = array();
 while ($cur_forum = $db->fetch_assoc($result)) {
     $forums[] = $cur_forum;
 }
@@ -554,6 +551,5 @@ $smarty->assign('page_title', $page_title);
 
 $smarty->assign('forums', $forums);
 $smarty->assign('lang_search', $lang_search);
-$smarty->assign('pun_user', $pun_user);
 
 $smarty->display('search.tpl');
