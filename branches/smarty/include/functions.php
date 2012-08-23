@@ -767,11 +767,15 @@ function wap_message($message, $no_back_link = false)
     global $db, $pun_user, $lang_common, $pun_config, $pun_start, $tpl_main, $smarty;
 
     if (!defined('PUN_HEADER')) {
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];
         require_once PUN_ROOT . 'wap/header.php';
     }
-
-
+    
+    if (! isset($page_title)) {
+        
+        $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Info'];
+    }
+    
+    $smarty->assign('page_title', $page_title);
     $smarty->assign('message', $message);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('no_back_link', $no_back_link);

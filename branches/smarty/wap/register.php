@@ -26,7 +26,7 @@ if (!$pun_config['o_regs_allow']) {
 
 
 // User pressed the cancel button
-if ($_GET['cancel']) {
+if (@$_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
@@ -242,27 +242,6 @@ if ($_GET['cancel']) {
     wap_redirect('index.php');
 }
 
-
-$page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
-
-// Image Verification mod BEGIN
-//
-// Original code:
-//$required_fields = array('req_username' => $lang_common['Username'], 'req_password1' => $lang_common['Password'], 'req_password2' => $lang_prof_reg['Confirm pass'], 'req_email1' => $lang_common['E-mail'], 'req_email2' => $lang_common['E-mail'].' 2');
-
-$required_fields = array(
-    'req_image_' => $lang_register['Image text'],
-    'req_username' => $lang_common['Username'],
-    'req_password1' => $lang_common['Password'],
-    'req_password2' => $lang_prof_reg['Confirm pass'],
-    'req_email1' => $lang_common['E-mail'],
-    'req_email2' => $lang_common['E-mail'] . ' 2'
-);
-
-// Image Verification mod end
-//$focus_element = array('register', 'req_username');
-
-
 $languages = array();
 $d = dir(PUN_ROOT . 'lang');
 while (($entry = $d->read()) !== false) {
@@ -272,13 +251,12 @@ while (($entry = $d->read()) !== false) {
 }
 $d->close();
 
-$smarty->assign('pun_start', $pun_start);
-
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
 $smarty->assign('page_title', $page_title);
+
 $smarty->assign('lang_register', $lang_register);
 $smarty->assign('lang_profile', $lang_profile);
 $smarty->assign('lang_prof_reg', $lang_prof_reg);
-
 $smarty->assign('languages', $languages);
 
 $smarty->display('register.tpl');

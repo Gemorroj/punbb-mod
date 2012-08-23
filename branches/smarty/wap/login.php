@@ -18,7 +18,7 @@ require PUN_ROOT . 'wap/header.php';
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/login.php';
 
 
-if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
+if (isset($_POST['form_sent']) && @$_GET['action'] == 'in') {
     $form_username = trim($_POST['req_username']);
     $form_password = trim($_POST['req_password']);
 
@@ -62,8 +62,8 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     pun_setcookie($user_id, $form_password_hash, $expire);
 
     wap_redirect($_POST['redirect_url']);
-} else if ($_GET['action'] == 'out') {
-    if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
+} else if (@$_GET['action'] == 'out') {
+    if ($pun_user['is_guest'] || @$_GET['id'] != $pun_user['id'] || @$_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
         header('Location: index.php');
         exit;
     }
@@ -78,7 +78,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
 
     pun_setcookie(1, md5(uniqid(mt_rand(), true)), time() + 31536000);
     wap_redirect('index.php');
-} else if ($_GET['action'] == 'forget' || $_GET['action'] == 'forget_2') {
+} else if (@$_GET['action'] == 'forget' || @$_GET['action'] == 'forget_2') {
     if (!$pun_user['is_guest']) {
         header('Location: index.php', true, 301);
     }
