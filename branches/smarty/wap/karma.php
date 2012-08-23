@@ -62,14 +62,7 @@ or error('Unable to count votes',
          __LINE__,
          $db->error());
 
-$karma = array();
-if (!($karma = $db->fetch_assoc($q))) {
-    $q = $db->query($q)
-    or error('Unable to fetch votes count',
-             __FILE__,
-             __LINE__,
-             $db->error());
-}
+$karma = $db->fetch_assoc($q);
 
 $karma['total'] = $karma['plus'] - $karma['minus'];
 
