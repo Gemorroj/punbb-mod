@@ -1,7 +1,7 @@
 {include file='header.tpl'}
 
 {if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 {else}
     {assign var='Profile_menu' value='Profile menu'}
     {* Навигация: Главная / Профиль *}

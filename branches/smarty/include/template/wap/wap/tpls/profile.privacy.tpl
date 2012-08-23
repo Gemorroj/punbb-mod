@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 
 {assign var='Section_privacy' value='Section privacy'}
 {assign var='Privacy_options_legend' value='Privacy options legend'}

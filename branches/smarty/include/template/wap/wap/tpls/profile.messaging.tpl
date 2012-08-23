@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 
 {assign var='Contact_details_legend' value='Contact details legend'}
 {assign var='Section_messaging' value='Section messaging'}

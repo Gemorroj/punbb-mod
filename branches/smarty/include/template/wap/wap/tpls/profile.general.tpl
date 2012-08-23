@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 
 
 

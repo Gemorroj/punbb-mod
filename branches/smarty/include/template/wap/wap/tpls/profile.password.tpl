@@ -8,7 +8,7 @@
 {assign var='Confirm_new_pass' value='Confirm new pass'}
 
 {if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 {/if}
 
 <div class="con">

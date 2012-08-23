@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 
 {assign var='Section_display'     value='Section display'}
 {assign var='Style_legend'        value='Style legend'}

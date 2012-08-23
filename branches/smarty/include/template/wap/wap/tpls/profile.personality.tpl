@@ -1,5 +1,5 @@
 {include file='header.tpl'}
-{include file='profile.navi.tpl'}
+{include file='profile.navigation.tpl'}
 
 {assign var='Section_personality' value='Section personality'}
 {assign var='Avatar_legend' value='Avatar legend'}
