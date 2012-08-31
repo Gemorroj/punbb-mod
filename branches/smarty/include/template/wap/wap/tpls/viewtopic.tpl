@@ -116,8 +116,7 @@
         </div>
     {/if}
 
-
-    {if $attachments[$cur_post.id]}
+    {if isset($attachments[$cur_post.id])}
         {* Attachments *}
         {include file='attachments.tpl'}
     {/if}
@@ -139,7 +138,7 @@
 </div>
 {/foreach}
 
-<div class="con">{$paging_links}</div>
+<div class="con">{$lang_common.Pages}:&#160;{$paging_links}</div>
 
 {if $pun_user.g_post_replies}
 {* Кнопка для ответа *}

@@ -1,10 +1,10 @@
-<?php define('PUN_ROOT', '../');
+<?php
+
+define('PUN_ROOT', '../');
+define('PUN_ALLOW_INDEX', 1);
 
 require_once(PUN_ROOT . 'include/common.php');
 require_once(PUN_ROOT . 'include/file_upload.php');
-require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php');
-
-require_once(PUN_ROOT . 'wap/header.php');
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
@@ -17,9 +17,6 @@ $action = isset($_GET['action']) ? $_GET['action'] : null;
 if ($id < 1 && $pid < 1) {
     wap_message($lang_common['Bad request']);
 }
-
-// Load the viewtopic.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
 
 // If a post ID is specified we determine topic ID and page number so we can redirect to the correct message
 if ($pid) {
@@ -127,30 +124,12 @@ if (!$pun_user['is_guest']) {
 $mods_array = ($cur_topic['moderators']) ? unserialize($cur_topic['moderators']) : array();
 $is_admmod = ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
-/*
-// Can we or can we not post replies?
-if (!$cur_topic['closed']) {
-    if ((!$cur_topic['post_replies'] && ($pun_user['g_post_replies'] == 1 || $pun_user['g_post_replies'] == 2)) || $cur_topic['post_replies'] == 1 || $is_admmod) {
-        $post_link = '<a href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a>';
-    } else {
-        $post_link = '&#160;';
-    }
-} else {
-    $post_link = $lang_topic['Topic closed'];
-
-    if ($is_admmod) {
-        $post_link .= ' / <a href="post.php?tid='.$id.'">'.$lang_topic['Post reply'].'</a>';
-    }
-}
-*/
-
 // Can we or can we not download attachments?
 $can_download = (!$cur_topic['file_download'] && $pun_user['g_file_download'] == 1) || $cur_topic['file_download'] == 1 || $is_admmod;
 
 // Determine the post offset (based on $_GET['p'])
 $num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
-
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+$p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 $start_from = $pun_user['disp_posts'] * ($p - 1);
 
 // Generate paging links
@@ -159,9 +138,10 @@ $start_from = $pun_user['disp_posts'] * ($p - 1);
 //$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ($action == 'all') {
     $p = ($num_pages + 1);
+    $start_from = 0;
 }
 
-$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
+$paging_links = paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
 
 if ($action == 'all' && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
@@ -172,39 +152,19 @@ if ($pun_config['o_censoring'] == 1) {
     $cur_topic['subject'] = censor_words($cur_topic['subject']);
 }
 
-
 // !$pun_user['is_guest'] && - wft?
 $quickpost = false;
 if ($pun_config['o_quickpost'] == 1 &&
 // !$pun_user['is_guest'] &&
     ($cur_topic['post_replies'] == 1 || (!$cur_topic['post_replies'] && $pun_user['g_post_replies'] == 1)) && (!$cur_topic['closed'] || $is_admmod)
 ) {
-    $required_fields = array('req_message' => $lang_common['Message']);
     $quickpost = true;
 }
 
-/*
-if (!$pun_user['is_guest'] && $pun_config['o_subscriptions'] == 1) {
-    if ($cur_topic['is_subscribed']) {
-        // I apologize for the variable naming here. It's a mix of subscription and action I guess :-)
-        $subscraction = '<div class="con">'.$lang_topic['Is subscribed'].' - <a href="misc.php?unsubscribe='.$id.'">'.$lang_topic['Unsubscribe'].'</a></div>';
-    } else {
-        $subscraction = '<div class="con"><a href="misc.php?subscribe='.$id.'">'.$lang_topic['Subscribe'].'</a></div>';
-    }
-} else {
-    $subscraction = null;
-}
-*/
-
-define('PUN_ALLOW_INDEX', 1);
-
-include_once PUN_ROOT . 'include/parser.php';
-
-// !!!
 // hcs AJAX POLL MOD BEGIN
 $show_poll = '';
 if ($pun_config['poll_enabled'] == 1) {
-    include PUN_ROOT . 'include/poll/poll.inc.php';
+    require_once(PUN_ROOT . 'include/poll/poll.inc.php');
 
     if ($cur_topic['has_poll']) {
         if ($_POST['pollid']) {
@@ -251,6 +211,8 @@ if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
 }
 /// MOD ANTISPAM END
 
+require_once(PUN_ROOT . 'include/parser.php');
+
 $posts = $pids = array();
 while ($cur_post = $db->fetch_assoc($result)) {
     $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
@@ -274,46 +236,44 @@ while ($cur_post = $db->fetch_assoc($result)) {
 $db->free_result($result);
 
 // Retrieve the attachments
-require PUN_ROOT . 'include/attach/fetch.php';
+require_once(PUN_ROOT . 'include/attach/fetch.php');
 
 if ($pun_config['o_quickjump']) {
     $forum_id = $cur_topic['forum_id'];
-    include_once PUN_ROOT . 'include/wap_quickjump.php';
+    require_once(PUN_ROOT . 'include/wap_quickjump.php');
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true)
+or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+
+// Load the viewtopic.php language file
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php');
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php');
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php');
+
+require_once(PUN_ROOT . 'wap/header.php');
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['forum_name'] . ' / ' . $cur_topic['subject'];
-
-$smarty->assign('show_poll', $show_poll);
 $smarty->assign('page_title', $page_title);
 
+$smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
-
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('quickpost', $quickpost);
-
 $smarty->assign('lang_topic', $lang_topic);
 $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('lang_post', $lang_post);
-$smarty->assign('lang_pms', $lang_pms);
-
-require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 $smarty->assign('lang_misc', $lang_misc);
-
 $smarty->assign('forum_id', $cur_topic['forum_id']);
 $smarty->assign('id', $id);
 $smarty->assign('p', $p);
-
 $smarty->assign('cur_topic', $cur_topic);
 $smarty->assign('posts', $posts);
 $smarty->assign('start_from', $start_from);
-
 $smarty->assign('attachments', $attachments);
 $smarty->assign('paging_links', $paging_links);
-
 
 $smarty->display('viewtopic.tpl');
