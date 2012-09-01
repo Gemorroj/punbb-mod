@@ -61,6 +61,6 @@
 <div class="red">&#160;{$addIndex2}</div>
 {/foreach}
 
-<div class="con">{$paging_links}</div>
+<div class="con">{$lang_common.Pages}:&#160;{$paging_links}</div>
 
 {include file='footer.tpl'}

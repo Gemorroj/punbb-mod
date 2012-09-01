@@ -1,15 +1,16 @@
 <?php
+
 define('PUN_ROOT', '../');
-require PUN_ROOT . 'include/common.php';
-require_once PUN_ROOT . 'wap/header.php';
+
+require_once(PUN_ROOT . 'include/common.php');
 
 if (!$pun_config['o_pms_enabled'] || $pun_user['is_guest'] || !$pun_user['g_pm']) {
     wap_message($lang_common['No permission']);
 }
 
 // Load the post.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php';
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php');
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php');
 
 if (isset($_POST['form_sent'])) {
     //confirm_referrer('message_send.php');
@@ -148,7 +149,7 @@ if (isset($_POST['form_sent'])) {
 
     $topic_redirect = intval($_POST['topic_redirect']);
     $from_profile = intval(@$_POST['from_profile']);
-    ;
+    
     if ($from_profile) {
         wap_redirect('profile.php?id=' . $from_profile);
     } else if ($topic_redirect) {
@@ -186,19 +187,20 @@ if (isset($_POST['form_sent'])) {
         // Add subject
         $subject = 'RE:' == substr($message['subject'], 0, 3) ? $message['subject'] : 'RE: ' . $message['subject'];
     }
-
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Send a message'];
-
+    
     if ($pun_user['messages_enable'] != 1) {
         wap_message($lang_pms['PM disabled'] . ' <a href="message_list.php?&box=2">' . $lang_pms['Options PM'] . '</a>');
     }
-
+    
+    require_once PUN_ROOT . 'wap/header.php';
+    
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Send a message'];
     $smarty->assign('page_title', $page_title);
-    $smarty->assign('username', $username);
-    $smarty->assign('subject', $subject);
-    $smarty->assign('quote', $quote);
-
-    $smarty->assign('lang_pms', $lang_pms);
+    
+    $smarty->assign('username', @$username);
+    $smarty->assign('subject',  @$subject);
+    $smarty->assign('quote',    @$quote);
+    $smarty->assign('lang_pms',  $lang_pms);
     $smarty->assign('lang_post', $lang_post);
 
     $smarty->display('message_send.tpl');

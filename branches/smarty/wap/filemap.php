@@ -15,9 +15,9 @@ define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
 require_once PUN_ROOT . 'wap/header.php';
 
-$user_id = intval($_GET['user_id']);
+$user_id = isset($_GET['user_id']) ? (int) $_GET['user_id'] : null;
 
-if (isset($_GET['user_id'])) {
+if ($user_id) {
     $result = $db->query('
         SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title
         FROM ' . $db->prefix . 'users AS u
@@ -72,7 +72,7 @@ if (!$fid_list) {
         ' . $db->prefix . 'attachments AS a INNER JOIN
         ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
         ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
-        WHERE f.id in (' . $fid_list . ') ' . (isset($_GET['user_id']) ? (' AND (a.poster_id=' . $user_id . ')') : '')
+        WHERE f.id in (' . $fid_list . ') ' . ($user_id ? (' AND (a.poster_id=' . $user_id . ')') : '')
     ) or error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
     $num_rows = $db->fetch_row($result);
     $num_rows = $num_rows[0];
@@ -80,12 +80,12 @@ if (!$fid_list) {
 // Determine the attachment offset (based on $_GET['p'])
 $num_pages = ceil($num_rows / ATTACHMENTS_PER_PAGE);
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+$p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 $start_from = ATTACHMENTS_PER_PAGE * ($p - 1);
 
 // Generate paging links
-$user_cond = isset($_GET['user_id']) ? ('user_id=' . $user_id) : '';
-$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'filemap.php?' . $user_cond);
+$user_cond = $user_id ? 'user_id=' . $user_id : '';
+$paging_links = paginate($num_pages, $p, 'filemap.php?' . $user_cond);
 
 $attachments = array();
 if ($fid_list) {
@@ -98,7 +98,7 @@ if ($fid_list) {
         INNER JOIN ' . $db->prefix . 'topics AS t ON a.topic_id=t.id
         INNER JOIN ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
         INNER JOIN ' . $db->prefix . 'categories AS c ON f.cat_id = c.id
-        WHERE f.id in (' . $fid_list . ') ' . (isset($_GET['user_id']) ? (' AND (a.poster_id=' . $user_id . ')') : '') . '
+        WHERE f.id in (' . $fid_list . ') ' . ($user_id ? (' AND (a.poster_id=' . $user_id . ')') : '') . '
         ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc, a.filename' .
             ((!isset($_GET['action']) || $_GET['action'] != 'all') ? ' LIMIT ' . $start_from . ',' . ATTACHMENTS_PER_PAGE : '')
     ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
@@ -111,7 +111,7 @@ if ($fid_list) {
 }
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('user', $user);
+$smarty->assign('user', @$user);
 $smarty->assign('attachments', $attachments);
 $smarty->assign('categories', $categories);
 $smarty->assign('forums', $forums);

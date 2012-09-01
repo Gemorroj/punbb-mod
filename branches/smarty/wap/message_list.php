@@ -1,9 +1,8 @@
 <?php
+
 define('PUN_ROOT', '../');
 
-require PUN_ROOT . 'include/common.php';
-include_once PUN_ROOT . 'include/parser.php';
-require PUN_ROOT . 'wap/header.php';
+require_once(PUN_ROOT . 'include/common.php');
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
     wap_message($lang_common['No permission']);
@@ -14,34 +13,31 @@ if ($pun_user['is_guest']) {
 }
 
 // Load the message.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php');
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php');
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php');
 
-$box = intval($_GET['box']);
-if ($box != 1 && $box != 2) {
-    $box = 0;
-}
+require_once(PUN_ROOT . 'wap/header.php');
 
+$box = isset($_GET['box']) ? (int) $_GET['box'] : null;
 switch ($box) {
-    case 0:
+    default:
+        $box  = 0;
         $name = $lang_pms['Inbox'];
-        break;
-
-
+    break;
+    
     case 1:
         $name = $lang_pms['Outbox'];
-        break;
-
-
+    break;
+    
     case 2:
         $name = $lang_pms['Options'];
-        break;
+    break;
 }
 
 $smarty->assign('name', $name);
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : intval($_GET['p']);
+$p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 
 // Delete multiple posts
 if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply'])) {
@@ -56,7 +52,8 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         // Delete messages
         $db->query('DELETE FROM ' . $db->prefix . 'messages WHERE id IN(' . $_POST['messages'] . ') AND owner=\'' . $pun_user['id'] . '\'') or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
         wap_redirect('message_list.php?box=' . intval($_POST['box']));
-    } else {
+    }
+    else {
         $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Multidelete'];
         $idlist = is_array($_POST['delete_messages']) ? array_map('intval', $_POST['delete_messages']) : array();
 
@@ -70,11 +67,12 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         exit();
     }
 } // Mark all messages as read
-else if (isset($_GET['action']) && $_GET['action'] == 'markall') {
-    $db->query('UPDATE ' . $db->prefix . 'messages SET showed=1 WHERE owner=' . $pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
-    //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : $_GET['p'];
-    wap_redirect('message_list.php?box=' . $box . '&p=' . $p);
-}
+else
+    if (isset($_GET['action']) && $_GET['action'] == 'markall') {
+        $db->query('UPDATE ' . $db->prefix . 'messages SET showed=1 WHERE owner=' . $pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
+        //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : $_GET['p'];
+        wap_redirect('message_list.php?box=' . $box . '&p=' . $p);
+    }
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_pms['Private Messages'] . ' - ' . $name;
 $smarty->assign('page_title', $page_title);
@@ -86,18 +84,19 @@ if ($box < 2) {
 
     //What page are we on?
     $num_pages = ceil($num_messages / $pun_config['o_pms_mess_per_page']);
-    $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : intval($_GET['p']);
+    $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
-    if ($_GET['action'] != 'all') {
+    if (@$_GET['action'] != 'all') {
         $limit = 'LIMIT ' . $start_from . ',' . $pun_config['o_pms_mess_per_page'];
     }
-
+    
+    require_once(PUN_ROOT . 'include/parser.php');
+    
+    $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
     //Are we viewing a PM?
-    if (isset($_GET['id'])) {
-
+    if ($id) {
+        $forum_id = $id;
         //Yes! Lets get the details
-        $id = intval($_GET['id']);
-
         // Set user
         $result = $db->query('SELECT status,owner FROM ' . $db->prefix . 'messages WHERE id=' . $id) or error('Unable to get message status', __FILE__, __LINE__, $db->error());
         list($status, $owner) = $db->fetch_row($result);
@@ -117,12 +116,11 @@ if ($box < 2) {
         if ($cur_post['id'] > 0) {
 
             // We only show location, register date, post count and the contact links if "Show user info" is enabled
-            if ($pun_config['o_show_user_info'] == 1) {
-                if ($cur_post['location']) {
-                    if ($pun_config['o_censoring'] == 1) {
-                        $cur_post['location'] = censor_words($cur_post['location']);
-                    }
-                }
+            if ($pun_config['o_show_user_info'] == 1
+                && $cur_post['location']
+                && $pun_config['o_censoring'] == 1
+            ) {
+                $cur_post['location'] = censor_words($cur_post['location']);
             }
         } // If the sender has been deleted
         else {
@@ -148,6 +146,7 @@ if ($box < 2) {
 
     // If there are messages in this folder.
     if ($all = $db->num_rows($result)) {
+        $messages = array();
         while ($cur_mess = $db->fetch_assoc($result)) {
             $cur_mess['message'] = parse_message($cur_mess['message'], $cur_mess['smileys']);
             $cur_mess['user_avatar'] = pun_show_avatar();
@@ -156,31 +155,28 @@ if ($box < 2) {
         }
     }
 
-    if ($_GET['action'] == 'all') {
+    if (@$_GET['action'] == 'all') {
         $p = $num_pages + 1;
     }
 
     $page_links = paginate($num_pages, $p, 'message_list.php?box=' . $box);
 
-    if (isset($_GET['id'])) {
-        $forum_id = $id;
-    }
-
     ////////
-    $smarty->assign('cur_post', $cur_post);
-    $smarty->assign('pun_user', $pun_user);
+    $smarty->assign('cur_post',  @$cur_post);
+    $smarty->assign('pun_user',   $pun_user);
     $smarty->assign('lang_topic', $lang_topic);
-    $smarty->assign('status', $status);
-    $smarty->assign('lang_pms', $lang_pms);
-    $smarty->assign('messages', $messages);
+    $smarty->assign('status',    @$status);
+    $smarty->assign('lang_pms',   $lang_pms);
+    $smarty->assign('messages',  @$messages);
     $smarty->assign('page_links', $page_links);
-    $smarty->assign('all', $all);
+    $smarty->assign('all',        $all);
     
     $smarty->display('message_list.tpl');
 
     exit();
 
-} else {
+}
+else {
     if (isset($_POST['update'])) {
         $popup = isset($_POST['popup_enable']) ? 1 : 0;
         $msg_enable = isset($_POST['messages_enable']) ? 1 : 0;

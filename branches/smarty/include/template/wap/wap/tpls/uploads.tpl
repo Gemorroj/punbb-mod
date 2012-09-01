@@ -98,7 +98,7 @@
     <div class="{if $j = ! $j}msg{else}msg2{/if}">
         &#8226; <strong><a
             href="{$smarty.server.PHP_SELF}?file={rawurlencode($info.file)}">{$info.file|truncate:30:'..':true:true|escape}</a></strong>
-        <span class="small">({round(filesize('`$smarty.const.PUN_ROOT`uploaded/`$info.file`') / 1024, 1)} kb,
+        <span class="small">({$info.size|cat:$info.sizeValue},
         <strong><a href="profile.php?id={$info.uid}">{$info.user|escape}</a></strong>,
             {$info.data|date_format:$date_format}, {$lang_uploads.Downloaded}:{$info.downs};
 

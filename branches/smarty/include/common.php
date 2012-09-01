@@ -1,4 +1,8 @@
 <?php
+
+// Record the start time (will be used to calculate the generation time for the page)
+$pun_start = microtime(true);
+
 // Enable DEBUG mode by removing // from the following line
 //define('PUN_DEBUG', 1);
 
@@ -11,18 +15,13 @@ if (!defined('PUN_ROOT')) {
 }
 
 // Load the functions script
-require PUN_ROOT . 'include/functions.php';
-
-
-require PUN_ROOT . 'config.php';
+require_once(PUN_ROOT . 'include/functions.php');
+require_once(PUN_ROOT . 'config.php');
 
 // If PUN isn't defined, config.php is missing or corrupt
 if (!defined('PUN')) {
     exit('DEBUG MODE');
 }
-
-// Record the start time (will be used to calculate the generation time for the page)
-$pun_start = microtime(true);
 
 // Make sure PHP reports all errors except E_NOTICE. PunBB supports E_ALL, but a lot of scripts it may interact with, do not.
 //error_reporting(E_ALL ^ E_NOTICE);

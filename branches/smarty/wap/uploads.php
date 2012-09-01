@@ -1,5 +1,18 @@
 <?php
-define('MAX_DIR_UPLOAD', 100); // here is constant for maximum size of all uploaded files in the dir uploaded/ (in Mbytes)
+
+define('PUN_ROOT', '../');
+
+require_once(PUN_ROOT . 'include/common.php');
+
+// Наверно лучше сделать для конкретного действия отдельный шаблон.
+// Загрузка/Результат/Показ
+
+/**
+ * Maximum size of all uploaded files in the dir uploaded.
+ * Size in Mbytes.
+**/
+define('MAX_DIR_UPLOAD', 100); 
+
 session_name('bunbb_upload');
 session_start();
 
@@ -63,16 +76,6 @@ if ($s_nump < 5 || $s_nump > 200) {
 }
 /////////////////////////////////////////
 
-define('PUN_ROOT', '../');
-
-require PUN_ROOT . 'include/common.php';
-
-// Load the viewtopic.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/uploads.php';
-
-$page_title = $pun_config['o_board_title'] . ' / ' . $lang_uploads['Uploader'];
-
 // Check permissions
 $upl_conf = $db->fetch_assoc($db->query('SELECT * FROM ' . $db->prefix . 'uploads_conf WHERE g_id = ' . $pun_user['g_id']));
 if (!$upl_conf) {
@@ -91,6 +94,7 @@ while ($i < $db->num_rows($result)) {
     $i++;
 }
 
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/uploads.php');
 
 if (isset($_GET['file'])) {
     // This block was taken from attachment.php (great thanks to Frank Hagstrom (frank.hagstrom+punbb@gmail.com),
@@ -124,8 +128,6 @@ if (isset($_GET['file'])) {
     // getf(file_get_contents(PUN_ROOT.'uploaded/'.$file_name),$file_name,1,0,0);
     exit;
 }
-
-require_once PUN_ROOT . 'wap/header.php';
 
 //////////////////////////////////////////////////////
 $result = $db->query('SELECT id,type,exts FROM ' . $db->prefix . 'uploads_types') or error('Unable to get types', __FILE__, __LINE__, $db->error());
@@ -287,7 +289,8 @@ if (isset($_GET['uploadit'])) {
     }
 
     while ($info = $db->fetch_assoc($result)) {
-
+        
+        $info['sizeValue'] = 'kb';
         $files[] = $info;
     }
 }
@@ -311,18 +314,27 @@ function dir_size($dir)
     return $sz;
 }
 
-$smarty->assign('page_title', $page_title);
+//+ Language
+require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php');
+// string #97 $lang_uploads
+//- Language
+
+require_once(PUN_ROOT . 'wap/header.php');
+
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_uploads['Uploader'];
+$smarty->assign('page_title',   $page_title);
 $smarty->assign('lang_uploads', $lang_uploads);
-$smarty->assign('upl_conf', $upl_conf);
-$smarty->assign('rules', $rules);
-$smarty->assign('file_name', $file_name);
-$smarty->assign('delfile', $delfile);
-$smarty->assign('pages', $pages);
-$smarty->assign('s_nump', $s_nump);
-$smarty->assign('s_page', $s_page);
-$smarty->assign('flist', $flist);
-$smarty->assign('files', $files);
-$smarty->assign('cp', $cp);
-//$smarty->assign('', $);
+$smarty->assign('upl_conf',     $upl_conf);
+$smarty->assign('rules',       @$rules);
+$smarty->assign('file_name',   @$file_name);
+$smarty->assign('delfile',     @$delfile);
+$smarty->assign('pages',       @$pages);
+$smarty->assign('s_nump',       $s_nump);
+$smarty->assign('s_page',       $s_page);
+$smarty->assign('flist',       @$flist);
+$smarty->assign('files',       @$files);
+$smarty->assign('cp',          @$cp);
+$smarty->assign('s_u',          @$s_u);
+//$smarty->assign('',           $);
 
 $smarty->display('uploads.tpl');
