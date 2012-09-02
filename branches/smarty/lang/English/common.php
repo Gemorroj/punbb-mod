@@ -143,6 +143,7 @@ $lang_common = array(
 'Show new posts'		=>	'Show new posts since last visit',
 'Mark all as read'		=>	'Mark all topics as read',
 'Link separator'		=>	'',	// The text that separates links in the navigator
+'Link separator_m'		=>	'|',// The text that separates links in the navigator (wap)
 
 // Stuff for the page footer
 'Board footer'			=>	'Board footer',

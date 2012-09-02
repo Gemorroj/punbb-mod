@@ -150,7 +150,7 @@ $lang_common = array(
 'Show new posts'		=>	'Новые сообщения',
 'Mark all as read'		=>	'Пометить все форумы как прочитанные',
 'Link separator'		=>	'',	// The text that separates links in the navigator
-'Link separator_m'		=>	'|',	// The text that separates links in the navigator (wap)
+'Link separator_m'		=>	'|',// The text that separates links in the navigator (wap)
 
 // Stuff for the page footer
 'Board footer'			=>	'Дополнительно',
