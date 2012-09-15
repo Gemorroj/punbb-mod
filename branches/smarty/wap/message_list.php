@@ -168,8 +168,10 @@ if ($box < 2) {
     $smarty->assign('status',    @$status);
     $smarty->assign('lang_pms',   $lang_pms);
     $smarty->assign('messages',  @$messages);
+    $smarty->assign('p',          $p);
     $smarty->assign('page_links', $page_links);
     $smarty->assign('all',        $all);
+    $smarty->assign('box',        $box);
     
     $smarty->display('message_list.tpl');
 

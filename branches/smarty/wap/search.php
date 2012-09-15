@@ -98,7 +98,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // Search a specific forum?
         $forum_sql = ($forum != -1 || ($forum == -1 && !$pun_config['o_search_all_forums'] && $pun_user['g_id'] >= PUN_GUEST)) ? ' AND t.forum_id = ' . $forum : '';
 
-        if ($author || $keywords) {
+        if (@$author || @$keywords) {
             // If it's a search for keywords
             if ($keywords) {
                 $stopwords = file(PUN_ROOT . 'lang/' . $pun_user['language'] . '/stopwords.txt');

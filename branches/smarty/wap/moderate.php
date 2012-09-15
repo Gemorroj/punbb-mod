@@ -196,6 +196,7 @@ if (isset($_GET['tid'])) {
     $smarty->assign('lang_misc', $lang_misc);
     $smarty->assign('lang_topic', $lang_topic);
     $smarty->assign('paging_links', $paging_links);
+    $smarty->assign('button_status', $button_status);
 
     $smarty->display('moderate.show_delete_posts.tpl');
     exit();

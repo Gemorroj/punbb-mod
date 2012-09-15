@@ -38,7 +38,7 @@ if (isset($_POST['form_sent'])) {
 
 
     // Smileys
-    if ($_POST['hide_smilies']) {
+    if (@$_POST['hide_smilies']) {
         $smilies = 0;
     } else {
         $smilies = 1;

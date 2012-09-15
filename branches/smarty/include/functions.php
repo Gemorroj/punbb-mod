@@ -636,7 +636,7 @@ function get_title($user)
     if ($user['title']) {
         // If the user has a custom title
         $user_title = pun_htmlspecialchars($user['title']);
-    } else if (in_array(mb_strtolower($user['username']), $ban_list)) {
+    } else if (in_array(mb_strtolower(@$user['username']), $ban_list)) {
         // If the user is banned
         $user_title = $lang_common['Banned'];
     } else if ($user['g_user_title']) {

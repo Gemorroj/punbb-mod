@@ -7,6 +7,7 @@
 
 {assign var='j' value='false'}
 {assign var='Last_edit' value='Last edit'}
+{assign var='post_count' value=0}
 
 {foreach from=$posts item=cur_post}
 
