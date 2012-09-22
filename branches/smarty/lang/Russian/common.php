@@ -148,7 +148,7 @@ $lang_common = array(
 'Admin_m'				=>	'Админ панель',
 'Last visit'			=>	'Ваш последний визит',
 'Show new posts'		=>	'Новые сообщения',
-'Mark all as read'		=>	'Пометить все форумы как прочитанные',
+'Mark all as read'		=>	'Пометить все как прочитанные',
 'Link separator'		=>	'',	// The text that separates links in the navigator
 'Link separator_m'		=>	'|',// The text that separates links in the navigator (wap)
 

@@ -3,6 +3,7 @@
 define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
 require PUN_ROOT . 'include/file_upload.php';
+require_once PUN_ROOT . 'include/parser.php';
 
 // если проверка каптчей
 if ($pun_user['g_post_replies'] == 2) {
@@ -227,7 +228,6 @@ if (isset($_POST['form_sent'])) {
 
     // Validate BBCode syntax
     if ($pun_config['p_message_bbcode'] == 1 && strpos($message, '[') !== false && strpos($message, ']') !== false) {
-        include_once PUN_ROOT . 'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
 
@@ -529,8 +529,7 @@ if ($tid) {
             $quote = $q_poster;
         }
     }
-}
-else if (! $fid) {
+} else if (! $fid) {
     wap_message($lang_common['Bad request']);
 }
 
@@ -549,6 +548,8 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
 
 //var_dump($smarty);
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Post a reply'];
+$message = isset($message) ? $message : '';
+$message_preview = ($message == '' ? '' : parse_message($message, isset($_POST['hide_smilies'])));
 
 $smarty->assign('poll_container', $poll_container);
 $smarty->assign('page_title', $page_title);
@@ -558,7 +559,8 @@ $smarty->assign('fid', $fid);
 $smarty->assign('cur_posting', $cur_posting);
 $smarty->assign('errors', $errors);
 $smarty->assign('lang_post', $lang_post);
-$smarty->assign('message', @$message);
+$smarty->assign('message', $message);
+$smarty->assign('message_preview', $message_preview);
 $smarty->assign('quote', @$quote);
 $smarty->assign('file_limit', $file_limit);
 $smarty->assign('pun_user', $pun_user);

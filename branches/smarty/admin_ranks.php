@@ -114,9 +114,9 @@ print '<div class="blockform">
 </thead>
 <tbody>
 <tr>
-<td><input type="text" name="new_rank" size="24" maxlength="50" tabindex="1" /></td>
-<td><input type="text" name="new_min_posts" size="7" maxlength="7" tabindex="2" /></td>
-<td><input type="submit" name="add_rank" value="' . $lang_admin['Add'] . '" tabindex="3" /></td>
+<td><input type="text" name="new_rank" size="24" maxlength="50" /></td>
+<td><input type="text" name="new_min_posts" size="7" maxlength="7" /></td>
+<td><input type="submit" name="add_rank" value="' . $lang_admin['Add'] . '" /></td>
 </tr>
 </tbody>
 </table>
@@ -130,7 +130,7 @@ print '<div class="blockform">
 
 $result = $db->query('SELECT id, rank, min_posts FROM ' . $db->prefix . 'ranks ORDER BY min_posts') or error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
-    print '<table cellspacing="0">
+    echo '<table cellspacing="0">
 <thead>
 <tr>
 <th class="tcl" scope="col">' . $lang_admin['Rank name'] . '</th>
@@ -150,7 +150,7 @@ if ($db->num_rows($result)) {
     echo '<p>' . $lang_admin['Not ranks'] . '</p>';
 }
 
-print '</div></fieldset></div></form></div></div><div class="clearer"></div></div>';
+echo '</div></fieldset></div></form></div></div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
 ?>

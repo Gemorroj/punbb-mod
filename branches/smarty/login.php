@@ -63,8 +63,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     redirect(pun_htmlspecialchars($_POST['redirect_url']), $lang_login['Login redirect']);
 } else if ($_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
-        header('Location: index.php');
-        exit;
+        redirect('index.php', '', 302);
     }
 
     // Remove user from "users online" list.
@@ -80,7 +79,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     redirect('index.php', $lang_login['Logout redirect']);
 } else if ($_GET['action'] == 'forget' || $_GET['action'] == 'forget_2') {
     if (!$pun_user['is_guest']) {
-        header('Location: index.php', true, 301);
+        redirect('index.php', '', 302);
     }
 
     if (isset($_POST['form_sent'])) {
@@ -160,7 +159,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
 
 
 if (!$pun_user['is_guest']) {
-    header('Location: index.php', true, 301);
+    redirect('index.php', '', 302);
 }
 
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)
@@ -182,15 +181,15 @@ echo '<div class="blockform">
 <div class="infldset">
 <input type="hidden" name="form_sent" value="1" />
 <input type="hidden" name="redirect_url" value="' . $redirect_url . '" />
-<label class="conl"><strong>' . $lang_common['Username'] . '</strong><br /><input type="text" name="req_username" size="25" maxlength="25" tabindex="1" /><br /></label>
-<label class="conl"><strong>' . $lang_common['Password'] . '</strong><br /><input type="password" name="req_password" size="16" maxlength="16" tabindex="2" /><br /></label>
+<label class="conl"><strong>' . $lang_common['Username'] . '</strong><br /><input type="text" name="req_username" size="25" maxlength="25" /><br /></label>
+<label class="conl"><strong>' . $lang_common['Password'] . '</strong><br /><input type="password" name="req_password" size="16" maxlength="16" /><br /></label>
 <p class="clearb">' . $lang_login['Login info'] . '</p>
-<p><a href="register.php" tabindex="4">' . $lang_login['Not registered'] . '</a>
-<a href="login.php?action=forget" tabindex="5">' . $lang_login['Forgotten pass'] . '</a></p>
+<p><a href="register.php">' . $lang_login['Not registered'] . '</a>
+<a href="login.php?action=forget">' . $lang_login['Forgotten pass'] . '</a></p>
 </div>
 </fieldset>
 </div>
-<p><input type="submit" name="login" value="' . $lang_common['Login'] . '" tabindex="3" /></p>
+<p><input type="submit" name="login" value="' . $lang_common['Login'] . '" /></p>
 </form>
 </div>
 </div>';

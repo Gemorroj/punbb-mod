@@ -238,7 +238,7 @@ else if (isset($_POST['update_positions'])) {
 <h2><span>Редактирование форума</span></h2>
 <div class="box">
 <form id="edit_forum" method="post" action="admin_forums.php?edit_forum=' . $forum_id . '">
-<p class="submittop"><input type="submit" name="save" value="Сохранить изменения" tabindex="6" /></p>
+<p class="submittop"><input type="submit" name="save" value="Сохранить изменения" /></p>
 <div class="inform">
 <fieldset>
 <legend>Опции редактирования форума</legend>
@@ -246,16 +246,16 @@ else if (isset($_POST['update_positions'])) {
 <table class="aligntop" cellspacing="0">
 <tr>
 <th scope="row">Имя форума</th>
-<td><input type="text" name="forum_name" size="35" maxlength="80" value="' . pun_htmlspecialchars($cur_forum['forum_name']) . '" tabindex="1" /></td>
+<td><input type="text" name="forum_name" size="35" maxlength="80" value="' . pun_htmlspecialchars($cur_forum['forum_name']) . '" /></td>
 </tr>
 <tr>
 <th scope="row">Описание (XHTML)</th>
-<td><textarea name="forum_desc" rows="3" cols="50" tabindex="2">' . pun_htmlspecialchars($cur_forum['forum_desc']) . '</textarea></td>
+<td><textarea name="forum_desc" rows="3" cols="50">' . pun_htmlspecialchars($cur_forum['forum_desc']) . '</textarea></td>
 </tr>
 <tr>
 <th scope="row">Категория</th>
 <td>
-<select name="cat_id" tabindex="3">';
+<select name="cat_id">';
 
     $result = $db->query('SELECT id, cat_name FROM ' . $db->prefix . 'categories ORDER BY disp_position') or error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
     while ($cur_cat = $db->fetch_assoc($result)) {
@@ -270,7 +270,7 @@ else if (isset($_POST['update_positions'])) {
 <tr>
 <th scope="row">Сортировать темы по</th>
 <td>
-<select name="sort_by" tabindex="4">
+<select name="sort_by">
 <option value="0"';
     if (!$cur_forum['sort_by']) {
         echo ' selected="selected"';
@@ -289,7 +289,7 @@ else if (isset($_POST['update_positions'])) {
     if ($cur_forum['num_topics']) {
         echo 'Доступно только для пустых форумов';
     } else {
-        echo '<input type="text" name="redirect_url" size="45" maxlength="100" value="' . pun_htmlspecialchars($cur_forum['redirect_url']) . '" tabindex="5" />';
+        echo '<input type="text" name="redirect_url" size="45" maxlength="100" value="' . pun_htmlspecialchars($cur_forum['redirect_url']) . '" />';
     }
     echo '</td>
 </tr>
@@ -414,12 +414,12 @@ echo '<div class="blockform">
 <table class="aligntop" cellspacing="0">
 <tr>
 <th scope="row">Имя форума</th>
-<td><input type="text" name="forum_name" size="35" maxlength="80" value="New forum" tabindex="1" /></td>
+<td><input type="text" name="forum_name" size="35" maxlength="80" value="New forum" /></td>
 </tr>
 <tr>
 <th scope="row">Добавить в категорию</th>
 <td>
-<select name="add_to_cat" tabindex="2">';
+<select name="add_to_cat">';
 
 $result = $db->query('SELECT id, cat_name FROM ' . $db->prefix . 'categories ORDER BY disp_position') or error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result) > 0) {
@@ -439,7 +439,7 @@ echo '</select>
 </div>
 </fieldset>
 </div>
-<p class="submittop"><input type="submit" name="add_forum" value=" Добавить " tabindex="3" /></p>
+<p class="submittop"><input type="submit" name="add_forum" value=" Добавить " /></p>
 </form>
 </div>';
 
@@ -451,9 +451,7 @@ if ($db->num_rows($result)) {
     echo '<h2 class="block2"><span>Редактирование форумов</span></h2>
 <div class="box">
 <form id="edforum" method="post" action="admin_forums.php?action=edit">
-<p class="submittop"><input type="submit" name="update_positions" value="Обновить позиции" tabindex="3" /></p>';
-
-    $tabindex_count = 4;
+<p class="submittop"><input type="submit" name="update_positions" value="Обновить позиции" /></p>';
 
 // Display all the categories and forums
 //$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.disp_position FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
@@ -477,9 +475,7 @@ if ($db->num_rows($result)) {
         }
 
 
-        echo '<tr><th style="white-space:nowrap"><a href="admin_forums.php?clone_forum=' . $cur_forum['fid'] . '">Клон</a> - <a href="admin_forums.php?edit_forum=' . $cur_forum['fid'] . '">Править</a> - <a href="admin_forums.php?del_forum=' . $cur_forum['fid'] . '">Удалить</a></th><td>Позиция <input type="text" name="position[' . $cur_forum['fid'] . ']" size="3" maxlength="3" value="' . $cur_forum['disp_position'] . '" tabindex="' . $tabindex_count . '" /><strong>' . pun_htmlspecialchars($cur_forum['forum_name']) . '</strong></td></tr>';
-
-        $tabindex_count += 2;
+        echo '<tr><th style="white-space:nowrap"><a href="admin_forums.php?clone_forum=' . $cur_forum['fid'] . '">Клон</a> - <a href="admin_forums.php?edit_forum=' . $cur_forum['fid'] . '">Править</a> - <a href="admin_forums.php?del_forum=' . $cur_forum['fid'] . '">Удалить</a></th><td>Позиция <input type="text" name="position[' . $cur_forum['fid'] . ']" size="3" maxlength="3" value="' . $cur_forum['disp_position'] . '" /><strong>' . pun_htmlspecialchars($cur_forum['forum_name']) . '</strong></td></tr>';
     }
 
 
@@ -487,7 +483,7 @@ if ($db->num_rows($result)) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="update_positions" value="Обновить позиции" tabindex="' . $tabindex_count . '" /></p>
+<p class="submitend"><input type="submit" name="update_positions" value="Обновить позиции" /></p>
 </form>
 </div>';
 

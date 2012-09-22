@@ -67,13 +67,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
 
 // Generate paging links
 
-$paging_links = paginate($num_pages,
-                         $p,
-                         'userlist.php?username=' . urlencode($username)
-                         . '&amp;show_group=' . $show_group
-                         . '&amp;sort_by=' . $sort_by
-                         . '&amp;sort_dir=' . mb_strtoupper($sort_dir),
-                         0);
+$paging_links = paginate(
+    $num_pages,
+    $p,
+    'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir),
+    0
+);
 
 //$smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0));
 

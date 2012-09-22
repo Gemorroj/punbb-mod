@@ -41,18 +41,18 @@
     <div class="input2">
         <strong>{$lang_profile.$Post_display_legend}</strong><br/>
         {$lang_profile.$Post_display_info}<br/>
-        <input type="checkbox" name="form[show_smilies]" value="1"{if $user.show_smilies == 1}
-               checked="checked"{/if}/>{$lang_profile.$Show_smilies}<br/>
-        <input type="checkbox" name="form[show_sig]" value="1"{if $user.show_sig == 1}
-               checked="checked"{/if}/>{$lang_profile.$Show_sigs}<br/>
+        <label><input type="checkbox" name="form[show_smilies]" value="1"{if $user.show_smilies == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_smilies}</label><br/>
+        <label><input type="checkbox" name="form[show_sig]" value="1"{if $user.show_sig == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_sigs}</label><br/>
     {if $pun_config.o_avatars == 1}
-        <input type="checkbox" name="form[show_avatars]" value="1"{if $user.show_avatars == 1}
-               checked="checked"{/if}/>{$lang_profile.$Show_avatars}<br/>
+    <label><input type="checkbox" name="form[show_avatars]" value="1"{if $user.show_avatars == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_avatars}</label><br/>
     {/if}
-        <input type="checkbox" name="form[show_img]" value="1"{if $user.show_img == 1}
-               checked="checked"{/if}/>{$lang_profile.$Show_images}<br/>
-        <input type="checkbox" name="form[show_img_sig]" value="1"{if $user.show_img_sig == 1}
-               checked="checked"{/if}/>{$lang_profile.$Show_images_sigs}
+        <label><input type="checkbox" name="form[show_img]" value="1"{if $user.show_img == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_images}</label><br/>
+        <label><input type="checkbox" name="form[show_img_sig]" value="1"{if $user.show_img_sig == 1}
+               checked="checked"{/if}/>{$lang_profile.$Show_images_sigs}</label>
     </div>
     <div class="input">
         <strong>{$lang_profile.$Pagination_legend}</strong><br/>

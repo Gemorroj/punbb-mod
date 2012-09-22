@@ -142,14 +142,14 @@ if ($_GET['action'] == 'rules') {
     <input type="hidden" name="form_sent" value="1" />
     <input type="hidden" name="redirect_url" value="' . $redirect_url . '" />
     <label><strong>' . $lang_misc['E-mail subject'] . '</strong><br />
-    <input class="longinput" type="text" name="req_subject" size="75" maxlength="70" tabindex="1" /><br /></label>
+    <input class="longinput" type="text" name="req_subject" size="75" maxlength="70" /><br /></label>
     <label><strong>' . $lang_misc['E-mail message'] . '</strong><br />
-    <textarea name="req_message" rows="10" cols="75" tabindex="2"></textarea><br /></label>
+    <textarea name="req_message" rows="10" cols="75"></textarea><br /></label>
     <p>' . $lang_misc['E-mail disclosure note'] . '</p>
     </div>
     </fieldset>
     </div>
-    <p><input type="submit" name="submit" value="' . $lang_common['Submit'] . '" tabindex="3" accesskey="s" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
+    <p><input type="submit" name="submit" value="' . $lang_common['Submit'] . '" accesskey="s" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
     </form>
     </div>
     </div>';

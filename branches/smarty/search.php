@@ -638,22 +638,25 @@ $result = $db->query('
     ORDER BY c.disp_position, c.id, f.disp_position
 ', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
-$cur_category = 0;
-while ($cur_forum = $db->fetch_assoc($result)) {
-    // A new category since last iteration?
-    if ($cur_forum['cid'] != $cur_category) {
-        if ($cur_category) {
-            echo '</optgroup>';
+if ($db->num_rows($result)) {
+    $cur_category = 0;
+    while ($cur_forum = $db->fetch_assoc($result)) {
+        // A new category since last iteration?
+        if ($cur_forum['cid'] != $cur_category) {
+            if ($cur_category) {
+                echo '</optgroup>';
+            }
+
+            echo '<optgroup label="' . pun_htmlspecialchars($cur_forum['cat_name']) . '">';
+            $cur_category = $cur_forum['cid'];
         }
 
-        echo '<optgroup label="' . pun_htmlspecialchars($cur_forum['cat_name']) . '">';
-        $cur_category = $cur_forum['cid'];
+        echo '<option value="' . $cur_forum['fid'] . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</option>';
     }
-
-    echo '<option value="' . $cur_forum['fid'] . '">' . pun_htmlspecialchars($cur_forum['forum_name']) . '</option>';
+    echo '</optgroup>';
 }
 
-echo '</optgroup></select><br /></label><label class="conl">' . $lang_search['Search in'] . '<br /><select id="search_in" name="search_in"><option value="all">' . $lang_search['Message and subject'] . '</option><option value="message">' . $lang_search['Message only'] . '</option><option value="topic">' . $lang_search['Topic only'] . '</option></select><br /></label><p class="clearb">' . $lang_search['Search in info'] . '</p></div></fieldset></div><div class="inform"><fieldset><legend>' . $lang_search['Search results legend'] . '</legend><div class="infldset"><label class="conl">' . $lang_search['Sort by'] . '<br /><select name="sort_by"><option value="0">' . $lang_search['Sort by post time'] . '</option><option value="1">' . $lang_search['Sort by author'] . '</option><option value="2">' . $lang_search['Sort by subject'] . '</option><option value="3">' . $lang_search['Sort by forum'] . '</option></select><br /></label><label class="conl">' . $lang_search['Sort order'] . '<br /><select name="sort_dir"><option value="DESC">' . $lang_search['Descending'] . '</option><option value="ASC">' . $lang_search['Ascending'] . '</option></select><br /></label><label class="conl">' . $lang_search['Show as'] . '<br /><select name="show_as"><option value="posts">' . $lang_search['Show as posts'] . '</option><option value="topics">' . $lang_search['Show as topics'] . '</option></select><br /></label><p class="clearb">' . $lang_search['Search results info'] . '</p></div></fieldset></div><p><input type="submit" name="search" value="' . $lang_common['Submit'] . '" accesskey="s" /></p></form></div></div>';
+echo '</select><br /></label><label class="conl">' . $lang_search['Search in'] . '<br /><select id="search_in" name="search_in"><option value="all">' . $lang_search['Message and subject'] . '</option><option value="message">' . $lang_search['Message only'] . '</option><option value="topic">' . $lang_search['Topic only'] . '</option></select><br /></label><p class="clearb">' . $lang_search['Search in info'] . '</p></div></fieldset></div><div class="inform"><fieldset><legend>' . $lang_search['Search results legend'] . '</legend><div class="infldset"><label class="conl">' . $lang_search['Sort by'] . '<br /><select name="sort_by"><option value="0">' . $lang_search['Sort by post time'] . '</option><option value="1">' . $lang_search['Sort by author'] . '</option><option value="2">' . $lang_search['Sort by subject'] . '</option><option value="3">' . $lang_search['Sort by forum'] . '</option></select><br /></label><label class="conl">' . $lang_search['Sort order'] . '<br /><select name="sort_dir"><option value="DESC">' . $lang_search['Descending'] . '</option><option value="ASC">' . $lang_search['Ascending'] . '</option></select><br /></label><label class="conl">' . $lang_search['Show as'] . '<br /><select name="show_as"><option value="posts">' . $lang_search['Show as posts'] . '</option><option value="topics">' . $lang_search['Show as topics'] . '</option></select><br /></label><p class="clearb">' . $lang_search['Search results info'] . '</p></div></fieldset></div><p><input type="submit" name="search" value="' . $lang_common['Submit'] . '" accesskey="s" /></p></form></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
 

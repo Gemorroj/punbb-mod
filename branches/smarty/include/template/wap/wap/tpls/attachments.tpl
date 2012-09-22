@@ -7,8 +7,7 @@
         {if $can_download}
 
             {if $basename == 'edit.php'}
-                <input type="checkbox" name="delete_image[]"
-                       value="{$attachment.id}"/> {$lang_fu.$Mark_to_Delete}
+                <label><input type="checkbox" name="delete_image[]" value="{$attachment.id}"/> {$lang_fu.$Mark_to_Delete}</label>
             {/if}
 
             <a href="{$pun_config.o_base_url}/download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>

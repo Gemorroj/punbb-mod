@@ -31,8 +31,7 @@
                 {$user_avatar}
             {/if}
                 {$lang_profile.$Avatar_info}<br/>
-            <input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/>
-            {$lang_profile.$Use_avatar}
+            <label><input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/> {$lang_profile.$Use_avatar}</label>
         </div>
     {/if}
         <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a> |

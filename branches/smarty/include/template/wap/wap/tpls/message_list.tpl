@@ -53,8 +53,7 @@
         {if isset($smarty.get.id) && $cur_mess.id == $smarty.get.id}{assign var='strong' value='1'}{else}{assign var='strong' value='0'}{/if}
         <a href="profile.php?id={$cur_mess.sender_id}">{$cur_mess.sender}</a>
         ({$cur_mess.posted|date_format:$date_format})<br/>
-        <input type="checkbox" name="delete_messages[]" value="{$cur_mess.id}"/>  {if $strong}<strong>{/if}<a
-            href="message_list.php?id={$cur_mess.id}&amp;p={$p}&amp;box={$box}">{$cur_mess.subject|escape}</a>{if $strong}
+        <input type="checkbox" name="delete_messages[]" value="{$cur_mess.id}"/>  {if $strong}<strong>{/if}<a href="message_list.php?id={$cur_mess.id}&amp;p={$p}&amp;box={$box}">{$cur_mess.subject|escape}</a>{if $strong}
     </strong>{/if}
 
         {assign var='New_icon_m' value='New icon_m'}

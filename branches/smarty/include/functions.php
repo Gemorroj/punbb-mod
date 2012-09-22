@@ -981,7 +981,7 @@ function maintenance_message()
 //
 // Display $message and redirect user to $destination_url
 //
-function redirect($destination_url, $message = '', $redirect_code = 301)
+function redirect($destination_url, $message = '', $redirect_code = 302)
 {
     global $db, $pun_config, $lang_common, $pun_user;
 

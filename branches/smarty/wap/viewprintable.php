@@ -35,10 +35,13 @@ $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['subject'];
 include_once PUN_ROOT . 'include/parser.php';
 
 // Retrieve the posts (and their respective poster)
-$result = $db->query('SELECT p.poster AS username, p.message, p.posted FROM ' . $db->prefix . 'posts AS p WHERE p.topic_id=' . $id . ' ORDER BY p.id') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT p.poster AS username, p.id, p.message, p.posted FROM ' . $db->prefix . 'posts AS p WHERE p.topic_id=' . $id . ' ORDER BY p.id') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 $posts = array();
 while ($cur_post = $db->fetch_assoc($result)) {
-    $cur_post['message'] = parse_message($cur_post['message'], true);
+    if ($pun_config['o_censoring'] == 1) {
+        $cur_post['message'] = censor_words($cur_post['message']);
+    }
+    $cur_post['message'] = parse_message($cur_post['message'], true, $cur_post['id']);
     $posts[] = $cur_post;
 }
 

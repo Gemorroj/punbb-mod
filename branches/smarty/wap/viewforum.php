@@ -6,34 +6,26 @@ require_once(PUN_ROOT . 'include/common.php');
 
 function is_reading($log_time, $last_post)
 {
-    if ($log_time > $last_post) {
-        
-        return true;
-    }
-    
-    return false;
+    return ($log_time > $last_post);
 }
 
 //+ REAL MARK TOPIC AS READ MOD
-if (! $pun_user['is_guest']) {
-    
+if (!$pun_user['is_guest']) {
     $result = $db->query(
-    'DELETE '
-    . 'FROM `' . $db->prefix . 'log_topics` '
-    . 'WHERE `log_time` < ' . ($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']) . ' '
-    . 'AND `user_id`=' . $pun_user['id'])
-    or error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+        'DELETE '
+        . 'FROM `' . $db->prefix . 'log_topics` '
+        . 'WHERE `log_time` < ' . ($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']) . ' '
+        . 'AND `user_id`=' . $pun_user['id']
+    ) or error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 //- REAL MARK TOPIC AS READ MOD
 
 if (! $pun_user['g_read_board']) {
-    
     wap_message($lang_common['No view']);
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if (1 > $id) {
-    
     wap_message($lang_common['Bad request']);
 }
 
@@ -64,8 +56,7 @@ if (! $db->num_rows($result)) {
 $cur_forum = $db->fetch_assoc($result);
 
 //+ REAL MARK TOPIC AS READ MOD
-if (! ($pun_user['is_guest'] || $cur_forum['log_time'])) {
-    
+if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     $result = $db->query(
     'INSERT INTO `' . $db->prefix . 'log_forums` '
     . '(`user_id`, `forum_id`, `log_time`) '
@@ -75,7 +66,6 @@ if (! ($pun_user['is_guest'] || $cur_forum['log_time'])) {
     or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
 }
 else {
-    
     $result = $db->query(
     'UPDATE `' . $db->prefix . 'log_forums` '
     . 'SET `log_time`=' . $_SERVER['REQUEST_TIME'] . ' '
@@ -87,15 +77,12 @@ else {
 
 // Is this a redirect forum? In that case, redirect!
 if ($cur_forum['redirect_url']) {
-    
-    header('Location: ' . $cur_forum['redirect_url'], true, 301);
-    exit();
+    wap_redirect($cur_forum['redirect_url']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = array();
 if ($cur_forum['moderators']) {
-    
     $mods_array = unserialize($cur_forum['moderators']);
 }
 
@@ -116,7 +103,6 @@ $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 // Generate paging links
 if (@$_GET['action'] == 'all') {
-    
     $p = $num_pages + 1;
     $pun_user['disp_topics'] = $cur_forum['num_topics'];
     $start_from = 0;
@@ -153,9 +139,7 @@ if ($pun_user['is_guest'] || ! $pun_config['o_show_dot']) {
          . 'WHERE `t`.`forum_id`=' . $id . ' '
          . 'ORDER BY `sticky` DESC, ' . (1 == $cur_forum['sort_by'] ? 'posted' : 'last_post') . ' DESC '
          . 'LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];
-}
-else {
-    
+} else {
     $sql = 'SELECT `t`.`id`, '
          . '`t`.`poster`, '
          . '`t`.`has_poll`, '
@@ -191,7 +175,6 @@ $result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LI
 // If there are topics in this forum.
 $topics = array();
 if ($db->num_rows($result)) {
-    
     while ($cur_topic = $db->fetch_assoc($result)) {
         // Pagination in topics on index page.
         $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
@@ -206,7 +189,6 @@ if ($db->num_rows($result)) {
 }
 
 if ($pun_config['o_quickjump']) {
-    
     $forum_id = $id;
     include_once(PUN_ROOT . 'include/wap_quickjump.php');
 }

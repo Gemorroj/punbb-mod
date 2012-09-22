@@ -173,3 +173,10 @@ color: #b00; font-weight: bold;
     border:1px solid #bbb;
     display: none;
 }
+#helpfile {
+    padding: 6px 0;
+}
+#brdtitle img {
+    float: left;
+    margin-right: 10px;
+}

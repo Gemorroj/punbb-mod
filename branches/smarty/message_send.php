@@ -191,8 +191,6 @@ if (isset($_POST['form_sent'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $action;
     $form_name = 'post';
 
-    $cur_index = 1;
-
 
     if ($pun_user['messages_enable'] != 1) {
         message($lang_pms['PM disabled'] . ' <a href="message_list.php?&amp;box=2">' . $lang_pms['Options PM'] . '</a>');
@@ -232,7 +230,7 @@ if (isset($_POST['form_sent'])) {
                                value="<?php echo isset($_POST['from_profile']) ? $from_profile : ''; ?>"/>
                         <input type="hidden" name="form_user"
                                value="<?php echo (!$pun_user['is_guest']) ? pun_htmlspecialchars($pun_user['username']) : 'Guest'; ?>"/>
-                        <label><strong><?php echo $lang_pms['Send to'] ?></strong><br/><?php echo '<input type="text" name="req_username" size="25" maxlength="25" value="' . pun_htmlspecialchars($username) . '" tabindex="' . ($cur_index++) . '" />'; ?>
+                        <label><strong><?php echo $lang_pms['Send to'] ?></strong><br/><?php echo '<input type="text" name="req_username" size="25" maxlength="25" value="' . pun_htmlspecialchars($username) . '" />'; ?>
                         <br/></label>
                         <label><strong><?php echo $lang_common['Subject'] ?></strong><br/><input class="longinput"
                                                                                                  type="text"
@@ -240,10 +238,9 @@ if (isset($_POST['form_sent'])) {
                                                                                                  value="<?php echo pun_htmlspecialchars($subject); ?>"
                                                                                                  size="80"
                                                                                                  maxlength="70"
-                                                                                                 tabindex="<?php echo $cur_index++; ?>"/><br/></label>
+                                                                                                 /><br/></label>
                         <label><strong><?php echo $lang_common['Message'] ?></strong><br/>
-                            <textarea name="req_message" rows="12" cols="92"
-                                      tabindex="<?php echo $cur_index++; ?>"><?php echo pun_htmlspecialchars($quote); ?></textarea><br/>
+                            <textarea name="req_message" rows="12" cols="92"><?php echo pun_htmlspecialchars($quote); ?></textarea><br/>
                         </label>
                         <ul class="bblinks">
                             <li><a href="help.php#bbcode"
@@ -262,10 +259,10 @@ if (isset($_POST['form_sent'])) {
 $checkboxes = array();
 
 if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+    $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" ' . (isset($_POST['hide_smilies']) ? 'checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
 }
 
-$checkboxes[] = '<label><input type="checkbox" name="savemessage" value="1" checked="checked" tabindex="' . ($cur_index++) . '" />' . $lang_pms['Save message'];
+$checkboxes[] = '<label><input type="checkbox" name="savemessage" value="1" checked="checked" />' . $lang_pms['Save message'];
 
 if ($checkboxes) {
     echo '</div>
@@ -281,7 +278,7 @@ if ($checkboxes) {
 }
 
 echo '</div>
-<p><input type="submit" name="submit" value="' . $lang_pms['Send'] . '" tabindex="' . ($cur_index++) . '" accesskey="s" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
+<p><input type="submit" name="submit" value="' . $lang_pms['Send'] . '" accesskey="s" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
 </form>
 </div>
 </div>

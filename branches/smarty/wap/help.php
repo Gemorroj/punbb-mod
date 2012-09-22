@@ -16,7 +16,6 @@ require_once PUN_ROOT . 'wap/header.php';
 $smarty->assign('lang_help', $lang_help);
 
 switch (@$_GET['id']) {
-
     //BBCode    
     case 1:
         $page_title = $pun_config['o_board_title'] . ' / ' . $lang_help['Help'] . ' / ' . $lang_common['BBCode'];
@@ -68,7 +67,3 @@ switch (@$_GET['id']) {
         $smarty->display('help.tpl');
         break;
 }
-
-require_once PUN_ROOT . 'wap/footer.php';
-
-?>

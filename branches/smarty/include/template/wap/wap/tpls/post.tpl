@@ -1,6 +1,5 @@
 {include file='header.tpl'}
 
-{assign var='cur_index' value='0'}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187;
@@ -31,7 +30,7 @@
 
     {assign var='Post_preview' value='Post preview'}
 <div class="info">{$lang_post.$Post_preview}</div>
-<div class="msg">{* parse_message($message, $hide_smilies) *}</div>
+<div class="msg">{$message_preview}</div>
 {/if}
 
 {assign var='Post_a_reply' value='Post a reply'}
@@ -64,21 +63,19 @@
         {assign var='Guest_name' value='Guest name'}
 
         <strong>{$lang_post.$Guest_name}</strong><br/>
-        <input type="text" name="req_username" value="{$username|escape}"
-               tabindex="{assign var='cur_index' value=$cur_index+1}"/><br/>
+        <input type="text" name="req_username" value="{$username|escape}" /><br/>
             {if $pun_config.p_force_guest_email == 1}
             <strong>{$lang_common.E-mail}</strong>{else}{$lang_common.E-mail}{/if}<br/>
         <input type="text" name="{if $pun_config.p_force_guest_email == 1}req_email{else}email{/if}"
-               value="{$email|escape}" tabindex="{assign var='cur_index' value=$cur_index+1}"/><br/>
+               value="{$email|escape}" /><br/>
     {/if}
 
     {if $fid}
         <strong>{$lang_common.Subject}</strong><br/>
-        <input type="text" name="req_subject" value="{$subject|escape}" maxlength="70"
-               tabindex="{assign var='cur_index' value=$cur_index+1}"/><br/>
+        <input type="text" name="req_subject" value="{$subject|escape}" maxlength="70" /><br/>
     {/if}
 
-        <textarea name="req_message" rows="4" cols="24" tabindex="{assign var='cur_index' value=$cur_index+1}">{if isset($smarty.post.req_message)}{$message|escape}{elseif $quote}{$quote|escape}{/if}</textarea><br/>
+        <textarea name="req_message" rows="4" cols="24">{if isset($smarty.post.req_message)}{$message|escape}{elseif $quote}{$quote|escape}{/if}</textarea><br/>
 
         <a href="help.php?id=3">{$lang_common.Smilies}</a>
         {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span
@@ -113,7 +110,6 @@
     {if ! $pun_user.is_guest}
         {if $pun_config.o_smilies == 1}
             <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1"
-                                             tabindex="{assign var='cur_index' value=$cur_index+1}"
                                              {if isset($smarty.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}
             <br/></label>
         {/if}
@@ -125,13 +121,11 @@
 
         {if $pun_config.o_subscriptions == 1}
             <label for="subscribe"><input type="checkbox" id="subscribe" name="subscribe" value="1"
-                                          tabindex="{assign var='cur_index' value=$cur_index+1}"
                                           {if isset($smarty.post.subscribe)}checked="checked"{/if} />{$lang_post.Subscribe}
             <br/></label>
         {/if}
         {elseif $pun_config.o_smilies == 1}
         <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1"
-                                         tabindex="{assign var='cur_index' value=$cur_index+1}"
                                          {if isset($smary.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}
         <br/></label>
     {/if}
@@ -139,10 +133,8 @@
     </div>
     <div class="go_to">
         <input type="hidden" name="form_t" value="{$smarty.server.REQUEST_TIME}"/>
-        <input type="submit" name="submit" value="{$lang_common.Submit}"
-               tabindex="{assign var='cur_index' value=$cur_index+1}" accesskey="s"/>
-        <input type="submit" name="preview" value="{$lang_post.Preview}"
-               tabindex="{assign var='cur_index' value=$cur_index+1}" accesskey="p"/>
+        <input type="submit" name="submit" value="{$lang_common.Submit}" accesskey="s"/>
+        <input type="submit" name="preview" value="{$lang_post.Preview}" accesskey="p"/>
     </div>
 </form>
 

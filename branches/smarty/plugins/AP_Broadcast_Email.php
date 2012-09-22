@@ -90,8 +90,7 @@ if (isset($_POST['confirm'])) {
                                 <?php echo pun_htmlspecialchars($_POST['g_id']); ?>
                             </td>
                         </table>
-                        <div class="fsetsubmit"><input type="submit" name="send_message" value="Подтверждаю - Послать"
-                                                       tabindex="3"/></div>
+                        <div class="fsetsubmit"><input type="submit" name="send_message" value="Подтверждаю - Послать" /></div>
                         <p class="topspace">Пожалуйста нажмите кнопку только однажды. Ожидайте сообщения о
                             результате.</p>
                     </div>
@@ -174,13 +173,13 @@ if (isset($_POST['confirm'])) {
                             <tr>
                                 <th scope="row">Тема</th>
                                 <td>
-                                    <input type="text" name="message_subject" size="50" tabindex="1"/>
+                                    <input type="text" name="message_subject" size="50" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Тело письма</th>
                                 <td>
-                                    <textarea name="message_body" rows="14" cols="92" tabindex="2"></textarea>
+                                    <textarea name="message_body" rows="14" cols="92"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -199,8 +198,7 @@ if (isset($_POST['confirm'])) {
                                 </td>
                             </tr>
                         </table>
-                        <div class="fsetsubmit"><input type="submit" name="confirm" value="перейти к подтверждению"
-                                                       tabindex="3"/></div>
+                        <div class="fsetsubmit"><input type="submit" name="confirm" value="перейти к подтверждению" /></div>
                     </div>
                 </fieldset>
             </div>

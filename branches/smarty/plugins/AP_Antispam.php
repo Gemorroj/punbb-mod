@@ -79,7 +79,7 @@ if ($_POST) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="style_wap" value="Отправить" tabindex="2" /></p>
+<p class="submitend"><input type="submit" name="style_wap" value="Отправить" /></p>
 </form>
 </div>
 <h2 class="block2"><span>Правила для антиспама</span></h2>
@@ -98,7 +98,7 @@ if ($_POST) {
 </table>
 </div>
 <p class="submitend">
-<input type="submit" name="forum_last_post" value="Отправить" tabindex="4" />
+<input type="submit" name="forum_last_post" value="Отправить" />
 </p>
 </form>
 </div>

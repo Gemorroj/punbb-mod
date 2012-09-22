@@ -141,7 +141,7 @@ $lang_common = array(
 'Admin_m'				=>	'Admin panel',
 'Last visit'			=>	'Last visit',
 'Show new posts'		=>	'Show new posts since last visit',
-'Mark all as read'		=>	'Mark all topics as read',
+'Mark all as read'		=>	'Mark all as read',
 'Link separator'		=>	'',	// The text that separates links in the navigator
 'Link separator_m'		=>	'|',// The text that separates links in the navigator (wap)
 

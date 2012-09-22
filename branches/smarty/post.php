@@ -577,7 +577,6 @@ if ($errors) {
     echo '<div id="postpreview" class="blockpost"><h2><span>' . $lang_post['Post preview'] . '</span></h2><div class="box"><div class="inbox"><div class="postright"><div class="postmsg">' . $preview_message . '</div></div></div></div></div>';
 }
 
-$cur_index = 1;
 
 echo '<div class="blockform"><h2><span>' . $action . '</span></h2><div class="box">' . $form . '<div class="inform">';
 
@@ -586,26 +585,29 @@ echo '<div class="blockform"><h2><span>' . $action . '</span></h2><div class="bo
 if ($pun_config['poll_enabled'] == 1 && $fid) {
     include_once PUN_ROOT . 'include/poll/poll.inc.php';
     echo $Poll->showContainer();
-    $cur_index = 8;
 }
 // hcs AJAX POLL MOD END
 
-echo '<fieldset><legend>' . $lang_common['Write message legend'] . '</legend><div class="infldset txtarea"><input type="hidden" name="form_sent" value="1" /><input type="hidden" name="form_user" value="' . (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])) . '" />';
-
+?>
+<fieldset>
+    <legend><?php echo $lang_common['Write message legend']; ?></legend>
+    <div class="infldset txtarea">
+        <input type="hidden" name="form_sent" value="1" />
+        <input type="hidden" name="form_user" value="<?php echo (($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username'])); ?>" />
+<?php
 if ($pun_user['is_guest']) {
     $email_label = ($pun_config['p_force_guest_email'] == 1) ? '<strong>' . $lang_common['E-mail'] . '</strong>' : $lang_common['E-mail'];
     $email_form_name = ($pun_config['p_force_guest_email'] == 1) ? 'req_email' : 'email';
 
-    echo '<label class="conl"><strong>' . $lang_post['Guest name'] . '</strong><br /><input type="text" name="req_username" value="' . pun_htmlspecialchars(@$username) . '" size="25" maxlength="25" tabindex="' . ($cur_index++) . '" /><br /></label><label class="conl">' . $email_label . '<br /><input type="text" name="' . $email_form_name . '" value="' . pun_htmlspecialchars(@$email) . '" size="50" maxlength="50" tabindex="' . ($cur_index++) . '" /><br /></label><div class="clearer"></div>';
+    echo '<label class="conl"><strong>' . $lang_post['Guest name'] . '</strong><br /><input type="text" name="req_username" value="' . pun_htmlspecialchars(@$username) . '" size="25" maxlength="25" /><br /></label><label class="conl">' . $email_label . '<br /><input type="text" name="' . $email_form_name . '" value="' . pun_htmlspecialchars(@$email) . '" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
 }
 
 if ($fid) {
-    echo '<label><strong>' . $lang_common['Subject'] . '</strong><br /><input class="longinput" type="text" name="req_subject" value="' . pun_htmlspecialchars(@$subject) . '" size="80" maxlength="70" tabindex="' . ($cur_index++) . '" /><br /></label>';
+    echo '<label><strong>' . $lang_common['Subject'] . '</strong><br /><input class="longinput" type="text" name="req_subject" value="' . pun_htmlspecialchars(@$subject) . '" size="80" maxlength="70" /><br /></label>';
 }
 require PUN_ROOT . 'include/attach/post_buttons.php';
 ?>
-<label><textarea name="req_message" rows="12" cols="98"
-                 tabindex="<?php echo $cur_index++; ?>"><?php echo isset($_POST['req_message']) ? pun_htmlspecialchars($message) : (isset($quote) ? $quote : ''); ?></textarea><br/></label>
+<label><textarea name="req_message" rows="12" cols="98"><?php echo isset($_POST['req_message']) ? pun_htmlspecialchars($message) : (isset($quote) ? $quote : ''); ?></textarea><br/></label>
 <?php
 // если есть проверка капчей
 if ($pun_user['g_post_replies'] == 2) {
@@ -637,7 +639,7 @@ if ($can_upload && $num_to_upload > 0) {
 $checkboxes = array();
 if (!$pun_user['is_guest']) {
     if ($pun_config['o_smilies'] == 1) {
-        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" ' . (isset($_POST['hide_smilies']) ? 'checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
     }
 
     if ($is_admmod) {
@@ -645,10 +647,10 @@ if (!$pun_user['is_guest']) {
     }
 
     if ($pun_config['o_subscriptions'] == 1) {
-        $checkboxes[] = '<label for="subscribe"><input type="checkbox" id="subscribe" name="subscribe" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['subscribe']) ? ' checked="checked"' : '') . ' />' . $lang_post['Subscribe'];
+        $checkboxes[] = '<label for="subscribe"><input type="checkbox" id="subscribe" name="subscribe" value="1" ' . (isset($_POST['subscribe']) ? 'checked="checked"' : '') . ' />' . $lang_post['Subscribe'];
     }
 } else if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '"' . (isset($_POST['hide_smilies']) ? ' checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+    $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" ' . (isset($_POST['hide_smilies']) ? 'checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
 }
 
 
@@ -657,7 +659,7 @@ if ($checkboxes) {
 }
 
 
-echo '</div><p><input type="submit" name="submit" value="' . $lang_common['Submit'] . '" tabindex="' . ($cur_index++) . '" accesskey="s" /><input type="submit" name="preview" value="' . $lang_post['Preview'] . '" tabindex="' . ($cur_index++) . '" accesskey="p" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p></form></div></div>';
+echo '</div><p><input type="submit" name="submit" value="' . $lang_common['Submit'] . '" accesskey="s" /><input type="submit" name="preview" value="' . $lang_post['Preview'] . '" accesskey="p" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p></form></div></div>';
 
 // Check to see if the topic review is to be displayed.
 if ($tid && $pun_config['o_topic_review']) {

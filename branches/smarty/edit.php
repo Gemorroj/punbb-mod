@@ -167,7 +167,6 @@ $required_fields = array('req_subject' => $lang_common['Subject'], 'req_message'
 $focus_element = array('edit', 'req_message');
 require_once PUN_ROOT . 'header.php';
 
-$cur_index = 1;
 
 
 echo '<div class="linkst">
@@ -226,13 +225,12 @@ if ($errors) {
                     <input type="hidden" name="form_sent" value="1"/>
 
                     <div class="infldset txtarea">
-                        <?php if ($can_edit_subject): ?>
+                        <?php if ($can_edit_subject) { ?>
                         <label><?php echo $lang_common['Subject']; ?><br/>
                             <input class="longinput" type="text" name="req_subject" size="80" maxlength="70"
-                                   tabindex="<?php echo $cur_index++; ?>"
                                    value="<?php echo pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']); ?>"/><br/></label>
                         <?php
-                    endif;
+                        }
                         require PUN_ROOT . 'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
                         if ($pun_config['file_popup_info'] == 1) {
@@ -241,8 +239,7 @@ if ($errors) {
                         require PUN_ROOT . 'include/attach/post_buttons.php';
                         ?>
                         <label>
-                            <textarea name="req_message" rows="20" cols="95"
-                                      tabindex="<?php echo $cur_index++ ?>"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br/></label>
+                            <textarea name="req_message" rows="20" cols="95"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br/></label>
                         <ul class="bblinks">
                             <li><a href="help.php#bbcode"
                                    onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
@@ -276,17 +273,17 @@ if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
 $checkboxes = array();
 if ($pun_config['o_smilies'] == 1) {
     if (isset($_POST['hide_smilies']) || $cur_post['hide_smilies'] == 1) {
-        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" checked="checked" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" checked="checked" /> ' . $lang_post['Hide smilies'];
     } else {
-        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Hide smilies'];
+        $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" /> ' . $lang_post['Hide smilies'];
     }
 }
 
 if ($is_admmod) {
     if ((isset($_POST['form_sent']) && isset($_POST['silent'])) || !isset($_POST['form_sent'])) {
-        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="' . ($cur_index++) . '" checked="checked" /> ' . $lang_post['Silent edit'];
+        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" checked="checked" /> ' . $lang_post['Silent edit'];
     } else {
-        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" tabindex="' . ($cur_index++) . '" /> ' . $lang_post['Silent edit'];
+        $checkboxes[] = '<label for="silent"><input type="checkbox" id="silent" name="silent" value="1" /> ' . $lang_post['Silent edit'];
     }
 }
 
@@ -304,8 +301,8 @@ if ($checkboxes) {
 }
 
 echo '</div><p>
-<input type="submit" name="submit" value="' . $lang_common['Submit'] . '" tabindex="' . ($cur_index++) . '" accesskey="s" />
-<input type="submit" name="preview" value="' . $lang_post['Preview'] . '" tabindex="' . ($cur_index++) . '" accesskey="p" />
+<input type="submit" name="submit" value="' . $lang_common['Submit'] . '" accesskey="s" />
+<input type="submit" name="preview" value="' . $lang_post['Preview'] . '" accesskey="p" />
 <a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
 </form>
 </div>

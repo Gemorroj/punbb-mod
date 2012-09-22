@@ -21,17 +21,11 @@
         {/if}
     {/foreach}
 
-    {if $pun_config.o_censoring == 1}
-        {assign var='sbj' value=censor_words($searchResult.subject)}
-        {else}
-        {assign var='sbj' value=$searchResult.subject}
-    {/if}
-
     {if $show_as == 'posts'}
     <div class="in">
     {* Forum *}
         <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
-        &#187; <a href="viewtopic.php?id={$searchResult.tid}">{$sbj|escape}</a>
+        &#187; <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a>
         &#187; <a class="small"
                   href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$searchResult.pposted|date_format:$date_format}</a>
     </div>
@@ -45,17 +39,7 @@
         <span class="sub">{$lang_search.Replies}: {$searchResult.num_replies} | <a
                 href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$lang_search.$Go_to_post}</a></span><br/>
     {* Message*}
-        {if $pun_config.o_censoring == 1}
-            {assign var='msg' value=censor_words($searchResult.message)}
-            {else}
-            {assign var='msg' value=$searchResult.message}
-        {/if}
-
-        {assign var='message' value=parse_message($msg, 0)}
-
-        {if mb_strlen($message) > 999}
-            {assign var='message' value="$message &#x2026;"}
-        {/if}
+        {$searchResult.message} &#x2026;
     </div>
         {else}
 
@@ -64,10 +48,9 @@
         <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
         &#187; {* $subject *}
         {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
-            <strong><a href="viewtopic.php?id={$searchResult.tid}">{$sbj|escape}</a> ({$searchResult.poster|escape}
-                )</strong>
+            <strong><a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})</strong>
             {else}
-            <a href="viewtopic.php?id={$searchResult.tid}">{$sbj|escape}</a> ({$searchResult.poster|escape})
+            <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})
         {/if}
 
         {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}

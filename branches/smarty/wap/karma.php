@@ -3,7 +3,7 @@ define('PUN_ROOT', '../');
 
 require_once(PUN_ROOT . 'include/common.php');
 
-if (! $pun_user['g_read_board']) {
+if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 

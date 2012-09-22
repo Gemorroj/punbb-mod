@@ -83,11 +83,11 @@ generate_admin_menu('censoring');
                             </thead>
                             <tbody>
                             <tr>
-                                <td><input type="text" name="new_search_for" size="24" maxlength="60" tabindex="1"/>
+                                <td><input type="text" name="new_search_for" size="24" maxlength="60" />
                                 </td>
-                                <td><input type="text" name="new_replace_with" size="24" maxlength="60" tabindex="2"/>
+                                <td><input type="text" name="new_replace_with" size="24" maxlength="60" />
                                 </td>
-                                <td><input type="submit" name="add_word" value=" Добавить " tabindex="3"/></td>
+                                <td><input type="submit" name="add_word" value=" Добавить " /></td>
                             </tr>
                             </tbody>
                         </table>
@@ -96,7 +96,7 @@ generate_admin_menu('censoring');
             </div>
             <div class="inform">
                 <fieldset>
-                    <legend><?php print $lang_admin['Edit cens']; ?></legend>
+                    <legend><?php echo $lang_admin['Edit cens']; ?></legend>
                     <div class="infldset">
 <?php
 
@@ -104,7 +104,7 @@ $result = $db->query('SELECT id, search_for, replace_with FROM ' . $db->prefix .
 if ($db->num_rows($result)) {
 
 
-    print '<table cellspacing="0">
+    echo '<table cellspacing="0">
 <thead>
 <tr>
 <th class="tcl" scope="col">' . $lang_admin['Cens 1'] . '</th>
@@ -120,7 +120,7 @@ if ($db->num_rows($result)) {
     }
 
 
-    print '</tbody></table>';
+    echo '</tbody></table>';
 
 
 } else {
@@ -128,7 +128,7 @@ if ($db->num_rows($result)) {
 }
 
 
-print '</div></fieldset></div></form></div></div><div class="clearer"></div></div>';
+echo '</div></fieldset></div></form></div></div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
 ?>

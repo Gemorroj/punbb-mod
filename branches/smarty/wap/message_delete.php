@@ -45,7 +45,7 @@ if (isset($_POST['delete'])) {
     require_once PUN_ROOT . 'wap/header.php';
     include_once PUN_ROOT . 'include/parser.php';
 
-    $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
+    $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys'], $cur_post['id']);
 
     $smarty->assign('page_title', $page_title);
     $smarty->assign('lang_pms', $lang_pms);
@@ -56,5 +56,3 @@ if (isset($_POST['delete'])) {
 
     $smarty->display('message_delete.tpl');
 }
-
-?>

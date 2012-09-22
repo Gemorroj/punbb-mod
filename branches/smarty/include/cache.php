@@ -124,27 +124,30 @@ function generate_quickjump_cache($group_id = false)
 
         $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
-        $cur_category = 0;
-        while ($cur_forum = $db->fetch_assoc($result)) {
-            if ($cur_forum['cid'] != $cur_category) {
-                // A new category since last iteration?
-                if ($cur_category) {
-                    $output .= '</optgroup>';
+        if ($db->num_rows($result)) {
+            $cur_category = 0;
+            while ($cur_forum = $db->fetch_assoc($result)) {
+                if ($cur_forum['cid'] != $cur_category) {
+                    // A new category since last iteration?
+                    if ($cur_category) {
+                        $output .= '</optgroup>';
+                    }
+
+                    $output .= '<optgroup label="' . pun_htmlspecialchars($cur_forum['cat_name']) . '">';
+                    $cur_category = $cur_forum['cid'];
                 }
 
-                $output .= '<optgroup label="' . pun_htmlspecialchars($cur_forum['cat_name']) . '">';
-                $cur_category = $cur_forum['cid'];
+                $redirect_tag = $cur_forum['redirect_url'] ? ' &gt;&gt;&gt;' : '';
+                $output .= '<option value="' . $cur_forum['fid'] . '"';
+                if ($group_id == $cur_forum['fid']) {
+                    $output .= ' selected="selected"';
+                }
+                $output .= '>' . pun_htmlspecialchars($cur_forum['forum_name']) . $redirect_tag . '</option>';
             }
-
-            $redirect_tag = $cur_forum['redirect_url'] ? ' &gt;&gt;&gt;' : '';
-            $output .= '<option value="' . $cur_forum['fid'] . '"';
-            if ($group_id == $cur_forum['fid']) {
-                $output .= ' selected="selected"';
-            }
-            $output .= '>' . pun_htmlspecialchars($cur_forum['forum_name']) . $redirect_tag . '</option>';
+            $output .= '</optgroup>';
         }
 
-        $output .= '</optgroup></select><input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></label></div></form>';
+        $output .= '</select><input type="submit" value="' . $lang_common['Go'] . '" accesskey="g" /></label></div></form>';
 
         fputs($fh, $output);
         fclose($fh);

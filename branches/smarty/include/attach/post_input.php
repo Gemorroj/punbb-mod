@@ -16,7 +16,7 @@ echo '</div>
 <span id="lblShowQuota" style="display:inline;">(<a href="javascript:void(0);" onclick="toggle(\'lblHideQuota\', \'lblShowQuota\', \'divAttachRules\');">' . $lang_fu['show quota'] . '</a>)</span>
 <span id="lblHideQuota" style="display:none;">(<a href="javascript:void(0);" onclick="toggle(\'lblShowQuota\', \'lblHideQuota\', \'divAttachRules\');">' . $lang_fu['hide quota'] . '</a>)</span>
 <br class="clearb" />
-<div class="floated" id="input_1"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$1:: \');">#1</a> </span><input type="file" name="attach[]" size="50" tabindex="' . ($cur_index++) . '" /></div>';
+<div class="floated" id="input_1"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$1:: \');">#1</a> </span><input type="file" name="attach[]" size="50" /></div>';
 
 if ($num_to_upload >= 2) {
     echo '<div id="addMoreFiles1" class="fine_print">
@@ -26,7 +26,7 @@ if ($num_to_upload >= 2) {
 <div id="divImage2" style="display:none;">';
 
     for ($i = 2, $a = min(5, $num_to_upload); $i <= $a; ++$i) {
-        echo '<div class="floated" id="input_' . $i . '"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$' . $i . ':: \');">#' . $i . '</a> </span><input type="file" name="attach[]" size="50" tabindex="' . ($cur_index++) . '" /></div>';
+        echo '<div class="floated" id="input_' . $i . '"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$' . $i . ':: \');">#' . $i . '</a> </span><input type="file" name="attach[]" size="50" /></div>';
     }
     ?>
 <div id="addMoreFiles2" class="fine_print">
@@ -49,7 +49,7 @@ if ($num_to_upload >= 2) {
         echo '<div id="divImage3" class="inputArea" style="display:none;">';
 
         for ($i = 6; $i <= $num_to_upload; ++$i) {
-            echo '<div class="floated" id="input_' . $i . '"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$' . $i . ':: \');">#' . $i . '</a> </span><input type="file" name="attach[]" size="50" tabindex="' . ($cur_index++) . '" /></div>';
+            echo '<div class="floated" id="input_' . $i . '"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$' . $i . ':: \');">#' . $i . '</a> </span><input type="file" name="attach[]" size="50" /></div>';
         }
 
         echo '<div id="addMoreFiles3" class="fine_print"><a href="javascript:void(0);" onclick="toggle(\'lblFileOne\', \'lblFileTwenty\', \'addMoreFiles1\', \'addMoreFiles2\', \'divImage2\', \'divImage3\');">' . $lang_fu['Upload just one'] . '</a></div></div>';

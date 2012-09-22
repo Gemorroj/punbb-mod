@@ -321,8 +321,7 @@ if (isset($_GET['show_users'])) {
 
     <div class="box">
         <form id="find_user" method="post" action="admin_users.php?action=find_user">
-            <p class="submittop"><input type="submit" name="find_user" value="<?php print $lang_admin['Search']; ?>"
-                                        tabindex="1"/></p>
+            <p class="submittop"><input type="submit" name="find_user" value="<?php print $lang_admin['Search']; ?>"/></p>
 
             <div class="inform">
                 <fieldset>
@@ -332,106 +331,106 @@ if (isset($_GET['show_users'])) {
                         <table class="aligntop" cellspacing="0">
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Username']; ?></th>
-                                <td><input type="text" name="username" size="25" maxlength="25" tabindex="2"/></td>
+                                <td><input type="text" name="username" size="25" maxlength="25" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Email']; ?></th>
-                                <td><input type="text" name="form[email]" size="30" maxlength="50" tabindex="3"/></td>
+                                <td><input type="text" name="form[email]" size="30" maxlength="50" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Title']; ?></th>
-                                <td><input type="text" name="form[title]" size="30" maxlength="50" tabindex="4"/></td>
+                                <td><input type="text" name="form[title]" size="30" maxlength="50" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Real name']; ?></th>
-                                <td><input type="text" name="form[realname]" size="30" maxlength="40" tabindex="5"/>
+                                <td><input type="text" name="form[realname]" size="30" maxlength="40" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">URL</th>
-                                <td><input type="text" name="form[url]" size="35" maxlength="100" tabindex="6"/></td>
+                                <td><input type="text" name="form[url]" size="35" maxlength="100" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">ICQ</th>
-                                <td><input type="text" name="form[icq]" size="12" maxlength="12" tabindex="7"/></td>
+                                <td><input type="text" name="form[icq]" size="12" maxlength="12" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">MSN Messenger</th>
-                                <td><input type="text" name="form[msn]" size="30" maxlength="50" tabindex="8"/></td>
+                                <td><input type="text" name="form[msn]" size="30" maxlength="50" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">AOL IM</th>
-                                <td><input type="text" name="form[aim]" size="20" maxlength="20" tabindex="9"/></td>
+                                <td><input type="text" name="form[aim]" size="20" maxlength="20" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">Yahoo! Messenger</th>
-                                <td><input type="text" name="form[yahoo]" size="20" maxlength="20" tabindex="10"/></td>
+                                <td><input type="text" name="form[yahoo]" size="20" maxlength="20" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Location']; ?></th>
-                                <td><input type="text" name="form[location]" size="30" maxlength="30" tabindex="11"/>
+                                <td><input type="text" name="form[location]" size="30" maxlength="30" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Signature']; ?></th>
-                                <td><input type="text" name="form[signature]" size="35" maxlength="512" tabindex="12"/>
+                                <td><input type="text" name="form[signature]" size="35" maxlength="512" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Admin note']; ?></th>
-                                <td><input type="text" name="form[admin_note]" size="30" maxlength="30" tabindex="13"/>
+                                <td><input type="text" name="form[admin_note]" size="30" maxlength="30" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Posts greater']; ?></th>
-                                <td><input type="text" name="posts_greater" size="5" maxlength="8" tabindex="14"/></td>
+                                <td><input type="text" name="posts_greater" size="5" maxlength="8" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Posts less']; ?></th>
-                                <td><input type="text" name="posts_less" size="5" maxlength="8" tabindex="15"/></td>
+                                <td><input type="text" name="posts_less" size="5" maxlength="8" /></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Last post after']; ?></th>
-                                <td><input type="text" name="last_post_after" size="24" maxlength="19" tabindex="16"/>
+                                <td><input type="text" name="last_post_after" size="24" maxlength="19" />
                                     <span>(<?php print $lang_admin['Datetime']; ?>)</span></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Last post before']; ?></th>
-                                <td><input type="text" name="last_post_before" size="24" maxlength="19" tabindex="17"/>
+                                <td><input type="text" name="last_post_before" size="24" maxlength="19" />
                                     <span>(<?php print $lang_admin['Datetime']; ?>)</span></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Registered after']; ?></th>
-                                <td><input type="text" name="registered_after" size="24" maxlength="19" tabindex="18"/>
+                                <td><input type="text" name="registered_after" size="24" maxlength="19" />
                                     <span>(<?php print $lang_admin['Datetime']; ?>)</span></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Registered before']; ?></th>
-                                <td><input type="text" name="registered_before" size="24" maxlength="19" tabindex="19"/>
+                                <td><input type="text" name="registered_before" size="24" maxlength="19" />
                                     <span>(<?php print $lang_admin['Datetime']; ?>)</span></td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Order']; ?></th>
                                 <td>
-                                    <select name="order_by" tabindex="20">
+                                    <select name="order_by">
                                         <option value="username"
                                                 selected="selected"><?php print $lang_admin['Username']; ?></option>
                                         <option value="email"><?php print $lang_admin['Email']; ?></option>
                                         <option value="num_posts"><?php print $lang_admin['Num posts']; ?></option>
                                         <option value="last_post"><?php print $lang_admin['Last post']; ?></option>
                                         <option value="registered"><?php print $lang_admin['Registered']; ?></option>
-                                    </select>&#160; &#160;<select name="direction" tabindex="21">
-                                    <option value="ASC" selected="selected"><?php print $lang_admin['ASC']; ?></option>
-                                    <option value="DESC"><?php print $lang_admin['DESC']; ?></option>
+                                    </select>&#160; &#160;<select name="direction">
+                                    <option value="ASC" selected="selected"><?php echo $lang_admin['ASC']; ?></option>
+                                    <option value="DESC"><?php echo $lang_admin['DESC']; ?></option>
                                 </select>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Group']; ?></th>
                                 <td>
-                                    <select name="user_group" tabindex="22">
+                                    <select name="user_group">
                                         <option value="all"
-                                                selected="selected"><?php print $lang_admin['All groups']; ?></option>
+                                                selected="selected"><?php echo $lang_admin['All groups']; ?></option>
                                         <?php
                                         $result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
@@ -445,26 +444,25 @@ if (isset($_GET['show_users'])) {
                     </div>
                 </fieldset>
             </div>
-            <p class="submitend"><input type="submit" name="find_user" value="<?php print $lang_admin['Search']; ?>"
-                                        tabindex="23"/></p>
+            <p class="submitend"><input type="submit" name="find_user" value="<?php echo $lang_admin['Search']; ?>"/></p>
         </form>
     </div>
-    <h2 class="block2"><span><?php print $lang_admin['Search IP']; ?></span></h2>
+    <h2 class="block2"><span><?php echo $lang_admin['Search IP']; ?></span></h2>
 
     <div class="box">
         <form method="get" action="admin_users.php">
             <div class="inform">
                 <fieldset>
-                    <legend><?php print $lang_admin['Enter search IP']; ?></legend>
+                    <legend><?php echo $lang_admin['Enter search IP']; ?></legend>
                     <div class="infldset">
                         <table class="aligntop" cellspacing="0">
                             <tr>
-                                <th scope="row"><?php print $lang_admin['IP']; ?>
-                                <div><input type="submit" value="<?php print $lang_admin['Search']; ?>" tabindex="25"/>
+                                <th scope="row"><?php echo $lang_admin['IP']; ?>
+                                <div><input type="submit" value="<?php echo $lang_admin['Search']; ?>" />
                                 </div>
                                 </th>
-                                <td><input type="text" name="show_users" size="18" maxlength="15" tabindex="24"/>
-                                    <span><?php print $lang_admin['About search IP']; ?></span></td>
+                                <td><input type="text" name="show_users" size="18" maxlength="15" />
+                                    <span><?php echo $lang_admin['About search IP']; ?></span></td>
                             </tr>
                         </table>
                     </div>

@@ -103,26 +103,26 @@ echo '<div class="blockform">
 <tr>
 <th scope="row">' . $lang_admin['maintenance_while'] . '</th>
 <td>
-<input type="text" name="i_per_page" size="7" maxlength="7" value="100" tabindex="1" />
+<input type="text" name="i_per_page" size="7" maxlength="7" value="100" />
 <span>' . $lang_admin['maintenance_about_while'] . '</span>
 </td>
 </tr>
 <tr>
 <th scope="row">' . $lang_admin['maintenance_from'] . '</th>
 <td>
-<input type="text" name="i_start_at" size="7" maxlength="7" value="' . $first_id . '" tabindex="2" />
+<input type="text" name="i_start_at" size="7" maxlength="7" value="' . $first_id . '" />
 <span>' . $lang_admin['maintenance_about_from'] . '</span>
 </td>
 </tr>
 <tr>
 <th scope="row">' . $lang_admin['maintenance_clean'] . '</th>
 <td class="inputadmin">
-<span><input type="checkbox" name="i_empty_index" value="1" tabindex="3" checked="checked" />' . $lang_admin['maintenance_clean_check'] . '</span>
+<span><input type="checkbox" name="i_empty_index" value="1" checked="checked" />' . $lang_admin['maintenance_clean_check'] . '</span>
 </td>
 </tr>
 </table>
 <p class="topspace">' . $lang_admin['maintenance_mess'] . '</p>
-<div class="fsetsubmit"><input type="submit" name="rebuild_index" value="' . $lang_admin['maintenance_submit'] . '" tabindex="4" /></div>
+<div class="fsetsubmit"><input type="submit" name="rebuild_index" value="' . $lang_admin['maintenance_submit'] . '" /></div>
 </div>
 </fieldset>
 </div>

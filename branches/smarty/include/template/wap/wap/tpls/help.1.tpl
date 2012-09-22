@@ -34,8 +34,10 @@
     <input type="text" value="[color=#F00][/color]" size="15"/><br/>
     [color=blue]{$lang_help.$Blue_text}[/color] - <span style="color: blue">{$lang_help.$Blue_text}</span>;
     <input type="text" value="[color=blue][/color]" size="15"/><br/>
-    [hide=0]{$lang_help.$Hide_text}[/hide] - {$lang_help.hidden}
-    <input type="text" value="[hide=0][/hide]" size="11"/></div>
+    [hide]{$lang_help.$Hide_text}[/hide] - {$lang_help.hidden}
+    <input type="text" value="[hide][/hide]" size="11"/><br/>
+    [hide=1]{$lang_help.$Hide_text}[/hide] - {$lang_help.hidden}
+    <input type="text" value="[hide=1][/hide]" size="11"/></div>
 <div class="con">{$lang_help.Quotes}</div>
 <div class="msg">
     <strong>{$lang_help.$Quotes_info}</strong><br/>
@@ -59,28 +61,7 @@
     <input type="text" value="[code][/code]" size="10"/><br/>
     {$lang_help.$produces_code_box}<br/>
 
-    <div class="code">{$lang_common.Code}:
-        <div class="scrollbox" style="height:4.5em">
-            <table class="p_cnt" style="font-family:Courier New;">
-                <tr>
-                    <td style="width:1pt;">
-                        <table>
-                            <tr>
-                                <td>1</td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>
-                        <table>
-                            <tr>
-                                <td><span>{$lang_help.$Code_text}</span></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <div class="code">{$lang_common.Code}:<br/><table class="p_cnt" style="white-space: pre;font-family:'Courier New';font-size:8pt;"><tr><td>Hello world!</td></tr></table></div>
 </div>
 <div class="con">{$lang_help.$Nested_tags}</div>
 <div class="msg">

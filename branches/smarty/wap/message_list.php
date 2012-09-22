@@ -24,15 +24,15 @@ switch ($box) {
     default:
         $box  = 0;
         $name = $lang_pms['Inbox'];
-    break;
+        break;
     
     case 1:
         $name = $lang_pms['Outbox'];
-    break;
+        break;
     
     case 2:
         $name = $lang_pms['Options'];
-    break;
+        break;
 }
 
 $smarty->assign('name', $name);
@@ -130,7 +130,7 @@ if ($box < 2) {
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
-        $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
+        $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys'], $cur_post['id']);
         $cur_post['user_avatar'] = pun_show_avatar();
     }
 
@@ -148,7 +148,7 @@ if ($box < 2) {
     if ($all = $db->num_rows($result)) {
         $messages = array();
         while ($cur_mess = $db->fetch_assoc($result)) {
-            $cur_mess['message'] = parse_message($cur_mess['message'], $cur_mess['smileys']);
+            $cur_mess['message'] = parse_message($cur_mess['message'], !$cur_mess['smileys'], $cur_mess['id']);
             $cur_mess['user_avatar'] = pun_show_avatar();
 
             $messages[] = $cur_mess;
@@ -201,4 +201,3 @@ else {
 
     exit();
 }
-

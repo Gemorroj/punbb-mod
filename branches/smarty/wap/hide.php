@@ -195,27 +195,7 @@ if ($pun_config['o_censoring'] == 1) {
 }
 
 
-// !$pun_user['is_guest'] && - wtf?
-$quickpost = false;
-if ($pun_config['o_quickpost'] == 1 && /* !$pun_user['is_guest'] && */
-    ($cur_topic['post_replies'] == 1 || (!$cur_topic['post_replies'] && $pun_user['g_post_replies'] == 1)) && (!$cur_topic['closed'] || $is_admmod)
-) {
-    $required_fields = array('req_message' => $lang_common['Message']);
-    $quickpost = true;
-}
 
-/*
-if (!$pun_user['is_guest'] && $pun_config['o_subscriptions'] == 1) {
-    if ($cur_topic['is_subscribed']) {
-        // I apologize for the variable naming here. It's a mix of subscription and action I guess :-)
-        $subscraction = '<div class="con">'.$lang_topic['Is subscribed'].' - <a href="misc.php?unsubscribe='.$id.'">'.$lang_topic['Unsubscribe'].'</a></div>';
-    } else {
-        $subscraction = '<div class="con"><a href="misc.php?subscribe='.$id.'">'.$lang_topic['Subscribe'].'</a></div>';
-    }
-} else {
-    $subscraction = null;
-}
-*/
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['subject'];
 
 define('PUN_ALLOW_INDEX', 1);
@@ -278,10 +258,9 @@ if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
 }
 /// MOD ANTISPAM END
 
-$posts = $pids = array();
+
 $cur_post = $db->fetch_assoc($result);
-$posts[] = $cur_post;
-$pids[] = $cur_post['id'];
+$cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
 $db->free_result($result);
 
 
@@ -303,7 +282,6 @@ $smarty->assign('pun_user', $pun_user);
 $smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('can_download', $can_download);
-$smarty->assign('quickpost', $quickpost);
 
 $smarty->assign('lang_topic', $lang_topic);
 $smarty->assign('lang_fu', $lang_fu);
@@ -316,8 +294,7 @@ $smarty->assign('id', $id);
 $smarty->assign('p', $p);
 
 $smarty->assign('cur_topic', $cur_topic);
-$smarty->assign('posts', $posts);
-$smarty->assign('start_from', $start_forum);
+$smarty->assign('cur_post', $cur_post);
 
 $smarty->assign('attachments', $attachments);
 $smarty->assign('paging_links', $paging_links);

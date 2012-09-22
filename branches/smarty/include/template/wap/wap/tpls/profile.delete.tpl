@@ -8,9 +8,6 @@
 
 <div class="con">
     <strong>{$lang_profile.$Confirm_delete_user}</strong>
-
-    <br/><s>{basename($smarty.const.__FILE__)}</s>
-
 </div>
 <form method="post" action="profile.php?id={$id}">
     <div class="input">
@@ -18,7 +15,7 @@
     </div>
     <div class="input2">
     {$lang_profile.$Confirmation_info} <strong>{$username|escape}</strong>.<br/>
-        <input type="checkbox" name="delete_posts" value="1" checked="checked"/>{$lang_profile.$Delete_posts}
+        <label><input type="checkbox" name="delete_posts" value="1" checked="checked"/>{$lang_profile.$Delete_posts}</label>
     </div>
     <div class="input2">
         <strong>{$lang_profile.$Delete_warning}</strong>

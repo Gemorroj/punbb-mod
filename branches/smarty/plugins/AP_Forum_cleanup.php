@@ -107,7 +107,7 @@ if (isset($_POST['forum_post_sync'])) {
                 </table>
             </div>
             <p class="submitend">
-                <input type="submit" name="cleanup" value="Отправить" tabindex="4"/>
+                <input type="submit" name="cleanup" value="Отправить" />
             </p>
         </form>
     </div>
@@ -120,7 +120,7 @@ if (isset($_POST['forum_post_sync'])) {
                     (обычно если вы редактировали базу данных в ручную) пересчитать верно.</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="forum_post_sync" value="Отправить" tabindex="4"/>
+                <input type="submit" name="forum_post_sync" value="Отправить" />
             </p>
         </form>
     </div>
@@ -133,7 +133,7 @@ if (isset($_POST['forum_post_sync'])) {
                     ручную) и пересчитывает верно</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="topic_post_sync" value="Отправить" tabindex="4"/>
+                <input type="submit" name="topic_post_sync" value="Отправить" />
             </p>
         </form>
     </div>
@@ -146,7 +146,7 @@ if (isset($_POST['forum_post_sync'])) {
                     сообщения в базе данных) и пересчитывает верно.</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="user_post_sync" value="Отправить" tabindex="4"/>
+                <input type="submit" name="user_post_sync" value="Отправить" />
             </p>
         </form>
     </div>
@@ -159,7 +159,7 @@ if (isset($_POST['forum_post_sync'])) {
                     или после редактирования базы данных.</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="forum_last_post" value="Отправить" tabindex="4"/>
+                <input type="submit" name="forum_last_post" value="Отправить" />
             </p>
         </form>
     </div>
@@ -172,7 +172,7 @@ if (isset($_POST['forum_post_sync'])) {
                     после редактирования базы данных.</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="topic_last_post" value="Отправить" tabindex="4"/>
+                <input type="submit" name="topic_last_post" value="Отправить" />
             </p>
         </form>
     </div>
@@ -186,7 +186,7 @@ if (isset($_POST['forum_post_sync'])) {
                     редактирования базы данных.</p>
             </div>
             <p class="submitend">
-                <input type="submit" name="delete_orphans" value="Отправить" tabindex="4"/>
+                <input type="submit" name="delete_orphans" value="Отправить" />
             </p>
         </form>
     </div>

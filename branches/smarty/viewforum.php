@@ -10,10 +10,7 @@ if (!$pun_user['is_guest']) {
 
 function is_reading($log_time, $last_post)
 {
-    if ($log_time > $last_post) {
-        return true;
-    }
-    return false;
+    return ($log_time > $last_post);
 }
 
 // REAL MARK TOPIC AS READ MOD END
@@ -49,8 +46,7 @@ if (!$pun_user['is_guest'] && $cur_forum['log_time'] == null) {
 
 // Is this a redirect forum? In that case, redirect!
 if ($cur_forum['redirect_url']) {
-    header('Location: ' . $cur_forum['redirect_url'], true, 301);
-    exit;
+    redirect($cur_forum['redirect_url']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)

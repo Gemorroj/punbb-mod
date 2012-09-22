@@ -7,8 +7,7 @@ require_once PUN_ROOT . 'wap/header.php';
 
 // If we are logged in, we shouldn't be here
 if (!$pun_user['is_guest']) {
-    header('Location: index.php');
-    exit;
+    wap_redirect('index.php', 302);
 }
 
 // Load the register.php language file

@@ -89,7 +89,7 @@ if (isset($_POST['run_merge'])) {
                         <table class="aligntop" cellspacing="0">
                             <tr>
                                 <th scope="row">Объединить форумы
-                                    <div><input type="submit" name="run_merge" value="Объединить" tabindex="3"/></div>
+                                    <div><input type="submit" name="run_merge" value="Объединить" /></div>
                                 </th>
                                 <td>
                                     <select name="forum1">

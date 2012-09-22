@@ -131,8 +131,7 @@
         <strong>{$lang_prof_reg.Language}</strong>: {$lang_prof_reg.$Language_info}<br/>
         <select name="language">
             {foreach from=$languages item=temp}
-                <option value="{$temp}"{if $pun_config.o_default_lang == $temp}
-                        selected="selected"{/if}>{$temp}</option>
+                <option value="{$temp}"{if $pun_config.o_default_lang == $temp} selected="selected"{/if}>{$temp}</option>
             {/foreach}
         </select>
     {/if}
@@ -141,11 +140,12 @@
     <div class="input2">
         <strong>{$lang_prof_reg.$Privacy_options_legend}</strong><br/>
         {$lang_prof_reg.$Email_setting_info}<br/>
-        <input type="radio" name="email_setting" value="0"/>{$lang_prof_reg.$Email_setting_1}<br/>
-        <input type="radio" name="email_setting" value="1" checked="checked"/>{$lang_prof_reg.$Email_setting_2}<br/>
-        <input type="radio" name="email_setting" value="2"/>{$lang_prof_reg.$Email_setting_3}<br/>
+        <label><input type="radio" name="email_setting" value="0"/>{$lang_prof_reg.$Email_setting_1}</label><br/>
+        <label><input type="radio" name="email_setting" value="1" checked="checked"/>{$lang_prof_reg.$Email_setting_2}</label><br/>
+        <label><input type="radio" name="email_setting" value="2"/>{$lang_prof_reg.$Email_setting_3}</label><br/>
         {$lang_prof_reg.$Save_user_pass_info}<br/>
-        <input type="checkbox" name="save_pass" value="1" checked="checked"/>{$lang_prof_reg.$Save_user_pass}</div>
+        <label><input type="checkbox" name="save_pass" value="1" checked="checked"/>{$lang_prof_reg.$Save_user_pass}</label>
+    </div>
     <div class="go_to">
         <input type="submit" name="register" value="{$lang_register.Register}"/>
     </div>

@@ -66,8 +66,7 @@
 {assign var='cur_category' value=$cur_forum.cid}
 {/if}
 
-<input type="checkbox" name="moderator_in[{$cur_forum.fid}]" value="1"{if $cur_forum.is_moderator}
-   checked="checked"{/if} />&#160;{$cur_forum.forum_name|escape}<br/>
+<label><input type="checkbox" name="moderator_in[{$cur_forum.fid}]" value="1" {if $cur_forum.is_moderator}checked="checked"{/if} /> {$cur_forum.forum_name|escape}</label><br/>
 {/foreach}
 
 </div>

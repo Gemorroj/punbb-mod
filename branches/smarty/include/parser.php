@@ -576,8 +576,8 @@ function do_smilies($text)
 // hide
 function do_hide($text, $post = 0, $matches)
 {
+    error_log(var_export($post, true));
     global $pun_user, $lang_topic, $lang_common;
-    static $spoiler = 0;
 
     include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
 
@@ -594,14 +594,14 @@ function do_hide($text, $post = 0, $matches)
         if ($basename == 'hide.php') {
             return str_replace($matches[0], '<div class="attach_list">' . $matches[4] . '</div>', $text);
         }
-        return str_replace($matches[0], '<div class="attach_list"><a href="hide.php?id=' . $post . '">' . $lang_topic['Show'] . '</a></div>', $text);
+        return str_replace($matches[0], '<div class="attach_list"><a onclick="window.open(\'hide.php?id=' . $post . '\', \'\', \'width=420,height=230,resizable=yes,scrollbars=yes,status=yes,location=no\'); return false;" target="_blank" href="hide.php?id=' . $post . '">' . $lang_topic['Show'] . '</a></div>', $text);
     }
 
     if ($basename == 'viewprintable.php') {
         return str_replace($matches[0], '<div class="spoiler" style="display: block;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
     }
 
-    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(\'#spoiler_' . (++$spoiler) . '\').slideToggle(200);"/><div class="spoiler" id="spoiler_' . $spoiler . '"><br/>' . $matches[4] . '</div></div>', $text);
+    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(this.nextSibling).slideToggle(200);"/><div class="spoiler"><br/>' . $matches[4] . '</div></div>', $text);
 }
 
 //

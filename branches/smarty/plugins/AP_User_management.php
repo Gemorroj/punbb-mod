@@ -187,14 +187,14 @@ if (isset($_POST['prune'])) {
                             <tr>
                                 <th scope="row">Минимум дней с регистрации/последего посещения</th>
                                 <td>
-                                    <input type="text" name="days" value="28" size="25" tabindex="1"/>
+                                    <input type="text" name="days" value="28" size="25" />
                                     <span>Минимум дней от настроек выше, с которого сократятся пользователи.</span>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Максимум сообщений</th>
                                 <td>
-                                    <input type="text" name="posts" value="1" size="25" tabindex="1"/>
+                                    <input type="text" name="posts" value="1" size="25" />
                                     <span>Пользователи с большим количеством сообщений не сократятся. т.е. значение 1 удалит пользователей без сообщений.</span>
                                 </td>
                             </tr>
@@ -222,7 +222,7 @@ if (isset($_POST['prune'])) {
                     </div>
                 </fieldset>
             </div>
-            <p class="submitend"><input type="submit" name="prune" value="Отправить" tabindex="2"/></p>
+            <p class="submitend"><input type="submit" name="prune" value="Отправить" /></p>
         </form>
     </div>
 
@@ -238,13 +238,13 @@ if (isset($_POST['prune'])) {
                             <tr>
                                 <th scope="row">Имя пользователя</th>
                                 <td>
-                                    <input type="text" name="username" size="25" tabindex="3"/>
+                                    <input type="text" name="username" size="25" />
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Email</th>
                                 <td>
-                                    <input type="text" name="email" size="50" tabindex="3"/>
+                                    <input type="text" name="email" size="50" />
                                 </td>
                             </tr>
                             <tr>
@@ -258,7 +258,7 @@ if (isset($_POST['prune'])) {
                             <tr>
                                 <th scope="row">Пароль</th>
                                 <td>
-                                    <input type="text" name="password" size="25" tabindex="3"/>
+                                    <input type="text" name="password" size="25" />
                                     <span>Если не хотите случайный пароль.</span>
                                 </td>
                             </tr>
@@ -266,7 +266,7 @@ if (isset($_POST['prune'])) {
                     </div>
                 </fieldset>
             </div>
-            <p class="submitend"><input type="submit" name="add_user" value="Отправить" tabindex="4"/></p>
+            <p class="submitend"><input type="submit" name="add_user" value="Отправить" /></p>
         </form>
     </div>
 </div>

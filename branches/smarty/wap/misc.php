@@ -245,5 +245,3 @@ if ($action == 'rules') {
 } else {
     wap_message($lang_common['Bad request']);
 }
-
-?>

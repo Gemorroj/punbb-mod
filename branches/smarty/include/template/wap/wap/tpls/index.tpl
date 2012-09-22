@@ -4,6 +4,7 @@
 {* <pun_hd> *}
 <img src="{$pun_config.o_base_url}/style_wap/{$pun_user.style_wap}/logo.gif"
      title="{$lang_common.Forum} {$smarty.server.HTTP_HOST}" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
+{$pun_config.o_board_title}
 </div>
 
 {if $pun_config.o_board_desc}

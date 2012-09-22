@@ -21,110 +21,101 @@ require_once PUN_ROOT . 'header.php';
 <h2><?php echo $lang_common['BBCode']; ?></h2>
 <div class="box">
     <div class="inbox">
-        <p><a name="bbcode"></a><?php echo $lang_help['BBCode info 1'] ?></p><br/>
+        <p><a name="bbcode"></a><?php echo $lang_help['BBCode info 1']; ?></p><br/>
 
-        <p><?php echo $lang_help['BBCode info 2'] ?></p>
+        <p><?php echo $lang_help['BBCode info 2']; ?></p>
     </div>
 </div>
-<h2><?php echo $lang_help['Text style'] ?></h2>
+<h2><?php echo $lang_help['Text style']; ?></h2>
 <div class="box">
-    <p><?php echo $lang_help['Text style info'] ?></p><br/>
+    <p><?php echo $lang_help['Text style info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [b]<?php echo $lang_help['Bold text'] ?>[/b] <?php echo $lang_help['produces'] ?>
-        <strong><?php echo $lang_help['Bold text'] ?></strong><br/>
-        [u]<?php echo $lang_help['Underlined text'] ?>[/u] <?php echo $lang_help['produces'] ?> <span
-        class="bbu"><?php echo $lang_help['Underlined text'] ?></span><br/>
-        [i]<?php echo $lang_help['Italic text'] ?>[/i] <?php echo $lang_help['produces'] ?>
-        <em><?php echo $lang_help['Italic text'] ?></em><br/>
-        [color=#FF0000]<?php echo $lang_help['Red text'] ?>[/color] <?php echo $lang_help['produces'] ?> <span
-        style="color: #ff0000"><?php echo $lang_help['Red text'] ?></span><br/>
-        [color=blue]<?php echo $lang_help['Blue text'] ?>[/color] <?php echo $lang_help['produces'] ?> <span
-        style="color: blue"><?php echo $lang_help['Blue text'] ?></span><br/>
-        [hide=0]<?php echo $lang_help['Hide text'] ?>[/hide] <?php echo $lang_help['hidden'] ?>
+        [b]<?php echo $lang_help['Bold text']; ?>[/b] <?php echo $lang_help['produces']; ?>
+        <strong><?php echo $lang_help['Bold text']; ?></strong><br/>
+        [u]<?php echo $lang_help['Underlined text']; ?>[/u] <?php echo $lang_help['produces']; ?> <span
+        class="bbu"><?php echo $lang_help['Underlined text']; ?></span><br/>
+        [i]<?php echo $lang_help['Italic text']; ?>[/i] <?php echo $lang_help['produces']; ?>
+        <em><?php echo $lang_help['Italic text']; ?></em><br/>
+        [color=#FF0000]<?php echo $lang_help['Red text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span
+        style="color: #ff0000"><?php echo $lang_help['Red text']; ?></span><br/>
+        [color=blue]<?php echo $lang_help['Blue text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span
+        style="color: blue"><?php echo $lang_help['Blue text']; ?></span><br/>
+        [hide]<?php echo $lang_help['Hide text']; ?>[/hide] <?php echo $lang_help['hidden']; ?><br/>
+        [hide=1]<?php echo $lang_help['Hide text']; ?>[/hide] <?php echo $lang_help['hidden']; ?>
     </div>
 </div>
-<h2><?php echo $lang_help['Links and images'] ?></h2>
+<h2><?php echo $lang_help['Links and images']; ?></h2>
 <div class="box">
-    <p><?php echo $lang_help['Links info'] ?></p><br/>
+    <p><?php echo $lang_help['Links info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [url=<?php echo $pun_config['o_base_url'] . '/' ?>
-        ]<?php echo pun_htmlspecialchars($pun_config['o_board_title']) ?>[/url] <?php echo $lang_help['produces'] ?> <a
-        href="<?php echo $pun_config['o_base_url'] . '/' ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']) ?></a><br/>
-        [url]<?php echo $pun_config['o_base_url'] . '/' ?>[/url] <?php echo $lang_help['produces'] ?> <a
-        href="<?php echo $pun_config['o_base_url'] ?>"><?php echo $pun_config['o_base_url'] . '/' ?></a><br/>
-        [email]myname@mydomain.com[/email] <?php echo $lang_help['produces'] ?> <a href="mailto:myname@mydomain.com">myname@mydomain.com</a><br/>
-        [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address'] ?>
-        [/email] <?php echo $lang_help['produces'] ?> <a
-        href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address'] ?></a><br/><br/>
+        [url=<?php echo $pun_config['o_base_url'] . '/'; ?>
+        ]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a
+        href="<?php echo $pun_config['o_base_url'] . '/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
+        [url]<?php echo $pun_config['o_base_url'] . '/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a
+        href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'] . '/'; ?></a><br/>
+        [email]myname@mydomain.com[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com">myname@mydomain.com</a><br/>
+        [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address']; ?>
+        [/email] <?php echo $lang_help['produces']; ?> <a
+        href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address']; ?></a><br/><br/>
     </div>
-    <p><a name="img"></a><?php echo $lang_help['Images info'] ?></p>
+    <p><a name="img"></a><?php echo $lang_help['Images info']; ?></p>
 
-    <div>[img]<?php echo 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); ?>
-        /img/forum_logo.gif[/img] <?php echo $lang_help['produces'] ?> <img
-            src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); ?>/img/forum_logo.gif"
-            alt="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']); ?>/img/forum_logo.gif"/>
+    <div>[img]<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif[/img] <?php echo $lang_help['produces']; ?> <img
+            src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif"
+            alt="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif"/>
     </div>
 </div>
-<h2><?php echo $lang_help['Quotes'] ?></h2>
+<h2><?php echo $lang_help['Quotes']; ?></h2>
 <div class="box">
     <div style="padding-left: 4px">
-        <?php echo $lang_help['Quotes info'] ?><br/><br/>
-        &#160; &#160; [quote=James]<?php echo $lang_help['Quote text'] ?>[/quote]<br/><br/>
-        <?php echo $lang_help['produces quote box'] ?><br/><br/>
+        <?php echo $lang_help['Quotes info']; ?><br/><br/>
+        &#160; &#160; [quote=James]<?php echo $lang_help['Quote text']; ?>[/quote]<br/><br/>
+        <?php echo $lang_help['produces quote box']; ?><br/><br/>
 
         <div class="postmsg">
             <blockquote>
-                <div class="incqbox"><h4>James <?php echo $lang_common['wrote'] ?>:</h4>
+                <div class="incqbox"><h4>James <?php echo $lang_common['wrote']; ?>:</h4>
 
-                    <p><?php echo $lang_help['Quote text'] ?></p></div>
+                    <p><?php echo $lang_help['Quote text']; ?></p></div>
             </blockquote>
         </div>
         <br/>
-        <?php echo $lang_help['Quotes info 2'] ?><br/><br/>
-        &#160; &#160; [quote]<?php echo $lang_help['Quote text'] ?>[/quote]<br/><br/>
-        <?php echo $lang_help['produces quote box'] ?><br/><br/>
+        <?php echo $lang_help['Quotes info 2']; ?><br/><br/>
+        &#160; &#160; [quote]<?php echo $lang_help['Quote text']; ?>[/quote]<br/><br/>
+        <?php echo $lang_help['produces quote box']; ?><br/><br/>
 
         <div class="postmsg">
             <blockquote>
-                <div class="incqbox"><p><?php echo $lang_help['Quote text'] ?></p></div>
+                <div class="incqbox"><p><?php echo $lang_help['Quote text']; ?></p></div>
             </blockquote>
         </div>
     </div>
 </div>
-<h2><?php echo $lang_help['Code'] ?></h2>
+<h2><?php echo $lang_help['Code']; ?></h2>
 <div class="box">
     <div style="padding-left: 4px">
-        <?php echo $lang_help['Code info'] ?><br/><br/>
-        &#160; &#160; [code]<?php echo $lang_help['Code text'] ?>[/code]<br/><br/>
-        <?php echo $lang_help['produces code box'] ?><br/><br/>
+        <?php echo $lang_help['Code info']; ?><br/><br/>
+        &#160; &#160; [code]<?php echo $lang_help['Code text']; ?>[/code]<br/><br/>
+        <?php echo $lang_help['produces code box']; ?><br/><br/>
 
-        <div class="postmsg">
-            <div class="codebox">
-                <div class="incqbox"><h4><?php echo $lang_common['Code'] ?>:</h4>
-
-                    <div class="scrollbox" style="height: 4.5em">
-                        <pre><?php echo $lang_help['Code text'] ?></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="postmsg"><div class="codebox"><div class="incqbox"><h4><?php echo $lang_common['Code']; ?>:</h4><div class="scrollbox" style="height: 4.5em"><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table><tr><td>1</td></tr></table></td><td><table><tr><td><?php echo $lang_help['Code text']; ?></td></tr></table></td></tr></table></div></div></div></div>
     </div>
 </div>
-<h2><?php echo $lang_help['Nested tags'] ?></h2>
+<h2><?php echo $lang_help['Nested tags']; ?></h2>
 <div class="box">
     <div style="padding-left: 4px">
-        <?php echo $lang_help['Nested tags info'] ?><br/><br/>
-        &#160; &#160; [b][u]<?php echo $lang_help['Bold, underlined text'] ?>
-        [/u][/b] <?php echo $lang_help['produces'] ?> <span
-        class="bbu"><strong><?php echo $lang_help['Bold, underlined text'] ?></strong></span><br/><br/>
+        <?php echo $lang_help['Nested tags info']; ?><br/><br/>
+        &#160; &#160; [b][u]<?php echo $lang_help['Bold, underlined text']; ?>
+        [/u][/b] <?php echo $lang_help['produces']; ?> <span
+        class="bbu"><strong><?php echo $lang_help['Bold, underlined text']; ?></strong></span><br/><br/>
     </div>
 </div>
-<h2><?php echo $lang_common['Smilies'] ?></h2>
+<h2><?php echo $lang_common['Smilies']; ?></h2>
 <div class="box">
     <div style="padding-left: 4px">
-        <a name="smilies"></a><?php echo $lang_help['Smilies info'] ?><br/><br/>
+        <a name="smilies"></a><?php echo $lang_help['Smilies info']; ?><br/><br/>
 <?php
 
 // Display the smiley set

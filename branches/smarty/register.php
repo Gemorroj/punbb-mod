@@ -7,8 +7,7 @@ require PUN_ROOT . 'include/common.php';
 
 // If we are logged in, we shouldn't be here
 if (!$pun_user['is_guest']) {
-    header('Location: index.php');
-    exit;
+    redirect('index.php', '', 302);
 }
 
 // Load the register.php language file
@@ -344,8 +343,9 @@ if ($pun_config['o_regs_verify'] == 1) {
 echo '</div></fieldset></div>
 <div class="inform"><fieldset><legend>' . $lang_prof_reg['Localisation legend'] . '</legend>
 <div class="infldset">
-<label>' . $lang_prof_reg['Timezone'] . ': ' . $lang_prof_reg['Timezone info'] . '<br /><select id="time_zone" name="timezone">';
+<label>' . $lang_prof_reg['Timezone'] . ': ' . $lang_prof_reg['Timezone info'] . '<br />';
 ?>
+<select id="time_zone" name="timezone">
 <option value="-12"<?php if ($pun_config['o_server_timezone'] == -12) echo ' selected="selected"' ?>>-12</option>
 <option value="-11"<?php if ($pun_config['o_server_timezone'] == -11) echo ' selected="selected"' ?>>-11</option>
 <option value="-10"<?php if ($pun_config['o_server_timezone'] == -10) echo ' selected="selected"' ?>>-10</option>

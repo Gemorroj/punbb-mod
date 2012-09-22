@@ -102,14 +102,14 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">' . $lang_admin['Username'] . '</th>
 <td>
-<input type="text" name="ban_user" size="25" maxlength="25" value="' . pun_htmlspecialchars($ban_user) . '" tabindex="1" />
+<input type="text" name="ban_user" size="25" maxlength="25" value="' . pun_htmlspecialchars($ban_user) . '" />
 <span>' . $lang_admin['bans_username'] . '</span>
 </td>
 </tr>
 <tr>
 <th scope="row">' . $lang_admin['IP'] . '</th>
 <td>
-<input type="text" name="ban_ip" size="45" maxlength="255" value="' . $ban_ip . '" tabindex="2" />
+<input type="text" name="ban_ip" size="45" maxlength="255" value="' . $ban_ip . '" />
 <span>' . $lang_admin['bans_ip'];
 
     if ($ban_user && isset($user_id)) {
@@ -122,7 +122,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">' . $lang_admin['bans_mail_domain'] . '</th>
 <td>
-<input type="text" name="ban_email" size="40" maxlength="50" value="' . strtolower($ban_email) . '" tabindex="3" />
+<input type="text" name="ban_email" size="40" maxlength="50" value="' . strtolower($ban_email) . '" />
 <span>' . $lang_admin['bans_mail_domain_about'] . '</span>
 </td>
 </tr>
@@ -139,14 +139,14 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">' . $lang_admin['bans_mess_ban'] . '</th>
 <td>
-<input type="text" name="ban_message" size="50" maxlength="255" value="' . pun_htmlspecialchars($ban_message) . '" tabindex="4" />
+<input type="text" name="ban_message" size="50" maxlength="255" value="' . pun_htmlspecialchars($ban_message) . '" />
 <span>' . $lang_admin['bans_mess_ban_about'] . '</span>
 </td>
 </tr>
 <tr>
 <th scope="row">' . $lang_admin['bans_date'] . '</th>
 <td>
-<input type="text" name="ban_expire" size="17" maxlength="10" value="' . $ban_expire . '" tabindex="5" />
+<input type="text" name="ban_expire" size="17" maxlength="10" value="' . $ban_expire . '" />
 <span>' . $lang_admin['bans_date_about'] . '</span>
 </td>
 </tr>
@@ -154,7 +154,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="add_edit_ban" value="' . $lang_admin['Upd'] . '" tabindex="6" /></p>
+<p class="submitend"><input type="submit" name="add_edit_ban" value="' . $lang_admin['Upd'] . '" /></p>
 </form>
 </div>
 </div>
@@ -271,9 +271,9 @@ echo '<div class="blockform">
 <div class="infldset">
 <table class="aligntop" cellspacing="0">
 <tr>
-<th scope="row">' . $lang_admin['Username'] . '<div><input type="submit" name="add_ban" value="' . $lang_admin['Add'] . '" tabindex="2" /></div></th>
+<th scope="row">' . $lang_admin['Username'] . '<div><input type="submit" name="add_ban" value="' . $lang_admin['Add'] . '" /></div></th>
 <td>
-<input type="text" name="new_ban_user" size="25" maxlength="25" tabindex="1" />
+<input type="text" name="new_ban_user" size="25" maxlength="25" />
 <span>' . $lang_admin['bans_new_about'] . '</span>
 </td>
 </tr>

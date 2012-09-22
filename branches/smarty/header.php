@@ -143,6 +143,11 @@ $tpl_main = str_replace('<pun_page>', htmlspecialchars(basename($_SERVER['PHP_SE
 // END SUBST - <pun_title>
 
 
+// START SUBST - <pun_logo>
+$tpl_main = str_replace('<pun_logo>', '<img src="' . PUN_ROOT . 'img/punbb.gif" alt="logo" />', $tpl_main);
+// END SUBST - <pun_logo>
+
+
 // START SUBST - <pun_title>
 $tpl_main = str_replace('<pun_title>', '<h1><span>' . pun_htmlspecialchars($pun_config['o_board_title']) . '</span></h1>', $tpl_main);
 // END SUBST - <pun_title>

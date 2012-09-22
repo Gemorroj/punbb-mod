@@ -15,6 +15,6 @@
       href="{$smarty.const.PUN_ROOT}rss.xml"/>
 </head>
 <body>
-{if 'index.php' <> $basename}
+{if 'index.php' != $basename}
 {include file='notification.tpl'}
 {/if}

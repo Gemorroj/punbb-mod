@@ -22,20 +22,20 @@
         <strong>{$lang_prof_reg.$Privacy_options_legend}</strong><br/>
         <input type="hidden" name="form_sent" value="1"/>
         {$lang_prof_reg.$Email_setting_info}<br/>
-        <input type="radio" name="form[email_setting]" value="0"{if !$user.email_setting}
-               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_1}<br/>
-        <input type="radio" name="form[email_setting]" value="1"{if $user.email_setting == 1}
-               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_2}<br/>
-        <input type="radio" name="form[email_setting]" value="2"{if $user.email_setting == 2}
-               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_3}
+        <label><input type="radio" name="form[email_setting]" value="0"{if !$user.email_setting}
+               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_1}</label><br/>
+        <label><input type="radio" name="form[email_setting]" value="1"{if $user.email_setting == 1}
+               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_2}</label><br/>
+        <label><input type="radio" name="form[email_setting]" value="2"{if $user.email_setting == 2}
+               checked="checked"{/if}/>{$lang_prof_reg.$Email_setting_3}</label>
     </div>
     <div class="input2">{$lang_prof_reg.$Save_user_pass_info}<br/>
-        <input type="checkbox" name="form[save_pass]" value="1"{if $user.save_pass == 1}
-               checked="checked"{/if}/>{$lang_prof_reg.$Save_user_pass}
+        <label><input type="checkbox" name="form[save_pass]" value="1"{if $user.save_pass == 1}
+               checked="checked"{/if}/>{$lang_prof_reg.$Save_user_pass}</label>
     </div>
     <div class="input2">{$lang_profile.$Notify_full_info}<br/>
-        <input type="checkbox" name="form[notify_with_post]" value="1"{if $user.notify_with_post == 1}
-               checked="checked"{/if}/>{$lang_profile.$Notify_full}
+        <label><input type="checkbox" name="form[notify_with_post]" value="1"{if $user.notify_with_post == 1}
+               checked="checked"{/if}/>{$lang_profile.$Notify_full}</label>
     </div>
     <div class="go_to">
         <input type="submit" name="update" value="{$lang_common.Submit}"/>

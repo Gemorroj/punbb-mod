@@ -144,7 +144,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Prune days']; ?></th>
                                 <td>
-                                    <input type="text" name="req_prune_days" size="3" maxlength="3" tabindex="1"/>
+                                    <input type="text" name="req_prune_days" size="3" maxlength="3" />
 <span>
 <?php print $lang_admin['Enter prune']; ?>
 </span>
@@ -153,7 +153,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                             <tr>
                                 <th scope="row"><?php print $lang_admin['Prune themes']; ?></th>
                                 <td>
-                                    <input type="radio" name="prune_sticky" value="1" tabindex="2" checked="checked"/>
+                                    <input type="radio" name="prune_sticky" value="1" checked="checked"/>
                                     <strong><?php print $lang_admin['Yes']; ?></strong>
                                     <input type="radio" name="prune_sticky" value="0"/>
                                     <strong><?php print $lang_admin['No']; ?></strong>
@@ -163,10 +163,10 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                                 </td>
                             </tr>
                             <tr>
-                            <th scope="row"><?php print $lang_admin['Prune forums']; ?></th>
+                            <th scope="row"><?php echo $lang_admin['Prune forums']; ?></th>
                             <td>
-                                <select name="prune_from" tabindex="3">
-                                    <option value="all"><?php print $lang_admin['All forums']; ?></option>
+                                <select name="prune_from">
+                                    <option value="all"><?php echo $lang_admin['All forums']; ?></option>
 <?php
 $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
@@ -184,14 +184,14 @@ while ($forum = $db->fetch_assoc($result)) {
     echo '<option value="' . $forum['fid'] . '">' . pun_htmlspecialchars($forum['forum_name']) . '</option>';
 }
 
-print '</optgroup>
+echo '</optgroup>
 </select>
 <span>' . $lang_admin['About prune forums'] . '</span>
 </td>
 </tr>
 </table>
 <p class="topspace">' . $lang_admin['Enter prune forums'] . '</p>
-<div class="fsetsubmit"><input type="submit" name="prune" value="' . $lang_admin['Clear'] . '" tabindex="5" /></div>
+<div class="fsetsubmit"><input type="submit" name="prune" value="' . $lang_admin['Clear'] . '" /></div>
 </div>
 </fieldset>
 </div>

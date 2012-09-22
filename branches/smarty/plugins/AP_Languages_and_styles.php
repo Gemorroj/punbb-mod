@@ -92,7 +92,7 @@ if (isset($_POST['lang'])) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="lang" value="Отправить" tabindex="2" /></p>
+<p class="submitend"><input type="submit" name="lang" value="Отправить" /></p>
 </form>
 </div>
 </div>
@@ -140,7 +140,7 @@ if (isset($_POST['lang'])) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="style" value="Отправить" tabindex="2" /></p>
+<p class="submitend"><input type="submit" name="style" value="Отправить" /></p>
 </form>
 </div>
 </div>
@@ -189,7 +189,7 @@ if (isset($_POST['lang'])) {
 </div>
 </fieldset>
 </div>
-<p class="submitend"><input type="submit" name="style_wap" value="Отправить" tabindex="2" /></p>
+<p class="submitend"><input type="submit" name="style_wap" value="Отправить" /></p>
 </form>
 </div>
 </div>';

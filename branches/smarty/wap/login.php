@@ -64,8 +64,7 @@ if (isset($_POST['form_sent']) && @$_GET['action'] == 'in') {
     wap_redirect($_POST['redirect_url']);
 } else if (@$_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || @$_GET['id'] != $pun_user['id'] || @$_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
-        header('Location: index.php');
-        exit;
+        wap_redirect('index.php', 302);
     }
 
     // Remove user from "users online" list.
@@ -140,7 +139,7 @@ if (isset($_POST['form_sent']) && @$_GET['action'] == 'in') {
 
 
 if (!$pun_user['is_guest']) {
-    header('Location: index.php');
+    wap_redirect('index.php', 302);
 }
 
 // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to index.php after login)

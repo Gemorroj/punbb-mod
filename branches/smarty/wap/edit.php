@@ -190,7 +190,7 @@ require_once PUN_ROOT . 'wap/header.php';
 $preview_message = '';
 if (@$_POST['preview']) {
     include_once PUN_ROOT . 'include/parser.php';
-    $preview_message = parse_message($message, $hide_smilies);
+    $preview_message = parse_message($message, $hide_smilies, $id);
 }
 
 //+ Attachments//

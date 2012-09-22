@@ -172,17 +172,17 @@
         <!-- input name for guest -->
         {if $pun_user.is_guest}
                 {$lang_common.Username}<br/>
-            <input type="text" name="req_username" tabindex="1"/><br/>
+            <input type="text" name="req_username"/><br/>
         {/if}
 
-        <textarea name="req_message" rows="4" cols="24" tabindex="1"></textarea><br/>
+        <textarea name="req_message" rows="4" cols="24"></textarea><br/>
 
         {if $is_admmod}
             <label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked"/>&#160;<span
                     class="small">{$lang_post.$Merge_posts}</span><br/></label>
         {/if}
 
-        <input type="submit" name="submit" tabindex="2" value="{$lang_common.Submit}" accesskey="s"/>
+        <input type="submit" name="submit" value="{$lang_common.Submit}" accesskey="s"/>
     </div>
 </form>
 {/if}

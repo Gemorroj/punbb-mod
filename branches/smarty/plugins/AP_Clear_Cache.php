@@ -124,15 +124,15 @@ else if (isset($_POST['regen_jump_cache'])) {
             <p>Этот плагин позволяет вам легко и просто пересоздавать кэш файлы вашего PunBB</p>
 
             <form id="regenerate" method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
-                <p><input type="submit" name="regen_all_cache" value="Пересоздать все кэш файлы" tabindex="2"/></p>
+                <p><input type="submit" name="regen_all_cache" value="Пересоздать все кэш файлы" /></p>
 
-                <p><input type="submit" name="regen_ban_cache" value="Пересоздать бан-кэш" tabindex="3"/></p>
+                <p><input type="submit" name="regen_ban_cache" value="Пересоздать бан-кэш" /></p>
 
-                <p><input type="submit" name="regen_ranks_cache" value="Пересоздать кэш рангов" tabindex="4"/></p>
+                <p><input type="submit" name="regen_ranks_cache" value="Пересоздать кэш рангов" /></p>
 
-                <p><input type="submit" name="regen_config_cache" value="Пересоздать кэш настроек" tabindex="5"/></p>
+                <p><input type="submit" name="regen_config_cache" value="Пересоздать кэш настроек" /></p>
 
-                <p><input type="submit" name="regen_jump_cache" value="Пересоздать кэш быстрого перехода" tabindex="6"/>
+                <p><input type="submit" name="regen_jump_cache" value="Пересоздать кэш быстрого перехода" />
                 </p>
             </form>
         </div>

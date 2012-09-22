@@ -569,7 +569,7 @@ KEY `users_username_idx` (`username`(3))
 
 mysql_query("INSERT INTO `users` (`id`, `group_id`, `username`, `password`, `email`, `title`, `realname`, `url`, `jabber`, `icq`, `msn`, `aim`, `yahoo`, `location`, `use_avatar`, `signature`, `disp_topics`, `disp_posts`, `email_setting`, `save_pass`, `notify_with_post`, `show_smilies`, `show_img`, `show_img_sig`, `show_avatars`, `show_sig`, `timezone`, `language`, `style`, `style_wap`, `num_posts`, `last_post`, `registered`, `registration_ip`, `last_visit`, `admin_note`, `activate_string`, `activate_key`, `popup_enable`, `messages_enable`, `mark_after`) VALUES
 (1, 3, 'Guest', 'Guest', 'Guest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '0.0.0.0', 0, NULL, NULL, NULL, 1, 1, 1296000),
-(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@" . $_SERVER['HTTP_HOST'] . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', '', '', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (mysql_error());
+(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@" . $_SERVER['HTTP_HOST'] . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `attachments` (

@@ -58,7 +58,6 @@ or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error()
 
 $forums = array();
 while ($cur_forum = $db->fetch_assoc($result)) {
-    
     $forums[] = $cur_forum;
 }
 
@@ -90,7 +89,6 @@ list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
 $num_guests = $num_users = 0;
 $users = array();
 if ($pun_config['o_users_online'] == 1) {
-    
     // Fetch users online info and generate strings for output
     $result = $db->query(
     'SELECT `user_id`, `ident` '
@@ -100,19 +98,14 @@ if ($pun_config['o_users_online'] == 1) {
     or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
     
     while ($pun_user_online = $db->fetch_assoc($result)) {
-        
         if ($pun_user_online['user_id'] > 1) {
-            
             $users[] = $pun_user_online;
-        }
-        else {
-            
+        } else {
             $num_guests += 1;
         }
     }
     
     if ($users) {
-        
         $num_users = sizeof($users);
     }
 }
@@ -121,7 +114,6 @@ if ($pun_config['o_users_online'] == 1) {
 include_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/index.php');
 
 if ($pun_config['o_pms_enabled'] && $pun_user['g_pm'] == 1) {
-    
     include_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php');
 }
 //- Language

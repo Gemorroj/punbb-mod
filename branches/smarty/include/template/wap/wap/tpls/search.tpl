@@ -50,16 +50,15 @@
         {assign var="cur_category" value=""}
         {foreach from=$forums item=cur_forum}
             {if $cur_forum.cid != $cur_category}
-                {if $cur_category}
-                    </optgroup>
-                {/if}
-            <optgroup label="{$cur_forum.cat_name|escape}">
+                {if $cur_category}</optgroup>{/if}
+                <optgroup label="{$cur_forum.cat_name|escape}">
                 {assign var='cur_category' value=$cur_forum.cid}
             {/if}
             <option value="{$cur_forum.fid}">{$cur_forum.forum_name|escape}</option>
         {/foreach}
 
-        </optgroup>
+        {if $forums}</optgroup>{/if}
+
         </select><br/>
         {$lang_search.$Search_in}<br/>
         <select name="search_in">

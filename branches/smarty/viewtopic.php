@@ -525,16 +525,16 @@ if ($quickpost) {
 
     // Ввод имени для гостей
     if ($pun_user['is_guest']) {
-        echo '<label class="conl"><strong>Имя</strong><br /><input type="text" name="req_username" value="" size="25" maxlength="25" tabindex="1" /><br /></label><label class="conl">E-mail<br /><input type="text" name="email" value="" size="50" maxlength="50" tabindex="2" /><br /></label><div class="clearer"></div>';
+        echo '<label class="conl"><strong>Имя</strong><br /><input type="text" name="req_username" value="" size="25" maxlength="25" /><br /></label><label class="conl">E-mail<br /><input type="text" name="email" value="" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
     }
 
-    echo '<label><textarea name="req_message" id="req_message" rows="6" cols="64" tabindex="1"></textarea></label><ul id="buttonmenu"><li><a id="dectxt" href="javascript:resizeTextarea(-80)">-</a></li><li><a id="inctxt" href="javascript:resizeTextarea(80)">+</a></li></ul><ul class="bblinks"><li><a href="help.php#bbcode" onclick="window.open(this.href); return false;">' . $lang_common['BBCode'] . '</a>: ' . (($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#img" onclick="window.open(this.href); return false;">' . $lang_common['img tag'] . '</a>: ' . (($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#smilies" onclick="window.open(this.href); return false;">' . $lang_common['Smilies'] . '</a>: ' . (($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li></ul>';
+    echo '<label><textarea name="req_message" id="req_message" rows="6" cols="64"></textarea></label><ul id="buttonmenu"><li><a id="dectxt" href="javascript:resizeTextarea(-80)">-</a></li><li><a id="inctxt" href="javascript:resizeTextarea(80)">+</a></li></ul><ul class="bblinks"><li><a href="help.php#bbcode" onclick="window.open(this.href); return false;">' . $lang_common['BBCode'] . '</a>: ' . (($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#img" onclick="window.open(this.href); return false;">' . $lang_common['img tag'] . '</a>: ' . (($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li><li><a href="help.php#smilies" onclick="window.open(this.href); return false;">' . $lang_common['Smilies'] . '</a>: ' . (($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']) . '</li></ul>';
 
     if ($is_admmod) {
         echo '<label for="merge"><input type="checkbox" id="merge" name="merge" value="1" checked="checked" />' . $lang_post['Merge posts'] . '<br /></label>';
     }
 
-    echo '</div></fieldset></div><p><input type="submit" name="submit" tabindex="2" value="' . $lang_common['Submit'] . '" accesskey="s" /></p></form></div></div>';
+    echo '</div></fieldset></div><p><input type="submit" name="submit" value="' . $lang_common['Submit'] . '" accesskey="s" /></p></form></div></div>';
 }
 
 // Increment "num_views" for topic

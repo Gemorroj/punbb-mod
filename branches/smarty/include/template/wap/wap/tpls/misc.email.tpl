@@ -13,14 +13,14 @@
 <input type="hidden" name="redirect_url" value="{$redirect_url}"/>
 {assign var='Email_subject' value='E-mail subject'}
 {$lang_misc.$Email_subject}<br/>
-<input type="text" name="req_subject" maxlength="70" tabindex="1"/><br/>
+<input type="text" name="req_subject" maxlength="70"/><br/>
 {assign var='Email_message' value='E-mail message'}
 {$lang_misc.$Email_message}<br/>
-<textarea name="req_message" rows="4" cols="24" tabindex="2"></textarea><br/>
+<textarea name="req_message" rows="4" cols="24"></textarea><br/>
 {assign var='Email_disclosure_note' value='E-mail disclosure note'}
 {$lang_misc.$Email_disclosure_note}</div>
 <div class="go_to">
-<input type="submit" name="submit" value="{$lang_common.Submit}" tabindex="3" accesskey="s"/>
+<input type="submit" name="submit" value="{$lang_common.Submit}" accesskey="s"/>
 </div>
 </form>
 

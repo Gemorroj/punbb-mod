@@ -26,7 +26,7 @@
             <strong>{$cur_post.username|escape} &#187; {$cur_post.posted|date_format:$date_format}</strong></td>
     </tr>
     <tr>
-        <td style="border-bottom: 1px solid #333;">{parse_message($cur_post.message, true)}</td>
+        <td style="border-bottom: 1px solid #333;">{$cur_post.message}</td>
     </tr>
     {/foreach}
     </tbody>

@@ -162,32 +162,32 @@ print '<div class="blockform">
 <tr>
 <th scope="row">
 ' . $lang_admin['categories_ins'] . '
-<div><input type="submit" name="add_cat" value="' . $lang_admin['Add'] . '" tabindex="2" /></div>
+<div><input type="submit" name="add_cat" value="' . $lang_admin['Add'] . '" /></div>
 </th>
 <td>
-<input type="text" name="new_cat_name" size="35" maxlength="80" tabindex="1" />
+<input type="text" name="new_cat_name" size="35" maxlength="80" />
 <span>' . $lang_admin['categories_ins_about'] . '</span>
 </td>
 </tr>';
 
 if ($num_cats) {
     print '<tr>
-<th scope="row">' . $lang_admin['categories_delete'] . '<div><input type="submit" name="del_cat" value="' . $lang_admin['Del'] . '" tabindex="4" /></div></th>
-<td><select name="cat_to_delete" tabindex="3">';
+<th scope="row">' . $lang_admin['categories_delete'] . '<div><input type="submit" name="del_cat" value="' . $lang_admin['Del'] . '" /></div></th>
+<td><select name="cat_to_delete">';
 
 
     while (list(, list($cat_id, $cat_name, ,)) = @each($cat_list)) {
         echo '<option value="' . $cat_id . '">' . pun_htmlspecialchars($cat_name) . '</option>';
     }
 
-    print '</select><span>' . $lang_admin['categories_delete_about'] . '</span></td></tr>';
+    echo '</select><span>' . $lang_admin['categories_delete_about'] . '</span></td></tr>';
 }
 
 
-print '</table></div></fieldset></div>';
+echo '</table></div></fieldset></div>';
 
 if ($num_cats) {
-    print '<div class="inform">
+    echo '<div class="inform">
 <fieldset>
 <legend>' . $lang_admin['categories_set'] . '</legend>
 <div class="infldset">
@@ -206,7 +206,7 @@ if ($num_cats) {
     for ($i = 0; $i < $num_cats; ++$i) {
         list(, list($cat_id, $cat_name, $position)) = @each($cat_list);
 
-        print '<tr><td>
+        echo '<tr><td>
 <input type="text" name="cat_name[' . $i . ']" value="' . pun_htmlspecialchars($cat_name) . '" size="35" maxlength="80" />
 </td>
 <td>
@@ -217,7 +217,7 @@ if ($num_cats) {
     }
 
 
-    print '</tbody>
+    echo '</tbody>
 </table>
 <div class="fsetsubmit"><input type="submit" name="update" value="' . $lang_admin['Upd'] . '" /></div>
 </div>
@@ -225,7 +225,7 @@ if ($num_cats) {
 </div>';
 }
 
-print '</form></div></div><div class="clearer"></div></div>';
+echo '</form></div></div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
 ?>

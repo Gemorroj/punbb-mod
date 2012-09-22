@@ -20,7 +20,6 @@ if ($id < 1 && $pid < 1) {
 
 // If a post ID is specified we determine topic ID and page number so we can redirect to the correct message
 if ($pid) {
-
     $result = $db->query('SELECT `topic_id` FROM `' . $db->prefix . 'posts` WHERE `id`=' . $pid) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         wap_message($lang_common['Bad request']);
@@ -102,7 +101,6 @@ if (!$pun_user['is_guest']) {
     }
 
     if (!$find_new) {
-
         $requestTime = $_SERVER['REQUEST_TIME'] + 10;
         $result = $db->query('UPDATE ' . $db->prefix . 'log_forums SET log_time=' . $requestTime . ' WHERE forum_id=' . $cur_topic['forum_id'] . ' AND user_id=' . $pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 
@@ -215,7 +213,7 @@ require_once(PUN_ROOT . 'include/parser.php');
 
 $posts = $pids = array();
 while ($cur_post = $db->fetch_assoc($result)) {
-    $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+    $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
 
     $signature = '';
     if ($cur_post['signature'] && $pun_user['show_sig']) {
