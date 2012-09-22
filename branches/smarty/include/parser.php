@@ -576,7 +576,6 @@ function do_smilies($text)
 // hide
 function do_hide($text, $post = 0, $matches)
 {
-    error_log(var_export($post, true));
     global $pun_user, $lang_topic, $lang_common;
 
     include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
