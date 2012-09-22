@@ -1,10 +1,12 @@
-{include file='header.tpl'}
 {* This template is completed! *}
+{include file='header.tpl'}
+
+{assign var='Delete_post' value='Delete post'}
+
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a>
 &#187; <a href="viewforum.php?id={$cur_post.fid}">{$cur_post.forum_name|escape}</a> &#187; {$cur_post.subject|escape}
 </div>
-{assign var='Delete_post' value='Delete post'}
 <div class="red">{$lang_delete.$Delete_post}</div>
 <div class="msg2"><strong>{$lang_delete.Warning}</strong></div>
 <form method="post" action="delete.php?id={$id}">

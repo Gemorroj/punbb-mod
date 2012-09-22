@@ -1,5 +1,11 @@
 {include file='header.tpl'}
 
+{assign var='Closed_icon_m' value='Closed icon_m'}
+{assign var='Normal_icon' value='Normal icon'}
+{assign var='New_icon_m' value='New icon_m'}
+{assign var='Empty_forum' value='Empty forum'}
+{assign var='Post_topic' value='Post topic'}
+
 {* Навигация: Главная / Форум / Тема *}
 <div class="inbox">
 <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$cur_forum.forum_name|escape}
@@ -14,10 +20,10 @@
 {if $cur_topic.moved_to}
 {$lang_forum.Moved_m}
 {elseif $cur_topic.closed}
-{assign var='Closed_icon_m' value='Closed icon_m'}
+
 {$lang_common.$Closed_icon_m}
 {else}
-{assign var='Normal_icon' value='Normal icon'}
+
 {$lang_common.$Normal_icon}
 {/if}
 
@@ -64,7 +70,7 @@
     && ($cur_topic.last_post > $pun_user.last_visit
        || ($smarty.server.REQUEST_TIME - $cur_topic.last_post < $pun_user.mark_after))
 }
-{assign var='New_icon_m' value='New icon_m'}
+
 &#160;<span class="red">{$lang_common.$New_icon_m}</span>
 {/if}
 <br/>
@@ -78,7 +84,7 @@ href="viewtopic.php?pid={$cur_topic.last_post_id}#p{$cur_topic.last_post_id}">{$
 </div>
 
 {foreachelse}
-{assign var='Empty_forum' value='Empty forum'}
+
 <div class="in">{$lang_forum.$Empty_forum}</div>
 {/foreach}
 
@@ -88,7 +94,7 @@ href="viewtopic.php?pid={$cur_topic.last_post_id}#p{$cur_topic.last_post_id}">{$
     || $cur_forum.post_topics == 1
     || $is_admmod}
 <div class="go_to">
-{assign var='Post_topic' value='Post topic'}
+
 <a class="but" href="post.php?fid={$id}">{$lang_forum.$Post_topic}</a>
 </div>
 {/if}

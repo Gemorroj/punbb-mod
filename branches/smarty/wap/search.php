@@ -4,8 +4,8 @@ require_once PUN_ROOT . 'include/common.php';
 require_once PUN_ROOT . 'wap/header.php';
 
 // Load the search.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/search.php';
-
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/search.php';
+require_once PUN_ROOT . 'include/parser.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
@@ -488,6 +488,13 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         $search_set = array();
         while ($row = $db->fetch_assoc($result)) {
+<<<<<<< .mine
+            if ($pun_config['o_censoring'] == 1) {
+                $row['message'] = censor_words($row['message']);
+                $row['subject'] = censor_words($row['subject']);
+            }
+            $row['message'] = parse_message($row['message'], 0);
+=======
             if ($show_as == 'posts') {
                 if ($pun_config['o_censoring'] == 1) {
                     $search_set['message'] = censor_words($search_set['message']);
@@ -497,6 +504,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             if ($pun_config['o_censoring'] == 1) {
                 $search_set['subject'] = censor_words($search_set['subject']);
             }
+>>>>>>> .r171
             $search_set[] = $row;
         }
         $db->free_result($result);
@@ -519,8 +527,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         while ($row = $db->fetch_row($result)) {
             $forum_list[] = $row;
         }
-
-        include_once PUN_ROOT . 'include/parser.php';
 
         $smarty->assign('page_title', $page_title);
         $smarty->assign('search_set', $search_set);
