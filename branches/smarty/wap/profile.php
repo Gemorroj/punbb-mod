@@ -28,8 +28,7 @@ if ($action == 'change_pass') {
     if (isset($_GET['key'])) {
         // If the user is already logged in we shouldn't be here :)
         if (!$pun_user['is_guest']) {
-            header('Location: index.php');
-            exit;
+            wap_redirect('index.php', 302);
         }
 
         $key = $_GET['key'];

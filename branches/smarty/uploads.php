@@ -116,7 +116,7 @@ if (isset($_GET['file'])) {
     if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
         message($lang_common['Bad request']);
     } else {
-        header('Location: ' . PUN_ROOT . 'uploaded/' . $file_name, true, 301);
+        redirect('uploaded/' . $file_name);
     }
 
     // include_once PUN_ROOT.'include/functions.php';

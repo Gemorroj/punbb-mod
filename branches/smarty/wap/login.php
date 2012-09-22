@@ -79,7 +79,7 @@ if (isset($_POST['form_sent']) && @$_GET['action'] == 'in') {
     wap_redirect('index.php');
 } else if (@$_GET['action'] == 'forget' || @$_GET['action'] == 'forget_2') {
     if (!$pun_user['is_guest']) {
-        header('Location: index.php', true, 301);
+        wap_redirect('index.php', 302);
     }
 
     if (isset($_POST['form_sent'])) {

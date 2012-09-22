@@ -420,8 +420,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             $db->close();
 
             // Redirect the user to the cached result page
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])) . '/search.php?search_id=' . $search_id);
-            exit;
+            redirect('search.php?search_id=' . $search_id);
         }
     }
 
