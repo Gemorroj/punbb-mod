@@ -488,13 +488,13 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         $search_set = array();
         while ($row = $db->fetch_assoc($result)) {
-<<<<<<< .mine
+/*<<<<<<< .mine
             if ($pun_config['o_censoring'] == 1) {
                 $row['message'] = censor_words($row['message']);
                 $row['subject'] = censor_words($row['subject']);
             }
             $row['message'] = parse_message($row['message'], 0);
-=======
+=======*/
             if ($show_as == 'posts') {
                 if ($pun_config['o_censoring'] == 1) {
                     $search_set['message'] = censor_words($search_set['message']);
@@ -504,7 +504,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             if ($pun_config['o_censoring'] == 1) {
                 $search_set['subject'] = censor_words($search_set['subject']);
             }
->>>>>>> .r171
+//>>>>>>> .r171
             $search_set[] = $row;
         }
         $db->free_result($result);

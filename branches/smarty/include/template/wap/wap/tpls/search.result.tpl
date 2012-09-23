@@ -39,13 +39,7 @@
         <span class="sub">{$lang_search.Replies}: {$searchResult.num_replies} | <a
                 href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$lang_search.$Go_to_post}</a></span><br/>
     {* Message*}
-<<<<<<< .mine
-        {if mb_strlen($searchResult.message) > 999}
-            {assign var='message' value="{$searchResult.message} &#x2026;"}
-        {/if}
-=======
         {$searchResult.message} &#x2026;
->>>>>>> .r171
     </div>
         {else}
 
@@ -54,12 +48,7 @@
         <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
         &#187; {* $subject *}
         {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
-<<<<<<< .mine
-            <strong><a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape}
-                )</strong>
-=======
             <strong><a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})</strong>
->>>>>>> .r171
             {else}
             <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})
         {/if}

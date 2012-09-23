@@ -1,15 +1,5 @@
 {include file='header.tpl'}
 
-<<<<<<< .mine
-{assign var='Post_errors' value='Post errors'}
-{assign var='Post_errors_info' value='Post errors info'}
-{assign var='Post_preview' value='Post preview'}
-{assign var='Edit_post' value='Edit post'}
-{assign var='img_tag' value='img tag'}
-{assign var='Choose_a_file' value='Choose a file'}
-{assign var='Hide_smilies' value='Hide smilies'}
-{assign var='cur_index' value='0'}
-=======
 {assign var='Post_errors' value='Post errors'}
 {assign var='Post_errors_info' value='Post errors info'}
 {assign var='Post_preview' value='Post preview'}
@@ -18,8 +8,6 @@
 {assign var='Choose_a_file' value='Choose a file'}
 {assign var='Hide_smilies' value='Hide smilies'}
 {assign var='Silent_edit' value='Silent edit'}
->>>>>>> .r171
-
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <a href="viewforum.php?id={$cur_post.fid}">{$cur_post.forum_name|escape}</a> &#187; {$cur_post.subject|escape}
@@ -29,29 +17,19 @@
 <div class="red">
 {$lang_post.$Post_errors}
 </div>
-<<<<<<< .mine
-    
-=======
 
->>>>>>> .r171
 <div class="msg">{$lang_post.$Post_errors_info}
     {foreach from=$errors item=cur_error}
         &#187; {$cur_error}<br/>
     {/foreach}
 </div>
     {elseif isset($smarty.post.preview)}
-<<<<<<< .mine
-    
-=======
->>>>>>> .r171
+
     <div class="info">{$lang_post.$Post_preview}</div>
     <div class="msg">{$preview_message}</div>
 {/if}
 
-<<<<<<< .mine
 
-=======
->>>>>>> .r171
 <div class="con">{$lang_post.$Edit_post}</div>
 
 <form method="post" action="edit.php?id={$id}&amp;action=edit" enctype="multipart/form-data">
@@ -78,10 +56,7 @@
         {else}
         <span class="grey">{$lang_common.off_m}</span>;
     {/if}
-<<<<<<< .mine
-    
-=======
->>>>>>> .r171
+
         <a href="help.php?id=4">{$lang_common.$img_tag}</a>
     {if $pun_config.p_message_img_tag == 1}
         <span class="green">{$lang_common.on_m}</span>
@@ -98,10 +73,7 @@
         {/if}
         {if $can_upload && $num_to_upload > 0}
             </div>
-<<<<<<< .mine
-            
-=======
->>>>>>> .r171
+
             <div class="input2">{$lang_fu.$Choose_a_file}<br/>
         {/if}
         <input type="file" name="attach[]"/><br/>
