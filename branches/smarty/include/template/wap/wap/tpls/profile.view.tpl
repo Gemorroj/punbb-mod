@@ -55,37 +55,25 @@
 {/if}
 
     <strong>{$lang_common.Title}:</strong>
-{if $pun_config.o_censoring == 1}
-    {censor_words(get_title($user))}
-    {else}
-    {get_title($user)}
-{/if}
+    {$userTitle}
     <br/>
     <strong>{$lang_profile.Realname}:</strong>
 {if $user.realname}
-    {if $pun_config.o_censoring == 1}
-        {censor_words($user.realname)|escape}
-        {else}
-        {$user.realname|escape}
-    {/if}
+    {$user.realname|escape}
     {else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Location}:</strong>
 {if $user.location}
-    {if $pun_config.o_censoring == 1}
-        {censor_words($user.location)|escape}
-        {else}
-        {$user.location|escape}
-    {/if}
+    {$user.location|escape}
     {else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Website}:</strong>
 {if $user.url}
-    <a href="{$user.url}">{if $pun_config.o_censoring == 1}{censor_words($user.url)|escape}{/if}</a>
+    <a href="{$user.url}">{$user.url|escape}</a>
     {else}
     {$lang_profile.Unknown}
 {/if}
@@ -122,33 +110,21 @@
     <br/>
     <strong>{$lang_profile.MSN}:</strong>
 {if $user.msn}
-    {if $pun_config.o_censoring == 1}
-        {censor_words($user.msn)|escape}
-        {else}
-        {$user.msn|escape}
-    {/if}
+    {$user.msn|escape}
     {else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.$AOL_IM}:</strong>
 {if $user.aim}
-    {if $pun_config.o_censoring == 1}
-        {censor_words($user.aim)|escape}
-        {else}
-        {$user.aim|escape}
-    {/if}
+    {$user.aim|escape}
     {else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Yahoo}:</strong>
 {if $user.yahoo}
-    {if $pun_config.o_censoring == 1}
-        {censor_words($user.yahoo)|escape}
-        {else}
-        {$user.yahoo|escape}
-    {/if}
+    {$user.yahoo|escape}
     {else}
     {$lang_profile.Unknown}
 {/if}

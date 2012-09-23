@@ -182,8 +182,9 @@ if ($db->num_rows($result)) {
             
             $cur_topic['paging_links'] = paginate($num_pages_topic, -1, 'viewtopic.php?id=' . $cur_topic['id']);
         }
-        
-        $cur_topic['subject'] = censor_words($cur_topic['subject']);
+        if ($pun_config['o_censoring'] == 1) {
+            $cur_topic['subject'] = censor_words($cur_topic['subject']);
+        }
         $topics[] = $cur_topic;
     }
 }

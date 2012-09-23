@@ -953,6 +953,24 @@ unset($q);
 //}
 
 $smarty->assign('id',           $id);
+
+if ($pun_config['o_censoring'] == 1) {
+    if ($user['realname']) {
+        $user['realname'] = censor_words($user['realname']);
+    }
+    if ($user['url']) {
+        $user['url'] = censor_words($user['url']);
+    }
+    if ($user['msn']) {
+        $user['msn'] = censor_words($user['msn']);
+    }
+    if ($user['aim']) {
+        $user['aim'] = censor_words($user['aim']);
+    }
+    if ($user['yahoo']) {
+        $user['yahoo'] = censor_words($user['yahoo']);
+    }
+}
 $smarty->assign('user',         $user);
 $smarty->assign('lang_profile', $lang_profile);
 
@@ -965,6 +983,12 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     $smarty->assign('page_title',       $page_title);
     $smarty->assign('karma',            $karma);
     $smarty->assign('parsed_signature',@$parsed_signature);
+    
+    $userTitle = get_title($user);
+    if ($pun_config['o_censoring'] == 1) {
+        $userTitle = censor_words($userTitle);
+    }
+    $smarty->assign('userTitle', $userTitle);
     
     $pun_config['o_avatars']  = 1;
     $cur_post['use_avatar']   = 1;

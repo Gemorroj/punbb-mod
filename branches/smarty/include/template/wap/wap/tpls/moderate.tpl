@@ -45,13 +45,7 @@
             <strong>&#183;</strong>
         {/if}
 
-        <a href="viewtopic.php?id={$cur_topic.moved_to|default:$cur_topic.id}">
-            {if $pun_config.o_censoring == 1}
-                {censor_words($cur_topic.subject)|escape}
-            {else}
-                {$cur_topic.subject|escape}
-            {/if}
-        </a>
+        <a href="viewtopic.php?id={$cur_topic.moved_to|default:$cur_topic.id}">{$cur_topic.subject|escape}</a>
 
         {if isset($cur_topic.num_pages_topic) and $cur_topic.num_pages_topic > 1}
             [{paginate($cur_topic.num_pages_topic, -1, "viewtopic.php?id={$cur_topic.id}")}]
