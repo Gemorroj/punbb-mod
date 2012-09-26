@@ -490,12 +490,12 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         while ($row = $db->fetch_assoc($result)) {
             if ($show_as == 'posts') {
                 if ($pun_config['o_censoring'] == 1) {
-                    $search_set['message'] = censor_words($search_set['message']);
+                    $row['message'] = censor_words($row['message']);
                 }
-                $search_set['message'] = parse_message($search_set['message'], 0, $search_set['pid']);
+                $row['message'] = parse_message($row['message'], 0, $row['pid']);
             }
             if ($pun_config['o_censoring'] == 1) {
-                $search_set['subject'] = censor_words($search_set['subject']);
+                $row['subject'] = censor_words($row['subject']);
             }
             $search_set[] = $row;
         }
