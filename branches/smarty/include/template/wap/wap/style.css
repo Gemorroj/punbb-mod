@@ -15,20 +15,20 @@ a:hover{color:#be012c;text-decoration:underline}
 a:active{color:#8c0120}
 a.but{font-size:8pt;line-height:2;color:#be012c;border:1px solid #0e4d66;background:#fff;padding:2px 4px;border-radius:2pt}
 
-.hd{font-size:smaller;background:#eaecec url(wap/head.png) repeat-x;height:33px;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc}
+.hd{font-size:smaller;background:#eaecec url(imgs/head.png) repeat-x;height:33px;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc}
 .hd img{vertical-align:middle;margin:1px 6px 0}
-.hd_bott, .navlinks, .act{font-size:smaller;margin-bottom:1px;background:#eaecec url(wap/navlinks.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;padding:4px}
-.con, .cat{margin-bottom:1px;color:#be012c;background:#eaecec url(wap/con_cat.png) repeat-x;border-radius:2pt;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;padding:3px 4px 4px}
+.hd_bott, .navlinks, .act{font-size:smaller;margin-bottom:1px;background:#eaecec url(imgs/navlinks.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt;padding:4px}
+.con, .cat{margin-bottom:1px;color:#be012c;background:#eaecec url(imgs/con_cat.png) repeat-x;border-radius:2pt;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;padding:3px 4px 4px}
 span.sp_cat{font-weight:bold}
-.box, .box2, .in, .in2{margin:0 1px 1px;color:#fff;border:1px solid #105b78;background:#007090 url(wap/box.png) repeat-x;padding:3px 4px 4px;border-radius:2pt}
+.box, .box2, .in, .in2{margin:0 1px 1px;color:#fff;border:1px solid #105b78;background:#007090 url(imgs/box.png) repeat-x;padding:3px 4px 4px;border-radius:2pt}
 .box a, .box2 a, .in a, .in2 a{color:#dde2e6}
 .box a:hover, .box2 a:hover, .in a:hover, .in2 a:hover{text-decoration:none;color:#fff;background:#1b86a0}
 .small, span.sub{font-size:7pt}
-.go_to{margin:0 1px 1px;color:#fff;border:1px solid #06242f;background:#055772 url(wap/go_to.png) repeat-x;padding:2px 5px;border-radius:2pt}
-.incqbox, .inbox{font-size:8pt;margin-bottom:1px;color:#dce2e2;border:1px solid #475e61;background:#828a8e url(wap/inbox.png) repeat-x;padding:4px;border-radius:2pt}
+.go_to{margin:0 1px 1px;color:#fff;border:1px solid #06242f;background:#055772 url(imgs/go_to.png) repeat-x;padding:2px 5px;border-radius:2pt}
+.incqbox, .inbox{font-size:8pt;margin-bottom:1px;color:#dce2e2;border:1px solid #475e61;background:#828a8e url(imgs/inbox.png) repeat-x;padding:4px;border-radius:2pt}
 .incqbox a, .inbox a{color:#fff}
-.msg, .input{margin-bottom:1px;color:#0a3647;border:1px solid #c4d2d9;background:#f2f5f7 url(wap/msg.png) repeat-x;padding:4px;border-radius:2pt}
-.msg2, .input2{margin-bottom:1px;color:#06242f;border:1px solid #bdced2;background:#fbfdfd url(wap/msg2.png) repeat-x;padding:4px;border-radius:2pt}
+.msg, .input{margin-bottom:1px;color:#0a3647;border:1px solid #c4d2d9;background:#f2f5f7 url(imgs/msg.png) repeat-x;padding:4px;border-radius:2pt}
+.msg2, .input2{margin-bottom:1px;color:#06242f;border:1px solid #bdced2;background:#fbfdfd url(imgs/msg2.png) repeat-x;padding:4px;border-radius:2pt}
 .zag_in{font-size:x-small;color:#697378;min-height:60px}
 .zag_in img{margin-top:-1px;margin-right:4px;float:left}
 
@@ -54,4 +54,4 @@ hr{text-align:left;width:75%;margin:1pt}
 p {margin:0}
 
 .foot {font-size:smaller;padding-top:2px;padding-left:4px;float:left}
-.copy{font-size:smaller;text-align:right;padding:0 4px 5px;color:#0e4d66;background:#d8dfdf url(wap/copy.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt}
+.copy{font-size:smaller;text-align:right;padding:0 4px 5px;color:#0e4d66;background:#d8dfdf url(imgs/copy.png) bottom repeat-x;border-top:1px solid #fff;border-bottom:1px solid #b6bcbc;border-radius:2pt}
