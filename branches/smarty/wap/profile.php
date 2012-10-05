@@ -1062,8 +1062,8 @@ else {
                         $styles = array();
                         $d = dir(PUN_ROOT . 'include/template/wap');
                         while (($entry = $d->read()) !== false) {
-                            if ('.' != $entry && '..' != $entry) {
-                                $styles[] = $entry;
+                            if (substr($entry, strlen($entry) - 4) == '.css') {
+                                $styles[] = substr($entry, 0, strlen($entry) - 4);
                             }
                         }
                         $d->close();
