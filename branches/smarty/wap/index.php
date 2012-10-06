@@ -6,7 +6,6 @@ define('PUN_ALLOW_INDEX', 1); //?
 require_once(PUN_ROOT . 'include/common.php');
 
 if (! $pun_user['g_read_board']) {
-    
     wap_message($lang_common['No view']);
 }
 

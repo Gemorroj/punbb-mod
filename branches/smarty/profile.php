@@ -1373,13 +1373,13 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
     <br/></label>
     <?php
         $languages = array();
-        $d = dir(PUN_ROOT . 'lang');
-        while (($entry = $d->read()) !== false) {
+        $d = opendir(PUN_ROOT . 'lang');
+        while (false !== ($entry = readdir($d))) {
             if ($entry[0] != '.' && is_dir(PUN_ROOT . 'lang/' . $entry) && file_exists(PUN_ROOT . 'lang/' . $entry . '/common.php')) {
                 $languages[] = $entry;
             }
         }
-        $d->close();
+        closedir($d);
 
         // Only display the language selection box if there's more than one language available
         if (sizeof($languages) > 1) {
@@ -1621,13 +1621,14 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <div><input type="hidden" name="form_sent" value="1" /></div>';
 
         $styles = array();
-        $d = dir(PUN_ROOT . 'style');
-        while (($entry = $d->read()) !== false) {
-            if (substr($entry, strlen($entry) - 4) == '.css') {
-                $styles[] = substr($entry, 0, strlen($entry) - 4);
+        $d = opendir(PUN_ROOT . 'style');
+        while (false !== ($entry = readdir($d))) {
+            $info = pathinfo($entry);
+            if ($info['extension'] == 'css') {
+                $styles[] = $info['filename'];
             }
         }
-        $d->close();
+        closedir($d);
 
         // Only display the style selection box if there's more than one style available
         switch (sizeof($styles)) {

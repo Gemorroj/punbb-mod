@@ -308,14 +308,11 @@ if ($action == 'change_pass') {
             $extensions = null;
             if ($uploaded_file['type'] == 'image/gif') {
                 $extensions = array('.gif', '.jpg', '.png');
-            } else
-                if ($uploaded_file['type'] == 'image/jpeg' || $uploaded_file['type'] ==
-                    'image/pjpeg'
-                ) {
-                    $extensions = array('.jpg', '.gif', '.png');
-                } else {
-                    $extensions = array('.png', '.gif', '.jpg');
-                }
+            } else if ($uploaded_file['type'] == 'image/jpeg' || $uploaded_file['type'] == 'image/pjpeg') {
+                $extensions = array('.jpg', '.gif', '.png');
+            } else {
+                $extensions = array('.png', '.gif', '.jpg');
+            }
 
             // Move the file to the avatar directory. We do this before checking the width/height to circumvent open_basedir restrictions.
             if (!@move_uploaded_file($uploaded_file['tmp_name'], PUN_ROOT . $pun_config['o_avatars_dir'] .
@@ -334,13 +331,11 @@ if ($action == 'change_pass') {
                 @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp');
                 wap_message($lang_profile['Too wide or high'] . ' ' . $pun_config['o_avatars_width'] .
                     'x' . $pun_config['o_avatars_height'] . ' ' . $lang_profile['pixels'] . '.');
-            } else
-                if ($type == 1 && $uploaded_file['type'] != 'image/gif')
-                    // Prevent dodgy uploads
-                {
-                    @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp');
-                    wap_message($lang_profile['Bad type']);
-                }
+            } else if ($type == 1 && $uploaded_file['type'] != 'image/gif') {
+                // Prevent dodgy uploads
+                @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp');
+                wap_message($lang_profile['Bad type']);
+            }
 
             // Delete any old avatars and put the new one in place
             @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . $extensions[0]);
@@ -409,8 +404,7 @@ if ($action == 'change_pass') {
             error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
         while ($cur_forum = $db->fetch_assoc($result)) {
-            $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
-                array();
+            $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
 
             if (in_array($id, $cur_moderators)) {
                 $username = array_search($id, $cur_moderators);
@@ -494,8 +488,7 @@ if ($action == 'change_pass') {
                 error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
-                    array();
+                $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
 
                 if (in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$username]);
@@ -585,340 +578,333 @@ if ($action == 'change_pass') {
     $smarty->display('profile.delete.tpl');
     exit();
 
-} else
-    if (isset($_POST['form_sent']) and $_POST['form_sent']) {
-        // Fetch the user group of the user we are editing
-        $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
-            $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
-        if (!$db->num_rows($result)) {
-            wap_message($lang_common['Bad request']);
+} else if (isset($_POST['form_sent']) and $_POST['form_sent']) {
+    // Fetch the user group of the user we are editing
+    $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' .
+        $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    if (!$db->num_rows($result)) {
+        wap_message($lang_common['Bad request']);
+    }
+
+    $group_id = $db->result($result);
+
+    if ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] ==
+        PUN_MOD && !$pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD &&
+        $group_id < PUN_GUEST))
+    ) {
+        wap_message($lang_common['No permission']);
+    }
+
+    /*
+    if ($pun_user['g_id'] < PUN_GUEST){
+    confirm_referrer('profile.php');
+    }
+    */
+
+    // Extract allowed elements from $_POST['form']
+    function extract_elements($allowed_elements)
+    {
+        $form = array();
+
+        while (list($key, $value) = @each($_POST['form'])) {
+            if (in_array($key, $allowed_elements)) {
+                $form[$key] = $value;
+            }
         }
 
+        return $form;
+    }
+
+    $username_updated = false;
+
+    // Validate input depending on section
+    switch ($_GET['section']) {
+        case 'essentials':
+            $form = extract_elements(array('timezone', 'language'));
+
+            if ($pun_user['g_id'] < PUN_GUEST) {
+                $form['admin_note'] = trim($_POST['admin_note']);
+
+                // Are we allowed to change usernames?
+                if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_rename_users'] ==
+                    1)
+                ) {
+                    $form['username'] = trim($_POST['req_username']);
+                    $old_username = trim($_POST['old_username']);
+
+                    if (mb_strlen($form['username']) < 2) {
+                        wap_message($lang_prof_reg['Username too short']);
+                    } else
+                        if (mb_strlen($form['username']) > 25) {
+                            // This usually doesn't happen since the form element only accepts 25 characters
+                            wap_message($lang_common['Bad request']);
+                        } else
+                            if (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
+                                wap_message($lang_prof_reg['Username guest']);
+                            } else
+                                if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
+                                    wap_message($lang_prof_reg['Username IP']);
+                                } else
+                                    if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i',
+                                        $form['username'])
+                                    ) {
+                                        wap_message($lang_prof_reg['Username BBCode']);
+                                    }
+
+                    // Check that the username is not already registered
+                    $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE username=\'' .
+                        $db->escape($form['username']) . '\' AND id!=' . $id) or error('Unable to fetch user info',
+                        __FILE__, __LINE__, $db->error());
+                    if ($db->num_rows($result)) {
+                        wap_message($lang_profile['Dupe username']);
+                    }
+
+                    if ($form['username'] != $old_username) {
+                        $username_updated = true;
+                    }
+                }
+
+                // We only allow administrators to update the post count
+                if ($pun_user['g_id'] == PUN_ADMIN) {
+                    $form['num_posts'] = abs($_POST['num_posts']);
+                    $form['num_files'] = abs($_POST['num_files']);
+                    $form['file_bonus'] = abs($_POST['file_bonus']);
+                }
+            }
+
+            if (!$pun_config['o_regs_verify'] || $pun_user['g_id'] < PUN_GUEST) {
+                include_once PUN_ROOT . 'include/email.php';
+
+                // Validate the email-address
+                $form['email'] = strtolower(trim($_POST['req_email']));
+                if (!is_valid_email($form['email'])) {
+                    wap_message($lang_common['Invalid e-mail']);
+                }
+            }
+
+            // Make sure we got a valid language string
+            if ($form['language']) {
+                $form['language'] = preg_replace('#[\.\\\/]#', '', $form['language']);
+                if (!file_exists(PUN_ROOT . 'lang/' . $form['language'] . '/common.php')) {
+                    wap_message($lang_common['Bad request']);
+                }
+            }
+
+            break;
+
+
+        case 'personal':
+            $_POST['form']['birthday'] = intval($_POST['day']) . '.' . intval($_POST['month']) .
+                '.' . intval($_POST['year']);
+            if ($_POST['form']['birthday'] == '0.0.0') {
+                $_POST['form']['birthday'] = null;
+            }
+
+            $form = extract_elements(array('realname', 'url', 'location', 'sex', 'birthday'));
+
+            if ($pun_user['g_id'] == PUN_ADMIN) {
+                $form['title'] = trim($_POST['title']);
+            } else
+                if ($pun_user['g_set_title'] == 1) {
+                    $form['title'] = trim($_POST['title']);
+
+                    if ($form['title']) {
+                        // A list of words that the title may not contain
+                        // If the language is English, there will be some duplicates, but it's not the end of the world
+                        $forbidden = array('Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
+                            $lang_common['Moderator'], $lang_common['Administrator'], $lang_common['Banned'],
+                            $lang_common['Guest']);
+
+                        if (in_array($form['title'], $forbidden)) {
+                            wap_message($lang_profile['Forbidden title']);
+                        }
+                    }
+                }
+
+            // Add http:// if the URL doesn't contain it already
+            if ($form['url'] && strpos(strtolower($form['url']), 'http://') !== 0) {
+                $form['url'] = 'http://' . $form['url'];
+            }
+
+            break;
+
+
+        case 'messaging':
+            $form = extract_elements(array('jabber', 'icq', 'msn', 'aim', 'yahoo'));
+
+            // If the ICQ UIN contains anything other than digits it's invalid
+            if ($form['icq'] && !intval($form['icq'])) {
+                wap_message($lang_prof_reg['Bad ICQ']);
+            }
+
+            break;
+
+
+        case 'personality':
+            $form = extract_elements(array('use_avatar'));
+
+            // Clean up signature from POST
+            $form['signature'] = pun_linebreaks(trim($_POST['signature']));
+
+            // Validate signature
+            if (mb_strlen($form['signature']) > $pun_config['p_sig_length']) {
+                wap_message($lang_prof_reg['Sig too long'] . ' ' . $pun_config['p_sig_length'] .
+                    ' ' . $lang_prof_reg['characters'] . '.');
+            } else if (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
+                wap_message($lang_prof_reg['Sig too many lines'] . ' ' . $pun_config['p_sig_lines'] .
+                    ' ' . $lang_prof_reg['lines'] . '.');
+            } else
+                if ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) ==
+                    $form['signature'] && $pun_user['g_id'] > PUN_MOD
+                ) {
+                    $form['signature'] = ucwords(mb_strtolower($form['signature']));
+                }
+
+            // Validate BBCode syntax
+            if ($pun_config['p_sig_bbcode'] && strpos($form['signature'], '[') !== false && strpos($form['signature'], ']') !== false) {
+                include_once PUN_ROOT . 'include/parser.php';
+                $form['signature'] = preparse_bbcode($form['signature'], $foo, true);
+            }
+
+            if ($form['use_avatar'] != 1) {
+                $form['use_avatar'] = 0;
+            }
+            break;
+
+
+        case 'display':
+            // REAL MARK TOPIC AS READ MOD BEGIN
+            $form = extract_elements(array('disp_topics', 'disp_posts', 'show_smilies',
+                'show_img', 'show_img_sig', 'show_avatars', 'show_sig', 'style_wap',
+                'mark_after', 'show_bbpanel_qpost'));
+            // REAL MARK TOPIC AS READ MOD END
+            if ($form['disp_topics'] && intval($form['disp_topics']) < 3)
+                $form['disp_topics'] = 3;
+            if ($form['disp_topics'] && intval($form['disp_topics']) > 75)
+                $form['disp_topics'] = 75;
+            if ($form['disp_posts'] && intval($form['disp_posts']) < 3)
+                $form['disp_posts'] = 3;
+            if ($form['disp_posts'] && intval($form['disp_posts']) > 75)
+                $form['disp_posts'] = 75;
+
+            // REAL MARK TOPIC AS READ MOD BEGIN
+            if (intval(@$form['mark_after']) > 100) {
+                $form['mark_after'] = 1296000;
+            } else {
+                $form['mark_after'] = $form['mark_after'] * 86400;
+            }
+            // REAL MARK TOPIC AS READ MOD END
+
+            if ($form['show_bbpanel_qpost'] != 1) {
+                $form['show_bbpanel_qpost'] = 0;
+            }
+            if ($form['show_smilies'] != 1) {
+                $form['show_smilies'] = 0;
+            }
+            if ($form['show_img'] != 1) {
+                $form['show_img'] = 0;
+            }
+            if ($form['show_img_sig'] != 1) {
+                $form['show_img_sig'] = 0;
+            }
+            if ($form['show_avatars'] != 1) {
+                $form['show_avatars'] = 0;
+            }
+            if ($form['show_sig'] != 1) {
+                $form['show_sig'] = 0;
+            }
+
+            break;
+
+
+        case 'privacy':
+            $form = extract_elements(array('email_setting', 'save_pass', 'notify_with_post'));
+
+            $form['email_setting'] = intval($form['email_setting']);
+            if ($form['email_setting'] < 0 && $form['email_setting'] > 2) {
+                $form['email_setting'] = 1;
+            }
+
+            if ($form['save_pass'] != 1) {
+                $form['save_pass'] = 0;
+            }
+            if ($form['notify_with_post'] != 1) {
+                $form['notify_with_post'] = 0;
+            }
+
+            // If the save_pass setting has changed, we need to set a new cookie with the appropriate expire date
+            if ($pun_user['id'] == $id && $form['save_pass'] != $pun_user['save_pass']) {
+                $result = $db->query('SELECT password FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user password hash', __FILE__, __LINE__, $db->error());
+                pun_setcookie($id, $db->result($result), ($form['save_pass'] == 1) ? $_SERVER['REQUEST_TIME'] + 31536000 : 0);
+            }
+
+            break;
+
+
+        default:
+            wap_message($lang_common['Bad request']);
+            break;
+    }
+
+
+    // Singlequotes around non-empty values and NULL for empty values
+    $temp = array();
+    while (list($key, $input) = each($form)) {
+        $value = ($input !== null) ? '\'' . $db->escape($input) . '\'' : 'NULL';
+        $temp[] = $key . '=' . $value;
+    }
+
+    if (!$temp) {
+        wap_message($lang_common['Bad request']);
+    }
+
+    $db->query('UPDATE `' . $db->prefix . 'users` SET ' . implode(',', $temp) . ' WHERE `id`=' . $id) or error('Unable to update profile', __FILE__, __LINE__, $db->error());
+
+    // If we changed the username we have to update some stuff
+    if ($username_updated) {
+        $db->query('UPDATE ' . $db->prefix . 'posts SET poster=\'' . $db->escape($form['username']) .
+            '\' WHERE poster_id=' . $id) or error('Unable to update posts', __FILE__,
+            __LINE__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'topics SET poster=\'' . $db->escape($form['username']) .
+            '\' WHERE poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
+            __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'topics SET last_poster=\'' . $db->escape($form['username']) .
+            '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
+            __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'forums SET last_poster=\'' . $db->escape($form['username']) .
+            '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update forums',
+            __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE ' . $db->prefix . 'online SET ident=\'' . $db->escape($form['username']) .
+            '\' WHERE ident=\'' . $db->escape($old_username) . '\'') or error('Unable to update online list',
+            __FILE__, __LINE__, $db->error());
+
+        // If the user is a moderator or an administrator we have to update the moderator lists
+        $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         $group_id = $db->result($result);
 
-        if ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] ==
-            PUN_MOD && !$pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD &&
-            $group_id < PUN_GUEST))
-        ) {
-            wap_message($lang_common['No permission']);
-        }
+        if ($group_id < PUN_GUEST) {
+            $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
+                error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
-        /*
-        if ($pun_user['g_id'] < PUN_GUEST){
-        confirm_referrer('profile.php');
-        }
-        */
+            while ($cur_forum = $db->fetch_assoc($result)) {
+                $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
+                    array();
 
-        // Extract allowed elements from $_POST['form']
-        function extract_elements($allowed_elements)
-        {
-            $form = array();
+                if (in_array($id, $cur_moderators)) {
+                    unset($cur_moderators[$old_username]);
+                    $cur_moderators[$form['username']] = $id;
+                    ksort($cur_moderators);
 
-            while (list($key, $value) = @each($_POST['form'])) {
-                if (in_array($key, $allowed_elements)) {
-                    $form[$key] = $value;
-                }
-            }
-
-            return $form;
-        }
-
-        $username_updated = false;
-
-        // Validate input depending on section
-        switch ($_GET['section']) {
-            case 'essentials':
-                {
-                $form = extract_elements(array('timezone', 'language'));
-
-                if ($pun_user['g_id'] < PUN_GUEST) {
-                    $form['admin_note'] = trim($_POST['admin_note']);
-
-                    // Are we allowed to change usernames?
-                    if ($pun_user['g_id'] == PUN_ADMIN || ($pun_user['g_id'] == PUN_MOD && $pun_config['p_mod_rename_users'] ==
-                        1)
-                    ) {
-                        $form['username'] = trim($_POST['req_username']);
-                        $old_username = trim($_POST['old_username']);
-
-                        if (mb_strlen($form['username']) < 2) {
-                            wap_message($lang_prof_reg['Username too short']);
-                        } else
-                            if (mb_strlen($form['username']) > 25) {
-                                // This usually doesn't happen since the form element only accepts 25 characters
-                                wap_message($lang_common['Bad request']);
-                            } else
-                                if (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
-                                    wap_message($lang_prof_reg['Username guest']);
-                                } else
-                                    if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
-                                        wap_message($lang_prof_reg['Username IP']);
-                                    } else
-                                        if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i',
-                                            $form['username'])
-                                        ) {
-                                            wap_message($lang_prof_reg['Username BBCode']);
-                                        }
-
-                        // Check that the username is not already registered
-                        $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE username=\'' .
-                            $db->escape($form['username']) . '\' AND id!=' . $id) or error('Unable to fetch user info',
-                            __FILE__, __LINE__, $db->error());
-                        if ($db->num_rows($result)) {
-                            wap_message($lang_profile['Dupe username']);
-                        }
-
-                        if ($form['username'] != $old_username) {
-                            $username_updated = true;
-                        }
-                    }
-
-                    // We only allow administrators to update the post count
-                    if ($pun_user['g_id'] == PUN_ADMIN) {
-                        $form['num_posts'] = abs($_POST['num_posts']);
-                        $form['num_files'] = abs($_POST['num_files']);
-                        $form['file_bonus'] = abs($_POST['file_bonus']);
-                    }
-                }
-
-                if (!$pun_config['o_regs_verify'] || $pun_user['g_id'] < PUN_GUEST) {
-                    include_once PUN_ROOT . 'include/email.php';
-
-                    // Validate the email-address
-                    $form['email'] = strtolower(trim($_POST['req_email']));
-                    if (!is_valid_email($form['email'])) {
-                        wap_message($lang_common['Invalid e-mail']);
-                    }
-                }
-
-                // Make sure we got a valid language string
-                if ($form['language']) {
-                    $form['language'] = preg_replace('#[\.\\\/]#', '', $form['language']);
-                    if (!file_exists(PUN_ROOT . 'lang/' . $form['language'] . '/common.php')) {
-                        wap_message($lang_common['Bad request']);
-                    }
-                }
-
-                break;
-                }
-
-            case 'personal':
-                {
-                $_POST['form']['birthday'] = intval($_POST['day']) . '.' . intval($_POST['month']) .
-                    '.' . intval($_POST['year']);
-                if ($_POST['form']['birthday'] == '0.0.0') {
-                    $_POST['form']['birthday'] = null;
-                }
-
-                $form = extract_elements(array('realname', 'url', 'location', 'sex', 'birthday'));
-
-                if ($pun_user['g_id'] == PUN_ADMIN) {
-                    $form['title'] = trim($_POST['title']);
-                } else
-                    if ($pun_user['g_set_title'] == 1) {
-                        $form['title'] = trim($_POST['title']);
-
-                        if ($form['title']) {
-                            // A list of words that the title may not contain
-                            // If the language is English, there will be some duplicates, but it's not the end of the world
-                            $forbidden = array('Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
-                                $lang_common['Moderator'], $lang_common['Administrator'], $lang_common['Banned'],
-                                $lang_common['Guest']);
-
-                            if (in_array($form['title'], $forbidden)) {
-                                wap_message($lang_profile['Forbidden title']);
-                            }
-                        }
-                    }
-
-                // Add http:// if the URL doesn't contain it already
-                if ($form['url'] && strpos(strtolower($form['url']), 'http://') !== 0) {
-                    $form['url'] = 'http://' . $form['url'];
-                }
-
-                break;
-                }
-
-            case 'messaging':
-                {
-                $form = extract_elements(array('jabber', 'icq', 'msn', 'aim', 'yahoo'));
-
-                // If the ICQ UIN contains anything other than digits it's invalid
-                if ($form['icq'] && !intval($form['icq'])) {
-                    wap_message($lang_prof_reg['Bad ICQ']);
-                }
-
-                break;
-                }
-
-            case 'personality':
-                {
-                $form = extract_elements(array('use_avatar'));
-
-                // Clean up signature from POST
-                $form['signature'] = pun_linebreaks(trim($_POST['signature']));
-
-                // Validate signature
-                if (mb_strlen($form['signature']) > $pun_config['p_sig_length']) {
-                    wap_message($lang_prof_reg['Sig too long'] . ' ' . $pun_config['p_sig_length'] .
-                        ' ' . $lang_prof_reg['characters'] . '.');
-                } else if (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
-                    wap_message($lang_prof_reg['Sig too many lines'] . ' ' . $pun_config['p_sig_lines'] .
-                        ' ' . $lang_prof_reg['lines'] . '.');
-                } else
-                    if ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) ==
-                        $form['signature'] && $pun_user['g_id'] > PUN_MOD
-                    ) {
-                        $form['signature'] = ucwords(mb_strtolower($form['signature']));
-                    }
-
-                // Validate BBCode syntax
-                if ($pun_config['p_sig_bbcode'] && strpos($form['signature'], '[') !== false && strpos($form['signature'], ']') !== false) {
-                    include_once PUN_ROOT . 'include/parser.php';
-                    $form['signature'] = preparse_bbcode($form['signature'], $foo, true);
-                }
-
-                if ($form['use_avatar'] != 1) {
-                    $form['use_avatar'] = 0;
-                }
-                break;
-                }
-
-            case 'display':
-                {
-
-                // REAL MARK TOPIC AS READ MOD BEGIN
-                $form = extract_elements(array('disp_topics', 'disp_posts', 'show_smilies',
-                    'show_img', 'show_img_sig', 'show_avatars', 'show_sig', 'style_wap',
-                    'mark_after', 'show_bbpanel_qpost'));
-                // REAL MARK TOPIC AS READ MOD END
-                if ($form['disp_topics'] && intval($form['disp_topics']) < 3)
-                    $form['disp_topics'] = 3;
-                if ($form['disp_topics'] && intval($form['disp_topics']) > 75)
-                    $form['disp_topics'] = 75;
-                if ($form['disp_posts'] && intval($form['disp_posts']) < 3)
-                    $form['disp_posts'] = 3;
-                if ($form['disp_posts'] && intval($form['disp_posts']) > 75)
-                    $form['disp_posts'] = 75;
-
-                // REAL MARK TOPIC AS READ MOD BEGIN
-                if (intval(@$form['mark_after']) > 100) {
-                    $form['mark_after'] = 1296000;
-                } else {
-                    $form['mark_after'] = $form['mark_after'] * 86400;
-                }
-                // REAL MARK TOPIC AS READ MOD END
-
-                if ($form['show_bbpanel_qpost'] != 1) {
-                    $form['show_bbpanel_qpost'] = 0;
-                }
-                if ($form['show_smilies'] != 1) {
-                    $form['show_smilies'] = 0;
-                }
-                if ($form['show_img'] != 1) {
-                    $form['show_img'] = 0;
-                }
-                if ($form['show_img_sig'] != 1) {
-                    $form['show_img_sig'] = 0;
-                }
-                if ($form['show_avatars'] != 1) {
-                    $form['show_avatars'] = 0;
-                }
-                if ($form['show_sig'] != 1) {
-                    $form['show_sig'] = 0;
-                }
-
-                break;
-                }
-
-            case 'privacy':
-                {
-                $form = extract_elements(array('email_setting', 'save_pass', 'notify_with_post'));
-
-                $form['email_setting'] = intval($form['email_setting']);
-                if ($form['email_setting'] < 0 && $form['email_setting'] > 2) {
-                    $form['email_setting'] = 1;
-                }
-
-                if ($form['save_pass'] != 1) {
-                    $form['save_pass'] = 0;
-                }
-                if ($form['notify_with_post'] != 1) {
-                    $form['notify_with_post'] = 0;
-                }
-
-                // If the save_pass setting has changed, we need to set a new cookie with the appropriate expire date
-                if ($pun_user['id'] == $id && $form['save_pass'] != $pun_user['save_pass']) {
-                    $result = $db->query('SELECT password FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user password hash', __FILE__, __LINE__, $db->error());
-                    pun_setcookie($id, $db->result($result), ($form['save_pass'] == 1) ? $_SERVER['REQUEST_TIME'] + 31536000 : 0);
-                }
-
-                break;
-                }
-
-            default:
-                wap_message($lang_common['Bad request']);
-        }
-
-
-        // Singlequotes around non-empty values and NULL for empty values
-        $temp = array();
-        while (list($key, $input) = each($form)) {
-            $value = ($input !== null) ? '\'' . $db->escape($input) . '\'' : 'NULL';
-            $temp[] = $key . '=' . $value;
-        }
-
-        if (!$temp) {
-            wap_message($lang_common['Bad request']);
-        }
-
-        $db->query('UPDATE `' . $db->prefix . 'users` SET ' . implode(',', $temp) . ' WHERE `id`=' . $id) or error('Unable to update profile', __FILE__, __LINE__, $db->error());
-
-        // If we changed the username we have to update some stuff
-        if ($username_updated) {
-            $db->query('UPDATE ' . $db->prefix . 'posts SET poster=\'' . $db->escape($form['username']) .
-                '\' WHERE poster_id=' . $id) or error('Unable to update posts', __FILE__,
-                __LINE__, $db->error());
-            $db->query('UPDATE ' . $db->prefix . 'topics SET poster=\'' . $db->escape($form['username']) .
-                '\' WHERE poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
-                __FILE__, __LINE__, $db->error());
-            $db->query('UPDATE ' . $db->prefix . 'topics SET last_poster=\'' . $db->escape($form['username']) .
-                '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update topics',
-                __FILE__, __LINE__, $db->error());
-            $db->query('UPDATE ' . $db->prefix . 'forums SET last_poster=\'' . $db->escape($form['username']) .
-                '\' WHERE last_poster=\'' . $db->escape($old_username) . '\'') or error('Unable to update forums',
-                __FILE__, __LINE__, $db->error());
-            $db->query('UPDATE ' . $db->prefix . 'online SET ident=\'' . $db->escape($form['username']) .
-                '\' WHERE ident=\'' . $db->escape($old_username) . '\'') or error('Unable to update online list',
-                __FILE__, __LINE__, $db->error());
-
-            // If the user is a moderator or an administrator we have to update the moderator lists
-            $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
-            $group_id = $db->result($result);
-
-            if ($group_id < PUN_GUEST) {
-                $result = $db->query('SELECT id, moderators FROM ' . $db->prefix . 'forums') or
-                    error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
-
-                while ($cur_forum = $db->fetch_assoc($result)) {
-                    $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
-                        array();
-
-                    if (in_array($id, $cur_moderators)) {
-                        unset($cur_moderators[$old_username]);
-                        $cur_moderators[$form['username']] = $id;
-                        ksort($cur_moderators);
-
-                        $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize
-                        ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
-                            __FILE__, __LINE__, $db->error());
-                    }
+                    $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize
+                    ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
+                        __FILE__, __LINE__, $db->error());
                 }
             }
         }
-
-        wap_redirect('profile.php?section=' . htmlspecialchars($_GET['section']) . '&id=' . $id);
     }
+
+    wap_redirect('profile.php?section=' . htmlspecialchars($_GET['section']) . '&id=' . $id);
+}
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 $result = $db->query('SELECT u.username, u.email, u.title, u.realname, u.url, u.sex, u.birthday, u.jabber, u.icq, u.msn, u.aim, u.yahoo, u.location, u.use_avatar, u.signature, u.disp_topics, u.disp_posts, u.email_setting, u.save_pass, u.notify_with_post, u.show_smilies, u.show_img, u.show_img_sig, u.show_avatars, u.show_sig, u.timezone, u.language, u.style_wap, u.num_posts, u.num_files, u.file_bonus, u.last_post, u.registered, u.registration_ip, u.admin_note, g.g_id, g.g_user_title, u.mark_after, u.show_bbpanel_qpost FROM ' .
@@ -999,21 +985,21 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     
     $smarty->display('profile.view.tpl');
     exit();
-} //profile general
-else {
+} else {
+    //profile general
 
     include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 
     if (! (isset($_GET['section']) and $_GET['section']) || $_GET['section'] == 'essentials') {
 
         $languages = array();
-        $d = dir(PUN_ROOT . 'lang');
-        while (($entry = $d->read()) !== false) {
+        $d = opendir(PUN_ROOT . 'lang');
+        while (false !== ($entry = readdir($d))) {
             if ($entry[0] != '.' && is_dir(PUN_ROOT . 'lang/' . $entry) && file_exists(PUN_ROOT . 'lang/' . $entry . '/common.php')) {
                 $languages[] = $entry;
             }
         }
-        $d->close();
+        closedir($d);
 
         // Only display the language selection box if there's more than one language available
         if (sizeof($languages) > 1) {
@@ -1026,135 +1012,125 @@ else {
         
         $smarty->display('profile.general.tpl');
         exit();
-    } else
-        if ($_GET['section'] == 'personal') {
-            
-            if ($user['birthday']) {
-                
-                $birthday = explode('.', $user['birthday']);
-                $smarty->assign('birthday', $birthday);
+    } else if ($_GET['section'] == 'personal') {
+        if ($user['birthday']) {
+
+            $birthday = explode('.', $user['birthday']);
+            $smarty->assign('birthday', $birthday);
+        }
+
+        $smarty->display('profile.personal.tpl');
+        exit();
+    } else if ($_GET['section'] == 'messaging') {
+
+        $smarty->display('profile.messaging.tpl');
+        exit();
+    } else if ($_GET['section'] == 'personality') {
+
+        $smarty->assign('parsed_signature',@$parsed_signature);
+
+        $pun_config['o_avatars']  = 1;
+        $cur_post['use_avatar']   = 1;
+        $pun_user['show_avatars'] = 1;
+        $cur_post['poster_id']    = $id;
+
+        $smarty->assign('user_avatar', pun_show_avatar());
+
+        $smarty->display('profile.personality.tpl');
+        exit();
+    } else if ($_GET['section'] == 'display') {
+
+        $styles = array();
+        $d = opendir(PUN_ROOT . 'include/template/wap');
+        while (false !== ($entry = readdir($d))) {
+            if ($entry[0] !== '.' && is_dir(PUN_ROOT . 'include/template/wap/' . $entry)) {
+                $styles[] = $entry;
             }
-            
-            $smarty->display('profile.personal.tpl');
-            exit();
-        } else
-            if ($_GET['section'] == 'messaging') {
+        }
+        closedir($d);
 
-                $smarty->display('profile.messaging.tpl');
-                exit();
-            } else
-                if ($_GET['section'] == 'personality') {
+        $smarty->assign('styles', $styles);
 
-                    $smarty->assign('parsed_signature',@$parsed_signature);
-                    
-                    $pun_config['o_avatars']  = 1;
-                    $cur_post['use_avatar']   = 1;
-                    $pun_user['show_avatars'] = 1;
-                    $cur_post['poster_id']    = $id;
-                    
-                    $smarty->assign('user_avatar', pun_show_avatar());
-                    
-                    $smarty->display('profile.personality.tpl');
-                    exit();
-                } else
-                    if ($_GET['section'] == 'display') {
+        $smarty->display('profile.display.tpl');
+        exit();
+    } else if ($_GET['section'] == 'privacy') {
 
-                        $styles = array();
-                        $d = dir(PUN_ROOT . 'include/template/wap');
-                        while (($entry = $d->read()) !== false) {
-                            if ('.' != $entry && '..' != $entry) {
-                                $styles[] = $entry;
-                            }
-                        }
-                        $d->close();
+        $smarty->assign('lang_prof_reg', $lang_prof_reg);
 
-                        $smarty->assign('styles', $styles);
+        $smarty->display('profile.privacy.tpl');
+        exit();
+    } else if ($_GET['section'] == 'admin') {
 
-                        $smarty->display('profile.display.tpl');
-                        exit();
-                    } else
-                        if ($_GET['section'] == 'privacy') {
+        if ($pun_user['g_id'] > PUN_MOD
+            || ($pun_user['g_id'] == PUN_MOD
+            && ! $pun_config['p_mod_ban_users'])
+        ) {
 
-                            $smarty->assign('lang_prof_reg', $lang_prof_reg);
+            wap_message($lang_common['Bad request']);
+        }
 
-                            $smarty->display('profile.privacy.tpl');
-                            exit();
-                        } else
-                            if ($_GET['section'] == 'admin') {
+        //wap_generate_profile_menu('admin');
 
-                                if ($pun_user['g_id'] > PUN_MOD
-                                    || ($pun_user['g_id'] == PUN_MOD
-                                    && ! $pun_config['p_mod_ban_users'])
-                                ) {
-                                    
-                                    wap_message($lang_common['Bad request']);
-                                }
-                                
-                                //wap_generate_profile_menu('admin');
-                                
-                                if ($pun_user['g_id'] <> PUN_MOD) {
+        if ($pun_user['g_id'] <> PUN_MOD) {
 
-                                    if ($pun_user['id'] != $id) {
-                                        
-                                        $q = 'SELECT `g_id`, `g_title` '
-                                           . 'FROM `' . $db->prefix . 'groups` '
-                                           . 'WHERE `g_id`!=' . PUN_GUEST . ' '
-                                           . 'ORDER BY `g_title`;';
-                                        
-                                        $result = $db->query($q)
-                                        or error('Unable to fetch user group list',
-                                                 __FILE__,
-                                                 __LINE__,
-                                                 $db->error());
-                                        
-                                        $groups = array();
-                                        while ($cur_group = $db->fetch_assoc($result)) {
+            if ($pun_user['id'] != $id) {
 
-                                            $groups[] = $cur_group;
-                                        }
-                                    }
-                                    
-                                    if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
-                                        
-                                        $q = 'SELECT `c`.`id` AS `cid`, '
-                                           . '`c`.`cat_name`, '
-                                           . '`f`.`id` AS `fid`, '
-                                           . '`f`.`forum_name`, `f`.`moderators` '
-                                           . 'FROM `' . $db->prefix . 'categories` AS `c` '
-                                           . 'INNER JOIN `' . $db->prefix . 'forums` AS `f` '
-                                           . 'ON `c`.`id`=`f`.`cat_id` '
-                                           . 'WHERE `f`.`redirect_url` IS NULL '
-                                           . 'ORDER BY `c`.`disp_position`, '
-                                           . '`c`.`id`, '
-                                           . '`f`.`disp_position`;';
-                                        
-                                        $result = $db->query($q)
-                                        or error('Unable to fetch category/forum list',
-                                                 __FILE__,
-                                                 __LINE__,
-                                                 $db->error());
-                                        
-                                        $forums = array();
-                                        while ($cur_forum = $db->fetch_assoc($result)) {
-                                            
-                                            if ($cur_forum['moderators']) {
-                                                
-                                                $cur_forum['is_moderator'] = in_array($id, unserialize($cur_forum['moderators']));
-                                            }
-                                            
-                                            $forums[] = $cur_forum;
-                                        }
-                                    }
-                                }
-                                
-                                $page_title = $pun_config['o_board_title']
-                                            . ' / ' . $lang_common['Profile']
-                                            . ' - ' . $lang_profile['Section admin'];
-                                $smarty->assign('page_title', $page_title);
-                                $smarty->assign('groups', @$groups);
-                                $smarty->assign('forums', @$forums);
-                                
-                                $smarty->display('profile.admin.tpl');
-                                exit();
-                            }
+                $q = 'SELECT `g_id`, `g_title` '
+                   . 'FROM `' . $db->prefix . 'groups` '
+                   . 'WHERE `g_id`!=' . PUN_GUEST . ' '
+                   . 'ORDER BY `g_title`;';
+
+                $result = $db->query($q)
+                or error('Unable to fetch user group list',
+                         __FILE__,
+                         __LINE__,
+                         $db->error());
+
+                $groups = array();
+                while ($cur_group = $db->fetch_assoc($result)) {
+                    $groups[] = $cur_group;
+                }
+            }
+
+            if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
+
+                $q = 'SELECT `c`.`id` AS `cid`, '
+                   . '`c`.`cat_name`, '
+                   . '`f`.`id` AS `fid`, '
+                   . '`f`.`forum_name`, `f`.`moderators` '
+                   . 'FROM `' . $db->prefix . 'categories` AS `c` '
+                   . 'INNER JOIN `' . $db->prefix . 'forums` AS `f` '
+                   . 'ON `c`.`id`=`f`.`cat_id` '
+                   . 'WHERE `f`.`redirect_url` IS NULL '
+                   . 'ORDER BY `c`.`disp_position`, '
+                   . '`c`.`id`, '
+                   . '`f`.`disp_position`;';
+
+                $result = $db->query($q)
+                or error('Unable to fetch category/forum list',
+                         __FILE__,
+                         __LINE__,
+                         $db->error());
+
+                $forums = array();
+                while ($cur_forum = $db->fetch_assoc($result)) {
+                    if ($cur_forum['moderators']) {
+                        $cur_forum['is_moderator'] = in_array($id, unserialize($cur_forum['moderators']));
+                    }
+
+                    $forums[] = $cur_forum;
+                }
+            }
+        }
+
+        $page_title = $pun_config['o_board_title']
+                    . ' / ' . $lang_common['Profile']
+                    . ' - ' . $lang_profile['Section admin'];
+        $smarty->assign('page_title', $page_title);
+        $smarty->assign('groups', @$groups);
+        $smarty->assign('forums', @$forums);
+
+        $smarty->display('profile.admin.tpl');
+        exit();
+    }
 }

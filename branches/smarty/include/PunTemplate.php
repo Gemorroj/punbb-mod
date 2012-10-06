@@ -27,7 +27,6 @@ class PunTemplate extends Smarty
             ->setConfigDir($punDesignDir . '/configs/')
             ->setCacheDir($punDesignDir . '/cache/');
 
-        $this->caching = Smarty::CACHING_OFF;
         $this->compile_check = true; // dev mode
 
         //$this->assign('punDesignDir', $root);
