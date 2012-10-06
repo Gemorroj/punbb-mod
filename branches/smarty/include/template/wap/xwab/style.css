@@ -1,12 +1,12 @@
-body{margin:0 auto;max-width:640px; background:#000;color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px}
+body{background:#000;color:#fff;font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;font-size:12px}
 img{vertical-align:middle;margin:0;padding:0;border:0}
 form{width:100%;margin:0;padding:0}
 a:link,a:active,a:visited{color:#F90;text-decoration:none;border:1px solid transparent;padding:1px}
 a:hover{text-decoration:none;color:#ff0;background:#900;border:1px solid #f90;padding:1px;position:relative;top:1px}
 
-.hd, .incqbox, .inbox{font-size:8pt;background:url(xwab/fon_red.gif)repeat-x;background:#900; color:#fff;margin:3px 0;border:1px solid #c30;border-radius:6px;padding:5px}
+.hd, .incqbox, .inbox{ background:url(imgs/fon_red.gif)repeat-x;background:#900; color:#fff;margin:3px 0;border:1px solid #c30;border-radius:6px;padding:5px}
 
-.con, .cat, .go_to, .info{color:#fff;background:#900 url(xwab/fon_red_con.gif) repeat-x;margin-bottom:1px;border-bottom:3px double#600; border-left:3px double#c00; border-top:3px double#c00; border-right:3px double#600;border-radius:6px;padding:5px}
+.con, .cat, .go_to, .info{color:#fff;background:#900 url(imgs/fon_red_con.gif) repeat-x;margin-bottom:1px;border-bottom:3px double#600; border-left:3px double#c00; border-top:3px double#c00; border-right:3px double#600;border-radius:6px;padding:5px}
 .sp_cat{font-weight:bold}
 
 .in, .in2, .box, .box2, .hd_bott, .navlinks, .msg, .input, .act{border:1px solid #c30;border-radius:6px;margin:1px;padding:5px}
