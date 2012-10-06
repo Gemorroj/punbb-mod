@@ -51,7 +51,10 @@ function check_cookie(&$pun_user)
         }
 
         // Set a default style if the user selected style no longer exists
-        if (!@file_exists(PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '.css')) {
+        // if (!@file_exists(PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '.css')) {
+            // $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
+        // }
+        if (!@is_file(PUN_ROOT . '/include/template/wap/' . $pun_user['style_wap'] . '/style.css')) {
             $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
         }
 
