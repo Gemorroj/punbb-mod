@@ -1531,6 +1531,7 @@ class getf
         }
 
 
+        /*
         if ($_SERVER['HTTP_ACCEPT_ENCODING']) {
             $compress = strtolower($_SERVER['HTTP_ACCEPT_ENCODING']);
         } else {
@@ -1544,6 +1545,7 @@ class getf
             header('Content-Encoding: gzip');
             $this->data = gzencode($this->data, 6);
         }
+        */
 
         $sz = $range = strlen($this->data);
 
