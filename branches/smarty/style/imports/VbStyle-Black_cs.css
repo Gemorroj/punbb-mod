@@ -8,6 +8,7 @@ margin-bottom: 10px;
 background-color: #fafafa;
 margin: auto;
 width: 80%;
+min-width: 750px;
 padding-left: 6px;
 padding-right: 6px;
 padding-top: 0;
@@ -26,13 +27,11 @@ div.box #brdtitle {
 background-color: #f1f1f1;
 background-image: url(../img/VbStyle-Black/forum_header.gif);
 display: block;
-height: 32px;
 border-bottom: 0;
 }
 h1 span{font-weight:bold;}
 .pun #brdtitle p {
 color: #fff;
-position: absolute;
 top: 108px;
 padding-left: 10px
 }
