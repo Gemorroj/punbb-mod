@@ -1278,7 +1278,7 @@ function generate_rss()
         '<title>' . $pun_config['o_board_title'] . '</title>' .
         '<link>' . $pun_config['o_base_url'] . '</link>' .
         '<description>' . $pun_config['o_board_desc'] . '</description>' .
-        '<pubDate>' . date('r') . '</pubDate>' .
+        '<pubDate>' . date(DATE_RSS, time()) . '</pubDate>' .
         '<generator>RSS Generator</generator>' . "\r\n");
 
     //$onlysubforum = 'WHERE t.forum_id=1'; //do not delete
@@ -1299,7 +1299,7 @@ function generate_rss()
                 '<title>' . $cur_topic['subject'] . '</title>' .
                 '<link>' . $pun_config['o_base_url'] . '/viewtopic.php?id=' . $cur_topic['id'] . '</link>' .
                 '<comments>' . $pun_config['o_base_url'] . '/viewtopic.php?pid=' . $cur_topic['last_post_id'] . '#p' . $cur_topic['last_post_id'] . '</comments>' .
-                '<pubDate>' . date('r', $cur_topic['posted']) . '</pubDate>' .
+                '<pubDate>' . date(DATE_RSS, $cur_topic['posted']) . '</pubDate>' .
                 '<dc:creator>' . $cur_topic['poster'] . '</dc:creator>' .
                 '<category>' . $cur_topic['forum_name'] . '</category>' .
                 '<guid>' . $pun_config['o_base_url'] . '/viewforum.php?id=' . $cur_topic['forum_id'] . '&amp;' . mt_rand() . '</guid>' .
