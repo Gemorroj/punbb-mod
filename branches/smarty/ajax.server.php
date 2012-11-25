@@ -48,7 +48,7 @@ if (isset($_GET['poll'])) {
                 include PUN_ROOT . 'include/informer/Informer.inc.php';
                 $obj = new Informer($db, $pun_user, $lang_common, $pun_config);
 
-                $result = $obj->$_GET['method']($_GET);
+                $result = $obj->{$_GET['method']}($_GET);
                 break;
 
 
