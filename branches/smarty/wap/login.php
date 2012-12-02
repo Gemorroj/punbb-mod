@@ -47,7 +47,8 @@ if (isset($_POST['form_sent']) && @$_GET['action'] == 'in') {
     }
 
     if (!$authorized) {
-        wap_message($lang_login['Wrong user/pass'] . ' <a href="login.php?action=forget">' . $lang_login['Forgotten pass'] . '</a>');
+        // wap_message($lang_login['Wrong user/pass'] . ' <a href="login.php?action=forget">' . $lang_login['Forgotten pass'] . '</a>');
+        wap_message($lang_login['Wrong user/pass']);
     }
 
     // Update the status if this is the first time the user logged in
