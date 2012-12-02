@@ -136,6 +136,7 @@ $lang_common = array(
 'Site map'			=>	'Site map',
 'Attachments'			=>	'Attachments',
 'Logout'				=>	'Logout',
+'Login required' => 'Login required',
 'Logged in as'			=>	'Logged in as',
 'Admin'					=>	'Administration',
 'Admin_m'				=>	'Admin panel',

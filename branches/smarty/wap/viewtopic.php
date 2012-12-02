@@ -165,7 +165,9 @@ if ($pun_config['poll_enabled'] == 1) {
     require_once(PUN_ROOT . 'include/poll/poll.inc.php');
 
     if ($cur_topic['has_poll']) {
-        if ($_POST['pollid']) {
+        $warning = '';
+        if (@$_POST['pollid']) {
+            $q = '';
             if (is_array($_POST['poll_vote'])) {
                 foreach ($_POST['poll_vote'] as $var) {
                     $q .= $var . '=' . $var . '&';

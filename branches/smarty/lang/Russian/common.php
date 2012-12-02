@@ -139,6 +139,7 @@ $lang_common = array(
 'Register'				=> 'Регистрация',
 'Login'					=> 'Войти',
 'Not logged in'			=> 'Вы не зашли.',
+'Login required' => 'Необходимо войти/авторизоваться.',
 'Profile'				=>	'Профиль',
 'Site map'				=>	'Карта сайта',
 'Attachments'			=>	'Вложения',

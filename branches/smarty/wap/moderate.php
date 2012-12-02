@@ -486,7 +486,7 @@ $result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, l
 
 $topics = array();
 while ($topic = $db->fetch_assoc($result)) {
-    if ($pun_config.o_censoring == 1) {
+    if ($pun_config['o_censoring'] == 1) {
         $topic['subject'] = censor_words($topic['subject']);
     }
     $topics[] = $topic;
