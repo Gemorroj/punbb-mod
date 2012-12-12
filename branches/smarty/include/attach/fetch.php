@@ -33,6 +33,11 @@ switch (basename($_SERVER['PHP_SELF'])) {
 $attachments = array();
 $result = $db->query($att_sql, true); // or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
 while ($attachment = $db->fetch_assoc($result)) {
+    if ($attachment['size'] >= 1048576) {
+        $attachment['size']['mb'] = round($attachment['size'] / 1048576, 0);
+    } else {
+        $attachment['size']['kb'] = round($attachment['size'] / 1024, 0);
+    }
     $attachments[$attachment['post_id']][] = $attachment;
 }
 $db->free_result($result);
