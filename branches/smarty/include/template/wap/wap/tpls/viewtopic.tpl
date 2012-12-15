@@ -62,7 +62,7 @@
             {if $pun_config.o_show_post_karma == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
             {* Карма *}
                 &#160;({$cur_post.karma.val|default:'no value'})
-                {if ! $pun_user.is_guest and ! $cur_post.karma.used|default:'1'}
+                {if ! $cur_post.karma.used|default:'1'}
                     &#160;<a href="karma.php?to={$cur_post.poster_id}&amp;vote=1&amp;pid={$cur_post.id}">+</a>/<a
                         href="karma.php?to={$cur_post.poster_id}&amp;vote=-1&amp;pid={$cur_post.id}">-</a>
                 {/if}

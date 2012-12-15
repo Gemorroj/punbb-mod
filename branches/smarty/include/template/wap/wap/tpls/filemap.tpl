@@ -38,7 +38,7 @@
 {*// A new topic since last iteration?*}
     {if $attachment.tid != $cur_topic}
     <div class="in">
-        <a href="viewtopic.php?id={$attachment.tid}">{$attachment.subject|escape}</a> <span class="small">({$attachment.posted})</span></div>
+        <a href="viewtopic.php?id={$attachment.tid}">{$attachment.subject|escape}</a> <span class="small">({$attachment.posted|date_format:$date_format})</span></div>
         {assign var='cur_topic' value=$attachment.tid}
     {/if}
 
