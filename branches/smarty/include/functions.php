@@ -635,6 +635,7 @@ function get_title($user)
         }
     }
 
+    $user_title = '';
 
     if ($user['title']) {
         // If the user has a custom title
