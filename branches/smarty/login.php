@@ -195,4 +195,3 @@ echo '<div class="blockform">
 </div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

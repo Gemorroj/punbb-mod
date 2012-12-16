@@ -193,4 +193,3 @@ if (isset($_POST['forum_post_sync'])) {
 </div>
 <?php
 }
-?>

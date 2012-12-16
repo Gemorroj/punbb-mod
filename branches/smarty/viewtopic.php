@@ -323,7 +323,9 @@ foreach ($posts as $cur_post) {
 
             if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
                 $q = $db->fetch_row($db->query('
-                    SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
+                    SELECT COUNT(1),
+                    (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ')
+                    FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
                 ));
 
                 $karma['plus'] = intval($q[0]);
@@ -543,5 +545,3 @@ $db->query('UPDATE LOW_PRIORITY `' . $db->prefix . 'topics` SET `num_views`=`num
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';
 require_once PUN_ROOT . 'footer.php';
-
-?>

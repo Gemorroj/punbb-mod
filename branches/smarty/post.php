@@ -698,5 +698,3 @@ if ($tid && $pun_config['o_topic_review']) {
 }
 
 require_once PUN_ROOT . 'footer.php';
-
-?>

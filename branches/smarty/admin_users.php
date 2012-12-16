@@ -476,4 +476,3 @@ if (isset($_GET['show_users'])) {
 <?php
     require_once PUN_ROOT . 'footer.php';
 }
-?>

@@ -96,4 +96,3 @@ echo '<div class="linkst">
 </div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

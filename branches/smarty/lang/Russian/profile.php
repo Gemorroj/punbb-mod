@@ -163,6 +163,4 @@ $lang_profile = array(
 'month' => 'Месяц',
 'year' => 'Год',
 
-
-
 );

@@ -41,5 +41,3 @@ while ($attachment = $db->fetch_assoc($result)) {
     $attachments[$attachment['post_id']][] = $attachment;
 }
 $db->free_result($result);
-
-?>

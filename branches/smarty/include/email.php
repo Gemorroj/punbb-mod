@@ -161,5 +161,3 @@ function smtp_mail($to, $subject, $message, $headers = '')
 
     return true;
 }
-
-?>

@@ -40,4 +40,3 @@ class _jsHelper
 }
 
 $jsHelper = new _jsHelper();
-?>

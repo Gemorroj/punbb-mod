@@ -51,5 +51,3 @@ if ($attachments) {
 
     echo '</ul><div class="clearer"></div>';
 }
-
-?>

@@ -140,4 +140,3 @@ else if (isset($_POST['regen_jump_cache'])) {
 </div>
 <?php
 }
-?>

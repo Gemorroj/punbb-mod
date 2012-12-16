@@ -493,5 +493,3 @@ if ($db->num_rows($result)) {
 echo '</div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
-
-?>

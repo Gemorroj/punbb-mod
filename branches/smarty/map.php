@@ -65,4 +65,3 @@ echo '</div></div><br /><div class="clearer"></div>';
 
 $footer_style = 'index';
 require_once PUN_ROOT . 'footer.php';
-?>

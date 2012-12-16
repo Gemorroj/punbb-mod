@@ -194,4 +194,3 @@ if (isset($_POST['lang'])) {
 </div>
 </div>';
 }
-?>

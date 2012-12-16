@@ -141,4 +141,3 @@ if (isset($_POST['run_merge'])) {
 </div>
 <?php
 }
-?>

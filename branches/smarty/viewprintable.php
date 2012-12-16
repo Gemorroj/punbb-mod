@@ -62,5 +62,3 @@ while ($cur_post = $db->fetch_assoc($result)) {
 }
 
 echo '</tbody></table></body></html>';
-
-?>

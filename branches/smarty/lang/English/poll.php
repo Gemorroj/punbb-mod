@@ -34,4 +34,3 @@ $lang_poll = array(
 
 
 );
-?>

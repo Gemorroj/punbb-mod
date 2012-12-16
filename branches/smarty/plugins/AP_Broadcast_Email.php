@@ -207,4 +207,3 @@ if (isset($_POST['confirm'])) {
 </div>
 <?php
 }
-?>

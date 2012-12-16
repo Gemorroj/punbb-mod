@@ -221,4 +221,3 @@ echo '<input type="hidden" name="num_types" value="' . $num_types . '" />
 </div>';
 }
 //$upl_conf['p_setop']
-?>

@@ -236,5 +236,3 @@ if ($pun_config['o_announcement'] == 1) {
 ob_start();
 
 define('PUN_HEADER', 1);
-
-?>

@@ -939,4 +939,3 @@ print '/> <strong>Нет</strong>
 </div>
 <?php
 require_once PUN_ROOT . 'footer.php';
-?>

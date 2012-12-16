@@ -8,4 +8,3 @@ if ($is_spam) {
         $db->query('UPDATE ' . $db->prefix . 'users SET group_id=' . $pun_config['o_spam_gid'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update group id', __FILE__, __LINE__, $db->error());
     }
 }
-?>

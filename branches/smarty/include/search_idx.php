@@ -170,5 +170,3 @@ function strip_search_index($post_ids)
 
     $db->query('DELETE FROM ' . $db->prefix . 'search_matches WHERE post_id IN(' . $post_ids . ')') or error('Unable to delete search index word match', __FILE__, __LINE__, $db->error());
 }
-
-?>

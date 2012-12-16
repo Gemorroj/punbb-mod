@@ -167,5 +167,3 @@ echo '</tbody></table>
 <div class="linksb"><div class="inbox"><p class="pagelink">' . $paging_links . '</p></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
-
-?>

@@ -349,5 +349,3 @@ class Informer
         return parse_message($message, $hide_smilies);
     }
 }
-
-?>

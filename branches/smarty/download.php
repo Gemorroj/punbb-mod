@@ -74,4 +74,3 @@ header('Accept-Ranges: bytes');
 header('Content-Length: '.filesize($location));
 exit(file_get_contents($location));
 */
-?>

@@ -706,4 +706,3 @@ echo '</tbody></table></div></div></div>
 </form>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

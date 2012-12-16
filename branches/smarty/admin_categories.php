@@ -228,4 +228,3 @@ if ($num_cats) {
 echo '</form></div></div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

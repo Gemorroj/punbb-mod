@@ -74,5 +74,3 @@ echo $str;
 
 $footer_style = 'index';
 require_once PUN_ROOT . 'footer.php';
-
-?>

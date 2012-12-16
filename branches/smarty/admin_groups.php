@@ -504,4 +504,3 @@ while ($cur_group = $db->fetch_assoc($result)) {
 echo  '</table></div></fieldset></div></div></div></div><div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

@@ -170,5 +170,3 @@ class DBLayer
 
 // Create the database adapter object (and open/connect to/select db)
 $db = new DBLayer($db_host, $db_username, $db_password, $db_name, $p_connect);
-
-?>

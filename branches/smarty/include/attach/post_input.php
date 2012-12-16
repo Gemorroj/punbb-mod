@@ -60,5 +60,3 @@ if ($num_to_upload >= 2) {
 }
 
 echo '<div class="clearer"></div></div>';
-
-?>

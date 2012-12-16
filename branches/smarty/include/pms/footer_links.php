@@ -8,5 +8,3 @@ if ($footer_style == 'message_list') {
 
     echo '</dl>';
 }
-
-?>

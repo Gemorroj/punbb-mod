@@ -278,5 +278,3 @@ if ($_GET['action'] == 'rules') {
 } else {
     message($lang_common['Bad request']);
 }
-
-?>

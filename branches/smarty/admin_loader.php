@@ -46,7 +46,6 @@ if (!defined('PUN_PLUGIN_LOADED')) {
 
 // Output the clearer div
 
-print '<div class="clearer"></div></div>';
+echo '<div class="clearer"></div></div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

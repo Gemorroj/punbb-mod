@@ -1876,5 +1876,3 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 
     require_once PUN_ROOT . 'footer.php';
 }
-
-?>

@@ -47,6 +47,3 @@ if (@$attachments) {
 echo '</script>
 <script type="text/javascript" src="' . $pun_config['o_base_url'] . '/js/pop.js"></script>
 <div id="pun-popup" class="punpopup"><p id="pun-title" class="popup-title">title</p><p id="pun-desc" class="popup-desc">Description</p><p id="pun-body" class="popup-body">Body</p></div>';
-
-?>
- 

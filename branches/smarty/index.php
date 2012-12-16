@@ -180,5 +180,3 @@ echo '</div></div></div>';
 
 $footer_style = 'index';
 require_once PUN_ROOT . 'footer.php';
-
-?>

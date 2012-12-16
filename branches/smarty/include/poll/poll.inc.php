@@ -452,5 +452,3 @@ class _Poll
 $Poll = new _Poll();
 $jsHelper->add(PUN_ROOT . 'js/jquery.js');
 //$jsHelper->add(PUN_ROOT.'js/jquery.dimensions.js');
-
-?>

@@ -99,5 +99,3 @@ $db->close();
 
 // Spit out the page
 exit($tpl_main);
-
-?>

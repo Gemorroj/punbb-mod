@@ -59,4 +59,3 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 </div>
 </body>
 </html>';
-?>

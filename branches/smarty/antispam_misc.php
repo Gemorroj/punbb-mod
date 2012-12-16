@@ -128,4 +128,3 @@ if ($action == 'show') {
 } else {
     message($lang_common['Bad request']);
 }
-?>

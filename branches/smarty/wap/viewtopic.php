@@ -213,10 +213,15 @@ if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
 
 require_once(PUN_ROOT . 'include/parser.php');
 
-$dbNew = new DBLayer($db_host, $db_username, $db_password, $db_name, true);
 
 $posts = $pids = array();
 while ($cur_post = $db->fetch_assoc($result)) {
+    $posts[] = $cur_post;
+    $pids[] = $cur_post['id'];
+}
+$db->free_result($result);
+
+foreach ($posts as &$cur_post) {
     $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
 
     $signature = '';
@@ -235,7 +240,7 @@ while ($cur_post = $db->fetch_assoc($result)) {
 
         $karma = array();
         if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-            $karmaCount = $dbNew->query(
+            $karmaCount = $db->query(
                 'SELECT COUNT(1), '
                 .   '(SELECT COUNT(1) '
                 .   'FROM `' . $db->prefix . 'karma` '
@@ -244,31 +249,18 @@ while ($cur_post = $db->fetch_assoc($result)) {
                 . 'WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
             );
             $karma = $db->fetch_row($karmaCount);
-            $db->free_result($karmaCount);
+
             $cur_post['karma']['val'] = (int) $karma[0] - (int) $karma[1];
-            $karmaVoteAccess = $dbNew->query(
+            $karmaVoteAccess = $db->query(
                 'SELECT 1 '
                 . 'FROM `' . $db->prefix . 'karma` '
                 . 'WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . $cur_post['poster_id'] . ' LIMIT 1'
             );
             $cur_post['karma']['used'] = ($pun_user['is_guest'] || $db->num_rows($karmaVoteAccess));
-            $db->free_result($karmaVoteAccess);
         }
     }
-
-    $posts[] = $cur_post;
-    $pids[] = $cur_post['id']; // Need to fetch attachments from db.
 }
-$db->free_result($result);
-$dbNew->close();
-unset(
-    $dbNew,
-    $cur_post,
-    $signature,
-    $karma,
-    $karmaCount,
-    $karmaVoteAccess
-);
+
 
 // Retrieve the attachments
 require_once(PUN_ROOT . 'include/attach/fetch.php');

@@ -70,4 +70,3 @@ if ($pun_user['num_posts'] < 10) {
         $is_spam = true;
     }
 }
-?>

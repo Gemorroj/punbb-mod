@@ -275,4 +275,3 @@ generate_admin_menu('permissions');
 </div>
 <?php
 require_once PUN_ROOT . 'footer.php';
-?>

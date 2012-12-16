@@ -19,5 +19,3 @@ $cookie_secure = 0;
 $cookie_seed = '02ere56958';
 
 define('PUN', 1);
-
-?>

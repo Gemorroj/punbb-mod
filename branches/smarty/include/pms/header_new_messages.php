@@ -27,5 +27,3 @@ if (!$pun_user['is_guest'] && $pun_user['g_pm'] == 1 && $pun_config['o_pms_enabl
         $tpl_temp .= '<li class="pmlink"><strong><a href="message_list.php">' . $lang_pms['Full inbox'] . '</a></strong></li>';
     }
 }
-
-?>

@@ -401,5 +401,3 @@ function dir_size($dir)
     closedir($str);
     return $sz;
 }
-
-?>

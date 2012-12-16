@@ -46,7 +46,7 @@ if (isset($_POST['delete'])) {
 
     $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
 
-    print '<div class="blockform">
+    echo '<div class="blockform">
 <h2><span>' . $lang_pms['Delete message'] . '</span></h2>
 <div class="box">
 <form method="post" action="message_delete.php?id=' . $id . '">
@@ -70,4 +70,3 @@ if (isset($_POST['delete'])) {
 
     require_once PUN_ROOT . 'footer.php';
 }
-?>

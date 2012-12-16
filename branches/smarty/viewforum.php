@@ -204,5 +204,3 @@ echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><
 $forum_id = $id;
 $footer_style = 'viewforum';
 require_once PUN_ROOT . 'footer.php';
-
-?>

@@ -10,7 +10,6 @@ $lang_uploads = array(
 'Posted by'			=>	'User',
 'Rang'				=>	'Rang',
 'Date'				=>	'Date',
-'Size'				=>	'Size',
 'Downloaded'			=>	'Uploaded',
 'Desc'				=>	'Description',
 'Sort'				=>	'Click to sort by this column',

@@ -62,5 +62,3 @@ if (isset($_GET['poll'])) {
         echo json_encode(array('status' => false, 'data' => $e->getMessage()));
     }
 }
-
-?>

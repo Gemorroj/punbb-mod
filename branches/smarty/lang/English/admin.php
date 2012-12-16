@@ -110,7 +110,6 @@ $lang_admin = array(
     'Premissions mess caps about'=>'Разрешить сообщение содержащее только прописные буквы',
     'Premissions theme caps'=>'Тема прописными',
     'Premissions theme caps about'=>'Разрешить имя темы содержащее только прописные буквы',
-    'Premissions'=>'Разрешения',
     'Premissions guest email'=>'E-Mail Гостей',
     'Premissions guest email about'=>'Требовать гостей подтверждать e-mail адрес при постинге',
     'Premissions sig bbcode about'=>'Разрешить BBCode в подписях',
@@ -251,4 +250,3 @@ $lang_admin = array(
 
 
 );
-?>

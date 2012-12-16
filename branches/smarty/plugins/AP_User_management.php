@@ -273,4 +273,3 @@ if (isset($_POST['prune'])) {
 
 <?php
 }
-?>

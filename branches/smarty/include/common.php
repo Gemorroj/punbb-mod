@@ -101,5 +101,3 @@ check_bans();
 update_users_online();
 
 require PUN_ROOT . 'include/jshelper.inc.php';
-
-?>

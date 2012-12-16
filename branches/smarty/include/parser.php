@@ -782,6 +782,3 @@ function parse_signature($text)
 
     return str_replace(array("\n", "\t", '  ', '  '), array('<br />', '&#160; &#160; ', '&#160; ', ' &#160;'), $text);
 }
-
-
-?>

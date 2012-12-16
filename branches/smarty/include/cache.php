@@ -226,5 +226,3 @@ function generate_wap_quickjump_cache($group_id = false)
         fclose($fh);
     }
 }
-
-?>

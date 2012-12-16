@@ -176,4 +176,3 @@ Size: ' . $total_size . '
 </div>';
 
 require_once PUN_ROOT . 'footer.php';
-?>

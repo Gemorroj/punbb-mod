@@ -73,4 +73,4 @@ $lang_pms = array(
     'Popup go in'		=>		'Перейти в папку Входящие',
 	'Popup close'		=>		'Закрыть это окно',
 	'Popup open this'		=>		'Открыть в этом окне'
-	);
+);

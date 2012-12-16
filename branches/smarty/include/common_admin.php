@@ -147,5 +147,3 @@ function prune($forum_id, $prune_sticky, $prune_date)
         }
     }
 }
-
-?>
