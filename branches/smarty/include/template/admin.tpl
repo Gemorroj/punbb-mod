@@ -10,6 +10,7 @@
             <div id="brdheader" class="block">
                 <div class="box">
                     <div id="brdtitle" class="inbox">
+                        <pun_logo>
                         <pun_title>
                         <pun_desc>
                     </div>
