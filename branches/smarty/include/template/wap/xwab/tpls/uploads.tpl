@@ -37,7 +37,7 @@
         <div class="go_to">
             <input type="submit" name="act" value="{$lang_uploads.$Upload_file}"/></div>
     </form>
-        {else}
+    {else}
     <div class="red">{$lang_uploads.$Not_allowed}</div>
     <div class="msg">{$lang_uploads.$Not_allowed_mes}</div>
     {/if}
@@ -46,10 +46,8 @@
     <strong>{$lang_uploads.$File_uploaded}</strong>
 </div>
 <div class="msg">
-    <a href="{$smarty.server.PHP_SELF}?file={rawurlencode($file_name)}">{$pun_config.o_base_url}
-        /uploads.php?file={$file_name|escape}</a></div>
+    <a href="{$smarty.server.PHP_SELF}?file={rawurlencode($file_name)}">{$pun_config.o_base_url}/uploads.php?file={$file_name|escape}</a></div>
 <div class="go_to">
-
     {if ! isset($smarty.get.uploadit) && $upl_conf.p_upload == 1}
         <a class="but" href="{$smarty.server.PHP_SELF}?uploadit=1">{$lang_uploads.$Upload_file}</a>
     {/if}
@@ -96,19 +94,16 @@
     {assign var='j' value='false'}
     {foreach from=$files item=info}
     <div class="{if $j = ! $j}msg{else}msg2{/if}">
-        &#8226; <strong><a
-            href="{$smarty.server.PHP_SELF}?file={rawurlencode($info.file)}">{$info.file|truncate:30:'..':true:true|escape}</a></strong>
+        &#8226; <strong><a href="{$smarty.server.PHP_SELF}?file={rawurlencode($info.file)}">{$info.file|truncate:30:'..':true:true|escape}</a></strong>
         <span class="small">({$info.size|cat:$info.sizeValue},
         <strong><a href="profile.php?id={$info.uid}">{$info.user|escape}</a></strong>,
-            {$info.data|date_format:$date_format}, {$lang_uploads.Downloaded}:{$info.downs};
+            {$info.data|date_format:$date_format}, {$lang_uploads.Downloaded}:{$info.downs}
 
             {if $upl_conf.p_globaldelete}
-                <a class="but"
-                   href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
+                <a class="but" href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
                 {elseif $upl_conf.p_delete}
                 {if $info.uid == $pun_user.id}
-                    <a class="but"
-                       href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
+                    <a class="but" href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
                 {/if}
             {/if}
 
@@ -119,8 +114,7 @@
     <div class="con">{$lang_uploads.$Go_to_page}
         {assign var='somepages' value=range(1, $cp)}
         {foreach from=$somepages item=i}
-            {if ($i - 1) == $s_page}&#160;{$i}&#160;{else}<a
-                    href="{$smarty.server.PHP_SELF}?page={($i - 1)}">{$i}</a>{/if}
+            {if ($i - 1) == $s_page}&#160;{$i}&#160;{else}<a href="{$smarty.server.PHP_SELF}?page={($i - 1)}">{$i}</a>{/if}
         {/foreach}
     </div>
     {/if}

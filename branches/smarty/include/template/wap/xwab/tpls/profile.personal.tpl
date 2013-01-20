@@ -18,20 +18,16 @@
         {if $user.sex} == 1}
             <option value="1">{$lang_profile.m}</option>
             <option value="0">{$lang_profile.w}</option>
-            {else}
+        {else}
             <option value="0">{$lang_profile.w}</option>
             <option value="1">{$lang_profile.m}</option>
         {/if}
 
         </select><br/>
         {$lang_profile.birthday}<br/>
-        <input type="text" value="{$birthday[0]|default}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input
-            type="text" value="{$birthday[1]|default}" name="month" title="{$lang_profile.month}" size="2"
-            maxlength="2"/>.<input type="text" value="{$birthday[2]|default}" name="year" title="{$lang_profile.year}" size="4"
-                                   maxlength="4"/><br/>
+        <input type="text" value="{$birthday[0]|default}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input type="text" value="{$birthday[1]|default}" name="month" title="{$lang_profile.month}" size="2" maxlength="2"/>.<input type="text" value="{$birthday[2]|default}" name="year" title="{$lang_profile.year}" size="4" maxlength="4"/><br/>
         {$lang_profile.Realname}<br/>
-        <input type="text" name="form[realname]" value="{$user.realname|escape}"
-               maxlength="40"/><br/>{$title_field|default:''}{$lang_profile.Location}<br/>
+        <input type="text" name="form[realname]" value="{$user.realname|escape}" maxlength="40"/><br/>{$title_field|default:''}{$lang_profile.Location}<br/>
         <input type="text" name="form[location]" value="{$user.location|escape}" maxlength="30"/><br/>
         {$lang_profile.Website}<br/>
         <input type="text" name="form[url]" value="{$user.url|escape}" maxlength="80"/></div>

@@ -20,7 +20,7 @@
         <strong>{$lang_profile.$Change_pass_legend}</strong><br/>
         <input type="hidden" name="form_sent" value="1"/>
     {if $pun_user.g_id > $smarty.const.PUN_MOD}
-            {$lang_profile.$Old_pass}<br/>
+        {$lang_profile.$Old_pass}<br/>
         <input type="password" name="req_old_password" maxlength="16"/><br/>
     {/if}
         {$lang_profile.$New_pass}<br/>

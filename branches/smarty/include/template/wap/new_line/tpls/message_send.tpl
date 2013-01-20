@@ -23,10 +23,8 @@
         <strong>{$lang_common.$Write_message_legend}</strong><br/>
         <input type="hidden" name="form_sent" value="1"/>
         <input type="hidden" name="topic_redirect" value="{if isset($smarty.get.tid)}{intval($smarty.get.tid)}{/if}"/>
-        <input type="hidden" name="topic_redirect"
-               value="{if isset($smarty.post.from_profile)}{intval($smarty.post.from_profile)}{/if}"/>
-        <input type="hidden" name="form_user"
-               value="{if ! $pun_user.is_guest}{$pun_user.username|escape}{else}Guest{/if}"/>
+        <input type="hidden" name="topic_redirect" value="{if isset($smarty.post.from_profile)}{intval($smarty.post.from_profile)}{/if}"/>
+        <input type="hidden" name="form_user" value="{if ! $pun_user.is_guest}{$pun_user.username|escape}{else}Guest{/if}"/>
         {$lang_pms.$Send_to}<br/>
         <input type="text" name="req_username" maxlength="25" value="{$username|escape}"/><br/>
         {$lang_common.Subject}<br/>
@@ -35,14 +33,11 @@
         <textarea name="req_message" rows="4" cols="24">{$quote|escape}</textarea><br/>
 
         <a href="help.php?id=3">{$lang_common.Smilies}</a>
-        {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span
-            class="grey">{$lang_common.off_m}</span>{/if};
+        {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}
         <a href="help.php?id=1">{$lang_common.BBCode}</a>
-        {if $pun_config.p_message_bbcode == 1}<span class="green">{$lang_common.on_m}</span>{else}<span
-            class="grey">{$lang_common.off_m}</span>{/if};
+        {if $pun_config.p_message_bbcode == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}
         <a href="help.php?id=4">{$lang_common.$img_tag}</a>
-        {if $pun_config.p_message_img_tag == 1}<span class="green">{$lang_common.on_m}</span>{else}<span
-            class="grey">{$lang_common.off_m}</span>{/if}<br/>
+        {if $pun_config.p_message_img_tag == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}<br/>
 
     {if $pun_config.o_smilies == 1}
         <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" {if isset($smarty.post.hide_smilies)}checked="checked"{/if} />{$lang_post.$Hide_smilies}<br/></label>

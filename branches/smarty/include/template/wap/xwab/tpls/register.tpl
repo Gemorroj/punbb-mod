@@ -51,7 +51,8 @@
         <input type="password" name="req_password1" maxlength="16"/><br/>
         <strong>{$lang_prof_reg.$Confirm_pass}</strong><br/>
         <input type="password" name="req_password2" maxlength="16"/><br/>
-        {$lang_register.$Pass_info}</div>
+        {$lang_register.$Pass_info}
+    </div>
 {/if}
 
 {if $pun_config.o_regs_verify_image == 1}
@@ -60,19 +61,20 @@
         <img src="{$pun_config.o_base_url}/include/captcha/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
         <strong>{$lang_register.$Image_text}</strong><br/>
         <input type="text" name="req_image_" maxlength="4"/><br/>
-        {$lang_register.$Image_info}</div>
+        {$lang_register.$Image_info}
+    </div>
 {/if}
 
     <div class="input">
         <strong>
         {if $pun_config.o_regs_verify == 1}
-{$lang_prof_reg.$Email_legend_2}
-{else}
-{$lang_prof_reg.$Email_legend}
-{/if}
+            {$lang_prof_reg.$Email_legend_2}
+        {else}
+            {$lang_prof_reg.$Email_legend}
+        {/if}
         </strong><br/>
     {if $pun_config.o_regs_verify == 1}
-            {$lang_register.$Email_info}<br/>
+        {$lang_register.$Email_info}<br/>
     {/if}
         <strong>{$lang_common.$Email}</strong><br/>
         <input type="text" name="req_email1" maxlength="50"/><br/>

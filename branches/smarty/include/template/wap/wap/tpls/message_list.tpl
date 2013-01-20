@@ -19,7 +19,7 @@
         <strong>
             {if $smarty.get.id > 0}
                 <a href="profile.php?id={$cur_post.id}">{$cur_post.username|escape}</a>
-                {else}
+            {else}
                 {$cur_post.sender|escape}
             {/if}
         </strong>
@@ -30,7 +30,7 @@
             <span class="grey">{$lang_topic.Offline_m}</span>
         {/if}
         <br/>
-            {$cur_post.posted|date_format:$date_format}<br/>
+        {$cur_post.posted|date_format:$date_format}<br/>
 
         {if $smarty.get.id > 0}
             {assign var='Link_separator_m' value='Link separator_m'}
@@ -61,7 +61,7 @@
             <span class="red">{$lang_common.$New_icon_m}</span>
         {/if}
     </div>
-    {foreachelse}
+{foreachelse}
     {assign var='No_messages' value='No messages'}
     <div class="in">{$lang_pms.$No_messages}</div>
 {/foreach}

@@ -32,7 +32,7 @@
             <input type="hidden" name="old_username" value="{$user.username|escape}"/>
             <strong>{$lang_common.Username}</strong><br/>
             <input type="text" name="req_username" value="{$user.username|escape}" maxlength="25"/><br/>
-            {else}
+        {else}
             {$lang_common.Username}: {$user.username|escape}
         {/if}
         {else}
@@ -55,9 +55,8 @@
         <a href="message_send.php?id={$id}">{$lang_pms.$Quick_message}</a>
         {else}
         {if $pun_config.o_regs_verify == 1}
-            {$lang_common.$Email}: {$user.email} - <a
-                href="profile.php?action=change_email&amp;id={$id}">{$lang_profile.$Change_email}</a>
-            {else}
+            {$lang_common.$Email}: {$user.email} - <a href="profile.php?action=change_email&amp;id={$id}">{$lang_profile.$Change_email}</a>
+        {else}
             <strong>{$lang_common.$Email}</strong><br/>
             <input type="text" name="req_email" value="{$user.email}" maxlength="50"/>
         {/if}
@@ -126,24 +125,19 @@
 
     <br/>{$lang_common.$Last_post}: {$user.last_post|date_format:$date_format|default:$lang_profile.Unknown}<br/>
 {if $pun_config.o_show_post_karma == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
-    {$lang_common.Karma}: {$karma.karma} (+{$karma.plus}/-{$karma.minus}) - <a
-        href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
+    {$lang_common.Karma}: {$karma.karma} (+{$karma.plus}/-{$karma.minus}) - <a href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
 {/if}
 
 {* + posts and files *}
 {if $pun_user.g_id == $smarty.const.PUN_ADMIN}
-    {$lang_common.Posts}: <input type="text" name="num_posts" value="{$user.num_posts}" size="3" maxlength="8"/> - <a
-        href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
-    {$lang_common.Files}: <input type="text" name="num_files" value="{$user.num_files}" size="3" maxlength="8"/> - <a
-        href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
+    {$lang_common.Posts}: <input type="text" name="num_posts" value="{$user.num_posts}" size="3" maxlength="8"/> - <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
+    {$lang_common.Files}: <input type="text" name="num_files" value="{$user.num_files}" size="3" maxlength="8"/> - <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
     {$lang_common.Bonus}: <input type="text" name="file_bonus" value="{$user.file_bonus}" size="3" maxlength="8"/><br/>
-    {else}
+{else}
     {if $pun_config.o_show_post_count == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
-        {$lang_common.Posts}: {$user.num_posts} - <a
-            href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
-        {$lang_common.Files}: {$user.num_files} - <a
-            href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
-        {else}
+        {$lang_common.Posts}: {$user.num_posts} - <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
+        {$lang_common.Files}: {$user.num_files} - <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
+    {else}
         <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
         <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
     {/if}

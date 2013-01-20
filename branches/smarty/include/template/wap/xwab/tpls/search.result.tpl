@@ -22,52 +22,49 @@
     {/foreach}
 
     {if $show_as == 'posts'}
-    <div class="in">
-    {* Forum *}
-        <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
-        &#187; <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a>
-        &#187; <a class="small"
-                  href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$searchResult.pposted|date_format:$date_format}</a>
-    </div>
-    <div class="msg">
-    {* Harry Poster :) *}
-        {if $searchResult.poster_id > 1}
-            <strong><a href="profile.php?id={$searchResult.poster_id}">{$searchResult.pposter|escape}</a></strong>
+        <div class="in">
+            {* Forum *}
+            <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
+            &#187; <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a>
+            &#187; <a class="small" href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$searchResult.pposted|date_format:$date_format}</a>
+        </div>
+        <div class="msg">
+            {* Harry Poster :) *}
+            {if $searchResult.poster_id > 1}
+                <strong><a href="profile.php?id={$searchResult.poster_id}">{$searchResult.pposter|escape}</a></strong>
             {else}
-            {$searchResult.pposter|escape}
-        {/if}<br/>
-        <span class="sub">{$lang_search.Replies}: {$searchResult.num_replies} | <a
-                href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$lang_search.$Go_to_post}</a></span><br/>
-    {* Message*}
-        {$searchResult.message} &#x2026;
-    </div>
-        {else}
-
-    <div class="{if $j = ! $j}msg{else}msg2{/if}">
-    {* $forum *}
-        <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
-        &#187; {* $subject *}
-        {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
-            <strong><a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})</strong>
+                {$searchResult.pposter|escape}
+            {/if}
+            <br/>
+            <span class="sub">{$lang_search.Replies}: {$searchResult.num_replies} | <a href="viewtopic.php?pid={$searchResult.pid}#p{$searchResult.pid}">{$lang_search.$Go_to_post}</a></span><br/>
+            {* Message*}
+            {$searchResult.message} &#x2026;
+        </div>
+    {else}
+        <div class="{if $j = ! $j}msg{else}msg2{/if}">
+            {* $forum *}
+            <a href="viewforum.php?id={$temp[0]}">{$temp[1]|escape}</a>
+            &#187; {* $subject *}
+            {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
+                <strong><a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})</strong>
             {else}
-            <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})
-        {/if}
+                <a href="viewtopic.php?id={$searchResult.tid}">{$searchResult.subject|escape}</a> ({$searchResult.poster|escape})
+            {/if}
 
-        {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
-            <a class="red" href="viewtopic.php?id={$searchResult.tid}&amp;action=new"
-               title="{$lang_common.$New_posts_info}">{$lang_common.$New_posts}</a>
-        {/if}
+            {if ! $pun_user.is_guest && $searchResult.last_post > $pun_user.last_visit}
+                <a class="red" href="viewtopic.php?id={$searchResult.tid}&amp;action=new" title="{$lang_common.$New_posts_info}">{$lang_common.$New_posts}</a>
+            {/if}
 
-        {assign var='num_pages_topic' value=ceil(($searchResult.num_replies + 1) / $pun_user.disp_posts)}
+            {assign var='num_pages_topic' value=ceil(($searchResult.num_replies + 1) / $pun_user.disp_posts)}
 
-        {if $num_pages_topic > 1}
-            [ {paginate($num_pages_topic, -1, "viewtopic.php?id={$searchResult.tid}", 0)} ]
-        {/if}
-        <br/>
+            {if $num_pages_topic > 1}
+                [ {paginate($num_pages_topic, -1, "viewtopic.php?id={$searchResult.tid}", 0)} ]
+            {/if}
+            <br/>
         <span class="sub">{$lang_common.Replies}: {$searchResult.num_replies}<br/>
         <a href="viewtopic.php?pid={$searchResult.last_post_id}#p{$searchResult.last_post_id}">{$lang_common.$Last_post}</a>:
             {$searchResult.last_poster|escape} ({$searchResult.last_post|date_format:$date_format})</span>
-    </div>
+        </div>
     {/if}
 {/foreach}
 

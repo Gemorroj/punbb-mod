@@ -938,7 +938,7 @@ $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 //}
 
-$smarty->assign('id',           $id);
+$smarty->assign('id', $id);
 
 if ($pun_config['o_censoring'] == 1) {
     if ($user['realname']) {
@@ -957,7 +957,7 @@ if ($pun_config['o_censoring'] == 1) {
         $user['yahoo'] = censor_words($user['yahoo']);
     }
 }
-$smarty->assign('user',         $user);
+$smarty->assign('user', $user);
 $smarty->assign('lang_profile', $lang_profile);
 
 // View or edit?
@@ -966,9 +966,9 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
     //view Profile
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Preview'];
     
-    $smarty->assign('page_title',       $page_title);
-    $smarty->assign('karma',            $karma);
-    $smarty->assign('parsed_signature',@$parsed_signature);
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('karma', $karma);
+    $smarty->assign('parsed_signature', @$parsed_signature);
     
     $userTitle = get_title($user);
     if ($pun_config['o_censoring'] == 1) {
@@ -1007,8 +1007,8 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
         }
 
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
-        $smarty->assign('languages',     $languages);
-        $smarty->assign('karma',         $karma);
+        $smarty->assign('languages', $languages);
+        $smarty->assign('karma', $karma);
         
         $smarty->display('profile.general.tpl');
         exit();
@@ -1027,7 +1027,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
         exit();
     } else if ($_GET['section'] == 'personality') {
 
-        $smarty->assign('parsed_signature',@$parsed_signature);
+        $smarty->assign('parsed_signature', @$parsed_signature);
 
         $pun_config['o_avatars']  = 1;
         $cur_post['use_avatar']   = 1;

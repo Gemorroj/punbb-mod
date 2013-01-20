@@ -54,8 +54,7 @@
             {* Карма *}
                 &#160;({$cur_post.karma.val|default:'no value'})
                 {if ! $pun_user.is_guest and ! $cur_post.karma.used|default:'1'}
-                    &#160;<a href="karma.php?to={$cur_post.poster_id}&amp;vote=1&amp;pid={$cur_post.id}">+</a>/<a
-                        href="karma.php?to={$cur_post.poster_id}&amp;vote=-1&amp;pid={$cur_post.id}">-</a>
+                    &#160;<a href="karma.php?to={$cur_post.poster_id}&amp;vote=1&amp;pid={$cur_post.id}">+</a>/<a href="karma.php?to={$cur_post.poster_id}&amp;vote=-1&amp;pid={$cur_post.id}">-</a>
                 {/if}
             {/if}
         {/if}
@@ -100,7 +99,7 @@
 
                 {if $attachment.size >= 1048576}
                     {round($attachment.size / 1048576, 0)} mb
-                    {else}
+                {else}
                     {round($attachment.size / 1024, 0)} kb
                 {/if}
 

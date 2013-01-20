@@ -14,17 +14,14 @@
 </div>
 
 {if isset($errors)}
-<div class="red">
-{$lang_post.$Post_errors}
-</div>
+    <div class="red">{$lang_post.$Post_errors}</div>
 
-<div class="msg">{$lang_post.$Post_errors_info}
-    {foreach from=$errors item=cur_error}
-        &#187; {$cur_error}<br/>
-    {/foreach}
-</div>
-    {elseif isset($smarty.post.preview)}
-
+    <div class="msg">{$lang_post.$Post_errors_info}
+        {foreach from=$errors item=cur_error}
+            &#187; {$cur_error}<br/>
+        {/foreach}
+    </div>
+{elseif isset($smarty.post.preview)}
     <div class="info">{$lang_post.$Post_preview}</div>
     <div class="msg">{$preview_message}</div>
 {/if}
@@ -35,60 +32,55 @@
 <form method="post" action="edit.php?id={$id}&amp;action=edit" enctype="multipart/form-data">
     <div class="input">
         <input type="hidden" name="form_sent" value="1"/>
-    {if $can_edit_subject}
+        {if $can_edit_subject}
             {$lang_common.Subject}<br/>
-        <input type="text" name="req_subject" value="{{$smarty.post.req_subject|default:$cur_post.subject}|escape}"/><br/>
-    {/if}
+            <input type="text" name="req_subject" value="{{$smarty.post.req_subject|default:$cur_post.subject}|escape}"/><br/>
+        {/if}
 
-    {* include file='{$smarty.const.PUN_ROOT}include/attach/fetch.php' *}
+        {* include file='{$smarty.const.PUN_ROOT}include/attach/fetch.php' *}
 
-    {$lang_common.Message}:<br/>
-        <textarea name="req_message" rows="4" cols="24">{{$message|default:$cur_post.message}|escape}</textarea><br/>
-        <a href="help.php?id=3">{$lang_common.Smilies}</a>
-    {if $pun_config.o_smilies == 1}
-        <span class="green">{$lang_common.on_m}</span>;
+        {$lang_common.Message}:<br/>
+            <textarea name="req_message" rows="4" cols="24">{{$message|default:$cur_post.message}|escape}</textarea><br/>
+            <a href="help.php?id=3">{$lang_common.Smilies}</a>
+        {if $pun_config.o_smilies == 1}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>;
-    {/if}
-        <a href="help.php?id=1">{$lang_common.BBCode}</a>
-    {if $pun_config.p_message_bbcode == 1}
-        <span class="green">{$lang_common.on_m}</span>;
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
+            <a href="help.php?id=1">{$lang_common.BBCode}</a>
+        {if $pun_config.p_message_bbcode == 1}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>;
-    {/if}
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
 
         <a href="help.php?id=4">{$lang_common.$img_tag}</a>
-    {if $pun_config.p_message_img_tag == 1}
-        <span class="green">{$lang_common.on_m}</span>
+        {if $pun_config.p_message_img_tag == 1}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>;
-    {/if}
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
         <br/>
 
-    {if $uploaded_to_post || ($can_upload && $num_to_upload > 0)}
-        {* Attachments *}
-        {if isset($attachments[$cur_post.id])}
-            
-            {include file='attachments.tpl'}
+        {if $uploaded_to_post || ($can_upload && $num_to_upload > 0)}
+            {* Attachments *}
+            {if isset($attachments[$cur_post.id])}
+                {include file='attachments.tpl'}
+            {/if}
+            {if $can_upload && $num_to_upload > 0}
+                </div><div class="input2">{$lang_fu.$Choose_a_file}<br/>
+            {/if}
+            <input type="file" name="attach[]"/><br/>
         {/if}
-        {if $can_upload && $num_to_upload > 0}
-            </div>
 
-            <div class="input2">{$lang_fu.$Choose_a_file}<br/>
+        {if $pun_config.o_smilies == 1}
+            <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" {if isset($smarty.post.hide_smilies) || $cur_post.hide_smilies == 1}checked="checked"{/if}/> {$lang_post.$Hide_smilies}<br/></label>
         {/if}
-        <input type="file" name="attach[]"/><br/>
-    {/if}
 
-    {if $pun_config.o_smilies == 1}
-        <label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1"
-               {if isset($smarty.post.hide_smilies) || $cur_post.hide_smilies == 1}checked="checked"{/if}/> {$lang_post.$Hide_smilies}<br/></label>
-    {/if}
-
-    {if $is_admmod}
-        <label for="silent"><input type="checkbox" id="silent" name="silent" value="1"
-               {if (isset($smarty.post.form_sent) && isset($smarty.post.silent)) || ! isset($smarty.post.form_sent)}checked="checked"{/if} /> {$lang_post.$Silent_edit}
-        <br/></label>
-    {/if}
+        {if $is_admmod}
+            <label for="silent"><input type="checkbox" id="silent" name="silent" value="1" {if (isset($smarty.post.form_sent) && isset($smarty.post.silent)) || ! isset($smarty.post.form_sent)}checked="checked"{/if} /> {$lang_post.$Silent_edit}
+            <br/></label>
+        {/if}
 
     </div>
     <div class="go_to">

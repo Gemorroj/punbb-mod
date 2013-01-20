@@ -21,13 +21,12 @@
 <table align="center" cellspacing="0" cellpadding="3">
     <tbody>
     {foreach from=$posts item=cur_post}
-    <tr>
-        <td style="border-bottom: 0;">
-            <strong>{$cur_post.username|escape} &#187; {$cur_post.posted|date_format:$date_format}</strong></td>
-    </tr>
-    <tr>
-        <td style="border-bottom: 1px solid #333;">{$cur_post.message}</td>
-    </tr>
+        <tr>
+            <td style="border-bottom: 0;"><strong>{$cur_post.username|escape} &#187; {$cur_post.posted|date_format:$date_format}</strong></td>
+        </tr>
+        <tr>
+            <td style="border-bottom: 1px solid #333;">{$cur_post.message}</td>
+        </tr>
     {/foreach}
     </tbody>
 </table>

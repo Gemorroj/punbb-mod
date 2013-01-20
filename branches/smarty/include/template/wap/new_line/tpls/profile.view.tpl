@@ -32,17 +32,16 @@
 {assign var='Show_posts' value='Show posts'}
 
 <div class="input">
-{if $pun_config.o_avatars}
-    {if ! $user.use_avatar and $user_avatar}
-        {$lang_profile.$No_avatar}
+    {if $pun_config.o_avatars}
+        {if ! $user.use_avatar and $user_avatar}
+            {$lang_profile.$No_avatar}
         {else}
-        {$user_avatar}
+            {$user_avatar}
+        {/if}
+        <br/>
     {/if}
-    <br/>
-{/if}
 
-    <strong>{$lang_profile.Signature}
-        :</strong> {if isset($parsed_signature)}{$parsed_signature}{else}{$lang_profile.$No_sig}{/if}
+    <strong>{$lang_profile.Signature}:</strong> {if isset($parsed_signature)}{$parsed_signature}{else}{$lang_profile.$No_sig}{/if}
 </div>
 
 {* Personal *}
@@ -50,41 +49,40 @@
     <strong>{$lang_profile.$Section_personal}</strong><br/>
     <strong>{$lang_common.Username}:</strong> {$user.username|escape}
     ({if $user.sex == 1}{$lang_profile.m}{else}{$lang_profile.w}{/if})<br/>
-{if $user.birthday}
-    <strong>{$lang_profile.birthday}:</strong> {$user.birthday}<br/>
-{/if}
+    {if $user.birthday}
+        <strong>{$lang_profile.birthday}:</strong> {$user.birthday}<br/>
+    {/if}
 
     <strong>{$lang_common.Title}:</strong>
-    {$userTitle}
-    <br/>
+    {$userTitle}<br/>
     <strong>{$lang_profile.Realname}:</strong>
 {if $user.realname}
     {$user.realname|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Location}:</strong>
 {if $user.location}
     {$user.location|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Website}:</strong>
 {if $user.url}
     <a href="{$user.url}">{$user.url|escape}</a>
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_common.$Email}:</strong>
-{if ! $user.email_setting && ! $pun_user.is_guest}
+{if !$user.email_setting && !$pun_user.is_guest}
     <a href="mailto:{$user.email}">{$user.email}</a>
-    {else}
+{else}
     {if $user.email_setting == 1 && ! $pun_user.is_guest}
         <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a>
-        {else}
+    {else}
         {$lang_profile.Private}
     {/if}
 {/if}
@@ -97,35 +95,35 @@
     <strong>{$lang_profile.Jabber}:</strong>
 {if $user.jabber}
     {$user.jabber|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.ICQ}:</strong>
 {if $user.icq}
     {$user.icq}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.MSN}:</strong>
 {if $user.msn}
     {$user.msn|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.$AOL_IM}:</strong>
 {if $user.aim}
     {$user.aim|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
     <br/>
     <strong>{$lang_profile.Yahoo}:</strong>
 {if $user.yahoo}
     {$user.yahoo|escape}
-    {else}
+{else}
     {$lang_profile.Unknown}
 {/if}
 </div>
@@ -155,8 +153,7 @@
 
 {* Karma *}
 {if $pun_config.o_show_post_karma == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
-    {$lang_common.Karma}: {($karma.plus - $karma.minus)} (+{$karma.plus}/-{$karma.minus}) - <a
-        href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
+    {$lang_common.Karma}: {($karma.plus - $karma.minus)} (+{$karma.plus}/-{$karma.minus}) - <a href="karma.php?id={$id}">{$lang_common.$Show_karma}</a><br/>
 {/if}
 
     <strong>{$lang_common.$Last_post}:</strong> {$user.last_post|date_format:$date_format|default:$lang_profile.Unknown}<br/>

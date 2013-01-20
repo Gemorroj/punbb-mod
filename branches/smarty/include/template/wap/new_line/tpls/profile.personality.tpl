@@ -23,62 +23,61 @@
 <form method="post" action="profile.php?section=personality&amp;id={$id}">
     <div class="input">
         <input type="hidden" name="form_sent" value="1"/>
-    {if $pun_config.o_avatars == 1}
-        <strong>{$lang_profile.$Avatar_legend}</strong>
-
-        <div class="zag_in">
-            {if $user_avatar}
-                {$user_avatar}
-            {/if}
+        {if $pun_config.o_avatars == 1}
+            <strong>{$lang_profile.$Avatar_legend}</strong>
+            <div class="zag_in">
+                {if $user_avatar}
+                    {$user_avatar}
+                {/if}
                 {$lang_profile.$Avatar_info}<br/>
-            <label><input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/> {$lang_profile.$Use_avatar}</label>
-        </div>
-    {/if}
-        <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a> |
-    {if $user_avatar}
-        <a href="profile.php?action=delete_avatar&amp;id={$id}">{$lang_profile.$Delete_avatar}</a>
+                <label><input type="checkbox" name="form[use_avatar]" value="1"{if $user.use_avatar == 1} checked="checked"{/if}/> {$lang_profile.$Use_avatar}
+                </label>
+            </div>
+        {/if}
+        {if $user_avatar}
+            <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Change_avatar}</a>
+            |
+            <a href="profile.php?action=delete_avatar&amp;id={$id}">{$lang_profile.$Delete_avatar}</a>
         {else}
-        <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Upload_avatar}</a>
-    {/if}
+            <a href="profile.php?action=upload_avatar&amp;id={$id}">{$lang_profile.$Upload_avatar}</a>
+        {/if}
     </div>
 
     <div class="input2">
         <strong>{$lang_profile.$Signature_legend}</strong><br/>
         <span class="sub">{$lang_profile.$Signature_info}</span><br/>
-    {$lang_profile.$Sig_max_length}: {$pun_config.p_sig_length} / {$lang_profile.$Sig_max_lines}
-        : {$pun_config.p_sig_lines}<br/>
+        {$lang_profile.$Sig_max_length}: {$pun_config.p_sig_length} / {$lang_profile.$Sig_max_lines}: {$pun_config.p_sig_lines}<br/>
         <textarea name="signature" rows="4" cols="24">{$user.signature|escape}</textarea><br/>
 
         <a href="help.php?id=3">{$lang_common.Smilies}</a>
-    {if $pun_config.o_smilies_sig}
-        <span class="green">{$lang_common.on_m}</span>;
+        {if $pun_config.o_smilies_sig}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>;
-    {/if}
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
 
         <a href="help.php?id=1">{$lang_common.BBCode}</a>
-    {if $pun_config.p_sig_bbcode}
-        <span class="green">{$lang_common.on_m}</span>;
+        {if $pun_config.p_sig_bbcode}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>;
-    {/if}
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
 
         <a href="help.php?id=4">{$lang_common.$img_tag}</a>
-    {if $pun_config.p_sig_img_tag}
-        <span class="green">{$lang_common.on_m}</span>
+        {if $pun_config.p_sig_img_tag}
+            <span class="green">{$lang_common.on_m}</span>
         {else}
-        <span class="grey">{$lang_common.off_m}</span>
-    {/if}
-
+            <span class="grey">{$lang_common.off_m}</span>
+        {/if}
     </div>
 
     <div class="input">
-    {if $user.signature}
-        {$lang_profile.$Sig_preview}
-        <div class="hr">{$parsed_signature}</div>
+        {if $user.signature}
+            {$lang_profile.$Sig_preview}
+            <div class="hr">{$parsed_signature}</div>
         {else}
-        {$lang_profile.$No_sig}
-    {/if}
+            {$lang_profile.$No_sig}
+        {/if}
     </div>
 
     <div class="go_to">

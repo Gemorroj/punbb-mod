@@ -26,16 +26,16 @@ $basename == 'index.php'}
     <a href="userlist.php">{$lang_common.$User_list}</a>
 
     {if $pun_config.o_rules == 1}
-            {$lang_common.$Link_separator_m}<a href="misc.php?action=rules">{$lang_common.Rules}</a>
+        {$lang_common.$Link_separator_m}<a href="misc.php?action=rules">{$lang_common.Rules}</a>
     {/if}
     
     {if $pun_user.g_search == 1 or $pun_user.g_id > $smarty.const.PUN_MOD}
-            {$lang_common.$Link_separator_m}<a href="search.php">{$lang_common.Search}</a>
+        {$lang_common.$Link_separator_m}<a href="search.php">{$lang_common.Search}</a>
     {/if}
 
     {if ! $pun_user.is_guest}
-            {$lang_common.$Link_separator_m}<a href="uploads.php">{$lang_common.Uploader}</a>
-            {$lang_common.$Link_separator_m}<a href="filemap.php">{$lang_common.Attachments}</a>
+        {$lang_common.$Link_separator_m}<a href="uploads.php">{$lang_common.Uploader}</a>
+        {$lang_common.$Link_separator_m}<a href="filemap.php">{$lang_common.Attachments}</a>
     {/if}
 </div>
 {/if}
@@ -46,31 +46,27 @@ $basename == 'index.php'}
 
 {if isset($is_admmod) && $is_admmod}
     {if $basename == 'viewforum.php'}
-    <div class="con">
-        <a class="but" href="moderate.php?fid={$forum_id}&amp;p={$p}">{$lang_common.$Moderate_forum}</a>
-    </div>
-        {elseif $basename == 'viewtopic.php'}
-    <div class="con">
+        <div class="con">
+            <a class="but" href="moderate.php?fid={$forum_id}&amp;p={$p}">{$lang_common.$Moderate_forum}</a>
+        </div>
+    {elseif $basename == 'viewtopic.php'}
+        <div class="con">
             <span class="sub">
                 <a href="moderate.php?fid={$forum_id}&amp;tid={$id}&amp;p={$p}">{$lang_common.$Delete_posts}</a>{$lang_common.$Link_separator_m}
                 <a href="moderate.php?fid={$forum_id}&amp;move_topics={$id}">{$lang_common.$Move_topic}</a>
                 {if $cur_topic.closed == 1}
-                        {$lang_common.$Link_separator_m}<a
-                            href="moderate.php?fid={$forum_id}&amp;open={$id}">{$lang_common.$Open_topic}</a>
-                    {else}
-                        {$lang_common.$Link_separator_m}<a
-                            href="moderate.php?fid={$forum_id}&amp;close={$id}">{$lang_common.$Close_topic}</a>
+                    {$lang_common.$Link_separator_m}<a href="moderate.php?fid={$forum_id}&amp;open={$id}">{$lang_common.$Open_topic}</a>
+                {else}
+                    {$lang_common.$Link_separator_m}<a href="moderate.php?fid={$forum_id}&amp;close={$id}">{$lang_common.$Close_topic}</a>
                 {/if}
 
                 {if $cur_topic.sticky == 1}
-                        {$lang_common.$Link_separator_m}<a
-                            href="moderate.php?fid={$forum_id}&amp;unstick={$id}">{$lang_common.$Unstick_topic}</a>
-                    {else}
-                        {$lang_common.$Link_separator_m}<a
-                            href="moderate.php?fid={$forum_id}&amp;stick={$id}">{$lang_common.$Stick_topic}</a>
+                    {$lang_common.$Link_separator_m}<a href="moderate.php?fid={$forum_id}&amp;unstick={$id}">{$lang_common.$Unstick_topic}</a>
+                {else}
+                    {$lang_common.$Link_separator_m}<a href="moderate.php?fid={$forum_id}&amp;stick={$id}">{$lang_common.$Stick_topic}</a>
                 {/if}
             </span>
-    </div>
+        </div>
     {/if}
 {/if}
 <div class="foot">

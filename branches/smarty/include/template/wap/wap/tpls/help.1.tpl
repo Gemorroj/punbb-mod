@@ -24,15 +24,15 @@
 <div class="con">{$lang_help.$Text_style}</div>
 <div class="msg">
     <strong>{$lang_help.$Text_style_info}</strong><br/>
-    [b]{$lang_help.$Bold_text}[/b] - <strong>{$lang_help.$Bold_text}</strong>;
+    [b]{$lang_help.$Bold_text}[/b] - <strong>{$lang_help.$Bold_text}</strong>
     <input type="text" value="[b][/b]" size="5"/><br/>
-    [u]{$lang_help.$Underlined_text}[/u] - <span class="bbu">{$lang_help.$Underlined_text}</span>;
+    [u]{$lang_help.$Underlined_text}[/u] - <span class="bbu">{$lang_help.$Underlined_text}</span>
     <input type="text" value="[u][/u]" size="5"/><br/>
-    [i]{$lang_help.$Italic_text}[/i] - <em>{$lang_help.$Italic_text}</em>;
+    [i]{$lang_help.$Italic_text}[/i] - <em>{$lang_help.$Italic_text}</em>
     <input type="text" value="[i][/i]" size="5"/><br/>
-    [color=#F00]{$lang_help.$Red_text}[/color] - <span style="color: #f00">{$lang_help.$Red_text}</span>;
+    [color=#F00]{$lang_help.$Red_text}[/color] - <span style="color: #f00">{$lang_help.$Red_text}</span>
     <input type="text" value="[color=#F00][/color]" size="15"/><br/>
-    [color=blue]{$lang_help.$Blue_text}[/color] - <span style="color: blue">{$lang_help.$Blue_text}</span>;
+    [color=blue]{$lang_help.$Blue_text}[/color] - <span style="color: blue">{$lang_help.$Blue_text}</span>
     <input type="text" value="[color=blue][/color]" size="15"/><br/>
     [hide]{$lang_help.$Hide_text}[/hide] - {$lang_help.hidden}
     <input type="text" value="[hide][/hide]" size="11"/><br/>
@@ -66,8 +66,7 @@
 <div class="con">{$lang_help.$Nested_tags}</div>
 <div class="msg">
     <strong>{$lang_help.$Nested_tags_info}</strong><br/>
-    [b][u]{$lang_help.$Bold_underlined_text}[/u][/b] - <strong><span
-        class="bbu">{$lang_help.$Bold_underlined_text}</span></strong>
+    [b][u]{$lang_help.$Bold_underlined_text}[/u][/b] - <strong><span class="bbu">{$lang_help.$Bold_underlined_text}</span></strong>
 
     <input type="text" value="[b][u][/u][/b]" size="9"/>
 </div>

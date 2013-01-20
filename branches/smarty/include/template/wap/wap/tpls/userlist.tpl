@@ -27,7 +27,7 @@
         <strong>{$lang_ul.$User_find_legend}</strong><br/>
 
     {if $pun_user.g_search_users == 1}
-            {$lang_common.Username}<br/>
+        {$lang_common.Username}<br/>
         <input type="text" name="username" value="{$username|escape}" maxlength="25"/><br/>
     {/if}
 
@@ -35,22 +35,17 @@
         <select name="show_group">
             <option value="-1"{if $show_group == -1} selected="selected"{/if}>{$lang_ul.$All_users}</option>
 
-
-        {foreach from=$groups item=cur_group}
-            <option value="{$cur_group.g_id}"{if $cur_group.g_id == $show_group}
-                    selected="selected"{/if}>{$cur_group.g_title|escape}</option>
-        {/foreach}
+            {foreach from=$groups item=cur_group}
+                <option value="{$cur_group.g_id}"{if $cur_group.g_id == $show_group} selected="selected"{/if}>{$cur_group.g_title|escape}</option>
+            {/foreach}
 
         </select><br/>
         {$lang_search.$Sort_by}<br/>
         <select name="sort_by">
-            <option value="username"{if $sort_by == 'username'}
-                    selected="selected"{/if}>{$lang_common.Username}</option>
-            <option value="registered"{if $sort_by == 'registered'}
-                    selected="selected"{/if}>{$lang_common.Registered}</option>
+            <option value="username"{if $sort_by == 'username'} selected="selected"{/if}>{$lang_common.Username}</option>
+            <option value="registered"{if $sort_by == 'registered'} selected="selected"{/if}>{$lang_common.Registered}</option>
         {if $show_post_count}
-            <option value="num_posts"{if $sort_by == 'num_posts'}
-                    selected="selected"{/if}>{$lang_ul.$No_of_posts}</option>
+            <option value="num_posts"{if $sort_by == 'num_posts'} selected="selected"{/if}>{$lang_ul.$No_of_posts}</option>
         {/if}
 
         </select><br/>
@@ -76,18 +71,17 @@
     &#160;|&#160;{$lang_common.Title}&#160;|&#160;{$lang_common.Registered}</div>
 
 {foreach from=$users item=user_data}
-<div class="{if $j = ! $j}in{else}in2{/if}">
-    <strong><a href="profile.php?id={$user_data.id}">{$user_data.username|escape}</a></strong>&#160;
-    {if $show_post_count}
-        [{$user_data.num_posts}]
-    {/if}
+    <div class="{if $j = ! $j}in{else}in2{/if}">
+        <strong><a href="profile.php?id={$user_data.id}">{$user_data.username|escape}</a></strong>&#160;
+        {if $show_post_count}
+            [{$user_data.num_posts}]
+        {/if}
 
-{* Должность *}          {* Дата размещения сообщения *}
-    {get_title($user_data)} ({$user_data.registered|date_format:$date_format})
-</div>
-
-    {foreachelse}
-<div class="msg">{$lang_search.$No_hits}</div>
+        {* Должность *}          {* Дата размещения сообщения *}
+        {get_title($user_data)} ({$user_data.registered|date_format:$date_format})
+    </div>
+{foreachelse}
+    <div class="msg">{$lang_search.$No_hits}</div>
 {/foreach}
 
 <div class="con">{$lang_common.Pages}: {$paging_links}</div>
