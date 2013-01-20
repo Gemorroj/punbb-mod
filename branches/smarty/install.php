@@ -210,7 +210,7 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_pms_mess_per_page', '10'),
 ('o_regs_verify_image', '1'),
 ('o_spam_gid', '5'),
-('file_allowed_ext', 'gif,png,jpg,jpeg,zip,rar,7z,tgz,gz,bz2,mp3,wav,wma,3gp,avi,mpg,wmv,exe,txt,doc,docx,xls,xlsx'),
+('file_allowed_ext', 'gif,png,jpg,jpeg,zip,apk,jar,rar,7z,tgz,gz,bz2,mp3,wav,wma,3gp,avi,flv,mpg,wmv,exe,txt,doc,docx,xls,xlsx'),
 ('file_image_ext', 'gif,png,jpg'),
 ('file_max_width', '1600'),
 ('file_max_height', '1200'),
@@ -509,9 +509,9 @@ PRIMARY KEY  (`id`)
 
 mysql_query("INSERT INTO `uploads_types` (`id`, `type`, `exts`) VALUES
 (1, 'Pictures', '.gif .png .jpg .jpeg .jpe'),
-(2, 'Documents', '.txt .rtf .pdf .doc .exe .msi'),
-(3, 'Archives', '.zip .rar .gz .tgz .bz .bz2 .7z'),
-(4, 'Media', '.3gp .avi .mpg .wmv .sxw .mp3 .wav .wma');") or die (mysql_error());
+(2, 'Documents', '.txt .rtf .pdf .doc .docx .xls .xlsx .exe .msi'),
+(3, 'Archives', '.zip .rar .gz .tgz .bz .bz2 .7z .jar .apk'),
+(4, 'Media', '.3gp .avi .mpg .wmv .flv .mp3 .wav .wma');") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `users` (
@@ -647,7 +647,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <h2>Переадресация</h2>
 <div class="box">
 <div class="inbox">
-<p>Таблицы Залиты<br />Не забудтье удалить файл <strong>install.php</strong><br />Перенаправление &#x2026;<br />
+<p>Таблицы Залиты<br />Не забудьте удалить файл <strong>install.php</strong><br />Перенаправление &#x2026;<br />
  &#187; <a href="index.php">WEB Версия</a><br />
  &#187; <a href="wap/index.php">WAP Версия</a>
 </p>

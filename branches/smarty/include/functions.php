@@ -1363,6 +1363,10 @@ class getf
                     $this->mime = 'text/vnd.sun.j2me.app-descriptor';
                     break;
 
+                case 'apk':
+                    $this->mime = 'application/vnd.android.package-archive';
+                    break;
+
                 case 'cab':
                     $this->mime = 'application/vnd.ms-cab-compressed';
                     break;
@@ -1418,6 +1422,8 @@ class getf
                 case 'html':
                 case 'wml':
                 case 'css':
+                case 'ini':
+                case 'log':
                     $this->mime = 'text/plain';
                     break;
 
@@ -1457,6 +1463,10 @@ class getf
                     $this->mime = 'video/x-msvideo';
                     break;
 
+                case 'flv':
+                    $this->mime = 'video/x-flv';
+                    break;
+
                 case 'mpg':
                 case 'mpe':
                 case 'mpeg':
@@ -1494,7 +1504,16 @@ class getf
 
 
     // Содержимое файла, имя файла, MIME (опционально), кодировка (опционально), аттач (опционально)
-    public function get($data, $file, $mime, $charset, $attach)
+    /**
+     * @param string $data
+     * @param string $file
+     * @param string $mime
+     * @param string $charset
+     * @param bool $attach
+     *
+     * @return string
+     */
+    public function get($data, $file, $mime = null, $charset = null, $attach = false)
     {
         ob_implicit_flush(1);
         set_time_limit(2000);
@@ -1514,7 +1533,7 @@ class getf
 
 
         if ($data) {
-            $this->data = & $data;
+            $this->data = $data;
         } else {
             $this->data = file_get_contents($this->file);
         }
@@ -1602,9 +1621,9 @@ class getf
         //header('Expires: Tue, 10 Apr 2038 01:00:00 GMT');
 
 
-        //header('Connection: Close');
-        header('Keep-Alive: timeout=10, max=60');
-        header('Connection: Keep-Alive');
+        header('Connection: Close');
+        //header('Keep-Alive: timeout=10, max=60');
+        //header('Connection: Keep-Alive');
 
         header('Accept-Ranges: bytes');
         header('Content-Length: ' . $range);
