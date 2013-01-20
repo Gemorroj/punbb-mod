@@ -26,34 +26,33 @@
 </div>
 {/if}
 
-{foreach from=$attachments item=row}
+{foreach from=$attachments item=attachment}
 
-    {if $row.cat_id != $cur_category || $row.forum_id != $cur_forum}
-    <div class="cat">{$categories[$row.cat_id]|escape} &#187; <a
-            href="viewforum.php?id={$row.forum_id}">{$forums[$row.forum_id].forum_name|escape}</a></div>
-        {assign var='cur_category' value=$row.cat_id}
-        {assign var='cur_forum' value=$row.forum_id}
+    {if $attachment.cat_id != $cur_category || $attachment.forum_id != $cur_forum}
+    <div class="cat">{$categories[$attachment.cat_id]|escape} &#187; <a
+            href="viewforum.php?id={$attachment.forum_id}">{$forums[$attachment.forum_id].forum_name|escape}</a></div>
+        {assign var='cur_category' value=$attachment.cat_id}
+        {assign var='cur_forum' value=$attachment.forum_id}
     {/if}
 
 {*// A new topic since last iteration?*}
-    {if $row.tid != $cur_topic}
+    {if $attachment.tid != $cur_topic}
     <div class="in">
-        <a href="viewtopic.php?id={$row.tid}">{$row.subject|escape}</a> <span class="small">({$row.posted})</span></div>
-        {assign var='cur_topic' value=$row.tid}
+        <a href="viewtopic.php?id={$attachment.tid}">{$attachment.subject|escape}</a> <span class="small">({$attachment.posted|date_format:$date_format})</span></div>
+        {assign var='cur_topic' value=$attachment.tid}
     {/if}
 
 <div class="{if $j = !$j}msg{else}msg2{/if}">
 
-    {if $row.can_download}
-        <a href="{$smarty.const.PUN_ROOT}download.php?aid={$row.id}">{$row.filename|escape}</a>
+    {if $attachment.can_download}
+        <a href="{$smarty.const.PUN_ROOT}download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>
         {else}
-        {$row.filename|escape}
+        {$attachment.filename|escape}
     {/if}
 
 {*<span style="font-style:italic;font-size:smaller;"></span>*}
 
-    {round($row.size/1024,1)}kb, {if preg_match('|^image/(.*)$|i', $row.mime, $regs)}{$regs[1]} {$row.image_dim}, {/if}
-    downloads: {$row.downloads}
+{include file='attachments.info.tpl'}
 
 </div>
 

@@ -15,15 +15,8 @@
             <span class="red">{$attachment.filename|escape}</span>
         {/if}
 
-        {if $attachment.size >= 1048576}
-            {round($attachment.size / 1048576, 0)} mb
-            {else}
-            {round($attachment.size / 1024, 0)} kb
-        {/if}
+        {include file='attachments.info.tpl'}
+        <br/>
 
-        {if 'image' == strTok($attachment.mime, '/')}
-            , {strtok('/')} {$attachment.image_dim}
-        {/if}
-        [<strong>{$lang_fu.Downloads}: {$attachment.downloads}</strong>]<br/>
     {/foreach}
 </div>
