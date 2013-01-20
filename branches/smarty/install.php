@@ -226,7 +226,7 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('file_upload_path', 'uploads/'),
 ('poll_enabled', '1'),
 ('antispam_enabled', '0'),
-('o_show_version', '0.5.9');") or die (mysql_error());
+('o_show_version', '0.6.0');") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `forums` (

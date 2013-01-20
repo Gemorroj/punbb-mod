@@ -50,7 +50,6 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
     $version = '0.5.1';
 }
 
-
 if ($version == '0.5.1') {
 
     $query = mysql_query('ALTER TABLE `search_words` CHANGE `word` `word` VARBINARY( 128 ) NOT NULL');
@@ -76,7 +75,6 @@ if ($version == '0.5.1') {
 
     $version = '0.5.2';
 }
-
 
 if ($version == '0.5.2') {
 
@@ -114,8 +112,7 @@ if ($version == '0.5.2') {
     $version = '0.5.3';
 }
 
-
-if ($version = '0.5.3') {
+if ($version == '0.5.3') {
 
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.4" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
@@ -125,7 +122,7 @@ if ($version = '0.5.3') {
     $version = '0.5.4';
 }
 
-if ($version = '0.5.4') {
+if ($version == '0.5.4') {
 
     $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.5" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
@@ -135,7 +132,7 @@ if ($version = '0.5.4') {
     $version = '0.5.5';
 }
 
-if ($version = '0.5.5') {
+if ($version == '0.5.5') {
 
     $query = mysql_query('UPDATE `config` SET `conf_value` = "1.2.22" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
     if (!$query) {
@@ -150,7 +147,7 @@ if ($version = '0.5.5') {
     $version = '0.5.6';
 }
 
-if ($version = '0.5.6') {
+if ($version == '0.5.6') {
 
     $query = mysql_query('UPDATE `config` SET `conf_value` = "1.2.23" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
     if (!$query) {
@@ -165,7 +162,7 @@ if ($version = '0.5.6') {
     $version = '0.5.7';
 }
 
-if ($version = '0.5.7') {
+if ($version == '0.5.7') {
 
     $query = mysql_query('ALTER TABLE `karma` CHANGE `vote` `vote` ENUM( "1", "-1" ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "1";');
     if (!$query) {
@@ -186,7 +183,7 @@ if ($version = '0.5.7') {
     $version = '0.5.8';
 }
 
-if ($version = '0.5.8') {
+if ($version == '0.5.8') {
     $query = mysql_query('ALTER TABLE `topics` ADD INDEX `last_post_id_idx` ( `last_post_id` );');
     if (!$query) {
         $error[] = mysql_error();
@@ -213,8 +210,16 @@ if ($version = '0.5.8') {
         $error[] = mysql_error();
     }
 
-
     $version = '0.5.9';
+}
+
+if ($version == '0.5.9') {
+    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.6.0" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    if (!$query) {
+        $error[] = mysql_error();
+    }
+
+    $version = '0.6.0';
 }
 
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');

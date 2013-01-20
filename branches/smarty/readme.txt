@@ -5,9 +5,11 @@
 Автор: Rickard Andersson ( http://punbb.org )
 Модификация: Gemorroj, tipsun, LookOfff
 
-Обсуждение мода, а так же новые модификации можно найти здесь
+Обсуждение мода, а так же новые модификации можно найти здесь:
 http://wapinet.ru/forum/viewtopic.php?id=69
 http://wapinet.ru/forum/wap/viewtopic.php?id=69
+SVN: http://code.google.com/p/punbb-mod/source/browse/
+
 
 
 Описание:
@@ -30,7 +32,7 @@ http://wapinet.ru/forum/wap/viewtopic.php?id=69
 Требуется библиотека mbstring
 PHP версии не ниже 5.2.3
 
-После установки не забудье в профиле поменять пароль админа и удалить файлы install.php и update.php
+После установки не забудьте в профиле поменять пароль админа и удалить файлы install.php и update.php
 
 Ник админа: Admin
 Пароль: 1234
