@@ -48,7 +48,8 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <p>' . $lang_pms['Popup new'] . pun_htmlspecialchars($return['sender']) . $lang_pms['Popup subj'] . '<strong>' . pun_htmlspecialchars($return['subject']) . '</strong><br />' . $lang_pms['Popup send'] . format_time($return['posted']) . '</p>
 <ul>
 <li><a href="javascript:go_read_msg(' . $id . ');">' . $lang_pms['Popup open msg'] . '</a></li>
-<li><a href="javascript:goto_inbox();">' . $lang_pms['Popup go in'] . '</a> ( <a href="javascript:goto_this_inbox();">' . $lang_pms['Popup open this'] . '</a>)</li>
+<li><a href="javascript:goto_inbox();">' . $lang_pms['Popup go in'] . '</a></li>
+<li><a href="javascript:goto_this_inbox();">' . $lang_pms['Popup open this'] . '</a></li>
 <li><a href="javascript:window.close();">' . $lang_pms['Popup close'] . '</a></li>
 </ul>
 </div>

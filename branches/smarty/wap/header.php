@@ -29,4 +29,4 @@ if ($pun_user['g_id'] < PUN_GUEST) {
     }
 }
 
-require_once(PUN_ROOT . 'include/pms/wap_header_new_messages.php');
+require_once PUN_ROOT . 'include/pms/wap_header_new_messages.php';

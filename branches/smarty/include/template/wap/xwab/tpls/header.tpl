@@ -14,5 +14,5 @@
 </head>
 <body>
 {if 'index.php' != $basename}
-{include file='notification.tpl'}
+    {include file='notification.tpl'}
 {/if}

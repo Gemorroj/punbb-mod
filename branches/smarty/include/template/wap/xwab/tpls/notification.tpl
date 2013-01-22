@@ -11,7 +11,7 @@
     {* Результат расчитывается в /wap/header.php *}
         <div class="con">
             {assign var='New_reports' value='New reports'}
-            <a href="{$smarty.const.PUN_ROOT}admin_reports.php">{$lang_admin.$New_reports}&#160;({$reports})</a>
+            <a href="{$smarty.const.PUN_ROOT}admin_reports.php">{$lang_admin.$New_reports} ({$reports})</a>
         </div>
     {/if}
     {if $pun_config.o_maintenance == 1}
@@ -25,7 +25,7 @@
 {* Результат расчитывается в /include/pms/wap_header_new_messages.php *}
     <div class="info">
         {assign var='New_messages' value='New messages'}
-        <a href="message_list.php">{$lang_pms.$New_messages}&#160;({$new_msgs})</a>
+        <a href="message_list.php">{$lang_pms.$New_messages} ({$new_msgs})</a>
     </div>
 {/if}
 
