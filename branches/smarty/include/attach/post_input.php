@@ -31,14 +31,10 @@ if ($num_to_upload >= 2) {
     ?>
 <div id="addMoreFiles2" class="fine_print">
 <?php if ($num_to_upload > 5) { ?>
-        <a href="javascript:void(0);"
-           onclick="toggle('lblFileFive', 'lblFileTwenty', 'addMoreFiles2', 'divImage3');"><?php echo $lang_fu['Add even more here']; ?></a>
-        (<?php echo $lang_fu['or just']; ?> <a href="javascript:void(0);"
-                                               onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['one slot']; ?></a>
-        )
+        <a href="javascript:void(0);" onclick="toggle('lblFileFive', 'lblFileTwenty', 'addMoreFiles2', 'divImage3');"><?php echo $lang_fu['Add even more here']; ?></a>
+        (<?php echo $lang_fu['or just']; ?> <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['one slot']; ?></a>)
         <?php } else { ?>
-        <a href="javascript:void(0);"
-           onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['Upload just one']; ?></a>
+        <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['Upload just one']; ?></a>
         <?php
     }
 

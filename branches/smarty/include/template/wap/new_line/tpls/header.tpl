@@ -6,13 +6,11 @@
 <meta http-equiv="Content-Type" content="{$pun_xhtml}; charset=UTF-8"/>
 {* + <pun_head> *}
 <title>{$page_title|escape}</title>
-<link rel="stylesheet" type="text/css"
-      href="{$pun_config.o_base_url}/include/template/wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}/style.css"/>
+<link rel="stylesheet" type="text/css" href="{$pun_config.o_base_url}/include/template/wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}/style.css"/>
 {* - <pun_head> *}
 {* <pun_rssname> *}
 {* <pun_rss> *}
-<link rel="alternate" type="application/rss+xml" title="{$pun_config.o_board_title}"
-      href="{$smarty.const.PUN_ROOT}rss.xml"/>
+<link rel="alternate" type="application/rss+xml" title="{$pun_config.o_board_title}" href="{$smarty.const.PUN_ROOT}rss.xml"/>
 </head>
 <body>
 {if 'index.php' != $basename}

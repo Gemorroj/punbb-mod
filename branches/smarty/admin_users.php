@@ -27,11 +27,11 @@ if (isset($_GET['ip_stats'])) {
     ?>
 <div class="linkst">
     <div class="inbox">
-        <div><a href="javascript:history.go(-1)"><?php print $lang_admin['Back']; ?></a></div>
+        <div><a href="javascript:history.go(-1)"><?php echo $lang_admin['Back']; ?></a></div>
     </div>
 </div>
 <div id="users1" class="blocktable">
-    <h2><span><?php print $lang_admin['Users']; ?></span></h2>
+    <h2><span><?php echo $lang_admin['Users']; ?></span></h2>
 
     <div class="box">
         <div class="inbox">
@@ -59,7 +59,7 @@ if (isset($_GET['ip_stats'])) {
                             <td class="tc2"><?php echo format_time($cur_ip['last_used']); ?></td>
                             <td class="tc3"><?php echo $cur_ip['used_times']; ?></td>
                             <td class="tcr"><a
-                                href="admin_users.php?show_users=<?php echo $cur_ip['poster_ip']; ?>"><?php print $lang_admin['All IP']; ?></a>
+                                href="admin_users.php?show_users=<?php echo $cur_ip['poster_ip']; ?>"><?php echo $lang_admin['All IP']; ?></a>
                             </td>
                         </tr>
                             <?php
@@ -75,7 +75,7 @@ if (isset($_GET['ip_stats'])) {
 </div>
 <div class="linksb">
     <div class="inbox">
-        <div><a href="javascript:history.go(-1)"><?php print $lang_admin['Back']; ?></a></div>
+        <div><a href="javascript:history.go(-1)"><?php echo $lang_admin['Back']; ?></a></div>
     </div>
 </div>
 <?php

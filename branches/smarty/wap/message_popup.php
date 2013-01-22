@@ -35,8 +35,7 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>: Private Message Services</title>
-    <link rel="stylesheet" type="text/css"
-          href="<?php print PUN_ROOT; ?>style/<?php echo $pun_user['style'] . '.css'; ?>"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo PUN_ROOT; ?>style/<?php echo $pun_user['style'] . '.css'; ?>"/>
 </head>
 <body>
 <script type='text/javascript' src='../js/message_popup.js'></script>
@@ -50,13 +49,15 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
                     <p><?php echo $lang_pms['Popup new'] . pun_htmlspecialchars($return['sender']) . $lang_pms['Popup subj'] . pun_htmlspecialchars($return['subject']); ?>
                     <br/><?php echo $lang_pms['Popup send'] . format_time($return['posted']); ?></p>
                     <ul>
-                        <li><a
-                            href='javascript:go_read_msg(<?php echo $id; ?>);'><?php echo $lang_pms['Popup open msg']; ?></a>
+                        <li>
+                            <a  href='javascript:go_read_msg(<?php echo $id; ?>);'><?php echo $lang_pms['Popup open msg']; ?></a>
                         </li>
-                        <li><a href='javascript:goto_inbox();'><?php echo $lang_pms['Popup go in']; ?></a> ( <a
-                            href='javascript:goto_this_inbox();'><?php echo $lang_pms['Popup open this']; ?></a>)
+                        <li>
+                            <a href='javascript:goto_inbox();'><?php echo $lang_pms['Popup go in']; ?></a> (<a href='javascript:goto_this_inbox();'><?php echo $lang_pms['Popup open this']; ?></a>)
                         </li>
-                        <li><a href='javascript:window.close();'><?php echo $lang_pms['Popup close']; ?></a></li>
+                        <li>
+                            <a href='javascript:window.close();'><?php echo $lang_pms['Popup close']; ?></a>
+                        </li>
                     </ul>
                 </div>
             </div>

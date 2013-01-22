@@ -70,9 +70,9 @@ generate_admin_menu('censoring');
         <form id="censoring" method="post" action="admin_censoring.php?action=foo">
             <div class="inform">
                 <fieldset>
-                    <legend><?php print $lang_admin['Cens about']; ?></legend>
+                    <legend><?php echo $lang_admin['Cens about']; ?></legend>
                     <div class="infldset">
-                        <p><?php print $lang_admin['Cens edit']; ?></p>
+                        <p><?php echo $lang_admin['Cens edit']; ?></p>
                         <table cellspacing="0">
                             <thead>
                             <tr>
@@ -103,7 +103,6 @@ generate_admin_menu('censoring');
 $result = $db->query('SELECT id, search_for, replace_with FROM ' . $db->prefix . 'censoring ORDER BY id') or error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
 
-
     echo '<table cellspacing="0">
 <thead>
 <tr>
@@ -119,9 +118,7 @@ if ($db->num_rows($result)) {
         echo '<tr><td><input type="text" name="search_for[' . $cur_word['id'] . ']" value="' . pun_htmlspecialchars($cur_word['search_for']) . '" size="24" maxlength="60" /></td><td><input type="text" name="replace_with[' . $cur_word['id'] . ']" value="' . pun_htmlspecialchars($cur_word['replace_with']) . '" size="24" maxlength="60" /></td><td><input type="submit" name="update[' . $cur_word['id'] . ']" value="' . $lang_admin['Upd'] . '" /> <input type="submit" name="remove[' . $cur_word['id'] . ']" value="' . $lang_admin['Del'] . '" /></td></tr>';
     }
 
-
     echo '</tbody></table>';
-
 
 } else {
     echo '<p>' . $lang_admin['Not cens'] . '</p>';

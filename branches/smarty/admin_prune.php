@@ -96,7 +96,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     generate_admin_menu('prune');
     ?>
 <div class="blockform">
-    <h2><span><?php print $lang_admin['Prune']; ?></span></h2>
+    <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
     <div class="box">
         <form method="post" action="admin_prune.php?action=foo">
@@ -105,16 +105,16 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                 <input type="hidden" name="prune_sticky" value="<?php echo $_POST['prune_sticky'] ?>"/>
                 <input type="hidden" name="prune_from" value="<?php echo $prune_from ?>"/>
                 <fieldset>
-                    <legend><?php print $lang_admin['Prune true'] ?></legend>
+                    <legend><?php echo $lang_admin['Prune true'] ?></legend>
                     <div class="infldset">
                         <p>
-                            <?php print $lang_admin['Prune true2'] . ' <strong>' . $num_topics . '</strong>'; ?>
+                            <?php echo $lang_admin['Prune true2'] . ' <strong>' . $num_topics . '</strong>'; ?>
                         </p>
                     </div>
                 </fieldset>
             </div>
-            <p><input type="submit" name="prune_comply" value="<?php print $lang_admin['Clear']; ?>"/><a
-                href="javascript:history.go(-1)"><?php print $lang_admin['Back']; ?></a></p>
+            <p><input type="submit" name="prune_comply" value="<?php echo $lang_admin['Clear']; ?>"/><a
+                href="javascript:history.go(-1)"><?php echo $lang_admin['Back']; ?></a></p>
         </form>
     </div>
 </div>
@@ -131,22 +131,22 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     generate_admin_menu('prune');
     ?>
 <div class="blockform">
-    <h2><span><?php print $lang_admin['Prune']; ?></span></h2>
+    <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
     <div class="box">
         <form id="prune" method="post" action="admin_prune.php?action=foo" onsubmit="return process_form(this)">
             <div class="inform">
                 <input type="hidden" name="form_sent" value="1"/>
                 <fieldset>
-                    <legend><?php print $lang_admin['About prune']; ?></legend>
+                    <legend><?php echo $lang_admin['About prune']; ?></legend>
                     <div class="infldset">
                         <table class="aligntop" cellspacing="0">
                             <tr>
-                                <th scope="row"><?php print $lang_admin['Prune days']; ?></th>
+                                <th scope="row"><?php echo $lang_admin['Prune days']; ?></th>
                                 <td>
                                     <input type="text" name="req_prune_days" size="3" maxlength="3" />
 <span>
-<?php print $lang_admin['Enter prune']; ?>
+<?php echo $lang_admin['Enter prune']; ?>
 </span>
                                 </td>
                             </tr>
@@ -154,11 +154,11 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                                 <th scope="row"><?php print $lang_admin['Prune themes']; ?></th>
                                 <td>
                                     <input type="radio" name="prune_sticky" value="1" checked="checked"/>
-                                    <strong><?php print $lang_admin['Yes']; ?></strong>
+                                    <strong><?php echo $lang_admin['Yes']; ?></strong>
                                     <input type="radio" name="prune_sticky" value="0"/>
-                                    <strong><?php print $lang_admin['No']; ?></strong>
+                                    <strong><?php echo $lang_admin['No']; ?></strong>
 <span>
-<?php print $lang_admin['About prune themes']; ?>
+<?php echo $lang_admin['About prune themes']; ?>
 </span>
                                 </td>
                             </tr>
