@@ -1860,8 +1860,10 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                     echo '<label><input type="checkbox" name="moderator_in[' . $cur_forum['fid'] . ']" value="1"' . ((in_array($id, $moderators)) ? ' checked="checked"' : '') . ' />' . pun_htmlspecialchars($cur_forum['forum_name']) . '<br /></label>';
                 }
 
-
-                echo '</div></div><br class="clearb" /><input type="submit" name="update_forums" value="' . $lang_profile['Update forums'] . '" /></div></fieldset></div>';
+                if ($cur_category) {
+                    echo '</div></div>';
+                }
+                echo '<br class="clearb" /><input type="submit" name="update_forums" value="' . $lang_profile['Update forums'] . '" /></div></fieldset></div>';
 
             }
         }
