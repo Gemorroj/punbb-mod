@@ -45,20 +45,21 @@ poll.pForm = function () {
         return false;
     }
 
-    var l = q.split("\n");
-    $("#ppreview").empty().append('<p><strong>' + d + '<strong></p>').append('<ol id="poansw"></ol><br class="clearb" />');
+    var $p = $('<p><strong></strong></p>').find('strong').text(d);
+    $("#ppreview").empty().append($p).append('<ol id="poansw"></ol><br class="clearb" />');
 
+    var l = q.split("\n");
+    var $to = $("#poansw");
     for (var i = 0, all = l.length; i < all; i++) {
-        $("<li></li>").text(l[i]).appendTo($("#poansw"));
+        $("<li></li>").text(l[i]).appendTo($to);
     }
+
+    poll.frmloaded = false;
 
     $("#has_poll").val(1);
 
-    $("#apcreate").unbind('click');
-    $('#post').append('<input type="hidden" name="polldata" id="polldata" value="' + $('#pollcreate').serialize() + '" />');
-    poll.frmloaded = false;
-    $("#apcreate").text(poll.lng['delete']);
-    $("#apcreate").click(poll.remove);
+    $('#post').append($('<input type="hidden" name="polldata" id="polldata" value="" />').val($('#pollcreate').serialize()));
+    $("#apcreate").unbind('click').text(poll.lng['delete']).click(poll.remove);
     $.modalBox.hideBox(function () {
         $("#ppreview").slideDown(200);
     });
@@ -67,28 +68,26 @@ poll.pForm = function () {
 };
 
 poll.vote = function (id) {
-    var p = ".p_cnt_" + id;
-    var ch = $(p + " input:checked");
+    var $p = $(".p_cnt_" + id);
+    var $ch = $p.find("input:checked");
 
-    if (ch.length < 1) {
+    if ($ch.length < 1) {
         $("#warning").html(poll.lng.answer_must_select).show("fast");
         return false;
     }
 
-    $(p + " table td").each(function () {
-        $(this).css('opacity', "0.4");
-    });
+    $p.find("table td").css('opacity', "0.4");
     $("#warning").empty();
-    $(p).css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');
+    $p.css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');
 
     $.ajax({
         type: "POST",
         url: "ajax.server.php?poll=sres",
         dataType: "html",
         cache: false,
-        data: {"p": id, "q": ch.serialize()},
+        data: {"p": id, "q": $ch.serialize()},
         success: function (data) {
-            $(p).html(data);
+            $p.html(data);
         }
     });
 };

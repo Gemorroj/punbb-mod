@@ -587,7 +587,6 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
     echo $Poll->showContainer();
 }
 // hcs AJAX POLL MOD END
-
 ?>
 <fieldset>
     <legend><?php echo $lang_common['Write message legend']; ?></legend>
