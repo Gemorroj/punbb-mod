@@ -44,13 +44,14 @@ function pasteQ(p, n) {
         t = "[quote=" + n + "]" + t + "[/quote]\n";
         insAtCaret(document.forms.post.req_message, t);
     } else if (p !== '') {
-        $("#p" + p + " .postquote:last a").hide();
-        $("#p" + p + " .postquote:last").append('<img id="busy' + p + '" src="img/busy.gif" alt="loading" />');
+        var $postquote = $("#p" + p + " .postquote:last");
+        $postquote.find("a").hide();
+        $postquote.append('<img id="busy' + p + '" src="img/busy.gif" alt="loading" />');
         $.ajax({
             type: "GET",
             url: "ajax.server.php?quote=" + p,
-             dataType: "text",
-             success: function (d) {
+            dataType: "text",
+            success: function (d) {
                 insAtCaret(document.forms.post.req_message, d);
                 $("#busy" + p).hide();
                 $("#p" + p + " .postquote:last a").show();

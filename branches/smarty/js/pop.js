@@ -94,13 +94,13 @@ function downloadPopup(e, aid) {
         adescr = '<a href="' + O_BASE_URL + '/download.php?aid=' + aid + '" title="click to download" class="att_filename">' + adescr;
     }
     if (athumb != '') {
-        adescr += '<br /><img src="' + O_BASE_URL + '/' + athumb + '" alt="" /><br/>';
+        adescr += '<br /><img src="' + O_BASE_URL + '/' + athumb + '" alt="" /><br />';
     }
     if (can_download) {
         adescr += '</a>';
     }
     if (athumb != '') {
-        adescr += '<strong>BBcode</strong>: <input type="text" onclick="this.select();" value="::thumb' + aid + '::" /><br/>';
+        adescr += '<strong>BBcode</strong>: <input type="text" onclick="this.select();" value="::thumb' + aid + '::" /><br />';
     }
 
     title.innerHTML = '#' + aid + ': ' + atime;

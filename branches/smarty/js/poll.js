@@ -22,7 +22,9 @@ $(document).ready(function () {
 });
 
 poll.remove = function () {
-    $("#apcreate").text(poll.lng.create).unbind('click').modalBox({title:poll.lng.create_poll, height: 600, width: 600, ajax: "ajax.server.php?poll=gcfrm"});
+    $("#apcreate").text(poll.lng.create).unbind('click').modalBox({
+        'title': poll.lng.create_poll, 'height': 600, 'width': 600, 'ajax': "ajax.server.php?poll=gcfrm"
+    });
     $("#ppreview").slideUp(200).empty();
 };
 
@@ -76,7 +78,7 @@ poll.vote = function (id) {
         return false;
     }
 
-    $p.find("table td").css('opacity', "0.4");
+    $p.find("table td").css('opacity', 0.4);
     $("#warning").empty();
     $p.css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');
 

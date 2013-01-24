@@ -15,21 +15,28 @@ poll.admin = function () {
     s.update = function (id) {
         $.modalBox.hideBox(function () {
             $('div.cnt_' + id).each(function () {
-                var obj = $(this);
+                var $obj = $(this);
+                $obj.css({'position': 'relative'});
 
-                obj.css({'position': 'relative'});
-                var height = obj.height(), width = obj.width(), hid = $.modalBox.generateId('hider');
+                var height = $obj.height(),
+                    width = $obj.width(),
+                    hid = $.modalBox.generateId('hider');
 
-                obj.append('<div id="' + hid + '" class="hider' + id + '">' + busy + '</div>');
-                $('#' + hid).css({
-                    'position': 'absolute',
-                    'background-color': '#ffffff',
-                    'top': 0,
-                    'left': 0,
-                    'width': width,
-                    'height': height
-                });
+                var $hid = $('<div></div>')
+                    .attr('id', hid)
+                    .attr('class', 'hider' + id)
+                    .html(busy)
+                    .css({
+                        'position': 'absolute',
+                        'background-color': '#ffffff',
+                        'top': 0,
+                        'left': 0,
+                        'width': width + 'px',
+                        'height': height + 'px'
+                    });
+                $obj.append($hid);
             });
+
             $.ajax({
                 type: "POST",
                 url: "ajax.server.php?poll=update",

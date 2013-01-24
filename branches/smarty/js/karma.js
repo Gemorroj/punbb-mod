@@ -7,7 +7,7 @@ function _vote(user, karma) {
     num.html('<img src="img/busy.gif" alt="" />');
 
     $.get('karma.php?to=' + user + '&vote=' + karma, function (data) {
-        num.html(data ? oldKarma + karma : 'Ошибка');
+        num.html(data ? oldKarma + karma : 'Error');
     });
 }
 
