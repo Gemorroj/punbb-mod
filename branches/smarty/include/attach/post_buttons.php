@@ -15,7 +15,8 @@ Outgoing variables:
 $attachments: array - cache of attachments records
  ************************************************************************/
 
-echo '<script type="text/javascript">
+$jsHelper->add(PUN_ROOT . 'js/reply.js');
+$jsHelper->addInternal('
 var post_form = \'' . $focus_element[0] . '\';
 var txt	 = \'\';
 var text_enter_title = \'' . $lang_fu['JS enter title'] . '\';
@@ -26,33 +27,7 @@ var text_enter_email = \'' . $lang_fu['JS enter email'] . '\';
 var error_no_url = \'' . $lang_fu['JS no url'] . '\';
 var error_no_title = \'' . $lang_fu['JS no title'] . '\';
 var error_no_email = \'' . $lang_fu['JS no email'] . '\';
-</script>
-<script type="text/javascript" src="' . PUN_ROOT . 'js/reply.js"></script>';
-
-/**
- * <div id="buttonmenu">
- * <ul id="buttons">
- * <li><a href="#" onclick="return false;">Color<!--[if IE 7]><!--></a><!--<![endif]-->
- * <!--[if lte IE 6]><table><tr><td><![endif]-->
- * <ul id="colorcontent"><li></li></ul>
- * <!--[if lte IE 6]></td></tr></table></a><![endif]-->
- * </li>
- * <li><a href="#" onclick="return false;">Font<!--[if IE 7]><!--></a><!--<![endif]-->
- * <!--[if lte IE 6]><table><tr><td><![endif]-->
- * <ul id="fonts"></ul>
- * <!--[if lte IE 6]></td></tr></table></a><![endif]-->
- * </li>
- * <li><a href="#" onclick="return false;">Size<!--[if IE 7]><!--></a><!--<![endif]-->
- * <!--[if lte IE 6]><table><tr><td><![endif]-->
- * <ul id="sizes"></ul>
- * <!--[if lte IE 6]></td></tr></table></a><![endif]-->
- * </li>
- * </ul>
- **/
-
-
-//
-
+');
 ?>
 <div id="buttonmenu">
     <ul>

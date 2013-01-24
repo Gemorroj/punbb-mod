@@ -16,7 +16,7 @@ if ($id < 1) {
 
 
 // Fetch some info about the post, the topic and the forum
-$result = $db->query('SELECT f.id AS fid, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.id AS tid, t.subject, t.posted, t.closed, p.poster, p.poster_id, p.message, p.hide_smilies FROM ' . $db->prefix . 'posts AS p INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT p.id AS id, f.id AS fid, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.id AS tid, t.subject, t.posted, t.closed, p.poster, p.poster_id, p.message, p.hide_smilies FROM ' . $db->prefix . 'posts AS p INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result)) {
     message($lang_common['Bad request']);
 }
@@ -239,16 +239,14 @@ if ($errors) {
                         require PUN_ROOT . 'include/attach/post_buttons.php';
                         ?>
                         <label>
-                            <textarea name="req_message" rows="20" cols="95"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br/></label>
+                            <textarea name="req_message" rows="20" cols="95"><?php echo pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']) ?></textarea><br/>
+                        </label>
                         <ul class="bblinks">
-                            <li><a href="help.php#bbcode"
-                                   onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+                            <li><a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
                             </li>
-                            <li><a href="help.php#img"
-                                   onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+                            <li><a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
                             </li>
-                            <li><a href="help.php#smilies"
-                                   onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+                            <li><a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
                             </li>
                         </ul>
                     </div>
@@ -258,8 +256,7 @@ if ($errors) {
 // increase numer of rows to number of already attached files
 // $file_limit will grow up when user delete files and become lower on each upload
 // but numer of rows is less or equal 20
-$num_to_upload = $file_limit /* + $uploaded_to_post*/
-;
+$num_to_upload = $file_limit /* + $uploaded_to_post*/;
 $num_to_upload = min($num_to_upload, 20);
 if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
     echo '<br class="clearb" /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
