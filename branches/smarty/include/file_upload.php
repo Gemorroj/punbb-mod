@@ -650,14 +650,3 @@ function handle_thumb_tag($aid)
 
     return '::thumb' . $aid . '::'; // really tag not translated :)
 }
-
-/*
-********************************************************************************
-** Callback for viewtopic.php. Extract current post attachments.
-********************************************************************************
-*/
-function filter_attachments_of_post($e)
-{
-    global $cur_post;
-    return $e['post_id'] == $cur_post['id'];
-}

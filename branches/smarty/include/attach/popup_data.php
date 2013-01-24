@@ -14,8 +14,6 @@ Incoming variables:
 $attachments: array - cache of attachments records
  ************************************************************************/
 
-echo '<script type="text/javascript">
-O_BASE_URL="' . $pun_config['o_base_url'] . '";';
 
 if (@$attachments) {
     $thumb_height = $pun_config['file_thumb_height'];
@@ -24,26 +22,29 @@ if (@$attachments) {
     $pview_width = $pun_config['file_preview_width'];
 
     $tmp = array();
-    foreach ($attachments as $attachment) {
-        // generate preview images just-in-time
-        if (preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
-            $pview_fname = require_thumb($attachment['id'], $attachment['location'], $pview_width, $pview_height, false);
-            $thumb_fname = require_thumb($attachment['id'], $attachment['location'], $thumb_width, $thumb_height, true);
-            $img_size = ' (' . $regs[1] . ' ' . $attachment['image_dim'] . ')';
-        } else {
-            $thumb_fname = $img_size = null;
-        }
+    foreach ($attachments as $post_attachments) {
+        foreach ($post_attachments as $attachment) {
+            // generate preview images just-in-time
+            if (preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
+                $pview_fname = require_thumb($attachment['id'], $attachment['location'], $pview_width, $pview_height, false);
+                $thumb_fname = require_thumb($attachment['id'], $attachment['location'], $thumb_width, $thumb_height, true);
+                $img_size = ' (' . $regs[1] . ' ' . $attachment['image_dim'] . ')';
+            } else {
+                $thumb_fname = $img_size = null;
+            }
 
-        $tmp[] = "'" . $attachment['id'] . "': [" . "'" . format_time($attachment['uploaded']) .
-            "'," . "'" . pun_htmlspecialchars($attachment['filename']) . "'," . "'" . $lang_fu['Size'] .
-            ': ' . round($attachment['size'] / 1024, 1) . 'kb ' . $img_size . ' ' . $lang_fu['Downloads'] .
-            ': ' . $attachment['downloads'] . "','" . $thumb_fname . "'," . intval(isset($attachment['can_download']) ?
-            $attachment['can_download'] : $can_download) . ']';
+            $tmp[] = "'" . $attachment['id'] . "': [" . "'" . format_time($attachment['uploaded']) .
+                "'," . "'" . pun_htmlspecialchars($attachment['filename']) . "'," . "'" . $lang_fu['Size'] .
+                ': ' . round($attachment['size'] / 1024, 1) . 'kb ' . $img_size . ' ' . $lang_fu['Downloads'] .
+                ': ' . $attachment['downloads'] . "','" . $thumb_fname . "'," . intval(isset($attachment['can_download']) ?
+                $attachment['can_download'] : $can_download) . ']';
+        }
     }
-    echo "ATTACH_DATA={\n" . implode(",\n", $tmp) . "};\n";
+
+    $jsHelper->addInternal('ATTACH_DATA={' . implode(',', $tmp) . '};');
     unset($tmp);
 }
 
-echo '</script>
-<script type="text/javascript" src="' . $pun_config['o_base_url'] . '/js/pop.js"></script>
-<div id="pun-popup" class="punpopup"><p id="pun-title" class="popup-title">title</p><p id="pun-desc" class="popup-desc">Description</p><p id="pun-body" class="popup-body">Body</p></div>';
+$jsHelper->add(PUN_ROOT . 'js/pop.js');
+
+echo '<div id="pun-popup" class="punpopup"><p id="pun-title" class="popup-title">title</p><p id="pun-desc" class="popup-desc">Description</p><p id="pun-body" class="popup-body">Body</p></div>';

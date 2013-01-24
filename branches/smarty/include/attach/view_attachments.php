@@ -1,11 +1,11 @@
 <?php
-if ($attachments) {
+if ($attachments[$cur_post['id']]) {
     echo '<ul class="attach_list">';
 
-    $is_inplace = $pun_config['file_popup_info'] == 2;
+    $is_inplace = ($pun_config['file_popup_info'] == 2);
     $basename = basename($_SERVER['PHP_SELF']);
 
-    foreach ($attachments as $attachment) {
+    foreach ($attachments[$cur_post['id']] as $attachment) {
         $title = pun_htmlspecialchars($attachment['filename']);
         $aid = $attachment['id'];
         $downloads = $attachment['downloads'];
@@ -31,7 +31,7 @@ if ($attachments) {
                     $thumbnail = '<img src="' . PUN_ROOT . require_thumb($attachment['id'], $attachment['location'], $pun_config['file_thumb_width'], $pun_config['file_thumb_height'], true) . '">';
                     if ($can_download) {
                         //$thumbnail = '<a href="'.$pun_config['o_base_url'].'/download.php?aid='.$aid.'">'.$thumbnail.'</a>';
-                        $thumbnail = '<a href="javascript:void(0);" onclick="{a=\'::thumb' . $aid . '::\';prompt(\'BBcode\',a);}">' . $thumbnail . '</a>';
+                        $thumbnail = '<a href="javascript:void(0);" onclick="{a=\'::thumb' . $aid . '::\';window.prompt(\'BBcode\',a);}">' . $thumbnail . '</a>';
                     }
                     $att_info .= '<br />' . $thumbnail;
                 } else {

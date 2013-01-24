@@ -193,7 +193,7 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'header.php';
 
 if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-    echo '<script type="text/javascript" src="./js/karma.js"></script>';
+    $jsHelper->add(PUN_ROOT . 'js/karma.js');
 }
 echo '<div class="linkst"><div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
@@ -461,14 +461,14 @@ foreach ($posts as $cur_post) {
     }
     echo pun_htmlspecialchars($cur_topic['subject']) . '</h3><div class="postmsg">' . $cur_post['message'];
 
-    $save_attachments = $attachments;
-    $attachments = array_filter($attachments, 'filter_attachments_of_post');
-    if ($attachments) {
+    //$save_attachments = $attachments;
+    //$attachments = array_filter($attachments, 'filter_attachments_of_post');
+    if ($attachments[$cur_post['id']]) {
         echo '<br /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
         include PUN_ROOT . 'include/attach/view_attachments.php';
         echo '</fieldset>';
     }
-    $attachments = $save_attachments;
+    //$attachments = $save_attachments;
 
     /// MOD ANTISPAM BEGIN
     if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {

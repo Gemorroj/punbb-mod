@@ -91,10 +91,10 @@ function downloadPopup(e, aid) {
     var can_download = funcdata[4];
 
     if (can_download) {
-        adescr = '<a href="' + O_BASE_URL + '/download.php?aid=' + aid + '" title="click to download" class="att_filename">' + adescr;
+        adescr = '<a href="./download.php?aid=' + aid + '" title="download" class="att_filename">' + adescr;
     }
     if (athumb != '') {
-        adescr += '<br /><img src="' + O_BASE_URL + '/' + athumb + '" alt="" /><br />';
+        adescr += '<br /><img src="./' + athumb + '" alt="" /><br />';
     }
     if (can_download) {
         adescr += '</a>';

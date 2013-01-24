@@ -24,20 +24,12 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case 'edit.php':
         $att_sql = 'SELECT * FROM ' . $db->prefix . 'attachments WHERE post_id=' . intval($id);
         break;
-
-    default:
-        break;
 }
 
 // prepare attachments cache data
 $attachments = array();
 $result = $db->query($att_sql, true); // or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
 while ($attachment = $db->fetch_assoc($result)) {
-    if ($attachment['size'] >= 1048576) {
-        $attachment['size']['mb'] = round($attachment['size'] / 1048576, 0);
-    } else {
-        $attachment['size']['kb'] = round($attachment['size'] / 1024, 0);
-    }
     $attachments[$attachment['post_id']][] = $attachment;
 }
 $db->free_result($result);
