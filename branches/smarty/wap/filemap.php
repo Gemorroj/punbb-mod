@@ -106,7 +106,7 @@ if ($fid_list) {
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions
         $row['can_download'] = $forums[$row['forum_id']]['can_download'];
-        $attachments[] = $row;
+        $attachments[$row['post_id']][] = $row;
     }
 }
 

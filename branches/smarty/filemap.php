@@ -63,7 +63,7 @@ if (!$fid_list) {
     $num_rows = 0;
 } else {
     // get number of topics and which we have to start from
-    $result = $db->query('SELECT COUNT(*)
+    $result = $db->query('SELECT COUNT(1)
     FROM
     ' . $db->prefix . 'attachments AS a INNER JOIN
     ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
@@ -102,7 +102,7 @@ if ($fid_list) {
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions
         $row['can_download'] = $forums[$row['forum_id']]['can_download'];
-        $attachments[] = $row;
+        $attachments[$row['post_id']][] = $row;
     }
 }
 
@@ -139,43 +139,45 @@ echo '<div class="linkst">
 $image_height = $pun_config['file_preview_height'];
 $image_width = $pun_config['file_preview_width'];
 
-foreach ($attachments as $row) {
-    // A new category since last iteration?
-    if ($row['cat_id'] != $cur_category) {
-        echo '<div class="cat">' . pun_htmlspecialchars($categories[$row['cat_id']]) . '</div>';
-        $cur_category = $row['cat_id'];
-    }
-
-    // A new forum since last iteration?
-    if ($row['forum_id'] != $cur_forum) {
-        echo '<div class="frm"><a href="viewforum.php?id=' . $row['forum_id'] . '">' . pun_htmlspecialchars($forums[$row['forum_id']]['forum_name']) . '</a></div>';
-        $cur_forum = $row['forum_id'];
-    }
-
-    // A new topic since last iteration?
-    if ($row['tid'] != $cur_topic) {
-        echo '<div class="tpc"><strong><a href="viewtopic.php?id=' . $row['tid'] . '">' . pun_htmlspecialchars($row['subject']) . '</a></strong><br />' . format_time($row['posted']) . ' <strong>' . pun_htmlspecialchars($row['poster']) . '</strong></div>';
-        $cur_topic = $row['tid'];
-    }
-
-    $title = pun_htmlspecialchars($row['filename']);
-
-    if ($pun_config['file_popup_info'] == 1) {
-        $link_events = ' onmouseover="downloadPopup(event,\'' . $row['id'] . '\')"';
-        $att_info = '';
-    } else {
-        $link_events = '';
-        if ($pun_config['file_popup_info'] == 2) {
-            $att_info = '(' . round($row['size'] / 1024, 1) . 'kb, ' . ((preg_match('|^image/(.*)$|i', $row['mime'], $regs)) ? ($regs[1] . ' ' . $row['image_dim'] . ', ') : '') . 'downloads: ' . $row['downloads'] . ')';
-        } else {
-            $att_info = null;
+foreach ($attachments as $post_attachments) {
+    foreach ($post_attachments as $row) {
+        // A new category since last iteration?
+        if ($row['cat_id'] != $cur_category) {
+            echo '<div class="cat">' . pun_htmlspecialchars($categories[$row['cat_id']]) . '</div>';
+            $cur_category = $row['cat_id'];
         }
-    }
 
-    if ($row['can_download']) {
-        echo '<div class="att"><a href="download.php?aid=' . $row['id'] . '" ' . $link_events . '>' . $title . '</a> ' . $att_info . '</div>';
-    } else {
-        echo '<div class="att"' . $link_events . '>' . $title . ' ' . $att_info . '</div>';
+        // A new forum since last iteration?
+        if ($row['forum_id'] != $cur_forum) {
+            echo '<div class="frm"><a href="viewforum.php?id=' . $row['forum_id'] . '">' . pun_htmlspecialchars($forums[$row['forum_id']]['forum_name']) . '</a></div>';
+            $cur_forum = $row['forum_id'];
+        }
+
+        // A new topic since last iteration?
+        if ($row['tid'] != $cur_topic) {
+            echo '<div class="tpc"><strong><a href="viewtopic.php?id=' . $row['tid'] . '">' . pun_htmlspecialchars($row['subject']) . '</a></strong><br />' . format_time($row['posted']) . ' <strong>' . pun_htmlspecialchars($row['poster']) . '</strong></div>';
+            $cur_topic = $row['tid'];
+        }
+
+        $title = pun_htmlspecialchars($row['filename']);
+
+        if ($pun_config['file_popup_info'] == 1) {
+            $link_events = ' onmouseover="downloadPopup(event,\'' . $row['id'] . '\')"';
+            $att_info = '';
+        } else {
+            $link_events = '';
+            if ($pun_config['file_popup_info'] == 2) {
+                $att_info = '(' . round($row['size'] / 1024, 1) . 'kb, ' . ((preg_match('|^image/(.*)$|i', $row['mime'], $regs)) ? ($regs[1] . ' ' . $row['image_dim'] . ', ') : '') . 'downloads: ' . $row['downloads'] . ')';
+            } else {
+                $att_info = null;
+            }
+        }
+
+        if ($row['can_download']) {
+            echo '<div class="att"><a href="download.php?aid=' . $row['id'] . '" ' . $link_events . '>' . $title . '</a> ' . $att_info . '</div>';
+        } else {
+            echo '<div class="att"' . $link_events . '>' . $title . ' ' . $att_info . '</div>';
+        }
     }
 }
 
