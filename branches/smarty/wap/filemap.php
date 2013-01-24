@@ -14,6 +14,7 @@ define('PUN_ALLOW_INDEX', 0);
 define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
 require_once PUN_ROOT . 'wap/header.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 
 $user_id = isset($_GET['user_id']) ? (int) $_GET['user_id'] : null;
 
@@ -110,6 +111,7 @@ if ($fid_list) {
     }
 }
 
+$smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('page_title', $page_title);
 $smarty->assign('user', @$user);
 $smarty->assign('attachments', $attachments);
