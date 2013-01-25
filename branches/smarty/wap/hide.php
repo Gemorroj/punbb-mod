@@ -267,10 +267,6 @@ $db->free_result($result);
 // Retrieve the attachments
 require PUN_ROOT . 'include/attach/fetch.php';
 
-if ($pun_config['o_quickjump']) {
-    $forum_id = $cur_topic['forum_id'];
-    include_once PUN_ROOT . 'include/wap_quickjump.php';
-}
 
 // Increment "num_views" for topic
 $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());

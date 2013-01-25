@@ -311,6 +311,7 @@ else if (isset($_POST['add_edit_group'])) {
 // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     redirect('admin_groups.php', 'Группа ' . (($_POST['mode'] == 'edit') ? 'отредактирована' : 'добавлена') . '. Перенаправление &#x2026;');
 } // Set default group
@@ -361,6 +362,7 @@ else if (isset($_GET['del_group'])) {
 // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
+        generate_wap_quickjump_cache();
 
         redirect('admin_groups.php', 'Группа удалена. Перенаправление &#x2026;');
     }

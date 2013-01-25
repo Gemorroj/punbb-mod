@@ -27,6 +27,7 @@ if (isset($_POST['add_forum'])) {
     // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     redirect('admin_forums.php', 'Форум добавлен. Перенаправление &#x2026;');
 } // Make new forum with the same permissions
@@ -36,22 +37,23 @@ else if (isset($_GET['clone_forum'])) {
         message($lang_common['Bad request']);
     }
 
-//confirm_referrer('admin_forums.php');
+    //confirm_referrer('admin_forums.php');
 
-// Make copy of forum and its permissions
+    // Make copy of forum and its permissions
     $db->query('INSERT INTO ' . $db->prefix . 'forums (cat_id, forum_name, redirect_url, moderators, sort_by) (SELECT cat_id, concat( \'Копия \', forum_name), redirect_url, moderators, sort_by FROM ' . $db->prefix . 'forums WHERE id=' . $forum_id . ')') or error('Unable to clone forum', __FILE__, __LINE__, $db->error());
     $new_forum_id = $db->insert_id();
     $db->query('INSERT INTO ' . $db->prefix . 'forum_perms (forum_id, group_id, read_forum, post_replies, post_topics, file_upload, file_download, file_limit) (SELECT ' . $new_forum_id . ', group_id, read_forum, post_replies, post_topics, file_upload, file_download, file_limit FROM ' . $db->prefix . 'forum_perms WHERE forum_id=' . $forum_id . ')') or error('Unable to clone forum_perms', __FILE__, __LINE__, $db->error());
 
-// Regenerate the quickjump cache
+    // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
-// Immediatelly edit newborn forum
+    // Immediatelly edit newborn forum
     redirect('admin_forums.php?edit_forum=' . $new_forum_id, 'Форум клонирован. Перенаправление &#x2026;');
 } // Delete a forum
 else if (isset($_GET['del_forum'])) {
-//confirm_referrer('admin_forums.php');
+    //confirm_referrer('admin_forums.php');
 
     $forum_id = intval($_GET['del_forum']);
     if ($forum_id < 1) {
@@ -84,6 +86,7 @@ else if (isset($_GET['del_forum'])) {
 // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
+        generate_wap_quickjump_cache();
 
         redirect('admin_forums.php', 'Форум удален. Перенаправление &#x2026;');
     } else // If the user hasn't confirmed the delete
@@ -135,6 +138,7 @@ else if (isset($_POST['update_positions'])) {
 // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     redirect('admin_forums.php', 'Форумы обновлены. Перенаправление &#x2026;');
 } else if (isset($_GET['edit_forum'])) {
@@ -204,6 +208,7 @@ else if (isset($_POST['update_positions'])) {
 // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
+        generate_wap_quickjump_cache();
 
         redirect('admin_forums.php', 'Форум обновлен. Перенаправление &#x2026;');
     } else if (isset($_POST['revert_perms'])) {
@@ -214,6 +219,7 @@ else if (isset($_POST['update_positions'])) {
 // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
+        generate_wap_quickjump_cache();
 
         redirect('admin_forums.php?edit_forum=' . $forum_id, 'Разрешения возвращены к начальным. Перенаправление &#x2026;');
     }

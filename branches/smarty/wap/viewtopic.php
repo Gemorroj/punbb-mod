@@ -263,26 +263,29 @@ foreach ($posts as &$cur_post) {
 
 
 // Retrieve the attachments
-require_once(PUN_ROOT . 'include/attach/fetch.php');
+require_once PUN_ROOT . 'include/attach/fetch.php';
 
-if ($pun_config['o_quickjump']) {
-    $forum_id = $cur_topic['forum_id'];
-    require_once(PUN_ROOT . 'include/wap_quickjump.php');
-}
 
 // Increment "num_views" for topic
 $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true)
 or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 // Load the viewtopic.php language file
-require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php');
-require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php');
-require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php');
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php';
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 
-require_once(PUN_ROOT . 'wap/header.php');
+require_once PUN_ROOT . 'wap/header.php';
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_topic['forum_name'] . ' / ' . $cur_topic['subject'];
 $smarty->assign('page_title', $page_title);
+
+
+if ($pun_config['o_quickjump'] == 1) {
+    $forum_id = $cur_topic['forum_id'];
+    $smarty->assign('quickjump', include PUN_ROOT . 'include/wap_quickjump.php');
+}
+
 
 $smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);

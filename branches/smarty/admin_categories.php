@@ -69,6 +69,7 @@ else if (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
 // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
+        generate_wap_quickjump_cache();
 
         redirect('admin_categories.php', $lang_admin['categories_del_true']);
     } else // If the user hasn't comfirmed the delete
@@ -132,6 +133,7 @@ else if (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
 // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     redirect('admin_categories.php', $lang_admin['categories_update_true']);
 }
@@ -150,7 +152,7 @@ require_once PUN_ROOT . 'header.php';
 
 generate_admin_menu('categories');
 
-print '<div class="blockform">
+echo '<div class="blockform">
 <h2><span>' . $lang_admin['categories'] . '</span></h2>
 <div class="box">
 <form method="post" action="admin_categories.php?action=foo">

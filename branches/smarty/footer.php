@@ -47,12 +47,7 @@ if ($footer_style == 'index' || $footer_style == 'search') {
     // Display the "Jump to" drop list
     if ($pun_config['o_quickjump'] == 1) {
         // Load cached quickjump
-        $quickjump = @include PUN_ROOT . 'cache/cache_quickjump_' . $forum_id . '.php';
-        if (!$quickjump) {
-            include_once PUN_ROOT . 'include/cache.php';
-            generate_quickjump_cache($forum_id);
-            include PUN_ROOT . 'cache/cache_quickjump_' . $forum_id . '.php';
-        }
+        echo include PUN_ROOT . 'include/quickjump.php';
     }
 
     if ($footer_style == 'viewforum' && $is_admmod) {

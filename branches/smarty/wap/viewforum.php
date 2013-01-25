@@ -189,21 +189,24 @@ if ($db->num_rows($result)) {
     }
 }
 
-if ($pun_config['o_quickjump']) {
-    $forum_id = $id;
-    include_once(PUN_ROOT . 'include/wap_quickjump.php');
-}
-
 //+ Language
-require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/forum.php');
+require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/forum.php';
 //- Language
+
 
 // Template Manager aka Smarty
 // Механизм проверки ящика сообщений, отчетов...
-require_once(PUN_ROOT . 'wap/header.php');
+require_once PUN_ROOT . 'wap/header.php';
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $cur_forum['forum_name'];
 $smarty->assign('page_title', $page_title);
+
+
+if ($pun_config['o_quickjump'] == 1) {
+    $forum_id = $id;
+    $smarty->assign('quickjump', include PUN_ROOT . 'include/wap_quickjump.php');
+}
+
 
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('cur_forum', $cur_forum);
