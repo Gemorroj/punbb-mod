@@ -162,7 +162,7 @@ if ($pun_config['o_quickpost'] == 1 &&
 // hcs AJAX POLL MOD BEGIN
 $show_poll = '';
 if ($pun_config['poll_enabled'] == 1) {
-    require_once(PUN_ROOT . 'include/poll/poll.inc.php');
+    require_once PUN_ROOT . 'include/poll/poll.inc.php';
 
     if ($cur_topic['has_poll']) {
         $warning = '';

@@ -412,7 +412,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         // hcs AJAX POLL MOD BEGIN
         if ($pun_config['poll_enabled'] == 1) {
-            include PUN_ROOT . 'include/poll/poll.inc.php';
+            include_once PUN_ROOT . 'include/poll/poll.inc.php';
             $Poll->deleteTopic($topics);
         }
         // hcs AJAX POLL MOD END

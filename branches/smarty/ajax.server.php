@@ -4,7 +4,7 @@ require PUN_ROOT . 'include/common.php';
 
 if (isset($_GET['poll'])) {
     header('Content-Type: text/html; charset=UTF-8');
-    include PUN_ROOT . 'include/poll/poll.inc.php';
+    include_once PUN_ROOT . 'include/poll/poll.inc.php';
 
     switch ($_GET['poll']) {
         case 'sres': // SEND RESULT

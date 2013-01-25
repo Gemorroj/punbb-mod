@@ -209,7 +209,7 @@ include_once PUN_ROOT . 'include/parser.php';
 // hcs AJAX POLL MOD BEGIN
 $show_poll = '';
 if ($pun_config['poll_enabled'] == 1) {
-    include PUN_ROOT . 'include/poll/poll.inc.php';
+    include_once PUN_ROOT . 'include/poll/poll.inc.php';
 
     if ($cur_topic['has_poll']) {
         if ($_POST['pollid']) {
