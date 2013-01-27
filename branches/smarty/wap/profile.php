@@ -960,8 +960,13 @@ if ($pun_config['o_censoring'] == 1) {
 $smarty->assign('user', $user);
 $smarty->assign('lang_profile', $lang_profile);
 
+$preview = isset($_GET['preview']) ? true : null;
+$section = (isset($_GET['section']) || $preview) ? @$_GET['section'] : 'essentials';
+$smarty->assign('preview', $preview);
+$smarty->assign('section', $section);
+
 // View or edit?
-if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD && $user['g_id'] < PUN_GUEST)))) {
+if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_edit_users']) || ($pun_user['g_id'] == PUN_MOD && $user['g_id'] < PUN_GUEST)))) {
 
     //view Profile
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Profile'] . ' - ' . $lang_profile['Preview'];
@@ -990,7 +995,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
 
     include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 
-    if (! (isset($_GET['section']) and $_GET['section']) || $_GET['section'] == 'essentials') {
+    if ($section == 'essentials') {
 
         $languages = array();
         $d = opendir(PUN_ROOT . 'lang');
@@ -1012,7 +1017,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
         
         $smarty->display('profile.general.tpl');
         exit();
-    } else if ($_GET['section'] == 'personal') {
+    } else if ($section == 'personal') {
         if ($user['birthday']) {
 
             $birthday = explode('.', $user['birthday']);
@@ -1021,11 +1026,11 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
 
         $smarty->display('profile.personal.tpl');
         exit();
-    } else if ($_GET['section'] == 'messaging') {
+    } else if ($section == 'messaging') {
 
         $smarty->display('profile.messaging.tpl');
         exit();
-    } else if ($_GET['section'] == 'personality') {
+    } else if ($section == 'personality') {
 
         $smarty->assign('parsed_signature', @$parsed_signature);
 
@@ -1038,7 +1043,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
 
         $smarty->display('profile.personality.tpl');
         exit();
-    } else if ($_GET['section'] == 'display') {
+    } else if ($section == 'display') {
 
         $styles = array();
         $d = opendir(PUN_ROOT . 'include/template/wap');
@@ -1053,13 +1058,13 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] > P
 
         $smarty->display('profile.display.tpl');
         exit();
-    } else if ($_GET['section'] == 'privacy') {
+    } else if ($section == 'privacy') {
 
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
 
         $smarty->display('profile.privacy.tpl');
         exit();
-    } else if ($_GET['section'] == 'admin') {
+    } else if ($section == 'admin') {
 
         if ($pun_user['g_id'] > PUN_MOD
             || ($pun_user['g_id'] == PUN_MOD
