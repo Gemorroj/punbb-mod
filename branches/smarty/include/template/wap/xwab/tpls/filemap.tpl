@@ -17,47 +17,43 @@
 {* -Самоделка *}
 
 {if isset($_GET.user_id)}
-<div class="con">
-    {$lang_common.Member} - {$lang_common.Info}
-</div>
-<div class="msg">
-    {$lang_common.Username}: <strong>{$user.username|escape}</strong><br/>
-    {$lang_common.Files}: {$user.num_files}<br/>
-</div>
+    <div class="con">
+        {$lang_common.Member} - {$lang_common.Info}
+    </div>
+    <div class="msg">
+        {$lang_common.Username}: <strong>{$user.username|escape}</strong><br/>
+        {$lang_common.Files}: {$user.num_files}<br/>
+    </div>
 {/if}
 
-{foreach from=$attachments item=attachment}
+{foreach from=$attachments item=post_attachments}
+    {foreach from=$post_attachments item=attachment}
+        {if $attachment.cat_id != $cur_category || $attachment.forum_id != $cur_forum}
+            <div class="cat">{$categories[$attachment.cat_id]|escape} &#187; <a href="viewforum.php?id={$attachment.forum_id}">{$forums[$attachment.forum_id].forum_name|escape}</a></div>
+            {assign var='cur_category' value=$attachment.cat_id}
+            {assign var='cur_forum' value=$attachment.forum_id}
+        {/if}
 
-    {if $attachment.cat_id != $cur_category || $attachment.forum_id != $cur_forum}
-    <div class="cat">{$categories[$attachment.cat_id]|escape} &#187; <a
-            href="viewforum.php?id={$attachment.forum_id}">{$forums[$attachment.forum_id].forum_name|escape}</a></div>
-        {assign var='cur_category' value=$attachment.cat_id}
-        {assign var='cur_forum' value=$attachment.forum_id}
-    {/if}
+        {*// A new topic since last iteration?*}
+        {if $attachment.tid != $cur_topic}
+            <div class="in"><a href="viewtopic.php?id={$attachment.tid}">{$attachment.subject|escape}</a> <span class="small">({$attachment.posted|date_format:$date_format})</span></div>
+            {assign var='cur_topic' value=$attachment.tid}
+        {/if}
 
-{*// A new topic since last iteration?*}
-    {if $attachment.tid != $cur_topic}
-    <div class="in">
-        <a href="viewtopic.php?id={$attachment.tid}">{$attachment.subject|escape}</a> <span class="small">({$attachment.posted|date_format:$date_format})</span></div>
-        {assign var='cur_topic' value=$attachment.tid}
-    {/if}
+        <div class="{if $j = !$j}msg{else}msg2{/if}">
+            {if $attachment.can_download}
+                <a href="{$smarty.const.PUN_ROOT}download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>
+            {else}
+                {$attachment.filename|escape}
+            {/if}
 
-<div class="{if $j = !$j}msg{else}msg2{/if}">
+            {*<span style="font-style:italic;font-size:smaller;"></span>*}
 
-    {if $attachment.can_download}
-        <a href="{$smarty.const.PUN_ROOT}download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>
-        {else}
-        {$attachment.filename|escape}
-    {/if}
-
-{*<span style="font-style:italic;font-size:smaller;"></span>*}
-
-{include file='attachments.info.tpl'}
-
-</div>
-
-    {foreachelse}
-<div class="red">&#160;{$addIndex2}</div>
+            {include file='attachments.info.tpl'}
+        </div>
+    {/foreach}
+{foreachelse}
+    <div class="red">&#160;{$addIndex2}</div>
 {/foreach}
 
 <div class="con">{$lang_common.Pages}:&#160;{$paging_links}</div>
