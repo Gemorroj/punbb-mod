@@ -619,8 +619,16 @@ function parse_message($text, $hide_smilies, $post = 0)
     $text = pun_htmlspecialchars($text);
 
     // hide
-    if (preg_match('#\[hide(=(&quot;|"|\'|)+(\d+)){0,1}\](.*)\[/hide\]#seU', $text, $matches)) {
-        $text = do_hide($text, $post, $matches);
+    // Мне кажется можно было бы обойтись preg_replace() да и регулярку поправить.
+    // [hide][/hide]
+    // [hide='0][/hide]
+    // [hide="1][/hide]
+    // etc. Бред.
+    if (preg_match_all('#\[hide(=(&quot;|"|\'|)+(\d+)){0,1}\](.*)\[/hide\]#seU', $text, $matches)) {
+        foreach ($matches[0] as $key => $value) {
+            $match = array($value, $matches[1][$key], $matches[2][$key], $matches[3][$key], $matches[4][$key]);
+            $text = do_hide($text, $post, $match);
+        }
     }
 
 
