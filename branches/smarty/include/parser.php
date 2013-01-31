@@ -583,6 +583,11 @@ function do_hide($text, $post = 0, $matches)
 
     $matches[3] = intval($matches[3]);
 
+    /**
+     * Если автор указал [hide=(\d+)][/hide] с параметром,
+     * то он ограничил читателя, в возмозможности просматривать скрытый текст,
+     * по кол-ву написанных читателем сообщений в форум.
+    **/
     if ($pun_user['num_posts'] < $matches[3]) {
         return str_replace($matches[0], str_replace(array('%num_posts%', '%posts%'), array($pun_user['num_posts'], $matches[3]), $lang_common['BBCode posts']), $text);
     }
@@ -619,11 +624,6 @@ function parse_message($text, $hide_smilies, $post = 0)
     $text = pun_htmlspecialchars($text);
 
     // hide
-    // Мне кажется можно было бы обойтись preg_replace() да и регулярку поправить.
-    // [hide][/hide]
-    // [hide='0][/hide]
-    // [hide="1][/hide]
-    // etc. Бред.
     if (preg_match_all('#\[hide(=(&quot;|"|\'|)+(\d+)){0,1}\](.*)\[/hide\]#seU', $text, $matches)) {
         foreach ($matches[0] as $key => $value) {
             $match = array($value, $matches[1][$key], $matches[2][$key], $matches[3][$key], $matches[4][$key]);
