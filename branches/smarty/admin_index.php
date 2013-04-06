@@ -111,25 +111,42 @@ if ($total_size > 1024) {
 
 
 // See if php accelerator is loaded
+$php_accelerators = array();
 if (extension_loaded('ionCube Loader')) {
-    $php_accelerator = '<a href="http://www.ioncube.com/php_encoder.php">ionCube PHP Encoder</a>';
-} else if (extension_loaded('apc')) {
-    $php_accelerator = '<a href="http://pecl.php.net/package/apc">APC</a>';
-} else if (extension_loaded('eaccelerator')) {
-    $php_accelerator = '<a href="http://eaccelerator.net/">eAccelerator</a>';
-} else if (extension_loaded('Zend Optimizer')) {
-    $php_accelerator = '<a href="http://www.zend.com/en/products/guard/runtime-decoders">Zend Optimizer</a>';
-} else if (extension_loaded('Zend Optimizer+')) {
-    $php_accelerator = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend Optimizer+</a>';
-} else if (extension_loaded('Zend OPcache')) {
-    $php_accelerator = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend OPcache</a>';
-} else if (extension_loaded('xcache')) {
-    $php_accelerator = '<a href="http://xcache.lighttpd.net/">XCache</a>';
-} else if (extension_loaded('wincache')) {
-    $php_accelerator = '<a href="http://www.iis.net/downloads/microsoft/wincache-extension">WinCache</a>';
-} else {
-    $php_accelerator = 'N/A';
+    $php_accelerators[] = '<a href="http://www.ioncube.com/php_encoder.php">ionCube PHP Encoder</a>';
 }
+if (extension_loaded('apc')) {
+    $php_accelerators[] = '<a href="http://pecl.php.net/package/apc">APC</a>';
+}
+if (extension_loaded('eaccelerator')) {
+    $php_accelerators[] = '<a href="http://eaccelerator.net/">eAccelerator</a>';
+}
+if (extension_loaded('Zend Optimizer')) {
+    $php_accelerators[] = '<a href="http://www.zend.com/en/products/guard/runtime-decoders">Zend Optimizer</a>';
+}
+if (extension_loaded('Zend Optimizer+')) {
+    $php_accelerators[] = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend Optimizer+</a>';
+}
+if (extension_loaded('Zend OPcache')) {
+    $php_accelerators[] = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend OPcache</a>';
+}
+if (extension_loaded('xcache')) {
+    $php_accelerators[] = '<a href="http://xcache.lighttpd.net/">XCache</a>';
+}
+if (extension_loaded('wincache')) {
+    $php_accelerators[] = '<a href="http://www.iis.net/downloads/microsoft/wincache-extension">WinCache</a>';
+}
+
+
+$server_info = '';
+if (function_exists('apache_get_version')) {
+    $server_info = apache_get_version();
+} else {
+    $server_info = php_sapi_name();
+}
+$server_info = htmlspecialchars($server_info);
+
+
 
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin';
@@ -163,8 +180,9 @@ PunBB ' . $pun_config['o_cur_version'] . '<!-- - <a href="admin_index.php?action
 <dt>' . $lang_admin['index_int'] . '</dt>
 <dd>
 OS: ' . PHP_OS . '<br />
-PHP: ' . phpversion() . ' - <a href="admin_index.php?action=phpinfo">Info</a><br />
-Accelerator: ' . $php_accelerator . '
+Server: ' . $server_info . '<br />
+PHP: ' . phpversion() . ' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
+Accelerator: ' . ($php_accelerators ? implode(', ', $php_accelerators) : 'N/A') . '
 </dd>
 <dt>' . $lang_admin['index_bd'] . '</dt>
 <dd>
