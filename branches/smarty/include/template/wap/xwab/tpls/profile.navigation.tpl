@@ -13,51 +13,52 @@
 </div>
 
 <div class="navlinks">
-    {if $smarty.get.section == 'essentials' || !$smarty.get.section}
+    {if $section == 'essentials'}
         <strong>{$lang_profile.$Section_essentials}</strong>
     {else}
         <a href="profile.php?section=essentials&amp;id={$id}">{$lang_profile.$Section_essentials}</a>
     {/if}
     |
-    {if $smarty.get.section == 'personal'}
+    {if $section == 'personal'}
         <strong>{$lang_profile.$Section_personal}</strong>
     {else}
         <a href="profile.php?section=personal&amp;id={$id}">{$lang_profile.$Section_personal}</a>
     {/if}
     |
-    {if $smarty.get.section == 'messaging'}
+    {if $section == 'messaging'}
         <strong>{$lang_profile.$Section_messaging}</strong>
     {else}
         <a href="profile.php?section=messaging&amp;id={$id}">{$lang_profile.$Section_messaging}</a>
     {/if}
     |
-    {if $smarty.get.section == 'personality'}
+    {if $section == 'personality'}
         <strong>{$lang_profile.$Section_personality}</strong>
     {else}
         <a href="profile.php?section=personality&amp;id={$id}">{$lang_profile.$Section_personality}</a>
     {/if}
     |
-    {if $smarty.get.section == 'display'}
+    {if $section == 'display'}
         <strong>{$lang_profile.$Section_display}</strong>
     {else}
         <a href="profile.php?section=display&amp;id={$id}">{$lang_profile.$Section_display}</a>
     {/if}
     |
-    {if $smarty.get.section == 'privacy'}
+    {if $section == 'privacy'}
         <strong>{$lang_profile.$Section_privacy}</strong>
     {else}
         <a href="profile.php?section=privacy&amp;id={$id}">{$lang_profile.$Section_privacy}</a>
     {/if}
     |
     {if $pun_user.g_id == $smarty.const.PUN_ADMIN || ($pun_user.g_id == $smarty.const.PUN_MOD && $pun_config.p_mod_ban_users == 1)}
-        {if $smarty.get.section == 'admin'}
+        {if $section == 'admin'}
             <strong>{$lang_profile.$Section_admin}</strong>
         {else}
             <a href="profile.php?section=admin&amp;id={$id}">{$lang_profile.$Section_admin}</a>
         {/if}
         |
     {/if}
-    {if $smarty.get.preview}
+
+    {if $preview}
         <strong>{$lang_profile.Preview}</strong>
     {else}
         <a href="profile.php?preview=1&amp;id={$id}">{$lang_profile.Preview}</a>

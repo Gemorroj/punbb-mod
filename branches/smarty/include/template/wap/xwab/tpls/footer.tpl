@@ -40,8 +40,8 @@ $basename == 'index.php'}
 </div>
 {/if}
 
-{if $pun_config.o_quickjump == 1 and $basename == 'viewforum.php' || $basename == 'viewtopic.php'}
-    {fetch file="{$smarty.const.PUN_ROOT}cache/cache_wap_quickjump_{$forum_id}.php"}
+{if $pun_config.o_quickjump == 1}
+    {$quickjump|default:""}
 {/if}
 
 {if isset($is_admmod) && $is_admmod}

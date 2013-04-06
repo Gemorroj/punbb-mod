@@ -78,7 +78,7 @@
     <br/>
     <strong>{$lang_common.$Email}:</strong>
 {if !$user.email_setting && !$pun_user.is_guest}
-    <a href="mailto:{$user.email}">{$user.email}</a>
+    <a href="mailto:{$user.email|rawurlencode}">{$user.email|escape}</a>
 {else}
     {if $user.email_setting == 1 && ! $pun_user.is_guest}
         <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a>
