@@ -232,7 +232,7 @@ echo '<div class="blockform">
 </select>
 <?php
 
-print '<span>' . $lang_admin['options_timezone_about'] . '</span>
+echo '<span>' . $lang_admin['options_timezone_about'] . '</span>
 </td>
 </tr>
 <tr>
@@ -258,7 +258,7 @@ while (list(, $temp) = @each($languages)) {
     }
 }
 
-print '</select>
+echo '</select>
 <span>' . $lang_admin['options_lang_about'] . '</span>
 </td>
 </tr>
@@ -287,7 +287,7 @@ while (list(, $temp) = @each($styles)) {
 }
 
 
-print '</select>
+echo '</select>
 <span>' . $lang_admin['options_style_about'] . '</span>
 </td>
 </tr>
@@ -297,10 +297,11 @@ print '</select>
 <select name="form[default_style_wap]">';
 
 $styles = array();
-$d = dir(PUN_ROOT . 'style_wap');
+$d = dir(PUN_ROOT . 'include/template/wap');
 while (($entry = $d->read()) !== false) {
-    if (substr($entry, strlen($entry) - 4) == '.css')
-        $styles[] = substr($entry, 0, strlen($entry) - 4);
+    if ($entry[0] != '.' && is_dir(PUN_ROOT . 'include/template/wap/' . $entry)) {
+        $styles[] = $entry;
+    }
 }
 $d->close();
 
@@ -315,7 +316,7 @@ while (list(, $temp) = @each($styles)) {
 }
 
 
-print '</select>
+echo '</select>
 <span>' . $lang_admin['options_style_about_wap'] . '</span>
 </td>
 </tr>

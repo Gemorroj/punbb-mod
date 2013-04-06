@@ -167,10 +167,10 @@ if (isset($_POST['lang'])) {
     echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
 
     $styles = array();
-    $d = dir(PUN_ROOT . 'style_wap');
+    $d = dir(PUN_ROOT . 'include/template/wap');
     while (($entry = $d->read()) !== false) {
-        if (pathinfo($entry, PATHINFO_EXTENSION) == 'css') {
-            $styles[] = pathinfo($entry, PATHINFO_FILENAME);
+        if ($entry[0] != '.' && is_dir(PUN_ROOT . 'include/template/wap/' . $entry)) {
+            $styles[] = $entry;
         }
     }
     $d->close();

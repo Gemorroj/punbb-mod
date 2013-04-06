@@ -50,15 +50,20 @@
     {* + $email_field *}
     {if $pun_user.g_id < $smarty.const.PUN_GUEST}
         <strong>{$lang_common.$Email}</strong><br/>
-        <input type="text" name="req_email" value="{$user.email}" maxlength="50"/><br/>
+        <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/><br/>
+
+        {if ($pun_user.g_id == $smarty.const.PUN_ADMIN)}
+            <p><a target="_blank" href="http://www.stopforumspam.com/search?q={$user.email|rawurlencode}">Stop forum spam</a></p>
+        {/if}
+
         <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a><br/>
         <a href="message_send.php?id={$id}">{$lang_pms.$Quick_message}</a>
         {else}
         {if $pun_config.o_regs_verify == 1}
-            {$lang_common.$Email}: {$user.email} - <a href="profile.php?action=change_email&amp;id={$id}">{$lang_profile.$Change_email}</a>
+            {$lang_common.$Email}: {$user.email|escape} - <a href="profile.php?action=change_email&amp;id={$id}">{$lang_profile.$Change_email}</a>
         {else}
             <strong>{$lang_common.$Email}</strong><br/>
-            <input type="text" name="req_email" value="{$user.email}" maxlength="50"/>
+            <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/>
         {/if}
     {/if}
     {* - $email_field *}

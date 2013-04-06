@@ -192,20 +192,19 @@ if ($action == 'change_pass') {
         if ($db->num_rows($result)) {
             if (!$pun_config['p_allow_dupe_email']) {
                 wap_message($lang_prof_reg['Dupe e-mail']);
-            } else
-                if ($pun_config['o_mailing_list']) {
-                    while ($cur_dupe = $db->fetch_assoc($result)) {
-                        $dupe_list[] = $cur_dupe['username'];
-                    }
-
-                    $mail_subject = 'Alert - Duplicate e-mail detected';
-                    $mail_message = 'User \'' . $pun_user['username'] . '\' changed to an e-mail address that also belongs to: ' .
-                        implode(', ', $dupe_list) . "\n\n" . 'User profile: ' . $pun_config['o_base_url'] .
-                        '/profile.php?id=' . $id . "\n\n" . '-- ' . "\n" . 'Forum Mailer' . "\n" .
-                        '(Do not reply to this message)';
-
-                    pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
+            } else if ($pun_config['o_mailing_list']) {
+                while ($cur_dupe = $db->fetch_assoc($result)) {
+                    $dupe_list[] = $cur_dupe['username'];
                 }
+
+                $mail_subject = 'Alert - Duplicate e-mail detected';
+                $mail_message = 'User \'' . $pun_user['username'] . '\' changed to an e-mail address that also belongs to: ' .
+                    implode(', ', $dupe_list) . "\n\n" . 'User profile: ' . $pun_config['o_base_url'] .
+                    '/profile.php?id=' . $id . "\n\n" . '-- ' . "\n" . 'Forum Mailer' . "\n" .
+                    '(Do not reply to this message)';
+
+                pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
+            }
         }
 
 
@@ -448,13 +447,12 @@ if ($action == 'change_pass') {
             ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
                 __FILE__, __LINE__, $db->error());
         } // If the user shouldn't have moderator access (and he/she already has it)
-        else
-            if (!in_array($cur_forum['id'], $moderator_in) && in_array($id, $cur_moderators)) {
-                unset($cur_moderators[$username]);
-                $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
+        else if (!in_array($cur_forum['id'], $moderator_in) && in_array($id, $cur_moderators)) {
+            unset($cur_moderators[$username]);
+            $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
 
-                $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
-            }
+            $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=' . $cur_moderators . ' WHERE id=' . $cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
+        }
     }
 
     wap_redirect('profile.php?section=admin&id=' . $id);
@@ -634,22 +632,16 @@ if ($action == 'change_pass') {
 
                     if (mb_strlen($form['username']) < 2) {
                         wap_message($lang_prof_reg['Username too short']);
-                    } else
-                        if (mb_strlen($form['username']) > 25) {
-                            // This usually doesn't happen since the form element only accepts 25 characters
-                            wap_message($lang_common['Bad request']);
-                        } else
-                            if (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
-                                wap_message($lang_prof_reg['Username guest']);
-                            } else
-                                if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
-                                    wap_message($lang_prof_reg['Username IP']);
-                                } else
-                                    if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i',
-                                        $form['username'])
-                                    ) {
-                                        wap_message($lang_prof_reg['Username BBCode']);
-                                    }
+                    } else if (mb_strlen($form['username']) > 25) {
+                        // This usually doesn't happen since the form element only accepts 25 characters
+                        wap_message($lang_common['Bad request']);
+                    } else if (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
+                        wap_message($lang_prof_reg['Username guest']);
+                    } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
+                        wap_message($lang_prof_reg['Username IP']);
+                    } else if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $form['username'])) {
+                        wap_message($lang_prof_reg['Username BBCode']);
+                    }
 
                     // Check that the username is not already registered
                     $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE username=\'' .
@@ -753,12 +745,9 @@ if ($action == 'change_pass') {
             } else if (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
                 wap_message($lang_prof_reg['Sig too many lines'] . ' ' . $pun_config['p_sig_lines'] .
                     ' ' . $lang_prof_reg['lines'] . '.');
-            } else
-                if ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) ==
-                    $form['signature'] && $pun_user['g_id'] > PUN_MOD
-                ) {
-                    $form['signature'] = ucwords(mb_strtolower($form['signature']));
-                }
+            } else if ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) == $form['signature'] && $pun_user['g_id'] > PUN_MOD) {
+                $form['signature'] = ucwords(mb_strtolower($form['signature']));
+            }
 
             // Validate BBCode syntax
             if ($pun_config['p_sig_bbcode'] && strpos($form['signature'], '[') !== false && strpos($form['signature'], ']') !== false) {

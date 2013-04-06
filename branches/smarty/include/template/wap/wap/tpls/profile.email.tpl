@@ -7,9 +7,6 @@
 
 <div class="con">
     <strong>{$lang_profile.$Change_email}</strong>
-
-    <br/><s>{basename($smarty.const.__FILE__)}</s>
-
 </div>
 <form method="post" action="profile.php?action=change_email&amp;id={$id}">
     <div class="input">
