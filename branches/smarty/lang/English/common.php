@@ -170,6 +170,7 @@ $lang_common = array(
 
 
 //wap moderate IP
-'Show IP'				=>	'Show more users for this IP'
+'Show IP'				=>	'Show more users for this IP',
+'Find email in stop forum spam' => 'Find e-mail in StopForumSpam',
 
 );

@@ -18,6 +18,7 @@
 {assign var='Show_files' value='Show files'}
 {assign var='Show_karma' value='Show karma'}
 {assign var='Admin_note' value='Admin note'}
+{assign var='Find_email_in_stop_forum_spam' value='Find email in stop forum spam'}
 
 {* + $username_field *}
 <div class="con">
@@ -53,7 +54,7 @@
         <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/><br/>
 
         {if ($pun_user.g_id == $smarty.const.PUN_ADMIN)}
-            <p><a target="_blank" href="http://www.stopforumspam.com/search?q={$user.email|rawurlencode}">Stop forum spam</a></p>
+            <p><a target="_blank" href="http://www.stopforumspam.com/search?q={$user.email|rawurlencode}">{$lang_common.$Find_email_in_stop_forum_spam}</a></p>
         {/if}
 
         <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a><br/>

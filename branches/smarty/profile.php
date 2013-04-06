@@ -1163,7 +1163,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                 '" size="40" maxlength="50" /><br /></label>';
 
             if ($pun_user['g_id'] == PUN_ADMIN) {
-                $email_field .= '<p><a target="_blank" href="http://www.stopforumspam.com/search?q=' . rawurlencode($user['email']) . '">Stop forum spam</a></p>';
+                $email_field .= '<p><a target="_blank" href="http://www.stopforumspam.com/search?q=' . rawurlencode($user['email']) . '">' . $lang_common['Find email in stop forum spam'] . '</a></p>';
             }
 
             $email_field .= '<p><a href="misc.php?email=' . $id . '">' . $lang_common['Send e-mail'] . '</a></p>';

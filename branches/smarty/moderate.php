@@ -2,7 +2,6 @@
 define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
 
-
 // This particular function doesn't require forum-based moderator access. It can be used
 // by all moderators and admins.
 if (isset($_GET['get_host'])) {
@@ -34,7 +33,24 @@ if (isset($_GET['get_host'])) {
         $whois = null;
     }
 
-    message('IP: ' . $ip . $whois . '<br /><a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/><a href="' . PUN_ROOT . 'admin_users.php?show_users=' . $ip . '">Show more users for this IP</a>');
+
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];
+    require_once PUN_ROOT . 'header.php';
+
+    echo '<div id="msg" class="block">
+<h2><span>' . $lang_common['Info'] . '</span></h2>
+<div class="box">
+<div class="inbox">
+<p>
+    IP: ' . $ip . $whois . '<br />
+    <a target="_blank" href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/>
+    <a href="' . PUN_ROOT . 'admin_users.php?show_users=' . $ip . '">' . $lang_common['Show IP'] . '</a>
+</p>
+<p><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
+</div></div></div>';
+
+    require_once PUN_ROOT . 'footer.php';
+    exit;
 }
 
 

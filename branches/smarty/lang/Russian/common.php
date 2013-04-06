@@ -181,5 +181,6 @@ $lang_common = array(
 
 
 //wap moderate IP
-'Show IP'				=>	'Показать еще пользователем с этим IP'
+'Show IP'				=>	'Показать еще пользователем с этим IP',
+'Find email in stop forum spam' => 'Искать e-mail в StopForumSpam',
 );

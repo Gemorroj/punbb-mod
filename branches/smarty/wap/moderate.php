@@ -4,8 +4,6 @@ require PUN_ROOT . 'include/common.php';
 
 require_once PUN_ROOT . 'wap/header.php';
 
-$smarty->assign('pun_user', $pun_user);
-
 $getPageNumber = isset($_GET['p']) ? (int) $_GET['p'] : 1;
 
 //require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
@@ -37,13 +35,16 @@ if (isset($_GET['get_host'])) {
         $ip = $db->result($result);
     }
 
-    if ($whois = gethostbyaddr($ip) != $ip) {
-        $whois = ' (' . $whois . ')';
-    } else {
-        $whois = null;
+    $whois = gethostbyaddr($ip);
+    if ($whois == $ip) {
+        $whois = '';
     }
 
-    wap_message('IP: ' . $ip . $whois . '<br />&#187; <a href="http://www.robtex.com/ip/' . $ip . '.html">WHOIS</a><br/>&#187; <a href="' . PUN_ROOT . 'admin_users.php?show_users=' . $ip . '">' . $lang_common['Show IP'] . '</a>');
+    $smarty->assign('page_title', $pun_config['o_board_title'] . ' / ' . $lang_common['Info']);
+    $smarty->assign('ip', $ip);
+    $smarty->assign('whois', $whois);
+    $smarty->display('moderate.get_host.tpl');
+    exit();
 }
 
 
