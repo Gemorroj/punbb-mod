@@ -172,7 +172,7 @@
                 def = $.modalBox.settings;
             }
             $.modalBox.resizeBoxes();
-            $("#modalbox-header h2").text(def.title);
+            $("#modalbox-header").find("h2").text(def.title);
             $('#modalbox-overlay').css({
                 opacity: $.modalBox.settings.oOpacity
             }).fadeIn($.modalBox.settings.overlaySpeed, function () {

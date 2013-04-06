@@ -111,18 +111,22 @@ if ($total_size > 1024) {
 
 
 // See if php accelerator is loaded
-if (extension_loaded('memcache')) {
-    $php_accelerator = '<a href="http://turck-mmcache.sourceforge.net/">Turck MMCache</a>';
-} else if (isset($_PHPA)) {
-    $php_accelerator = '<a href="http://www.php-accelerator.co.uk/">ionCube PHP Accelerator</a>';
+if (extension_loaded('ionCube Loader')) {
+    $php_accelerator = '<a href="http://www.ioncube.com/php_encoder.php">ionCube PHP Encoder</a>';
 } else if (extension_loaded('apc')) {
     $php_accelerator = '<a href="http://pecl.php.net/package/apc">APC</a>';
 } else if (extension_loaded('eaccelerator')) {
     $php_accelerator = '<a href="http://eaccelerator.net/">eAccelerator</a>';
 } else if (extension_loaded('Zend Optimizer')) {
-    $php_accelerator = '<a href="http://www.zend.com/en/products/guard/zend-optimizer">Zend Optimizer</a>';
+    $php_accelerator = '<a href="http://www.zend.com/en/products/guard/runtime-decoders">Zend Optimizer</a>';
+} else if (extension_loaded('Zend Optimizer+')) {
+    $php_accelerator = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend Optimizer+</a>';
+} else if (extension_loaded('Zend OPcache')) {
+    $php_accelerator = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend OPcache</a>';
 } else if (extension_loaded('xcache')) {
     $php_accelerator = '<a href="http://xcache.lighttpd.net/">XCache</a>';
+} else if (extension_loaded('wincache')) {
+    $php_accelerator = '<a href="http://www.iis.net/downloads/microsoft/wincache-extension">WinCache</a>';
 } else {
     $php_accelerator = 'N/A';
 }
