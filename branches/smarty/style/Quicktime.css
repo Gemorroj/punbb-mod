@@ -34,7 +34,7 @@ padding-bottom: 1px;
 padding-left: 7px;
 padding-right: 7px;
 }
-#brdmenu UL {PADDING 0px; margin-top: -7px}
+#brdmenu UL {PADDING: 0px; margin-top: -7px}
 DIV.box, .pun TD, .pun TH, .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {
 BORDER-STYLE: solid;
 BORDER-WIDTH: 1px
@@ -66,7 +66,7 @@ DIV.postlinksb {MARGIN-TOP: -6px}
 #brdstats {MARGIN-TOP: 12px}
 DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
 .pun P, .pun UL, DIV.blockmenu LI, .pun LABEL, #announce DIV.inbox DIV {PADDING: 3px 0px}
-.pun UL {PADDING 0px; margin-top: 0px}
+.pun UL {PADDING: 0px; margin-top: 0px}
 .pun H2 {PADDING: 4px 6px}
 #brdtitle P {PADDING-TOP: 0px}
 DIV.linkst {PADDING: 8px 6px 3px 6px}
