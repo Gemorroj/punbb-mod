@@ -8,7 +8,7 @@ background-repeat: repeat-x; background-color: #b7bcc3;}
 div.box { color:#000; }
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #e8e8e8}
 #adminconsole td, #adminconsole th {border:#E8E8E8}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #e8e8e8}
 .pun h2{
  background: #3b424a url(../img/Quicktime/h2_bg.gif) repeat-x ; color: #fff; border-left: #525252; border-right: #525252; font-weight: bold;

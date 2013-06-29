@@ -2,7 +2,7 @@ body {background-color: #FFFFFF}
 .pun {color: #093F7B}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #f1f1f1}
 #adminconsole td, #adminconsole th {border-color: #f1f1f1}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #f1f1f1}
 .pun h2, #brdmenu {font-weight: bold; background: #555 url(../img/CrystalBlue/nagl1.gif); color: #FFF}
 .pun h2 {font-weight: bold;background: #555 url(../img/CrystalBlue/nagl1.gif);border-top: 1px solid #396AA3;border-left: 1px solid #396AA3;border-right: 1px solid #396AA3}

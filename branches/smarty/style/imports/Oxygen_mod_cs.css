@@ -2,7 +2,7 @@ body {background-color: #FFF}
 .pun {color: #333}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #F7F7F7}
 #adminconsole td, #adminconsole th {border-color: #F1F1F1}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, #adstats dd {background-color: #F1F1F1}
 .pun h2, #brdmenu {background-color: #0066B9; color: #FFF}
 #brdtitle {background: url('../img/Oxygen_mod/head_box_right.gif') no-repeat right top;}

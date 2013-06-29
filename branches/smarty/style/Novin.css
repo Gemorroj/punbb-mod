@@ -15,10 +15,10 @@ div.postleft dt {font-size: 1.1em}
 .pun pre {font-size: 1.2em}
 .pun th {font-size: 9px;}
 #brdwelcome {font-size:10px}
-.pun h2, DIV.postleft DT, DIV.postmsg H4, TD.tcl H3, DIV.forminfo H3, P.postlink, DIV.linkst LI,
+.pun h2, div.postleft dt, div.postmsg h4, td.tcl h3, div.forminfo h3, p.postlink, div.linkst li,
 div.linksb li, div.postlinksb li, .blockmenu li, .pun span.warntext, .pun p.warntext {font-weight: bold}
-#brdmenu A:link, #brdmenu A:visited, .blockpost DT A:link, .blockpost DT A:visited, .blockpost H2 A:link,
-.blockpost H2 A:visited, .postlink A:link, .postlink A:visited, .postfootright A:link, .postfootright A:visited,
+#brdmenu a:link, #brdmenu a:visited, .blockpost dt a:link, .blockpost dt a:visited, .blockpost h2 a:link,
+.blockpost h2 a:visited, .postlink a:link, .postlink a:visited, .postfootright a:link, .postfootright a:visited,
 .blockmenu a:link, .blockmenu a:visited {
 text-decoration: none
 }

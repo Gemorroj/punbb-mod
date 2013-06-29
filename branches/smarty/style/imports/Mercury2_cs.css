@@ -2,7 +2,7 @@ body {background-color: #333333}
 .pun {color: #ffffff}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #333333}
 #adminconsole td, #adminconsole th {border-color: #333333}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #333333}
 .pun h2, #brdmenu { background-color: #000000; color: #FFF;
 background-image:url(../img/Mercury2/cell.gif) }
@@ -38,8 +38,8 @@ tr.iclosed div.icon {background:url(../img/Mercury2/closed.gif)}
 tr.iredirect div.icon {background:url(../img/Oxygen2/redirect.gif)}
 .pun p.postlink, #conr
 {
-text-align: CENTER;
-position: RELATIVE;
+text-align: center;
+position: relative;
 TOP : 0px;
 left: 6px;
 background-color: #000000;

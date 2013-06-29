@@ -41,8 +41,8 @@ h2 {
  letter-spacing:.2em;
  color:#999;
 }
-#brdmenu A:link, #brdmenu A:visited, .blockpost DT A:link, .blockpost DT A:visited, .blockpost H2 A:link,
-.blockpost H2 A:visited, .postlink A:link, .postlink A:visited, .postfootright A:link, .postfootright A:visited,
+#brdmenu a:link, #brdmenu a:visited, .blockpost dt a:link, .blockpost dt a:visited, .blockpost h2 a:link,
+.blockpost h2 a:visited, .postlink a:link, .postlink a:visited, .postfootright a:link, .postfootright a:visited,
 .blockmenu a:link, .blockmenu a:visited {
  text-decoration: none
 }

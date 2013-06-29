@@ -2,7 +2,7 @@ body {background-color: #FFF}
 .pun {color: #333}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #F1F1F1}
 #adminconsole td, #adminconsole th {border-color: #F1F1F1}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #DEDFDF}
 .pun h2, #brdmenu {background-color: #555; color: #FFF}
 .pun h2 {background: #555 url(../img/Kontrast/bg-barre.gif);border-left: 1px solid #333;border-right: 1px solid #333}

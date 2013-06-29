@@ -2,7 +2,7 @@ body {background-color: #FFFFFF}
 .pun {color: #0D4D0A}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #C1DABF}
 #adminconsole td, #adminconsole th {border-color: #C1DABF}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #C1DABF}
 th.tc3 {width: 70px}
 .pun h2, #brdmenu {background: url(../img/GreenPun/belka1.png); color: #FFF;font-weight: bold; height: 16px;}

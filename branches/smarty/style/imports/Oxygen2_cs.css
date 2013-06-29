@@ -2,7 +2,7 @@ body {background-color: #FFF}
 .pun {color: #333}
 div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #F1F1F1}
 #adminconsole td, #adminconsole th {border-color: #F1F1F1}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
 #adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #DEDFDF}
 .pun h2, #brdmenu { background-color: #003366; color: #FFF;
 background-image:url(../img/Oxygen2/water.gif) }
@@ -12,7 +12,7 @@ background-image:url(../img/Oxygen2/water.gif) }
 div.blockpost div.box, div.postright, div.postfootright {background-color: #DEDFDF}
 div.postright, div.postfootright {border-left-color: #f1f1f1}
 div.postleft, div.postfootleft, div.blockpost label {background-color: #f1f1f1}
-div.blockpost h2 {background-color: #003366; color: #FFF
+div.blockpost h2 {background-color: #003366; color: #FFF;
 background-image:url(../img/Oxygen2/water.gif)}
 div.blockpost h2 span.conr {color: #003366; }
 .pun hr {background-color: #336699; color: #336699}
@@ -38,11 +38,11 @@ tr.iclosed div.icon {background:url(../img/Oxygen2/closed.gif)}
 tr.iredirect div.icon {background:url(../img/Oxygen2/redirect.gif)}
 .pun p.postlink, #conr
 {
-text-align: CENTER;
-position: RELATIVE;
+text-align: center;
+position: relative;
 TOP : 0px;
 left: 6px;
-border: #003366 1PX SOLID;
+border: #003366 1PX solid;
 background-color: #F1F1F1;
 background-image: url(../img/Oxygen2/bg_button.gif);
 filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#666666,strength=2);
