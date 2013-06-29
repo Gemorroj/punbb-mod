@@ -1,42 +1,42 @@
 body{text-align:center;background : url(../img/sibirsky_org/back.gif);}
-.pun {COLOR: #333}
-DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #f8f8f8}
-.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #f1f1f1}
-TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
-#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #f5f5f5}
-TH.tc3 {width: 70px}
-.pun H2, #brdmenu {BACKGROUND: url(../img/sibirsky_org/fon111.gif); COLOR: #FFF; font-weight: bold; height: 16px;}
-.pun H2 {font-weight: bold;BACKGROUND: #7897BB url(../img/sibirsky_org/fon111.gif);border-top: 1px solid #7897BB;border-left: 1px solid #7897BB;border-right: 1px solid #7897BB; height: 16px;}
-.pun TH {BACKGROUND-COLOR: #eeeeee;}
-.pun LEGEND {COLOR: #5A799D}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #7897BB}
-DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #f8f8f8}
-DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #f1f1f1}
-DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #f1f1f1}
-DIV.blockpost H2 {BACKGROUND-COLOR: #7897bb}
-DIV.blockpost H2 SPAN.conr {COLOR: #CCC}
-.pun HR {BACKGROUND-COLOR: #35567C; COLOR: #35567C}
-DIV.box {BORDER-COLOR: #7897BB}
-DIV.blockpost DIV.box {BORDER: 1px solid #7897BB;border-top: 1px solid #7897BB;}
-.pun TD {BORDER-COLOR: #d6e1f1}
-.pun TH {BORDER-COLOR: #d6e1f1}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #7897BB #7897BB #7897BB #7897BB}
-.pun A:link, .pun A:visited {COLOR: #005cb1;}
-.pun A:hover {COLOR: #B42000; text-decoration:none; background-color: #EEEEEE;}
-.pun H2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {COLOR: #FFF;}
-.pun H2 a:hover, #brdmenu a:hover {color: #35567C;}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
-LI.maintenancelink A:hover {COLOR: #B42000}
-DIV.icon {BACKGROUND: url(../img/sibirsky_org/inactive_topic.gif);}
-DIV.inew {BACKGROUND: url(../img/sibirsky_org/active_topic.gif);}
-TR.isticky DIV.icon {background:url(../img/sibirsky_org/inactive_topic.gif)}
-TR.isticky DIV.inew {background:url(../img/sibirsky_org/active_topic.gif)}
-TR.iclosed DIV.icon {background:url(../img/sibirsky_org/closed.png)}
-DIV.iredirect {background:url(../img/sibirsky_org/link.png)}
-#brdmenu {BACKGROUND: url(../img/sibirsky_org/fon111.gif); border-top: 1px solid #7897BB;border-bottom: 1px solid #7897BB; BACKGROUND-COLOR: #7897BB;}
-.pun H1 span
+.pun {color: #333}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #f8f8f8}
+.pun blockquote, div.codebox {background-color: #f1f1f1}
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #f5f5f5}
+th.tc3 {width: 70px}
+.pun h2, #brdmenu {background: url(../img/sibirsky_org/fon111.gif); color: #FFF; font-weight: bold; height: 16px;}
+.pun h2 {font-weight: bold;background: #7897BB url(../img/sibirsky_org/fon111.gif);border-top: 1px solid #7897BB;border-left: 1px solid #7897BB;border-right: 1px solid #7897BB; height: 16px;}
+.pun th {background-color: #eeeeee;}
+.pun legend {color: #5A799D}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #7897BB}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #f8f8f8}
+div.postright, div.postfootright {border-left-color: #f1f1f1}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #f1f1f1}
+div.blockpost h2 {background-color: #7897bb}
+div.blockpost h2 span.conr {color: #CCC}
+.pun hr {background-color: #35567C; color: #35567C}
+div.box {border-color: #7897BB}
+div.blockpost div.box {border: 1px solid #7897BB;border-top: 1px solid #7897BB;}
+.pun td {border-color: #d6e1f1}
+.pun th {border-color: #d6e1f1}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #7897BB #7897BB #7897BB #7897BB}
+.pun a:link, .pun a:visited {color: #005cb1;}
+.pun a:hover {color: #B42000; text-decoration:none; background-color: #EEEEEE;}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #FFF;}
+.pun h2 a:hover, #brdmenu a:hover {color: #35567C;}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {background: url(../img/sibirsky_org/inactive_topic.gif);}
+div.inew {background: url(../img/sibirsky_org/active_topic.gif);}
+tr.isticky div.icon {background:url(../img/sibirsky_org/inactive_topic.gif)}
+tr.isticky div.inew {background:url(../img/sibirsky_org/active_topic.gif)}
+tr.iclosed div.icon {background:url(../img/sibirsky_org/closed.png)}
+div.iredirect {background:url(../img/sibirsky_org/link.png)}
+#brdmenu {background: url(../img/sibirsky_org/fon111.gif); border-top: 1px solid #7897BB;border-bottom: 1px solid #7897BB; background-color: #7897BB;}
+.pun h1 span
 {
 color: #3A3B3C;
 font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;

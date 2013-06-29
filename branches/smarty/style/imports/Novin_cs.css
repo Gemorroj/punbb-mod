@@ -1,45 +1,45 @@
-html, body {BACKGROUND-COLOR: #000}
-.pun {COLOR: #ddd}
+html, body {background-color: #000}
+.pun {color: #ddd}
 .pun th {color:#666666;}
 #brdtitle p {color:#A3D2FF}
-DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #000}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #000}
-TD.tc2, TD.tc3, TD.tcmod, #brdfooter DIV.box {BACKGROUND-COLOR: #000}
-#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #000}
-.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #000}
-.pun H2, #brdmenu {BACKGROUND-COLOR: #2a2a2a; COLOR: #D4D4D4}
-.pun TH, .bgc4 {BACKGROUND-COLOR: #000}
-.pun LEGEND {COLOR: #60A0DC}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #D4D4D4}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #1d1d1d; COLOR: #ddd}
-DIV.postleft, DIV.postfootleft {border-right-color:#333;}
-DIV.postright, DIV.postfootright {border-left-color:#333;}
-DIV.postfootleft, DIV.postfootright {border-top-color:#333;}
-DIV.blockpost H2 {BACKGROUND-COLOR: #565656}
-DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
-.pun HR {BACKGROUND-COLOR: #606060; COLOR: #606060}
-h2, DIV.box {BORDER-COLOR: #333333;}
-DIV.blockpost DIV.box {BORDER-COLOR: #333}
-.pun TD {BORDER-COLOR: #333333;}
-.pun TH {BORDER-COLOR: #333333;}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #606060}
-.pun DIV>FIELDSET {BORDER-COLOR: #555}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {border-color:#555;}
-.pun A:link, .pun A:visited {COLOR: #60A0DC}
-.pun A:hover {COLOR: #80D6FF}
-.pun H2 A:link, .pun H2 A:visited {COLOR: #D4D4D4}
-.pun H2 A:hover {COLOR: #D4D4D4}
-#brdmenu A:link, #brdmenu A:visited {color:#ddd}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
-LI.maintenancelink A:hover {COLOR: #FF5010}
-DIV.icon {/*background:url(../img/Novin/icon.gif)*/}
-DIV.inew {background:url(../img/Novin/icon_new.gif)}
-TR.isticky DIV.icon {background:url(../img/Novin/sticky.gif)}
-TR.isticky DIV.inew {background:url(../img/Novin/sticky_new.gif)}
-TR.iclosed DIV.icon {background:url(../img/Novin/closed.gif)}
-TR.iredirect DIV.icon {/*background:url(../img/Novin/redirect.gif)*/}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #000}
+#adminconsole td, #adminconsole th {border-color: #000}
+td.tc2, td.tc3, td.tcmod, #brdfooter div.box {background-color: #000}
+#adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #000}
+.pun blockquote, div.codebox {background-color: #000}
+.pun h2, #brdmenu {background-color: #2a2a2a; color: #D4D4D4}
+.pun th, .bgc4 {background-color: #000}
+.pun legend {color: #60A0DC}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #D4D4D4}
+.pun textarea, .pun input, .pun select {background-color: #1d1d1d; color: #ddd}
+div.postleft, div.postfootleft {border-right-color:#333;}
+div.postright, div.postfootright {border-left-color:#333;}
+div.postfootleft, div.postfootright {border-top-color:#333;}
+div.blockpost h2 {background-color: #565656}
+div.blockpost h2 span.conr {color: #A19E96}
+.pun hr {background-color: #606060; color: #606060}
+h2, div.box {border-color: #333333;}
+div.blockpost div.box {border-color: #333}
+.pun td {border-color: #333333;}
+.pun th {border-color: #333333;}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #606060}
+.pun div>fieldset {border-color: #555}
+.pun textarea, .pun input, .pun select {border-color:#555;}
+.pun a:link, .pun a:visited {color: #60A0DC}
+.pun a:hover {color: #80D6FF}
+.pun h2 a:link, .pun h2 a:visited {color: #D4D4D4}
+.pun h2 a:hover {color: #D4D4D4}
+#brdmenu a:link, #brdmenu a:visited {color:#ddd}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #FF4000}
+li.maintenancelink a:hover {color: #FF5010}
+div.icon {/*background:url(../img/Novin/icon.gif)*/}
+div.inew {background:url(../img/Novin/icon_new.gif)}
+tr.isticky div.icon {background:url(../img/Novin/sticky.gif)}
+tr.isticky div.inew {background:url(../img/Novin/sticky_new.gif)}
+tr.iclosed div.icon {background:url(../img/Novin/closed.gif)}
+tr.iredirect div.icon {/*background:url(../img/Novin/redirect.gif)*/}
 html,body{background:url(../img/Novin/space_bk.jpg)}
 #punwrap{background:url(../img/Novin/space_bg.jpg)}
 .pun{background:url(../img/Novin/header.jpg)}

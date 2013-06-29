@@ -43,7 +43,7 @@ padding: 2px;
 }
 .popup-desc { font-weight: bold; }
 .punpopup p { margin: 0; padding-left: 4px; padding-right: 4px}
-#divAttachRules {margin-bottom: 10px;}
+#divattachrules {margin-bottom: 10px;}
 div.floated {margin: 10px 0;}
 #buttonmenu {font-size:1em; padding-bottom:4px; width:100%;float:left; clear:right; background:#eee;}
 #buttonmenu ul {padding:0; margin:0; list-style-type:none; height:2em; background:transparent;}

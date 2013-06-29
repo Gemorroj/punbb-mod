@@ -1,48 +1,48 @@
-BODY {BACKGROUND-COLOR: #FFFFFF}
-.pun {COLOR: #0D4D0A}
-DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #C1DABF}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #C1DABF}
+body {background-color: #FFFFFF}
+.pun {color: #0D4D0A}
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #C1DABF}
+#adminconsole td, #adminconsole th {border-color: #C1DABF}
 TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
-#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #C1DABF}
-TH.tc3 {width: 70px}
-.pun H2, #brdmenu {BACKGROUND: url(../img/GreenPun/belka1.png); COLOR: #FFF;font-weight: bold; height: 16px;}
-.pun H2 {font-weight: bold;BACKGROUND: #555 url(../img/GreenPun/belka1.png);border-top: 1px solid #387735;border-left: 1px solid #387735;border-right: 1px solid #387735; height: 16px;}
-.pun TH {BACKGROUND-COLOR: #69B765;}
-.pun LEGEND {COLOR: #0D4D0A}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #0D4D0A}
-DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #C1DABF}
-DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #C1DABF}
-DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #C1DABF}
-DIV.blockpost H2 {BACKGROUND-COLOR: #C1DABF}
-DIV.blockpost H2 SPAN.conr {COLOR: #CCC}
-.pun HR {BACKGROUND-COLOR: #387735; COLOR: #0D4D0A}
-DIV.box {BORDER-COLOR: #387735}
-DIV.blockpost DIV.box {BORDER: 1px solid #387735;border-top: 1px solid #387735;}
-.pun TD {BORDER-COLOR: #F0F0F0}
-.pun TH {BORDER-COLOR: #F0F0F0}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #3270B5 #FFF #FFF #3270B5}
-.pun DIV>FIELDSET {BORDER-COLOR: #0D4D0A}
-.pun A:link, .pun A:visited {COLOR: #0D4D0A; text-decoration: none;}
-.pun A:hover {COLOR: #777777}
-.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF;}
-.pun H2 A:hover, #brdmenu A:hover {COLOR: #C1DABF;}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
-LI.maintenancelink A:hover {COLOR: #B42000}
-DIV.icon {BACKGROUND: url(../img/GreenPun/folder_grey.png);}
-DIV.inew {BACKGROUND: url(../img/GreenPun/folder_green.png);}
-TR.isticky DIV.icon {background:url(../img/GreenPun/sticky.png)}
-TR.isticky DIV.inew {background:url(../img/GreenPun/sticky_new.png)}
-TR.iclosed DIV.icon {background:url(../img/GreenPun/closed.png)}
-DIV.iredirect {background:url(../img/GreenPun/link.png)}
-#brdmenu {BACKGROUND: url(../img/GreenPun/belka1.png);border-top: 1px solid #387735;border-bottom: 1px solid #387735;}
-.pun H1 span
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #C1DABF}
+th.tc3 {width: 70px}
+.pun h2, #brdmenu {background: url(../img/GreenPun/belka1.png); color: #FFF;font-weight: bold; height: 16px;}
+.pun h2 {font-weight: bold;background: #555 url(../img/GreenPun/belka1.png);border-top: 1px solid #387735;border-left: 1px solid #387735;border-right: 1px solid #387735; height: 16px;}
+.pun th {background-color: #69B765;}
+.pun legend {color: #0D4D0A}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #0D4D0A}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #C1DABF}
+div.postright, div.postfootright {border-left-color: #C1DABF}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #C1DABF}
+div.blockpost h2 {background-color: #C1DABF}
+div.blockpost h2 span.conr {color: #CCC}
+.pun hr {background-color: #387735; color: #0D4D0A}
+div.box {border-color: #387735}
+div.blockpost div.box {border: 1px solid #387735;border-top: 1px solid #387735;}
+.pun td {border-color: #F0F0F0}
+.pun th {border-color: #F0F0F0}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #3270B5 #FFF #FFF #3270B5}
+.pun div>fieldset {border-color: #0D4D0A}
+.pun a:link, .pun a:visited {color: #0D4D0A; text-decoration: none;}
+.pun a:hover {color: #777777}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #FFF;}
+.pun h2 a:hover, #brdmenu a:hover {color: #C1DABF;}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {background: url(../img/GreenPun/folder_grey.png);}
+div.inew {background: url(../img/GreenPun/folder_green.png);}
+tr.isticky div.icon {background:url(../img/GreenPun/sticky.png)}
+tr.isticky div.inew {background:url(../img/GreenPun/sticky_new.png)}
+tr.iclosed div.icon {background:url(../img/GreenPun/closed.png)}
+div.iredirect {background:url(../img/GreenPun/link.png)}
+#brdmenu {background: url(../img/GreenPun/belka1.png);border-top: 1px solid #387735;border-bottom: 1px solid #387735;}
+.pun h1 span
 {
 color: #0D4D0A;
 font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
-.pun H1
+.pun h1
 {
 background-repeat: no-repeat;
 background-position: 0px;

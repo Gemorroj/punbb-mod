@@ -1,11 +1,11 @@
-BODY {BACKGROUND: url(../img/Sadness/back.png) #000000}
-.pun {COLOR: #DADADA}
-DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #323232}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #323232}
-TD.tc3, TD.tc4, TD.tcmod, #brdfooter DIV.box {BACKGROUND-COLOR: #333333}
-#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #363636}
-.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #323232}
-.pun H2, #brdmenu {
+body {background: url(../img/Sadness/back.png) #000000}
+.pun {color: #DADADA}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #323232}
+#adminconsole td, #adminconsole th {border-color: #323232}
+td.tc3, td.tc4, td.tcmod, #brdfooter div.box {background-color: #333333}
+#adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #363636}
+.pun blockquote, div.codebox {background-color: #323232}
+.pun h2, #brdmenu {
 background:url(../img/Sadness/cellpic2.gif); color:#CCCCCC;
 border: 1px solid #111111;
 border-bottom: 0px solid #111111;
@@ -14,36 +14,36 @@ font-weight: bold;
 font-size:11px;
 color: #DADADA;
 }
-.pun TH {BACKGROUND: url(../img/Sadness/cellpic1.gif) #2a2a2a;}
-.pun LEGEND {COLOR: #FFFFFF}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #D4D4D4}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #2A2A2A; COLOR: #D4D4D4}
-DIV.blockpost DIV.box, DIV.postright, DIV.postfootright, #postpreview {BACKGROUND-COLOR: #202020}
-DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #303030}
-DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #303030}
-DIV.blockpost H2 {BACKGROUND-COLOR: #000000; text-align: left}
-DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
-.pun HR {BACKGROUND-COLOR: #606060;COLOR: #606060}
-DIV.box {BORDER-COLOR: #111111}
-DIV.blockpost DIV.box {BORDER-COLOR: #111111 #111111 #111111}
-.pun TD {BORDER-COLOR: #111111}
-.pun TH {BORDER-COLOR: #111111}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #000000; background-color: #888888;color: #282828}
-.pun DIV>FIELDSET {BORDER-COLOR: #111111}
-.pun A:link, .pun A:visited {COLOR: #FFCC00; text-decoration: none}
-.pun A:hover {COLOR: #FF0000; text-decoration: none}
-.pun H2 A:link, .pun H2 A:visited {COLOR: #D4D4D4; text-decoration: none}
-.pun H2 A:hover {COLOR: #D4D4D4; text-decoration: none}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA; text-decoration: line-through}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000; text-decoration: blink}
-LI.maintenancelink A:hover {COLOR: #FF5010; text-decoration: blink}
-Div.icon {background-image : url(../img/Sadness/notnew.gif); }
-Div.inew {background-image : url(../img/Sadness/new.gif); }
-TR.isticky DIV.icon {background:url(../img/Sadness/stick.gif);}
-TR.isticky DIV.inew {background:url(../img/Sadness/stick_new.gif);}
-TR.iclosed DIV.icon {background:url(../img/Sadness/closed.png);}
-TR.iredirect DIV.icon {background:url(../img/Sadness/closed.png);}
+.pun th {background: url(../img/Sadness/cellpic1.gif) #2a2a2a;}
+.pun legend {color: #FFFFFF}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #D4D4D4}
+.pun textarea, .pun input, .pun select {background-color: #2A2A2A; color: #D4D4D4}
+div.blockpost div.box, div.postright, div.postfootright, #postpreview {background-color: #202020}
+div.postright, div.postfootright {border-left-color: #303030}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #303030}
+div.blockpost h2 {background-color: #000000; text-align: left}
+div.blockpost h2 span.conr {color: #A19E96}
+.pun hr {background-color: #606060;color: #606060}
+div.box {border-color: #111111}
+div.blockpost div.box {border-color: #111111 #111111 #111111}
+.pun td {border-color: #111111}
+.pun th {border-color: #111111}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #000000; background-color: #888888;color: #282828}
+.pun div>fieldset {border-color: #111111}
+.pun a:link, .pun a:visited {color: #FFCC00; text-decoration: none}
+.pun a:hover {color: #FF0000; text-decoration: none}
+.pun h2 a:link, .pun h2 a:visited {color: #D4D4D4; text-decoration: none}
+.pun h2 a:hover {color: #D4D4D4; text-decoration: none}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA; text-decoration: line-through}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #FF4000; text-decoration: blink}
+li.maintenancelink a:hover {color: #FF5010; text-decoration: blink}
+div.icon {background-image : url(../img/Sadness/notnew.gif); }
+div.inew {background-image : url(../img/Sadness/new.gif); }
+tr.isticky div.icon {background:url(../img/Sadness/stick.gif);}
+tr.isticky div.inew {background:url(../img/Sadness/stick_new.gif);}
+tr.iclosed div.icon {background:url(../img/Sadness/closed.png);}
+tr.iredirect div.icon {background:url(../img/Sadness/closed.png);}
 .pun span.byuser
 {
 background-repeat: no-repeat;
@@ -53,28 +53,28 @@ padding: 0px 18px 0px;
 }
 .pun p.postlink, #conr
 {
-TEXT-ALIGN: CENTER;
-POSITION: RELATIVE;
+text-align: CENTER;
+position: RELATIVE;
 TOP : 0px;
-LEFT: 6px;
-BORDER: #000001 1PX SOLID;
-BACKGROUND-COLOR: #323232;
-BACKGROUND-IMAGE: url(../img/Sadness/bg_button.gif);
+left: 6px;
+border: #000001 1PX SOLID;
+background-color: #323232;
+background-image: url(../img/Sadness/bg_button.gif);
 filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#000000,strength=2);
 }
 #post textarea, #post input.longinput, #edit textarea, #edit input.longinput {
 border: 1px #565656 solid;
 }
-DIV.toolbar {
+div.toolbar {
 background: #424242;
 border-left: 1px #565656 solid;
 border-top: 1px #565656 solid;
 border-right: 1px #565656 solid;
 }
-DIV.toolbar .draghandle {
+div.toolbar .draghandle {
 border-left: 2px #767676 dotted;
 }
-DIV.toolbar .separator {
+div.toolbar .separator {
 border-left: 1px #767676 solid;
 }
 DIV.toolbar a.tool_btn, DIV.toolbar a.dropdown, DIV.toolbar a.dropdown_opened {
@@ -85,12 +85,12 @@ color: #A4A4A4;
 DIV.toolbar a.tool_btn:visited, DIV.toolbar a.dropdown:visited, DIV.toolbar a.dropdown_opened:visited {
 color: #A4A4A4;
 }
-DIV.toolbar a.tool_btn:hover, DIV.toolbar a.dropdown:hover {
+DIV.toolbar a.tool_btn:hover, div.toolbar a.dropdown:hover {
 border: 1px #60A0DC solid;
 color: #60A0DC;
 background: #383838;
 }
-DIV.toolbar a.dropdown {
+div.toolbar a.dropdown {
 color: #A4A4A4;
 background: url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
@@ -99,7 +99,7 @@ color: #A4A4A4;
 border: 1px #565656 solid;
 background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
-DIV.toolbar a.dropdown:hover {
+div.toolbar a.dropdown:hover {
 background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
 #colorpalette #colorbtn, #smilespanel #smilesbtn, #sizepanel #sizebtn, #imgpanel #imgbtn, #listpanel #listbtn {
@@ -131,13 +131,13 @@ background: #383838;
 code {
 color: #80D6FF;
 }
-.pun H2 span {
+.pun h2 span {
 background-position : 0% 50%;
 background-repeat : no-repeat;
 background-image : url(../img/Sadness/forum_arrow.gif);
 padding : 12px;
 }
-.pun H2 span.conr {
+.pun h2 span.conr {
 background-image : none;
 color : #fff;
 padding : 0;
@@ -145,19 +145,19 @@ padding : 0;
 div.postmsg li {
 color: #999;
 }
-DIV.spoilerbox p {
+div.spoilerbox p {
 color: #353533;
 }
-DIV.spoilerbox p:hover {
+div.spoilerbox p:hover {
 color: #A4A4A4;
 }
-IMG.postimg {
+img.postimg {
 padding: 1px;
 margin: 2px 5px;
 border: 1px solid #565656;
 background: #353533;
 }
-DIV.postmsg a:hover IMG.postimg {
+div.postmsg a:hover img.postimg {
 border: 1px solid #60A0DC;
 }
 #punindex #brdstats div.box div.inbox dl.conl{

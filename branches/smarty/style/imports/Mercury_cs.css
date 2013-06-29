@@ -1,41 +1,41 @@
-BODY {BACKGROUND-COLOR: #2A2A2A}
-.pun {COLOR: #D4D4D4}
-DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #383838}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #383838}
-TD.tc2, TD.tc3, TD.tcmod, #brdfooter DIV.box {BACKGROUND-COLOR: #424242}
-#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #484848}
-.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #353533}
-.pun H2, #brdmenu {BACKGROUND-COLOR: #565656; COLOR: #D4D4D4}
-.pun TH {BACKGROUND-COLOR: #484848}
-.pun LEGEND {COLOR: #F6B620}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #D4D4D4}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #2A2A2A; COLOR: #D4D4D4}
-DIV.blockpost DIV.box, DIV.postright, DIV.postfootright, #postpreview {BACKGROUND-COLOR: #383838}
-DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #424242}
-DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #424242}
-DIV.blockpost H2 {BACKGROUND-COLOR: #565656}
-DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
-.pun HR {BACKGROUND-COLOR: #606060; COLOR: #606060}
-DIV.box {BORDER-COLOR: #565656}
-DIV.blockpost DIV.box {BORDER-COLOR: #565656 #525252 #525252}
-.pun TD {BORDER-COLOR: #565656}
-.pun TH {BORDER-COLOR: #484848}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #565656}
-.pun DIV>FIELDSET {BORDER-COLOR: #909090}
-.pun A:link, .pun A:visited {COLOR: #F6B620}
-.pun A:hover {COLOR: #FFEE40}
-.pun H2 A:link, .pun H2 A:visited {COLOR: #D4D4D4}
-.pun H2 A:hover {COLOR: #D4D4D4}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
-LI.maintenancelink A:hover {COLOR: #FF5010}
-DIV.icon {BORDER-COLOR: #484848 #404040 #3C3C3C #444444}
-TR.iredirect DIV.icon {BORDER-COLOR: #383838 #383838 #383838 #383838}
-DIV.inew {BORDER-COLOR: #F6B620 #ECAE1F #D09A1B #E1A61D}
+body {background-color: #2A2A2A}
+.pun {color: #D4D4D4}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #383838}
+#adminconsole td, #adminconsole th {border-color: #383838}
+td.tc2, td.tc3, td.tcmod, #brdfooter div.box {background-color: #424242}
+#adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #484848}
+.pun blockquote, div.codebox {background-color: #353533}
+.pun h2, #brdmenu {background-color: #565656; color: #D4D4D4}
+.pun th {background-color: #484848}
+.pun legend {color: #F6B620}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #D4D4D4}
+.pun textarea, .pun input, .pun select {background-color: #2A2A2A; color: #D4D4D4}
+div.blockpost div.box, div.postright, div.postfootright, #postpreview {background-color: #383838}
+div.postright, div.postfootright {border-left-color: #424242}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #424242}
+div.blockpost h2 {background-color: #565656}
+div.blockpost h2 span.conr {color: #A19E96}
+.pun hr {background-color: #606060; color: #606060}
+div.box {border-color: #565656}
+div.blockpost div.box {border-color: #565656 #525252 #525252}
+.pun td {border-color: #565656}
+.pun th {border-color: #484848}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #565656}
+.pun div>fieldset {border-color: #909090}
+.pun a:link, .pun a:visited {color: #F6B620}
+.pun a:hover {color: #FFEE40}
+.pun h2 a:link, .pun h2 a:visited {color: #D4D4D4}
+.pun h2 a:hover {color: #D4D4D4}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #FF4000}
+li.maintenancelink a:hover {color: #FF5010}
+div.icon {border-color: #484848 #404040 #3C3C3C #444444}
+tr.iredirect div.icon {border-color: #383838 #383838 #383838 #383838}
+div.inew {border-color: #F6B620 #ECAE1F #D09A1B #E1A61D}
 code{color:#F6B620}
 div.postmsg li{color:#999}
-DIV.spoilerbox p{color:#353533}
-DIV.spoilerbox p:hover{color:#A4A4A4}
-IMG.postimg{padding:1px;margin:2px 5px;border:1px solid #565656;background:#353533}
-DIV.postmsg a:hover IMG.postimg{border:1px solid #F6B620}
+div.spoilerbox p{color:#353533}
+div.spoilerbox p:hover{color:#A4A4A4}
+img.postimg{padding:1px;margin:2px 5px;border:1px solid #565656;background:#353533}
+div.postmsg a:hover img.postimg{border:1px solid #F6B620}

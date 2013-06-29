@@ -1,48 +1,48 @@
-html, body {BACKGROUND-COLOR: #000}
-.pun {COLOR: #b5b5b5}
+html, body {background-color: #000}
+.pun {color: #b5b5b5}
 .pun th {color:#ac9e91;}
 #brdtitle p {color:#0083c6}
 #brdfooter{}
-DIV.box, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #000}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #000}
-TD.tc2, TD.tc3, TD.tcmod, DIV.box {BACKGROUND-COLOR: #30281d}
-#adminconsole FIELDSET TD, #viewprofile DD, DIV.forminfo, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #30281d}
-.pun BLOCKQUOTE, DIV.codebox {BACKGROUND-COLOR: #30281d}
-.pun H2 {BACKGROUND-COLOR: #ac9e91; COLOR: #7b654a}
-#brdmenu {BACKGROUND-COLOR: #fff; COLOR: #7b654a}
-.pun TH, .bgc4 {BACKGROUND-COLOR: #000}
-.pun LEGEND {COLOR: #7b654a}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #7b654a}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {BACKGROUND-COLOR: #000; COLOR: #7b654a}
-DIV.postleft, DIV.postfootleft {border-right-color:#201b13;}
-DIV.postright, DIV.postfootright {border-left-color:#201b13;}
-DIV.postfootleft, DIV.postfootright {border-top-color:#201b13;}
-DIV.blockpost H2 {BACKGROUND-COLOR: #30281d}
-DIV.blockpost H2 SPAN.conr {COLOR: #A19E96}
-.pun HR {BACKGROUND-COLOR: #044e75; COLOR: #ac9e91}
-h2, DIV.box {BORDER-COLOR: #000000;}
-DIV.blockpost DIV.box {BORDER-COLOR: #ac9e91}
-.pun TD {BORDER-COLOR: #000;
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #000}
+#adminconsole td, #adminconsole th {border-color: #000}
+td.tc2, td.tc3, td.tcmod, div.box {background-color: #30281d}
+#adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #30281d}
+.pun blockquote, div.codebox {background-color: #30281d}
+.pun h2 {background-color: #ac9e91; color: #7b654a}
+#brdmenu {background-color: #fff; color: #7b654a}
+.pun th, .bgc4 {background-color: #000}
+.pun legend {color: #7b654a}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #7b654a}
+.pun textarea, .pun input, .pun select {background-color: #000; color: #7b654a}
+div.postleft, div.postfootleft {border-right-color:#201b13;}
+div.postright, div.postfootright {border-left-color:#201b13;}
+div.postfootleft, div.postfootright {border-top-color:#201b13;}
+div.blockpost h2 {background-color: #30281d}
+div.blockpost h2 span.conr {color: #A19E96}
+.pun hr {background-color: #044e75; color: #ac9e91}
+h2, div.box {border-color: #000000;}
+div.blockpost div.box {border-color: #ac9e91}
+.pun td {border-color: #000;
 background:url(../img/rc3/redbar1.jpg)
 no-repeat;
 }
-.pun TH {BORDER-COLOR: #000;
+.pun th {border-color: #000;
 background:url(../img/bf2/pun-th1.gif)
 no-repeat;
 }
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #ac9e91}
-.pun DIV>FIELDSET {BORDER-COLOR: #ac9e91}
-.pun TEXTAREA, .pun INPUT, .pun SELECT {border-color:#ac9e91;}
-.pun A:link, .pun A:visited {COLOR: #ac9e91}
-.pun A:hover {COLOR: #7b654a}
-.pun H2 A:link, .pun H2 A:visited {COLOR: #7b654a}
-.pun H2 A:hover {COLOR: #D4D4D4}
-#brdmenu A:link, #brdmenu A:visited {color:#ac9e91}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
-LI.maintenancelink A:hover {COLOR: #FF5010}
-html, body {BACKGROUND-COLOR: #000;
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #ac9e91}
+.pun div>fieldset {border-color: #ac9e91}
+.pun textarea, .pun input, .pun select {border-color:#ac9e91;}
+.pun a:link, .pun a:visited {color: #ac9e91}
+.pun a:hover {color: #7b654a}
+.pun h2 a:link, .pun h2 a:visited {color: #7b654a}
+.pun h2 a:hover {color: #D4D4D4}
+#brdmenu a:link, #brdmenu a:visited {color:#ac9e91}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #FF4000}
+li.maintenancelink a:hover {color: #FF5010}
+html, body {background-color: #000;
 background:url(../img/bf2/bg_top1.gif);
 background-repeat:repeat-y;
 }

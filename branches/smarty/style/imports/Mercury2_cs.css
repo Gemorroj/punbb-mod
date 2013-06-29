@@ -1,48 +1,48 @@
-BODY {BACKGROUND-COLOR: #333333}
-.pun {COLOR: #ffffff}
-DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .roweven {BACKGROUND-COLOR: #333333}
-#adminconsole TD, #adminconsole TH {BORDER-COLOR: #333333}
+body {background-color: #333333}
+.pun {color: #ffffff}
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #333333}
+#adminconsole td, #adminconsole th {border-color: #333333}
 TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
-#adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #333333}
-.pun H2, #brdmenu { BACKGROUND-COLOR: #000000; COLOR: #FFF;
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #333333}
+.pun h2, #brdmenu { background-color: #000000; color: #FFF;
 background-image:url(../img/Mercury2/cell.gif) }
-.pun TH {BACKGROUND-COLOR: #666666}
-.pun LEGEND {COLOR: #ffcc00}
-.pun DIV.blockmenu LI.isactive A, #posterror LI STRONG {COLOR: #ffffff}
-DIV.blockpost DIV.box, DIV.postright, DIV.postfootright {BACKGROUND-COLOR: #333333}
-DIV.postright, DIV.postfootright {BORDER-LEFT-COLOR: #666666}
-DIV.postleft, DIV.postfootleft, DIV.blockpost LABEL {BACKGROUND-COLOR: #666666}
-DIV.blockpost H2 {BACKGROUND-COLOR: #000000; COLOR: #FFF;
+.pun th {background-color: #666666}
+.pun legend {color: #ffcc00}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #ffffff}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #333333}
+div.postright, div.postfootright {border-left-color: #666666}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #666666}
+div.blockpost h2 {background-color: #000000; color: #FFF;
 background-image:url(../img/Mercury2/cell.gif) }
-DIV.blockpost H2 SPAN.conr {COLOR: #000000; }
-.pun HR {BACKGROUND-COLOR: #666666; COLOR: #666666}
-DIV.box {BORDER-COLOR: #000000}
-DIV.blockpost DIV.box {BORDER-COLOR: #00ffff #00ffff #00ffff}
-.pun TD {BORDER-COLOR: #333333}
-.pun TH {BORDER-COLOR: #333333}
-.pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #666666 #FFF #FFF #666666}
-.pun DIV>FIELDSET {BORDER-COLOR: #000000}
-.pun A:link, .pun A:visited {COLOR: #ffcc00}
-.pun A:hover {COLOR: #ffffff}
-.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #ffffff}
-.pun H2 A:hover, #brdmenu A:hover {COLOR: #ffcc00}
-LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
-LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
-LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}
-LI.maintenancelink A:hover {COLOR: #B42000}
-DIV.icon {background:url(../img/Mercury2/icon.gif)}
-DIV.inew {background:url(../img/Mercury2/icon_new.gif)}
-TR.isticky DIV.icon {background:url(../img/Mercury2/sticky.gif)}
-TR.isticky DIV.inew {background:url(../img/Mercury2/sticky_new.gif)}
-TR.iclosed DIV.icon {background:url(../img/Mercury2/closed.gif)}
-TR.iredirect DIV.icon {background:url(../img/Oxygen2/redirect.gif)}
+div.blockpost h2 span.conr {color: #000000; }
+.pun hr {background-color: #666666; color: #666666}
+div.box {border-color: #000000}
+div.blockpost div.box {border-color: #00ffff #00ffff #00ffff}
+.pun td {border-color: #333333}
+.pun th {border-color: #333333}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #666666 #FFF #FFF #666666}
+.pun div>fieldset {border-color: #000000}
+.pun a:link, .pun a:visited {color: #ffcc00}
+.pun a:hover {color: #ffffff}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #ffffff}
+.pun h2 a:hover, #brdmenu a:hover {color: #ffcc00}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {background:url(../img/Mercury2/icon.gif)}
+div.inew {background:url(../img/Mercury2/icon_new.gif)}
+tr.isticky div.icon {background:url(../img/Mercury2/sticky.gif)}
+tr.isticky div.inew {background:url(../img/Mercury2/sticky_new.gif)}
+tr.iclosed div.icon {background:url(../img/Mercury2/closed.gif)}
+tr.iredirect div.icon {background:url(../img/Oxygen2/redirect.gif)}
 .pun p.postlink, #conr
 {
-TEXT-ALIGN: CENTER;
-POSITION: RELATIVE;
+text-align: CENTER;
+position: RELATIVE;
 TOP : 0px;
-LEFT: 6px;
-BACKGROUND-COLOR: #000000;
-BACKGROUND-IMAGE: url(../img/Mercury2/bg_button.gif);
+left: 6px;
+background-color: #000000;
+background-image: url(../img/Mercury2/bg_button.gif);
 filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#666666,strength=2);
 }
