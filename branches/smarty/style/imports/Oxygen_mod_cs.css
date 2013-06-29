@@ -69,7 +69,7 @@ tr.iclosed.isticky div.icon {BACKGROUND: url('../img/Oxygen_mod/inactive_sticky_
 tr.iclosed.isticky div.inew {BACKGROUND: url('../img/Oxygen_mod/active_sticky_closed.gif') no-repeat;}
 DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
 DIV.blockmenu LI {PADDING: 3px 0}
-DIV.blockmenu LI {LINE-HEIGHT: 1.4em}
+DIV.blockmenu LI {line-height: 1.4em}
 DIV.blockmenu DIV.box, .blockmenu DIV.box .inbox {BACKGROUND-COLOR: #F1F1F1}
 .blockmenu .box .inbox {PADDING: 0}
 .blockmenu .box .inbox UL {PADDING: 0;}

@@ -3,14 +3,14 @@
 .pun, .pun INPUT, .pun SELECT, .pun TEXTAREA, .pun OPTGROUP {
 FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
 }
-.pun {FONT-SIZE: 11px; LINE-HEIGHT: normal}
+.pun {FONT-SIZE: 11px; line-height: normal}
 * HTML .pun {FONT-SIZE: 68.75%}
 .pun TABLE, .pun INPUT, .pun SELECT, .pun OPTGROUP, .pun TEXTAREA, DIV.postmsg P.postedit {FONT-SIZE: 1em}
 .pun PRE {FONT-FAMILY: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace}
 .pun H2 {font-size: 1.2em}
 .pun H4 {FONT-SIZE: 1.1em}
 .pun H3 {FONT-SIZE: 1.1em}
-DIV.postmsg P {LINE-HEIGHT: 1.4}
+DIV.postmsg P {line-height: 1.4}
 DIV.postleft DT {FONT-SIZE: 1.1em}
 .pun PRE {FONT-SIZE: 1.2em}
 .pun th {font-size: 9px;}
@@ -59,11 +59,11 @@ DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
 }
 DIV.linkst {PADDING: 0px 8px 0px 6px}
 DIV.linksb, DIV.postlinksb {PADDING: 0px 8px 8px 6px}
-#brdwelcome, DL A, DIV.blockmenu LI, DIV.rbox INPUT {LINE-HEIGHT: 1.4em}
-#viewprofile DT, #viewprofile DD {PADDING: 0 3px; LINE-HEIGHT: 2em}
+#brdwelcome, DL A, DIV.blockmenu LI, DIV.rbox INPUT {line-height: 1.4em}
+#viewprofile DT, #viewprofile DD {PADDING: 0 3px; line-height: 2em}
 #brdfooter
-{LINE-HEIGHT: 1.4em;
-background:url(img/DarkBlue/bg_copy.gif);
+{line-height: 1.4em;
+/*background:url(img/DarkBlue/bg_copy.gif);*/
 background-repeat: no-repeat;
 }
 #brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 12px}
@@ -114,20 +114,28 @@ DIV.searchposts DIV.icon {MARGIN-LEFT: 0}
 TD DIV.tclcon {MARGIN-LEFT: 1.7em}
 TD.tcl {padding-left:3px;}
 h2 span {
-padding-left:12px;
-background-position:0px 4px;
-background-repeat:no-repeat;
+    padding-left:12px;
+    background-position:0px 4px;
+    background-repeat:no-repeat;
 }
 div#footextra{text-align:center; margin-bottom:10px; font-size:.7em}
+
+/* header changes */
 #brdmenu li {height:16px; padding-left:9px; background-repeat:no-repeat; background-position:0 4px}
+
+
+/* post changes*/
 DIV.postright, DIV.postfootright {MARGIN-LEFT: 18em;BORDER-LEFT-WIDTH: 1px;}
 DIV.postleft, DIV.postfootleft {border-right-width:1px;border-right-style:solid;}
 DIV.postfootleft, DIV.postfootright {border-top-width:1px;border-top-style:solid;}
 #postpreview div.postright{margin:0;}
+
+/* removed the header from the redirect page*/
 #punredirect {background:none; padding:10px;}
-background-repeat: no-repeat;
-background-position: 0px 0px;
-padding-left: 0px;
- font-size: 0px;
- height: 200px;
+#brdtitle { /* DELETE THIS IF YOU DON'T WANT A LOGO */
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    padding-left: 0px;
+    font-size: 0px;
+    height: 200px;
 }

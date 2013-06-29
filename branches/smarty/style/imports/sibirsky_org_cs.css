@@ -23,8 +23,8 @@ DIV.blockpost DIV.box {BORDER: 1px solid #7897BB;BORDER-TOP: 1px solid #7897BB;}
 .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #7897BB #7897BB #7897BB #7897BB}
 .pun A:link, .pun A:visited {COLOR: #005cb1;}
 .pun A:hover {COLOR: #B42000; text-decoration:none; background-color: #EEEEEE;}
-.pun H2 A:link, .pun H2 A:visited, #brdmenu A:link, #brdmenu A:visited {COLOR: #FFF;}
-.pun H2 A:hover, #brdmenu A:hover {COLOR: #35567C;}
+.pun H2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {COLOR: #FFF;}
+.pun H2 a:hover, #brdmenu a:hover {color: #35567C;}
 LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclosed TD.tcl A:visited {COLOR: #888}
 LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
 LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #B42000}

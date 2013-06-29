@@ -34,12 +34,12 @@ LI.postreport A:link, LI.postreport A:visited, TR.iclosed TD.tcl A:link, TR.iclo
 LI.postreport A:hover, TR.iclosed TD.tcl A:hover {COLOR: #AAA}
 LI.maintenancelink A:link, LI.maintenancelink A:visited {COLOR: #FF4000}
 LI.maintenancelink A:hover {COLOR: #FF5010}
-DIV.icon {background:url(../img/Novin/icon.gif)}
+DIV.icon {/*background:url(../img/Novin/icon.gif)*/}
 DIV.inew {background:url(../img/Novin/icon_new.gif)}
 TR.isticky DIV.icon {background:url(../img/Novin/sticky.gif)}
 TR.isticky DIV.inew {background:url(../img/Novin/sticky_new.gif)}
 TR.iclosed DIV.icon {background:url(../img/Novin/closed.gif)}
-TR.iredirect DIV.icon {background:url(../img/Novin/redirect.gif)}
+TR.iredirect DIV.icon {/*background:url(../img/Novin/redirect.gif)*/}
 html,body{background:url(../img/Novin/space_bk.jpg)}
 #punwrap{background:url(../img/Novin/space_bg.jpg)}
 .pun{background:url(../img/Novin/header.jpg)}

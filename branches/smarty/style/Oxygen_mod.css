@@ -1,14 +1,14 @@
 @import url(imports/base.css);
 @import url(imports/Oxygen_mod_cs.css);
 .pun, .pun INPUT, .pun SELECT, .pun TEXTAREA, .pun OPTGROUP {FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
-.pun {FONT-SIZE: 12px; LINE-HEIGHT: normal}
+.pun {FONT-SIZE: 12px; line-height: normal}
 * HTML .pun {FONT-SIZE: 68.75%}
 .pun TABLE, .pun INPUT, .pun SELECT, .pun OPTGROUP, .pun TEXTAREA, DIV.postmsg P.postedit {FONT-SIZE: 1em}
 .pun PRE {FONT-FAMILY: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace}
 .pun H2, .pun H4 {FONT-SIZE: 1em}
 .pun H3 {FONT-SIZE: 1.1em}
 #brdtitle H1 {FONT-SIZE: 1.4em}
-DIV.postmsg P {LINE-HEIGHT: 1.4}
+DIV.postmsg P {line-height: 1.4}
 DIV.postleft DT {FONT-SIZE: 1.1em}
 .pun PRE {FONT-SIZE: 1.2em}
 DIV.postleft DT, DIV.postmsg H4, TD.tcl H3, DIV.forminfo H3, P.postlink, DIV.linkst LI,
@@ -38,8 +38,8 @@ DIV.block DIV.inbox {PADDING: 3px 6px}
 DIV.linkst {PADDING: 8px 6px 3px 6px}
 DIV.linksb, DIV.postlinksb {PADDING: 6px 6px 8px 6px}
 FORM DIV.postlinksb {MARGIN-LEFT: 15em}
-#brdwelcome, #brdfooter DL A, DIV.rbox INPUT {LINE-HEIGHT: 1.4em}
-#viewprofile DT, #viewprofile DD {PADDING: 0 3px; LINE-HEIGHT: 2em}
+#brdwelcome, #brdfooter DL A, DIV.rbox INPUT {line-height: 1.4em}
+#viewprofile DT, #viewprofile DD {PADDING: 0 3px; line-height: 2em}
 #brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT  {MARGIN-RIGHT: 12px}
 #brdwelcome.inbox {PADDING-LEFT: 12px}
 .pun TH, .pun TD {PADDING: 4px 6px}
@@ -65,12 +65,12 @@ DIV.forminfo {MARGIN-BOTTOM: 12px;PADDING: 9px 10px}
 UL.bblinks LI {PADDING-RIGHT: 20px}
 UL.bblinks {PADDING-BOTTOM: 10px; PADDING-LEFT: 4px}
 DIV.blockform P INPUT {MARGIN-LEFT: 12px}
-DIV.icon {FLOAT: left;MARGIN-TOP: 0.1em;MARGIN-right: 0.4em;DISPLAY: block;HEIGHT: 22px;WIDTH: 28px;}
+DIV.icon {FLOAT: left;MARGIN-TOP: 0.1em;MARGIN-right: 0.4em;DISPLAY: block;height: 22px;WIDTH: 28px;}
 DIV.searchposts DIV.icon {MARGIN-LEFT: 0}
 TD DIV.tclcon {MARGIN-LEFT: 2.3em}
 DIV.postright, DIV.postfootright {MARGIN-LEFT: 18em;BORDER-LEFT-WIDTH: 1px;}
 DIV.postleft, DIV.postfootleft {border-right-width:1px;border-right-style:solid;}
 DIV.postfootleft, DIV.postfootright {border-top-width:1px;border-top-style:dashed;}
 #postpreview div.postright{margin:0;}
-#brdtitle H1 {margin-left:16px;margin-top:12px;padding-left:78px;padding-top:10px;HEIGHT:46px;FONT-SIZE: 30px;BACKGROUND: url('img/Oxygen/logo_oxygen.gif') no-repeat;}
+#brdtitle H1 {margin-left:16px;margin-top:12px;padding-left:78px;padding-top:10px;height:46px;FONT-SIZE: 30px;BACKGROUND: url('img/Oxygen/logo_oxygen.gif') no-repeat;}
 #brdtitle P {PADDING-LEFT: 94px}

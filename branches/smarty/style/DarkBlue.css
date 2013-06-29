@@ -3,14 +3,14 @@
 .pun, .pun INPUT, .pun SELECT, .pun TEXTAREA, .pun OPTGROUP {
 FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
 }
-.pun {FONT-SIZE: 11px; LINE-HEIGHT: normal}
+.pun {FONT-SIZE: 11px; line-height: normal}
 * HTML .pun {FONT-SIZE: 68.75%}
 .pun TABLE, .pun INPUT, .pun SELECT, .pun OPTGROUP, .pun TEXTAREA, DIV.postmsg P.postedit {FONT-SIZE: 1em}
 .pun PRE {FONT-FAMILY: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace}
 .pun H2 {font-size: 1.2em}
 .pun H4 {FONT-SIZE: 1.1em}
 .pun H3 {FONT-SIZE: 1.1em}
-DIV.postmsg P {LINE-HEIGHT: 1.4}
+DIV.postmsg P {line-height: 1.4}
 DIV.postleft DT {FONT-SIZE: 1.1em}
 .pun PRE {FONT-SIZE: 1.2em}
 .pun th {font-size: 9px;}
@@ -57,8 +57,8 @@ DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
 #brdtitle P {PADDING-TOP: 0px}
 DIV.linkst {PADDING: 0px 8px 0px 6px}
 DIV.linksb, DIV.postlinksb {PADDING: 0px 8px 8px 6px}
-#brdwelcome, #brdfooter DL A, DIV.blockmenu LI, DIV.rbox INPUT {LINE-HEIGHT: 1.4em}
-#viewprofile DT, #viewprofile DD {PADDING: 0 3px; LINE-HEIGHT: 2em}
+#brdwelcome, #brdfooter DL A, DIV.blockmenu LI, DIV.rbox INPUT {line-height: 1.4em}
+#viewprofile DT, #viewprofile DD {PADDING: 0 3px; line-height: 2em}
 #brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 12px}
 .pun TH {padding:0}
 .pun TD {PADDING: 4px 6px}

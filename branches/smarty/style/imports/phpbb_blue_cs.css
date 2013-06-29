@@ -72,12 +72,12 @@ color : #006699;
 font-weight : bold;
 }
 .pun div.infldset TH.tcl , div.infldset TH.tc2 , div.infldset TH.tc3 , div.infldset TH.tcr {
-background-image: url(../img/phpbb_blue/pix.gif);
+/*background-image: url(../img/phpbb_blue/pix.gif);*/
 color: #006699;
 }
 .pun div.infldset th.hidehead {
 color : #006699;
-background-image : url(../img/phpbb_blue/pix.gif);
+/*background-image : url(../img/phpbb_blue/pix.gif);*/
 }
 .pun span.byuser {
 background-position : 0% 50%;

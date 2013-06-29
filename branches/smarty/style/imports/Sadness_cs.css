@@ -92,15 +92,15 @@ background: #383838;
 }
 DIV.toolbar a.dropdown {
 color: #A4A4A4;
-background: url(../img/modern_bbcode/arrow.png) no-repeat top right;
+background: url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
 DIV.toolbar a.dropdown_opened, DIV.toolbar a.dropdown_opened:hover, DIV.toolbar a.dropdown_opened:visited {
 color: #A4A4A4;
 border: 1px #565656 solid;
-background: #383838 url(../img/modern_bbcode/arrow_opened.png) no-repeat top right;
+background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
 DIV.toolbar a.dropdown:hover {
-background: #383838 url(../img/modern_bbcode/arrow_hover.png) no-repeat top right;
+background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
 }
 #colorpalette #colorbtn, #smilespanel #smilesbtn, #sizepanel #sizebtn, #imgpanel #imgbtn, #listpanel #listbtn {
 border-left: 1px #565656 solid;
@@ -161,6 +161,6 @@ DIV.postmsg a:hover IMG.postimg {
 border: 1px solid #60A0DC;
 }
 #punindex #brdstats div.box div.inbox dl.conl{
-background: transparent url(../img/Sadness/forum_stats.gif) no-repeat 0% 50%;
+background: transparent url(../img/Sadness/forum_arrow.gif) no-repeat 0% 50%;
 padding-left: 25px;
 }
