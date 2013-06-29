@@ -44,12 +44,12 @@ h2 {
 #brdmenu A:link, #brdmenu A:visited, .blockpost DT A:link, .blockpost DT A:visited, .blockpost H2 A:link,
 .blockpost H2 A:visited, .postlink A:link, .postlink A:visited, .postfootright A:link, .postfootright A:visited,
 .blockmenu A:link, .blockmenu A:visited {
- TEXT-DECORATION: none
+ text-decoration: none
 }
-#brdmenu A:hover, .blockpost H2 A:hover {TEXT-DECORATION: underline;}
+#brdmenu A:hover, .blockpost H2 A:hover {text-decoration: underline;}
 DIV.box, .pun TD, .pun TH, .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {
- BORDER-STYLE: none;
- BORDER-WIDTH: 1px;
+ border-style: none;
+ border-width: 1px;
 }
  .pun BLOCKQUOTE, DIV.codebox
  { border: 1px solid #999; background-color: #fafafa}
@@ -57,79 +57,79 @@ DIV.box, .pun TD, .pun TH, .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.block
  BORDER-TOP-STYLE: solid;
  BORDER-BOTTOM-STYLE: solid;
  BORDER-COLOR: #eee;
- BORDER-WIDTH: 1px;
+ border-width: 1px;
 }
 .pun TABLE {
  BORDER-BOTTOM-STYLE: solid;
  BORDER-COLOR: #eee;
- BORDER-WIDTH: 1px;
+ border-width: 1px;
 }
 .pun TD, .pun TH {
- BORDER-BOTTOM: none;
- BORDER-RIGHT: none
+ border-bottom: none;
+ border-right: none
 }
-.pun .tcl {BORDER-LEFT: none}
+.pun .tcl {border-left: none}
 FIELDSET {
- BORDER-STYLE: none;
+ border-style: none;
 }
-HTML, BODY {MARGIN: 0; PADDING: 0}
+HTML, BODY {margin: 0; padding: 0}
 BODY {text-align: center}
 #punwrap {width: 660px; margin: 12px auto; text-align: left}
-DIV.blocktable, DIV.block, DIV.blockform, DIV.block2col, #postreview {MARGIN-BOTTOM: 12px}
-#punindex DIV.blocktable, DIV.blockpost {MARGIN-BOTTOM: 6px}
-DIV.block2col DIV.blockform, DIV.block2col DIV.block {MARGIN-BOTTOM: 0px}
-DIV.linkst, DIV.linksb {MARGIN-TOP: -12px}
-DIV.postlinksb {MARGIN-TOP: -6px}
-#brdstats {MARGIN-TOP: 12px}
-DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
-.pun P, .pun UL, .pun DL, DIV.blockmenu LI, .pun LABEL, #announce DIV.inbox DIV {PADDING: 3px 0}
-.pun H2 {PADDING: 4px 6px}
-.pun H1 {PADDING: 3px 0px 0px 0}
-#brdtitle P {PADDING-TOP: 0px}
-DIV.linkst {PADDING: 8px 6px 3px 6px}
-DIV.linksb, DIV.postlinksb {PADDING: 3px 6px 8px 6px}
+DIV.blocktable, DIV.block, DIV.blockform, DIV.block2col, #postreview {margin-bottom: 12px}
+#punindex DIV.blocktable, DIV.blockpost {margin-bottom: 6px}
+DIV.block2col DIV.blockform, DIV.block2col DIV.block {margin-bottom: 0px}
+DIV.linkst, DIV.linksb {margin-top: -12px}
+DIV.postlinksb {margin-top: -6px}
+#brdstats {margin-top: 12px}
+DIV.block DIV.inbox, DIV.blockmenu DIV.inbox {padding: 3px 6px}
+.pun P, .pun UL, .pun DL, DIV.blockmenu LI, .pun LABEL, #announce DIV.inbox DIV {padding: 3px 0}
+.pun H2 {padding: 4px 6px}
+.pun H1 {padding: 3px 0px 0px 0}
+#brdtitle P {padding-top: 0px}
+DIV.linkst {padding: 8px 6px 3px 6px}
+DIV.linksb, DIV.postlinksb {padding: 3px 6px 8px 6px}
 #brdwelcome, #brdfooter DL A, DIV.blockmenu LI, DIV.rbox INPUT {line-height: 1.4em}
-#viewprofile DT, #viewprofile DD {PADDING: 0 3px; line-height: 2em}
-DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 12px}
-#brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT {MARGIN-RIGHT: 2px}
-#brdmenu LI a {MARGIN-RIGHT: 5px}
-.pun TH, .pun TD {PADDING: 4px 6px}
-.pun TD P {PADDING: 5px 0 0 0}
-DIV.postleft DL, DIV.postright {PADDING: 6px}
-DD.usercontacts, DD.postavatar {MARGIN-TOP: 5px}
-DD.postavatar {MARGIN-BOTTOM: 5px}
-DIV.postsignature, DIV.postmsg P.postedit {PADDING-TOP: 15px}
-DIV.postmsg H4 {MARGIN-BOTTOM: 10px}
-.pun BLOCKQUOTE, DIV.codebox {MARGIN: 5px 15px 15px 15px; PADDING: 8px}
-DIV.postfootleft P, DIV.postfootright UL, DIV.postfootright DIV {PADDING: 10px 6px 5px 6px}
+#viewprofile DT, #viewprofile DD {padding: 0 3px; line-height: 2em}
+DIV.rbox INPUT, DIV.blockform P INPUT {margin-right: 12px}
+#brdmenu LI, DIV.rbox INPUT, DIV.blockform P INPUT {margin-right: 2px}
+#brdmenu LI a {margin-right: 5px}
+.pun TH, .pun TD {padding: 4px 6px}
+.pun TD P {padding: 5px 0 0 0}
+DIV.postleft DL, DIV.postright {padding: 6px}
+DD.usercontacts, DD.postavatar {margin-top: 5px}
+DD.postavatar {margin-bottom: 5px}
+DIV.postsignature, DIV.postmsg P.postedit {padding-top: 15px}
+DIV.postmsg H4 {margin-bottom: 10px}
+.pun BLOCKQUOTE, DIV.codebox {margin: 5px 15px 15px 15px; padding: 8px}
+DIV.postfootleft P, DIV.postfootright UL, DIV.postfootright DIV {padding: 10px 6px 5px 6px}
 DIV.blockpost INPUT, DIV.blockpost LABEL {
- PADDING: 3px;
- DISPLAY: inline
+ padding: 3px;
+ display: inline
 }
 P.multidelete {
- PADDING-TOP: 15px;
- PADDING-BOTTOM: 5px
+ padding-top: 15px;
+ padding-bottom: 5px
 }
-DIV.postmsg P {PADDING: 0}
-DIV.blockform FORM, DIV.fakeform {PADDING: 20px 20px 15px 20px}
-DIV.inform {PADDING-BOTTOM: 12px}
-.pun FIELDSET {PADDING: 0px 12px 0px 12px}
-DIV.infldset {PADDING: 9px 0px 12px 0}
-.pun LEGEND {PADDING: 0px 6px}
+DIV.postmsg P {padding: 0}
+DIV.blockform FORM, DIV.fakeform {padding: 20px 20px 15px 20px}
+DIV.inform {padding-bottom: 12px}
+.pun FIELDSET {padding: 0px 12px 0px 12px}
+DIV.infldset {padding: 9px 0px 12px 0}
+.pun LEGEND {padding: 0px 6px}
 DIV.forminfo {
- MARGIN-BOTTOM: 12px;
- PADDING: 9px 10px
+ margin-bottom: 12px;
+ padding: 9px 10px
 }
-UL.bblinks LI {PADDING-RIGHT: 20px}
-UL.bblinks {PADDING-BOTTOM: 10px; PADDING-LEFT: 4px}
-DIV.blockform P INPUT {MARGIN-LEFT: 12px}
+UL.bblinks LI {padding-right: 20px}
+UL.bblinks {padding-bottom: 10px; padding-left: 4px}
+DIV.blockform P INPUT {margin-left: 12px}
 DIV.icon {
  FLOAT: left;
- MARGIN-TOP: 0.1em;
- MARGIN-LEFT: 0.2em;
- DISPLAY: block;
- BORDER-WIDTH: 0.6em 0.6em 0.6em 0.6em;
- BORDER-STYLE: solid
+ margin-top: 0.1em;
+ margin-left: 0.2em;
+ display: block;
+ border-width: 0.6em 0.6em 0.6em 0.6em;
+ border-style: solid
 }
-DIV.searchposts DIV.icon {MARGIN-LEFT: 0}
-TD DIV.tclcon {MARGIN-LEFT: 2.3em}
+DIV.searchposts DIV.icon {margin-left: 0}
+TD DIV.tclcon {margin-left: 2.3em}

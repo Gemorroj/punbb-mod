@@ -1,26 +1,26 @@
 #adminconsole .block2 {margin-top: 12px}
 * HTML #adstats dd {height: 1%}
-#adstats dd {MARGIN-LEFT: 14em; PADDING: 3px; MARGIN-BOTTOM: 5px; line-height: 1.5em}
-#adstats dt {FLOAT:left; WIDTH: 13em; PADDING: 3px; line-height: 1.5em}
-#adstats {PADDING: 15px 15px 5px 10px}
-#adintro {PADDING: 5px}
-#adintro p {PADDING: 10px}
-#adstats dl {PADDING: 5px 0 10px 5px}
-#adminconsole fieldset td {TEXT-ALIGN: left; PADDING: 4px; WHITE-SPACE: normal}
-#adminconsole fieldset th {TEXT-ALIGN: left; PADDING: 4px; WHITE-SPACE: normal}
-#adminconsole fieldset td span, #adminconsole fieldset th span {DISPLAY: block; FONT-SIZE: 1em; FONT-WEIGHT: normal}
-#adminconsole th {WIDTH: 15em; FONT-WEIGHT: bold}
-#adminconsole input, #adminconsole SELECT, #adminconsole textarea {MARGIN-BOTTOM: 0; MARGIN-TOP: 0; FONT-WEIGHT: normal}
+#adstats dd {margin-left: 14em; padding: 3px; margin-bottom: 5px; line-height: 1.5em}
+#adstats dt {FLOAT:left; WIDTH: 13em; padding: 3px; line-height: 1.5em}
+#adstats {padding: 15px 15px 5px 10px}
+#adintro {padding: 5px}
+#adintro p {padding: 10px}
+#adstats dl {padding: 5px 0 10px 5px}
+#adminconsole fieldset td {TEXT-ALIGN: left; padding: 4px; WHITE-SPACE: normal}
+#adminconsole fieldset th {TEXT-ALIGN: left; padding: 4px; WHITE-SPACE: normal}
+#adminconsole fieldset td span, #adminconsole fieldset th span {display: block; font-size: 1em; font-weight: normal}
+#adminconsole th {WIDTH: 15em; font-weight: bold}
+#adminconsole input, #adminconsole SELECT, #adminconsole textarea {margin-bottom: 0; margin-top: 0; font-weight: normal}
 #adminconsole table.aligntop th, #adminconsole table.aligntop td {VERTICAL-ALIGN: top}
-#adminconsole table.aligntop th {PADDING-TOP: 0.7em}
-#adminconsole td, #adminconsole th {BORDER-STYLE: solid; BORDER-WIDTH: 3px 0px 3px 0px}
-#adminconsole p {PADDING-BOTTOM: 6px}
-#adminconsole .topspace {PADDING-TOP: 6px}
+#adminconsole table.aligntop th {padding-top: 0.7em}
+#adminconsole td, #adminconsole th {border-style: solid; border-width: 3px 0px 3px 0px}
+#adminconsole p {padding-bottom: 6px}
+#adminconsole .topspace {padding-top: 6px}
 #adminconsole p.submittop, #adminconsole P.submitend {TEXT-ALIGN: center}
 #adminconsole th.hidehead {COLOR: #f1f1f1}
-#adminconsole thead th {PADDING-BOTTOM: 0px}
-#adminconsole p.linkactions {FONT-WEIGHT: bold; PADDING-LEFT: 5px}
-#adminconsole th input, #adminconsole DIV.fsetsubmit {MARGIN-TOP: 6px}
+#adminconsole thead th {padding-bottom: 0px}
+#adminconsole p.linkactions {font-weight: bold; padding-left: 5px}
+#adminconsole th input, #adminconsole DIV.fsetsubmit {margin-top: 6px}
 #categoryedit .tcl {WIDTH: 25%}
 #censoring .tcl, #censoring .tc2, #ranks .tcl, #ranks .tc2 {WIDTH: 20%}
 table#forumperms th, table#forumperms td {WHITE-SPACE: normal; WIDTH: auto; TEXT-ALIGN: center}
@@ -32,5 +32,5 @@ table#forumperms .atcl {TEXT-ALIGN: left; WIDTH: 15em; WHITE-SPACE: nowrap}
 #users2 .tc4 {WIDTH: 8%}
 #users2 .tc4 {TEXT-ALIGN: center}
 #users2 .tcr {WHITE-SPACE: nowrap}
-#adminconsole #linkst, #adminconsole #linksb a {FONT-WEIGHT: bold}
+#adminconsole #linkst, #adminconsole #linksb a {font-weight: bold}
 #exampleplugin .inbox {padding: 6px 6px 0 6px}

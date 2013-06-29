@@ -17,7 +17,7 @@ DIV.blockpost H2 {BACKGROUND-COLOR: #7897bb}
 DIV.blockpost H2 SPAN.conr {COLOR: #CCC}
 .pun HR {BACKGROUND-COLOR: #35567C; COLOR: #35567C}
 DIV.box {BORDER-COLOR: #7897BB}
-DIV.blockpost DIV.box {BORDER: 1px solid #7897BB;BORDER-TOP: 1px solid #7897BB;}
+DIV.blockpost DIV.box {BORDER: 1px solid #7897BB;border-top: 1px solid #7897BB;}
 .pun TD {BORDER-COLOR: #d6e1f1}
 .pun TH {BORDER-COLOR: #d6e1f1}
 .pun BLOCKQUOTE, DIV.codebox, DIV.forminfo, DIV.blockpost LABEL {BORDER-COLOR: #7897BB #7897BB #7897BB #7897BB}

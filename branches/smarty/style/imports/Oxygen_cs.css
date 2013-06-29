@@ -32,14 +32,14 @@ DIV.icon {BORDER-COLOR: #E6E6E6 #DEDEDE #DADADA #E2E2E2}
 TR.iredirect DIV.icon {BORDER-COLOR: #F1F1F1 #F1F1F1 #F1F1F1 #F1F1F1}
 DIV.inew {BORDER-COLOR: #0080D7 #0065C0 #0058B3 #0072CA}
 #brdmenu.inbox {
-BORDER-TOP:1px solid #F1F1F1;
-BORDER-BOTTOM:1px solid #F1F1F1;
+border-top:1px solid #F1F1F1;
+border-bottom:1px solid #F1F1F1;
 }
 #brdwelcome.inbox {
-BORDER-TOP:1px solid #0066B9;
+border-top:1px solid #0066B9;
 }
 #brdtitle.inbox {
-BORDER-BOTTOM:1px solid #0066B9;
+border-bottom:1px solid #0066B9;
 }
 code {
 color: #B42000;

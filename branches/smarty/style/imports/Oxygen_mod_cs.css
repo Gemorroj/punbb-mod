@@ -67,12 +67,12 @@ tr.iclosed div.icon {BACKGROUND: url('../img/Oxygen_mod/inactive_close.gif') no-
 tr.iclosed div.inew {BACKGROUND: url('../img/Oxygen_mod/active_close.gif') no-repeat;}
 tr.iclosed.isticky div.icon {BACKGROUND: url('../img/Oxygen_mod/inactive_sticky_closed.gif') no-repeat;}
 tr.iclosed.isticky div.inew {BACKGROUND: url('../img/Oxygen_mod/active_sticky_closed.gif') no-repeat;}
-DIV.blockmenu DIV.inbox {PADDING: 3px 6px}
-DIV.blockmenu LI {PADDING: 3px 0}
+DIV.blockmenu DIV.inbox {padding: 3px 6px}
+DIV.blockmenu LI {padding: 3px 0}
 DIV.blockmenu LI {line-height: 1.4em}
 DIV.blockmenu DIV.box, .blockmenu DIV.box .inbox {BACKGROUND-COLOR: #F1F1F1}
-.blockmenu .box .inbox {PADDING: 0}
-.blockmenu .box .inbox UL {PADDING: 0;}
+.blockmenu .box .inbox {padding: 0}
+.blockmenu .box .inbox UL {padding: 0;}
 .blockmenu li a {
 display: block;
 padding: 3px 0 3px 8px;

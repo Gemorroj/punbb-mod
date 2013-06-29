@@ -33,7 +33,7 @@ LI.maintenancelink A:hover {COLOR: #FF5010}
 DIV.icon {BORDER-COLOR: #484848 #404040 #3C3C3C #444444}
 TR.iredirect DIV.icon {BORDER-COLOR: #383838 #383838 #383838 #383838}
 DIV.inew {BORDER-COLOR: #60C860 #54AF54 #499849 #59B657}
-TD DIV.tclcon {MARGIN-LEFT: 2.3em}
+TD DIV.tclcon {margin-left: 2.3em}
 code {
 color: #80EE80;
 }

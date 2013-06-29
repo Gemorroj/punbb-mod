@@ -11,7 +11,7 @@ DIV.box, .pun BLOCKQUOTE, DIV.codebox, #adminconsole FIELDSET TH, .rowodd, .rowe
 TD.tc2, TD.tc3, TD.tcmod, #postpreview, #viewprofile DD, DIV.forminfo,
 #adminconsole FIELDSET TD, DIV.blockmenu DIV.box, #adstats DD {BACKGROUND-COLOR: #e8e8e8}
 .pun H2{
- background: #3b424a url(../img/Quicktime/h2_bg.gif) repeat-x ; COLOR: #fff; border-left: #525252; border-right: #525252; FONT-WEIGHT: bold;
+ background: #3b424a url(../img/Quicktime/h2_bg.gif) repeat-x ; COLOR: #fff; border-left: #525252; border-right: #525252; font-weight: bold;
 }
 .pun TH {BACKGROUND-COLOR: #e8e8e8;}
 .pun LEGEND {COLOR: #000000; font-weight: bold}
