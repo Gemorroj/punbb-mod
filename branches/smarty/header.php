@@ -88,7 +88,7 @@ if (isset($required_fields)) {
 $basename = basename($_SERVER['PHP_SELF']);
 
 if (@$jsHelper) {
-    $jsHelper->add(PUN_ROOT . 'js/jquery.js');
+    $jsHelper->add(PUN_ROOT . 'js/jquery-1.10.2.min.js');
 }
 
 if (in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
