@@ -1,0 +1,115 @@
+@import url(imports/base.css);
+@import url(imports/GreenPun_cs.css);
+.pun, .pun input, .pun select, .pun textarea, .pun optgroup {
+font-family: Verdana, Arial, Helvetica, sans-serif
+}
+.pun {font-size: 11px; line-height: normal}
+* html .pun {font-size: 68.75%}
+.pun table, .pun input, .pun select, .pun optgroup, .pun textarea, div.postmsg p.postedit {font-size: 1em}
+.pun pre {font-family: monaco, "Bitstream Vera Sans Mono", "Courier New", courier, monospace}
+.pun h2, .pun h4 {font-size: 1em}
+.pun h3 {font-size: 1.1em}
+div.postmsg p {line-height: 1.4}
+div.postleft dt {font-size: 1.1em}
+.pun pre {font-size: 1.2em}
+div.postleft dt, div.postmsg h4, td.tcl h3, div.forminfo h3, p.postlink, div.linkst li,
+div.linksb li, div.postlinksb li, .blockmenu li, #brdtitle h1, .pun span.warntext, .pun p.warntext {font-weight: bold}
+#brdmenu a:link, #brdmenu a:visited, .blockpost dt a:link, .blockpost dt a:visited, .blockpost h2 a:link,
+.blockpost h2 a:visited, .postlink a:link, .postlink a:visited, .postfootright a:link, .postfootright a:visited,
+.blockmenu a:link, .blockmenu a:visited {
+text-decoration: none
+}
+#brdmenu .blockpost h2 a:hover {font-weight: bold;text-decoration: none}
+#brdmenu a:hover {color: #C1DABF;}
+div.box, .pun td, .pun th, .pun blockquote, div.codebox, div.forminfo, div.blockpost label {
+border-style: solid;
+border-width: 1px
+}
+.pun th {border-top: 0px}
+#brdheader div.box {border-top-width: 1px}
+.pun td, .pun th {
+border-bottom: none;
+border-right: none
+}
+.pun .tcl {border-left: none}
+div>fieldset {
+border-style: solid;
+border-width: 1px
+}
+html, body {margin: 0;padding: 0; text-align: center;}
+#punwrap {margin:10px 10px}
+div.blocktable, div.block, div.blockform, div.block2col, #postreview {margin-bottom: 10px}
+#punindex div.blocktable, div.blockpost {margin-bottom: 10px}
+div.block2col div.blockform, div.block2col div.block {margin-bottom: 0px}
+div.linkst, div.linksb {margin-top: -8px}
+div.postlinksb {margin-top: -4px}
+#brdstats {margin-top: 10px}
+div.block div.inbox, div.blockmenu div.inbox {padding: 3px 6px}
+.pun p, .pun ul, .pun dl, div.blockmenu li, .pun label, #announce div.inbox div {padding: 3px 0}
+.pun h2 {padding: 4px 6px}
+.pun h1 {padding: 3px 0px 0px 0px}
+#brdtitle p {padding-top: 0px}
+div.linkst {padding: 8px 6px 3px 6px}
+div.linksb, div.postlinksb {padding: 3px 6px 8px 6px}
+#brdwelcome, #brdfooter dl a, div.blockmenu li, div.rbox input {line-height: 1.4em}
+#viewprofile dt, #viewprofile dd {padding: 0 3px; line-height: 2em}
+#brdmenu li, div.rbox input, div.blockform p input {margin-right: 7px}
+.pun th, .pun td {padding: 4px 6px}
+.pun td p {padding: 5px 0 0 0}
+div.postleft dl, div.postright {padding: 6px}
+dd.usercontacts, dd.postavatar {margin-top: 5px}
+dd.postavatar {margin-bottom: 5px}
+div.postsignature, div.postmsg p.postedit {padding-top: 15px}
+div.postmsg h4 {margin-bottom: 10px}
+.pun blockquote, div.codebox {margin: 5px 15px 15px 15px; padding: 8px}
+div.postfootleft p, div.postfootright ul, div.postfootright div {padding: 10px 6px 5px 6px}
+div.blockpost input, div.blockpost label {
+padding: 3px;
+display: inline
+}
+p.multidelete {
+padding-top: 15px;
+padding-bottom: 5px
+}
+div.postmsg p {padding: 0}
+div.blockform form, div.fakeform {padding: 20px 20px 15px 20px}
+div.inform {padding-bottom: 12px}
+.pun fieldset {padding: 0px 12px 0px 12px}
+div.infldset {padding: 9px 0px 12px 0}
+.pun legend {padding: 2px 6px}
+div.forminfo {
+margin-bottom: 12px;
+padding: 9px 10px
+}
+ul.bblinks li {padding-right: 20px}
+ul.bblinks {padding-bottom: 10px; padding-left: 4px}
+div.blockform p input {margin-left: 12px}
+div.icon {
+float: left;
+margin-top: 0.1em;
+margin-right: 0.4em;
+display: block;
+border-width: 0.6em 0.6em 0.6em 0.6em;
+height: 32px;
+width: 32px;
+}
+div.searchposts div.icon {margin-left: 0}
+td div.tclcon {margin-left: 2.3em}
+#brdmenu {height:20px;padding-top:1px;padding-left:2px}
+body{text-align:center;background-color: #F0F0F0;}
+#punwrap {
+width: 800px;
+margin-left: auto;
+margin-right: auto;
+text-align: left;
+background-repeat: repeat-y;
+}
+.pun {
+background-repeat: no-repeat;
+}
+#brdfooter {
+width: 802px;
+margin-bottom: 0;
+background-repeat: no-repeat;
+background-position: bottom left;
+}

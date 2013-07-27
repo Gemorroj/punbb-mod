@@ -1,0 +1,166 @@
+body {background: url(../img/Sadness/back.png) #000000}
+.pun {color: #DADADA}
+div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #323232}
+#adminconsole td, #adminconsole th {border-color: #323232}
+td.tc3, td.tc4, td.tcmod, #brdfooter div.box {background-color: #333333}
+#adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #363636}
+.pun blockquote, div.codebox {background-color: #323232}
+.pun h2, #brdmenu {
+background:url(../img/Sadness/cellpic2.gif); color:#CCCCCC;
+border: 1px solid #111111;
+border-bottom: 0px solid #111111;
+align: middle;
+font-weight: bold;
+font-size:11px;
+color: #DADADA;
+}
+.pun th {background: url(../img/Sadness/cellpic1.gif) #2a2a2a;}
+.pun legend {color: #FFFFFF}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #D4D4D4}
+.pun textarea, .pun input, .pun select {background-color: #2A2A2A; color: #D4D4D4}
+div.blockpost div.box, div.postright, div.postfootright, #postpreview {background-color: #202020}
+div.postright, div.postfootright {border-left-color: #303030}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #303030}
+div.blockpost h2 {background-color: #000000; text-align: left}
+div.blockpost h2 span.conr {color: #A19E96}
+.pun hr {background-color: #606060;color: #606060}
+div.box {border-color: #111111}
+div.blockpost div.box {border-color: #111111 #111111 #111111}
+.pun td {border-color: #111111}
+.pun th {border-color: #111111}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #000000; background-color: #888888;color: #282828}
+.pun div>fieldset {border-color: #111111}
+.pun a:link, .pun a:visited {color: #FFCC00; text-decoration: none}
+.pun a:hover {color: #FF0000; text-decoration: none}
+.pun h2 a:link, .pun h2 a:visited {color: #D4D4D4; text-decoration: none}
+.pun h2 a:hover {color: #D4D4D4; text-decoration: none}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA; text-decoration: line-through}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #FF4000; text-decoration: blink}
+li.maintenancelink a:hover {color: #FF5010; text-decoration: blink}
+div.icon {background-image : url(../img/Sadness/notnew.gif); }
+div.inew {background-image : url(../img/Sadness/new.gif); }
+tr.isticky div.icon {background:url(../img/Sadness/stick.gif);}
+tr.isticky div.inew {background:url(../img/Sadness/stick_new.gif);}
+tr.iclosed div.icon {background:url(../img/Sadness/closed.png);}
+tr.iredirect div.icon {background:url(../img/Sadness/closed.png);}
+.pun span.byuser
+{
+background-repeat: no-repeat;
+background-image: url(../img/Sadness/icon_post.gif);
+background-position: left;
+padding: 0px 18px 0px;
+}
+.pun p.postlink, #conr
+{
+text-align: center;
+position: relative;
+TOP : 0px;
+left: 6px;
+border: #000001 1px solid;
+background-color: #323232;
+background-image: url(../img/Sadness/bg_button.gif);
+filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#000000,strength=2);
+}
+#post textarea, #post input.longinput, #edit textarea, #edit input.longinput {
+border: 1px #565656 solid;
+}
+div.toolbar {
+background: #424242;
+border-left: 1px #565656 solid;
+border-top: 1px #565656 solid;
+border-right: 1px #565656 solid;
+}
+div.toolbar .draghandle {
+border-left: 2px #767676 dotted;
+}
+div.toolbar .separator {
+border-left: 1px #767676 solid;
+}
+div.toolbar a.tool_btn, div.toolbar a.dropdown, div.toolbar a.dropdown_opened {
+border: 1px #4A4A4A solid;
+background: #424242;
+color: #A4A4A4;
+}
+div.toolbar a.tool_btn:visited, div.toolbar a.dropdown:visited, div.toolbar a.dropdown_opened:visited {
+color: #A4A4A4;
+}
+div.toolbar a.tool_btn:hover, div.toolbar a.dropdown:hover {
+border: 1px #60A0DC solid;
+color: #60A0DC;
+background: #383838;
+}
+div.toolbar a.dropdown {
+color: #A4A4A4;
+background: url(../img/Sadness/forum_arrow.gif) no-repeat top right;
+}
+div.toolbar a.dropdown_opened, div.toolbar a.dropdown_opened:hover, div.toolbar a.dropdown_opened:visited {
+color: #A4A4A4;
+border: 1px #565656 solid;
+background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
+}
+div.toolbar a.dropdown:hover {
+background: #383838 url(../img/Sadness/forum_arrow.gif) no-repeat top right;
+}
+#colorpalette #colorbtn, #smilespanel #smilesbtn, #sizepanel #sizebtn, #imgpanel #imgbtn, #listpanel #listbtn {
+border-left: 1px #565656 solid;
+border-right: 1px #565656 solid;
+color: #383838;
+background: #383838;
+}
+#colorpalette #colorcontent, #smilespanel #smilescontent, #sizepanel #sizecontent, #imgpanel #imgcontent, #listpanel #listcontent {
+border: 1px #565656 solid;
+background: #383838;
+}
+#colorpalette #colorcontent a {
+border: 1px #565656 solid;
+}
+#colorpalette #colorcontent a:hover {
+border: 1px #60A0DC solid;
+}
+#sizepanel #sizecontent a, #imgpanel #imgcontent a, #listpanel #listcontent a {
+border: 1px solid #3F3F3F;
+color: #A4A4A4;
+background: #3F3F3F;
+}
+#sizepanel #sizecontent a:hover, #imgpanel #imgcontent a:hover, #listpanel #listcontent a:hover {
+border: 1px #60A0DC solid;
+color: #60A0DC;
+background: #383838;
+}
+code {
+color: #80D6FF;
+}
+.pun h2 span {
+background-position : 0% 50%;
+background-repeat : no-repeat;
+background-image : url(../img/Sadness/forum_arrow.gif);
+padding : 12px;
+}
+.pun h2 span.conr {
+background-image : none;
+color : #fff;
+padding : 0;
+}
+div.postmsg li {
+color: #999;
+}
+div.spoilerbox p {
+color: #353533;
+}
+div.spoilerbox p:hover {
+color: #A4A4A4;
+}
+img.postimg {
+padding: 1px;
+margin: 2px 5px;
+border: 1px solid #565656;
+background: #353533;
+}
+div.postmsg a:hover img.postimg {
+border: 1px solid #60A0DC;
+}
+#punindex #brdstats div.box div.inbox dl.conl{
+background: transparent url(../img/Sadness/forum_arrow.gif) no-repeat 0% 50%;
+padding-left: 25px;
+}

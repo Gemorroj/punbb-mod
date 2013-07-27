@@ -1,0 +1,49 @@
+body {background-color: #FFF}
+.pun {color: #333}
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #F1F1F1}
+#adminconsole td, #adminconsole th {border-color: #F1F1F1}
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #DEDFDF}
+.pun h2, #brdmenu { background-color: #003366; color: #FFF;
+background-image:url(../img/Oxygen2/water.gif) }
+.pun th {background-color: #D1D1D1}
+.pun legend {color: #003366}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #D1D1D1}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #DEDFDF}
+div.postright, div.postfootright {border-left-color: #f1f1f1}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #f1f1f1}
+div.blockpost h2 {background-color: #003366; color: #FFF;
+background-image:url(../img/Oxygen2/water.gif)}
+div.blockpost h2 span.conr {color: #003366; }
+.pun hr {background-color: #336699; color: #336699}
+div.box {border-color: #336699}
+div.blockpost div.box {border-color: #003366 #003366 #003366}
+.pun td {border-color: #D1D1D1}
+.pun th {border-color: #D1D1D1}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #336699 #FFF #FFF #336699}
+.pun div>fieldset {border-color: #003366}
+.pun a:link, .pun a:visited {color: #003366}
+.pun a:hover {color: #336699}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #FFF}
+.pun h2 a:hover, #brdmenu a:hover {color: #FFF}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {background:url(../img/Oxygen2/icon.gif)}
+div.inew {background:url(../img/Oxygen2/icon_new.gif)}
+tr.isticky div.icon {background:url(../img/Oxygen2/sticky.gif)}
+tr.isticky div.inew {background:url(../img/Oxygen2/sticky_new.gif)}
+tr.iclosed div.icon {background:url(../img/Oxygen2/closed.gif)}
+tr.iredirect div.icon {background:url(../img/Oxygen2/redirect.gif)}
+.pun p.postlink, #conr
+{
+text-align: center;
+position: relative;
+TOP : 0px;
+left: 6px;
+border: #003366 1PX solid;
+background-color: #F1F1F1;
+background-image: url(../img/Oxygen2/bg_button.gif);
+filter: progid:DXImageTransform.Microsoft.shadow(direction=135,color=#666666,strength=2);
+}

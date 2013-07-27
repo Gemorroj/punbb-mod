@@ -1,0 +1,50 @@
+body {background-color: #FFFFFF}
+.pun {color: #093F7B}
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #f1f1f1}
+#adminconsole td, #adminconsole th {border-color: #f1f1f1}
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #f1f1f1}
+.pun h2, #brdmenu {font-weight: bold; background: #555 url(../img/CrystalBlue/nagl1.gif); color: #FFF}
+.pun h2 {font-weight: bold;background: #555 url(../img/CrystalBlue/nagl1.gif);border-top: 1px solid #396AA3;border-left: 1px solid #396AA3;border-right: 1px solid #396AA3}
+.pun th {background: url(../img/CrystalBlue/nagl2.gif) #EEEEEE;}
+.pun legend {color: #000}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #093F7B}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #f1f1f1}
+div.postright, div.postfootright {border-left-color: #f1f1f1}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #f5f5f5}
+div.blockpost h2 {background-color: #f1f1f1}
+div.blockpost h2 span.conr {color: #CCC}
+.pun hr {background-color: #396AA3; color: #093F7B}
+div.box {border-color: #396AA3}
+div.blockpost div.box {border: 1px solid #396AA3 ;border-top: 1px solid #396AA3;}
+.pun td {border-color: #FFF}
+.pun th {border-color: #FFF}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #3270B5 #FFF #FFF #3270B5}
+.pun div>fieldset {border-color: #3270B5}
+.pun a:link, .pun a:visited {color: #093F7B; text-decoration: none;}
+.pun a:hover {color: #0E2238}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {font-weight: bold; color: #FFF}
+.pun h2 a:hover, #brdmenu a:hover {color: #FFF; font-weight: bold;}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {background: url(../img/CrystalBlue/nonew.gif);}
+div.inew {background: url(../img/CrystalBlue/new.gif);}
+tr.isticky div.icon {background:url(../img/CrystalBlue/sticky.gif)}
+tr.isticky div.inew {background:url(../img/CrystalBlue/sticky.gif)}
+tr.iclosed div.icon {background:url(../img/CrystalBlue/closed.gif)}
+#brdmenu {font-weight: bold; background: url(../img/CrystalBlue/nagl1.gif);border-top: 1px solid #396AA3;border-bottom: 1px solid #396AA3;}
+.pun h1
+{
+display: block;
+height: 30px;
+}
+.pun h1 span
+{
+color: #444;
+padding-left: 2px;
+font-weight: bold;
+font-size: 15px;
+font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}

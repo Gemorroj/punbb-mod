@@ -1,0 +1,51 @@
+<?php
+
+// Language definitions for File Upload mod
+$lang_fu = array(
+
+'Attachments'			=> 'Attachments',
+'Uploaded Files'		=> 'Uploaded Files',
+'File Upload show'		=> 'Show',
+'File Upload slots'		=> 'Upload Slots',
+'File Upload limits'		=> 'Your limits: <em>%d file(s)</em> in this post, each file is not greater then <em>%.1fK</em>, images upto <em>%spx</em>. File extensions: <em>%s</em>.',
+'Personal stats'		=> 'Stats: your total quota is %d+%d, you\'ve upload %d. Forum qouta is %d, you\'ve upload %d.',
+'Previous Image'		=> 'Previous Image',
+'Jump to Topic'			=> 'Jump to Topic',
+'Next Image'			=> 'Next Image',
+'Upload Results'		=> 'Image Upload Results',
+'Extension Banned'		=> 'is not allowed',
+'Size Too Big'			=> 'exceeds maximum file size',
+'Dim Too Big'			=> 'exceeds maximum image dimensions',
+'Not Image'			=> 'not an image file',
+'Uploaded'			=> 'Uploaded',
+'Deleted'			=> 'Deleted',
+'files'				=> 'file(s)',
+'Topic Gallery'			=> 'Topic Gallery',
+'Forum Gallery'			=> 'Forum Gallery',
+'Mark Attachments to Delete'	=> 'mark something to delete',
+'BBcode'			=> 'BBcode',
+'Size'				=> 'size',
+'Downloads'			=> 'downloads',
+'Mark to Delete'		=> 'delete',
+'Choose a file'			=> 'Choose a file',
+'Choose a few files'		=> 'Choose a few files',
+'Choose a whole bunch of files'	=> 'Choose a whole bunch of files',
+'Add more files'		=> 'Add more files',
+'Add even more here'		=> 'Add even more here',
+'or just'			=> 'or just',
+'one slot'			=> 'one slot',
+'Upload just one'		=> 'Upload just one',
+'Show all smilies'		=> 'Show all smilies&#x2026;',
+'show quota'			=> 'show quota',
+'hide quota'			=> 'hide quota',
+
+'JS enter title'		=> 'My homepage',
+'JS enter url'		 	=> 'Enter URL',
+'JS enter url name' 		=> 'Enter URL description',
+'JS enter image'    		=> 'Enter URL of image',
+'JS enter email'    		=> 'Enter e-mail',
+'JS no url'			=> 'Address is missing!',
+'JS no title'			=> 'Description is missing!',
+'JS no email'			=> 'Email is missing!'
+
+);

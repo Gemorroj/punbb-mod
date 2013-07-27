@@ -1,0 +1,133 @@
+body {background-color: #FFF}
+.pun {color: #333}
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #F7F7F7}
+#adminconsole td, #adminconsole th {border-color: #F1F1F1}
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
+#adminconsole fieldset td, #adstats dd {background-color: #F1F1F1}
+.pun h2, #brdmenu {background-color: #0066B9; color: #FFF}
+#brdtitle {background: url('../img/Oxygen_mod/head_box_right.gif') no-repeat right top;}
+#brdheader .box { background: url('../img/Oxygen_mod/head_box_left.gif') #C7C7C7 no-repeat left top;}
+#brdtitle {padding-left:0;padding-right:0;padding-bottom:0;}
+#brdwelcome {background-color:#F7F7F7}
+.pun th {background-color: #E1E1E1}
+.pun legend {color: #005CB1}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #333}
+div.postleft, div.postfootleft {border-right-color:#AAA}
+div.postright, div.postfootright {border-left-color:#AAA}
+div.postfootleft, div.postfootright {border-top-color:#AAA}
+.roweven div.box {background-color:#EEE}
+div.blockpost h2 span.conr {color: #FFF}
+div.block h2,div.blockpost h2, div.blockform h2, div.blocktable h2 { background: url('../img/Oxygen_mod/box-right.gif') no-repeat right top;}
+#profile div.blockmenu h2 { background: url('../img/Oxygen_mod/small-box-right.gif') no-repeat right top;}
+div.block, div.blockpost, div.blockform, div.blocktable, #profile div.blockmenu { background: url('../img/Oxygen_mod/box-left.gif') #315E8D no-repeat left top;}
+#adminconsole div.blockform h2,#adminconsole div.blockform, #adminconsole div.block, #adminconsole div.block h2{
+background-image:none;
+}
+#adminconsole div.blockform, #adminconsole div.block {
+background-color: #FFF;
+}
+#adminconsole div.blockform h2, #adminconsole div.block h2 {
+background-color: #006FC9;
+}
+.pun hr {background-color: #BBB; color: #BBB; }
+div.box {border-color: #BBB}
+div.blockpost div.box {border-color: #B6B7B7 #A1A2A2 #AFAFAF}
+#postreview div.box { border-top:0;}
+#postreview h2 { border-bottom:1px solid #224161;}
+#msg div.box,div.blockmenu div.box, div.blockpost div.box, div.blockform div.box, div.blocktable div.box {
+border-top:1px solid #224161;
+border-right:1px solid #777;
+border-left:1px solid #DDD;
+border-bottom:1px solid #AAA;
+}
+.pun td {border-color: #BBB}
+.pun th {border-color: #AAA}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border-color: #ACA899 #FFF #FFF #ACA899}
+.pun div>fieldset {border-color: #AAA}
+.pun a:link, .pun a:visited {color: #005CB1}
+.pun a:hover {color: #B42000}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #FFF}
+.pun h2 a:hover, #brdmenu a:hover {color: #FFF}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #888}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #AAA}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+div.icon {
+border-top:0px;
+border-left:0px;
+border-right:0px;
+border-bottom:0px;
+border-width: 0px;
+background: url('../img/Oxygen_mod/inactive.gif') no-repeat;
+}
+div.inew {background: url('../img/Oxygen_mod/active.gif') no-repeat;}
+tr.isticky div.icon {background: url('../img/Oxygen_mod/inactive_sticky.gif') no-repeat;}
+tr.isticky div.inew {background: url('../img/Oxygen_mod/active_sticky.gif') no-repeat;}
+tr.iclosed div.icon {background: url('../img/Oxygen_mod/inactive_close.gif') no-repeat;}
+tr.iclosed div.inew {background: url('../img/Oxygen_mod/active_close.gif') no-repeat;}
+tr.iclosed.isticky div.icon {background: url('../img/Oxygen_mod/inactive_sticky_closed.gif') no-repeat;}
+tr.iclosed.isticky div.inew {background: url('../img/Oxygen_mod/active_sticky_closed.gif') no-repeat;}
+div.blockmenu div.inbox {padding: 3px 6px}
+div.blockmenu li {padding: 3px 0}
+div.blockmenu li {line-height: 1.4em}
+div.blockmenu div.box, .blockmenu div.box .inbox {background-color: #F1F1F1}
+.blockmenu .box .inbox {padding: 0}
+.blockmenu .box .inbox ul {padding: 0;}
+.blockmenu li a {
+display: block;
+padding: 3px 0 3px 8px;
+}
+.blockmenu li a {
+border-left: 1em solid #F1F1F1;
+border-bottom: 1px solid #F1F1F1;
+}
+.blockmenu li a:hover {
+border-bottom: 1px solid #CCC;
+border-left: 1em solid #315E8D;
+background: #e7e7e7;
+}
+#brdheader .box {
+border-top:0;
+border-left:0;
+border-right:0;
+}
+#brdwelcome.inbox {
+border-left:1px solid #bbb;
+border-right:1px solid #bbb;
+border-top:1px solid #bbb;
+}
+#brdmenu.inbox {margin:0 0;padding:0 0 0 0;}
+#brdmenu ul {padding:0 0 0 0;margin:0 0;width:100%; float:left;}
+#brdmenu ul li { display:inline;}
+#brdmenu ul li a {padding:0.6em 6px; float:left;}
+#brdmenu ul {
+background-color: #315E8D;
+color: White;
+}
+#brdmenu ul li a {
+background-color: #315E8D;
+color: White;
+text-decoration: none;
+}
+#brdmenu ul li a:hover {
+color: #fff;
+background-color: #7b99bb;
+text-decoration: none;
+}
+#brdmenu ul {
+border-top:1px solid #7B99BB;
+border-bottom:1px solid #BBB;
+}
+div.blockpost, .blocktable, .blockmenu, .block, .blockform {
+border-bottom: 2px solid #eee;
+}
+div.postsignature {
+font-size:80%;
+}
+.pun th {
+overflow: hidden;
+}
+code{color:#B42000}
+div.postmsg li{color:#666}
+img.postimg{padding:1px;margin:2px 5px;border:1px solid #0066B9;background:#FFF}
+div.postmsg a:hover img.postimg{border:1px solid #B42000}

@@ -1,0 +1,59 @@
+body {
+background-image: url(../img/Quicktime/bg.gif); background-repeat: repeat-x;
+background-color: #b7bcc3; color: #000;
+}
+.pun {color: #000;background-image: url(../img/Quicktime/bg.gif);
+ background-position: 0px -35px;
+background-repeat: repeat-x; background-color: #b7bcc3;}
+div.box { color:#000; }
+div.box, .pun blockquote, div.codebox, #adminconsole fieldset th, .rowodd, .roweven {background-color: #e8e8e8}
+#adminconsole td, #adminconsole th {border:#E8E8E8}
+td.tc2, td.tc3, td.tcmod, #postpreview, #viewprofile dd, div.forminfo,
+#adminconsole fieldset td, div.blockmenu div.box, #adstats dd {background-color: #e8e8e8}
+.pun h2{
+ background: #3b424a url(../img/Quicktime/h2_bg.gif) repeat-x ; color: #fff; border-left: #525252; border-right: #525252; font-weight: bold;
+}
+.pun th {background-color: #e8e8e8;}
+.pun legend {color: #000000; font-weight: bold}
+.pun div.blockmenu li.isactive a, #posterror li strong {color: #0066cc}
+.pun h1 {color: #000; letter-spacing: 0.2em;}
+#brdtitle {}
+#brdwelcome {color:#000;}
+#brdmenu {background: #fff url(../img/Quicktime/bar.gif) repeat-x; color: #fff; text-align:center; height: 17px}
+#brdmenu a:hover {background: #fff url(../img/Quicktime/bar_a.gif) repeat-x; color: #fff; text-align:center;}
+#brdheader .box #brdtitle{background: #fff url(../img/Quicktime/top_bar.gif) repeat-x top left; }
+#brdheader .box #brdwelcome{background: #fff url(../img/Quicktime/menu_btm.gif) repeat-x bottom left;}
+div.blockpost div.box, div.postright, div.postfootright {background-color: #fff}
+div.postright, div.postfootright {border-left-color: #fff}
+div.postleft, div.postfootleft, div.blockpost label {background-color: #fff}
+div.blockpost h2 {background-color: #fff}
+div.blockpost h2 span.conr {color: #fff}
+.pun hr {background-color: #666666; color: #000}
+div.box {border-color: #a1a1a1}
+div.blockpost div.box {border-color: #ccc; border-zise: 1px; border-style: dashed; border-right: 0px; border-left: 0px}
+.pun td {border-color: #e8e8e8}
+.pun th {border-color: #e8e8e8}
+.pun blockquote, div.codebox, div.forminfo, div.blockpost label {border: 1px dotted #999999; background-color: #f8f8f8}
+.pun div>fieldset {border-color: #ACA899}
+.pun a:link, .pun a:visited {color: #003366; text-decoration: none}
+.pun a:hover {color: #0066cc}
+.pun h2 a:link, .pun h2 a:visited, #brdmenu a:link, #brdmenu a:visited {color: #FFF; }
+.pun h2 a:hover, #brdmenu a:hover {color: #7FBCFF}
+li.postreport a:link, li.postreport a:visited, tr.iclosed td.tcl a:link, tr.iclosed td.tcl a:visited {color: #000}
+li.postreport a:hover, tr.iclosed td.tcl a:hover {color: #000}
+li.maintenancelink a:link, li.maintenancelink a:visited {color: #B42000}
+li.maintenancelink a:hover {color: #B42000}
+tr.inew div.icon { background-image: url(../img/Quicktime/icon_new.gif);}
+tr.isticky div.icon { background-image: url(../img/Quicktime/icon_sticky.gif);}
+tr.isticky div.inew { background-image: url(../img/Quicktime/icon_sticky.gif);}
+div.icon {background-image: url(../img/Quicktime/icon_normal.gif);}
+tr.iredirect div.icon { background-image: url(../img/Quicktime/icon_redirect.gif);}
+tr.iclosed div.icon {background-image: url(../img/Quicktime/icon_closed.gif);}
+h2 span {background:url(../img/Quicktime/h2_icon.gif); margin-top: -5px}
+h2 span .conr {background:none;}
+.pun span.byuser {
+background-position : left;
+background-repeat : no-repeat;
+background-image : url(../img/Quicktime/icon_post.gif);
+padding: 0px 14px 1px;
+}

@@ -1,0 +1,135 @@
+@import url(imports/base.css);
+@import url(imports/Minima_cs.css);
+body {
+ background:#fff;
+ margin:0;
+ padding:20px 20px;
+ font:x-small Georgia,Serif;
+ text-align:center;
+ color:#333;
+ font-size:small;
+ font-size:small;
+}
+#brdtitle {
+ border:1px solid #eee;
+ border-width:1px 1px 0;
+ margin:5px 5px 0;
+ padding:20px 20px .25em;
+ font-size:100%;
+ line-height:1.2em;
+ font-weight:normal;
+ color:#666;
+ text-transform:uppercase;
+ letter-spacing:.4em;
+ text-align: center;
+}
+#brdtitle p { display: none; margin: 0px;}
+#brdmenu {
+ margin: 0 5px 5px;
+ padding: 4px 20px 10px;
+ max-width:700px;
+ font:78%/1.4em "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+ text-transform:uppercase;
+ letter-spacing:.2em;
+ color:#999;
+ text-align: center;
+}
+h2 {
+ margin:1.5em 0 .75em;
+ font:78%/1.4em "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+ text-transform:uppercase;
+ letter-spacing:.2em;
+ color:#999;
+}
+#brdmenu a:link, #brdmenu a:visited, .blockpost dt a:link, .blockpost dt a:visited, .blockpost h2 a:link,
+.blockpost h2 a:visited, .postlink a:link, .postlink a:visited, .postfootright a:link, .postfootright a:visited,
+.blockmenu a:link, .blockmenu a:visited {
+ text-decoration: none
+}
+#brdmenu a:hover, .blockpost h2 a:hover {text-decoration: underline;}
+div.box, .pun td, .pun th, .pun blockquote, div.codebox, div.forminfo, div.blockpost label {
+ border-style: none;
+ border-width: 1px;
+}
+ .pun blockquote, div.codebox
+ { border: 1px solid #999; background-color: #fafafa}
+.pun td, .pun blockquote, div.codebox{
+ border-top-style: solid;
+ border-bottom-style: solid;
+ border-color: #eee;
+ border-width: 1px;
+}
+.pun table {
+ border-bottom-style: solid;
+ border-color: #eee;
+ border-width: 1px;
+}
+.pun td, .pun th {
+ border-bottom: none;
+ border-right: none
+}
+.pun .tcl {border-left: none}
+fieldset {
+ border-style: none;
+}
+html, body {margin: 0; padding: 0}
+body {text-align: center}
+#punwrap {width: 660px; margin: 12px auto; text-align: left}
+div.blocktable, div.block, div.blockform, div.block2col, #postreview {margin-bottom: 12px}
+#punindex div.blocktable, div.blockpost {margin-bottom: 6px}
+div.block2col div.blockform, div.block2col div.block {margin-bottom: 0px}
+div.linkst, div.linksb {margin-top: -12px}
+div.postlinksb {margin-top: -6px}
+#brdstats {margin-top: 12px}
+div.block div.inbox, div.blockmenu div.inbox {padding: 3px 6px}
+.pun p, .pun ul, .pun dl, div.blockmenu li, .pun label, #announce div.inbox div {padding: 3px 0}
+.pun h2 {padding: 4px 6px}
+.pun h1 {padding: 3px 0px 0px 0}
+#brdtitle p {padding-top: 0px}
+div.linkst {padding: 8px 6px 3px 6px}
+div.linksb, div.postlinksb {padding: 3px 6px 8px 6px}
+#brdwelcome, #brdfooter dl a, div.blockmenu li, div.rbox input {line-height: 1.4em}
+#viewprofile dt, #viewprofile dd {padding: 0 3px; line-height: 2em}
+div.rbox input, div.blockform p input {margin-right: 12px}
+#brdmenu li, div.rbox input, div.blockform p input {margin-right: 2px}
+#brdmenu li a {margin-right: 5px}
+.pun th, .pun td {padding: 4px 6px}
+.pun td p {padding: 5px 0 0 0}
+div.postleft dl, div.postright {padding: 6px}
+dd.usercontacts, dd.postavatar {margin-top: 5px}
+dd.postavatar {margin-bottom: 5px}
+div.postsignature, div.postmsg p.postedit {padding-top: 15px}
+div.postmsg h4 {margin-bottom: 10px}
+.pun blockquote, div.codebox {margin: 5px 15px 15px 15px; padding: 8px}
+div.postfootleft p, div.postfootright ul, div.postfootright div {padding: 10px 6px 5px 6px}
+div.blockpost input, div.blockpost label {
+ padding: 3px;
+ display: inline
+}
+p.multidelete {
+ padding-top: 15px;
+ padding-bottom: 5px
+}
+div.postmsg p {padding: 0}
+div.blockform form, div.fakeform {padding: 20px 20px 15px 20px}
+div.inform {padding-bottom: 12px}
+.pun fieldset {padding: 0px 12px 0px 12px}
+div.infldset {padding: 9px 0px 12px 0}
+.pun legend {padding: 0px 6px}
+div.forminfo {
+ margin-bottom: 12px;
+ padding: 9px 10px
+}
+ul.bblinks li {padding-right: 20px}
+ul.bblinks {padding-bottom: 10px; padding-left: 4px}
+div.blockform p input {margin-left: 12px}
+div.icon {
+ float: left;
+ margin-top: 0.1em;
+ margin-left: 0.2em;
+ display: block;
+ border-width: 0.6em 0.6em 0.6em 0.6em;
+ border-style: solid
+}
+div.searchposts div.icon {margin-left: 0}
+td div.tclcon {margin-left: 2.3em}
