@@ -6,9 +6,10 @@
 Модификация: Gemorroj, tipsun, LookOfff
 
 Обсуждение мода, а так же новые модификации можно найти здесь:
-http://wapinet.ru/forum/viewtopic.php?id=69
-http://wapinet.ru/forum/wap/viewtopic.php?id=69
-SVN: http://code.google.com/p/punbb-mod/source/browse/
+
+[1] WEB: http://wapinet.ru/forum/viewtopic.php?id=69
+[2] WAP: http://wapinet.ru/forum/wap/viewtopic.php?id=69
+[3] SVN: https://github.com/Gemorroj/punbb-mod
 
 
 
