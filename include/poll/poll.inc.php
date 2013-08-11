@@ -204,7 +204,7 @@ class _Poll
                 }
                 return $this->showResult($pollid, $poll, $q, $total, $pieces);
             } else {
-                return $this->showQuest($pollid, $poll, $q, $pieces);
+                return $this->showQuest($pollid, $poll, $pieces);
             }
         } else {
             return $poll['error'];
@@ -236,7 +236,7 @@ class _Poll
                 }
                 return $this->wap_showResult($pollid, $poll, $q, $total, $pieces);
             } else {
-                return $this->wap_showQuest($pollid, $poll, $q, $pieces, $warning);
+                return $this->wap_showQuest($pollid, $poll, $pieces, $warning);
             }
         } else {
             return $poll['error'];
@@ -260,7 +260,7 @@ class _Poll
     }
 
 
-    function wap_showQuest($pollid, $poll, $q, $pieces, $warning = null)
+    function wap_showQuest($pollid, $poll, $pieces, $warning = null)
     {
         global $lang_poll, $pun_user, $lang_common;
 
@@ -322,7 +322,7 @@ class _Poll
     }
 
 
-    function showQuest($pollid, $poll, $q, $pieces)
+    function showQuest($pollid, $poll, $pieces)
     {
         global $lang_poll, $pun_user, $lang_common, $jsHelper;
 

@@ -232,7 +232,7 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <td>
                                         <input type="text" name="search_flood" size="5" maxlength="4"
                                                value="<?php echo $group['g_search_flood'] ?>"/>
-                                        <span>Количество секунд которое пользователь группы должен ждать между посковыми запросами. Поставьте 0 чтобы отключить.</span>
+                                        <span>Количество секунд которое пользователь группы должен ждать между поисковыми запросами. Поставьте 0 чтобы отключить.</span>
                                     </td>
                                 </tr>
                                 <?php endif; endif; ?>
@@ -423,7 +423,7 @@ generate_admin_menu('groups');
 
 
 print '<div class="blockform">
-<h2><span>Добавлене/установки групп</span></h2>
+<h2><span>Добавление/установки групп</span></h2>
 <div class="box">
 <form id="groups" method="post" action="admin_groups.php?action=foo">
 <div class="inform">

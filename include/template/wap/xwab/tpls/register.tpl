@@ -25,8 +25,6 @@
 {assign var='Save_user_pass_info' value='Save user/pass info'}
 {assign var='Save_user_pass' value='Save user/pass'}
 
-
-
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <strong>{$lang_register.Register}</strong>
 </div>

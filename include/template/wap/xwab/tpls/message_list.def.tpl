@@ -1,5 +1,8 @@
 {include file='header.tpl'}
 
+{assign var='New_icon_m' value='New icon_m'}
+{assign var='No_messages' value='No messages'}
+{assign var='j' value=false}
 
 <div class="con">
     <strong>{$name}</strong>
@@ -42,7 +45,6 @@
 
 <form method="post" action="message_list.php?">
     {* Fetch messages *}
-    {assign var='j' value='false'}
     {foreach from=$messages item=cur_mess}
         <div class="{if $j = ! $j}in{else}in2{/if}">
             {if isset($smarty.get.id) && $cur_mess.id == $smarty.get.id}{assign var='strong' value='1'}{/if}
@@ -53,14 +55,12 @@
             (<a href="profile.php?id={$cur_mess.sender_id}">{$cur_mess.sender}</a>)
             {($cur_mess.posted|date_format:$date_format)}
 
-            {assign var='New_icon_m' value='New icon_m'}
             {if $cur_mess.showed == '0'}
                 <span class="red">{$lang_common.$New_icon_m}</span>
             {/if}
             <input type="checkbox" name="delete_messages[]" value="{$cur_mess.id}"/>
         </div>
     {foreachelse}
-        {assign var='No_messages' value='No messages'}
         <div class="in">{$lang_pms.$No_messages}</div>
     {/foreach}
 

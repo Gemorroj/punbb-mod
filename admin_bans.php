@@ -283,7 +283,7 @@ echo '<div class="blockform">
 </div>
 </form>
 </div>
-<h2 class="block2"><span>' . $lang_admin['bans_spisok'] . '</span></h2>
+<h2 class="block2"><span>' . $lang_admin['bans_list'] . '</span></h2>
 <div class="box">
 <div class="fakeform">';
 

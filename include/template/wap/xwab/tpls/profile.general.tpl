@@ -1,8 +1,6 @@
 {include file='header.tpl'}
 {include file='profile.navigation.tpl'}
 
-
-
 {assign var='Section_essentials' value='Section essentials'}
 {assign var='Change_pass' value='Change pass'}
 {assign var='Email_legend' value='E-mail legend'}

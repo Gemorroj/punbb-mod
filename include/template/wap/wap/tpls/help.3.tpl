@@ -1,10 +1,10 @@
 {include file='header.tpl'}
 
+{assign var='j' value=false}
+
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <a href="help.php">{$lang_help.Help}</a>
     &#187; {$lang_common.Smilies}</div>
-
-{assign var='j' value=false}
 
 {foreach from=$smiley_text item=cur_text key=i}
 {* // Is there a smiley at the current index? *}

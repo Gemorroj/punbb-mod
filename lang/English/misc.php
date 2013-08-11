@@ -69,6 +69,6 @@ $lang_misc = array(
 'Antispam look mess'=>'To look over the original of report',
 'Antispam tread'=>'To settle',
 'Antispam del'=>'To delete a report',
-'Antispam despository'=>'Depository of reports',
+'Antispam depository'=>'Depository of reports',
 'Antispam close window'=>'To close this window'
 );

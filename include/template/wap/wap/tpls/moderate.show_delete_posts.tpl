@@ -1,13 +1,13 @@
 {include file='header.tpl'}
 
+{assign var='Last_edit' value='Last edit'}
+{assign var='post_count' value=0}
+{assign var='j' value=false}
+
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <a
         href="viewforum.php?id={$fid}">{$cur_topic.forum_name|escape}</a> &#187; {$cur_topic.subject|escape}</div>
 <form method="post" action="moderate.php?fid={$fid}&amp;tid={$tid}">
-
-{assign var='j' value='false'}
-{assign var='Last_edit' value='Last edit'}
-{assign var='post_count' value=0}
 
 {foreach from=$posts item=cur_post}
 

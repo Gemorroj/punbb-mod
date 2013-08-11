@@ -164,7 +164,6 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_ranks', '1'),
 ('o_show_dot', '0'),
 ('o_quickjump', '1'),
-('o_gzip', '0'),
 ('o_additional_navlinks', ''),
 ('o_report_method', '0'),
 ('o_regs_report', '0'),

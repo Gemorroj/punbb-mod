@@ -57,12 +57,7 @@ if (!defined('PUN_CONFIG_LOADED')) {
 
 // Enable output buffering
 if (!defined('PUN_DISABLE_BUFFERING')) {
-    // Should we use gzip output compression?
-    if ($pun_config['o_gzip'] && extension_loaded('zlib') && (stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false || stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate') !== false || stripos($_SERVER['HTTP_TE'], 'gzip') !== false || stripos($_SERVER['HTTP_TE'], 'deflate') !== false)) {
-        @ob_start('ob_gzhandler');
-    } else {
-        @ob_start();
-    }
+    @ob_start();
 }
 
 

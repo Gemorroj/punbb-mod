@@ -13,11 +13,9 @@
 {assign var='Antispam_pattern' value='Antispam pattern'}
 {assign var='Antispam_tread' value='Antispam tread'}
 {assign var='Antispam_del' value='Antispam del'}
-
-{* Кеш пользовательских подписей *}
 {assign var='signature_cache' value=''}
-
-
+{assign var='post_count' value=0}
+{assign var='j' value=false}
 
 {* Навигация: Главная / Форум / Тема *}
 <div class="inbox">
@@ -26,13 +24,6 @@
 </div>
 
 {$show_poll}
-
-
-{* Счетчик сообщений *}
-{assign var='post_count' value=0}
-
-{* Для чередующегося цвета фона сообщения *}
-{assign var='j' value='false'}
 
 {foreach from=$posts item=cur_post}
 

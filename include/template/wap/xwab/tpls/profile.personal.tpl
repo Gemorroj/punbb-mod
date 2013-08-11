@@ -1,8 +1,6 @@
 {include file='header.tpl'}
 {include file='profile.navigation.tpl'}
 
-
-
 {assign var='Personal_details_legend' value='Personal details legend'}
 {assign var='Section_personal' value='Section personal'}
 

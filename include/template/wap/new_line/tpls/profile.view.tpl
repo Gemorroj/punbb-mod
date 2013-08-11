@@ -1,21 +1,6 @@
 {include file='header.tpl'}
 
-{if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
-{include file='profile.navigation.tpl'}
-{else}
-    {assign var='Profile_menu' value='Profile menu'}
-    {* Навигация: Главная / Профиль *}
-    <div class="inbox">
-        <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_profile.$Profile_menu}
-    </div>
-{/if}
-
-<div class="con">
-{$lang_common.Profile} <strong>{$user.username|escape}</strong>
-</div>
-
-{* PHP.arrayKeyNames -> Smarty.Names *}
-
+{assign var='Profile_menu' value='Profile menu'}
 {assign var='No_avatar' value='No avatar'}
 {assign var='No_sig' value='No sig'}
 {assign var='Section_personal' value='Section personal'}
@@ -25,11 +10,22 @@
 {assign var='AOL_IM' value='AOL IM'}
 {assign var='User_activity' value='User activity'}
 {assign var='Show_karma' value='Show karma'}
-
 {assign var='Last_post' value='Last post'}
-
 {assign var='Show_files' value='Show files'}
 {assign var='Show_posts' value='Show posts'}
+
+{if $id == $pun_user.id or $pun_user.g_id == $smarty.const.PUN_MOD || $pun_user.g_id == $smarty.const.PUN_ADMIN}
+    {include file='profile.navigation.tpl'}
+{else}
+    {* Навигация: Главная / Профиль *}
+    <div class="inbox">
+        <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_profile.$Profile_menu}
+    </div>
+{/if}
+
+<div class="con">
+{$lang_common.Profile} <strong>{$user.username|escape}</strong>
+</div>
 
 <div class="input">
     {if $pun_config.o_avatars}

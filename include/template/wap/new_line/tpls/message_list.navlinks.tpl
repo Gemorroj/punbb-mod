@@ -1,4 +1,5 @@
 {assign var='New_message' value='New message'}
+
 <div class="navlinks">
     <a href="message_list.php?box=0">{$lang_pms.Inbox}</a> |
     <a href="message_list.php?box=1">{$lang_pms.Outbox}</a> |

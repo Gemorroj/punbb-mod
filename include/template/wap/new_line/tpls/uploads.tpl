@@ -10,6 +10,7 @@
 {assign var='Posted_by' value='Posted by'}
 {assign var='Go_to_page' value='Go to page'}
 {assign var='Upload_rules' value='Upload rules'}
+{assign var='j' value=false}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187; <a href="{$smarty.server.PHP_SELF}">{$lang_uploads.Uploader}</a>
@@ -91,7 +92,6 @@
     </div>
     {/if}
 
-    {assign var='j' value='false'}
     {foreach from=$files item=info}
     <div class="{if $j = ! $j}msg{else}msg2{/if}">
         &#8226; <strong><a href="{$smarty.server.PHP_SELF}?file={rawurlencode($info.file)}">{$info.file|truncate:30:'..':true:true|escape}</a></strong>
@@ -112,8 +112,7 @@
 
     {if $cp > 1}
     <div class="con">{$lang_uploads.$Go_to_page}
-        {assign var='somepages' value=range(1, $cp)}
-        {foreach from=$somepages item=i}
+        {foreach from=range(1, $cp) item=i}
             {if ($i - 1) == $s_page}&#160;{$i}&#160;{else}<a href="{$smarty.server.PHP_SELF}?page={($i - 1)}">{$i}</a>{/if}
         {/foreach}
     </div>

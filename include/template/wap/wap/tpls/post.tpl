@@ -1,5 +1,14 @@
 {include file='header.tpl'}
 
+{assign var='Post_errors' value='Post errors'}
+{assign var='Post_preview' value='Post preview'}
+{assign var='Post_a_reply' value='Post a reply'}
+{assign var='Post_new_topic' value='Post new topic'}
+{assign var='Guest_name' value='Guest name'}
+{assign var='img_tag' value='img tag'}
+{assign var='Image_text' value='Image text'}
+{assign var='Hide_smilies' value='Hide smilies'}
+{assign var='Merge_posts'  value='Merge posts'}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187;
@@ -16,7 +25,6 @@
 </div>
 
 {if $errors}
-    {assign var='Post_errors' value='Post errors'}
     <div class="red">{$lang_post.$Post_errors}</div>
     <div class="msg">
         {foreach from=$errors item=cur_error}
@@ -24,14 +32,9 @@
         {/foreach}
     </div>
 {elseif isset($smarty.post.preview)}
-
-    {assign var='Post_preview' value='Post preview'}
     <div class="info">{$lang_post.$Post_preview}</div>
     <div class="msg">{$message_preview}</div>
 {/if}
-
-{assign var='Post_a_reply' value='Post a reply'}
-{assign var='Post_new_topic' value='Post new topic'}
 
 
 <div class="con">
@@ -56,8 +59,6 @@
             <input type="hidden" name="form_user" value="{$pun_user.username|escape|default:'Guest'}"/>
 
             {if $pun_user.is_guest}
-
-                {assign var='Guest_name' value='Guest name'}
                 <strong>{$lang_post.$Guest_name}</strong><br/>
                 <input type="text" name="req_username" value="{$username|escape}"/><br/>
                 {if $pun_config.p_force_guest_email == 1}
@@ -80,7 +81,6 @@
             {if $pun_config.o_smilies == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}
             <a href="help.php?id=1">{$lang_common.BBCode}</a>
             {if $pun_config.p_message_bbcode == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}
-            {assign var='img_tag' value='img tag'}
             <a href="help.php?id=4">{$lang_common.$img_tag}</a>
             {if $pun_config.p_message_img_tag == 1}<span class="green">{$lang_common.on_m}</span>{else}<span class="grey">{$lang_common.off_m}</span>{/if}
         </div>
@@ -89,7 +89,6 @@
 
             {if $pun_user.g_post_replies == 2}
                 <img src="{$pun_config.o_base_url}/include/captcha/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
-                {assign var='Image_text' value='Image text'}
                 {$lang_post.$Image_text}<br/>
                 <input type="text" name="req_image_" size="16" maxlength="16"/><br/>
             {/if}
@@ -99,9 +98,6 @@
                 {$lang_fu.Attachments}<br/>
                 <input type="file" name="attach[]"/><br/>
             {/if}
-
-            {assign var='Hide_smilies' value='Hide smilies'}
-            {assign var='Merge_posts'  value='Merge posts'}
 
             {if ! $pun_user.is_guest}
                 {if $pun_config.o_smilies == 1}

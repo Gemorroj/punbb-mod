@@ -23,6 +23,7 @@
 {assign var='Show_as_posts' value='Show as posts'}
 {assign var='Show_as_topics' value='Show as topics'}
 {assign var='Search_results_info' value='Search results info'}
+{assign var='cur_category' value=0}
 
 {* Навигация: Главная / Пользователи *}
 <div class="inbox">
@@ -46,8 +47,7 @@
         {if $pun_config.o_search_all_forums == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
             <option value="-1">{$lang_search.$All_forums}</option>
         {/if}
-        
-        {assign var="cur_category" value=""}
+
         {foreach from=$forums item=cur_forum}
             {if $cur_forum.cid != $cur_category}
                 {if $cur_category}</optgroup>{/if}

@@ -5,7 +5,7 @@ poll.frmloaded = false;
 
 poll.lng = ({
     'create_poll': 'Создание опроса',
-    'fields_requered': 'Следующие поля должны быть заполнены:',
+    'fields_required': 'Следующие поля должны быть заполнены:',
     'quest': 'Вопрос',
     'list_answers': 'Список ответов',
     'answer_must_select': 'Хотя бы один ответ должен быть выбран!',
@@ -30,7 +30,7 @@ poll.remove = function () {
 
 poll.pForm = function () {
     var b = '<br />', e = 0, d = $("#pdescription").val(), q = $("#pquestions").val();
-    var s = poll.lng.fields_requered + b;
+    var s = poll.lng.fields_required + b;
 
     if (!d) {
         e++;

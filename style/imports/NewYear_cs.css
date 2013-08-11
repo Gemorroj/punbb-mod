@@ -5,7 +5,7 @@ color : #000000;
 .pun {
 color : #000000;
 }
-.pun blockquote , div.codebox , div.box , adminconsole fieldset th , .rowodd , .roweven {
+.pun blockquote , div.codebox , div.box , #adminconsole fieldset th , .rowodd , .roweven {
 background-color : #ffffff;
 }
 #adminconsole td , #adminconsole th {
@@ -23,7 +23,7 @@ background-color : #ffffff;
 td.tc2 , td.tc3 , td.tc4 , td.tc5 {
 background-color : #ecf0f6;
 }
-td.tcmod , adstats dd {
+td.tcmod , #adstats dd {
 background-color : #ffffff;
 }
 .pun h2 {

@@ -2,21 +2,19 @@
 
 {assign var='User_search' value='User search'}
 {assign var='User_list' value='User list'}
-
-{* Навигация: Главная / Пользователи *}
-<div class="inbox">
-    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_common.$User_list}
-</div>
-
 {assign var='User_find_legend' value='User find legend'}
 {assign var='User_group' value='User group'}
 {assign var='All_users' value='All users'}
-
 {assign var='Sort_by' value='Sort by'}
 {assign var='No_of_posts' value='No of posts'}
 {assign var='Sort_order' value='Sort order'}
 {assign var='User_search_info' value='User search info'}
 {assign var='No_hits' value='No hits'}
+
+{* Навигация: Главная / Пользователи *}
+<div class="inbox">
+    <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_common.$User_list}
+</div>
 
 <div class="con">
     <strong>{$lang_search.$User_search}</strong>

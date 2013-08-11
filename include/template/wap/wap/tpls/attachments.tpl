@@ -1,5 +1,6 @@
 {* Attachments / Вложения *}
 {assign var='Mark_to_Delete' value='Mark to Delete'}
+
 <div class="attach_list">
     <strong>{$lang_fu.Attachments}</strong><br/>
     {foreach from=$attachments[$cur_post.id] item=attachment}

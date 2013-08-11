@@ -8,7 +8,6 @@
 {assign var='Change_avatar' value='Change avatar'}
 {assign var='Upload_avatar' value='Upload avatar'}
 {assign var='Delete_avatar' value='Delete avatar'}
-
 {assign var='Signature_legend' value='Signature legend'}
 {assign var='Signature_info' value='Signature info'}
 {assign var='Sig_max_length' value='Sig max length'}

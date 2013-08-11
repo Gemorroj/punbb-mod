@@ -5,13 +5,13 @@
 {assign var='New_icon_m' value='New icon_m'}
 {assign var='Empty_forum' value='Empty forum'}
 {assign var='Post_topic' value='Post topic'}
+{assign var='j' value=false}
 
 {* Навигация: Главная / Форум / Тема *}
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$cur_forum.forum_name|escape}
 </div>
 
-{assign var='j' value='false'}
 {foreach from=$topics item=cur_topic}
     <div class="{if $j = ! $j}msg{else}msg2{/if}">
         {* +SUBJECT *}

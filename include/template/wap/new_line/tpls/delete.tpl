@@ -1,4 +1,3 @@
-{* This template is completed! *}
 {include file='header.tpl'}
 
 {assign var='Delete_post' value='Delete post'}

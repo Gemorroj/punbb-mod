@@ -1,19 +1,18 @@
 {include file='header.tpl'}
 
+{assign var='Post_topic' value='Post topic'}
+{assign var='Empty_forum' value='Empty forum'}
+{assign var='Closed_icon_m' value='Closed icon_m'}
+{assign var='New_icon_m' value='New icon_m'}
+{assign var='Normal_icon' value='Normal icon'}
+{assign var='j' value=false}
+{assign var='button_status' value=true}
+
 {* Навигация: Главная / Форум / Тема *}
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$cur_forum.forum_name|escape}
 </div>
 <form method="post" action="moderate.php?fid={$fid}">
-
-
-    {assign var='Post_topic' value='Post topic'}
-    {assign var='Empty_forum' value='Empty forum'}
-    {assign var='Closed_icon_m' value='Closed icon_m'}
-    {assign var='New_icon_m' value='New icon_m'}
-    {assign var='Normal_icon' value='Normal icon'}
-
-    {assign var='j' value='false'}
 
     {foreach from=$topics item=cur_topic}
         <div class="{if $j = ! $j}msg{else}msg2{/if}">
@@ -67,18 +66,17 @@
             {/if}
         </div>
     {foreachelse}
-        {assign var='button_status' value='1'}
+        {assign var='button_status' value=false}
         <div class="in">{$lang_forum.$Empty_forum}</div>
     {/foreach}
-    {assign var='button_status' value='0'}
     <div class="con">{$paging_links}</div>
 
     {if (! isset($cur_forum.post_topics) && $pun_user.g_post_topics == 1) || $cur_forum.post_topics == 1 || $is_admmod}
     <div class="go_to">
-        <input type="submit" name="move_topics" value="{$lang_misc.Move}" {if $button_status}disabled="disabled"{/if} />
-        <input type="submit" name="delete_topics" value="{$lang_misc.Delete}" {if $button_status}disabled="disabled"{/if} />
-        <input type="submit" name="open" value="{$lang_misc.Open}" {if $button_status}disabled="disabled"{/if} />
-        <input type="submit" name="close" value="{$lang_misc.Close}" {if $button_status}disabled="disabled"{/if} />
+        <input type="submit" name="move_topics" value="{$lang_misc.Move}" {if !$button_status}disabled="disabled"{/if} />
+        <input type="submit" name="delete_topics" value="{$lang_misc.Delete}" {if !$button_status}disabled="disabled"{/if} />
+        <input type="submit" name="open" value="{$lang_misc.Open}" {if !$button_status}disabled="disabled"{/if} />
+        <input type="submit" name="close" value="{$lang_misc.Close}" {if !$button_status}disabled="disabled"{/if} />
     </div>
 </form>
 {/if}

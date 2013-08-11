@@ -1,13 +1,12 @@
 {include file='header.tpl'}
 
-{assign var='j' value='false'}
-{assign var='forum' value=''}
-
 {assign var='Go_to_post' value='Go to post'}
 {assign var='New_posts_info' value='New posts info'}
 {assign var='New_posts' value='New posts'}
 {assign var='Last_post' value='Last post'}
 {assign var='Search_results' value='Search results'}
+{assign var='j' value=false}
+{assign var='forum' value=''}
 
 {* Навигация: Главная / Пользователи *}
 <div class="inbox">

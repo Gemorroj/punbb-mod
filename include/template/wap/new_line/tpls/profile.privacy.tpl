@@ -12,7 +12,6 @@
 {assign var='Notify_full_info' value='Notify full info'}
 {assign var='Notify_full' value='Notify full'}
 
-
 <div class="con">
     <strong>{$user.username|escape} - {$lang_profile.$Section_privacy}</strong>
 </div>

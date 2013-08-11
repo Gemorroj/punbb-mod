@@ -351,17 +351,17 @@ echo '</select>
 </td>
 </tr>
 <tr>
-<th scope="row">Промежуток он-лайн</th>
+<th scope="row">Промежуток онлайн</th>
 <td>
 <input type="text" name="form[timeout_online]" size="5" maxlength="5" value="' . $pun_config['o_timeout_online'] . '" />
-<span>Количество секунд, которое пользователь должен ждать пока он не будет удален из списка он-лайн пользователей.</span>
+<span>Количество секунд, которое пользователь должен ждать пока он не будет удален из списка онлайн пользователей.</span>
 </td>
 </tr>
 <tr>
 <th scope="row">Время переадресации</th>
 <td>
 <input type="text" name="form[redirect_delay]" size="3" maxlength="3" value="' . $pun_config['o_redirect_delay'] . '" />
-<span>Количество секунд ожидания переадресации. Если задать 0, страница переадресации не показвается (не рекомендуется).</span>
+<span>Количество секунд ожидания переадресации. Если задать 0, страница переадресации не показывается (не рекомендуется).</span>
 </td>
 </tr>
 <tr>
@@ -405,14 +405,14 @@ print '/> <strong>Нет</strong>
 </td>
 </tr>
 <tr>
-<th scope="row">Первое огораничение</th>
+<th scope="row">Первое ограничение</th>
 <td>
 <input type="text" name="form[antiflood_a]" size="5" maxlength="5" value="' . $pun_config['o_antiflood_a'] . '" />
 <span>Минимальное количество секунд, которое должно пройти от захода на страницу и до отправки сообщения.</span>
 </td>
 </tr>
 <tr>
-<th scope="row">Второе огораничение</th>
+<th scope="row">Второе ограничение</th>
 <td>
 <input type="text" name="form[antiflood_b]" size="5" maxlength="5" value="' . $pun_config['o_antiflood_b'] . '" />
 <span>Максимальное количество секунд, которое должно пройти от захода на страницу и до отправки сообщения.</span>
@@ -449,11 +449,11 @@ print '/> <strong>Нет</strong>
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_user_info]"
                                                    value="0"<?php if (!$pun_config['o_show_user_info']) echo ' checked="checked"' ?> />
             <strong>Нет</strong>
-            <span>Показать информацию под именем пользователя в теме. Информация включает расположение, дату рагистрации,количество постов и контактные ссылки (e-mail и URL).</span>
+            <span>Показать информацию под именем пользователя в теме. Информация включает расположение, дату регистрации,количество постов и контактные ссылки (e-mail и URL).</span>
         </td>
     </tr>
     <tr>
-        <th scope="row">Карма пользоваетля</th>
+        <th scope="row">Карма пользователя</th>
         <td>
             <input type="radio" name="form[show_post_karma]"
                    value="1"<?php if ($pun_config['o_show_post_karma'] == 1) echo ' checked="checked"' ?> />
@@ -464,7 +464,7 @@ print '/> <strong>Нет</strong>
         </td>
     </tr>
     <tr>
-        <th scope="row">Количество сообщений пользоваетля</th>
+        <th scope="row">Количество сообщений пользователя</th>
         <td>
             <input type="radio" name="form[show_post_count]"
                    value="1"<?php if ($pun_config['o_show_post_count'] == 1) echo ' checked="checked"' ?> />
@@ -504,7 +504,7 @@ print '/> <strong>Нет</strong>
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[make_links]"
                                                    value="0"<?php if (!$pun_config['o_make_links']) echo ' checked="checked"' ?> />
             <strong>Нет</strong>
-            <span>Если включено, PunBB автоматически определяет любоые URL в сообщениях и делает из нее активную гиперссылку</span>
+            <span>Если включено, PunBB автоматически определяет любые URL в сообщениях и делает из нее активную гиперссылку</span>
         </td>
     </tr>
     <tr>
@@ -572,14 +572,14 @@ print '/> <strong>Нет</strong>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">Пользователи он-лайн</th>
+                    <th scope="row">Пользователи онлайн</th>
                     <td>
                         <input type="radio" name="form[users_online]"
                                value="1"<?php if ($pun_config['o_users_online'] == 1) echo ' checked="checked"' ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[users_online]"
                                                                value="0"<?php if (!$pun_config['o_users_online']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Поазать информацию на главной странице о присутствующих в данное время на форуме гостях и зарегистрированных пользователях.</span>
+                        <span>Показать информацию на главной странице о присутствующих в данное время на форуме гостях и зарегистрированных пользователях.</span>
                     </td>
                 </tr>
                 <tr>
@@ -601,7 +601,7 @@ print '/> <strong>Нет</strong>
                         &#160;<input type="radio" name="form[ranks]"
                                      value="0"<?php if (!$pun_config['o_ranks']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Включть использование ранга пользователей. Смотрите <a href="admin_ranks.php">Ранги</a> для более подробной информации.</span>
+                        <span>Включить использование ранга пользователей. Смотрите <a href="admin_ranks.php">Ранги</a> для более подробной информации.</span>
                     </td>
                 </tr>
                 <tr>
@@ -627,17 +627,6 @@ print '/> <strong>Нет</strong>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">GZip вывод</th>
-                    <td>
-                        <input type="radio" name="form[gzip]"
-                               value="1"<?php if ($pun_config['o_gzip'] == 1) echo ' checked="checked"' ?> />
-                        <strong>Да</strong>&#160; &#160;<input type="radio" name="form[gzip]"
-                                                               value="0"<?php if (!$pun_config['o_gzip']) echo ' checked="checked"' ?> />
-                        <strong>Нет</strong>
-                        <span>Если включено, PunBB будет сжимать даные gzip. Это позволяет уменьшить трафик, но использует намного больше процессорного времени. Этому свойству необходим PHP сконфигурированный с zlib (--with-zlib). Учтите: Если уже есть модули Апача mod_gzip или mod_deflate настроенные на сжатие PHP скриптов, вы должны отключить это свойство.</span>
-                    </td>
-                </tr>
-                <tr>
                     <th scope="row">Поиск по всем форумам</th>
                     <td>
                         <input type="radio" name="form[search_all_forums]"
@@ -645,7 +634,7 @@ print '/> <strong>Нет</strong>
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[search_all_forums]"
                                                                value="0"<?php if (!$pun_config['o_search_all_forums']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Если отключено, поиск возможен только в одном форуме одновременно. Отключите, если загрузка сервера черезмерно перегружена посиком.</span>
+                        <span>Если отключено, поиск возможен только в одном форуме одновременно. Отключите, если загрузка сервера черезмерно перегружена поиском.</span>
                     </td>
                 </tr>
                 <tr>
@@ -675,7 +664,7 @@ print '/> <strong>Нет</strong>
                         E-mail&#160; &#160;<input type="radio" name="form[report_method]"
                                                   value="2"<?php if ($pun_config['o_report_method'] == '2') echo ' checked="checked"' ?> />
                         Оба
-                        <span>Выберите метод получения отчетов. Вы можете выбрать сообщать ли вам о теме/сообщениие используя внутреннюю систему отчетов, посылать ли e-mail адресам в списке рассылки (смотрите далее) или оба варианта.</span>
+                        <span>Выберите метод получения отчетов. Вы можете выбрать сообщать ли вам о теме/сообщении используя внутреннюю систему отчетов, посылать ли e-mail адресам в списке рассылки (смотрите далее) или оба варианта.</span>
                     </td>
                 </tr>
                 <tr>
@@ -686,7 +675,7 @@ print '/> <strong>Нет</strong>
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_report]"
                                                                value="0"<?php if (!$pun_config['o_regs_report']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Если включено, PunBB будет уведомлять польователей из списка рассылки (смотрите ниже) когда новый пользователь регистрируется на форуме.</span>
+                        <span>Если включено, PunBB будет уведомлять пользователей из списка рассылки (смотрите ниже) когда новый пользователь регистрируется на форуме.</span>
                     </td>
                 </tr>
                 <tr>
@@ -730,7 +719,7 @@ print '/> <strong>Нет</strong>
                     <td>
                         <input type="text" name="form[avatars_width]" size="5" maxlength="5"
                                value="<?php echo $pun_config['o_avatars_width'] ?>"/>
-                        <span>Максимально допустимая ширина аватар в пикселах (60 рекомендуется).</span>
+                        <span>Максимально допустимая ширина аватар в пикселях (60 рекомендуется).</span>
                     </td>
                 </tr>
                 <tr>
@@ -738,7 +727,7 @@ print '/> <strong>Нет</strong>
                     <td>
                         <input type="text" name="form[avatars_height]" size="5" maxlength="5"
                                value="<?php echo $pun_config['o_avatars_height'] ?>"/>
-                        <span>Максимально допустимая высота аватар в пикселах (60 рекомендуется).</span>
+                        <span>Максимально допустимая высота аватар в пикселях (60 рекомендуется).</span>
                     </td>
                 </tr>
                 <tr>
@@ -746,7 +735,7 @@ print '/> <strong>Нет</strong>
                     <td>
                         <input type="text" name="form[avatars_size]" size="6" maxlength="6"
                                value="<?php echo $pun_config['o_avatars_size'] ?>"/>
-                        <span>Максимально допустимый зазмер аватар в байтах (10240 рекомендуется).</span>
+                        <span>Максимально допустимый размер аватар в байтах (10240 рекомендуется).</span>
                     </td>
                 </tr>
             </table>
@@ -782,7 +771,7 @@ print '/> <strong>Нет</strong>
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[subscriptions]"
                                                                value="0"<?php if (!$pun_config['o_subscriptions']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Позволить пользователям подписываться на темы (получать e-mail когда ктото ответил).</span>
+                        <span>Позволить пользователям подписываться на темы (получать e-mail когда кто-то ответил).</span>
                     </td>
                 </tr>
                 <tr>
@@ -839,7 +828,7 @@ print '/> <strong>Нет</strong>
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_verify]"
                                                                value="0"<?php if (!$pun_config['o_regs_verify']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Когда включено, пользователям посылается случайный пароль при регистрации. Они могут войти и изменить его в своем профиле на более удобный. Кроме того пользователь вынужден проверять новый e-mail адрес введенный при регистрации. Это эффективный способ избежать авто-регистраций и проверить коректность e-mail адреса всех пользователей в их профилях.</span>
+                        <span>Когда включено, пользователям посылается случайный пароль при регистрации. Они могут войти и изменить его в своем профиле на более удобный. Кроме того пользователь вынужден проверять новый e-mail адрес введенный при регистрации. Это эффективный способ избежать авто-регистраций и проверить корректность e-mail адреса всех пользователей в их профилях.</span>
                     </td>
                 </tr>
                 <tr>
@@ -850,7 +839,7 @@ print '/> <strong>Нет</strong>
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_verify_image]"
                                                                value="0"<?php if (!$pun_config['o_regs_verify_image']) echo 'checked="checked"' ?> />
                         <strong>Нет</strong>
-                        <span>Когда включено, пользователи должны ввести текст с картинки для подтверждения регистрации и в форме ответа. Это лучший способ избавиться от авто-регистраций ботов и не заставлять каждого пользователя подтверждать подлииность через e-mail, экономя его время.</span>
+                        <span>Когда включено, пользователи должны ввести текст с картинки для подтверждения регистрации и в форме ответа. Это лучший способ избавиться от авто-регистраций ботов и не заставлять каждого пользователя подтверждать подлинность через e-mail, экономя его время.</span>
                     </td>
                 </tr>
                 <tr>
@@ -878,11 +867,11 @@ print '/> <strong>Нет</strong>
 </div>
 <div class="inform">
     <fieldset>
-        <legend>Обьявление</legend>
+        <legend>Объявление</legend>
         <div class="infldset">
             <table class="aligntop" cellspacing="0">
                 <tr>
-                    <th scope="row">Показывать обьявление</th>
+                    <th scope="row">Показывать объявление</th>
                     <td>
                         <input type="radio" name="form[announcement]"
                                value="1"<?php if ($pun_config['o_announcement'] == 1) echo ' checked="checked"' ?> />
@@ -893,7 +882,7 @@ print '/> <strong>Нет</strong>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row">Текст обьявления</th>
+                    <th scope="row">Текст объявления</th>
                     <td>
                         <textarea name="form[announcement_message]" rows="5"
                                   cols="55"><?php echo pun_htmlspecialchars($pun_config['o_announcement_message']) ?></textarea>

@@ -2,15 +2,15 @@
 
 {assign var='Move_topic' value='Move topic'}
 {assign var='Move_topics' value='Move topics'}
+{assign var='Leave_redirect' value='Leave redirect'}
+{assign var='Move_to' value='Move to'}
+{assign var='Move_legend' value='Move legend'}
+{assign var='cur_category' value=0}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a>
     &#187; {if $action == 'single'}{$lang_misc.$Move_topic}{else}{$lang_misc.$Move_topics}{/if}
 </div>
-
-{assign var='Leave_redirect' value='Leave redirect'}
-{assign var='Move_to' value='Move to'}
-{assign var='Move_legend' value='Move legend'}
 
 <form method="post" action="moderate.php?fid={$fid}">
     <div class="input">
@@ -19,7 +19,6 @@
         {$lang_misc.$Move_to}<br/>
         <select name="move_to_forum">
 
-        {assign var='cur_category' value='0'}
         {foreach from=$forums item=cur_forum}
             {if $cur_forum.cid != $cur_category}
                 {if $cur_category}

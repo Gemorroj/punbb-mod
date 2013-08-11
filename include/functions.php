@@ -1091,12 +1091,17 @@ function wap_redirect($destination_url, $redirect_code = 301)
 }
 
 
-//
-// Display a simple error message
-//
+/**
+ * Display a simple error message
+ *
+ * @param string $message
+ * @param string $file
+ * @param int $line
+ * @param array $db_error
+ */
 function error($message, $file, $line, $db_error = array())
 {
-    global $pun_config;
+    global $pun_config, $db;
 
     // Set a default title if the script failed before $pun_config could be populated
     if (!$pun_config) {
@@ -1106,10 +1111,6 @@ function error($message, $file, $line, $db_error = array())
     // Empty output buffer and stop buffering
     @ob_end_clean();
 
-    // "Restart" output buffering if we are using ob_gzhandler (since the gzip header is already sent)
-    if ($pun_config['o_gzip'] && extension_loaded('zlib') && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false || strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate') !== false)) {
-        ob_start('ob_gzhandler');
-    }
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
@@ -1150,7 +1151,7 @@ h2 {margin: 0; color: #FFFFFF; background-color: #B84623; font-size: 1.1em; padd
 
     // If a database connection was established (before this error) we close it
     if ($db_error) {
-        $GLOBALS['db']->close();
+        $db->close();
     }
 
     exit;

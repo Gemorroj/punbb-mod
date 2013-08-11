@@ -3,7 +3,7 @@ if (!defined('PUN_ROOT')) {
     exit;
 }
 
-require PUN_ROOT . 'lang/' . $GLOBALS['pun_user']['language'] . '/fileup.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 
 
 // Makes sure the mod is properly configured.
@@ -638,7 +638,7 @@ function require_thumb($aid, $location, $width = 100, $height = 100, $do_cut = f
 
 function handle_thumb_tag($aid)
 {
-    $db = $GLOBALS['db'];
+    global $db;
 
     $result = $db->query('SELECT location FROM ' . $db->prefix . 'attachments WHERE id=' . $aid) or error('Unable to fetch attachment', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {

@@ -7,7 +7,7 @@ $lang_misc = array(
 
 // Send e-mail
 'Form e-mail disabled'		=>	'Пользователь, которому Вы хотите послать сообщение, отказался от получения сообщений по e-mail.',
-'No e-mail subject'			=>	'Вы должы ввести тему сообщения.',
+'No e-mail subject'			=>	'Вы должны ввести тему сообщения.',
 'No e-mail message'			=>	'Вы должны ввести текст сообщения.',
 'Too long e-mail message'	=>	'Сообщение не может быть длиннее 65535 characters (64 KB).',
 'E-mail sent redirect'		=>	'Сообщение послано. Переадресация...',
@@ -70,6 +70,6 @@ $lang_misc = array(
 'Antispam look mess'=>'Просмотреть оригинал сообщения',
 'Antispam tread'=>'Разрешить',
 'Antispam del'=>'Удалить сообщение',
-'Antispam despository'=>'Хранилище сообщений',
+'Antispam depository'=>'Хранилище сообщений',
 'Antispam close window'=>'Закрыть окно'
 );
