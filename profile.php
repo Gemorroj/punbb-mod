@@ -1420,7 +1420,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         if ($pun_user['g_id'] < PUN_GUEST) {
             echo '<label>' . $lang_profile['Admin note'] . '<br /><input id="admin_note" type="text" name="admin_note" value="' . pun_htmlspecialchars($user['admin_note']) . '" size="30" maxlength="30" /><br /></label></div>';
         }
-        echo '</fieldset>
+        echo '</div></fieldset>
 </div>
 <p><input type="submit" name="update" value="' . $lang_common['Submit'] . '" />' . $lang_profile['Instructions'] . '</p>
 </form>
