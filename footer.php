@@ -13,6 +13,8 @@ ob_end_clean();
 // JS_HELPER MOD BEGIN
 if (@$jsHelper) {
     $tpl_main = str_replace('<pun_js_helper>', $jsHelper->headerOut(), $tpl_main);
+} else {
+    $tpl_main = str_replace('<pun_js_helper>', '<!-- pun_js_helper -->', $tpl_main);
 }
 // JS_HELPER MOD END
 
