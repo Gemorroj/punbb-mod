@@ -64,7 +64,7 @@ $db->query('
 @set_time_limit(999);
 
 $getf = new Getf();
-$getf->get(file_get_contents($location), $file, ($mime == 'application/octet-stream' ? null : $mime));
+$getf->get(file_get_contents($location), $file, ($mime == 'application/octet-stream' ? null : $mime), !$is_image);
 exit;
 
 /*
