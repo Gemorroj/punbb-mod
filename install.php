@@ -646,7 +646,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <h2>Переадресация</h2>
 <div class="box">
 <div class="inbox">
-<p>Таблицы Залиты<br />Не забудьте удалить файл <strong>install.php</strong><br />Перенаправление &#x2026;<br />
+<p>Таблицы залиты<br />Не забудьте удалить файлы <strong>install.php</strong> и <strong>update.php</strong><br />Перенаправление &#x2026;<br />
  &#187; <a href="index.php">WEB Версия</a><br />
  &#187; <a href="wap/index.php">WAP Версия</a>
 </p>

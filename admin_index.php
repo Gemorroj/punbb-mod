@@ -173,6 +173,11 @@ echo '<div class="block">
 PunBB ' . $pun_config['o_cur_version'] . '<!-- - <a href="admin_index.php?action=check_upgrade">Update</a> --><br />
 &copy; Copyright 2002, 2003, 2004, 2005 Rickard Andersson<br />
 </dd>
+<dt>' . $lang_admin['index_punbb_mod'] . '</dt>
+<dd>
+PunBB Mod ' . $pun_config['o_show_version'] . '<br />
+<a href="https://github.com/Gemorroj/punbb-mod">https://github.com/Gemorroj/punbb-mod</a><br />
+</dd>
 <dt>' . $lang_admin['index_server'] . '</dt>
 <dd>
 ' . $server_load . ' (' . $num_online . ' on-line)

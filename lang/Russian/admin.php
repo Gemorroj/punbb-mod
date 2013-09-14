@@ -160,6 +160,7 @@ $lang_admin = array(
      - Получать отчеты.',
     'index_stats'=>'Статистика',
     'index_punbb'=>'Версия PunBB',
+    'index_punbb_mod'=>'Версия PunBB Mod',
     'index_server'=>'Загрузка Сервера',
     'index_int'=>'Окружение',
     'index_bd'=>'База Данных',
