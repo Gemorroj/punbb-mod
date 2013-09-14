@@ -77,11 +77,11 @@ if (defined('PUN_ADMIN_CONSOLE')) {
 
 if (isset($required_fields)) {
     // Output JavaScript to validate form (make sure required fields are filled out)
-    $js = '<script type="text/javascript">reqField="' . $lang_common['required field'] . '";reqFormLang={';
+    $js = '<script type="application/javascript">reqField="' . $lang_common['required field'] . '";reqFormLang={';
     while (list($elem_orig, $elem_trans) = each($required_fields)) {
         $js .= $elem_orig . ':"' . addslashes(str_replace('&nbsp;', ' ', $elem_trans)) . '",';
     }
-    echo rtrim($js, ',') . '};</script><script type="text/javascript" src="' . PUN_ROOT . 'js/required.js"></script>';
+    echo rtrim($js, ',') . '};</script><script type="application/javascript" src="' . PUN_ROOT . 'js/required.js"></script>';
 }
 
 
@@ -92,11 +92,11 @@ if (@$jsHelper) {
 }
 
 if (in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
-    echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
+    echo '<script type="application/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
 }
 
 if (in_array($basename, array('message_list.php', 'moderate.php'))) {
-    echo '<script type="text/javascript" src="' . PUN_ROOT . 'js/check.js"></script>';
+    echo '<script type="application/javascript" src="' . PUN_ROOT . 'js/check.js"></script>';
 }
 
 

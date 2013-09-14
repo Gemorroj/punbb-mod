@@ -30,10 +30,10 @@ class _jsHelper
     {
         $str = null;
         foreach ($this->js as $file) {
-            $str .= '<script type="text/javascript" src="' . $file . '"></script>';
+            $str .= '<script type="application/javascript" src="' . $file . '"></script>';
         }
         foreach ($this->jsInt as $script) {
-            $str .= '<script type="text/javascript">' . $script . '</script>';
+            $str .= '<script type="application/javascript">' . $script . '</script>';
         }
         return $str;
     }

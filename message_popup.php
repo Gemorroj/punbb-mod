@@ -38,7 +38,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" />
 </head>
 <body>
-<script type="text/javascript" src="js/message_popup.js"></script>
+<script type="application/javascript" src="js/message_popup.js"></script>
 <div id="punwrap">
 <div id="punmessage_list" class="pun">
 <div class="block">

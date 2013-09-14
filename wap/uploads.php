@@ -123,9 +123,6 @@ if (isset($_GET['file'])) {
     } else {
         wap_redirect('uploaded/' . $file_name);
     }
-
-    // include_once PUN_ROOT.'include/functions.php';
-    // getf(file_get_contents(PUN_ROOT.'uploaded/'.$file_name),$file_name,1,0,0);
     exit;
 }
 
