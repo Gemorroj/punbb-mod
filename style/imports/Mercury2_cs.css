@@ -40,7 +40,7 @@ tr.iredirect div.icon {background:url(../img/Oxygen2/redirect.gif)}
 {
 text-align: center;
 position: relative;
-TOP : 0px;
+top: 0px;
 left: 6px;
 background-color: #000000;
 background-image: url(../img/Mercury2/bg_button.gif);
