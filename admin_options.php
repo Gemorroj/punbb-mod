@@ -154,7 +154,7 @@ generate_admin_menu('options');
 echo '<div class="blockform">
 <h2><span>' . $lang_admin['options'] . '</span></h2>
 <div class="box">
-<form method="post" action="admin_options.php?action=foo">
+<form method="post" action="admin_options.php?">
 <p class="submittop"><input type="submit" name="save" value="' . $lang_admin['Upd'] . '" /></p>
 <div class="inform">
 <input type="hidden" name="form_sent" value="1" />
