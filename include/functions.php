@@ -1351,9 +1351,7 @@ class Getf
         }
         // если нет, ставим MIME в зависимости от расширения
         if (!$this->mime) {
-            $info = pathinfo($file);
-
-            switch (strtolower($info['extension'])) {
+            switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
                 case 'jar':
                     $this->mime = 'application/java-archive';
                     break;
