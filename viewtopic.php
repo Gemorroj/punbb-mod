@@ -193,7 +193,7 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'header.php';
 
 if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-    $jsHelper->add(PUN_ROOT . 'js/karma.js');
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/karma.js');
 }
 echo '<div class="linkst"><div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>

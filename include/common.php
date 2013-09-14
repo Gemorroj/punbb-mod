@@ -95,4 +95,4 @@ check_bans();
 // Update online list
 update_users_online();
 
-require PUN_ROOT . 'include/jshelper.inc.php';
+require PUN_ROOT . 'include/JsHelper.php';

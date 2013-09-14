@@ -11,10 +11,11 @@ ob_end_clean();
 // END SUBST - <pun_main>
 
 // JS_HELPER MOD BEGIN
-if (@$jsHelper) {
-    $tpl_main = str_replace('<pun_js_helper>', $jsHelper->headerOut(), $tpl_main);
+if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countInternal() > 0) {
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery-1.10.2.min.js');
+    $tpl_main = str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
 } else {
-    $tpl_main = str_replace('<pun_js_helper>', '<!-- pun_js_helper -->', $tpl_main);
+    $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);
 }
 // JS_HELPER MOD END
 

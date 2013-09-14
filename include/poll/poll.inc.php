@@ -14,7 +14,6 @@ PLEASE, DO NOT REMOVE LINK TO punbb.ru FROM CODE! THANKS!
 
 
 // TODO : перенести названия в константы:
-//$jsHelper->add('ajax.server.php?poll=gsvfrm');
 require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/poll.php';
 
 class _Poll
@@ -181,7 +180,7 @@ class _Poll
 
     function showPoll($pollid)
     {
-        global $pun_config, $pun_user, $lang_poll, $jsHelper;
+        global $pun_config, $pun_user, $lang_poll;
 
         $poll = $this->getPollDB($pollid);
         if (!$poll['error']) {
@@ -298,7 +297,7 @@ class _Poll
 
     function showResult($pollid, $poll, $q, $total, $pieces = '')
     {
-        global $lang_poll, $pun_user, $lang_common, $jsHelper;
+        global $lang_poll, $pun_user, $lang_common;
 
 
         $out = '<div class="p_cnt p_cnt_' . $pollid . '"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div class="cnt_' . $pollid . '"><table><tr><td colspan="3" style="text-align:center;">' . pun_htmlspecialchars($poll['description']) . '</td></tr>';
@@ -314,8 +313,8 @@ class _Poll
         $out .= '<tr><td class="' . ((!$bg_switch) ? 'roweven' :  'rowodd') . '" colspan="3" style="text-align:center;">' . $lang_poll['total voters'] . ': ' . $poll['vcount'] . ' / ' . $lang_poll['votes'] . ': ' . $total . '</td></tr></table></div>' . $pieces . '</fieldset></div><br class="clearb" />';
 
         if (($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD)) {
-            $jsHelper->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
-            $jsHelper->add(PUN_ROOT . 'js/apoll.js');
+            JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
+            JsHelper::getInstance()->add(PUN_ROOT . 'js/apoll.js');
         }
 
         return $out;
@@ -324,11 +323,11 @@ class _Poll
 
     function showQuest($pollid, $poll, $pieces)
     {
-        global $lang_poll, $pun_user, $lang_common, $jsHelper;
+        global $lang_poll, $pun_user, $lang_common;
 
         if (($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD)) {
-            $jsHelper->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
-            $jsHelper->add(PUN_ROOT . 'js/apoll.js');
+            JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
+            JsHelper::getInstance()->add(PUN_ROOT . 'js/apoll.js');
         }
 
         $out = '<div class="p_cnt p_cnt_' . $pollid . '"><fieldset><legend>' . $lang_poll['poll'] . '</legend><div id="warning" style="display:none;"></div><table><tr><td colspan="2"><center>' . pun_htmlspecialchars($poll['description']) . '</center></td></tr>';
@@ -353,7 +352,7 @@ class _Poll
 
         $out .= '<tr><td class="submit ' . ((!$bg_switch) ? 'roweven' : 'rowodd') . '" colspan="2"><center class="pl"><input type="submit" name="submit" onclick="poll.vote(' . $pollid . '); return false;" value="' . $lang_poll['vote'] . '"/></center></td></tr></table>' . $pieces;
 
-        $jsHelper->add(PUN_ROOT . 'js/poll.js');
+        JsHelper::getInstance()->add(PUN_ROOT . 'js/poll.js');
 
         $out .= '</fieldset></div><br class="clearb" />';
 
@@ -416,9 +415,9 @@ class _Poll
 
     function showContainer()
     {
-        global $lang_poll, $jsHelper;
-        $jsHelper->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
-        $jsHelper->add(PUN_ROOT . 'js/poll.js');
+        global $lang_poll;
+        JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
+        JsHelper::getInstance()->add(PUN_ROOT . 'js/poll.js');
 
         return '<fieldset><legend>' . $lang_poll['poll'] . '</legend><div class="infldset txtarea"><input type="hidden" name="has_poll" id="has_poll" value="0" /><label><a id="apcreate" class="crtpoll" href="#">' . $lang_poll['create'] . '</a></label><div id="ppreview" style="display:none;position:relative;"></div></div></fieldset><br class="clearb" />';
     }
@@ -433,7 +432,7 @@ class _Poll
 
     function showEditForm($pid)
     {
-        global $lang_poll, $pun_user, $lang_common, $jsHelper;
+        global $lang_poll, $pun_user, $lang_common;
 
         $poll = $this->getPollDB($pid);
 
@@ -450,5 +449,3 @@ class _Poll
 
 
 $Poll = new _Poll();
-//$jsHelper->add(PUN_ROOT . 'js/jquery-1.10.2.min.js');
-//$jsHelper->add(PUN_ROOT.'js/jquery.dimensions.js');
