@@ -540,7 +540,7 @@ if ($quickpost) {
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';

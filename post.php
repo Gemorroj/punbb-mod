@@ -429,9 +429,9 @@ if (isset($_POST['form_sent'])) {
             }
 
             if ($merged) {
-                $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'users SET ' . $add_files . 'last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE ' . $db->prefix . 'users SET ' . $add_files . 'last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
             } else {
-                $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'users SET ' . $add_files . 'num_posts=num_posts+1, last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE ' . $db->prefix . 'users SET ' . $add_files . 'num_posts=num_posts+1, last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
             }
         }
         // MERGE POSTS END
