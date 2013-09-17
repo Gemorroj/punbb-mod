@@ -540,7 +540,7 @@ function delete_topic($topic_id)
 //
 function delete_post($post_id, $topic_id)
 {
-    global $db;
+    global $db, $pun_user;
 
     $result = $db->query('SELECT `id`, `poster`, `posted` FROM `' . $db->prefix . 'posts` WHERE `topic_id` = ' . $topic_id . ' ORDER BY `id` DESC LIMIT 2') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     list($last_id, $poster,) = $db->fetch_row($result);
