@@ -193,7 +193,7 @@ define('PUN_ALLOW_INDEX', 1);
 require_once PUN_ROOT . 'header.php';
 
 if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-    $jsHelper->add(PUN_ROOT . 'js/karma.js');
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/karma.js');
 }
 echo '<div class="linkst"><div class="inbox">
 <p class="pagelink conl">' . $paging_links . '</p>
@@ -540,7 +540,7 @@ if ($quickpost) {
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';

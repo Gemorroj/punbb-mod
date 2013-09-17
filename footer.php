@@ -11,10 +11,11 @@ ob_end_clean();
 // END SUBST - <pun_main>
 
 // JS_HELPER MOD BEGIN
-if (@$jsHelper) {
-    $tpl_main = str_replace('<pun_js_helper>', $jsHelper->headerOut(), $tpl_main);
+if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countInternal() > 0) {
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery-1.10.2.min.js');
+    $tpl_main = str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
 } else {
-    $tpl_main = str_replace('<pun_js_helper>', '<!-- pun_js_helper -->', $tpl_main);
+    $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);
 }
 // JS_HELPER MOD END
 
@@ -74,7 +75,7 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 }
 
 // $db->get_num_queries() - show sql queries
-echo '<p class="conr"><strong><a href="/">' . $_SERVER['HTTP_HOST'] . '</a></strong></p><p class="conr">PunBB Mod Gemorroj<br />' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</p><div class="clearer"></div></div></div></div>';
+echo '<p class="conr"><strong><a href="/">' . $_SERVER['HTTP_HOST'] . '</a></strong></p><p class="conr">PunBB Mod v' . pun_htmlspecialchars($pun_config['o_show_version']) . '<br />' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</p><div class="clearer"></div></div></div></div>';
 
 
 // End the transaction

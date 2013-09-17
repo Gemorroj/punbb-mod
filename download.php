@@ -55,16 +55,10 @@ if (!is_file($location)) {
     error($location . ' - this file does not exist', __FILE__, __LINE__);
 }
 
-$db->query('
-    UPDATE LOW_PRIORITY `' . $db->prefix . 'attachments`
-    SET `downloads` = `downloads` + 1
-    WHERE `id`=' . $aid
-    , true) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `' . $db->prefix . 'attachments` SET `downloads` = `downloads` + 1 WHERE `id`=' . $aid, true) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
 
-@set_time_limit(999);
-
-$getf = new getf();
-$getf->get(file_get_contents($location), $file, ($mime == 'application/octet-stream' ? '' : $mime), false, !$is_image);
+$getf = new Getf();
+$getf->get(file_get_contents($location), $file, ($mime == 'application/octet-stream' ? null : $mime), !$is_image);
 exit;
 
 /*

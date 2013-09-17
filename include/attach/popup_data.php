@@ -41,10 +41,10 @@ if (@$attachments) {
         }
     }
 
-    $jsHelper->addInternal('ATTACH_DATA={' . implode(',', $tmp) . '};');
+    JsHelper::getInstance()->addInternal('ATTACH_DATA={' . implode(',', $tmp) . '};');
     unset($tmp);
 }
 
-$jsHelper->add(PUN_ROOT . 'js/pop.js');
+JsHelper::getInstance()->add(PUN_ROOT . 'js/pop.js');
 
 echo '<div id="pun-popup" class="punpopup"><p id="pun-title" class="popup-title">title</p><p id="pun-desc" class="popup-desc">Description</p><p id="pun-body" class="popup-body">Body</p></div>';

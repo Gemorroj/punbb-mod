@@ -9,6 +9,7 @@
 {assign var='Image_text' value='Image text'}
 {assign var='Hide_smilies' value='Hide smilies'}
 {assign var='Merge_posts'  value='Merge posts'}
+{assign var='Email'  value='E-mail'}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a> &#187;
@@ -62,9 +63,9 @@
                 <strong>{$lang_post.$Guest_name}</strong><br/>
                 <input type="text" name="req_username" value="{$username|escape}"/><br/>
                 {if $pun_config.p_force_guest_email == 1}
-                    <strong>{$lang_common.E-mail}</strong>
+                    <strong>{$lang_common.$Email}</strong>
                 {else}
-                    {$lang_common.E-mail}
+                    {$lang_common.$Email}
                 {/if}<br/>
                 <input type="text" name="{if $pun_config.p_force_guest_email == 1}req_email{else}email{/if}" value="{$email|escape}"/>
                 <br/>

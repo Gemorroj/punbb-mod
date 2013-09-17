@@ -429,9 +429,9 @@ if (isset($_POST['form_sent'])) {
             }
 
             if ($merged) {
-                $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'users SET ' . $add_files . 'last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE ' . $db->prefix . 'users SET ' . $add_files . 'last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
             } else {
-                $db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'users SET ' . $add_files . 'num_posts=num_posts+1, last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE ' . $db->prefix . 'users SET ' . $add_files . 'num_posts=num_posts+1, last_post=' . $_SERVER['REQUEST_TIME'] . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
             }
         }
         // MERGE POSTS END
@@ -614,14 +614,14 @@ if ($pun_user['g_post_replies'] == 2) {
 }
 ?>
 <ul class="bblinks">
-    <li><a href="help.php#bbcode"
-           onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+    <li>
+        <a href="help.php#bbcode" onclick="window.open(this.href); return false;"><?php echo $lang_common['BBCode']; ?></a>: <?php echo ($pun_config['p_message_bbcode'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
     </li>
-    <li><a href="help.php#img"
-           onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+    <li>
+        <a href="help.php#img" onclick="window.open(this.href); return false;"><?php echo $lang_common['img tag']; ?></a>: <?php echo ($pun_config['p_message_img_tag'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
     </li>
-    <li><a href="help.php#smilies"
-           onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
+    <li>
+        <a href="help.php#smilies" onclick="window.open(this.href); return false;"><?php echo $lang_common['Smilies']; ?></a>: <?php echo ($pun_config['o_smilies'] == 1) ? $lang_common['on'] : $lang_common['off']; ?>
     </li>
 </ul>
 </div>

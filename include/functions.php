@@ -1105,7 +1105,7 @@ function error($message, $file, $line, $db_error = array())
 
     // Set a default title if the script failed before $pun_config could be populated
     if (!$pun_config) {
-        $pun_config['o_board_title'] = 'PunBB mod Gemorroj';
+        $pun_config['o_board_title'] = 'PunBB mod v' . $pun_config['o_show_version'];
     }
 
     // Empty output buffer and stop buffering
@@ -1330,7 +1330,7 @@ function vote($to = 0, $vote = 1)
 }
 
 
-class getf
+class Getf
 {
     // содержимое
     public $data;
@@ -1338,10 +1338,8 @@ class getf
     public $file;
     // mime
     public $mime;
-    // кодировка
-    public $charset;
     // аттач
-    public $attach;
+    public $attach = true;
 
     public function mime($file)
     {
@@ -1351,11 +1349,9 @@ class getf
             $this->mime = finfo_file($finfo, $file);
             finfo_close($finfo);
         }
-        // если нет, тавим MIME в зависимости от расширения
+        // если нет, ставим MIME в зависимости от расширения
         if (!$this->mime) {
-            $info = pathinfo($file);
-
-            switch (strtolower($info['extension'])) {
+            switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
                 case 'jar':
                     $this->mime = 'application/java-archive';
                     break;
@@ -1412,20 +1408,59 @@ class getf
                     $this->mime = 'image/png';
                     break;
 
+                case 'bmp':
+                    $this->mime = 'image/bmp';
+                    break;
 
-                case 'js':
+                case 'ico':
+                    $this->mime = 'image/x-icon';
+                    break;
+
                 case 'asp':
                 case 'txt':
                 case 'dat':
                 case 'php':
                 case 'php5':
-                case 'htm':
-                case 'html':
+                case 'py':
+                case 'rb':
+                case 'c':
+                case 'h':
+                case 'cpp':
+                case 'cs':
+                case 'pl':
                 case 'wml':
-                case 'css':
+                case 'sql':
                 case 'ini':
                 case 'log':
+                case 'bat':
+                case 'sh':
                     $this->mime = 'text/plain';
+                    break;
+
+                case 'css':
+                    $this->mime = 'text/css';
+                    break;
+
+                case 'js':
+                    $this->mime = 'application/javascript';
+                    break;
+
+                case 'json':
+                    $this->mime = 'application/json';
+                    break;
+
+                case 'xml':
+                case 'xsd':
+                    $this->mime = 'application/xml';
+                    break;
+
+                case 'xsl':
+                case 'xslt':
+                    $this->mime = 'application/xslt+xml';
+                    break;
+
+                case 'wsdl':
+                    $this->mime = 'application/wsdl+xml';
                     break;
 
                 case 'mmf':
@@ -1474,8 +1509,16 @@ class getf
                     $this->mime = 'video/mpeg';
                     break;
 
+                case 'swf':
+                    $this->mime = 'application/x-shockwave-flash';
+                    break;
+
                 case 'pdf':
                     $this->mime = 'application/pdf';
+                    break;
+
+                case 'rtf':
+                    $this->mime = 'application/rtf';
                     break;
 
                 case 'doc':
@@ -1504,17 +1547,15 @@ class getf
     }
 
 
-    // Содержимое файла, имя файла, MIME (опционально), кодировка (опционально), аттач (опционально)
     /**
-     * @param string $data
-     * @param string $file
-     * @param string $mime
-     * @param string $charset
-     * @param bool $attach
+     * @param string $data Содержимое файла
+     * @param string $file имя файла
+     * @param string $mime MIME (опционально)
+     * @param bool $attach аттач (опционально)
      *
      * @return string
      */
-    public function get($data, $file, $mime = null, $charset = null, $attach = false)
+    public function get($data, $file, $mime = null, $attach = true)
     {
         ob_implicit_flush(1);
         set_time_limit(2000);
@@ -1525,7 +1566,6 @@ class getf
 
         $this->file = $file;
         $this->mime = $mime;
-        $this->charset = $charset;
         $this->attach = $attach;
 
         if (!$this->file) {
@@ -1542,31 +1582,6 @@ class getf
         if (!$this->mime) {
             $this->mime = $this->mime($this->file);
         }
-
-        if (!$this->charset) {
-            if (iconv('UTF-8', 'UTF-8//IGNORE', $this->data) == $this->data) {
-                $this->charset = 'UTF-8';
-            } else {
-                $this->charset = mb_detect_encoding($this->data, 'Windows-1251, ISO-8859-1, KOI8-R');
-            }
-        }
-
-
-        /*
-        if ($_SERVER['HTTP_ACCEPT_ENCODING']) {
-            $compress = strtolower($_SERVER['HTTP_ACCEPT_ENCODING']);
-        } else {
-            $compress = strtolower($_SERVER['HTTP_TE']);
-        }
-
-        if (substr_count($compress, 'deflate')) {
-            header('Content-Encoding: deflate');
-            $this->data = gzdeflate($this->data, 6);
-        } elseif (substr_count($compress, 'gzip')) {
-            header('Content-Encoding: gzip');
-            $this->data = gzencode($this->data, 6);
-        }
-        */
 
         $sz = $range = strlen($this->data);
 
@@ -1635,13 +1650,8 @@ class getf
             header('Content-Range: bytes ' . $file_range['from'] . '-' . $file_range['to'] . '/' . $sz);
         }
 
-
-        if ($this->mime == 'text/plain') {
-            header('Content-Type: text/plain; charset=' . $this->charset);
-        } else {
-            header('Content-Type: ' . $this->mime);
-            header('Content-Transfer-Encoding: binary');
-        }
+        header('Content-Type: ' . $this->mime);
+        header('Content-Transfer-Encoding: binary');
 
         // Если отдаем как аттач
         if ($this->attach) {

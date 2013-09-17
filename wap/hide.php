@@ -269,7 +269,7 @@ require PUN_ROOT . 'include/attach/fetch.php';
 
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);

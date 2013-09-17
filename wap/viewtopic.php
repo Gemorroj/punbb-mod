@@ -267,7 +267,7 @@ require_once PUN_ROOT . 'include/attach/fetch.php';
 
 
 // Increment "num_views" for topic
-$db->query('UPDATE LOW_PRIORITY ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true)
+$db->query('UPDATE ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true)
 or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 // Load the viewtopic.php language file

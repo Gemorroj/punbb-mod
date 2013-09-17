@@ -15,8 +15,8 @@ Outgoing variables:
 $attachments: array - cache of attachments records
  ************************************************************************/
 
-$jsHelper->add(PUN_ROOT . 'js/reply.js');
-$jsHelper->addInternal('
+JsHelper::getInstance()->add(PUN_ROOT . 'js/reply.js');
+JsHelper::getInstance()->addInternal('
 var post_form = \'' . $focus_element[0] . '\';
 var txt	 = \'\';
 var text_enter_title = \'' . $lang_fu['JS enter title'] . '\';
