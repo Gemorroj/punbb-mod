@@ -344,8 +344,6 @@ function split_text($text, $start, $end)
 //
 function handle_url_tag($url, $link = '')
 {
-    global $pun_user;
-
     $full_url = str_replace(
         array(' ', "'", '`', '"'),
         array('%20', '%27', '%60', '%22'),
@@ -360,7 +358,7 @@ function handle_url_tag($url, $link = '')
     }
 
     // Ok, not very pretty :-)
-    $link = ($link == '' || $link == $url) ? ((mb_strlen($url) > 55) ? mb_substr($url, 0, 39) . ' &#133; ' . mb_substr($url, -10) : $url) : stripslashes($link);
+    $link = ($link == '' || $link == $url) ? ((mb_strlen($url) > 55) ? mb_substr($url, 0, 39) . ' &#x2026; ' . mb_substr($url, -10) : $url) : stripslashes($link);
 
     return '<a href="' . $full_url . '">' . $link . '</a>';
 }
@@ -371,22 +369,22 @@ function handle_url_tag($url, $link = '')
 //
 function handle_search_tag($where = 'forum', $what = '')
 {
-    global $pun_user;
-
     $where = mb_strtolower($where);
     switch ($where) {
         case 'forum':
             $full_url = 'search.php?action=search&amp;keywords=' . urlencode($what);
             break;
 
-        case 'punres':
-            // =)
-            $full_url = 'http://punres.org/search.php?action=search&amp;keywords=' .
-                urlencode($what);
+        case 'yandex':
+            $full_url = 'http://yandex.ru/yandsearch?text=' . urlencode($what);
             break;
 
         case 'google':
             $full_url = 'http://www.google.com/search?q=' . urlencode($what);
+            break;
+
+        case 'baidu':
+            $full_url = 'http://www.baidu.com/s?wd=' . urlencode($what);
             break;
 
         default:
@@ -403,7 +401,7 @@ function handle_search_tag($where = 'forum', $what = '')
 //
 function handle_img_tag_modern($align, $url, $is_signature = false)
 {
-    global $lang_common, $pun_config, $pun_user;
+    global $lang_common, $pun_user;
 
     $img_tag = '<a href="' . $url . '">&lt;' . $lang_common['Image link'] . '&gt;</a>';
 
@@ -424,7 +422,7 @@ function handle_img_tag_modern($align, $url, $is_signature = false)
 //
 function handle_img_tag($url, $is_signature = false)
 {
-    global $lang_common, $pun_config, $pun_user;
+    global $lang_common, $pun_user;
 
     $img_tag = '<a href="' . $url . '">&lt;' . $lang_common['Image link'] . '&gt;</a>';
 
