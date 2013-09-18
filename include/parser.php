@@ -663,7 +663,27 @@ function parse_message($text, $hide_smilies, $post = 0)
     // AJAX POLL MOD END
 
     // If we split up the message before we have to concatenate it together again (code tags)
-    if (isset($inside) && $inside) {
+    $text = do_code($text, $inside);
+
+    // Add paragraph tag around post, but make sure there are no empty paragraphs
+    if ($wap) {
+        $text = str_replace('<p></p>', '', $text);
+    } else {
+        $text = str_replace('<p></p>', '', '<p>' . $text . '</p>');
+    }
+
+    return $text;
+}
+
+
+function do_code ($text, $inside)
+{
+    global $pun_config, $lang_common, $pun_user;
+    $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
+
+
+    // If we split up the message before we have to concatenate it together again (code tags)
+    if ($inside) {
         $outside = explode('<">', $text);
         $num_tokens = sizeof($outside);
         $text = '';
@@ -675,11 +695,9 @@ function parse_message($text, $hide_smilies, $post = 0)
                 $num_lines = ((substr_count($inside[$i], "\n")) + 3) * 1.5;
                 $height_str = ($num_lines > 35) ? '35em' : $num_lines . 'em';
 
-                if ($inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] == '&lt;?' || $inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] == '&lt;%') {
+                if ($inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] === '&lt;?') {
                     $code = str_replace(
                         array(
-                            '</span></span>',
-                            '<span style="color: #000000">',
                             '<code>',
                             '</code>',
                             "\r",
@@ -687,16 +705,14 @@ function parse_message($text, $hide_smilies, $post = 0)
                             "\t"
                         ),
                         array(
-                            '</span>',
-                            '',
-                            '',
                             '',
                             '',
                             '',
                             '',
                             ''
                         ),
-                        highlight_string(htmlspecialchars_decode($inside[$i]), true)
+                        // delete the first <span style="color:#000000;"> and the corresponding </span>
+                        $str = substr(highlight_string(htmlspecialchars_decode($inside[$i]), true), 35, -8)
                     );
                 } else {
                     $code = str_replace(array("\r", "\n", "\t"), '', nl2br($inside[$i]));
@@ -713,16 +729,22 @@ function parse_message($text, $hide_smilies, $post = 0)
                         if ($c[$i2] === '') {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
-                            if (!isset($c[$i2][4]) || $c[$i2][0] . $c[$i2][1] . $c[$i2][2] . $c[$i2][3] . $c[$i2][4] != '<span') {
-                                $c[$i2] = $span . $c[$i2];
+                            if (substr($c[$i2], 0, 7) === '</span>') {
+                                $c[$i2] = substr($c[$i2], 7);
                             }
 
-                            $c[$i2] = str_replace('</span></span>', '', $c[$i2]);
+                            $openSpan = substr_count($c[$i2], '<span');
+                            $closeSpan = substr_count($c[$i2], '</span>');
+                            if ($openSpan > $closeSpan) {
+                                $c[$i2] .= str_repeat('</span>', $openSpan - $closeSpan);
+                            } elseif ($closeSpan > $openSpan) {
+                                $c[$i2] = str_repeat('<span>', $closeSpan - $openSpan) . $c[$i2];
+                            }
 
-                            $code .= '<tr><td>' . (((substr_count($c[$i2], '<span') + substr_count($c[$i2], '</span>')) % 2) ? '' : $span) . $c[$i2] . '</span></td></tr>';
+                            $code .= '<tr><td>' . $span . $c[$i2] . '</span></td></tr>';
 
-                            if ($preg_span = preg_match('/.*<span style="color:(.*?)">.*/i', $c[$i2], $array_span)) {
-                                $span = '<span style="color:' . $array_span[$preg_span] . '">';
+                            if ($preg_span = preg_match('/.*<span style="color: #([a-z0-9]+?)">.*/i', $span . $c[$i2], $array_span)) {
+                                $span = '<span style="color: #' . $array_span[$preg_span] . '">';
                             } else {
                                 $span = '<span>';
                             }
@@ -744,15 +766,9 @@ function parse_message($text, $hide_smilies, $post = 0)
         }
     }
 
-    // Add paragraph tag around post, but make sure there are no empty paragraphs
-    if ($wap) {
-        $text = str_replace('<p></p>', '', $text);
-    } else {
-        $text = str_replace('<p></p>', '', '<p>' . $text . '</p>');
-    }
-
     return $text;
 }
+
 
 
 //
