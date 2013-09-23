@@ -463,7 +463,7 @@ foreach ($posts as $cur_post) {
 
     //$save_attachments = $attachments;
     //$attachments = array_filter($attachments, 'filter_attachments_of_post');
-    if ($attachments[$cur_post['id']]) {
+    if (isset($attachments[$cur_post['id']])) {
         echo '<br /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
         include PUN_ROOT . 'include/attach/view_attachments.php';
         echo '</fieldset>';

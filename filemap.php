@@ -89,11 +89,10 @@ if ($fid_list) {
     $result = $db->query('SELECT f.cat_id,
     t.forum_id, t.id AS tid, t.subject, t.last_post, t.poster, t.posted,
     a.id AS id, a.mime, a.uploaded, a.image_dim, a.filename, a.downloads, a.location, a.size
-    FROM
-    ' . $db->prefix . 'attachments AS a INNER JOIN
-    ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
-    ' . $db->prefix . 'forums AS f ON f.id = t.forum_id INNER JOIN
-    ' . $db->prefix . 'categories AS c ON f.cat_id = c.id
+    FROM ' . $db->prefix . 'attachments AS a
+    INNER JOIN ' . $db->prefix . 'topics AS t ON a.topic_id=t.id
+    INNER JOIN ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
+    INNER JOIN ' . $db->prefix . 'categories AS c ON f.cat_id = c.id
     WHERE f.id in (' . $fid_list . ') ' . (isset($_GET['user_id']) ? (' AND (a.poster_id=' . $user_id . ')') : '') . '
     ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc, a.filename' .
         ((!isset($_GET['action']) || $_GET['action'] != 'all') ? ' LIMIT ' . $start_from . ',' . ATTACHMENTS_PER_PAGE : '')) or
@@ -102,7 +101,7 @@ if ($fid_list) {
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions
         $row['can_download'] = $forums[$row['forum_id']]['can_download'];
-        $attachments[$row['post_id']][] = $row;
+        $attachments[$row['id']][] = $row;
     }
 }
 

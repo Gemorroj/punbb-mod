@@ -69,10 +69,9 @@ if (!$fid_list) {
     // get number of topics and which we have to start from
     $result = $db->query('
         SELECT COUNT(1)
-        FROM
-        ' . $db->prefix . 'attachments AS a INNER JOIN
-        ' . $db->prefix . 'topics AS t ON a.topic_id=t.id INNER JOIN
-        ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
+        FROM ' . $db->prefix . 'attachments AS a
+        INNER JOIN ' . $db->prefix . 'topics AS t ON a.topic_id=t.id
+        INNER JOIN ' . $db->prefix . 'forums AS f ON f.id = t.forum_id
         WHERE f.id in (' . $fid_list . ') ' . ($user_id ? (' AND (a.poster_id=' . $user_id . ')') : '')
     ) or error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
     $num_rows = $db->fetch_row($result);
@@ -107,7 +106,7 @@ if ($fid_list) {
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions
         $row['can_download'] = $forums[$row['forum_id']]['can_download'];
-        $attachments[$row['post_id']][] = $row;
+        $attachments[$row['id']][] = $row;
     }
 }
 

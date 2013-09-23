@@ -61,7 +61,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     pun_setcookie($user_id, $form_password_hash, $expire);
 
     redirect(pun_htmlspecialchars($_POST['redirect_url']), $lang_login['Login redirect']);
-} else if ($_GET['action'] == 'out') {
+} else if (isset($_GET['action']) && $_GET['action'] == 'out') {
     if ($pun_user['is_guest'] || $_GET['id'] != $pun_user['id'] || $_GET['csrf_token'] != sha1($pun_user['id'] . sha1(get_remote_address()))) {
         redirect('index.php', '', 302);
     }
@@ -77,7 +77,7 @@ if (isset($_POST['form_sent']) && $_GET['action'] == 'in') {
     pun_setcookie(1, md5(uniqid(mt_rand(), true)), time() + 31536000);
 
     redirect('index.php', $lang_login['Logout redirect']);
-} else if ($_GET['action'] == 'forget' || $_GET['action'] == 'forget_2') {
+} else if (isset($_GET['action']) && ($_GET['action'] == 'forget' || $_GET['action'] == 'forget_2')) {
     if (!$pun_user['is_guest']) {
         redirect('index.php', '', 302);
     }

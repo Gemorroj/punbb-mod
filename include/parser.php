@@ -631,6 +631,7 @@ function parse_message($text, $hide_smilies, $post = 0)
 
 
     // If the message contains a code tag we have to split it up (text within [code][/code] shouldn't be touched)
+    $inside = array();
     if (strpos($text, '[code]') !== false && strpos($text, '[/code]') !== false) {
         list($inside, $outside) = split_text($text, '[code]', '[/code]');
         $outside = array_map('ltrim', $outside);
@@ -676,7 +677,7 @@ function parse_message($text, $hide_smilies, $post = 0)
 }
 
 
-function do_code ($text, $inside)
+function do_code ($text, $inside = array())
 {
     global $pun_config, $lang_common, $pun_user;
     $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
