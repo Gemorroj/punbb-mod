@@ -70,8 +70,9 @@ $num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 
+
 // Generate paging links
-if ($_GET['action'] == 'all') {
+if (isset($_GET['action']) && $_GET['action'] == 'all') {
     $p = ($num_pages + 1);
     $pun_user['disp_topics'] = $cur_forum['num_topics'];
 }

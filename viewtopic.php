@@ -15,6 +15,7 @@ if (!$pun_user['g_read_board']) {
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 
 if ($id < 1 && $pid < 1) {
     message($lang_common['Bad request']);
@@ -49,7 +50,7 @@ if ($pid) {
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
 } // If action=new, we redirect to the first new post (if any)
-else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
+else if ($action == 'new' && !$pun_user['is_guest']) {
     $result = $db->query('SELECT MIN(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id . ' AND posted>' . $pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $first_new_post_id = $db->result($result);
 
@@ -59,7 +60,7 @@ else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
         // If there is no new post, we go to the last post
         redirect('viewtopic.php?id=' . $id . '&action=last', '');
     }
-} else if ($_GET['action'] == 'last') {
+} else if ($action == 'last') {
     // If action=last, we redirect to the last post
 
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -150,12 +151,12 @@ $start_from = $pun_user['disp_posts'] * ($p - 1);
 /// MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
 //$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
-if ($_GET['action'] == 'all') {
+if ($action == 'all') {
     $p = ($num_pages + 1);
 }
 
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
-if ($_GET['action'] == 'all' && !$pid) {
+if ($action == 'all' && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
 /// MOD VIEW ALL PAGES IN ONE END
