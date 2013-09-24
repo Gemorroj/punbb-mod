@@ -689,7 +689,7 @@ function do_code ($text, $inside = array())
         $num_tokens = sizeof($outside);
         $text = '';
 
-        for ($i = 0; $i <= $num_tokens; ++$i) {
+        for ($i = 0; $i < $num_tokens; ++$i) {
             $text .= $outside[$i];
 
             if (isset($inside[$i])) {
