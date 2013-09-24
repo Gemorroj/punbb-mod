@@ -9,6 +9,7 @@ require PUN_ROOT . 'include/file_upload.php';
 /* // Mod InstantQuote */
 
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/post.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
