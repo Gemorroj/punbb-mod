@@ -133,6 +133,7 @@ function prune($forum_id, $prune_sticky, $prune_date)
             strip_search_index($post_ids);
 
             // Delete attachments
+            include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
             include_once PUN_ROOT . 'include/file_upload.php';
             delete_post_attachments($post_ids);
         }

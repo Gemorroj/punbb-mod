@@ -506,7 +506,7 @@ function update_forum($forum_id)
 //
 function delete_topic($topic_id)
 {
-    global $db;
+    global $db, $pun_user; // for included files
 
     // Delete the topic and any redirect topics
     $db->query('DELETE FROM ' . $db->prefix . 'topics WHERE id=' . $topic_id . ' OR moved_to=' . $topic_id) or error('Unable to delete topic', __FILE__, __LINE__, $db->error());
@@ -523,6 +523,7 @@ function delete_topic($topic_id)
         strip_search_index($post_ids);
 
         // Delete attachments
+        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
         include_once PUN_ROOT . 'include/file_upload.php';
         delete_post_attachments($post_ids);
 
@@ -551,6 +552,7 @@ function delete_post($post_id, $topic_id)
 
     strip_search_index($post_id);
 
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     include_once PUN_ROOT . 'include/file_upload.php';
     delete_post_attachments($post_id);
 

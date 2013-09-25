@@ -3,8 +3,9 @@
 define('PUN_ROOT', '../');
 define('PUN_ALLOW_INDEX', 1);
 
-require_once(PUN_ROOT . 'include/common.php');
-require_once(PUN_ROOT . 'include/file_upload.php');
+require_once PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
+require_once PUN_ROOT . 'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);

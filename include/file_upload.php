@@ -3,8 +3,6 @@ if (!defined('PUN_ROOT')) {
     exit;
 }
 
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
-
 
 // Makes sure the mod is properly configured.
 function check_mod_config()

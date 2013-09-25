@@ -12,6 +12,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 }
 
 if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_POST['delete_thumbnails']) || isset($_POST['fix_counters'])) {
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     include PUN_ROOT . 'include/file_upload.php';
 }
 

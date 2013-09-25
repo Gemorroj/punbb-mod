@@ -2,6 +2,7 @@
 
 define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 // если проверка каптчей
@@ -629,6 +630,7 @@ if ($pun_user['g_post_replies'] == 2) {
 <?php
 $num_to_upload = min($file_limit, 20);
 if ($can_upload && $num_to_upload > 0) {
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     echo '<br class="clearb" /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
     include PUN_ROOT . 'include/attach/post_input.php';
     echo '</fieldset>';

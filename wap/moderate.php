@@ -111,7 +111,8 @@ if (isset($_GET['tid'])) {
             strip_search_index($posts);
 
             // Delete attachments
-            require_once PUN_ROOT . 'include/file_upload.php';
+            include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
+            include_once PUN_ROOT . 'include/file_upload.php';
             delete_post_attachments($posts);
 
             // Get last_post, last_post_id, and last_poster for the topic after deletion
@@ -350,7 +351,8 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         }
 
         // Delete attachments
-        require_once PUN_ROOT . 'include/file_upload.php';
+        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
+        include_once PUN_ROOT . 'include/file_upload.php';
         delete_post_attachments($post_ids);
 
         // Delete posts

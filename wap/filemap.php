@@ -1,6 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 

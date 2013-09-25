@@ -1,6 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 
@@ -204,8 +205,7 @@ $cur_post['id'] = $id;
 
 if ($uploaded_to_post) {
     // Retrieve the attachments
-    require_once PUN_ROOT . 'include/attach/fetch.php';
-    $smarty->assign('lang_fu', $lang_fu);
+    include_once PUN_ROOT . 'include/attach/fetch.php';
     $smarty->assign('attachments', $attachments);
 }
 //- Attachments//

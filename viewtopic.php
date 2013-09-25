@@ -2,6 +2,7 @@
 define('PUN_ROOT', './');
 
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 
@@ -465,6 +466,7 @@ foreach ($posts as $cur_post) {
     //$save_attachments = $attachments;
     //$attachments = array_filter($attachments, 'filter_attachments_of_post');
     if (isset($attachments[$cur_post['id']])) {
+        include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
         echo '<br /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
         include PUN_ROOT . 'include/attach/view_attachments.php';
         echo '</fieldset>';

@@ -1,6 +1,7 @@
 <?php
 define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 
@@ -262,6 +263,7 @@ if ($errors) {
 $num_to_upload = $file_limit /* + $uploaded_to_post*/;
 $num_to_upload = min($num_to_upload, 20);
 if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     echo '<br class="clearb" /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
     include PUN_ROOT . 'include/attach/view_attachments.php';
     if ($can_upload && $num_to_upload > 0) {
