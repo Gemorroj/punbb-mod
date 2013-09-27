@@ -4,7 +4,7 @@ if (!defined('PUN')) {
     exit;
 }
 
-$pun_xhtml = stripos($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml') ? 'application/xhtml+xml' : 'text/html';
+$pun_xhtml = stripos(isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '', 'application/xhtml+xml') ? 'application/xhtml+xml' : 'text/html';
 
 // Send no-cache headers
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT'); // When yours truly first set eyes on this world! :)

@@ -8,7 +8,9 @@ if ($id < 2) {
     message($lang_common['Bad request']);
 }
 
-if (!$pun_user['g_read_board'] && ($_GET['action'] != 'change_pass' || !isset($_GET['key']))) {
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+
+if (!$pun_user['g_read_board'] && ($action != 'change_pass' || !isset($_GET['key']))) {
     message($lang_common['No view']);
 }
 
@@ -19,7 +21,8 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 
 
-if ($_GET['action'] == 'change_pass') {
+
+if ($action == 'change_pass') {
     if (isset($_GET['key'])) {
         // If the user is already logged in we shouldn't be here :)
         if (!$pun_user['is_guest']) {
@@ -132,7 +135,7 @@ if ($_GET['action'] == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($_GET['action'] == 'change_email') {
+} else if ($action == 'change_email') {
     // Make sure we are allowed to change this users e-mail
     if ($pun_user['id'] != $id) {
         if ($pun_user['g_id'] > PUN_MOD) { // A regular user trying to change another users e-mail?
@@ -270,7 +273,7 @@ if ($_GET['action'] == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($_GET['action'] == 'upload_avatar' || $_GET['action'] == 'upload_avatar2') {
+} else if ($action == 'upload_avatar' || $action == 'upload_avatar2') {
     if (!$pun_config['o_avatars']) {
         message($lang_profile['Avatars disabled']);
     }
@@ -411,7 +414,7 @@ if ($_GET['action'] == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($_GET['action'] == 'delete_avatar') {
+} else if ($action == 'delete_avatar') {
     if ($pun_user['id'] != $id && $pun_user['g_id'] > PUN_MOD) {
         message($lang_common['No permission']);
     }
