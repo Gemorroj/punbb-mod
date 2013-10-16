@@ -37,8 +37,6 @@
             <input type="text" name="req_subject" value="{{$smarty.post.req_subject|default:$cur_post.subject}|escape}"/><br/>
         {/if}
 
-        {* include file='{$smarty.const.PUN_ROOT}include/attach/fetch.php' *}
-
         {$lang_common.Message}:<br/>
             <textarea name="req_message" rows="4" cols="24">{{$message|default:$cur_post.message}|escape}</textarea><br/>
             <a href="help.php?id=3">{$lang_common.Smilies}</a>

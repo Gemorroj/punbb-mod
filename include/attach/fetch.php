@@ -18,18 +18,25 @@ $attachments: array - cache of attachments records
 // there are different sources to include fetch.php
 switch (basename($_SERVER['PHP_SELF'])) {
     case 'viewtopic.php':
+    case 'hide.php':
         $att_sql = 'SELECT * FROM ' . $db->prefix . 'attachments WHERE topic_id=' . intval($id) . ' AND post_id in (' . implode(',', $pids) . ')';
         break;
 
     case 'edit.php':
         $att_sql = 'SELECT * FROM ' . $db->prefix . 'attachments WHERE post_id=' . intval($id);
         break;
+
+    default:
+        $att_sql = null;
+        break;
 }
 
 // prepare attachments cache data
 $attachments = array();
-$result = $db->query($att_sql, true); // or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
-while ($attachment = $db->fetch_assoc($result)) {
-    $attachments[$attachment['post_id']][] = $attachment;
+if ($att_sql) {
+    $result = $db->query($att_sql, true); // or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
+    while ($attachment = $db->fetch_assoc($result)) {
+        $attachments[$attachment['post_id']][] = $attachment;
+    }
+    $db->free_result($result);
 }
-$db->free_result($result);
