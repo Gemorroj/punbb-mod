@@ -161,8 +161,8 @@ if (isset($_POST['form_sent'])) {
         $email = strtolower(trim(($pun_config['p_force_guest_email'] == 1) ? $_POST['req_email'] : $_POST['email']));
 
         // Load the register.php/profile.php language files
-        require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
-        require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
+        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
 
         // It's a guest, so we have to validate the username
         if (mb_strlen($username) < 2) {
@@ -567,6 +567,8 @@ $smarty->assign('file_limit', $file_limit);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('subject', @$subject);
+$smarty->assign('username', @$username);
+$smarty->assign('email', @$email);
 $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
