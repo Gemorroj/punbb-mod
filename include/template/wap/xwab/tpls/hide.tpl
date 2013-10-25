@@ -33,12 +33,10 @@
 <div class="msg">
     <div class="zag_in" id="p{$cur_post.id}">
 
-        {if $cur_post.poster_id > 1 and $pun_config.o_avatars == 1 && $cur_post.use_avatar == 1 && $pun_user.show_avatars}
         {* Аватарка *}
-            <img src="{$smarty.const.PUN_ROOT}{$pun_config.o_avatars_dir}/{$cur_post.poster_id}.{$cur_post.avatar_type}" alt="*"/>&#160;
-        {/if}
+        {$cur_post.user_avatar}
 
-    {* Имя пользователя *}
+        {* Имя пользователя *}
         <strong>{if $cur_post.poster_id > 1}<a href="profile.php?id={$cur_post.poster_id}">{$cur_post.username|escape}</a>{else}{$cur_post.username|escape}{/if}</strong>
 
         {if $cur_post.poster_id > 1}
@@ -59,18 +57,18 @@
             {/if}
         {/if}
         <br/>
-    {* Должность *}
-            {get_title($cur_post)}<br/>
-    {* Когда было размещено сообщение *}
-            {$cur_post.posted|date_format:$date_format}<br/>
+        {* Должность *}
+        {get_title($cur_post)}<br/>
+        {* Когда было размещено сообщение *}
+        {$cur_post.posted|date_format:$date_format}<br/>
     </div>
 
-{* Сообщение *}
+    {* Сообщение *}
     {$cur_post.message}
 
     {if $is_admmod and isset($cur_post.spam_id)}
-    {* Анти-спам *}
-    {include file='`$smarty.const.PUN_ROOT`lang/`$pun_user.language`/misc.php'}
+        {* Анти-спам *}
+        {include file='`$smarty.const.PUN_ROOT`lang/`$pun_user.language`/misc.php'}
 
         <div class="antispam">
             {$lang_misc.$Antispam_pattern} - {$cur_post.pattern|escape}<br/>
@@ -81,7 +79,7 @@
 
 
     {if $attachments[$cur_post.id]}
-    {* Вложения *}
+        {* Вложения *}
         <div class="attach_list">
             <strong>{$lang_fu.Attachments}</strong><br/>
             {foreach from=$attachments[$cur_post.id] item=attachment}

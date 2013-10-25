@@ -260,10 +260,31 @@ if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
 }
 /// MOD ANTISPAM END
 
-
 $cur_post = $db->fetch_assoc($result);
 $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
+$cur_post['user_avatar'] = pun_show_avatar();
 $db->free_result($result);
+
+$karma = array();
+if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
+    $karmaCount = $db->query(
+        'SELECT COUNT(1), '
+        .   '(SELECT COUNT(1) '
+        .   'FROM `' . $db->prefix . 'karma` '
+        .   'WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ') '
+        . 'FROM `' . $db->prefix . 'karma` '
+        . 'WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
+    );
+    $karma = $db->fetch_row($karmaCount);
+
+    $cur_post['karma']['val'] = (int) $karma[0] - (int) $karma[1];
+    $karmaVoteAccess = $db->query(
+        'SELECT 1 '
+        . 'FROM `' . $db->prefix . 'karma` '
+        . 'WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . $cur_post['poster_id'] . ' LIMIT 1'
+    );
+    $cur_post['karma']['used'] = ($pun_user['is_guest'] || $db->num_rows($karmaVoteAccess));
+}
 
 
 // Retrieve the attachments
@@ -277,7 +298,6 @@ $smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);
 $smarty->assign('pun_user', $pun_user);
 
-$smarty->assign('conditions', $conditions);
 $smarty->assign('is_admmod', $is_admmod);
 $smarty->assign('can_download', $can_download);
 
@@ -289,12 +309,10 @@ $smarty->assign('lang_pms', $lang_pms);
 $smarty->assign('page_title', $page_title);
 $smarty->assign('forum_id', $cur_topic['forum_id']);
 $smarty->assign('id', $id);
-$smarty->assign('p', $p);
 
 $smarty->assign('cur_topic', $cur_topic);
 $smarty->assign('cur_post', $cur_post);
 
 $smarty->assign('attachments', $attachments);
-$smarty->assign('paging_links', $paging_links);
 
 $smarty->display('hide.tpl');
