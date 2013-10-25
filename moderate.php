@@ -207,10 +207,10 @@ if (isset($_GET['tid'])) {
     $post_count = 0; // Keep track of post numbers
 
 
-    if ($_GET['action'] != 'all') {
-        $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_posts'];
-    } else {
+    if (isset($_GET['action']) && $_GET['action'] == 'all') {
         $act_all = null;
+    } else {
+        $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_posts'];
     }
 
 
