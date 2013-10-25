@@ -746,7 +746,7 @@ function paginate($num_pages, $cur_page, $link_to)
 //
 function message($message, $no_back_link = false)
 {
-    global $db, $pun_user, $lang_common, $pun_config, $pun_start, $tpl_main;
+    global $db, $pun_user, $lang_common, $pun_config, $pun_start, $tpl_main, $id;
 
     if (!defined('PUN_HEADER')) {
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Info'];

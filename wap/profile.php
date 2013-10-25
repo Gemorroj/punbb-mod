@@ -3,7 +3,7 @@ define('PUN_ROOT', '../');
 require_once PUN_ROOT . 'include/common.php';
 require_once PUN_ROOT . 'wap/header.php';
 
-$id = intval(@$_GET['id']);
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($id < 2) {

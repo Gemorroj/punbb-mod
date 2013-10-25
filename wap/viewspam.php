@@ -9,8 +9,7 @@ if ($pun_user['g_id'] != PUN_MOD && $pun_user['g_id'] != PUN_ADMIN) {
 }
 
 
-$id = intval($_GET['id']);
-
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($id > 0) {
     $result_messages = $db->query('SELECT message FROM ' . $db->prefix . 'spam_repository WHERE id=' . $id) or error('Unable check spam message', __FILE__, __LINE__, $db->error());
     $return = $db->fetch_assoc($result_messages);

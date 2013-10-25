@@ -3,7 +3,7 @@ define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
 
 
-$id = intval(@$_GET['id']);
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($id < 2) {
     message($lang_common['Bad request']);
 }

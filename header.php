@@ -160,7 +160,7 @@ if ($pun_user['is_guest']) {
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>' . $lang_common['Not logged in'] . '</li></ul>';
 
     /// MOD PRINTABLE TOPIC BEGIN
-    if ($basename == 'viewtopic.php' && $id) {
+    if ($basename == 'viewtopic.php' && $id > 0) {
         $tpl_temp .= '<ul class="conr"><li><span class="printable"><a href="viewprintable.php?id=' . $id . '">' . $lang_common['Print version'] . '</a></span></li></ul><div class="clearer"></div></div>';
     } else {
         $tpl_temp .= '<div class="clearer"></div></div>';
