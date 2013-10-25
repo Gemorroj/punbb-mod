@@ -7,14 +7,17 @@ if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-
-if ($to = intval($_GET['to'])) {
+$to = isset($_GET['to']) ? intval($_GET['to']) : 0;
+if ($to > 0) {
     echo vote($to, intval($_GET['vote']));
     exit;
 }
 
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+if ($id < 1) {
+    message($lang_common['Bad request']);
+}
 
-$id = intval($_GET['id']);
 $q = $db->fetch_row($db->query('
     SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $id . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $id
 ));
@@ -32,7 +35,7 @@ $num_pages = ceil($num_hits / $pun_user['disp_posts']);
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
 
 $start = ($p - 1) * $pun_user['disp_posts'];
-if ($_GET['action'] == 'all') {
+if (isset($_GET['action']) && $_GET['action'] == 'all') {
     $p = $num_pages + 1;
     $pun_user['disp_posts'] = $num_hits;
     $start = 0;
