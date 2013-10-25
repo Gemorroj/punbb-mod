@@ -224,7 +224,7 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-    require PUN_ROOT . 'include/search_idx.php';
+    include PUN_ROOT . 'include/search_idx.php';
 
     $hide_smilies = isset($_POST['hide_smilies']) ? 1 : 0;
     $subscribe = isset($_POST['subscribe']) ? 1 : 0;
