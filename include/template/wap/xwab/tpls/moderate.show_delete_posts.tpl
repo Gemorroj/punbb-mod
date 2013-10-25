@@ -5,8 +5,8 @@
 {assign var='j' value=false}
 
 <div class="inbox">
-    <a href="index.php">{$lang_common.Index}</a> &#187; <a
-        href="viewforum.php?id={$fid}">{$cur_topic.forum_name|escape}</a> &#187; {$cur_topic.subject|escape}</div>
+    <a href="index.php">{$lang_common.Index}</a> &#187; <a href="viewforum.php?id={$fid}">{$cur_topic.forum_name|escape}</a> &#187; {$cur_topic.subject|escape}
+</div>
 <form method="post" action="moderate.php?fid={$fid}&amp;tid={$tid}">
 
 {foreach from=$posts item=cur_post}
@@ -22,7 +22,7 @@
             IP: {$cur_post.poster_ip}
 
             {if $start_from + $post_count > 1}
-                <br/><span class="grey">{$lang_misc.Select} <input type="checkbox" name="posts[{$cur_post.id}]" value="1"/></span>
+                <br/><label class="grey">{$lang_misc.Select} <input type="checkbox" name="posts[{$cur_post.id}]" value="1"/></label>
             {/if}
 
         </div>
