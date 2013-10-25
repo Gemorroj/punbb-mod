@@ -214,7 +214,7 @@ if ($pun_config['poll_enabled'] == 1) {
     include_once PUN_ROOT . 'include/poll/poll.inc.php';
 
     if ($cur_topic['has_poll']) {
-        if ($_POST['pollid']) {
+        if (isset($_POST['pollid']) && $_POST['pollid']) {
             if (is_array($_POST['poll_vote'])) {
                 foreach ($_POST['poll_vote'] as $var) {
                     $q .= $var . '=' . $var . '&';
@@ -224,6 +224,8 @@ if ($pun_config['poll_enabled'] == 1) {
                 $q = 'poll_vote=' . $_POST['poll_vote'];
             }
             $warning = $Poll->vote($_POST['pollid'], $q);
+        } else {
+            $warning = null;
         }
 
         $show_poll = $Poll->wap_showPoll($cur_topic['has_poll'], $warning);

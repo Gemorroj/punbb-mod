@@ -78,7 +78,7 @@
     {/if}
 
 
-    {if $attachments[$cur_post.id]}
+    {if isset($attachments[$cur_post.id])}
         {* Вложения *}
         <div class="attach_list">
             <strong>{$lang_fu.Attachments}</strong><br/>
@@ -101,7 +101,7 @@
                     {round($attachment.size / 1024, 0)} kb
                 {/if}
 
-                {if 'image' == strTok($attachment.mime, '/')}
+                {if 'image' == strtok($attachment.mime, '/')}
                     , {strtok('/')} {$attachment.image_dim}
                 {/if}
                 [<strong>{$lang_fu.Downloads}: {$attachment.downloads}</strong>]<br/>
