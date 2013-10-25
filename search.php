@@ -99,9 +99,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // Search a specific forum?
         $forum_sql = ($forum != -1 || ($forum == -1 && !$pun_config['o_search_all_forums'] && $pun_user['g_id'] >= PUN_GUEST)) ? ' AND t.forum_id = ' . $forum : '';
 
-        if ($author || $keywords) {
+        if (isset($author) && $author != null || isset($keywords) && $keywords != null) {
             // If it's a search for keywords
-            if ($keywords) {
+            if (isset($keywords) && $keywords != null) {
                 $stopwords = file(PUN_ROOT . 'lang/' . $pun_user['language'] . '/stopwords.txt');
                 $stopwords = array_map('trim', $stopwords);
 
@@ -468,12 +468,12 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $per_page = ($show_as == 'posts') ? $pun_user['disp_posts'] : $pun_user['disp_topics'];
         $num_pages = ceil($num_hits / $per_page);
 
-        $_GET['p'] = intval($_GET['p']);
+        $_GET['p'] = isset($_GET['p']) ? intval($_GET['p']) : 1;
         $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
         $start_from = $per_page * ($p - 1);
 
         // Generate paging links
-        if ($_GET['action'] == 'all') {
+        if (isset($_GET['action']) && $_GET['action'] == 'all') {
             $p = $num_pages + 1;
             $per_page = $num_hits;
         }
