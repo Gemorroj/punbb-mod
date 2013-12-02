@@ -14,7 +14,7 @@
 
 <div class="hd">
     {* <pun_hd> *}
-    <img src="{$pun_config.o_base_url}/include/template/wap/{$pun_user.style_wap}/imgs/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
+    <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
     {$pun_config.o_board_title}
 </div>
 
