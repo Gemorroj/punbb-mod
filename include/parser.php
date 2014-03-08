@@ -754,7 +754,10 @@ function do_code ($text, $inside = array())
 
                     }
                 } else {
-                    $code = '<tr><td>' . substr($code, 0, -7) . '</td></tr>';
+                    if (substr($code, -7) === '</span>') {
+                        $code = substr($code, 0, -7);
+                    }
+                    $code = '<tr><td>' . $code . '</td></tr>';
                     $num_line = '<tr><td>1</td></tr>';
                 }
 
