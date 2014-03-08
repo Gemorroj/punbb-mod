@@ -754,7 +754,7 @@ function do_code ($text, $inside = array())
 
                     }
                 } else {
-                    $code = '<tr><td>' . $code . '</td></tr>';
+                    $code = '<tr><td>' . substr($code, 0, -7) . '</td></tr>';
                     $num_line = '<tr><td>1</td></tr>';
                 }
 
