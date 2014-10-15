@@ -75,7 +75,7 @@ $basename == 'index.php'}
 </div>
 
 <div class="copy">
-    <a href="http://wapinet.ru/forum/wap/">PunBB Mod v{$pun_config.o_show_version}</a><br/>
+    <a href="http://forum.wapinet.ru/wap/">PunBB Mod v{$pun_config.o_show_version}</a><br/>
     <span class="red">{sprintf('%.3f', microtime(true) - $pun_start)} s</span>
 </div>
 
