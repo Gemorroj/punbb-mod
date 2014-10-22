@@ -451,7 +451,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         if ($show_as == 'posts') {
             $sql = '
-                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, SUBSTRING(p.message, 1, 1000) AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
+                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, p.message AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
                 FROM ' . $db->prefix . 'posts AS p
                 INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id
                 WHERE p.id IN(' . $search_results . ')
@@ -544,10 +544,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 if ($search_set[$i]['poster_id'] > 1) {
                     $pposter = '<strong><a href="profile.php?id=' . $search_set[$i]['poster_id'] . '">' . $pposter . '</a></strong>';
-                }
-
-                if (mb_strlen($message) > 999) {
-                    $message .= ' &#x2026;';
                 }
 
                 $vtpost1 = (!$i) ? ' vtp1' : '';
