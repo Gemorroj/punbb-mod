@@ -81,8 +81,9 @@ class DBLayer
     public function result($query_id, $row = 0)
     {
         if ($query_id && $query_id->num_rows) {
+            $query_id->data_seek($row);
             $result = $query_id->fetch_row();
-            return $result[$row];
+            return $result[0];
         }
 
         return false;
