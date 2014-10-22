@@ -631,7 +631,7 @@ $result = $db->query('
     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
     AND f.redirect_url IS NULL
     ORDER BY c.disp_position, c.id, f.disp_position
-', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
 if ($db->num_rows($result)) {
     $cur_category = 0;
