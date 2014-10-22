@@ -50,7 +50,7 @@ LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group
 
 WHERE fp.read_forum IS NULL OR fp.read_forum=1
 
-ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
 $cur_category = $cat_count = 0;
@@ -152,7 +152,7 @@ if ($pun_config['o_users_online'] == 1) {
     // Fetch users online info and generate strings for output
     $num_guests = 0;
     $users = array();
-    $result = $db->query('SELECT user_id, ident FROM ' . $db->prefix . 'online WHERE idle=0 ORDER BY ident', true) or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT user_id, ident FROM ' . $db->prefix . 'online WHERE idle=0 ORDER BY ident') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {

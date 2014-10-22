@@ -155,7 +155,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                                 WHERE w.word LIKE \'' . $cur_word . '\'' . $search_in_cond;
 
 
-                            $result = $db->query($sql, true) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
+                            $result = $db->query($sql) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
 
                             $row = array();
                             while ($temp = $db->fetch_row($result)) {
@@ -250,7 +250,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql . '
                     GROUP BY t.id
-                ', true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {
@@ -270,7 +270,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql
-                    , true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {

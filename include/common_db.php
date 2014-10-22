@@ -9,42 +9,51 @@ if (!defined('PUN')) {
 // Коннект с MySQL
 class DBLayer
 {
+    /**
+     * @var null|string
+     */
     public $prefix;
+    /**
+     * @var mysqli
+     */
     protected $link_id;
+    /**
+     * @var mysqli_result|null|bool
+     */
     protected $query_result;
 
     protected $saved_queries = array();
     protected $num_queries = 0;
 
 
+    /**
+     * @param string $db_host
+     * @param string $db_username
+     * @param string $db_password
+     * @param string $db_name
+     */
     public function __construct($db_host, $db_username, $db_password, $db_name)
     {
-        $this->link_id = @mysql_connect($db_host, $db_username, $db_password);
+        $this->link_id = mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
-        if ($this->link_id) {
-            // set utf-8
-            mysql_set_charset('utf8', $this->link_id);
-            if (!@mysql_select_db($db_name, $this->link_id)) {
-                error('Unable to select database. MySQL reported: ' . mysql_error($this->link_id), __FILE__, __LINE__);
-            }
-        } else {
-            error('Unable to connect to MySQL server. MySQL reported: ' . mysql_error(), __FILE__, __LINE__);
+        if (!$this->link_id) {
+            error('Unable to connect to MySQL server. MySQL reported: ' . mysqli_error($this->link_id), __FILE__, __LINE__);
         }
     }
 
 
-    public function query($sql, $unbuffered = false)
+    /**
+     * @param string $sql
+     * @return bool|mysqli_result
+     */
+    public function query($sql)
     {
         $stat = defined('PUN_SHOW_QUERIES');
         if ($stat) {
             $q_start = microtime(true);
         }
 
-        if ($unbuffered) {
-            $this->query_result = @mysql_unbuffered_query($sql, $this->link_id);
-        } else {
-            $this->query_result = @mysql_query($sql, $this->link_id);
-        }
+        $this->query_result = mysqli_query($this->link_id, $sql);
 
         if ($this->query_result) {
             if ($stat) {
@@ -64,88 +73,138 @@ class DBLayer
     }
 
 
-    public function result($query_id = 0, $row = 0)
+    /**
+     * @param mysqli_result $query_id
+     * @param int $row
+     * @return bool
+     */
+    public function result($query_id, $row = 0)
     {
-        return ($query_id) ? @mysql_result($query_id, $row) : false;
+        if ($query_id && $query_id->num_rows) {
+            $result = $query_id->fetch_row();
+            return $result[$row];
+        }
+
+        return false;
     }
 
 
-    public function fetch_assoc($query_id = 0)
+    /**
+     * @param mysqli_result $query_id
+     * @return array|bool
+     */
+    public function fetch_assoc($query_id)
     {
-        return ($query_id) ? @mysql_fetch_assoc($query_id) : false;
+        return ($query_id ? $query_id->fetch_assoc() : false);
     }
 
 
-    public function fetch_row($query_id = 0)
+    /**
+     * @param mysqli_result $query_id
+     * @return array|bool
+     */
+    public function fetch_row($query_id)
     {
-        return ($query_id) ? @mysql_fetch_row($query_id) : false;
+        return ($query_id ? $query_id->fetch_row() : false);
     }
 
 
-    public function num_rows($query_id = 0)
+    /**
+     * @param mysqli_result $query_id
+     * @return bool|int
+     */
+    public function num_rows($query_id)
     {
-        return ($query_id) ? @mysql_num_rows($query_id) : false;
+        return ($query_id ? $query_id->num_rows : false);
     }
 
 
+    /**
+     * @return bool|int
+     */
     public function affected_rows()
     {
-        return ($this->link_id) ? @mysql_affected_rows($this->link_id) : false;
+        return ($this->link_id ? $this->link_id->affected_rows : false);
     }
 
 
+    /**
+     * @return bool|int
+     */
     public function insert_id()
     {
-        return ($this->link_id) ? @mysql_insert_id($this->link_id) : false;
+        return ($this->link_id ? $this->link_id->insert_id : false);
     }
 
 
+    /**
+     * @return int
+     */
     public function get_num_queries()
     {
         return $this->num_queries;
     }
 
 
+    /**
+     * @return array
+     */
     public function get_saved_queries()
     {
         return $this->saved_queries;
     }
 
 
-    public function free_result($query_id = null)
+    /**
+     * @param mysqli_result $query_id
+     * @return bool
+     */
+    public function free_result($query_id)
     {
-        return ($query_id) ? @mysql_free_result($query_id) : false;
+        if ($query_id) {
+            $query_id->free_result();
+        }
     }
 
 
+    /**
+     * @param string $str
+     * @return string
+     */
     public function escape($str)
     {
         if (is_array($str)) {
             return '';
         } else {
-            return mysql_real_escape_string($str, $this->link_id);
+            return mysqli_real_escape_string($this->link_id, $str);
         }
     }
 
 
+    /**
+     * @return array
+     */
     public function error()
     {
-        $result['error_sql'] = @current(@end($this->saved_queries));
-        $result['error_no'] = @mysql_errno($this->link_id);
-        $result['error_msg'] = @mysql_error($this->link_id);
-
-        return $result;
+        return array(
+            'error_sql' => @current(@end($this->saved_queries)),
+            'error_no' => $this->link_id ? $this->link_id->errno : '',
+            'error_msg' => $this->link_id ? $this->link_id->error : '',
+        );
     }
 
 
+    /**
+     * @return bool
+     */
     public function close()
     {
         if ($this->link_id) {
-            if ($this->query_result) {
-                @mysql_free_result($this->query_result);
-            }
+            //if ($this->query_result) {
+            //    $this->query_result->free_result();
+            //}
 
-            return @mysql_close($this->link_id);
+            return $this->link_id->close();
         } else {
             return false;
         }

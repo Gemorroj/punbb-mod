@@ -14,7 +14,7 @@ function generate_config_cache()
     $output = array();
 
     // Get the forum config from the DB
-    $result = $db->query('SELECT * FROM ' . $db->prefix . 'config', true) or error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM ' . $db->prefix . 'config') or error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
     while ($item = $db->fetch_row($result)) {
         $output[$item[0]] = $item[1];
     }
@@ -44,7 +44,7 @@ function generate_bans_cache()
     global $db;
 
     // Get the ban list from the DB
-    $result = $db->query('SELECT * FROM ' . $db->prefix . 'bans', true) or error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM ' . $db->prefix . 'bans') or error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
 
     $output = array();
     while ($cur_ban = $db->fetch_assoc($result)) {
@@ -70,7 +70,7 @@ function generate_ranks_cache()
     global $db;
 
     // Get the rank list from the DB
-    $result = $db->query('SELECT * FROM ' . $db->prefix . 'ranks ORDER BY min_posts', true) or error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM ' . $db->prefix . 'ranks ORDER BY min_posts') or error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 
     $output = array();
     while ($cur_rank = $db->fetch_assoc($result)) {
@@ -122,7 +122,7 @@ function generate_quickjump_cache($group_id = false)
 <select name="id" onchange="window.location.assign(\\\'\' . $pun_config[\'o_base_url\'] . \'/viewforum.php?id=\\\'+this.options[this.selectedIndex].value);">';
 
 
-        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {
@@ -184,7 +184,7 @@ function generate_wap_quickjump_cache($group_id = false)
 <div class="inbox"><label>\' . $lang_common[\'Jump to\'] . \'<br />
 <select name="id" onchange="window.location.assign(\\\'\' . $pun_config[\'o_base_url\'] . \'/wap/viewforum.php?id=\\\'+this.options[this.selectedIndex].value);">';
 
-        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $group_id . ') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {
