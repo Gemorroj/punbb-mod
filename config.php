@@ -6,7 +6,6 @@ $db_host = 'localhost'; // Хост
 $db_name = 'forum';     // Имя БД
 $db_username = 'mysql';  // Имя пользователя БД
 $db_password = 'mysql';      // Пароль пользователя БД
-$p_connect = false;     // Постоянное соединение
 $db_prefix = null;
 
 

@@ -17,13 +17,9 @@ class DBLayer
     protected $num_queries = 0;
 
 
-    public function __construct($db_host, $db_username, $db_password, $db_name, $p_connect)
+    public function __construct($db_host, $db_username, $db_password, $db_name)
     {
-        if ($p_connect) {
-            $this->link_id = @mysql_pconnect($db_host, $db_username, $db_password);
-        } else {
-            $this->link_id = @mysql_connect($db_host, $db_username, $db_password);
-        }
+        $this->link_id = @mysql_connect($db_host, $db_username, $db_password);
 
         if ($this->link_id) {
             // set utf-8
@@ -157,4 +153,4 @@ class DBLayer
 }
 
 // Create the database adapter object (and open/connect to/select db)
-$db = new DBLayer($db_host, $db_username, $db_password, $db_name, $p_connect);
+$db = new DBLayer($db_host, $db_username, $db_password, $db_name);
