@@ -56,7 +56,13 @@ $can_upload = $is_admmod || (!$cur_posting['file_upload'] && $pun_user['g_file_u
 if ($pun_user['is_guest']) {
     $file_limit = 0;
 } else {
-    $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'attachments AS a ON t.id=a.topic_id WHERE t.forum_id=' . $cur_posting['id'] . ' AND a.poster_id=' . $pun_user['id']) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+      SELECT COUNT(1)
+      FROM ' . $db->prefix . 'topics AS t
+      INNER JOIN ' . $db->prefix . 'attachments AS a ON t.id=a.topic_id
+      WHERE t.forum_id=' . $cur_posting['id'] . '
+      AND a.poster_id=' . $pun_user['id']
+    ) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
@@ -80,7 +86,7 @@ if (!$is_admmod && ($tid && $pun_config['file_first_only'] == 1)) {
 
 
 // Do we have permission to post?
-if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) || $cur_posting['post_replies'] == '0')) || ($fid && ((!$cur_posting['post_topics'] && !$pun_user['g_post_topics']) || $cur_posting['post_topics'] == '0')) || $cur_posting['closed'] == 1) && !$is_admmod) {
+if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) || $cur_posting['post_replies'] == '0')) || ($fid && ((!$cur_posting['post_topics'] && !$pun_user['g_post_topics']) || $cur_posting['post_topics'] == '0')) || @$cur_posting['closed'] == 1) && !$is_admmod) {
     message($lang_common['No permission']);
 }
 

@@ -652,9 +652,9 @@ function parse_message($text, $hide_smilies, $post = 0)
         $text = do_bbcode($text);
 
         if ($pun_config['p_message_img_tag'] == 1) {
-            $text = preg_replace('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#e', 'handle_img_tag(\'$1$3\')', $text);
-            $text = preg_replace('#\[imgr\]((ht|f)tps?://)([^\s<"]*?)\[/imgr\]#e', 'handle_img_tag_modern(\'right\', \'$1$3\')', $text);
-            $text = preg_replace('#\[imgl\]((ht|f)tps?://)([^\s<"]*?)\[/imgl\]#e', 'handle_img_tag_modern(\'left\', \'$1$3\')', $text);
+            $text = preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', create_function('$matches', 'return handle_img_tag($matches[1].$matches[3]);'), $text);
+            $text = preg_replace_callback('#\[imgr\]((ht|f)tps?://)([^\s<"]*?)\[/imgr\]#', create_function('$matches', 'return handle_img_tag_modern(\'right\', $matches[1].$matches[3]);'), $text);
+            $text = preg_replace_callback('#\[imgl\]((ht|f)tps?://)([^\s<"]*?)\[/imgl\]#', create_function('$matches', 'return handle_img_tag_modern(\'left\', $matches[1].$matches[3]);'), $text);
         }
     }
 
@@ -662,7 +662,7 @@ function parse_message($text, $hide_smilies, $post = 0)
     $text = str_replace(array("\n", "\t", '  ', '  ', "\r"), array('<br />', '&#160; &#160; ', '&#160; ', ' &#160;', ''), $text);
 
     // AJAX POLL MOD BEGIN
-    $text = preg_replace('#\[poll\]([0-9]*?)\[/poll\]#e', 'handle_poll_tag(\'$1\')', $text);
+    $text = preg_replace_callback('#\[poll\]([0-9]*?)\[/poll\]#', create_function('$matches', 'return handle_poll_tag($matches[1]);'), $text);
     // AJAX POLL MOD END
 
     // If we split up the message before we have to concatenate it together again (code tags)

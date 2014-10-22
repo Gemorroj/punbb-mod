@@ -13,14 +13,6 @@ poll.lng = ({
     'delete': 'Удалить'
 });
 
-$(document).ready(function () {
-    poll.remove();
-    $("#apinsert").modalBox({
-        ajax: "ajax.server.php?poll=gcfrm",
-        boxTimer: 0
-    });
-});
-
 poll.remove = function () {
     $("#apcreate").text(poll.lng.create).unbind('click').modalBox({
         'title': poll.lng.create_poll, 'height': 600, 'width': 600, 'ajax': "ajax.server.php?poll=gcfrm"
@@ -93,3 +85,11 @@ poll.vote = function (id) {
         }
     });
 };
+
+$(document).ready(function () {
+    poll.remove();
+    $("#apinsert").modalBox({
+        ajax: "ajax.server.php?poll=gcfrm",
+        boxTimer: 0
+    });
+});
