@@ -603,7 +603,9 @@ function do_hide($text, $post = 0, $matches)
         return str_replace($matches[0], '<div class="spoiler" style="display: block;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
     }
 
-    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(this.nextSibling).slideToggle(200);"/><div class="spoiler"><br/>' . $matches[4] . '</div></div>', $text);
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/spoiler.js');
+
+    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="spoiler(this.nextSibling);"/><div class="spoiler"><br/>' . $matches[4] . '</div></div>', $text);
 }
 
 //
