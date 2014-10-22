@@ -973,10 +973,6 @@ function maintenance_message()
     $tpl_maint = str_replace('<pun_maint_message>', $message, $tpl_maint);
     // END SUBST - <pun_maint_message>
 
-
-    // End the transaction
-    $db->end_transaction();
-
     // Close the db connection (and free up any result data)
     $db->close();
 
@@ -1057,9 +1053,6 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
 
     // START SUBST - <pun_footer>
     ob_start();
-
-    // End the transaction
-    $db->end_transaction();
 
     // Display executed queries (if enabled)
     if (defined('PUN_SHOW_QUERIES')) {

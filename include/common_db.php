@@ -9,15 +9,15 @@ if (!defined('PUN')) {
 // Коннект с MySQL
 class DBLayer
 {
-    var $prefix;
-    var $link_id;
-    var $query_result;
+    public $prefix;
+    protected $link_id;
+    protected $query_result;
 
-    var $saved_queries = array();
-    var $num_queries = 0;
+    protected $saved_queries = array();
+    protected $num_queries = 0;
 
 
-    function DBLayer($db_host, $db_username, $db_password, $db_name, $p_connect)
+    public function __construct($db_host, $db_username, $db_password, $db_name, $p_connect)
     {
         if ($p_connect) {
             $this->link_id = @mysql_pconnect($db_host, $db_username, $db_password);
@@ -37,19 +37,7 @@ class DBLayer
     }
 
 
-    function start_transaction()
-    {
-        return false;
-    }
-
-
-    function end_transaction()
-    {
-        return false;
-    }
-
-
-    function query($sql, $unbuffered = false)
+    public function query($sql, $unbuffered = false)
     {
         $stat = defined('PUN_SHOW_QUERIES');
         if ($stat) {
@@ -80,61 +68,61 @@ class DBLayer
     }
 
 
-    function result($query_id = 0, $row = 0)
+    public function result($query_id = 0, $row = 0)
     {
         return ($query_id) ? @mysql_result($query_id, $row) : false;
     }
 
 
-    function fetch_assoc($query_id = 0)
+    public function fetch_assoc($query_id = 0)
     {
         return ($query_id) ? @mysql_fetch_assoc($query_id) : false;
     }
 
 
-    function fetch_row($query_id = 0)
+    public function fetch_row($query_id = 0)
     {
         return ($query_id) ? @mysql_fetch_row($query_id) : false;
     }
 
 
-    function num_rows($query_id = 0)
+    public function num_rows($query_id = 0)
     {
         return ($query_id) ? @mysql_num_rows($query_id) : false;
     }
 
 
-    function affected_rows()
+    public function affected_rows()
     {
         return ($this->link_id) ? @mysql_affected_rows($this->link_id) : false;
     }
 
 
-    function insert_id()
+    public function insert_id()
     {
         return ($this->link_id) ? @mysql_insert_id($this->link_id) : false;
     }
 
 
-    function get_num_queries()
+    public function get_num_queries()
     {
         return $this->num_queries;
     }
 
 
-    function get_saved_queries()
+    public function get_saved_queries()
     {
         return $this->saved_queries;
     }
 
 
-    function free_result($query_id = null)
+    public function free_result($query_id = null)
     {
         return ($query_id) ? @mysql_free_result($query_id) : false;
     }
 
 
-    function escape($str)
+    public function escape($str)
     {
         if (is_array($str)) {
             return '';
@@ -144,7 +132,7 @@ class DBLayer
     }
 
 
-    function error()
+    public function error()
     {
         $result['error_sql'] = @current(@end($this->saved_queries));
         $result['error_no'] = @mysql_errno($this->link_id);
@@ -154,7 +142,7 @@ class DBLayer
     }
 
 
-    function close()
+    public function close()
     {
         if ($this->link_id) {
             if ($this->query_result) {

@@ -43,9 +43,6 @@ define('PUN_MEMBER', 4);
 // Load DB abstraction layer and connect
 require PUN_ROOT . 'include/common_db.php';
 
-// Start a transaction
-$db->start_transaction();
-
 // Load cached config
 @include PUN_ROOT . 'cache/cache_config.php';
 if (!defined('PUN_CONFIG_LOADED')) {

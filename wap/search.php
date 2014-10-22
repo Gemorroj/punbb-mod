@@ -417,7 +417,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $db->query('INSERT INTO ' . $db->prefix . 'search_cache (id, ident, search_data) VALUES(' . $search_id . ', \'' . $db->escape($ident) . '\', \'' . $db->escape($temp) . '\')') or error('Unable to insert search results', __FILE__, __LINE__, $db->error());
 
         if ($_GET['action'] != 'show_new' && $_GET['action'] != 'show_24h') {
-            $db->end_transaction();
             $db->close();
 
             // Redirect the user to the cached result page
