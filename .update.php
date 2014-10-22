@@ -27,7 +27,7 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
         `matches` INT( 11 ) unsigned NOT NULL default "0",
         `regexpr` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
         PRIMARY KEY ( `id` )
-        ) ENGINE = MYISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
     ');
 
     if (!$query) {
@@ -98,7 +98,7 @@ if ($version == '0.5.2') {
         UNIQUE KEY `id` (`id`,`to`),
         KEY `to` (`to`),
         KEY `to_2` (`to`,`vote`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ');
     if (!$query) {
         $error[] = mysql_error();

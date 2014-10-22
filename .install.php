@@ -100,7 +100,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `bans` (
 `message` varchar(255) default NULL,
 `expire` int(10) unsigned default NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `categories` (
@@ -108,7 +108,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `categories` (
 `cat_name` varchar(80) NOT NULL default 'New Category',
 `disp_position` int(10) NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `censoring` (
@@ -116,14 +116,14 @@ mysql_query("CREATE TABLE IF NOT EXISTS `censoring` (
 `search_for` varchar(60) NOT NULL default '',
 `replace_with` varchar(60) NOT NULL default '',
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `config` (
 `conf_name` varchar(255) NOT NULL default '',
 `conf_value` text,
 PRIMARY KEY  (`conf_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 $base_url = str_replace('\\', '/', dirname($_SERVER['PHP_SELF']));
@@ -243,7 +243,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `forums` (
 `disp_position` int(10) NOT NULL default '0',
 `cat_id` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `forum_perms` (
@@ -256,7 +256,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `forum_perms` (
 `file_download` tinyint(1) NOT NULL default '0',
 `file_limit` int(10) NOT NULL default '0',
 PRIMARY KEY  (`group_id`,`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `groups` (
@@ -282,7 +282,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `groups` (
 `g_pm` int(11) NOT NULL default '1',
 `g_pm_limit` int(11) NOT NULL default '20',
 PRIMARY KEY  (`g_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `groups` (`g_id`, `g_title`, `g_user_title`, `g_read_board`, `g_post_replies`, `g_post_topics`, `g_post_polls`, `g_edit_posts`, `g_delete_posts`, `g_delete_topics`, `g_set_title`, `g_search`, `g_search_users`, `g_edit_subjects_interval`, `g_post_flood`, `g_search_flood`, `g_file_download`, `g_file_upload`, `g_file_limit`, `g_pm`, `g_pm_limit`) VALUES
@@ -299,7 +299,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `log_forums` (
 `log_time` int(10) unsigned NOT NULL default '0',
 `mark_read` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `log_topics` (
@@ -308,7 +308,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `log_topics` (
 `forum_id` int(10) unsigned NOT NULL default '0',
 `log_time` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`topic_id`,`forum_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `messages` (
@@ -325,7 +325,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `messages` (
 `showed` tinyint(4) default '0',
 `popup` tinyint(4) default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `online` (
@@ -353,7 +353,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `posts` (
 PRIMARY KEY  (`id`),
 KEY `posts_topic_id_idx` (`topic_id`),
 KEY `posts_multi_idx` (`poster_id`,`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `ranks` (
@@ -361,7 +361,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `ranks` (
 `rank` varchar(50) NOT NULL default '',
 `min_posts` mediumint(8) unsigned NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `ranks` (`id`, `rank`, `min_posts`) VALUES
@@ -381,7 +381,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `reports` (
 `zapped_by` int(10) unsigned default NULL,
 PRIMARY KEY  (`id`),
 KEY `reports_zapped_idx` (`zapped`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `search_cache` (
@@ -390,7 +390,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `search_cache` (
 `search_data` text,
 PRIMARY KEY  (`id`),
 KEY `search_cache_ident_idx` (`ident`(8))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `search_matches` (
@@ -399,7 +399,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `search_matches` (
 `subject_match` tinyint(1) NOT NULL default '0',
 KEY `search_matches_word_id_idx` (`word_id`),
 KEY `search_matches_post_id_idx` (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `search_words` (
@@ -407,7 +407,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `search_words` (
 `word` varbinary(128) NOT NULL default '',
 PRIMARY KEY  (`word`),
 KEY `search_words_id_idx` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `search_words` (`id`, `word`) VALUES
@@ -421,7 +421,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `spam_repository` (
 `message` text NOT NULL,
 `pattern` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query('CREATE TABLE IF NOT EXISTS `spam_regexp` (
@@ -429,7 +429,7 @@ mysql_query('CREATE TABLE IF NOT EXISTS `spam_regexp` (
 `matches` INT( 11 ) unsigned NOT NULL default "0",
 `regexpr` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 PRIMARY KEY ( `id` ) 
-) ENGINE = MYISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;') or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;') or die (mysql_error());
 
 mysql_query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES
 ("0", "0", "/(.*)все бесплатно(.*)/isuU");') or die (mysql_error());
@@ -438,7 +438,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `subscriptions` (
 `user_id` int(10) unsigned NOT NULL default '0',
 `topic_id` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`topic_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `topics` (
@@ -460,7 +460,7 @@ PRIMARY KEY  (`id`),
 KEY `topics_forum_id_idx` (`forum_id`),
 KEY `topics_moved_to_idx` (`moved_to`),
 KEY `last_post_id_idx` (`last_post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `uploaded` (
@@ -474,7 +474,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `uploaded` (
 `downs` int(11) NOT NULL default '0',
 `descr` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `uploads_conf` (
@@ -486,7 +486,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `uploads_conf` (
 `p_delete` tinyint(4) NOT NULL default '0',
 `p_globaldelete` tinyint(4) NOT NULL default '0',
 `p_setop` tinyint(4) NOT NULL default '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `uploads_conf` (`g_id`, `u_fsize`, `p_view`, `p_globalview`, `p_upload`, `p_delete`, `p_globaldelete`, `p_setop`) VALUES
@@ -503,7 +503,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `uploads_types` (
 `type` text NOT NULL,
 `exts` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `uploads_types` (`id`, `type`, `exts`) VALUES
@@ -563,7 +563,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `users` (
 PRIMARY KEY  (`id`),
 KEY `users_registered_idx` (`registered`),
 KEY `users_username_idx` (`username`(3))
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
 
 
 mysql_query("INSERT INTO `users` (`id`, `group_id`, `username`, `password`, `email`, `title`, `realname`, `url`, `jabber`, `icq`, `msn`, `aim`, `yahoo`, `location`, `use_avatar`, `signature`, `disp_topics`, `disp_posts`, `email_setting`, `save_pass`, `notify_with_post`, `show_smilies`, `show_img`, `show_img_sig`, `show_avatars`, `show_sig`, `timezone`, `language`, `style`, `style_wap`, `num_posts`, `last_post`, `registered`, `registration_ip`, `last_visit`, `admin_note`, `activate_string`, `activate_key`, `popup_enable`, `messages_enable`, `mark_after`) VALUES
@@ -584,14 +584,14 @@ mysql_query("CREATE TABLE IF NOT EXISTS `attachments` (
 `image_dim` varchar(64) NOT NULL default '',
 `downloads` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `log_polls` (
 `pid` int(10) unsigned NOT NULL,
 `uid` int(10) unsigned NOT NULL,
 PRIMARY KEY (`pid`,`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `polls` (
@@ -606,7 +606,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `polls` (
 `last_edit` int(10) default '0',
 `edit_uid` int(10) default '0',
 PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
 
 
 mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
@@ -617,7 +617,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
   UNIQUE KEY `id` (`id`,`to`),
   KEY `to` (`to`),
   KEY `to_2` (`to`,`vote`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(mysql_error());
 
 
 @chmod(PUN_ROOT . 'uploads/', 0777);
