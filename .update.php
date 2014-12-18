@@ -5,8 +5,8 @@ require PUN_ROOT . 'config.php';
 require PUN_ROOT . 'include/common_db.php';
 
 
-$q = mysql_query('SELECT * FROM `config`');
-while ($arr = mysql_fetch_assoc($q)) {
+$q = $db->query('SELECT * FROM `config`');
+while ($arr = $q->fetch_assoc()) {
     if ($arr['conf_name'] == 'o_show_version') {
         break;
     }
@@ -15,13 +15,13 @@ $version = @$arr['conf_value'];
 
 if (!$version || $version == 1 || ($version < '0.5.2')) {
 
-    $query = mysql_query('INSERT INTO `config` (`conf_name`, `conf_value`) VALUES ("o_antiflood", "1"), ("o_antiflood_a", "5"), ("o_antiflood_b", "3600")');
+    $query = $db->query('INSERT INTO `config` (`conf_name`, `conf_value`) VALUES ("o_antiflood", "1"), ("o_antiflood_a", "5"), ("o_antiflood_b", "3600")');
 
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('
+    $query = $db->query('
         CREATE TABLE `spam_regexp` (
         `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
         `matches` INT( 11 ) unsigned NOT NULL default "0",
@@ -31,20 +31,20 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
     ');
 
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES ("0", "0", "/.*все бесплатно.*/isuU");') or die (mysql_error());
+    $query = $db->query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES ("0", "0", "/.*все бесплатно.*/isuU");');
 
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.1" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.1" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
 
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.1';
@@ -52,25 +52,25 @@ if (!$version || $version == 1 || ($version < '0.5.2')) {
 
 if ($version == '0.5.1') {
 
-    $query = mysql_query('ALTER TABLE `search_words` CHANGE `word` `word` VARBINARY( 128 ) NOT NULL');
+    $query = $db->query('ALTER TABLE `search_words` CHANGE `word` `word` VARBINARY( 128 ) NOT NULL');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('
+    $query = $db->query('
         ALTER TABLE `users`
         ADD `sex` ENUM( "0", "1" ) NOT NULL AFTER `url` ,
         ADD `birthday` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `sex` ;
     ');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.2" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.2" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
 
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.2';
@@ -78,7 +78,7 @@ if ($version == '0.5.1') {
 
 if ($version == '0.5.2') {
 
-    $query = mysql_query('
+    $query = $db->query('
         INSERT INTO `config` (
             `conf_name`, `conf_value`
         ) VALUES (
@@ -86,10 +86,10 @@ if ($version == '0.5.2') {
         );
     ');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('
+    $query = $db->query('
         CREATE TABLE IF NOT EXISTS `karma` (
         `id` int(10) unsigned NOT NULL default "0",
         `to` int(10) unsigned NOT NULL default "0",
@@ -101,12 +101,12 @@ if ($version == '0.5.2') {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.3" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.3" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.3';
@@ -114,9 +114,9 @@ if ($version == '0.5.2') {
 
 if ($version == '0.5.3') {
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.4" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.4" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.4';
@@ -124,9 +124,9 @@ if ($version == '0.5.3') {
 
 if ($version == '0.5.4') {
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.5" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.5" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.5';
@@ -134,14 +134,14 @@ if ($version == '0.5.4') {
 
 if ($version == '0.5.5') {
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "1.2.22" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "1.2.22" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.6" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.6" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.6';
@@ -149,14 +149,14 @@ if ($version == '0.5.5') {
 
 if ($version == '0.5.6') {
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "1.2.23" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "1.2.23" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_cur_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.7" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.7" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.7';
@@ -164,59 +164,59 @@ if ($version == '0.5.6') {
 
 if ($version == '0.5.7') {
 
-    $query = mysql_query('ALTER TABLE `karma` CHANGE `vote` `vote` ENUM( "1", "-1" ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "1";');
+    $query = $db->query('ALTER TABLE `karma` CHANGE `vote` `vote` ENUM( "1", "-1" ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT "1";');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `karma` SET `vote` = "1" WHERE `vote` = "";');
+    $query = $db->query('UPDATE `karma` SET `vote` = "1" WHERE `vote` = "";');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.8" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.8" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.8';
 }
 
 if ($version == '0.5.8') {
-    $query = mysql_query('ALTER TABLE `topics` ADD INDEX `last_post_id_idx` ( `last_post_id` );');
+    $query = $db->query('ALTER TABLE `topics` ADD INDEX `last_post_id_idx` ( `last_post_id` );');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `users` SET `style` = "" WHERE `id` = 1;');
+    $query = $db->query('UPDATE `users` SET `style` = "" WHERE `id` = 1;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `users` SET `style_wap` = "";');
+    $query = $db->query('UPDATE `users` SET `style_wap` = "";');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.5.9" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.5.9" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
 
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "5" WHERE `config`.`conf_name` = "o_spam_gid";');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "5" WHERE `config`.`conf_name` = "o_spam_gid";');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.5.9';
 }
 
 if ($version == '0.5.9') {
-    $query = mysql_query('UPDATE `config` SET `conf_value` = "0.6.0" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.6.0" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
     if (!$query) {
-        $error[] = mysql_error();
+        $error[] = var_export($db->error(), true);
     }
 
     $version = '0.6.0';

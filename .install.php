@@ -92,7 +92,7 @@ define('PUN_ROOT', './');
 require PUN_ROOT . 'config.php';
 require PUN_ROOT . 'include/common_db.php';
 
-mysql_query("CREATE TABLE IF NOT EXISTS `bans` (
+$db->query("CREATE TABLE IF NOT EXISTS `bans` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `username` varchar(200) default NULL,
 `ip` varchar(255) default NULL,
@@ -100,35 +100,35 @@ mysql_query("CREATE TABLE IF NOT EXISTS `bans` (
 `message` varchar(255) default NULL,
 `expire` int(10) unsigned default NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `categories` (
+$db->query("CREATE TABLE IF NOT EXISTS `categories` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `cat_name` varchar(80) NOT NULL default 'New Category',
 `disp_position` int(10) NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `censoring` (
+$db->query("CREATE TABLE IF NOT EXISTS `censoring` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `search_for` varchar(60) NOT NULL default '',
 `replace_with` varchar(60) NOT NULL default '',
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `config` (
+$db->query("CREATE TABLE IF NOT EXISTS `config` (
 `conf_name` varchar(255) NOT NULL default '',
 `conf_value` text,
 PRIMARY KEY  (`conf_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
 $base_url = str_replace('\\', '/', dirname($_SERVER['PHP_SELF']));
 $base_url = $base_url == '/' ? '' : $base_url;
-mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
+$db->query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_cur_version', '1.2.23'),
 ('o_board_title', 'Форум'),
 ('o_board_desc', NULL),
@@ -225,10 +225,10 @@ mysql_query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('file_upload_path', 'uploads/'),
 ('poll_enabled', '1'),
 ('antispam_enabled', '0'),
-('o_show_version', '0.6.0');") or die (mysql_error());
+('o_show_version', '0.6.0');") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `forums` (
+$db->query("CREATE TABLE IF NOT EXISTS `forums` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `forum_name` varchar(80) NOT NULL default 'New forum',
 `forum_desc` text,
@@ -243,10 +243,10 @@ mysql_query("CREATE TABLE IF NOT EXISTS `forums` (
 `disp_position` int(10) NOT NULL default '0',
 `cat_id` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `forum_perms` (
+$db->query("CREATE TABLE IF NOT EXISTS `forum_perms` (
 `group_id` int(10) NOT NULL default '0',
 `forum_id` int(10) NOT NULL default '0',
 `read_forum` tinyint(1) NOT NULL default '1',
@@ -256,10 +256,10 @@ mysql_query("CREATE TABLE IF NOT EXISTS `forum_perms` (
 `file_download` tinyint(1) NOT NULL default '0',
 `file_limit` int(10) NOT NULL default '0',
 PRIMARY KEY  (`group_id`,`forum_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `groups` (
+$db->query("CREATE TABLE IF NOT EXISTS `groups` (
 `g_id` int(10) unsigned NOT NULL auto_increment,
 `g_title` varchar(50) NOT NULL default '',
 `g_user_title` varchar(50) default NULL,
@@ -282,36 +282,36 @@ mysql_query("CREATE TABLE IF NOT EXISTS `groups` (
 `g_pm` int(11) NOT NULL default '1',
 `g_pm_limit` int(11) NOT NULL default '20',
 PRIMARY KEY  (`g_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `groups` (`g_id`, `g_title`, `g_user_title`, `g_read_board`, `g_post_replies`, `g_post_topics`, `g_post_polls`, `g_edit_posts`, `g_delete_posts`, `g_delete_topics`, `g_set_title`, `g_search`, `g_search_users`, `g_edit_subjects_interval`, `g_post_flood`, `g_search_flood`, `g_file_download`, `g_file_upload`, `g_file_limit`, `g_pm`, `g_pm_limit`) VALUES
+$db->query("INSERT INTO `groups` (`g_id`, `g_title`, `g_user_title`, `g_read_board`, `g_post_replies`, `g_post_topics`, `g_post_polls`, `g_edit_posts`, `g_delete_posts`, `g_delete_topics`, `g_set_title`, `g_search`, `g_search_users`, `g_edit_subjects_interval`, `g_post_flood`, `g_search_flood`, `g_file_download`, `g_file_upload`, `g_file_limit`, `g_pm`, `g_pm_limit`) VALUES
 (1, 'Administrators', 'Administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 999, 1, 20),
 (2, 'Moderators', 'Moderator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 100, 1, 20),
 (3, 'Guest', NULL, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 20),
 (4, 'Members', NULL, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 300, 60, 30, 1, 1, 50, 1, 20),
-(5, 'Spammer', 'spammer', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 20);") or die (mysql_error());
+(5, 'Spammer', 'spammer', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 20);") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `log_forums` (
+$db->query("CREATE TABLE IF NOT EXISTS `log_forums` (
 `user_id` int(10) unsigned NOT NULL default '0',
 `forum_id` int(10) unsigned NOT NULL default '0',
 `log_time` int(10) unsigned NOT NULL default '0',
 `mark_read` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`forum_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `log_topics` (
+$db->query("CREATE TABLE IF NOT EXISTS `log_topics` (
 `user_id` int(10) unsigned NOT NULL default '0',
 `topic_id` int(10) unsigned NOT NULL default '0',
 `forum_id` int(10) unsigned NOT NULL default '0',
 `log_time` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`topic_id`,`forum_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `messages` (
+$db->query("CREATE TABLE IF NOT EXISTS `messages` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `owner` int(10) NOT NULL default '0',
 `subject` varchar(120) NOT NULL default '',
@@ -325,20 +325,20 @@ mysql_query("CREATE TABLE IF NOT EXISTS `messages` (
 `showed` tinyint(4) default '0',
 `popup` tinyint(4) default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `online` (
+$db->query("CREATE TABLE IF NOT EXISTS `online` (
 `user_id` int(10) unsigned NOT NULL default '1',
 `ident` varchar(200) NOT NULL default '',
 `logged` int(10) unsigned NOT NULL default '0',
 `idle` tinyint(1) NOT NULL default '0',
 UNIQUE KEY `online_user_id_ident_idx` (`user_id`,`ident`),
 KEY `online_user_id_idx` (`user_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `posts` (
+$db->query("CREATE TABLE IF NOT EXISTS `posts` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `poster` varchar(200) NOT NULL default '',
 `poster_id` int(10) unsigned NOT NULL default '1',
@@ -353,23 +353,23 @@ mysql_query("CREATE TABLE IF NOT EXISTS `posts` (
 PRIMARY KEY  (`id`),
 KEY `posts_topic_id_idx` (`topic_id`),
 KEY `posts_multi_idx` (`poster_id`,`topic_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `ranks` (
+$db->query("CREATE TABLE IF NOT EXISTS `ranks` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `rank` varchar(50) NOT NULL default '',
 `min_posts` mediumint(8) unsigned NOT NULL default '0',
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `ranks` (`id`, `rank`, `min_posts`) VALUES
+$db->query("INSERT INTO `ranks` (`id`, `rank`, `min_posts`) VALUES
 (1, 'New member', 0),
-(2, 'Member', 10);") or die (mysql_error());
+(2, 'Member', 10);") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `reports` (
+$db->query("CREATE TABLE IF NOT EXISTS `reports` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `post_id` int(10) unsigned NOT NULL default '0',
 `topic_id` int(10) unsigned NOT NULL default '0',
@@ -381,67 +381,67 @@ mysql_query("CREATE TABLE IF NOT EXISTS `reports` (
 `zapped_by` int(10) unsigned default NULL,
 PRIMARY KEY  (`id`),
 KEY `reports_zapped_idx` (`zapped`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `search_cache` (
+$db->query("CREATE TABLE IF NOT EXISTS `search_cache` (
 `id` int(10) unsigned NOT NULL default '0',
 `ident` varchar(200) NOT NULL default '',
 `search_data` text,
 PRIMARY KEY  (`id`),
 KEY `search_cache_ident_idx` (`ident`(8))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `search_matches` (
+$db->query("CREATE TABLE IF NOT EXISTS `search_matches` (
 `post_id` int(10) unsigned NOT NULL default '0',
 `word_id` mediumint(8) unsigned NOT NULL default '0',
 `subject_match` tinyint(1) NOT NULL default '0',
 KEY `search_matches_word_id_idx` (`word_id`),
 KEY `search_matches_post_id_idx` (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `search_words` (
+$db->query("CREATE TABLE IF NOT EXISTS `search_words` (
 `id` mediumint(8) unsigned NOT NULL auto_increment,
 `word` varbinary(128) NOT NULL default '',
 PRIMARY KEY  (`word`),
 KEY `search_words_id_idx` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `search_words` (`id`, `word`) VALUES
-(1, 'print');") or die (mysql_error());
+$db->query("INSERT INTO `search_words` (`id`, `word`) VALUES
+(1, 'print');") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `spam_repository` (
+$db->query("CREATE TABLE IF NOT EXISTS `spam_repository` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `post_id` int(10) unsigned NOT NULL default '0',
 `last_gid` int(10) unsigned NOT NULL default '0',
 `message` text NOT NULL,
 `pattern` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query('CREATE TABLE IF NOT EXISTS `spam_regexp` (
+$db->query('CREATE TABLE IF NOT EXISTS `spam_regexp` (
 `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
 `matches` INT( 11 ) unsigned NOT NULL default "0",
 `regexpr` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 PRIMARY KEY ( `id` ) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;') or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;') or die (var_export($db->error(), true));
 
-mysql_query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES
-("0", "0", "/(.*)все бесплатно(.*)/isuU");') or die (mysql_error());
+$db->query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES
+("0", "0", "/(.*)все бесплатно(.*)/isuU");') or die (var_export($db->error(), true));
 
-mysql_query("CREATE TABLE IF NOT EXISTS `subscriptions` (
+$db->query("CREATE TABLE IF NOT EXISTS `subscriptions` (
 `user_id` int(10) unsigned NOT NULL default '0',
 `topic_id` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY  (`user_id`,`topic_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `topics` (
+$db->query("CREATE TABLE IF NOT EXISTS `topics` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `poster` varchar(200) NOT NULL default '',
 `subject` varchar(255) NOT NULL default '',
@@ -460,10 +460,10 @@ PRIMARY KEY  (`id`),
 KEY `topics_forum_id_idx` (`forum_id`),
 KEY `topics_moved_to_idx` (`moved_to`),
 KEY `last_post_id_idx` (`last_post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `uploaded` (
+$db->query("CREATE TABLE IF NOT EXISTS `uploaded` (
 `id` int(11) NOT NULL auto_increment,
 `file` text NOT NULL,
 `user` text NOT NULL,
@@ -474,10 +474,10 @@ mysql_query("CREATE TABLE IF NOT EXISTS `uploaded` (
 `downs` int(11) NOT NULL default '0',
 `descr` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `uploads_conf` (
+$db->query("CREATE TABLE IF NOT EXISTS `uploads_conf` (
 `g_id` smallint(6) NOT NULL default '0',
 `u_fsize` int(10) unsigned NOT NULL default '0',
 `p_view` tinyint(4) NOT NULL default '0',
@@ -486,34 +486,34 @@ mysql_query("CREATE TABLE IF NOT EXISTS `uploads_conf` (
 `p_delete` tinyint(4) NOT NULL default '0',
 `p_globaldelete` tinyint(4) NOT NULL default '0',
 `p_setop` tinyint(4) NOT NULL default '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `uploads_conf` (`g_id`, `u_fsize`, `p_view`, `p_globalview`, `p_upload`, `p_delete`, `p_globaldelete`, `p_setop`) VALUES
+$db->query("INSERT INTO `uploads_conf` (`g_id`, `u_fsize`, `p_view`, `p_globalview`, `p_upload`, `p_delete`, `p_globaldelete`, `p_setop`) VALUES
 (0, 0, 0, 0, 0, 0, 0, 0),
 (1, 99999, 1, 1, 1, 1, 1, 1),
 (2, 10000, 1, 1, 1, 0, 0, 0),
 (3, 0, 1, 0, 0, 0, 0, 0),
 (4, 5000, 1, 1, 1, 0, 0, 0),
-(5, 0, 0, 0, 0, 0, 0, 0);") or die (mysql_error());
+(5, 0, 0, 0, 0, 0, 0, 0);") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `uploads_types` (
+$db->query("CREATE TABLE IF NOT EXISTS `uploads_types` (
 `id` int(11) NOT NULL auto_increment,
 `type` text NOT NULL,
 `exts` text NOT NULL,
 PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `uploads_types` (`id`, `type`, `exts`) VALUES
+$db->query("INSERT INTO `uploads_types` (`id`, `type`, `exts`) VALUES
 (1, 'Pictures', '.gif .png .jpg .jpeg .jpe'),
 (2, 'Documents', '.txt .rtf .pdf .doc .docx .xls .xlsx .exe .msi'),
 (3, 'Archives', '.zip .rar .gz .tgz .bz .bz2 .7z .jar .apk'),
-(4, 'Media', '.3gp .avi .mpg .wmv .flv .mp3 .wav .wma');") or die (mysql_error());
+(4, 'Media', '.3gp .avi .mpg .wmv .flv .mp3 .wav .wma');") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `users` (
+$db->query("CREATE TABLE IF NOT EXISTS `users` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `group_id` int(10) unsigned NOT NULL default '4',
 `username` varchar(200) NOT NULL default '',
@@ -563,15 +563,15 @@ mysql_query("CREATE TABLE IF NOT EXISTS `users` (
 PRIMARY KEY  (`id`),
 KEY `users_registered_idx` (`registered`),
 KEY `users_username_idx` (`username`(3))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;") or die (var_export($db->error(), true));
 
 
-mysql_query("INSERT INTO `users` (`id`, `group_id`, `username`, `password`, `email`, `title`, `realname`, `url`, `jabber`, `icq`, `msn`, `aim`, `yahoo`, `location`, `use_avatar`, `signature`, `disp_topics`, `disp_posts`, `email_setting`, `save_pass`, `notify_with_post`, `show_smilies`, `show_img`, `show_img_sig`, `show_avatars`, `show_sig`, `timezone`, `language`, `style`, `style_wap`, `num_posts`, `last_post`, `registered`, `registration_ip`, `last_visit`, `admin_note`, `activate_string`, `activate_key`, `popup_enable`, `messages_enable`, `mark_after`) VALUES
+$db->query("INSERT INTO `users` (`id`, `group_id`, `username`, `password`, `email`, `title`, `realname`, `url`, `jabber`, `icq`, `msn`, `aim`, `yahoo`, `location`, `use_avatar`, `signature`, `disp_topics`, `disp_posts`, `email_setting`, `save_pass`, `notify_with_post`, `show_smilies`, `show_img`, `show_img_sig`, `show_avatars`, `show_sig`, `timezone`, `language`, `style`, `style_wap`, `num_posts`, `last_post`, `registered`, `registration_ip`, `last_visit`, `admin_note`, `activate_string`, `activate_key`, `popup_enable`, `messages_enable`, `mark_after`) VALUES
 (1, 3, 'Guest', 'Guest', 'Guest', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '0.0.0.0', 0, NULL, NULL, NULL, 1, 1, 1296000),
-(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@" . $_SERVER['HTTP_HOST'] . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (mysql_error());
+(2, 1, 'Admin', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'admin@" . $_SERVER['HTTP_HOST'] . "', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 1, 1, 0, 1, 1, 1, 1, 1, 0, 'Russian', 'VbStyle-Black', 'wap', 0, NULL, 0, '127.0.0.1', 0, NULL, NULL, NULL, 1, 1, 1296000);") or die (var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `attachments` (
+$db->query("CREATE TABLE IF NOT EXISTS `attachments` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `poster_id` int(10) unsigned NOT NULL default '0',
 `topic_id` int(10) unsigned NOT NULL default '0',
@@ -584,17 +584,17 @@ mysql_query("CREATE TABLE IF NOT EXISTS `attachments` (
 `image_dim` varchar(64) NOT NULL default '',
 `downloads` int(10) unsigned NOT NULL default '0',
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `log_polls` (
+$db->query("CREATE TABLE IF NOT EXISTS `log_polls` (
 `pid` int(10) unsigned NOT NULL,
 `uid` int(10) unsigned NOT NULL,
 PRIMARY KEY (`pid`,`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `polls` (
+$db->query("CREATE TABLE IF NOT EXISTS `polls` (
 `id` int(10) unsigned NOT NULL auto_increment,
 `description` text,
 `data` text,
@@ -606,10 +606,10 @@ mysql_query("CREATE TABLE IF NOT EXISTS `polls` (
 `last_edit` int(10) default '0',
 `edit_uid` int(10) default '0',
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die(var_export($db->error(), true));
 
 
-mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
+$db->query("CREATE TABLE IF NOT EXISTS `karma` (
   `id` int(10) unsigned NOT NULL default '0',
   `to` int(10) unsigned NOT NULL default '0',
   `vote` enum('1', '-1') NOT NULL default '1',
@@ -617,7 +617,7 @@ mysql_query("CREATE TABLE IF NOT EXISTS `karma` (
   UNIQUE KEY `id` (`id`,`to`),
   KEY `to` (`to`),
   KEY `to_2` (`to`,`vote`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(mysql_error());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(var_export($db->error(), true));
 
 
 @chmod(PUN_ROOT . 'uploads/', 0777);
