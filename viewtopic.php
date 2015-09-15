@@ -2,6 +2,7 @@
 define('PUN_ROOT', './');
 
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 
@@ -15,6 +16,7 @@ if (!$pun_user['g_read_board']) {
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 
 if ($id < 1 && $pid < 1) {
     message($lang_common['Bad request']);
@@ -49,7 +51,7 @@ if ($pid) {
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
 } // If action=new, we redirect to the first new post (if any)
-else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
+else if ($action == 'new' && !$pun_user['is_guest']) {
     $result = $db->query('SELECT MIN(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id . ' AND posted>' . $pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $first_new_post_id = $db->result($result);
 
@@ -59,7 +61,7 @@ else if ($_GET['action'] == 'new' && !$pun_user['is_guest']) {
         // If there is no new post, we go to the last post
         redirect('viewtopic.php?id=' . $id . '&action=last', '');
     }
-} else if ($_GET['action'] == 'last') {
+} else if ($action == 'last') {
     // If action=last, we redirect to the last post
 
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -150,12 +152,12 @@ $start_from = $pun_user['disp_posts'] * ($p - 1);
 /// MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
 //$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
-if ($_GET['action'] == 'all') {
+if ($action == 'all') {
     $p = ($num_pages + 1);
 }
 
 $paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'viewtopic.php?id=' . $id);
-if ($_GET['action'] == 'all' && !$pid) {
+if ($action == 'all' && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
 /// MOD VIEW ALL PAGES IN ONE END
@@ -463,7 +465,8 @@ foreach ($posts as $cur_post) {
 
     //$save_attachments = $attachments;
     //$attachments = array_filter($attachments, 'filter_attachments_of_post');
-    if ($attachments[$cur_post['id']]) {
+    if (isset($attachments[$cur_post['id']])) {
+        include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
         echo '<br /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
         include PUN_ROOT . 'include/attach/view_attachments.php';
         echo '</fieldset>';
@@ -540,7 +543,7 @@ if ($quickpost) {
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id, true) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `' . $db->prefix . 'topics` SET `num_views`=`num_views`+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';

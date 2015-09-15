@@ -30,7 +30,7 @@ if (isset($_POST['prune'])) {
     $prune = ($_POST['prune_by'] == 1) ? 'registered' : 'last_visit';
 
     $user_time = $_SERVER['REQUEST_TIME'] - ($_POST['days'] * 86400);
-    $result = $db->query('DELETE FROM ' . $db->prefix . 'users WHERE (num_posts < ' . intval($_POST['posts']) . ') AND (' . $prune . ' < ' . intval($user_time) . ') AND (id > 2) AND (' . $admod_delete . ')' . $verified, true) or error('Unable to delete users', __FILE__, __LINE__, $db->error());
+    $result = $db->query('DELETE FROM ' . $db->prefix . 'users WHERE (num_posts < ' . intval($_POST['posts']) . ') AND (' . $prune . ' < ' . intval($user_time) . ') AND (id > 2) AND (' . $admod_delete . ')' . $verified) or error('Unable to delete users', __FILE__, __LINE__, $db->error());
     $users_pruned = $db->affected_rows();
     message('Сокращение завершено. Удалены пользователи ' . $users_pruned . '.');
 } else if (isset($_POST['add_user'])) {

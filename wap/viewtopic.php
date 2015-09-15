@@ -3,8 +3,9 @@
 define('PUN_ROOT', '../');
 define('PUN_ALLOW_INDEX', 1);
 
-require_once(PUN_ROOT . 'include/common.php');
-require_once(PUN_ROOT . 'include/file_upload.php');
+require_once PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
+require_once PUN_ROOT . 'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
@@ -258,6 +259,9 @@ foreach ($posts as &$cur_post) {
             );
             $cur_post['karma']['used'] = ($pun_user['is_guest'] || $db->num_rows($karmaVoteAccess));
         }
+    } else {
+        $cur_post['user_avatar'] = '';
+        $cur_post['karma'] = array('val' => 0, 'used' => false);
     }
 }
 

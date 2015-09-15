@@ -312,7 +312,7 @@ class _Poll
 
         $out .= '<tr><td class="' . ((!$bg_switch) ? 'roweven' :  'rowodd') . '" colspan="3" style="text-align:center;">' . $lang_poll['total voters'] . ': ' . $poll['vcount'] . ' / ' . $lang_poll['votes'] . ': ' . $total . '</td></tr></table></div>' . $pieces . '</fieldset></div><br class="clearb" />';
 
-        if (($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD)) {
+        if ($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD) {
             JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
             JsHelper::getInstance()->add(PUN_ROOT . 'js/apoll.js');
         }
@@ -325,7 +325,7 @@ class _Poll
     {
         global $lang_poll, $pun_user, $lang_common;
 
-        if (($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD)) {
+        if ($pun_user['g_id'] == PUN_ADMIN || $pun_user['g_id'] == PUN_MOD) {
             JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
             JsHelper::getInstance()->add(PUN_ROOT . 'js/apoll.js');
         }

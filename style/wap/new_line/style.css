@@ -35,7 +35,7 @@ a:active {
 
 .hd {
     color: #4b5158;
-    background: #8c929e url(imgs/hd.gif) repeat-x;
+    background: #8c929e url(img/hd.gif) repeat-x;
     margin: 1px;
     padding: 2px 4px;
     border: 1px solid #656c78
@@ -44,14 +44,14 @@ a:active {
 .hd_bott, .act {
     font-size: 8pt;
     color: #5e646d;
-    background: #bcbfc5 url(imgs/act.gif) repeat-x;
+    background: #bcbfc5 url(img/act.gif) repeat-x;
     padding: 0 4px;
     margin: 1px;
     border: 1px solid #a0a5ad
 }
 
 .con, .cat {
-    background: #5693f8 url(imgs/cat.gif) repeat-x;
+    background: #5693f8 url(img/cat.gif) repeat-x;
     margin: 1px;
     padding: 1px 4px 2px;
     border: 1px solid #346cc7
@@ -98,7 +98,7 @@ a:active {
 
 .go_to {
     font-size: 8pt;
-    background: #337cf7 url(imgs/box.gif) repeat-x;
+    background: #337cf7 url(img/box.gif) repeat-x;
     padding: 2px 4px;
     margin: 1px;
     border: 1px solid #074abb
@@ -106,7 +106,7 @@ a:active {
 
 .incqbox, .inbox {
     font-size: 8pt;
-    background: #7e8592 url(imgs/inbox.gif) repeat-x;
+    background: #7e8592 url(img/inbox.gif) repeat-x;
     padding: 4px;
     margin: 1px;
     border: 1px solid #656c78
@@ -119,12 +119,12 @@ a:active {
 }
 
 .info, div.green {
-    background: #82a66a url(imgs/info.gif) repeat-x;
+    background: #82a66a url(img/info.gif) repeat-x;
     border: 1px solid #5d7a48
 }
 
 div.red {
-    background: #ea689f url(imgs/red.gif) repeat-x;
+    background: #ea689f url(img/red.gif) repeat-x;
     border: 1px solid #e12675
 }
 
@@ -166,7 +166,7 @@ span.red a:hover, a:hover.red {
 .navlinks {
     font-size: 8pt;
     color: #0080ff;
-    background: #fcfff0 url(imgs/navlinks.gif) repeat-x;
+    background: #fcfff0 url(img/navlinks.gif) repeat-x;
     padding: 2px 4px;
     margin: 1px;
     border: 1px solid #bcbcc2
@@ -262,7 +262,7 @@ table, td, tr {
 
 .foot {
     font-size: 8pt;
-    background: #6c7380 url(imgs/foot.gif) bottom repeat-x;
+    background: #6c7380 url(img/foot.gif) bottom repeat-x;
     margin: 1px;
     border: 1px solid #484e56;
     padding: 2px 4px

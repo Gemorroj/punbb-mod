@@ -80,3 +80,9 @@ background-image: url(../img/search_tag.gif);
 a.search_tag:hover {
 background-image : url(../img/search_tag_h.gif);
 }
+
+#map div{padding-top: 3px; padding-bottom: 2px;}
+#map .cat{padding-left: 30px; background: url(../img/folder_icon.gif) no-repeat 10px 2px; font-weight: bold}
+#map .frm{padding-left: 46px; background: url(../img/folder_icon.gif) no-repeat 26px 2px; font-weight: bold}
+#map .tpc{padding-left: 62px; background: url(../img/doc_icon.gif) no-repeat 42px 8px}
+#map .att{padding-left: 82px; background: url(../img/attach_icon.gif) no-repeat 68px 2px}

@@ -12,6 +12,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 }
 
 if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_POST['delete_thumbnails']) || isset($_POST['fix_counters'])) {
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     include PUN_ROOT . 'include/file_upload.php';
 }
 
@@ -131,7 +132,7 @@ if (isset($_POST['save'])) {
 
         $log = show_problems();
 
-        print '<div id="imageupload" class="blockform">
+        echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об ошибках</span></h2>
 <div class="box">
 <div class="inform">
@@ -140,7 +141,7 @@ if (isset($_POST['save'])) {
 <tr>
 <td>';
         echo implode('<br/>', $log);
-        print '</td>
+        echo '</td>
 </tr>
 </table>
 </div>
@@ -155,7 +156,7 @@ if (isset($_POST['save'])) {
 
         $log = delete_orphans();
 
-        print '<div id="imageupload" class="blockform">
+        echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет о "сиротах"</span></h2>
 <div class="box">
 <div class="inform">
@@ -164,7 +165,7 @@ if (isset($_POST['save'])) {
 <tr>
 <td>';
         echo implode('<br/>', $log);
-        print '</td>
+        echo '</td>
 </tr>
 </table>
 </div>
@@ -179,7 +180,7 @@ if (isset($_POST['save'])) {
 
         $log = delete_all_thumbnails();
 
-        print '<div id="imageupload" class="blockform">
+        echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об очистке кеша</span></h2>
 <div class="box">
 <div class="inform">
@@ -188,7 +189,7 @@ if (isset($_POST['save'])) {
 <tr>
 <td>';
         echo implode('<br/>', $log);
-        print '</td>
+        echo '</td>
 </tr>
 </table>
 </div>
@@ -203,7 +204,7 @@ if (isset($_POST['save'])) {
 
         $log = fix_user_counters();
 
-        print '<div id="imageupload" class="blockform">
+        echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об исправлении счетчиков пользователей</span></h2>
 <div class="box">
 <div class="inform">
@@ -212,7 +213,7 @@ if (isset($_POST['save'])) {
 <tr>
 <td>';
         echo implode('<br/>', $log);
-        print '</td>
+        echo '</td>
 </tr>
 </table>
 </div>

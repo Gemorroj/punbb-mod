@@ -4,7 +4,7 @@ if (!defined('PUN')) {
     exit;
 }
 
-$pun_xhtml = stripos($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml') ? 'application/xhtml+xml' : 'text/html';
+$pun_xhtml = stripos(isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '', 'application/xhtml+xml') ? 'application/xhtml+xml' : 'text/html';
 
 // Send no-cache headers
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT'); // When yours truly first set eyes on this world! :)
@@ -57,6 +57,8 @@ $tpl_main = str_replace('<pun_rss>', PUN_ROOT . 'rss.xml', $tpl_main);
 // END SUBST - <pun_rss>
 
 
+$basename = basename($_SERVER['PHP_SELF']);
+
 
 // START SUBST - <pun_head>
 ob_start();
@@ -66,9 +68,8 @@ if (!defined('PUN_ALLOW_INDEX')) {
     echo '<meta name="robots" content="noindex, follow"/>';
 }
 
-
-echo '<title>' . $page_title . '</title><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" /><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/elektra.css" />';
-
+echo '<title>' . $page_title . '</title>';
+echo '<link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" /><link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/elektra.css" />';
 
 if (defined('PUN_ADMIN_CONSOLE')) {
     echo '<link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/imports/base_admin.css" />';
@@ -77,33 +78,21 @@ if (defined('PUN_ADMIN_CONSOLE')) {
 
 if (isset($required_fields)) {
     // Output JavaScript to validate form (make sure required fields are filled out)
-    $js = '<script type="application/javascript">reqField="' . $lang_common['required field'] . '";reqFormLang={';
+    $js = 'reqField="' . $lang_common['required field'] . '";reqFormLang={';
     while (list($elem_orig, $elem_trans) = each($required_fields)) {
         $js .= $elem_orig . ':"' . addslashes(str_replace('&nbsp;', ' ', $elem_trans)) . '",';
     }
-    echo rtrim($js, ',') . '};</script><script type="application/javascript" src="' . PUN_ROOT . 'js/required.js"></script>';
+    $js = rtrim($js, ',') . '};';
+    JsHelper::getInstance()->addInternal($js);
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/required.js');
 }
 
-
-$basename = basename($_SERVER['PHP_SELF']);
-
 if (in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
-    echo '<script type="application/javascript" src="' . PUN_ROOT . 'js/board.js"></script>';
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/board.js');
 }
 
 if (in_array($basename, array('message_list.php', 'moderate.php'))) {
-    echo '<script type="application/javascript" src="' . PUN_ROOT . 'js/check.js"></script>';
-}
-
-
-if ($basename == 'filemap.php') {
-    echo '<style type="text/css">
-#map div{padding-top: 3px; padding-bottom: 2px;}
-#map .cat{padding-left: 30px; background: url(' . PUN_ROOT . 'img/folder_icon.gif) no-repeat 10px 2px; font-weight: bold}
-#map .frm{padding-left: 46px; background: url(' . PUN_ROOT . 'img/folder_icon.gif) no-repeat 26px 2px; font-weight: bold}
-#map .tpc{padding-left: 62px; background: url(' . PUN_ROOT . 'img/doc_icon.gif) no-repeat 42px 8px}
-#map .att{padding-left: 82px; background: url(' . PUN_ROOT . 'img/attach_icon.gif) no-repeat 68px 2px}
-</style>';
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/check.js');
 }
 
 
@@ -160,7 +149,7 @@ if ($pun_user['is_guest']) {
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>' . $lang_common['Not logged in'] . '</li></ul>';
 
     /// MOD PRINTABLE TOPIC BEGIN
-    if ($basename == 'viewtopic.php' && $id) {
+    if ($basename == 'viewtopic.php' && $id > 0) {
         $tpl_temp .= '<ul class="conr"><li><span class="printable"><a href="viewprintable.php?id=' . $id . '">' . $lang_common['Print version'] . '</a></span></li></ul><div class="clearer"></div></div>';
     } else {
         $tpl_temp .= '<div class="clearer"></div></div>';

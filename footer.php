@@ -12,7 +12,7 @@ ob_end_clean();
 
 // JS_HELPER MOD BEGIN
 if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countInternal() > 0) {
-    JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery-1.10.2.min.js');
+    JsHelper::getInstance()->addFirst('//code.jquery.com/jquery-1.11.1.min.js');
     $tpl_main = str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
 } else {
     $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);
@@ -77,9 +77,6 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 // $db->get_num_queries() - show sql queries
 echo '<p class="conr"><strong><a href="/">' . $_SERVER['HTTP_HOST'] . '</a></strong></p><p class="conr">PunBB Mod v' . pun_htmlspecialchars($pun_config['o_show_version']) . '<br />' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</p><div class="clearer"></div></div></div></div>';
 
-
-// End the transaction
-$db->end_transaction();
 
 // Display executed queries (if enabled)
 if (defined('PUN_SHOW_QUERIES')) {

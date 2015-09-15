@@ -99,9 +99,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // Search a specific forum?
         $forum_sql = ($forum != -1 || ($forum == -1 && !$pun_config['o_search_all_forums'] && $pun_user['g_id'] >= PUN_GUEST)) ? ' AND t.forum_id = ' . $forum : '';
 
-        if ($author || $keywords) {
+        if (isset($author) && $author != null || isset($keywords) && $keywords != null) {
             // If it's a search for keywords
-            if ($keywords) {
+            if (isset($keywords) && $keywords != null) {
                 $stopwords = file(PUN_ROOT . 'lang/' . $pun_user['language'] . '/stopwords.txt');
                 $stopwords = array_map('trim', $stopwords);
 
@@ -155,7 +155,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                                 WHERE w.word LIKE \'' . $cur_word . '\'' . $search_in_cond;
 
 
-                            $result = $db->query($sql, true) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
+                            $result = $db->query($sql) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
 
                             $row = array();
                             while ($temp = $db->fetch_row($result)) {
@@ -250,7 +250,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql . '
                     GROUP BY t.id
-                ', true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {
@@ -270,7 +270,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql
-                    , true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {
@@ -416,7 +416,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $db->query('INSERT INTO ' . $db->prefix . 'search_cache (id, ident, search_data) VALUES(' . $search_id . ', \'' . $db->escape($ident) . '\', \'' . $db->escape($temp) . '\')') or error('Unable to insert search results', __FILE__, __LINE__, $db->error());
 
         if ($_GET['action'] != 'show_new' && $_GET['action'] != 'show_24h') {
-            $db->end_transaction();
             $db->close();
 
             // Redirect the user to the cached result page
@@ -451,7 +450,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         if ($show_as == 'posts') {
             $sql = '
-                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, SUBSTRING(p.message, 1, 1000) AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
+                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, p.message AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
                 FROM ' . $db->prefix . 'posts AS p
                 INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id
                 WHERE p.id IN(' . $search_results . ')
@@ -468,12 +467,12 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $per_page = ($show_as == 'posts') ? $pun_user['disp_posts'] : $pun_user['disp_topics'];
         $num_pages = ceil($num_hits / $per_page);
 
-        $_GET['p'] = intval($_GET['p']);
+        $_GET['p'] = isset($_GET['p']) ? intval($_GET['p']) : 1;
         $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
         $start_from = $per_page * ($p - 1);
 
         // Generate paging links
-        if ($_GET['action'] == 'all') {
+        if (isset($_GET['action']) && $_GET['action'] == 'all') {
             $p = $num_pages + 1;
             $per_page = $num_hits;
         }
@@ -544,10 +543,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 if ($search_set[$i]['poster_id'] > 1) {
                     $pposter = '<strong><a href="profile.php?id=' . $search_set[$i]['poster_id'] . '">' . $pposter . '</a></strong>';
-                }
-
-                if (mb_strlen($message) > 999) {
-                    $message .= ' &#x2026;';
                 }
 
                 $vtpost1 = (!$i) ? ' vtp1' : '';
@@ -635,7 +630,7 @@ $result = $db->query('
     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
     AND f.redirect_url IS NULL
     ORDER BY c.disp_position, c.id, f.disp_position
-', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
 if ($db->num_rows($result)) {
     $cur_category = 0;

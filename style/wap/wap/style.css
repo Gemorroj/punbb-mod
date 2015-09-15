@@ -98,7 +98,7 @@ a.but {
 
 .hd {
     font-size: smaller;
-    background: #eaecec url(imgs/head.png) repeat-x;
+    background: #eaecec url(img/head.png) repeat-x;
     height: 33px;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #b6bcbc
@@ -112,7 +112,7 @@ a.but {
 .hd_bott, .navlinks, .act {
     font-size: smaller;
     margin-bottom: 1px;
-    background: #eaecec url(imgs/navlinks.png) bottom repeat-x;
+    background: #eaecec url(img/navlinks.png) bottom repeat-x;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #b6bcbc;
     border-radius: 2pt;
@@ -122,7 +122,7 @@ a.but {
 .con, .cat {
     margin-bottom: 1px;
     color: #be012c;
-    background: #eaecec url(imgs/con_cat.png) repeat-x;
+    background: #eaecec url(img/con_cat.png) repeat-x;
     border-radius: 2pt;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #b6bcbc;
@@ -137,7 +137,7 @@ span.sp_cat {
     margin: 0 1px 1px;
     color: #fff;
     border: 1px solid #105b78;
-    background: #007090 url(imgs/box.png) repeat-x;
+    background: #007090 url(img/box.png) repeat-x;
     padding: 3px 4px 4px;
     border-radius: 2pt
 }
@@ -160,7 +160,7 @@ span.sp_cat {
     margin: 0 1px 1px;
     color: #fff;
     border: 1px solid #06242f;
-    background: #055772 url(imgs/go_to.png) repeat-x;
+    background: #055772 url(img/go_to.png) repeat-x;
     padding: 2px 5px;
     border-radius: 2pt
 }
@@ -170,7 +170,7 @@ span.sp_cat {
     margin-bottom: 1px;
     color: #dce2e2;
     border: 1px solid #475e61;
-    background: #828a8e url(imgs/inbox.png) repeat-x;
+    background: #828a8e url(img/inbox.png) repeat-x;
     padding: 4px;
     border-radius: 2pt
 }
@@ -183,7 +183,7 @@ span.sp_cat {
     margin-bottom: 1px;
     color: #0a3647;
     border: 1px solid #c4d2d9;
-    background: #f2f5f7 url(imgs/msg.png) repeat-x;
+    background: #f2f5f7 url(img/msg.png) repeat-x;
     padding: 4px;
     border-radius: 2pt
 }
@@ -192,7 +192,7 @@ span.sp_cat {
     margin-bottom: 1px;
     color: #06242f;
     border: 1px solid #bdced2;
-    background: #fbfdfd url(imgs/msg2.png) repeat-x;
+    background: #fbfdfd url(img/msg2.png) repeat-x;
     padding: 4px;
     border-radius: 2pt
 }
@@ -349,7 +349,7 @@ p {
     text-align: right;
     padding: 0 4px 5px;
     color: #0e4d66;
-    background: #d8dfdf url(imgs/copy.png) bottom repeat-x;
+    background: #d8dfdf url(img/copy.png) bottom repeat-x;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #b6bcbc;
     border-radius: 2pt

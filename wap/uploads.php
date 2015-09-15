@@ -121,7 +121,7 @@ if (isset($_GET['file'])) {
     if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
         wap_message($lang_common['Bad request']);
     } else {
-        wap_redirect('uploaded/' . $file_name);
+        wap_redirect(PUN_ROOT . 'uploaded/' . $file_name);
     }
     exit;
 }

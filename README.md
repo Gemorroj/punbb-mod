@@ -6,8 +6,8 @@
 Модификация: Gemorroj, tipsun, LookOfff  
 
 ### Обсуждение мода, а так же новые модификации можно найти здесь:
-* [WEB форум](http://wapinet.ru/forum/viewtopic.php?id=69)
-* [WAP форум](http://wapinet.ru/forum/wap/viewtopic.php?id=69)
+* [WEB форум](http://forum.wapinet.ru/viewtopic.php?id=69)
+* [WAP форум](http://forum.wapinet.ru/wap/viewtopic.php?id=69)
 * [Github](https://github.com/Gemorroj/punbb-mod)
 
 

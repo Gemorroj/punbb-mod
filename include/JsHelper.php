@@ -38,6 +38,15 @@ class JsHelper
         }
     }
 
+    /**
+     * @param string $path
+     */
+    public function addFirst($path)
+    {
+        if (!in_array($path, $this->js)) {
+            array_unshift($this->js, $path);
+        }
+    }
 
     /**
      * @param string $script

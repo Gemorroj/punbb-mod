@@ -94,7 +94,7 @@ function downloadPopup(e, aid) {
         adescr = '<a href="./download.php?aid=' + aid + '" title="download" class="att_filename">' + adescr;
     }
     if (athumb != '') {
-        adescr += '<br /><img src="/' + athumb + '" alt="" /><br />';
+        adescr += '<br /><img src="./' + athumb + '" alt="" /><br />';
     }
     if (can_download) {
         adescr += '</a>';

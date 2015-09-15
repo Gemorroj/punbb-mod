@@ -2,6 +2,7 @@
 
 define('PUN_ROOT', './');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 // если проверка каптчей
@@ -55,7 +56,13 @@ $can_upload = $is_admmod || (!$cur_posting['file_upload'] && $pun_user['g_file_u
 if ($pun_user['is_guest']) {
     $file_limit = 0;
 } else {
-    $result = $db->query('SELECT COUNT(1) FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'attachments AS a ON t.id=a.topic_id WHERE t.forum_id=' . $cur_posting['id'] . ' AND a.poster_id=' . $pun_user['id']) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+      SELECT COUNT(1)
+      FROM ' . $db->prefix . 'topics AS t
+      INNER JOIN ' . $db->prefix . 'attachments AS a ON t.id=a.topic_id
+      WHERE t.forum_id=' . $cur_posting['id'] . '
+      AND a.poster_id=' . $pun_user['id']
+    ) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
@@ -79,7 +86,7 @@ if (!$is_admmod && ($tid && $pun_config['file_first_only'] == 1)) {
 
 
 // Do we have permission to post?
-if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) || $cur_posting['post_replies'] == '0')) || ($fid && ((!$cur_posting['post_topics'] && !$pun_user['g_post_topics']) || $cur_posting['post_topics'] == '0')) || $cur_posting['closed'] == 1) && !$is_admmod) {
+if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) || $cur_posting['post_replies'] == '0')) || ($fid && ((!$cur_posting['post_topics'] && !$pun_user['g_post_topics']) || $cur_posting['post_topics'] == '0')) || @$cur_posting['closed'] == 1) && !$is_admmod) {
     message($lang_common['No permission']);
 }
 
@@ -223,7 +230,7 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-    require PUN_ROOT . 'include/search_idx.php';
+    include PUN_ROOT . 'include/search_idx.php';
 
     $hide_smilies = isset($_POST['hide_smilies']) ? 1 : 0;
     $subscribe = isset($_POST['subscribe']) ? 1 : 0;
@@ -629,6 +636,7 @@ if ($pun_user['g_post_replies'] == 2) {
 <?php
 $num_to_upload = min($file_limit, 20);
 if ($can_upload && $num_to_upload > 0) {
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
     echo '<br class="clearb" /><fieldset><legend>' . $lang_fu['Attachments'] . '</legend>';
     include PUN_ROOT . 'include/attach/post_input.php';
     echo '</fieldset>';

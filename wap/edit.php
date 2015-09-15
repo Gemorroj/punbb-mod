@@ -1,6 +1,7 @@
 <?php
 define('PUN_ROOT', '../');
 require PUN_ROOT . 'include/common.php';
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 require PUN_ROOT . 'include/file_upload.php';
 
 
@@ -9,7 +10,7 @@ if (!$pun_user['g_read_board']) {
 }
 
 
-$id = @intval(@$_GET['id']);
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($id < 1) {
     wap_message($lang_common['Bad request']);
 }
@@ -204,8 +205,7 @@ $cur_post['id'] = $id;
 
 if ($uploaded_to_post) {
     // Retrieve the attachments
-    require_once PUN_ROOT . 'include/attach/fetch.php';
-    $smarty->assign('lang_fu', $lang_fu);
+    include_once PUN_ROOT . 'include/attach/fetch.php';
     $smarty->assign('attachments', $attachments);
 }
 //- Attachments//

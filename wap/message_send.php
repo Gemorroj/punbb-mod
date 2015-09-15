@@ -158,7 +158,7 @@ if (isset($_POST['form_sent'])) {
         wap_redirect('message_list.php');
     }
 } else {
-    $id = intval(@$_GET['id']);
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
     if ($id > 0) {
         $result = $db->query('SELECT username FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch message info', __FILE__, __LINE__, $db->error());

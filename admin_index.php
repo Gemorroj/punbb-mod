@@ -47,15 +47,17 @@ if ($action == 'check_upgrade') {
     phpinfo();
     exit;
 } else if ($action == 'optimize') {
-    $result = $db->query('SHOW TABLES FROM ' . $db_name);
-
-    $tables = null;
-    while ($row = $db->fetch_row($result)) {
-        $tables .= '`' . $row[0] . '`, ';
+    $errors = array();
+    $result = $db->query('SHOW TABLE STATUS');
+    while ($row = $db->fetch_assoc($result)) {
+        if ($row['Name'] != 'online') {
+            if (!$db->query('ALTER TABLE `' . str_replace('`', '``', $row['Name']) . '` ENGINE=InnoDB')) {
+                $errors[] = $db->error();
+            }
+        }
     }
-    $tables = rtrim($tables, ', ');
 
-    if ($db->query('OPTIMIZE TABLE ' . $tables) && $db->query('ANALYZE TABLE ' . $tables)) {
+    if (!$errors) {
         message('Tables Optimized');
     } else {
         message('Tables NOT Optimized');

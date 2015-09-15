@@ -344,8 +344,6 @@ function split_text($text, $start, $end)
 //
 function handle_url_tag($url, $link = '')
 {
-    global $pun_user;
-
     $full_url = str_replace(
         array(' ', "'", '`', '"'),
         array('%20', '%27', '%60', '%22'),
@@ -360,7 +358,7 @@ function handle_url_tag($url, $link = '')
     }
 
     // Ok, not very pretty :-)
-    $link = ($link == '' || $link == $url) ? ((mb_strlen($url) > 55) ? mb_substr($url, 0, 39) . ' &#133; ' . mb_substr($url, -10) : $url) : stripslashes($link);
+    $link = ($link == '' || $link == $url) ? ((mb_strlen($url) > 55) ? mb_substr($url, 0, 39) . ' &#x2026; ' . mb_substr($url, -10) : $url) : stripslashes($link);
 
     return '<a href="' . $full_url . '">' . $link . '</a>';
 }
@@ -371,22 +369,22 @@ function handle_url_tag($url, $link = '')
 //
 function handle_search_tag($where = 'forum', $what = '')
 {
-    global $pun_user;
-
     $where = mb_strtolower($where);
     switch ($where) {
         case 'forum':
             $full_url = 'search.php?action=search&amp;keywords=' . urlencode($what);
             break;
 
-        case 'punres':
-            // =)
-            $full_url = 'http://punres.org/search.php?action=search&amp;keywords=' .
-                urlencode($what);
+        case 'yandex':
+            $full_url = 'http://yandex.ru/yandsearch?text=' . urlencode($what);
             break;
 
         case 'google':
             $full_url = 'http://www.google.com/search?q=' . urlencode($what);
+            break;
+
+        case 'baidu':
+            $full_url = 'http://www.baidu.com/s?wd=' . urlencode($what);
             break;
 
         default:
@@ -403,7 +401,7 @@ function handle_search_tag($where = 'forum', $what = '')
 //
 function handle_img_tag_modern($align, $url, $is_signature = false)
 {
-    global $lang_common, $pun_config, $pun_user;
+    global $lang_common, $pun_user;
 
     $img_tag = '<a href="' . $url . '">&lt;' . $lang_common['Image link'] . '&gt;</a>';
 
@@ -424,7 +422,7 @@ function handle_img_tag_modern($align, $url, $is_signature = false)
 //
 function handle_img_tag($url, $is_signature = false)
 {
-    global $lang_common, $pun_config, $pun_user;
+    global $lang_common, $pun_user;
 
     $img_tag = '<a href="' . $url . '">&lt;' . $lang_common['Image link'] . '&gt;</a>';
 
@@ -605,7 +603,9 @@ function do_hide($text, $post = 0, $matches)
         return str_replace($matches[0], '<div class="spoiler" style="display: block;"><strong>' . $lang_topic['Hide'] . '</strong><br/>' . $matches[4] . '</div>', $text);
     }
 
-    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="$(this.nextSibling).slideToggle(200);"/><div class="spoiler"><br/>' . $matches[4] . '</div></div>', $text);
+    JsHelper::getInstance()->add(PUN_ROOT . 'js/spoiler.js');
+
+    return str_replace($matches[0], '<div><input type="button" value="' . $lang_topic['Hide'] . '" onclick="spoiler(this.nextSibling);"/><div class="spoiler"><br/>' . $matches[4] . '</div></div>', $text);
 }
 
 //
@@ -633,6 +633,7 @@ function parse_message($text, $hide_smilies, $post = 0)
 
 
     // If the message contains a code tag we have to split it up (text within [code][/code] shouldn't be touched)
+    $inside = array();
     if (strpos($text, '[code]') !== false && strpos($text, '[/code]') !== false) {
         list($inside, $outside) = split_text($text, '[code]', '[/code]');
         $outside = array_map('ltrim', $outside);
@@ -651,9 +652,9 @@ function parse_message($text, $hide_smilies, $post = 0)
         $text = do_bbcode($text);
 
         if ($pun_config['p_message_img_tag'] == 1) {
-            $text = preg_replace('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#e', 'handle_img_tag(\'$1$3\')', $text);
-            $text = preg_replace('#\[imgr\]((ht|f)tps?://)([^\s<"]*?)\[/imgr\]#e', 'handle_img_tag_modern(\'right\', \'$1$3\')', $text);
-            $text = preg_replace('#\[imgl\]((ht|f)tps?://)([^\s<"]*?)\[/imgl\]#e', 'handle_img_tag_modern(\'left\', \'$1$3\')', $text);
+            $text = preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', create_function('$matches', 'return handle_img_tag($matches[1].$matches[3]);'), $text);
+            $text = preg_replace_callback('#\[imgr\]((ht|f)tps?://)([^\s<"]*?)\[/imgr\]#', create_function('$matches', 'return handle_img_tag_modern(\'right\', $matches[1].$matches[3]);'), $text);
+            $text = preg_replace_callback('#\[imgl\]((ht|f)tps?://)([^\s<"]*?)\[/imgl\]#', create_function('$matches', 'return handle_img_tag_modern(\'left\', $matches[1].$matches[3]);'), $text);
         }
     }
 
@@ -661,27 +662,45 @@ function parse_message($text, $hide_smilies, $post = 0)
     $text = str_replace(array("\n", "\t", '  ', '  ', "\r"), array('<br />', '&#160; &#160; ', '&#160; ', ' &#160;', ''), $text);
 
     // AJAX POLL MOD BEGIN
-    $text = preg_replace('#\[poll\]([0-9]*?)\[/poll\]#e', 'handle_poll_tag(\'$1\')', $text);
+    $text = preg_replace_callback('#\[poll\]([0-9]*?)\[/poll\]#', create_function('$matches', 'return handle_poll_tag($matches[1]);'), $text);
     // AJAX POLL MOD END
 
     // If we split up the message before we have to concatenate it together again (code tags)
-    if (isset($inside) && $inside) {
+    $text = do_code($text, $inside);
+
+    // Add paragraph tag around post, but make sure there are no empty paragraphs
+    if ($wap) {
+        $text = str_replace('<p></p>', '', $text);
+    } else {
+        $text = str_replace('<p></p>', '', '<p>' . $text . '</p>');
+    }
+
+    return $text;
+}
+
+
+function do_code ($text, $inside = array())
+{
+    global $pun_config, $lang_common, $pun_user;
+    $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
+
+
+    // If we split up the message before we have to concatenate it together again (code tags)
+    if ($inside) {
         $outside = explode('<">', $text);
         $num_tokens = sizeof($outside);
         $text = '';
 
-        for ($i = 0; $i <= $num_tokens; ++$i) {
+        for ($i = 0; $i < $num_tokens; ++$i) {
             $text .= $outside[$i];
 
             if (isset($inside[$i])) {
                 $num_lines = ((substr_count($inside[$i], "\n")) + 3) * 1.5;
                 $height_str = ($num_lines > 35) ? '35em' : $num_lines . 'em';
 
-                if ($inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] == '&lt;?' || $inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] == '&lt;%') {
+                if ($inside[$i][0] . $inside[$i][1] . $inside[$i][2] . $inside[$i][3] . $inside[$i][4] === '&lt;?') {
                     $code = str_replace(
                         array(
-                            '</span></span>',
-                            '<span style="color: #000000">',
                             '<code>',
                             '</code>',
                             "\r",
@@ -689,16 +708,14 @@ function parse_message($text, $hide_smilies, $post = 0)
                             "\t"
                         ),
                         array(
-                            '</span>',
-                            '',
-                            '',
                             '',
                             '',
                             '',
                             '',
                             ''
                         ),
-                        highlight_string(htmlspecialchars_decode($inside[$i]), true)
+                        // delete the first <span style="color:#000000;"> and the corresponding </span>
+                        $str = substr(highlight_string(htmlspecialchars_decode($inside[$i]), true), 35, -8)
                     );
                 } else {
                     $code = str_replace(array("\r", "\n", "\t"), '', nl2br($inside[$i]));
@@ -715,16 +732,22 @@ function parse_message($text, $hide_smilies, $post = 0)
                         if ($c[$i2] === '') {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
-                            if (!isset($c[$i2][4]) || $c[$i2][0] . $c[$i2][1] . $c[$i2][2] . $c[$i2][3] . $c[$i2][4] != '<span') {
-                                $c[$i2] = $span . $c[$i2];
+                            if (substr($c[$i2], 0, 7) === '</span>') {
+                                $c[$i2] = substr($c[$i2], 7);
                             }
 
-                            $c[$i2] = str_replace('</span></span>', '', $c[$i2]);
+                            $openSpan = substr_count($c[$i2], '<span');
+                            $closeSpan = substr_count($c[$i2], '</span>');
+                            if ($openSpan > $closeSpan) {
+                                $c[$i2] .= str_repeat('</span>', $openSpan - $closeSpan);
+                            } elseif ($closeSpan > $openSpan) {
+                                $c[$i2] = str_repeat('<span>', $closeSpan - $openSpan) . $c[$i2];
+                            }
 
-                            $code .= '<tr><td>' . (((substr_count($c[$i2], '<span') + substr_count($c[$i2], '</span>')) % 2) ? '' : $span) . $c[$i2] . '</span></td></tr>';
+                            $code .= '<tr><td>' . $span . $c[$i2] . '</span></td></tr>';
 
-                            if ($preg_span = preg_match('/.*<span style="color:(.*?)">.*/i', $c[$i2], $array_span)) {
-                                $span = '<span style="color:' . $array_span[$preg_span] . '">';
+                            if ($preg_span = preg_match('/.*<span style="color: #([a-z0-9]+?)">.*/i', $span . $c[$i2], $array_span)) {
+                                $span = '<span style="color: #' . $array_span[$preg_span] . '">';
                             } else {
                                 $span = '<span>';
                             }
@@ -733,6 +756,9 @@ function parse_message($text, $hide_smilies, $post = 0)
 
                     }
                 } else {
+                    if (substr($code, -7) === '</span>') {
+                        $code = substr($code, 0, -7);
+                    }
                     $code = '<tr><td>' . $code . '</td></tr>';
                     $num_line = '<tr><td>1</td></tr>';
                 }
@@ -746,15 +772,9 @@ function parse_message($text, $hide_smilies, $post = 0)
         }
     }
 
-    // Add paragraph tag around post, but make sure there are no empty paragraphs
-    if ($wap) {
-        $text = str_replace('<p></p>', '', $text);
-    } else {
-        $text = str_replace('<p></p>', '', '<p>' . $text . '</p>');
-    }
-
     return $text;
 }
+
 
 
 //

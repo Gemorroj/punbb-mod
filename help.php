@@ -22,7 +22,6 @@ require_once PUN_ROOT . 'header.php';
 <div class="box">
     <div class="inbox">
         <p><a name="bbcode"></a><?php echo $lang_help['BBCode info 1']; ?></p><br/>
-
         <p><?php echo $lang_help['BBCode info 2']; ?></p>
     </div>
 </div>
@@ -31,16 +30,11 @@ require_once PUN_ROOT . 'header.php';
     <p><?php echo $lang_help['Text style info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [b]<?php echo $lang_help['Bold text']; ?>[/b] <?php echo $lang_help['produces']; ?>
-        <strong><?php echo $lang_help['Bold text']; ?></strong><br/>
-        [u]<?php echo $lang_help['Underlined text']; ?>[/u] <?php echo $lang_help['produces']; ?> <span
-        class="bbu"><?php echo $lang_help['Underlined text']; ?></span><br/>
-        [i]<?php echo $lang_help['Italic text']; ?>[/i] <?php echo $lang_help['produces']; ?>
-        <em><?php echo $lang_help['Italic text']; ?></em><br/>
-        [color=#FF0000]<?php echo $lang_help['Red text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span
-        style="color: #ff0000"><?php echo $lang_help['Red text']; ?></span><br/>
-        [color=blue]<?php echo $lang_help['Blue text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span
-        style="color: blue"><?php echo $lang_help['Blue text']; ?></span><br/>
+        [b]<?php echo $lang_help['Bold text']; ?>[/b] <?php echo $lang_help['produces']; ?> <strong><?php echo $lang_help['Bold text']; ?></strong><br/>
+        [u]<?php echo $lang_help['Underlined text']; ?>[/u] <?php echo $lang_help['produces']; ?> <span class="bbu"><?php echo $lang_help['Underlined text']; ?></span><br/>
+        [i]<?php echo $lang_help['Italic text']; ?>[/i] <?php echo $lang_help['produces']; ?> <em><?php echo $lang_help['Italic text']; ?></em><br/>
+        [color=#FF0000]<?php echo $lang_help['Red text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span style="color: #ff0000"><?php echo $lang_help['Red text']; ?></span><br/>
+        [color=blue]<?php echo $lang_help['Blue text']; ?>[/color] <?php echo $lang_help['produces']; ?> <span style="color: blue"><?php echo $lang_help['Blue text']; ?></span><br/>
         [hide]<?php echo $lang_help['Hide text']; ?>[/hide] <?php echo $lang_help['hidden']; ?><br/>
         [hide=1]<?php echo $lang_help['Hide text']; ?>[/hide] <?php echo $lang_help['hidden']; ?>
     </div>
@@ -50,22 +44,14 @@ require_once PUN_ROOT . 'header.php';
     <p><?php echo $lang_help['Links info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [url=<?php echo $pun_config['o_base_url'] . '/'; ?>
-        ]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a
-        href="<?php echo $pun_config['o_base_url'] . '/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
-        [url]<?php echo $pun_config['o_base_url'] . '/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a
-        href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'] . '/'; ?></a><br/>
+        [url=<?php echo $pun_config['o_base_url'] . '/'; ?>]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url'] . '/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
+        [url]<?php echo $pun_config['o_base_url'] . '/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'] . '/'; ?></a><br/>
         [email]myname@mydomain.com[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com">myname@mydomain.com</a><br/>
-        [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address']; ?>
-        [/email] <?php echo $lang_help['produces']; ?> <a
-        href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address']; ?></a><br/><br/>
+        [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address']; ?>[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address']; ?></a><br/><br/>
     </div>
     <p><a name="img"></a><?php echo $lang_help['Images info']; ?></p>
 
-    <div>[img]<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif[/img] <?php echo $lang_help['produces']; ?> <img
-            src="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif"
-            alt="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])); ?>/img/punbb.gif"/>
-    </div>
+    <div>[img]<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif[/img] <?php echo $lang_help['produces']; ?> <img src="<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif" alt="<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif"/></div>
 </div>
 <h2><?php echo $lang_help['Quotes']; ?></h2>
 <div class="box">
@@ -77,7 +63,6 @@ require_once PUN_ROOT . 'header.php';
         <div class="postmsg">
             <blockquote>
                 <div class="incqbox"><h4>James <?php echo $lang_common['wrote']; ?>:</h4>
-
                     <p><?php echo $lang_help['Quote text']; ?></p></div>
             </blockquote>
         </div>

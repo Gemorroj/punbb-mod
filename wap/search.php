@@ -154,7 +154,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                                 WHERE w.word LIKE \'' . $cur_word . '\'' . $search_in_cond;
 
 
-                            $result = $db->query($sql, true) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
+                            $result = $db->query($sql) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
 
                             $row = array();
                             while ($temp = $db->fetch_row($result)) {
@@ -250,7 +250,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql . '
                     GROUP BY t.id
-                ', true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {
@@ -270,7 +270,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND p.id IN(' . implode(',', $search_ids) . ')
                     ' . $forum_sql
-                    , true) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = array();
                 while ($row = $db->fetch_row($result)) {
@@ -417,7 +417,6 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $db->query('INSERT INTO ' . $db->prefix . 'search_cache (id, ident, search_data) VALUES(' . $search_id . ', \'' . $db->escape($ident) . '\', \'' . $db->escape($temp) . '\')') or error('Unable to insert search results', __FILE__, __LINE__, $db->error());
 
         if ($_GET['action'] != 'show_new' && $_GET['action'] != 'show_24h') {
-            $db->end_transaction();
             $db->close();
 
             // Redirect the user to the cached result page
@@ -452,7 +451,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         if ($show_as == 'posts') {
             $sql = '
-                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, SUBSTRING(p.message, 1, 1000) AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
+                SELECT p.id AS pid, p.poster AS pposter, p.posted AS pposted, p.poster_id, p.message AS message, t.id AS tid, t.poster, t.subject, t.last_post, t.last_post_id, t.last_poster, t.num_replies, t.forum_id
                 FROM ' . $db->prefix . 'posts AS p
                 INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id
                 WHERE p.id IN(' . $search_results . ')
@@ -544,7 +543,7 @@ $result = $db->query('
     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
     AND f.redirect_url IS NULL
     ORDER BY c.disp_position, c.id, f.disp_position
-', true) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
 $forums = array();
 while ($cur_forum = $db->fetch_assoc($result)) {
