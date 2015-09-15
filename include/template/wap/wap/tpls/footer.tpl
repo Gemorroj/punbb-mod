@@ -70,7 +70,7 @@ $basename == 'index.php'}
     {/if}
 {/if}
 <div class="foot">
-    <a href="/">{$smarty.server.HTTP_HOST}</a><br/>
+    <a href="{$pun_config.o_base_url}">{$lang_common.Index}</a><br/>
     <a class="red" href="{$smarty.const.PUN_ROOT}">WEB</a>
 </div>
 

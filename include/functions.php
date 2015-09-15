@@ -224,7 +224,7 @@ function generate_navlinks()
     global $pun_config, $lang_common, $pun_user, $lang_pms;
 
     // Index and Userlist should always be displayed
-    $links[] = '<li id="navindex"><a href="index.php">' . $lang_common['Index'] . '</a>';
+    $links[] = '<li id="navindex"><a href="' . $pun_config['o_base_url'] . '">' . $lang_common['Index'] . '</a>';
     $links[] = '<li id="navuserlist"><a href="userlist.php">' . $lang_common['User list'] . '</a>';
 
     if ($pun_config['o_rules'] == 1) {
