@@ -1,4 +1,20 @@
 {extends file='layout.scheme.tpl'}
+
+{block name='logo'}
+<div class="hd">
+    {* <pun_hd> *}
+    <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
+    {$pun_config.o_board_title}
+</div>
+
+{if $pun_config.o_board_desc}
+{* <pun_desc> *}
+    <div class="hd_bott">
+        {$pun_config.o_board_desc}
+    </div>
+{/if}
+{/block}
+
 {block name='center'}
 
 {assign var='Link_separator_m' value='Link separator_m'}
@@ -12,21 +28,6 @@
 {assign var='Guests_online' value='Guests online'}
 {assign var='j' value=false}
 {assign var='cur_category' value=0}
-
-<div class="hd">
-    {* <pun_hd> *}
-    <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
-    {$pun_config.o_board_title}
-</div>
-
-{if $pun_config.o_board_desc}
-{* <pun_desc> *}
-    <div class="hd_bott">
-        {$pun_config.o_board_desc}
-    </div>
-{/if}
-
-{include file='notification.tpl'}
 
 {if $pun_config.o_announcement == 1}
 {* <pun_announcement> *}
