@@ -82,4 +82,5 @@
     </div>
 {/if}
 
+{include file='quickjump.tpl'}
 {/block}
