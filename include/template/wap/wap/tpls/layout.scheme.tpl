@@ -1,3 +1,12 @@
+{extends file='layout.html.tpl'}
+
+{block name='head'}{include file='head.tpl'}{/block}
+
+{block name='body'}
+{if 'index.php' != $basename}
+    {include file='notification.tpl'}
+{/if}
+{block name='center'}{/block}
 {assign var='Moderate_forum' value='Moderate forum'}
 {assign var='Delete_posts'   value='Delete posts'}
 {assign var='Move_topic'     value='Move topic'}
@@ -75,9 +84,7 @@ $basename == 'index.php'}
 </div>
 
 <div class="copy">
-    <a href="{$pun_config.o_base_url}">PunBB Mod v{$pun_config.o_show_version}</a><br/>
+    <a href="http://forum.wapinet.ru">PunBB Mod v{$pun_config.o_show_version}</a><br/>
     <span class="red">{sprintf('%.3f', microtime(true) - $pun_start)} s</span>
 </div>
-
-</body>
-</html>
+{/block}

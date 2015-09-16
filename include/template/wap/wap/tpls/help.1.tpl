@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Text_style' value='Text style'}
 {assign var='Text_style_info' value='Text style info'}
@@ -71,4 +72,4 @@
     <input type="text" value="[b][u][/u][/b]" size="9"/>
 </div>
 
-{include file='footer.tpl'}
+{/block}

@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Delete_posts' value='Delete posts'}
 {assign var='Confirm_delete_legend' value='Confirm delete legend'}
@@ -17,4 +18,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

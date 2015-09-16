@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Links_and_images' value='Links and images'}
 {assign var='Links_info' value='Links info'}
@@ -36,4 +37,4 @@
     <input type="text" value="[img]{$pun_config.o_base_url}/img/punbb.gif[/img]" size="15"/>
 </div>
 
-{include file='footer.tpl'}
+{/block}

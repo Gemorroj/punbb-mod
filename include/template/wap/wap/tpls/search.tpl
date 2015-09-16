@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Search_criteria_legend' value='Search criteria legend'}
 {assign var='Keyword_search' value='Keyword search'}
@@ -92,4 +93,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

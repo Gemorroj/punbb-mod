@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Private_Messages' value='Private Messages'}
 {assign var='Link_separator_m' value='Link separator_m'}
@@ -78,4 +79,4 @@
 <div class="con">{$lang_common.Pages}: {$page_links}</div>
 
 {include file='message_list.navlinks.tpl'}
-{include file='footer.tpl'}
+{/block}

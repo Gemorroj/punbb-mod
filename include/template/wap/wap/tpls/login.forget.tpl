@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Request_pass' value='Request pass'}
 {assign var='Request_pass_legend' value='Request pass legend'}
@@ -19,4 +20,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

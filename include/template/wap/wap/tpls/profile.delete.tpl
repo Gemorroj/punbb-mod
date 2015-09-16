@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Confirm_delete_user' value='Confirm delete user'}
 {assign var='Confirm_delete_legend' value='Confirm delete legend'}
@@ -25,4 +26,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

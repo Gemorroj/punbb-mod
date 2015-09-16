@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Go_to_post' value='Go to post'}
 {assign var='New_posts_info' value='New posts info'}
@@ -69,4 +70,4 @@
 
 <div class="con">{$lang_common.Pages}: {$paging_links}</div>
 
-{include file='footer.tpl'}
+{/block}

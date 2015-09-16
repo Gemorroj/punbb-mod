@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Send_email_to' value='Send e-mail to'}
 {assign var='Write_email' value='Write e-mail'}
@@ -25,4 +26,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

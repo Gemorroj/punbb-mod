@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Post_topic' value='Post topic'}
 {assign var='Empty_forum' value='Empty forum'}
@@ -81,4 +82,4 @@
 </form>
 {/if}
 
-{include file='footer.tpl'}
+{/block}
