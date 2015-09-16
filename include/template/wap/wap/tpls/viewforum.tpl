@@ -75,6 +75,10 @@
 {if (! $cur_forum.post_topics && $pun_user.g_post_topics == 1) || $cur_forum.post_topics == 1 || $is_admmod}
     <div class="go_to">
         <a class="but" href="post.php?fid={$id}">{$lang_forum.$Post_topic}</a>
+        {if isset($is_admmod) && $is_admmod}
+            {assign var='Moderate_forum' value='Moderate forum'}
+            <a class="but" href="moderate.php?fid={$forum_id}&amp;p={$p}">{$lang_common.$Moderate_forum}</a>
+        {/if}
     </div>
 {/if}
 
