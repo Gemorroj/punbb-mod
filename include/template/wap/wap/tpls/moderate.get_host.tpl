@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Go_back' value='Go back'}
 {assign var='Show_IP' value='Show IP'}
@@ -11,4 +12,4 @@
 
 <p><a href="javascript:history.go(-1);">{$lang_common.$Go_back}</a></p>
 
-{include file='footer.tpl'}
+{/block}

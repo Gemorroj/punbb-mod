@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Delete_messages_comply' value='Delete messages comply'}
 {assign var='Private_Messages' value='Private Messages'}
@@ -23,4 +24,4 @@
 
 {include file='message_list.navlinks.tpl'}
 
-{include file='footer.tpl'}
+{/block}

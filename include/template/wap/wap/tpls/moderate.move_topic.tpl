@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Move_topic' value='Move topic'}
 {assign var='Move_topics' value='Move topics'}
@@ -42,4 +43,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

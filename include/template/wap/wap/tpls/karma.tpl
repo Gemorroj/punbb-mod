@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 <div class="inbox">
     <a href="index.php">{$lang_common.Index}</a>&#160;&#187;&#160;{$lang_common.Karma}
@@ -41,4 +42,4 @@
     <div class="con">{$lang_common.Pages}: {$page_links}</div>
 {/if}
 
-{include file='footer.tpl'}
+{/block}

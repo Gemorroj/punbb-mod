@@ -1,3 +1,18 @@
+{extends file='layout.html.tpl'}
+
+{block name='head'}
+<meta name="viewport" content="width=device-width"/>
+<meta http-equiv="Content-Type" content="{$pun_xhtml}; charset=UTF-8"/>
+<title>{$page_title|escape}</title>
+<link rel="stylesheet" type="text/css" href="{$pun_config.o_base_url}/style/wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}/style.css"/>
+<link rel="alternate" type="application/rss+xml" title="{$pun_config.o_board_title}" href="{$smarty.const.PUN_ROOT}rss.xml"/>
+{/block}
+
+{block name='body'}
+{block name='logo'}{/block}
+{include file='notification.tpl'}
+{block name='center'}{/block}
+
 {assign var='Moderate_forum' value='Moderate forum'}
 {assign var='Delete_posts'   value='Delete posts'}
 {assign var='Move_topic'     value='Move topic'}
@@ -6,7 +21,6 @@
 {assign var='Unstick_topic'  value='Unstick topic'}
 {assign var='Stick_topic'    value='Stick topic'}
 {assign var='User_list'      value='User list'}
-
 {assign var='Link_separator_m' value='Link separator_m'}
 
 {if $basename == 'profile.php' ||
@@ -75,9 +89,7 @@ $basename == 'index.php'}
 </div>
 
 <div class="copy">
-    <a href="{$pun_config.o_base_url}">PunBB Mod v{$pun_config.o_show_version}</a><br/>
+    <a href="http://forum.wapinet.ru">PunBB Mod v{$pun_config.o_show_version}</a><br/>
     <span class="red">{sprintf('%.3f', microtime(true) - $pun_start)} s</span>
 </div>
-
-</body>
-</html>
+{/block}

@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='cur_category' value=0}
 {assign var='cur_forum' value=0}
@@ -58,4 +59,4 @@
 
 <div class="con">{$lang_common.Pages}:&#160;{$paging_links}</div>
 
-{include file='footer.tpl'}
+{/block}

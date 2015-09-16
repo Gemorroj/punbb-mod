@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Login_legend'   value='Login legend'}
 {assign var='Not_registered' value='Not registered'}
@@ -26,4 +27,4 @@
 <div class="in2"> &#187; <a href="register.php">{$lang_login.$Not_registered}</a></div>
 <div class="in"> &#187; <a href="login.php?action=forget">{$lang_login.$Forgotten_pass}</a></div>
 
-{include file='footer.tpl'}
+{/block}

@@ -1,17 +1,6 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
 
-{assign var='Link_separator_m' value='Link separator_m'}
-{assign var='Empty_board' value='Empty board'}
-{assign var='Show_new_posts' value='Show new posts'}
-{assign var='Mark_all_as_read' value='Mark all as read'}
-{assign var='No_of_users' value='No of users'}
-{assign var='No_of_topics' value='No of topics'}
-{assign var='No_of_posts' value='No of posts'}
-{assign var='Users_online' value='Users online'}
-{assign var='Guests_online' value='Guests online'}
-{assign var='j' value=false}
-{assign var='cur_category' value=0}
-
+{block name='logo'}
 <div class="hd">
     {* <pun_hd> *}
     <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
@@ -24,8 +13,21 @@
         {$pun_config.o_board_desc}
     </div>
 {/if}
+{/block}
 
-{include file='notification.tpl'}
+{block name='center'}
+
+{assign var='Link_separator_m' value='Link separator_m'}
+{assign var='Empty_board' value='Empty board'}
+{assign var='Show_new_posts' value='Show new posts'}
+{assign var='Mark_all_as_read' value='Mark all as read'}
+{assign var='No_of_users' value='No of users'}
+{assign var='No_of_topics' value='No of topics'}
+{assign var='No_of_posts' value='No of posts'}
+{assign var='Users_online' value='Users online'}
+{assign var='Guests_online' value='Guests online'}
+{assign var='j' value=false}
+{assign var='cur_category' value=0}
 
 {if $pun_config.o_announcement == 1}
 {* <pun_announcement> *}
@@ -102,4 +104,4 @@
     {/if}
 </div>
 
-{include file='footer.tpl'}
+{/block}

@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Last_edit' value='Last edit'}
 {assign var='post_count' value=0}
@@ -42,4 +43,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

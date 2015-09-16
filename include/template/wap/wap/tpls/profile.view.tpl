@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Profile_menu' value='Profile menu'}
 {assign var='No_avatar' value='No avatar'}
@@ -156,4 +157,4 @@
     <strong>{$lang_common.Registered}:</strong> {$user.registered|date_format:$date_format}
 </div>
 
-{include file='footer.tpl'}
+{/block}

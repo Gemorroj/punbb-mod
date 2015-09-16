@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='New_icon_m' value='New icon_m'}
 {assign var='No_messages' value='No messages'}
@@ -75,4 +76,4 @@
 <div class="con">{$lang_common.Pages}: {$page_links}</div>
 
 {include file='message_list.navlinks.tpl'}
-{include file='footer.tpl'}
+{/block}

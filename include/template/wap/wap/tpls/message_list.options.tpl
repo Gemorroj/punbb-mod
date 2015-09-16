@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Options_PM' value='Options PM'}
 {assign var='Use_popup' value='Use popup'}
@@ -28,4 +29,4 @@
 
 {include file='message_list.navlinks.tpl'}
 
-{include file='footer.tpl'}
+{/block}
