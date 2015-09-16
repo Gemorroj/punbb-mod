@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Link_separator_m' value='Link separator_m'}
 {assign var='Empty_board' value='Empty board'}
@@ -102,4 +103,4 @@
     {/if}
 </div>
 
-{include file='footer.tpl'}
+{/block}

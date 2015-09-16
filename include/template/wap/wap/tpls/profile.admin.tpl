@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 {include file='profile.navigation.tpl'}
 
 {assign var='Section_admin' value='Section admin'}
@@ -75,4 +76,4 @@
     {/if}
 </form>
 
-{include file='footer.tpl'}
+{/block}

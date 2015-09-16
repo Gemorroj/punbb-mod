@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {* Ключи массивов с пробелами *}
 {assign var='Last_edit' value='Last edit'}
@@ -170,4 +171,4 @@
     </form>
 {/if}
 
-{include file='footer.tpl'}
+{/block}

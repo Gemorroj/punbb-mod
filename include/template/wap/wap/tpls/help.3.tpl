@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='j' value=false}
 
@@ -36,4 +37,4 @@
     {/if}
 {/foreach}
 
-{include file='footer.tpl'}
+{/block}

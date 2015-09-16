@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Send_a_message' value='Send a message'}
 {assign var='Write_message_legend' value='Write message legend'}
@@ -54,4 +55,4 @@
     <a href="message_list.php?box=2">{$lang_pms.Options}</a> | <a href="message_send.php">{$lang_pms.$New_message}</a>
 </div>
 
-{include file='footer.tpl'}
+{/block}

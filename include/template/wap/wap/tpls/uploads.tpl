@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Not_allowed' value='Not allowed'}
 {assign var='Not_allowed_mes' value='Not allowed mes'}
@@ -119,4 +120,4 @@
     {/if}
 {/if}
 
-{include file='footer.tpl'}
+{/block}

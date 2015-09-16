@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Desc_1' value='Desc 1'}
 {assign var='Desc_2' value='Desc 2'}
@@ -151,4 +152,4 @@
     </div>
 </form>
 
-{include file='footer.tpl'}
+{/block}

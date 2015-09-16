@@ -1,4 +1,5 @@
-{include file='header.tpl'}
+{extends file='layout.scheme.tpl'}
+{block name='center'}
 
 {assign var='Closed_icon_m' value='Closed icon_m'}
 {assign var='Normal_icon' value='Normal icon'}
@@ -77,4 +78,4 @@
     </div>
 {/if}
 
-{include file='footer.tpl'}
+{/block}
