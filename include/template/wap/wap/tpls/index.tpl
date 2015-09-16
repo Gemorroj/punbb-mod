@@ -2,15 +2,24 @@
 
 {block name='logo'}
 <div class="hd">
-    {* <pun_hd> *}
     <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
     {$pun_config.o_board_title}
 </div>
 
 {if $pun_config.o_board_desc}
-{* <pun_desc> *}
     <div class="hd_bott">
+    <!-- Краткое описание форумов -->
         {$pun_config.o_board_desc}
+    </div>
+{/if}
+
+{if $pun_config.o_announcement == 1}
+    <div class="incqbox">
+    <!-- Объявление(я) -->
+        {$lang_common.Announcement}
+    </div>
+    <div class="msg">
+        {$pun_config.o_announcement_message}
     </div>
 {/if}
 {/block}
@@ -28,16 +37,6 @@
 {assign var='Guests_online' value='Guests online'}
 {assign var='j' value=false}
 {assign var='cur_category' value=0}
-
-{if $pun_config.o_announcement == 1}
-{* <pun_announcement> *}
-    <div class="incqbox">
-        {$lang_common.Announcement}
-    </div>
-    <div class="msg">
-        {$pun_config.o_announcement_message}
-    </div>
-{/if}
 
 <div class="navlinks">
     {if $pun_user.is_guest}

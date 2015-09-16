@@ -125,19 +125,42 @@
 
 <div class="con">{$lang_common.Pages}:&#160;{$paging_links}</div>
 
+<div class="go_to">
 {if $pun_user.g_post_replies}
 {* Кнопка для ответа *}
-    <div class="go_to">
-        {if $cur_topic.closed}
-            <strong>#{$lang_topic.$Topic_closed}</strong>
-            {if $is_admmod}
-                <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
-            {/if}
-        {else}
+    {if $cur_topic.closed}
+        <strong>#{$lang_topic.$Topic_closed}</strong>
+        {if isset($is_admmod) && $is_admmod}
             <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
         {/if}
-    </div>
+    {else}
+        <a class="but" href="post.php?tid={$id}">{$lang_topic.$Post_reply}</a>
+    {/if}
 {/if}
+
+{if isset($is_admmod) && $is_admmod}
+{assign var='Delete_posts'   value='Delete posts'}
+{assign var='Move_topic'     value='Move topic'}
+{assign var='Open_topic'     value='Open topic'}
+{assign var='Close_topic'    value='Close topic'}
+{assign var='Unstick_topic'  value='Unstick topic'}
+{assign var='Stick_topic'    value='Stick topic'}
+
+    <a class="but" href="moderate.php?fid={$forum_id}&amp;tid={$id}&amp;p={$p}">{$lang_common.$Delete_posts}</a>{*$lang_common.$Link_separator_m*}
+    <a class="but" href="moderate.php?fid={$forum_id}&amp;move_topics={$id}">{$lang_common.$Move_topic}</a>
+    {if $cur_topic.closed == 1}
+        <a class="but" href="moderate.php?fid={$forum_id}&amp;open={$id}">{$lang_common.$Open_topic}</a>
+    {else}
+        <a class="but" href="moderate.php?fid={$forum_id}&amp;close={$id}">{$lang_common.$Close_topic}</a>
+    {/if}
+
+    {if $cur_topic.sticky == 1}
+        <a class="but" href="moderate.php?fid={$forum_id}&amp;unstick={$id}">{$lang_common.$Unstick_topic}</a>
+    {else}
+        <a class="but" href="moderate.php?fid={$forum_id}&amp;stick={$id}">{$lang_common.$Stick_topic}</a>
+    {/if}
+{/if}
+</div>
 
 {if $quickpost}
 {* Форма для быстрого ответа *}
