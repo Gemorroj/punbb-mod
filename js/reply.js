@@ -26,24 +26,25 @@ function insert_text(open, close) {
     return false;
 }
 
-
-function toggleOne(id, display_kind) {
-    if (null == id || id == "") return false;
-    if (null == display_kind || display_kind == "") display_kind = "block";
-    var obj = document.getElementById(id);
-    obj.style.display = (obj.style.display === "none") ? display_kind : "none";
-    return false;
-}
-
 function toggle(Hide1, Show1, Hide2, Show2, Hide3, Show3) {
-    toggleOne(Hide1, "inline");
-    toggleOne(Show1, "inline");
-
-    toggleOne(Hide2);
-    toggleOne(Show2);
-
-    toggleOne(Hide3);
-    toggleOne(Show3);
+    if (Hide1) {
+        $("#" + Hide1).slideToggle(100);
+    }
+    if (Show1) {
+        $("#" + Show1).slideToggle(100);
+    }
+    if (Hide2) {
+        $("#" + Hide2).slideToggle(100);
+    }
+    if (Show2) {
+        $("#" + Show2).slideToggle(100);
+    }
+    if (Hide3) {
+        $("#" + Hide3).slideToggle(100);
+    }
+    if (Show3) {
+        $("#" + Show3).slideToggle(100);
+    }
 }
 
 
