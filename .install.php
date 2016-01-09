@@ -208,7 +208,6 @@ $db->query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('o_pms_enabled', '1'),
 ('o_pms_mess_per_page', '10'),
 ('o_regs_verify_image', '1'),
-('o_spam_gid', '5'),
 ('file_allowed_ext', 'gif,png,jpg,jpeg,zip,apk,jar,rar,7z,tgz,gz,bz2,mp3,wav,wma,3gp,avi,flv,mpg,wmv,exe,txt,doc,docx,xls,xlsx'),
 ('file_image_ext', 'gif,png,jpg'),
 ('file_max_width', '1600'),
@@ -224,8 +223,7 @@ $db->query("INSERT INTO `config` (`conf_name`, `conf_value`) VALUES
 ('file_thumb_path', 'img/thumb/'),
 ('file_upload_path', 'uploads/'),
 ('poll_enabled', '1'),
-('antispam_enabled', '0'),
-('o_show_version', '0.6.0');") or die (var_export($db->error(), true));
+('o_show_version', '0.6.1');") or die (var_export($db->error(), true));
 
 
 $db->query("CREATE TABLE IF NOT EXISTS `forums` (
@@ -289,8 +287,7 @@ $db->query("INSERT INTO `groups` (`g_id`, `g_title`, `g_user_title`, `g_read_boa
 (1, 'Administrators', 'Administrator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 999, 1, 20),
 (2, 'Moderators', 'Moderator', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 100, 1, 20),
 (3, 'Guest', NULL, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 20),
-(4, 'Members', NULL, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 300, 60, 30, 1, 1, 50, 1, 20),
-(5, 'Spammer', 'spammer', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 20);") or die (var_export($db->error(), true));
+(4, 'Members', NULL, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 300, 60, 30, 1, 1, 50, 1, 20);") or die (var_export($db->error(), true));
 
 
 $db->query("CREATE TABLE IF NOT EXISTS `log_forums` (
@@ -413,26 +410,6 @@ KEY `search_words_id_idx` (`id`)
 $db->query("INSERT INTO `search_words` (`id`, `word`) VALUES
 (1, 'print');") or die (var_export($db->error(), true));
 
-
-$db->query("CREATE TABLE IF NOT EXISTS `spam_repository` (
-`id` int(10) unsigned NOT NULL auto_increment,
-`post_id` int(10) unsigned NOT NULL default '0',
-`last_gid` int(10) unsigned NOT NULL default '0',
-`message` text NOT NULL,
-`pattern` text NOT NULL,
-PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;") or die (var_export($db->error(), true));
-
-
-$db->query('CREATE TABLE IF NOT EXISTS `spam_regexp` (
-`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
-`matches` INT( 11 ) unsigned NOT NULL default "0",
-`regexpr` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-PRIMARY KEY ( `id` ) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;') or die (var_export($db->error(), true));
-
-$db->query('INSERT INTO `spam_regexp` (`id`, `matches`, `regexpr`) VALUES
-("0", "0", "/(.*)все бесплатно(.*)/isuU");') or die (var_export($db->error(), true));
 
 $db->query("CREATE TABLE IF NOT EXISTS `subscriptions` (
 `user_id` int(10) unsigned NOT NULL default '0',

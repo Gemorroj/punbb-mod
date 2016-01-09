@@ -10,9 +10,6 @@
 {assign var='Merge_posts' value='Merge posts'}
 {assign var='Topic_closed' value='Topic closed'}
 {assign var='Mark_to_Delete' value='Mark to Delete'}
-{assign var='Antispam_pattern' value='Antispam pattern'}
-{assign var='Antispam_tread' value='Antispam tread'}
-{assign var='Antispam_del' value='Antispam del'}
 {assign var='signature_cache' value=''}
 {assign var='post_count' value=0}
 {assign var='j' value=false}
@@ -90,15 +87,6 @@
 
         {* Сообщение *}
         {$cur_post.message}
-
-        {if $is_admmod and isset($cur_post.spam_id)}
-        {* Анти-спам *}
-            <div class="antispam">
-                {$lang_misc.$Antispam_pattern} - {$cur_post.pattern|escape}<br/>
-                <a href="./antispam_misc.php?action=allow&amp;id={$cur_post.spam_id}">{$lang_misc.$Antispam_tread}</a>{$lang_topic.$Link_separator_m}
-                <a href="./antispam_misc.php?action=deny&amp;id={$cur_post.spam_id}">{$lang_misc.$Antispam_del}</a>
-            </div>
-        {/if}
 
         {if isset($attachments[$cur_post.id])}
         {* Attachments *}

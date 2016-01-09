@@ -1,6 +1,6 @@
 # Форум PunBB
 Версия: 1.2.23  
-Версия модификации: 0.6.0  
+Версия модификации: 0.6.1  
 
 Автор: Rickard Andersson ([punbb.org](http://punbb.org/))  
 Модификация: Gemorroj, tipsun, LookOfff  

@@ -144,11 +144,6 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-    /// MOD ANTISPAM BEGIN
-    //require PUN_ROOT.'include/antispam/antispam_start.php';
-    /// MOD ANTISPAM END
-
-
     // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
         $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited=' . time() . ', edited_by=\'' . $db->escape($pun_user['username']) . '\'' : '';
@@ -175,10 +170,6 @@ if (isset($_POST['form_sent'])) {
         if (!$pun_user['is_guest'] && ($uploaded - $deleted) != 0) {
             $db->query('UPDATE ' . $db->prefix . 'users SET num_files=num_files+' . ($uploaded - $deleted) . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
         }
-
-        /// MOD ANTISPAM BEGIN
-        //require PUN_ROOT.'include/antispam/antispam_end.php';
-        /// MOD ANTISPAM END
 
         generate_rss();
 

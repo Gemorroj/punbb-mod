@@ -63,12 +63,4 @@ $lang_misc = array(
 'Delete posts comply'		=>	'Are you sure you want to delete the selected posts?',
 'Delete posts redirect'		=>	'Posts deleted. Redirecting &#x2026;',
 'No posts selected'			=>	'You must select at least one post to be deleted.',
-
-// Antispam
-'Antispam pattern'=>'Pattern',
-'Antispam look mess'=>'To look over the original of report',
-'Antispam tread'=>'To settle',
-'Antispam del'=>'To delete a report',
-'Antispam depository'=>'Depository of reports',
-'Antispam close window'=>'To close this window'
 );

@@ -211,12 +211,6 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-    /// MOD ANTISPAM BEGIN
-    if ($pun_config['antispam_enabled'] == 1) {
-        include PUN_ROOT . 'include/antispam/antispam_start.php';
-    }
-    /// MOD ANTISPAM END
-
 
     // MOD CONVENIENT FORUM URL BEGIN
     //if ($pun_config['o_convenient_url_enable'] == 1)
@@ -376,11 +370,6 @@ if (isset($_POST['form_sent'])) {
             }
         } // If it's a new topic
         else if ($fid) {
-            /// MOD ANTISPAM BEGIN
-            if ($pun_config['antispam_enabled'] == 1 && $is_spam && $pun_config['spam_fid']) {
-                $fid = $pun_config['spam_fid'];
-            }
-            /// MOD ANTISPAM END
 
             // Create the topic
             $db->query('INSERT INTO ' . $db->prefix . 'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\'' . $db->escape($username) . '\', \'' . $db->escape($subject) . '\', ' . $_SERVER['REQUEST_TIME'] . ', ' . $_SERVER['REQUEST_TIME'] . ', \'' . $db->escape($username) . '\', ' . $fid . ')') or error('Unable to create topic', __FILE__, __LINE__, $db->error());
@@ -443,12 +432,6 @@ if (isset($_POST['form_sent'])) {
         }
         // MERGE POSTS END
 
-
-        /// MOD ANTISPAM BEGIN
-        if ($pun_config['antispam_enabled'] == 1) {
-            include PUN_ROOT . 'include/antispam/antispam_end.php';
-        }
-        /// MOD ANTISPAM END
 
         redirect('viewtopic.php?pid=' . $new_pid . '#p' . $new_pid, $upload_result . $lang_post['Post redirect']);
     }

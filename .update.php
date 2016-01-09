@@ -222,6 +222,26 @@ if ($version == '0.5.9') {
     $version = '0.6.0';
 }
 
+if ($version == '0.6.0') {
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.6.1" WHERE CONVERT( `config`.`conf_name` USING utf8 ) = "o_show_version" LIMIT 1 ;');
+    if (!$query) {
+        $error[] = var_export($db->error(), true);
+    }
+
+    $query = $db->query('DROP TABLE IF EXISTS spam_repository');
+    if (!$query) {
+        $error[] = var_export($db->error(), true);
+    }
+
+    $query = $db->query('DROP TABLE IF EXISTS spam_regexp');
+    if (!$query) {
+        $error[] = var_export($db->error(), true);
+    }
+
+    $version = '0.6.1';
+}
+
+
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
 header('Last-Modified: ' . gmdate('r') . ' GMT');
 header('Cache-Control: post-check=0, pre-check=0', false);

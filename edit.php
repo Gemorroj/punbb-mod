@@ -115,10 +115,6 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-/// MOD ANTISPAM BEGIN
-//require PUN_ROOT.'include/antispam/antispam_start.php';
-/// MOD ANTISPAM END
-
     $hide_smilies = $_POST['hide_smilies'];
     if ($hide_smilies != 1) {
         $hide_smilies = 0;
@@ -152,9 +148,6 @@ if (isset($_POST['form_sent'])) {
             $db->query('UPDATE ' . $db->prefix . 'users SET num_files=num_files+' . ($uploaded - $deleted) . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
         }
 
-/// MOD ANTISPAM BEGIN
-//require PUN_ROOT.'include/antispam/antispam_end.php';
-/// MOD ANTISPAM END
 
         generate_rss();
 

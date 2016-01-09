@@ -19,8 +19,6 @@ if (isset($_POST['regen_all_cache'])) {
 
     // Display the admin navigation menu
     generate_admin_menu($plugin);
-    //antispam
-    unlink(PUN_ROOT . 'cache/cache_spam_regexp.php');
     ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>

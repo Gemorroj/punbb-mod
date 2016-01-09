@@ -219,45 +219,17 @@ $post_count = 0; // Keep track of post numbers
 
 // Retrieve the posts (and their respective poster/online status)
 
-// MOD ANTISPAM BEGIN
-/*
-// ORIGINAL:
 $result = $db->query('
     SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
-    FROM '.$db->prefix.'posts AS p
-    INNER JOIN '.$db->prefix.'users AS u ON u.id=p.poster_id
-    INNER JOIN '.$db->prefix.'groups AS g ON g.g_id=u.group_id
-    LEFT JOIN '.$db->prefix.'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-    WHERE p.topic_id='.$id.'
+    FROM ' . $db->prefix . 'posts AS p
+    INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
+    INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
+    LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
+    WHERE p.topic_id=' . $id . '
     ORDER BY p.id
-    LIMIT '.$start_from.','.$pun_user['disp_posts'], true
+    LIMIT ' . $start_from . ',' . $pun_user['disp_posts'], true
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-*/
-if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
-    $result = $db->query('
-        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online, spam.pattern, spam.id AS spam_id
-        FROM ' . $db->prefix . 'posts AS p
-        INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
-        INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
-        LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-        LEFT JOIN ' . $db->prefix . 'spam_repository AS spam ON spam.post_id=p.id
-        WHERE p.topic_id=' . $id . '
-        ORDER BY p.id
-        LIMIT ' . $start_from . ',' . $pun_user['disp_posts'], true
-    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-} else {
-    $result = $db->query('
-        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
-        FROM ' . $db->prefix . 'posts AS p
-        INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
-        INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
-        LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-        WHERE p.topic_id=' . $id . '
-        ORDER BY p.id
-        LIMIT ' . $start_from . ',' . $pun_user['disp_posts'], true
-    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-}
-/// MOD ANTISPAM END
+
 
 $posts = $pids = array();
 while ($cur_post = $db->fetch_assoc($result)) {
@@ -473,14 +445,6 @@ foreach ($posts as $cur_post) {
     }
     //$attachments = $save_attachments;
 
-    /// MOD ANTISPAM BEGIN
-    if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
-        if (isset($cur_post['spam_id'])) {
-            include_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
-            echo '<hr /><br />' . $lang_misc['Antispam pattern'] . ' - ' . pun_htmlspecialchars($cur_post['pattern']) . '<br /><br /><a href="./antispam_misc.php?action=show&amp;id=' . $cur_post['spam_id'] . '" onclick=\'window.open("' . $pun_config['o_base_url'] . '/antispam_misc.php?action=show&amp;id=' . $cur_post['spam_id'] . '", "Spam", "width=500,height=500,resizable=yes,scrollbars=yes"); return false;\' >' . $lang_misc['Antispam look mess'] . '</a> | <a href="./antispam_misc.php?action=allow&amp;id=' . $cur_post['spam_id'] . '">' . $lang_misc['Antispam tread'] . '</a> | <a href="./antispam_misc.php?action=deny&amp;id=' . $cur_post['spam_id'] . '">' . $lang_misc['Antispam del'] . '</a>';
-        }
-    }
-    /// MOD ANTISPAM END
 
     if ($cur_post['edited']) {
         echo '<p class="postedit"><em>' . $lang_topic['Last edit'] . ' ' . pun_htmlspecialchars($cur_post['edited_by']) . ' (' . format_time($cur_post['edited']) . ')</em></p>';

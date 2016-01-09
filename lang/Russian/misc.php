@@ -63,13 +63,4 @@ $lang_misc = array(
 'Delete posts comply'		=>	'Вы уверены, что хотите удалить выделенные сообщения?',
 'Delete posts redirect'		=>	'Сообщения удалены. Переадресация...',
 'No posts selected'			=>	'Вы должны выбрать, по крайней мере, одно сообщение, для выполнения этого действия.',
-
-
-// Antispam
-'Antispam pattern'=>'Найденный шаблон',
-'Antispam look mess'=>'Просмотреть оригинал сообщения',
-'Antispam tread'=>'Разрешить',
-'Antispam del'=>'Удалить сообщение',
-'Antispam depository'=>'Хранилище сообщений',
-'Antispam close window'=>'Закрыть окно'
 );

@@ -238,29 +238,15 @@ $bg_switch = true; // Used for switching background color in posts
 $post_count = 0; // Keep track of post numbers
 
 // Retrieve the posts (and their respective poster/online status)
+$result = $db->query('
+    SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
+    FROM ' . $db->prefix . 'posts AS p
+    INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
+    INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
+    LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
+    WHERE p.id=' . $pid, true
+) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
-/// MOD ANTISPAM BEGIN
-if ($pun_config['antispam_enabled'] == 1 && $is_admmod) {
-    $result = $db->query('
-        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online, spam.pattern, spam.id AS spam_id
-        FROM ' . $db->prefix . 'posts AS p
-        INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
-        INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
-        LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-        LEFT JOIN ' . $db->prefix . 'spam_repository AS spam ON spam.post_id=p.id
-        WHERE p.id=' . $pid, true
-    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-} else {
-    $result = $db->query('
-        SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
-        FROM ' . $db->prefix . 'posts AS p
-        INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
-        INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
-        LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-        WHERE p.id=' . $pid, true
-    ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-}
-/// MOD ANTISPAM END
 
 $cur_post = $db->fetch_assoc($result);
 $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
