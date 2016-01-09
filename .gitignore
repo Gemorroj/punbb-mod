@@ -14,10 +14,19 @@ tmp/*
 !tmp/.htaccess
 !tmp/index.html
 
+rss.xml
 
+include/template/wap/xwab/cache/*
+include/template/wap/xwab/compiled/*
+!include/template/wap/xwab/cache/index.html
+!include/template/wap/xwab/compiled/index.html
 
+include/template/wap/wap/cache/*
+include/template/wap/wap/compiled/*
+!include/template/wap/wap/cache/index.html
+!include/template/wap/wap/compiled/index.html
 
-
-
-
-
+include/template/wap/new_line/cache/*
+include/template/wap/new_line/compiled/*
+!include/template/wap/new_line/cache/index.html
+!include/template/wap/new_line/compiled/index.html
