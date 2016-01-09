@@ -70,8 +70,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
 $paging_links = paginate(
     $num_pages,
     $p,
-    'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir),
-    0
+    'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir)
 );
 
 //$smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0));

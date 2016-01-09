@@ -244,7 +244,7 @@ $result = $db->query('
     INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
     INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
     LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
-    WHERE p.id=' . $pid, true
+    WHERE p.id=' . $pid
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
 

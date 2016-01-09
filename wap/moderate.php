@@ -475,7 +475,7 @@ $p = ($getPageNumber <= 1 || $getPageNumber > $num_pages) ? 1 : $getPageNumber;
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 
 // Generate paging links
-$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderate.php?fid=' . $fid, 0);
+$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'moderate.php?fid=' . $fid);
 
 if (@$_GET['action'] != 'all') {
     $act_all = ' LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];

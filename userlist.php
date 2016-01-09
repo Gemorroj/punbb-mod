@@ -126,7 +126,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
 
 
 // Generate paging links
-$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . strtoupper($sort_dir), 0);
+$paging_links = $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . strtoupper($sort_dir));
 
 
 echo '<div class="linkst"><div class="inbox"><p class="pagelink">' . $paging_links . '</p></div></div>

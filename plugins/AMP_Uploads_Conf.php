@@ -132,9 +132,10 @@ if (!$upl_conf['p_setop']) {
 
     $k = 0;
     foreach ($groups as $group) {
-        echo '<tr><th class="atcl">' . pun_htmlspecialchars($group['g_title']) . '<input type="hidden" name="g_title_' . $group['g_id'] . '" value="' . pun_htmlspecialchars($group['g_title']) . '" /></th><td>';
+        echo '<tr><th class="atcl">' . pun_htmlspecialchars($group['g_title']) . '<input type="hidden" name="g_title_' . $group['g_id'] . '" value="' . pun_htmlspecialchars($group['g_title']) . '" /></th>';
         ?>
 
+        <td>
         <input type="checkbox" name="p_view_<?php echo $group['g_id']; ?>"
                value="1" <?php if ($perms[$k]['p_view'] == 1) echo 'checked="checked"'; ?> />
         </td>

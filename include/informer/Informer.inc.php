@@ -70,7 +70,7 @@ class Informer
             WHERE fp.read_forum IS NULL OR fp.read_forum=1
 
             ORDER BY NULL
-        ', false);
+        ');
         if (!$r) {
             throw new Exception ($this->_db->error());
         }
@@ -142,7 +142,7 @@ class Informer
                 ' . $_SERVER['REQUEST_TIME'] . ',
                 ' . $topicId . '
             )
-        ', false);
+        ');
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -224,7 +224,7 @@ class Informer
                 AND (fp.read_forum IS NULL OR fp.read_forum = 1)
             )
             WHERE p.id = ' . $id
-            , false);
+        );
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -268,7 +268,7 @@ class Informer
             FROM ' . $this->_db->prefix . 'messages AS m
             WHERE m.owner = ' . $this->_pun_user['id'] . '
             AND m.id = ' . $id
-            , false);
+        );
 
         if (!$r) {
             throw new Exception ($this->_db->error());
@@ -313,7 +313,7 @@ class Informer
             WHERE m.owner = ' . $this->_pun_user['id'] . '
             ORDER BY m.id DESC
             LIMIT ' . $limit
-            , false);
+        );
 
         if (!$r) {
             throw new Exception ($this->_db->error());

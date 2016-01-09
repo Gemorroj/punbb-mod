@@ -193,7 +193,7 @@ $result = $db->query('
     LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
     WHERE p.topic_id=' . $id . '
     ORDER BY p.id
-    LIMIT ' . $start_from . ',' . $pun_user['disp_posts'], true
+    LIMIT ' . $start_from . ',' . $pun_user['disp_posts']
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
 
@@ -256,8 +256,7 @@ require_once PUN_ROOT . 'include/attach/fetch.php';
 
 
 // Increment "num_views" for topic
-$db->query('UPDATE ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id, true)
-or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE ' . $db->prefix . 'topics SET num_views=num_views+1 WHERE id=' . $id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 // Load the viewtopic.php language file
 require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';

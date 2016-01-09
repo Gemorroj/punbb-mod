@@ -51,8 +51,8 @@ $result = $db->query(
 . 'LEFT JOIN `' . $db->prefix . 'forum_perms` AS `fp` '
 . 'ON (`fp`.`forum_id`=`f`.`id` AND `fp`.`group_id`=' . $pun_user['g_id'] . ') '
 . 'WHERE `fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1 '
-. 'ORDER BY `c`.`disp_position`, `c`.`id`, `f`.`disp_position`;', true)
-or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+. 'ORDER BY `c`.`disp_position`, `c`.`id`, `f`.`disp_position`;'
+) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 //- Add topic title info to last post column mod
 
 $forums = array();
@@ -93,8 +93,8 @@ if ($pun_config['o_users_online'] == 1) {
     'SELECT `user_id`, `ident` '
     . 'FROM `' . $db->prefix . 'online` '
     . 'WHERE `idle`=0 '
-    . 'ORDER BY `ident`;', true)
-    or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    . 'ORDER BY `ident`;
+    ') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
     
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {

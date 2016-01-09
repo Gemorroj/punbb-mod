@@ -227,7 +227,7 @@ $result = $db->query('
     LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
     WHERE p.topic_id=' . $id . '
     ORDER BY p.id
-    LIMIT ' . $start_from . ',' . $pun_user['disp_posts'], true
+    LIMIT ' . $start_from . ',' . $pun_user['disp_posts']
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
 
