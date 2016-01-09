@@ -228,6 +228,11 @@ if ($version == '0.6.0') {
         $error[] = var_export($db->error(), true);
     }
 
+    $query = $db->query("DELETE FROM `config` WHERE `config`.`conf_name` = 'antispam_enabled'");
+    if (!$query) {
+        $error[] = var_export($db->error(), true);
+    }
+
     $query = $db->query('DROP TABLE IF EXISTS spam_repository');
     if (!$query) {
         $error[] = var_export($db->error(), true);
