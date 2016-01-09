@@ -1,8 +1,8 @@
 <?php
 define('PUN_ROOT', './');
 
-require PUN_ROOT . 'include/common.php';
-require PUN_ROOT . 'include/parser.php';
+require_once PUN_ROOT . 'include/common.php';
+require_once PUN_ROOT . 'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
     message($lang_common['No permission']);

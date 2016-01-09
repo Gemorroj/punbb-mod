@@ -102,7 +102,7 @@ if (isset($_POST['run_merge'])) {
                                             //Check if it is a new cat
                                             if ($forums['cat_id'] != $cat_now) {
                                                 $categories = $db->fetch_assoc($categories_result);
-                                                echo '<option value="blargh" disabled="disabled">' . $categories['cat_id'] . '</option>';
+                                                echo '<option value="blargh" disabled="disabled">' . $categories['id'] . '</option>';
                                                 $cat_now = $categories['id'];
                                             }
                                             echo '<option value="' . $forums['id'] . '">' . pun_htmlspecialchars($forums['forum_name']) . '</option>';
@@ -122,7 +122,7 @@ if (isset($_POST['run_merge'])) {
                                             //Check if it is a new cat
                                             if ($forums['cat_id'] != $cat_now) {
                                                 $categories = $db->fetch_assoc($categories_result);
-                                                echo '<option value="blargh" disabled="disabled">' . $categories['cat_id'] . '</option>';
+                                                echo '<option value="blargh" disabled="disabled">' . $categories['id'] . '</option>';
                                                 $cat_now = $categories['id'];
                                             }
                                             echo '<option value="' . $forums['id'] . '">' . pun_htmlspecialchars($forums['forum_name']) . '</option>';

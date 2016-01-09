@@ -66,7 +66,7 @@ if (isset($_POST['form_sent'])) {
 
     // Validate BBCode syntax
     if ($pun_config['p_message_bbcode'] == 1 && strpos($message, '[') !== false && strpos($message, ']') !== false) {
-        include PUN_ROOT . 'include/parser.php';
+        include_once PUN_ROOT . 'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
     if (isset($errors)) {

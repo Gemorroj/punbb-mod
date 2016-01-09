@@ -115,7 +115,7 @@ if (isset($_POST['form_sent'])) {
     }
 
 
-    $hide_smilies = $_POST['hide_smilies'];
+    $hide_smilies = @$_POST['hide_smilies'];
     if ($hide_smilies != 1) {
         $hide_smilies = 0;
     }
