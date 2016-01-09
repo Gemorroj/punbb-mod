@@ -1,0 +1,23 @@
+# PHPStorm
+.idea
+
+cache/*
+uploads/*
+uploaded/*
+tmp/*
+!cache/.htaccess
+!cache/index.html
+!uploads/.htaccess
+!uploads/index.html
+!uploaded/.htaccess
+!uploaded/index.html
+!tmp/.htaccess
+!tmp/index.html
+
+
+
+
+
+
+
+
