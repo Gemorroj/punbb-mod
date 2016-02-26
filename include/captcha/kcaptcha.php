@@ -1,13 +1,14 @@
 <?php
 
-# KCAPTCHA PROJECT VERSION 2.0
+# KCAPTCHA PROJECT VERSION 2.1
 
 # Automatic test to tell computers and humans apart
 
-# Copyright by Kruglov Sergei, 2006, 2007, 2008, 2011
+# Copyright by Kruglov Sergei, 2006, 2007, 2008, 2011, 2016
 # www.captcha.ru, www.kruglov.ru
 
 # System requirements: PHP 4.0.6+ w/ GD
+# NOTE! decomment string "function KCAPTCHA(){" and comment "function __construct(){" to complify with php below 5.0
 
 # KCAPTCHA is a free software. You can freely use it for developing own site or software.
 # If you use this software as a part of own sofware, you must leave copyright notices intact or add KCAPTCHA copyright notices to own.
@@ -17,11 +18,12 @@
 # See kcaptcha_config.php for customization
 
 class KCAPTCHA{
-
 	// generates keystring and image
-	function KCAPTCHA(){
+	
+	//function KCAPTCHA(){ // old PHP declaration
+	function __construct(){ // new PHP declaration
 
-		require(dirname(__FILE__) . '/kcaptcha_config.php');
+		require(dirname(__FILE__).'/kcaptcha_config.php');
 		$fonts=array();
 		$fontsdir_absolute=dirname(__FILE__).'/'.$fontsdir;
 		if ($handle = opendir($fontsdir_absolute)) {
@@ -214,8 +216,8 @@ class KCAPTCHA{
 		}
 		
 		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
-		header('Cache-Control: no-store, no-cache, must-revalidate');
-		header('Cache-Control: post-check=0, pre-check=0', FALSE);
+		header('Cache-Control: no-store, no-cache, must-revalidate'); 
+		header('Cache-Control: post-check=0, pre-check=0', FALSE); 
 		header('Pragma: no-cache');
 		if(function_exists("imagejpeg")){
 			header("Content-Type: image/jpeg");
