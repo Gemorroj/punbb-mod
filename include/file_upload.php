@@ -316,7 +316,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
                 continue;
             }
             $orig_name = $_FILES['attach']['name'][$key];
-            $size = filesize($tmp_name);
+            $size = $_FILES['attach']['size'][$key];
             $file_ext = strtolower(get_file_extension($orig_name));
 
 // Skip files with banned extensions

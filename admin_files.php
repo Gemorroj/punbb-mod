@@ -264,9 +264,9 @@ if (isset($_POST['save'])) {
                             <tr>
                                 <th scope="row">Макс. размер</th>
                                 <td>
-                                    <input type="text" name="form[max_size]" size="6" maxlength="7"
+                                    <input type="text" name="form[max_size]" size="6" maxlength="10"
                                            value="<?php echo $pun_config['file_max_size']; ?>"/>
-                                    <span>Максимальный размер загружаемого файла.</span>
+                                    <span>Максимальный размер загружаемого файла в байтах.</span>
                                 </td>
                             </tr>
                         </table>
