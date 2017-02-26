@@ -3,14 +3,6 @@
  */
 
 (function($) {
-
-    var mb     =    '#modalbox',
-        hdr    =    mb + '-header',
-        cnt    =    mb + '-container',
-        ovr    =    mb + '-overlay',
-        wrp    =    mb + '-wrapper',
-        ld     =    mb + '-loading';
-
     $.modalBox = {
         settings: {
             title       : "Modal Box",

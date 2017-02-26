@@ -17,14 +17,14 @@ $mark_forum_id = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
 // REAL MARK TOPIC AS READ MOD END
 
 if ($_GET['action'] == 'rules') {
-    // Load the register.php language file
-    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+    // Load the registration.php language file
+    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_register['Forum rules'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_registration['Forum rules'];
     require_once PUN_ROOT . 'header.php';
 
     echo '<div class="block">
-    <h2><span>' . $lang_register['Forum rules'] . '</span></h2>
+    <h2><span>' . $lang_registration['Forum rules'] . '</span></h2>
     <div class="box">
     <div class="inbox">
     <p>' . $pun_config['o_rules_message'] . '</p>

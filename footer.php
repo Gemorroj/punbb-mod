@@ -12,7 +12,7 @@ ob_end_clean();
 
 // JS_HELPER MOD BEGIN
 if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countInternal() > 0) {
-    JsHelper::getInstance()->addFirst('//code.jquery.com/jquery-1.12.0.min.js');
+    JsHelper::getInstance()->addFirst('//code.jquery.com/jquery-1.12.4.min.js');
     $tpl_main = str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
 } else {
     $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);

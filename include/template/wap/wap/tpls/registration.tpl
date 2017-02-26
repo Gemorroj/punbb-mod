@@ -27,13 +27,13 @@
 {assign var='Save_user_pass' value='Save user/pass'}
 
 <div class="inbox">
-    <a href="index.php">{$lang_common.Index}</a> &#187; <strong>{$lang_register.Register}</strong>
+    <a href="index.php">{$lang_common.Index}</a> &#187; <strong>{$lang_registration.Register}</strong>
 </div>
-<form method="post" action="register.php?action=register">
-    <div class="msg">{$lang_register.$Desc_1}</div>
-    <div class="in2">{$lang_register.$Desc_2}</div>
+<form method="post" action="registration.php?action=register">
+    <div class="msg">{$lang_registration.$Desc_1}</div>
+    <div class="in2">{$lang_registration.$Desc_2}</div>
     <div class="input2">
-        <strong>{$lang_register.$Username_legend}</strong>
+        <strong>{$lang_registration.$Username_legend}</strong>
         <input type="hidden" name="form_sent" value="1"/><br/>
         <strong>{$lang_common.Username}</strong><br/>
         <input type="text" name="req_username" maxlength="25"/><br/>
@@ -45,22 +45,22 @@
     </div>
 {if ! $pun_config.o_regs_verify}
     <div class="input">
-        <strong>{$lang_register.$Pass_legend_1}</strong><br/>
+        <strong>{$lang_registration.$Pass_legend_1}</strong><br/>
         <strong>{$lang_common.Password}</strong><br/>
         <input type="password" name="req_password1" maxlength="16"/><br/>
         <strong>{$lang_prof_reg.$Confirm_pass}</strong><br/>
         <input type="password" name="req_password2" maxlength="16"/><br/>
-        {$lang_register.$Pass_info}
+        {$lang_registration.$Pass_info}
     </div>
 {/if}
 
 {if $pun_config.o_regs_verify_image == 1}
     <div class="input2">
-        <strong>{$lang_register.$Image_verification}</strong><br/>
+        <strong>{$lang_registration.$Image_verification}</strong><br/>
         <img src="{$pun_config.o_base_url}/include/captcha/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
-        <strong>{$lang_register.$Image_text}</strong><br/>
+        <strong>{$lang_registration.$Image_text}</strong><br/>
         <input type="text" name="req_image_" maxlength="4"/><br/>
-        {$lang_register.$Image_info}
+        {$lang_registration.$Image_info}
     </div>
 {/if}
 
@@ -73,13 +73,13 @@
         {/if}
         </strong><br/>
     {if $pun_config.o_regs_verify == 1}
-        {$lang_register.$Email_info}<br/>
+        {$lang_registration.$Email_info}<br/>
     {/if}
         <strong>{$lang_common.$Email}</strong><br/>
         <input type="text" name="req_email1" maxlength="50"/><br/>
 
     {if $pun_config.o_regs_verify == 1}
-        <strong>{$lang_register.$Confirm_email}</strong><br/>
+        <strong>{$lang_registration.$Confirm_email}</strong><br/>
         <input type="text" name="req_email2" maxlength="50"/>
     {/if}
     </div>
@@ -148,7 +148,7 @@
         <label><input type="checkbox" name="save_pass" value="1" checked="checked"/>{$lang_prof_reg.$Save_user_pass}</label>
     </div>
     <div class="go_to">
-        <input type="submit" name="register" value="{$lang_register.Register}"/>
+        <input type="submit" name="registration" value="{$lang_registration.Register}"/>
     </div>
 </form>
 

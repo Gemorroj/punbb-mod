@@ -10,17 +10,17 @@ if (!$pun_user['is_guest']) {
     wap_redirect('index.php', 302);
 }
 
-// Load the register.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+// Load the registration.php language file
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
 
-// Load the register.php/profile.php language file
+// Load the registration.php/profile.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 
 // Profile
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 
 if (!$pun_config['o_regs_allow']) {
-    wap_message($lang_register['No new regs']);
+    wap_message($lang_registration['No new regs']);
 }
 
 
@@ -28,12 +28,12 @@ if (!$pun_config['o_regs_allow']) {
 if (@$_GET['cancel']) {
     wap_redirect('index.php');
 } else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_registration['Register'];
 
     $smarty->assign('page_title', $page_title);
-    $smarty->assign('lang_register', $lang_register);
+    $smarty->assign('lang_registration', $lang_registration);
 
-    $smarty->display('register.agree.tpl');
+    $smarty->display('registration.agree.tpl');
     exit();
 
 } else if (isset($_POST['form_sent'])) {
@@ -42,7 +42,7 @@ if (@$_GET['cancel']) {
 
 
     if ($db->num_rows($result)) {
-        wap_message($lang_register['Timeout']);
+        wap_message($lang_registration['Timeout']);
     }
 
     // IMAGE VERIFICATION MOD BEGIN
@@ -51,13 +51,13 @@ if (@$_GET['cancel']) {
         // Make sure what they submitted is not empty
         if (!trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
-            wap_message($lang_register['Text mismatch']);
+            wap_message($lang_registration['Text mismatch']);
         }
 
 
         if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
-            wap_message($lang_register['Text mismatch']);
+            wap_message($lang_registration['Text mismatch']);
         }
         if (!$_SESSION['captcha_keystring']) {
             unset($_SESSION['captcha_keystring']);
@@ -107,7 +107,7 @@ if (@$_GET['cancel']) {
     if ($pun_config['o_censoring'] == 1) {
         // If the censored username differs from the username
         if (censor_words($username) != $username) {
-            wap_message($lang_register['Username censor']);
+            wap_message($lang_registration['Username censor']);
         }
     }
 
@@ -116,7 +116,7 @@ if (@$_GET['cancel']) {
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
-        wap_message($lang_register['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_register['Username dupe 2']);
+        wap_message($lang_registration['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_registration['Username dupe 2']);
     }
 
 
@@ -126,7 +126,7 @@ if (@$_GET['cancel']) {
     if (!is_valid_email($email1)) {
         wap_message($lang_common['Invalid e-mail']);
     } else if ($pun_config['o_regs_verify'] == 1 && $email1 != $email2) {
-        wap_message($lang_register['E-mail not match']);
+        wap_message($lang_registration['E-mail not match']);
     }
 
     // Check it it's a banned e-mail address
@@ -233,7 +233,7 @@ if (@$_GET['cancel']) {
 
         pun_mail($email1, $mail_subject, $mail_message);
 
-        wap_message($lang_register['Reg e-mail'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.', true);
+        wap_message($lang_registration['Reg e-mail'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.', true);
     }
 
     pun_setcookie($new_uid, $password_hash, ($save_pass) ? $now + 31536000 : 0);
@@ -250,12 +250,12 @@ while (($entry = $d->read()) !== false) {
 }
 $d->close();
 
-$page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Register'];
+$page_title = $pun_config['o_board_title'] . ' / ' . $lang_registration['Register'];
 $smarty->assign('page_title', $page_title);
 
-$smarty->assign('lang_register', $lang_register);
+$smarty->assign('lang_registration', $lang_registration);
 $smarty->assign('lang_profile', $lang_profile);
 $smarty->assign('lang_prof_reg', $lang_prof_reg);
 $smarty->assign('languages', $languages);
 
-$smarty->display('register.tpl');
+$smarty->display('registration.tpl');

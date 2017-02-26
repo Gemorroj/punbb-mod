@@ -1,7 +1,7 @@
 <?php
 
-// Language definitions used in register.php
-$lang_register = array(
+// Language definitions used in registration.php
+$lang_registration = array(
 
 // Miscellaneous
 'No new regs'				=>	'В данный момент форум не регистрирует новых пользователей.',

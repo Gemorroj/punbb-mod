@@ -30,7 +30,7 @@ div.blockpost h2 {background-color: #fff}
 div.blockpost h2 span.conr {color: #fff}
 .pun hr {background-color: #666666; color: #000}
 div.box {border-color: #a1a1a1}
-div.blockpost div.box {border-color: #ccc; border-zise: 1px; border-style: dashed; border-right: 0px; border-left: 0px}
+div.blockpost div.box {border-color: #ccc; border-width: 1px; border-style: dashed; border-right: 0px; border-left: 0px}
 .pun td {border-color: #e8e8e8}
 .pun th {border-color: #e8e8e8}
 .pun blockquote, div.codebox, div.forminfo, div.blockpost label {border: 1px dotted #999999; background-color: #f8f8f8}

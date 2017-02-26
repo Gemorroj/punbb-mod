@@ -35,7 +35,7 @@ if (isset($_POST['prune'])) {
     message('Сокращение завершено. Удалены пользователи ' . $users_pruned . '.');
 } else if (isset($_POST['add_user'])) {
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
-    require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+    require PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
     $username = pun_trim($_POST['username']);
     $email1 = mb_strtolower(trim($_POST['email']));
     $email2 = mb_strtolower(trim($_POST['email']));
@@ -74,7 +74,7 @@ if (isset($_POST['prune'])) {
     if ($pun_config['o_censoring'] == 1) {
         // If the censored username differs from the username
         if (censor_words($username) != $username) {
-            message($lang_register['Username censor']);
+            message($lang_registration['Username censor']);
         }
     }
 
@@ -83,7 +83,7 @@ if (isset($_POST['prune'])) {
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
-        message($lang_register['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_register['Username dupe 2']);
+        message($lang_registration['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_registration['Username dupe 2']);
     }
 
 

@@ -9,7 +9,7 @@ if (!$pun_user['g_read_board']) {
 
 $to = isset($_GET['to']) ? intval($_GET['to']) : 0;
 if ($to > 0) {
-    echo vote($to, intval($_GET['vote']));
+    vote($to, intval($_GET['vote']));
     exit;
 }
 

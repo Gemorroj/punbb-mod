@@ -1,6 +1,6 @@
 <?php
 
-// Language definitions used in both profile.php and register.php
+// Language definitions used in both profile.php and registration.php
 $lang_prof_reg = array(
 
 'E-mail legend'				=>	'Введите правильный e-mail адрес',

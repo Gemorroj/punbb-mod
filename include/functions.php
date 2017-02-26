@@ -241,7 +241,7 @@ function generate_navlinks()
         }
 
         $links[] = '<li id="navwap"><a href="wap/">' . $lang_common['WAP'] . '</a>';
-        $links[] = '<li id="navregister"><a href="register.php">' . $lang_common['Register'] . '</a>';
+        $links[] = '<li id="navregister"><a href="registration.php">' . $lang_common['Register'] . '</a>';
         $links[] = '<li id="navlogin"><a href="login.php">' . $lang_common['Login'] . '</a>';
 
         $info = $lang_common['Not logged in'];
@@ -362,7 +362,7 @@ function generate_wap_1_navlinks()
     if ($pun_user['is_guest']) {
         //для гостя
         $links[] = '<a href="login.php">' . $lang_common['Login'] . '</a> ';
-        $links[] = ' <a href="register.php">' . $lang_common['Register'] . '</a>';
+        $links[] = ' <a href="registration.php">' . $lang_common['Register'] . '</a>';
 
         $info = $lang_common['Not logged in'];
     } else {
@@ -477,9 +477,10 @@ return;
 }
  */
 
-//
-// Update posts, topics, last_post, last_post_id and last_poster for a forum
-//
+/**
+ * Update posts, topics, last_post, last_post_id and last_poster for a forum
+ * @param int $forum_id
+ */
 function update_forum($forum_id)
 {
     global $db;
@@ -1321,7 +1322,7 @@ function vote($to = 0, $vote = 1)
         message('Error');
     }
 
-    return $db->query('INSERT INTO `' . $db->prefix . 'karma` SET `id`=' . $pun_user['id'] . ', `to`=' . intval($to) . ', `vote`="' . $vote . '", `time`=' . $_SERVER['REQUEST_TIME']) or error('Error', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO `' . $db->prefix . 'karma` SET `id`=' . $pun_user['id'] . ', `to`=' . intval($to) . ', `vote`="' . $vote . '", `time`=' . $_SERVER['REQUEST_TIME']) or error('Error', __FILE__, __LINE__, $db->error());
 }
 
 

@@ -14,7 +14,7 @@ if (!$pun_user['g_read_board'] && ($action != 'change_pass' || !isset($_GET['key
     message($lang_common['No view']);
 }
 
-// Load the profile.php/register.php language file
+// Load the profile.php/registration.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 
 // Load the profile.php language file

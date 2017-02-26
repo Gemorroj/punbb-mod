@@ -17,13 +17,13 @@ $mark_forum_id = isset($_GET['fid']) ? intval($_GET['fid']) : 0; // wap_message(
 // REAL MARK TOPIC AS READ MOD END
 
 if ($action == 'rules') {
-    // Load the register.php language file
-    require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+    // Load the registration.php language file
+    require PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
 
-    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_register['Forum rules'];
+    $page_title = $pun_config['o_board_title'] . ' / ' . $lang_registration['Forum rules'];
 
     $smarty->assign('page_title', $page_title);
-    $smarty->assign('lang_register', $lang_register);
+    $smarty->assign('lang_registration', $lang_registration);
 
     $smarty->display('misc.rules.tpl');
 

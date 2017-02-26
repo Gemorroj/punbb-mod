@@ -184,7 +184,7 @@ echo '<div class="blockform">
 <label class="conl"><strong>' . $lang_common['Username'] . '</strong><br /><input type="text" name="req_username" size="25" maxlength="25" /><br /></label>
 <label class="conl"><strong>' . $lang_common['Password'] . '</strong><br /><input type="password" name="req_password" size="16" maxlength="16" /><br /></label>
 <p class="clearb">' . $lang_login['Login info'] . '</p>
-<p><a href="register.php">' . $lang_login['Not registered'] . '</a>
+<p><a href="registration.php">' . $lang_login['Not registered'] . '</a>
 <a href="login.php?action=forget">' . $lang_login['Forgotten pass'] . '</a></p>
 </div>
 </fieldset>

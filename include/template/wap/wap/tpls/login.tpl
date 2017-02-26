@@ -24,7 +24,7 @@
 </div>
 </form>
 
-<div class="in2"> &#187; <a href="register.php">{$lang_login.$Not_registered}</a></div>
+<div class="in2"> &#187; <a href="registration.php">{$lang_login.$Not_registered}</a></div>
 <div class="in"> &#187; <a href="login.php?action=forget">{$lang_login.$Forgotten_pass}</a></div>
 
 {/block}

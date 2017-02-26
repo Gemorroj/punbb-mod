@@ -10,40 +10,40 @@ if (!$pun_user['is_guest']) {
     redirect('index.php', '', 302);
 }
 
-// Load the register.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+// Load the registration.php language file
+require PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
 
-// Load the register.php/profile.php language file
+// Load the registration.php/profile.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
 
 // Profile
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/profile.php';
 
 if (!$pun_config['o_regs_allow']) {
-    message($lang_register['No new regs']);
+    message($lang_registration['No new regs']);
 }
 
 
 // User pressed the cancel button
 if (isset($_GET['cancel'])) {
-    redirect('index.php', $lang_register['Reg cancel redirect']);
+    redirect('index.php', $lang_registration['Reg cancel redirect']);
 } else if ($pun_config['o_rules'] == 1 && !isset($_GET['agree']) && !isset($_POST['form_sent'])) {
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_register['Register'];
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_registration['Register'];
     require_once PUN_ROOT . 'header.php';
 
     echo '<div class="blockform">
-<h2><span>' . $lang_register['Forum rules'] . '</span></h2>
+<h2><span>' . $lang_registration['Forum rules'] . '</span></h2>
 <div class="box">
-<form method="get" action="register.php?">
+<form method="get" action="registration.php?">
 <div class="inform">
 <fieldset>
-<legend>' . $lang_register['Rules legend'] . '</legend>
+<legend>' . $lang_registration['Rules legend'] . '</legend>
 <div class="infldset">
 <p>' . $pun_config['o_rules_message'] . '</p>
 </div>
 </fieldset>
 </div>
-<p><input type="submit" name="agree" value="' . $lang_register['Agree'] . '" /><input type="submit" name="cancel" value="' . $lang_register['Cancel'] . '" /></p>
+<p><input type="submit" name="agree" value="' . $lang_registration['Agree'] . '" /><input type="submit" name="cancel" value="' . $lang_registration['Cancel'] . '" /></p>
 </form>
 </div>
 </div>';
@@ -55,7 +55,7 @@ if (isset($_GET['cancel'])) {
 
 
     if ($db->num_rows($result)) {
-        message($lang_register['Timeout']);
+        message($lang_registration['Timeout']);
     }
     // IMAGE VERIFICATION MOD BEGIN
     // Image verifcation
@@ -63,13 +63,13 @@ if (isset($_GET['cancel'])) {
         // Make sure what they submitted is not empty
         if (!trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
-            message($lang_register['Text mismatch']);
+            message($lang_registration['Text mismatch']);
         }
 
 
         if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
-            message($lang_register['Text mismatch']);
+            message($lang_registration['Text mismatch']);
         }
         if (!isset($_SESSION['captcha_keystring'])) {
             unset($_SESSION['captcha_keystring']);
@@ -119,7 +119,7 @@ if (isset($_GET['cancel'])) {
     if ($pun_config['o_censoring'] == 1) {
         // If the censored username differs from the username
         if (censor_words($username) != $username) {
-            message($lang_register['Username censor']);
+            message($lang_registration['Username censor']);
         }
     }
 
@@ -129,7 +129,7 @@ if (isset($_GET['cancel'])) {
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
-        message($lang_register['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_register['Username dupe 2']);
+        message($lang_registration['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_registration['Username dupe 2']);
     }
 
 
@@ -139,7 +139,7 @@ if (isset($_GET['cancel'])) {
     if (!is_valid_email($email1)) {
         message($lang_common['Invalid e-mail']);
     } else if ($pun_config['o_regs_verify'] == 1 && $email1 != $email2) {
-        message($lang_register['E-mail not match']);
+        message($lang_registration['E-mail not match']);
     }
 
     // Check it it's a banned e-mail address
@@ -247,16 +247,16 @@ if (isset($_GET['cancel'])) {
 
         pun_mail($email1, $mail_subject, $mail_message);
 
-        message($lang_register['Reg e-mail'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.', true);
+        message($lang_registration['Reg e-mail'] . ' <a href="mailto:' . $pun_config['o_admin_email'] . '">' . $pun_config['o_admin_email'] . '</a>.', true);
     }
 
     pun_setcookie($new_uid, $password_hash, ($save_pass) ? $now + 31536000 : 0);
 
-    redirect('index.php', $lang_register['Reg complete']);
+    redirect('index.php', $lang_registration['Reg complete']);
 }
 
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_register['Register'];
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_registration['Register'];
 
 // Image Verification mod BEGIN
 //
@@ -264,7 +264,7 @@ $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang
 //$required_fields = array('req_username' => $lang_common['Username'], 'req_password1' => $lang_common['Password'], 'req_password2' => $lang_prof_reg['Confirm pass'], 'req_email1' => $lang_common['E-mail'], 'req_email2' => $lang_common['E-mail'].' 2');
 
 $required_fields = array(
-    'req_image_' => $lang_register['Image text'],
+    'req_image_' => $lang_registration['Image text'],
     'req_username' => $lang_common['Username'],
     'req_password1' => $lang_common['Password'],
     'req_password2' => $lang_prof_reg['Confirm pass'],
@@ -274,22 +274,22 @@ $required_fields = array(
 
 
 // Image Verification mod end
-$focus_element = array('register', 'req_username');
+$focus_element = array('registration', 'req_username');
 require_once PUN_ROOT . 'header.php';
 
 
 echo '<div class="blockform">
-<h2><span>' . $lang_register['Register'] . '</span></h2>
+<h2><span>' . $lang_registration['Register'] . '</span></h2>
 <div class="box">
-<form id="register" method="post" action="register.php?action=register" onsubmit="this.register.disabled=true;if(process_form(this)){return true;}else{this.register.disabled=false;return false;}">
+<form id="registration" method="post" action="registration.php?action=register" onsubmit="this.registration.disabled=true;if(process_form(this)){return true;}else{this.registration.disabled=false;return false;}">
 <div class="inform">
 <div class="forminfo">
 <h3>' . $lang_common['Important information'] . '</h3>
-<p>' . $lang_register['Desc 1'] . '</p>
-<p>' . $lang_register['Desc 2'] . '</p>
+<p>' . $lang_registration['Desc 1'] . '</p>
+<p>' . $lang_registration['Desc 2'] . '</p>
 </div>
 <fieldset>
-<legend>' . $lang_register['Username legend'] . '</legend>
+<legend>' . $lang_registration['Username legend'] . '</legend>
 <div class="infldset">
 <input type="hidden" name="form_sent" value="1" />
 <label><strong>' . $lang_common['Username'] . '</strong><br /><input type="text" name="req_username" size="25" maxlength="25" /><br /></label>
@@ -300,11 +300,11 @@ echo '<div class="blockform">
 if (!$pun_config['o_regs_verify']) {
     echo '<div class="inform">
 <fieldset>
-<legend>' . $lang_register['Pass legend 1'] . '</legend>
+<legend>' . $lang_registration['Pass legend 1'] . '</legend>
 <div class="infldset">
 <label class="conl"><strong>' . $lang_common['Password'] . '</strong><br /><input type="password" name="req_password1" size="16" maxlength="16" /><br /></label>
 <label class="conl"><strong>' . $lang_prof_reg['Confirm pass'] . '</strong><br /><input type="password" name="req_password2" size="16" maxlength="16" /><br /></label>
-<p class="clearb">' . $lang_register['Pass info'] . '</p>
+<p class="clearb">' . $lang_registration['Pass info'] . '</p>
 </div>
 </fieldset>
 </div>';
@@ -315,11 +315,11 @@ echo '<div class="inform">';
 if ($pun_config['o_regs_verify_image'] == 1) {
     echo '<div class="inform">
 <fieldset>
-<legend>' . $lang_register['Image verification'] . '</legend>
+<legend>' . $lang_registration['Image verification'] . '</legend>
 <div class="infldset">
 <img src="' . $pun_config['o_base_url'] . '/include/captcha/captcha.php?' . session_name() . '=' . session_id() . '" alt=""/><br />
-<label class="conl"><strong>' . $lang_register['Image text'] . '</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" /><br /></label>
-<p class="clearb">' . $lang_register['Image info'] . '</p>
+<label class="conl"><strong>' . $lang_registration['Image text'] . '</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" /><br /></label>
+<p class="clearb">' . $lang_registration['Image info'] . '</p>
 </div>
 </fieldset>
 </div>';
@@ -334,11 +334,11 @@ if ($pun_config['o_regs_verify'] == 1) {
 }
 echo '</legend><div class="infldset">';
 if ($pun_config['o_regs_verify'] == 1) {
-    echo '<p>' . $lang_register['E-mail info'] . '</p>';
+    echo '<p>' . $lang_registration['E-mail info'] . '</p>';
 }
 echo '<label><strong>' . $lang_common['E-mail'] . '</strong><br /><input type="text" name="req_email1" size="50" maxlength="50" /><br /></label>';
 if ($pun_config['o_regs_verify'] == 1) {
-    echo '<label><strong>' . $lang_register['Confirm e-mail'] . '</strong><br /><input type="text" name="req_email2" size="50" maxlength="50" /><br /></label>';
+    echo '<label><strong>' . $lang_registration['Confirm e-mail'] . '</strong><br /><input type="text" name="req_email2" size="50" maxlength="50" /><br /></label>';
 }
 echo '</div></fieldset></div>
 <div class="inform"><fieldset><legend>' . $lang_prof_reg['Localisation legend'] . '</legend>
@@ -431,7 +431,7 @@ echo '</div>
 </div>
 </fieldset>
 </div>
-<p><input type="submit" name="register" value="' . $lang_register['Register'] . '" /></p>
+<p><input type="submit" name="registration" value="' . $lang_registration['Register'] . '" /></p>
 </form>
 </div>
 </div>';

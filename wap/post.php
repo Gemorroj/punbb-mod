@@ -160,9 +160,9 @@ if (isset($_POST['form_sent'])) {
         $username = trim($_POST['req_username']);
         $email = strtolower(trim(($pun_config['p_force_guest_email'] == 1) ? $_POST['req_email'] : $_POST['email']));
 
-        // Load the register.php/profile.php language files
+        // Load the registration.php/profile.php language files
         include PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
-        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/register.php';
+        include PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
 
         // It's a guest, so we have to validate the username
         if (mb_strlen($username) < 2) {
@@ -184,14 +184,14 @@ if (isset($_POST['form_sent'])) {
         // Check username for any censored words
         $temp = censor_words($username);
         if ($temp != $username) {
-            $errors[] = $lang_register['Username censor'];
+            $errors[] = $lang_registration['Username censor'];
         }
 
         // Check that the username (or a too similar username) is not already registered
         $result = $db->query('SELECT username FROM ' . $db->prefix . 'users WHERE (username=\'' . $db->escape($username) . '\' OR username=\'' . $db->escape(preg_replace('/[^\w]/', '', $username)) . '\') AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
-            $errors[] = $lang_register['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_register['Username dupe 2'];
+            $errors[] = $lang_registration['Username dupe 1'] . ' ' . pun_htmlspecialchars($busy) . '. ' . $lang_registration['Username dupe 2'];
         }
 
         if ($pun_config['p_force_guest_email'] == 1 || $email) {

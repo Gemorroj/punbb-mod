@@ -6,10 +6,10 @@ td.tc3, td.tc4, td.tcmod, #brdfooter div.box {background-color: #333333}
 #adminconsole fieldset td, #viewprofile dd, div.forminfo, div.blockmenu div.box, #adstats dd {background-color: #363636}
 .pun blockquote, div.codebox {background-color: #323232}
 .pun h2, #brdmenu {
-background:url(../img/Sadness/cellpic2.gif); color:#CCCCCC;
+background:url(../img/Sadness/cellpic2.gif) #CCCCCC;
 border: 1px solid #111111;
 border-bottom: 0px solid #111111;
-align: middle;
+vertical-align: middle;
 font-weight: bold;
 font-size:11px;
 color: #DADADA;

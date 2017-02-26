@@ -40,7 +40,7 @@
 
 <div class="navlinks">
     {if $pun_user.is_guest}
-        <a href="login.php">{$lang_common.Login}</a>{$lang_index.$Link_separator_m}<a href="register.php">{$lang_common.Register}</a>
+        <a href="login.php">{$lang_common.Login}</a>{$lang_index.$Link_separator_m}<a href="registration.php">{$lang_common.Register}</a>
     {else}
         <a href="profile.php?id={$pun_user.id}">{$lang_common.Profile}&#160;(<span style="font-weight: bold">{$pun_user.username|escape}</span>)</a>
         {if $pun_config.o_pms_enabled && $pun_user.g_pm == 1}
