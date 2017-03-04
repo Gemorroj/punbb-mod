@@ -138,8 +138,14 @@ if (isset($_GET['cancel'])) {
 
     if (!is_valid_email($email1)) {
         message($lang_common['Invalid e-mail']);
-    } else if ($pun_config['o_regs_verify'] == 1 && $email1 != $email2) {
-        message($lang_registration['E-mail not match']);
+    }
+    if ($pun_config['o_regs_verify'] == 1) {
+        if ($email1 !== $email2) {
+            message($lang_registration['E-mail not match']);
+        }
+        if (!is_email_not_spammer($email1)) {
+            message($lang_registration['E-mail is spammer']);
+        }
     }
 
     // Check it it's a banned e-mail address

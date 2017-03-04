@@ -17,6 +17,30 @@ function is_valid_email($email)
     return preg_match('/^(([^<>()[\]\\.,;:\s@"\']+(\.[^<>()[\]\\.,;:\s@"\']+)*)|("[^"\']+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\d\-]+\.)+[a-zA-Z]{2,}))$/', $email);
 }
 
+/**
+ * @param string $email
+ * @return bool
+ */
+function is_email_not_spammer($email)
+{
+    $data = @file_get_contents('http://api.stopforumspam.org/api?f=json&email=' . rawurlencode($email));
+    if (!$data) {
+        return true;
+    }
+    $json = @json_decode($data);
+    if (!$json) {
+        return true;
+    }
+
+    if ($json->success !== 1) {
+        return true;
+    }
+    if ($json->email->appears > 0) {
+        return false;
+    }
+
+    return true;
+}
 
 //
 // Check if $email is banned

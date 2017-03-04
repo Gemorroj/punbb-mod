@@ -53,7 +53,7 @@
         <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/><br/>
 
         {if ($pun_user.g_id == $smarty.const.PUN_ADMIN)}
-            <p><a target="_blank" href="http://www.stopforumspam.com/search?q={$user.email|rawurlencode}">{$lang_common.$Find_email_in_stop_forum_spam}</a></p>
+            <p><a target="_blank" href="//www.stopforumspam.com/search?q={$user.email|rawurlencode}">{$lang_common.$Find_email_in_stop_forum_spam}</a></p>
         {/if}
 
         <a href="misc.php?email={$id}">{$lang_common.$Send_email}</a><br/>
