@@ -132,9 +132,14 @@ if (@$_GET['cancel']) {
         }
 
         if (!is_email_not_spammer($email1)) {
-            message($lang_registration['E-mail is spammer']);
+            wap_message($lang_registration['E-mail is spammer']);
         }
     }
+
+    if (!is_ip_not_spammer(get_remote_address())) {
+        wap_message($lang_registration['IP is spammer']);
+    }
+
 
     // Check it it's a banned e-mail address
     if (is_banned_email($email1)) {

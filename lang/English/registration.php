@@ -18,6 +18,7 @@ $lang_registration = array(
 'Username dupe 2'			=>	'The username you entered is too similar. The username must differ from that by at least one alphanumerical character (a-z or 0-9). Please choose a different username.',
 'E-mail not match'			=>	'E-mail addresses do not match. Please go back and correct.',
 'E-mail is spammer'			=>	'E-mail address is seen to spam.',
+'IP is spammer'				=>	'IP address is seen to spam.',
 
 // Registration e-mail stuff
 'Reg e-mail'				=>	'Thank you for registering. Your password has been sent to the specified address. If it does not arrive you can contact the forum administrator at',

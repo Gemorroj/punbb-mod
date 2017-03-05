@@ -1,4 +1,28 @@
 <?php
+/**
+ * @param string $ip
+ * @return bool
+ */
+function is_ip_not_spammer($ip)
+{
+    $data = @file_get_contents('http://api.stopforumspam.org/api?f=json&ip=' . rawurlencode($ip));
+    if (!$data) {
+        return true;
+    }
+    $json = @json_decode($data);
+    if (!$json) {
+        return true;
+    }
+
+    if ($json->success !== 1) {
+        return true;
+    }
+    if ($json->ip->appears > 0) {
+        return false;
+    }
+
+    return true;
+}
 
 // Это utf-8
 // Cookie stuff!

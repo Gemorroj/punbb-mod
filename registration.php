@@ -148,6 +148,11 @@ if (isset($_GET['cancel'])) {
         }
     }
 
+    if (!is_ip_not_spammer(get_remote_address())) {
+        message($lang_registration['IP is spammer']);
+    }
+
+
     // Check it it's a banned e-mail address
     if (is_banned_email($email1)) {
         if (!$pun_config['p_allow_banned_email']) {
