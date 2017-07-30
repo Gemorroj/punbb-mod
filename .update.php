@@ -60,7 +60,7 @@ if ($version == '0.5.1') {
     $query = $db->query('
         ALTER TABLE `users`
         ADD `sex` ENUM( "0", "1" ) NOT NULL AFTER `url` ,
-        ADD `birthday` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `sex` ;
+        ADD `birthday` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL  default \'\' AFTER `sex` ;
     ');
     if (!$query) {
         $error[] = var_export($db->error(), true);

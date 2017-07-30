@@ -500,7 +500,7 @@ $db->query("CREATE TABLE IF NOT EXISTS `users` (
 `realname` varchar(40) default NULL,
 `url` varchar(100) default NULL,
 `sex` enum('0','1') NOT NULL default '1',
-`birthday` varchar(10) NOT NULL,
+`birthday` varchar(10) NOT NULL default '',
 `jabber` varchar(75) default NULL,
 `icq` varchar(12) default NULL,
 `msn` varchar(50) default NULL,
