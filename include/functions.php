@@ -973,10 +973,6 @@ function maintenance_message()
     }
     // END SUBST - <pun_include "*">
 
-    // START SUBST - <pun_content_direction>
-    $tpl_maint = str_replace('<pun_content_direction>', $lang_common['lang_direction'], $tpl_maint);
-    // END SUBST - <pun_content_direction>
-
 
     // START SUBST - <pun_head>
     ob_start();
@@ -1043,11 +1039,6 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
         ob_end_clean();
     }
     // END SUBST - <pun_include "*">
-
-
-    // START SUBST - <pun_content_direction>
-    $tpl_redir = str_replace('<pun_content_direction>', $lang_common['lang_direction'], $tpl_redir);
-    // END SUBST - <pun_content_direction>
 
 
     // START SUBST - <pun_head>
@@ -1132,10 +1123,12 @@ function error($message, $file, $line, $db_error = array())
     @ob_end_clean();
 
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+    echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>' . pun_htmlspecialchars($pun_config['o_board_title']) . ' / Error</title>
 <style type="text/css">
 body {margin: 10% 20% auto 20%; font: 10px Verdana, Arial, Helvetica, sans-serif}

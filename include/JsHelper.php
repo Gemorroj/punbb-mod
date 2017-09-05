@@ -65,10 +65,10 @@ class JsHelper
     {
         $str = '';
         foreach ($this->js as $file) {
-            $str .= '<script type="application/javascript" src="' . $file . '"></script>';
+            $str .= '<script src="' . $file . '"></script>';
         }
         foreach ($this->jsInternal as $script) {
-            $str .= '<script type="application/javascript">' . $script . '</script>';
+            $str .= '<script>' . $script . '</script>';
         }
         return $str;
     }

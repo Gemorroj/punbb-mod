@@ -4,14 +4,12 @@ if (!defined('PUN')) {
     exit;
 }
 
-$pun_xhtml = stripos(isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '', 'application/xhtml+xml') ? 'application/xhtml+xml' : 'text/html';
-
 // Send no-cache headers
 header('Expires: Thu, 21 Jul 1977 07:30:00 GMT'); // When yours truly first set eyes on this world! :)
 header('Last-Modified: ' . gmdate('r') . ' GMT');
 header('Cache-Control: post-check=0, pre-check=0', false);
-header('Pragma: no-cache'); // For HTTP/1.0 compability
-header('Content-Type: ' . $pun_xhtml . '; charset=UTF-8');
+//header('Pragma: no-cache'); // For HTTP/1.0 compability
+header('Content-Type: text/html; charset=UTF-8');
 
 // Load the template
 if (defined('PUN_ADMIN_CONSOLE')) {
@@ -36,16 +34,6 @@ while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $t
     ob_end_clean();
 }
 // END SUBST - <pun_include "*">
-
-
-// START XHTML MIME
-$tpl_main = str_replace('<pun_xhtml>', $pun_xhtml, $tpl_main);
-// EMD XHTML MIME
-
-
-// START SUBST - <pun_content_direction>
-$tpl_main = str_replace('<pun_content_direction>', $lang_common['lang_direction'], $tpl_main);
-// END SUBST - <pun_content_direction>
 
 
 // START SUBST - <pun_rssname>

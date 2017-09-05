@@ -10,10 +10,12 @@ header('Content-Type: text/html; charset=utf-8');
 
 $register_globals = @ini_get('register_globals');
 if ($register_globals == 1 || strtolower($register_globals) == 'on') {
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+    echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Форум / Warning!</title>
 <link rel="stylesheet" type="text/css" href="style/Oxygen_mod.css" />
 </head>
@@ -36,10 +38,12 @@ if ($register_globals == 1 || strtolower($register_globals) == 'on') {
 }
 
 if (!function_exists('mb_internal_encoding')) {
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+    echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Форум / Warning!</title>
 <link rel="stylesheet" type="text/css" href="style/Oxygen_mod.css" />
 </head>
@@ -62,10 +66,12 @@ if (!function_exists('mb_internal_encoding')) {
 }
 
 if (version_compare(PHP_VERSION, '5.2.3', '<')) {
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+    echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Форум / Warning!</title>
 <link rel="stylesheet" type="text/css" href="style/Oxygen_mod.css" />
 </head>
@@ -608,10 +614,12 @@ $db->query("CREATE TABLE IF NOT EXISTS `karma` (
 @chmod(PUN_ROOT . 'lang/English/stopwords.txt', 0666);
 
 
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta http-equiv="refresh" content="15; url=index.php" />
 <title>Форум / Переадресация</title>
 <link rel="stylesheet" type="text/css" href="style/Oxygen_mod.css" />

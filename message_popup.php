@@ -30,15 +30,17 @@ if (isset($_GET['id'])) {
 // Load the message.php language file
 require PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
 
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+echo '<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>' . $pun_config['o_board_title'] . ': Private Message Services</title>
 <link rel="stylesheet" type="text/css" href="' . PUN_ROOT . 'style/' . $pun_user['style'] . '.css" />
 </head>
 <body>
-<script type="application/javascript" src="js/message_popup.js"></script>
+<script src="js/message_popup.js"></script>
 <div id="punwrap">
 <div id="punmessage_list" class="pun">
 <div class="block">

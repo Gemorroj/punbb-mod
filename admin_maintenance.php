@@ -41,7 +41,16 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at'])) {
     $end_at = $start_at + $per_page;
 
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . "\n" . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>' . pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_admin['maintenance'] . '&#8230;</title><style type="text/css">body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style></head><body><div>' . $lang_admin['maintenance_go'] . '<br /><br />';
+    echo '<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>' . pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_admin['maintenance'] . '&#8230;</title>
+    <style type="text/css">body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style>
+</head>
+<body><div>' . $lang_admin['maintenance_go'] . '<br /><br />';
     include PUN_ROOT . 'include/search_idx.php';
 
     // Fetch posts to process
@@ -73,7 +82,7 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at'])) {
 
     $db->close();
 
-    exit('<script type="application/javascript">window.location.href = "admin_maintenance.php' . $query_str . '";</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php' . pun_htmlspecialchars($query_str) . '">here</a> to continue.</div></body></html>');
+    exit('<script>window.location.href = "admin_maintenance.php' . $query_str . '";</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php' . pun_htmlspecialchars($query_str) . '">here</a> to continue.</div></body></html>');
 }
 
 
