@@ -27,7 +27,7 @@
 * PHP >= 5.2.3
 
 ### Установка:
-Права на директории cache/, tmp/, uploaded/, uploads/, img/avatars/, img/thumb/ - 777  
+Права на директории cache/, uploaded/, uploads/, img/avatars/, img/thumb/ - 777  
 Права на директории include/template/wap/new_line/cache/, include/template/wap/new_line/compiled/, include/template/wap/wap/cache/, include/template/wap/wap/compiled/, include/template/wap/xwab/cache/, include/template/wap/xwab/compiled/ - 777  
 Права на файлы rss.xml, /lang/Russian/stopwords.txt, /lang/English/stopwords.txt - 666
 
