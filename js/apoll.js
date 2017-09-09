@@ -1,8 +1,8 @@
-var busy = '<span style="display:block;position:absolute;top:50%;left:46%;width:50%;"><span style="position:relative;top:-50%;background-color:white;padding:8px;border:1px solid #AfAfAf">Please wait... <img src="img/busy.gif" alt="loading" /></span></span>';
+var busy = '<span style="display:block;position:absolute;top:50%;left:46%;width:50%;"><span style="position:relative;top:-50%;background-color:white;padding:8px;border:1px solid #AfAfAf">Please wait... <img src="style/img/busy.gif" alt="loading" /></span></span>';
 if (typeof poll !== "object") {
     poll = {};
 }
-$(document).ready(function () {
+$(function () {
     $("#apinsert").modalBox({boxTimer: 0});
 });
 

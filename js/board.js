@@ -46,7 +46,7 @@ function pasteQ(p, n) {
     } else if (p !== '') {
         var $postquote = $("#p" + p + " .postquote:last");
         $postquote.find("a").hide();
-        $postquote.append('<img id="busy' + p + '" src="img/busy.gif" alt="loading" />');
+        $postquote.append('<img id="busy' + p + '" src="style/img/busy.gif" alt="loading" />');
         $.ajax({
             type: "GET",
             url: "ajax.server.php?quote=" + p,

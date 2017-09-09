@@ -4,7 +4,7 @@ function _vote(user, karma) {
     var num = $("span.num_" + user);
     var oldKarma = Number(num.html());
 
-    num.html('<img src="img/busy.gif" alt="" />');
+    num.html('<img src="style/img/busy.gif" alt="" />');
 
     $.get('karma.php?to=' + user + '&vote=' + karma, function (data) {
         num.html(data ? oldKarma + karma : 'Error');

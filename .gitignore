@@ -16,6 +16,15 @@ tmp/*
 
 rss.xml
 
+img/avatars/*
+!img/avatars/index.html
+img/thumb/*
+!img/thumb/err_access.gif
+!img/thumb/err_none.gif
+!img/thumb/err_thumb.gif
+!img/thumb/index.html
+
+
 include/template/wap/xwab/cache/*
 include/template/wap/xwab/compiled/*
 !include/template/wap/xwab/cache/index.html

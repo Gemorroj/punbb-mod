@@ -72,7 +72,7 @@ poll.vote = function (id) {
 
     $p.find("table td").css('opacity', 0.4);
     $("#warning").empty();
-    $p.css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/loading.gif" alt=""/></div>');
+    $p.css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/busy.gif" alt=""/></div>');
 
     $.ajax({
         type: "POST",
@@ -86,7 +86,7 @@ poll.vote = function (id) {
     });
 };
 
-$(document).ready(function () {
+$(function () {
     poll.remove();
     $("#apinsert").modalBox({
         ajax: "ajax.server.php?poll=gcfrm",

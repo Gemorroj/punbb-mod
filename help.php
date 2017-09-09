@@ -51,7 +51,7 @@ require_once PUN_ROOT . 'header.php';
     </div>
     <p><a name="img"></a><?php echo $lang_help['Images info']; ?></p>
 
-    <div>[img]<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif[/img] <?php echo $lang_help['produces']; ?> <img src="<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif" alt="<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif"/></div>
+    <div>[img]<?php echo $pun_config['o_base_url']; ?>/style/img/punbb.gif[/img] <?php echo $lang_help['produces']; ?> <img src="<?php echo $pun_config['o_base_url']; ?>/style/img/punbb.gif" alt="<?php echo $pun_config['o_base_url']; ?>/img/punbb.gif"/></div>
 </div>
 <h2><?php echo $lang_help['Quotes']; ?></h2>
 <div class="box">

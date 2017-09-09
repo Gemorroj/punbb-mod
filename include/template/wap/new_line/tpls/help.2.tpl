@@ -32,7 +32,7 @@
     {$lang_help.$Images_info}
 </div>
 <div class="msg2">
-    [img]{$pun_config.o_base_url}/img/punbb.gif[/img] - <img src="{$pun_config.o_base_url}/img/punbb.gif" alt="img"/>
+    [img]{$pun_config.o_base_url}/style/img/punbb.gif[/img] - <img src="{$pun_config.o_base_url}/style/img/punbb.gif" alt="img"/>
     <input type="text" value="[img]{$pun_config.o_base_url}/img/punbb.gif[/img]" size="15"/>
 </div>
 

@@ -11,10 +11,8 @@
             overlaySpeed: 200,
             expandSpeed : 200,
             oOpacity    : 0.5,
-            spinner     : 'style/img/spinner.gif',
-            cssfile     : '<link rel="stylesheet" type="text/css" href="style/imports/jquery.punmodal.css" media="screen" />',
-            cssiefix    : '<!--[if lte IE 6]><style type="text/css">#modalbox {position: absolute;}</style><![endif]-->',
-            html        : '<div id="modalbox-overlay"></div><div id="modalbox"><div id="modalbox-wrapper"><div id="modalbox-header"><span id="modalbox-close"><a class="modalbox-close" href="#"> [ X ] </a></span><h2></h2></div><div id="modalbox-loading"><img src="style/img/spinner.gif" alt="" /></div><div id="modalbox-container"></div></div></div> '
+            cssFile     : '<link rel="stylesheet" type="text/css" href="style/imports/jquery.punmodal.css" media="screen" />',
+            html        : '<div id="modalbox-overlay"></div><div id="modalbox"><div id="modalbox-wrapper"><div id="modalbox-header"><span id="modalbox-close"><a class="modalbox-close" href="#"> [ X ] </a></span><h2></h2></div><div id="modalbox-loading"><img src="style/img/busy.gif" alt="" /></div><div id="modalbox-container"></div></div></div> '
         },
         init: function () {
             if ($.modalBox.settings.inited) {
@@ -22,32 +20,14 @@
             } else {
                 $.modalBox.settings.inited = true;
             }
-            $('head').append($.modalBox.settings.cssfile).append($.modalBox.settings.cssiefix);
+            $('head').append($.modalBox.settings.cssFile);
             $(document.body).append($.modalBox.settings.html);
             $('#modalbox,#modalbox-overlay').hide();
-            $("#modalbox-close").find("a.modalbox-close").click(jQuery.modalBox.hideBox);
+            $("#modalbox-close").find("a.modalbox-close").click($.modalBox.hideBox);
             $(window).resize(function () {
                 $.modalBox.resizeBoxes();
             });
             return true;
-        },
-
-        fixIE: function () {
-            var wHeight = $(window).height() + 'px', wWidth = $(window).width() + 'px';
-            // add an iframe to prevent select options from bleeding through
-            $.modalBox.settings.iframe = $('<iframe src="javascript:false;"></iframe>')
-                .css($.extend($.modalBox.settings.iframeCss, {
-                    'opacity': 0,
-                    'position': 'absolute',
-                    'height': wHeight,
-                    'zIndex': 80,
-                    'width': wWidth,
-                    //'width': '100%',
-                    'top': 0,
-                    'left': 0
-                }))
-                .hide()
-                .appendTo(document.body);
         },
 
         resizeBoxes: function () {
@@ -259,4 +239,4 @@
             $.modalBox.showBox(def);
         });
     };
-})(jQuery);
+})($);

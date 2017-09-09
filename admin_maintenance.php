@@ -82,7 +82,7 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at'])) {
 
     $db->close();
 
-    exit('<script>window.location.href = "admin_maintenance.php' . $query_str . '";</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php' . pun_htmlspecialchars($query_str) . '">here</a> to continue.</div></body></html>');
+    exit('<script>window.location.assign("admin_maintenance.php' . $query_str . '");</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php' . pun_htmlspecialchars($query_str) . '">here</a> to continue.</div></body></html>');
 }
 
 

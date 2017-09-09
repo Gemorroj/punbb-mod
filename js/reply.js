@@ -1,27 +1,19 @@
 /*
  * This file is part of Elektra File Upload mod
- *
  */
 function insert_text(open, close) {
-    var msgfield = document.forms.post.req_message;
+    var msgField = document.forms.post.req_message;
 
-    if (document.selection && document.selection.createRange) {
-        // IE support
-        msgfield.focus();
-        var sel = document.selection.createRange();
-        sel.text = open + sel.text + close;
-        msgfield.focus();
-    } else if (msgfield.selectionStart || msgfield.selectionStart == '0') {
-        // Moz support
-        var startPos = msgfield.selectionStart;
-        var endPos = msgfield.selectionEnd;
-        msgfield.value = msgfield.value.substring(0, startPos) + open + msgfield.value.substring(startPos, endPos) + close + msgfield.value.substring(endPos, msgfield.value.length);
-        msgfield.selectionStart = msgfield.selectionEnd = endPos + open.length + close.length;
-        msgfield.focus();
+    if ('selectionStart' in msgField) {
+        var startPos = msgField.selectionStart;
+        var endPos = msgField.selectionEnd;
+        msgField.value = msgField.value.substring(0, startPos) + open + msgField.value.substring(startPos, endPos) + close + msgField.value.substring(endPos, msgField.value.length);
+        msgField.selectionStart = msgField.selectionEnd = endPos + open.length + close.length;
+        msgField.focus();
     } else {
-        // Fallback support for other browsers
-        msgfield.value += open + close;
-        msgfield.focus();
+        // Fallback support
+        msgField.value += open + close;
+        msgField.focus();
     }
     return false;
 }
