@@ -1,6 +1,7 @@
 # Форум PunBB
 Версия: 1.2.23  
 Версия модификации: 0.6.1  
+Разработка больше не ведется  
 
 Автор: Rickard Andersson ([punbb.org](http://punbb.org/))  
 Модификация: Gemorroj, tipsun, LookOfff  
@@ -21,20 +22,19 @@
 И многое другое...  
 
 ### Требования
-* Apache 2
+* Apache 2 / Nginx
 * MySQL >= 5.0.7
 * PHP >= 5.2.3
-* mbstring 
 
 ### Установка:
 Права на директории cache/, tmp/, uploaded/, uploads/, img/avatars/, img/thumb/ - 777  
 Права на директории include/template/wap/new_line/cache/, include/template/wap/new_line/compiled/, include/template/wap/wap/cache/, include/template/wap/wap/compiled/, include/template/wap/xwab/cache/, include/template/wap/xwab/compiled/ - 777  
 Права на файлы rss.xml, /lang/Russian/stopwords.txt, /lang/English/stopwords.txt - 666
 
-Создаем базу, вписываем в файл config.php данные от базы  
-Заходим по адресу http://ваш_сайт/форум/install.php  
+Создаем базу данных, вписываем в файл config.php данные от базы (название, логин/пароль с доступом а БД)  
+Заходим по адресу http://ваш_сайт/форум/.install.php  
 Если установка проходит без ошибок, авторизуемся на форуме админом и меняем настройки под себя  
-После установки не забудьте в профиле поменять пароль админа и удалить файлы install.php и update.php  
+После установки не забудьте в профиле поменять пароль админа и удалить файлы .install.php и .update.php  
 
 ### Авторизация:
 * Логин: Admin
@@ -44,9 +44,9 @@
 ### Обновление форума:
 
 УДАЛЯЕМ ВСЕ ФАЙЛЫ, кроме тех, что в директориях
-uploaded/  
-uploads/  
-img/avatars/  
+- uploaded/
+- uploads/
+- img/avatars/
 
 Заливаем файлы из архива, заносим нужные данные в config.php  
 Заходим по адресу http://ваш_сайт/форум/update.php  
