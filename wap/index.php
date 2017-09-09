@@ -5,13 +5,13 @@ define('PUN_ALLOW_INDEX', 1); //?
 
 require_once(PUN_ROOT . 'include/common.php');
 
-if (! $pun_user['g_read_board']) {
+if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
 //+ Real mark topic as read mod
 // под вопросом!
-if (! $pun_user['is_guest']) {
+if (!$pun_user['is_guest']) {
     
     $db->query(
     'DELETE FROM `' . $db->prefix . 'log_forums` '

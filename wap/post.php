@@ -524,8 +524,6 @@ if ($pun_config['poll_enabled'] == 1 && $fid) {
 }
 // hcs AJAX POLL MOD END
 
-
-//var_dump($smarty);
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_post['Post a reply'];
 $message = isset($message) ? $message : '';
 $message_preview = ($message == '' ? '' : parse_message($message, isset($_POST['hide_smilies'])));

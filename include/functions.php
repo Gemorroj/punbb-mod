@@ -78,7 +78,7 @@ function check_cookie(&$pun_user)
         // if (!@file_exists(PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '.css')) {
             // $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
         // }
-        if (!@is_file(PUN_ROOT . '/include/template/wap/' . $pun_user['style_wap'] . '/style.css')) {
+        if (!@is_file(PUN_ROOT . '/style/wap/' . $pun_user['style_wap'] . '/style.css')) {
             $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
         }
 
@@ -1209,25 +1209,6 @@ function display_saved_queries()
 </div>
 </div>';
 
-}
-
-
-//
-// Dump contents of variable(s)
-//
-function dump()
-{
-    echo '<pre>';
-
-    $num_args = func_num_args();
-
-    for ($i = 0; $i < $num_args; ++$i) {
-        print_r(func_get_arg($i));
-        echo "\n\n";
-    }
-
-    echo '</pre>';
-    exit;
 }
 
 

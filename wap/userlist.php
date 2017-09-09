@@ -86,11 +86,6 @@ if ($db->num_rows($result)) {
 
 require_once PUN_ROOT . 'wap/header.php';
 
-/*
-echo '<pre>';
-var_dump($smarty);
-echo '</pre>';
-*/
 $smarty->assign('page_title', $page_title);
 $smarty->assign('username', $username);
 $smarty->assign('show_group', $show_group);
