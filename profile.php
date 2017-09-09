@@ -669,7 +669,7 @@ if ($action == 'change_pass') {
     {
         $form = array();
 
-        while (list($key, $value) = @each($_POST['form'])) {
+        foreach ($_POST['form'] as $key => $value) {
             if (in_array($key, $allowed_elements)) {
                 $form[$key] = $value;
             }
@@ -1399,7 +1399,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             echo '<label>' . $lang_prof_reg['Language'] . ': ' . $lang_prof_reg['Language info'] . '<br /><select name="form[language]">';
 
 
-            while (list(, $temp) = @each($languages)) {
+            foreach ($languages as $temp) {
                 if ($user['language'] == $temp) {
                     echo '<option value="' . $temp . '" selected="selected">' . $temp . '</option>';
                 } else {
@@ -1658,7 +1658,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <label>' . $lang_profile['Style info'] . '<br />
 <select name="form[style]">';
 
-                while (list(, $temp) = @each($styles)) {
+                foreach ($styles as $temp) {
                     if ($user['style'] == $temp) {
                         echo '<option value="' . $temp . '" selected="selected">' . str_replace('_', ' ', $temp) . '</option>';
                     } else {

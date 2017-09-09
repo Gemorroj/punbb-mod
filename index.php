@@ -117,7 +117,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
         $mods_array = unserialize($cur_forum['moderators']);
         $moderators = array();
 
-        while (list($mod_username, $mod_id) = @each($mods_array)) {
+        foreach ($mods_array as $mod_username => $mod_id) {
             $moderators[] = '<a href="profile.php?id=' . $mod_id . '">' . pun_htmlspecialchars($mod_username) . '</a>';
         }
 

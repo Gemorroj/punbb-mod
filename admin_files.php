@@ -99,7 +99,7 @@ if (isset($_POST['save'])) {
 
     $form['allowed_ext'] = strtolower($form['allowed_ext']);
 
-    while (list($key, $input) = @each($form)) {
+    foreach ($form as $key => $input) {
 // Only update values that have changed
         if (array_key_exists('file_' . $key, $pun_config) && $pun_config['file_' . $key] != $input) {
             if ($input || is_int($input)) {

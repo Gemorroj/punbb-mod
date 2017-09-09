@@ -680,7 +680,7 @@ function get_title($user)
         // Are there any ranks?
         if ($pun_config['o_ranks'] == 1 && $pun_ranks) {
             @reset($pun_ranks);
-            while (list(, $cur_rank) = @each($pun_ranks)) {
+            foreach ($pun_ranks as $cur_rank) {
                 if (intval($user['num_posts']) >= $cur_rank['min_posts']) {
                     $user_title = pun_htmlspecialchars($cur_rank['rank']);
                 }
@@ -1196,7 +1196,7 @@ function display_saved_queries()
 <tbody>';
 
     $query_time_total = 0.0;
-    while (list(, $cur_query) = @each($saved_queries)) {
+    foreach ($saved_queries as $cur_query) {
         $query_time_total += $cur_query[1];
         echo '<tr><td class="tcl">' . (($cur_query[1]) ? $cur_query[1] : ' ') . '</td><td class="tcr">' . pun_htmlspecialchars($cur_query[0]) . '</td></tr>';
     }

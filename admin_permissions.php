@@ -19,7 +19,7 @@ if (isset($_POST['form_sent'])) {
 
     $form = array_map('intval', $_POST['form']);
 
-    while (list($key, $input) = @each($form)) {
+    foreach ($form as $key => $input) {
 // Only update values that have changed
         if (array_key_exists('p_' . $key, $pun_config) && $pun_config['p_' . $key] != $input) {
             $db->query('UPDATE ' . $db->prefix . 'config SET conf_value=' . $input . ' WHERE conf_name=\'p_' . $db->escape($key) . '\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());

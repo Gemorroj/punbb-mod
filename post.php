@@ -555,7 +555,7 @@ echo '</li></ul></div></div>';
 if ($errors) {
     echo '<div id="posterror" class="block"><h2><span>' . $lang_post['Post errors'] . '</span></h2><div class="box"><div class="inbox"><p>' . $lang_post['Post errors info'] . '</p><ul>';
 
-    while (list(, $cur_error) = each($errors)) {
+    foreach ($errors as $cur_error) {
         echo '<li><strong>' . $cur_error . '</strong></li>';
     }
 

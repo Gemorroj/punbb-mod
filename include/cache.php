@@ -180,7 +180,7 @@ function generate_wap_quickjump_cache($group_id = false)
     }
 
     // Loop through the groups in $groups and output the cache for each of them
-    while (list(, $group_id) = @each($groups)) {
+    foreach ($groups as $group_id) {
         // Output wap quickjump as PHP code
         $fh = fopen(PUN_ROOT . 'cache/cache_wap_quickjump_' . $group_id . '.php', 'wb');
         if (!$fh) {

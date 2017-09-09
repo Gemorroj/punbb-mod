@@ -127,7 +127,7 @@ else if (isset($_GET['del_forum'])) {
 else if (isset($_POST['update_positions'])) {
 //confirm_referrer('admin_forums.php');
 
-    while (list($forum_id, $disp_position) = @each($_POST['position'])) {
+    foreach ($_POST['position'] as $forum_id => $disp_position) {
         if (!@preg_match('#^\d+$#', $disp_position)) {
             message('Position must be a positive integer value.');
         }

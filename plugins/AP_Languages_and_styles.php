@@ -80,7 +80,7 @@ if (isset($_POST['lang'])) {
 
     echo '<select name="form[language]">';
 
-    while (list(, $temp) = @each($languages)) {
+    foreach ($languages as $temp) {
         echo '<option value="' . $temp . '">' . $temp . '</option>';
     }
 
@@ -129,7 +129,7 @@ if (isset($_POST['lang'])) {
 
     echo '<select name="form[style]">';
 
-    while (list(, $temp) = @each($styles)) {
+    foreach ($styles as $temp) {
         echo '<option value="' . $temp . '">' . str_replace('_', ' ', $temp) . '</option>';
     }
 
@@ -166,11 +166,11 @@ if (isset($_POST['lang'])) {
 
     echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
 
-    $styles = array();
+    $stylesWap = array();
     $d = dir(PUN_ROOT . 'include/template/wap');
     while (($entry = $d->read()) !== false) {
         if ($entry[0] != '.' && is_dir(PUN_ROOT . 'include/template/wap/' . $entry)) {
-            $styles[] = $entry;
+            $stylesWap[] = $entry;
         }
     }
     $d->close();
@@ -178,7 +178,7 @@ if (isset($_POST['lang'])) {
 
     echo '<select name="form[style_wap]">';
 
-    while (list(, $temp) = @each($styles)) {
+    foreach ($stylesWap as $temp) {
         echo '<option value="' . $temp . '">' . str_replace('_', ' ', $temp) . '</option>';
     }
 

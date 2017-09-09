@@ -13,7 +13,7 @@ if (isset($_POST['form_sent'])) {
     $allow = array_map('trim', $_POST['allow']);
     $limit = array_map('trim', $_POST['limit']);
 
-    while (list($key, $input) = @each($form)) {
+    foreach ($form as $key => $input) {
         // Only update values that have changed
         if ((isset($pun_config['o_' . $key])) || ($pun_config['o_' . $key] == null)) {
             if ($pun_config['o_' . $key] != $input) {
@@ -28,10 +28,10 @@ if (isset($_POST['form_sent'])) {
         }
     }
 
-    while (list($id, $set) = @each($allow)) {
+    foreach ($allow as $id => $set) {
         $db->query('UPDATE ' . $db->prefix . 'groups SET g_pm=' . $set . ' WHERE g_id=' . $id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
-    while (list($id, $set) = @each($limit)) {
+    foreach ($limit as $id => $set) {
         $db->query('UPDATE ' . $db->prefix . 'groups SET g_pm_limit=' . intval($set) . ' WHERE g_id=' . $id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     // Regenerate the config cache

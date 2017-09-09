@@ -173,13 +173,12 @@ echo '<div class="blockform">
 </tr>';
 
 if ($num_cats) {
-    print '<tr>
+    echo '<tr>
 <th scope="row">' . $lang_admin['categories_delete'] . '<div><input type="submit" name="del_cat" value="' . $lang_admin['Del'] . '" /></div></th>
 <td><select name="cat_to_delete">';
 
-
-    while (list(, list($cat_id, $cat_name, ,)) = @each($cat_list)) {
-        echo '<option value="' . $cat_id . '">' . pun_htmlspecialchars($cat_name) . '</option>';
+    foreach ($cat_list as $cat) {
+        echo '<option value="' . $cat[0] . '">' . pun_htmlspecialchars($cat[1]) . '</option>';
     }
 
     echo '</select><span>' . $lang_admin['categories_delete_about'] . '</span></td></tr>';
@@ -203,16 +202,13 @@ if ($num_cats) {
 </thead>
 <tbody>';
 
-
     @reset($cat_list);
-    for ($i = 0; $i < $num_cats; ++$i) {
-        list(, list($cat_id, $cat_name, $position)) = @each($cat_list);
-
+    foreach ($cat_list as $cat) {
         echo '<tr><td>
-<input type="text" name="cat_name[' . $i . ']" value="' . pun_htmlspecialchars($cat_name) . '" size="35" maxlength="80" />
+<input type="text" name="cat_name[' . $cat[0] . ']" value="' . pun_htmlspecialchars($cat[1]) . '" size="35" maxlength="80" />
 </td>
 <td>
-<input type="text" name="cat_order[' . $i . ']" value="' . $position . '" size="3" maxlength="3" />
+<input type="text" name="cat_order[' . $cat[0] . ']" value="' . $cat[2] . '" size="3" maxlength="3" />
 </td>
 <td> </td>
 </tr>';

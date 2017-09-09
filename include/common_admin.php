@@ -74,7 +74,7 @@ function generate_admin_menu($page = '')
 <div class="inbox">
 <ul>';
 
-        while (list(, $cur_plugin) = @each($plugins)) {
+        foreach ($plugins as $cur_plugin) {
             echo '<li' . (($page == $cur_plugin[1]) ? ' class="isactive"' : '') . '><a href="admin_loader.php?plugin=' . $cur_plugin[1] . '">' . str_replace('_', ' ', $cur_plugin[0]) . '</a></li>';
         }
 

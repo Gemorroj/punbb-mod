@@ -604,7 +604,7 @@ if ($action == 'change_pass') {
     {
         $form = array();
 
-        while (list($key, $value) = @each($_POST['form'])) {
+        foreach ($_POST['form'] as $key => $value) {
             if (in_array($key, $allowed_elements)) {
                 $form[$key] = $value;
             }

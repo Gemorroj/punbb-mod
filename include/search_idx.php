@@ -37,9 +37,9 @@ function split_words($text)
     $words = explode(' ', $text);
 
     if ($words) {
-        while (list($i, $word) = @each($words)) {
+        foreach ($words as $i => $word) {
             $words[$i] = trim($word, '.');
-            $num_chars = strlen($word);
+            $num_chars = mb_strlen($word);
 
             if ($num_chars < 3 || $num_chars > 40 || in_array($word, $stopwords)) {
                 unset($words[$i]);
@@ -114,12 +114,12 @@ function update_search_index($mode, $post_id, $message, $subject = null)
     }
 
 // Delete matches (only if editing a post)
-    while (list($match_in, $wordlist) = @each($words['del'])) {
+    foreach ($words['del'] as $match_in => $wordlist) {
         $subject_match = ($match_in == 'subject') ? 1 : 0;
 
         if ($wordlist) {
-            $sql = null;
-            while (list(, $word) = @each($wordlist)) {
+            $sql = '';
+            foreach ($wordlist as $word) {
                 $sql .= (($sql) ? ',' : '') . $cur_words[$match_in][$word];
             }
 
@@ -128,7 +128,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
     }
 
 // Add new matches
-    while (list($match_in, $wordlist) = @each($words['add'])) {
+    foreach ($words['add'] as $match_in => $wordlist) {
         $subject_match = ($match_in == 'subject') ? 1 : 0;
 
         if ($wordlist) {

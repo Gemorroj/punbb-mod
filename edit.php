@@ -180,7 +180,7 @@ if ($errors) {
 <p>' . $lang_post['Post errors info'] . '</p>
 <ul>';
 
-    while (list(, $cur_error) = each($errors)) {
+    foreach ($errors as $cur_error) {
         echo '<li><strong>' . $cur_error . '</strong></li>';
     }
 

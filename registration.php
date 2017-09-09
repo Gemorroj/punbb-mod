@@ -411,7 +411,7 @@ $d->close();
 if (sizeof($languages) > 1) {
     echo '<label>' . $lang_prof_reg['Language'] . ': ' . $lang_prof_reg['Language info'] . '<br /><select name="language">';
 
-    while (list(, $temp) = @each($languages)) {
+    foreach ($languages as $temp) {
         if ($pun_config['o_default_lang'] == $temp) {
             echo '<option value="' . $temp . '" selected="selected">' . $temp . '</option>';
         } else {

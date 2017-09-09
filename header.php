@@ -67,7 +67,7 @@ if (defined('PUN_ADMIN_CONSOLE')) {
 if (isset($required_fields)) {
     // Output JavaScript to validate form (make sure required fields are filled out)
     $js = 'reqField="' . $lang_common['required field'] . '";reqFormLang={';
-    while (list($elem_orig, $elem_trans) = each($required_fields)) {
+    foreach ($required_fields as $elem_orig => $elem_trans) {
         $js .= $elem_orig . ':"' . addslashes(str_replace('&nbsp;', ' ', $elem_trans)) . '",';
     }
     $js = rtrim($js, ',') . '};';

@@ -123,7 +123,7 @@ if (@$_POST['form_sent']) {
         message($lang_admin['options_timeout_online']);
     }
 
-    while (list($key, $input) = @each($form)) {
+    foreach ($form as $key => $input) {
 // Only update values that have changed
         if (array_key_exists('o_' . $key, $pun_config) && $pun_config['o_' . $key] != $input) {
             if ($input || is_int($input)) {
@@ -250,7 +250,7 @@ $d->close();
 
 @natsort($languages);
 
-while (list(, $temp) = @each($languages)) {
+foreach ($languages as $temp) {
     if ($pun_config['o_default_lang'] == $temp) {
         echo '<option value="' . $temp . '" selected="selected">' . $temp . '</option>';
     } else {
@@ -278,7 +278,7 @@ $d->close();
 
 @natsort($styles);
 
-while (list(, $temp) = @each($styles)) {
+foreach ($styles as $temp) {
     if ($pun_config['o_default_style'] == $temp) {
         echo '<option value="' . $temp . '" selected="selected">' . str_replace('_', ' ', $temp) . '</option>';
     } else {
@@ -296,18 +296,18 @@ echo '</select>
 <td>
 <select name="form[default_style_wap]">';
 
-$styles = array();
+$stylesWap = array();
 $d = dir(PUN_ROOT . 'include/template/wap');
 while (($entry = $d->read()) !== false) {
     if ($entry[0] != '.' && is_dir(PUN_ROOT . 'include/template/wap/' . $entry)) {
-        $styles[] = $entry;
+        $stylesWap[] = $entry;
     }
 }
 $d->close();
 
-@natsort($styles);
+@natsort($stylesWap);
 
-while (list(, $temp) = @each($styles)) {
+foreach ($stylesWap as $temp) {
     if ($pun_config['o_default_style_wap'] == $temp) {
         echo '<option value="' . $temp . '" selected="selected">' . str_replace('_', ' ', $temp) . '</option>';
     } else {
