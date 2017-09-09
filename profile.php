@@ -751,7 +751,7 @@ if ($action == 'change_pass') {
             $_POST['form']['birthday'] = intval($_POST['day']) . '.' . intval($_POST['month']) .
                 '.' . intval($_POST['year']);
             if ($_POST['form']['birthday'] == '0.0.0') {
-                $_POST['form']['birthday'] = null;
+                $_POST['form']['birthday'] = '';
             }
 
             $form = extract_elements(array('realname', 'url', 'location', 'sex', 'birthday'));
@@ -828,14 +828,24 @@ if ($action == 'change_pass') {
                 'show_img', 'show_img_sig', 'show_avatars', 'show_sig', 'style', 'mark_after',
                 'show_bbpanel_qpost'));
             // REAL MARK TOPIC AS READ MOD END
-            if ($form['disp_topics'] && intval($form['disp_topics']) < 3)
+            if (!$form['disp_topics']) {
+                $form['disp_topics'] = null;
+            }
+            if ($form['disp_topics'] && intval($form['disp_topics']) < 3) {
                 $form['disp_topics'] = 3;
-            if ($form['disp_topics'] && intval($form['disp_topics']) > 75)
+            }
+            if ($form['disp_topics'] && intval($form['disp_topics']) > 75) {
                 $form['disp_topics'] = 75;
-            if ($form['disp_posts'] && intval($form['disp_posts']) < 3)
+            }
+            if (!$form['disp_posts']) {
+                $form['disp_posts'] = null;
+            }
+            if ($form['disp_posts'] && intval($form['disp_posts']) < 3) {
                 $form['disp_posts'] = 3;
-            if ($form['disp_posts'] && intval($form['disp_posts']) > 75)
+            }
+            if ($form['disp_posts'] && intval($form['disp_posts']) > 75) {
                 $form['disp_posts'] = 75;
+            }
 
             // REAL MARK TOPIC AS READ MOD BEGIN
             if (@intval(@$form['mark_after']) > 100) {
@@ -890,7 +900,6 @@ if ($action == 'change_pass') {
                 pun_setcookie($id, $db->result($result), ($form['save_pass'] == 1) ? $_SERVER['REQUEST_TIME'] +
                     31536000 : 0);
             }
-
             break;
 
 
@@ -902,7 +911,7 @@ if ($action == 'change_pass') {
 
     // Singlequotes around non-empty values and NULL for empty values
     $temp = array();
-    while (list($key, $input) = @each($form)) {
+    foreach ($form as $key => $input) {
         $value = ($input !== null) ? '\'' . $db->escape($input) . '\'' : 'NULL';
         $temp[] = $key . '=' . $value;
     }
