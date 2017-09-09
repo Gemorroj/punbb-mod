@@ -837,7 +837,7 @@ print '/> <strong>Нет</strong>
                         <input type="radio" name="form[regs_verify_image]"
                                value="1"<?php if ($pun_config['o_regs_verify_image'] == 1) echo ' checked="checked"' ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_verify_image]"
-                                                               value="0"<?php if (!$pun_config['o_regs_verify_image']) echo 'checked="checked"' ?> />
+                                                               value="0"<?php if (!$pun_config['o_regs_verify_image']) echo ' checked="checked"' ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, пользователи должны ввести текст с картинки для подтверждения регистрации и в форме ответа. Это лучший способ избавиться от авто-регистраций ботов и не заставлять каждого пользователя подтверждать подлинность через e-mail, экономя его время.</span>
                     </td>
