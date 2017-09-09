@@ -178,12 +178,12 @@ if (isset($_GET['uploadit'])) {
         }
 
         // lets deal with description
-        $descript = iconv_substr($_POST['descr'], 0, 100);
+        $descript = mb_substr($_POST['descr'], 0, 100);
         $deslist = explode(' ', $descript);
         for ($i = 0, $all = sizeof($deslist); $i < $all; ++$i) {
             $deslist[$i] = trim($deslist[$i]);
-            if (iconv_strlen($deslist[$i]) > 22) {
-                $deslist[$i] = iconv_substr($deslist[$i], 0, 22);
+            if (mb_strlen($deslist[$i]) > 22) {
+                $deslist[$i] = mb_substr($deslist[$i], 0, 22);
             }
         }
         $descript = implode(' ', $deslist);
@@ -192,7 +192,7 @@ if (isset($_GET['uploadit'])) {
             INSERT INTO ' . $db->prefix . 'uploaded (
                 `file`, `user`, `uid`, `user_stat`, `data`, `size`, `downs`, `descr`
             ) VALUES (
-                "' . $db->escape(iconv_substr($file_name, 0, 200)) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
+                "' . $db->escape(mb_substr($file_name, 0, 200)) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
     }

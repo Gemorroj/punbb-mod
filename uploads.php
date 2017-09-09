@@ -184,12 +184,12 @@ if (!$upl_conf['p_view']) {
         }
 
         // lets deal with description
-        $descript = iconv_substr($_POST['descr'], 0, 100);
+        $descript = mb_substr($_POST['descr'], 0, 100);
         $deslist = explode(' ', $descript);
         for ($i = 0, $all = sizeof($deslist); $i < $all; ++$i) {
             $deslist[$i] = trim($deslist[$i]);
-            if (iconv_strlen($deslist[$i]) > 22) {
-                $deslist[$i] = iconv_substr($deslist[$i], 0, 22);
+            if (mb_strlen($deslist[$i]) > 22) {
+                $deslist[$i] = mb_substr($deslist[$i], 0, 22);
             }
         }
         $descript = implode(' ', $deslist);
@@ -198,7 +198,7 @@ if (!$upl_conf['p_view']) {
             INSERT INTO ' . $db->prefix . 'uploaded (
                 `file`, `user`, `uid`, `user_stat`, `data`, `size`, `downs`, `descr`
             ) VALUES (
-                "' . $db->escape(iconv_substr($file_name, 0, 255)) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
+                "' . $db->escape(mb_substr($file_name, 0, 255)) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
 
@@ -329,15 +329,15 @@ if (!$upl_conf['p_view']) {
         echo '<tr class="puntopic">';
 
         // lets do some words wrapping
-        if (iconv_strlen($info['file']) > 30) {
+        if (mb_strlen($info['file']) > 30) {
             $fl = $info['file'];
             // try to split it
             $ext = explode('.', $fl);
-            $fn = iconv_strlen($ext[sizeof($ext) - 1]);
+            $fn = mb_strlen($ext[count($ext) - 1]);
             if ($fn > 0 && $fn < 20) {
-                $fl = iconv_substr($fl, 0, 27 - $fn) . '...' . $ext[sizeof($ext) - 1];
+                $fl = mb_substr($fl, 0, 27 - $fn) . '...' . $ext[count($ext) - 1];
             } else {
-                $fl = iconv_substr($fl, 0, 30); // just first 30 letters of file name
+                $fl = mb_substr($fl, 0, 30); // just first 30 letters of file name
             }
             $fl = pun_htmlspecialchars($fl);
         } else {
