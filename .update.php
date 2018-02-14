@@ -243,6 +243,13 @@ if ($version == '0.6.0') {
         $error[] = var_export($db->error(), true);
     }
 
+
+    $query = $db->query("ALTER TABLE `karma` CHANGE `id` `id` INT(10) UNSIGNED NOT NULL COMMENT 'id user';");
+    $query = $db->query("ALTER TABLE `karma` CHANGE `to` `to` INT(10) UNSIGNED NOT NULL COMMENT 'id user to';");
+    $query = $db->query("ALTER TABLE `karma` DROP INDEX `to`, DROP INDEX `to_2`, ADD INDEX `to_vote` (`to`, `vote`) USING BTREE;");
+
+    $query = $db->query("ALTER TABLE `online` DROP INDEX `online_user_id_idx`;");
+
     $version = '0.6.1';
 }
 

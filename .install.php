@@ -593,13 +593,12 @@ PRIMARY KEY (`id`)
 
 
 $db->query("CREATE TABLE IF NOT EXISTS `karma` (
-  `id` int(10) unsigned NOT NULL default '0',
-  `to` int(10) unsigned NOT NULL default '0',
+  `id` int(10) unsigned NOT NULL COMMENT 'id user',
+  `to` int(10) unsigned NOT NULL COMMENT 'id user to',
   `vote` enum('1', '-1') NOT NULL default '1',
   `time` int(10) NOT NULL default '0',
   UNIQUE KEY `id` (`id`,`to`),
-  KEY `to` (`to`),
-  KEY `to_2` (`to`,`vote`)
+  KEY `to_vote` (`to`,`vote`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;") or die(var_export($db->error(), true));
 
 
