@@ -336,8 +336,7 @@ $db->query("CREATE TABLE IF NOT EXISTS `online` (
 `ident` varchar(200) NOT NULL default '',
 `logged` int(10) unsigned NOT NULL default '0',
 `idle` tinyint(1) NOT NULL default '0',
-UNIQUE KEY `online_user_id_ident_idx` (`user_id`,`ident`),
-KEY `online_user_id_idx` (`user_id`)
+UNIQUE KEY `online_user_id_ident_idx` (`user_id`,`ident`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;") or die (var_export($db->error(), true));
 
 
