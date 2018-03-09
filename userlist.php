@@ -119,8 +119,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'all') {
     $p = $num_pages + 1;
     $start_from = -1;
 } else {
-    $_GET['p'] = intval($_GET['p']);
-    $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+    $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = 50 * ($p - 1);
 }
 

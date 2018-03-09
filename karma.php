@@ -32,7 +32,7 @@ $num_hits = $karma['plus'] + $karma['minus'];
 
 $num_pages = ceil($num_hits / $pun_user['disp_posts']);
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
 
 $start = ($p - 1) * $pun_user['disp_posts'];
 if (isset($_GET['action']) && $_GET['action'] == 'all') {

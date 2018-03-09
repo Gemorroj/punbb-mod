@@ -37,7 +37,7 @@ class DBLayer
         $this->link_id = mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
         if (!$this->link_id) {
-            error('Unable to connect to MySQL server. MySQL reported: ' . mysqli_error($this->link_id), __FILE__, __LINE__);
+            error('Unable to connect to MySQL server. MySQL reported: ' . mysqli_connect_error(), __FILE__, __LINE__);
         }
     }
 
@@ -158,7 +158,6 @@ class DBLayer
 
     /**
      * @param mysqli_result $query_id
-     * @return bool
      */
     public function free_result($query_id)
     {
@@ -174,11 +173,7 @@ class DBLayer
      */
     public function escape($str)
     {
-        if (is_array($str)) {
-            return '';
-        } else {
-            return mysqli_real_escape_string($this->link_id, $str);
-        }
+        return mysqli_real_escape_string($this->link_id, $str);
     }
 
 

@@ -1338,7 +1338,7 @@ class Getf
     public function mime($file)
     {
         // если есть Fileinfo
-        if (function_exists('finfo_open')) {
+        if (function_exists('finfo_open') && is_file($file)) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $this->mime = finfo_file($finfo, $file);
             finfo_close($finfo);

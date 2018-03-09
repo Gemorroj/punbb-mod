@@ -70,7 +70,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
 else
     if (isset($_GET['action']) && $_GET['action'] == 'markall') {
         $db->query('UPDATE ' . $db->prefix . 'messages SET showed=1 WHERE owner=' . $pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
-        //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : $_GET['p'];
+        //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int)$_GET['p'];
         wap_redirect('message_list.php?box=' . $box . '&p=' . $p);
     }
 

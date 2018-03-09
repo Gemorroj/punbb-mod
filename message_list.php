@@ -30,7 +30,7 @@ if ($box == 1) {
 }
 
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : intval($_GET['p']);
+$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
 
 //$name plus the link to the other box
 $page_name = $name;
@@ -73,7 +73,7 @@ if ($box < 2) {
 
     //What page are we on?
     $num_pages = ceil($num_messages / $pun_config['o_pms_mess_per_page']);
-    $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : intval($_GET['p']);
+    $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
     if ($_GET['action'] != 'all') {
         $limit = 'LIMIT ' . $start_from . ',' . $pun_config['o_pms_mess_per_page'];

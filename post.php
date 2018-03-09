@@ -113,14 +113,13 @@ if (isset($_POST['form_sent'])) {
             message($lang_post['Text mismatch']);
         }
 
-
-        if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
-            //unset($_SESSION['captcha_keystring']);
-            message($lang_post['Text mismatch']);
-        }
         if (!isset($_SESSION['captcha_keystring'])) {
             //unset($_SESSION['captcha_keystring']);
             message($lang_common['Bad request']);
+        }
+        if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
+            //unset($_SESSION['captcha_keystring']);
+            message($lang_post['Text mismatch']);
         }
 
         unset($_SESSION['captcha_keystring']);

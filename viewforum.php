@@ -67,7 +67,7 @@ if ((!$cur_forum['post_topics'] && $pun_user['g_post_topics'] == 1) || $cur_foru
 // Determine the topic offset (based on $_GET['p'])
 $num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
+$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 
 
