@@ -120,6 +120,9 @@ if (extension_loaded('ionCube Loader')) {
 if (extension_loaded('apc')) {
     $php_accelerators[] = '<a href="http://pecl.php.net/package/apc">APC</a>';
 }
+if (extension_loaded('apcu')) {
+    $php_accelerators[] = '<a href="http://pecl.php.net/package/apcu">APCu</a>';
+}
 if (extension_loaded('eaccelerator')) {
     $php_accelerators[] = '<a href="http://eaccelerator.net/">eAccelerator</a>';
 }
@@ -130,7 +133,7 @@ if (extension_loaded('Zend Optimizer+')) {
     $php_accelerators[] = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend Optimizer+</a>';
 }
 if (extension_loaded('Zend OPcache')) {
-    $php_accelerators[] = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend OPcache</a>';
+    $php_accelerators[] = '<a href="https://github.com/php/php-src/tree/master/ext/opcache">Zend OPcache</a>';
 }
 if (extension_loaded('xcache')) {
     $php_accelerators[] = '<a href="http://xcache.lighttpd.net/">XCache</a>';
