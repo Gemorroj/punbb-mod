@@ -105,10 +105,13 @@ function pun_mail($to, $subject, $message, $from = '')
 }
 
 
-//
-// This function was originally a part of the phpBB Group forum software phpBB2 (http://www.phpbb.com).
-// They deserve all the credit for writing it. I made small modifications for it to suit PunBB and it's coding standards.
-//
+/**
+ * This function was originally a part of the phpBB Group forum software phpBB2 (http://www.phpbb.com).
+ * They deserve all the credit for writing it. I made small modifications for it to suit PunBB and it's coding standards.
+ *
+ * @param resource $socket
+ * @param string $expected_response
+ */
 function server_parse($socket, $expected_response)
 {
     $server_response = '';
@@ -123,10 +126,16 @@ function server_parse($socket, $expected_response)
     }
 }
 
-//
-// This function was originally a part of the phpBB Group forum software phpBB2 (http://www.phpbb.com).
-// They deserve all the credit for writing it. I made small modifications for it to suit PunBB and it's coding standards.
-//
+/**
+ * This function was originally a part of the phpBB Group forum software phpBB2 (http://www.phpbb.com).
+ * They deserve all the credit for writing it. I made small modifications for it to suit PunBB and it's coding standards.
+ *
+ * @param string $to
+ * @param string $subject
+ * @param string $message
+ * @param string $headers
+ * @return bool
+ */
 function smtp_mail($to, $subject, $message, $headers = '')
 {
     global $pun_config;
@@ -160,45 +169,45 @@ function smtp_mail($to, $subject, $message, $headers = '')
         error('Could not connect to smtp host "' . $pun_config['o_smtp_host'] . '" (' . $errno . ') (' . $errstr . ')', __FILE__, __LINE__);
     }
 
-    server_parse($socket, 220);
+    server_parse($socket, '220');
 
     if ($pun_config['o_smtp_user'] && $pun_config['o_smtp_pass']) {
-        fwrite($socket, 'EHLO ' . $smtp_host . "\r\n");
-        server_parse($socket, 250);
+        fwrite($socket, 'EHLO ' . $_SERVER['SERVER_NAME'] . "\r\n");
+        server_parse($socket, '250');
 
         fwrite($socket, 'AUTH LOGIN' . "\r\n");
-        server_parse($socket, 334);
+        server_parse($socket, '334');
 
         fwrite($socket, base64_encode($pun_config['o_smtp_user']) . "\r\n");
-        server_parse($socket, 334);
+        server_parse($socket, '334');
 
         fwrite($socket, base64_encode($pun_config['o_smtp_pass']) . "\r\n");
-        server_parse($socket, 235);
+        server_parse($socket, '235');
     } else {
         fwrite($socket, 'HELO ' . $smtp_host . "\r\n");
-        server_parse($socket, 250);
+        server_parse($socket, '250');
     }
 
     fwrite($socket, 'MAIL FROM: <' . $pun_config['o_webmaster_email'] . '>' . "\r\n");
-    server_parse($socket, 250);
+    server_parse($socket, '250');
 
     $to_header = 'To: ';
 
     @reset($recipients);
     foreach ($recipients as $email) {
         fwrite($socket, 'RCPT TO: <' . $email . '>' . "\r\n");
-        server_parse($socket, 250);
+        server_parse($socket, '250');
 
         $to_header .= '<' . $email . '>, ';
     }
 
     fwrite($socket, 'DATA' . "\r\n");
-    server_parse($socket, 354);
+    server_parse($socket, '354');
 
     fwrite($socket, 'Subject: ' . $subject . "\r\n" . $to_header . "\r\n" . $headers . "\r\n\r\n" . $message . "\r\n");
 
     fwrite($socket, '.' . "\r\n");
-    server_parse($socket, 250);
+    server_parse($socket, '250');
 
     fwrite($socket, 'QUIT' . "\r\n");
     fclose($socket);
