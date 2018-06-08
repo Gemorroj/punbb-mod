@@ -133,13 +133,28 @@ function smtp_mail($to, $subject, $message, $headers = '')
 
     $recipients = explode(',', $to);
 
-    // Are we using port 25 or a custom port?
-    if (strpos($pun_config['o_smtp_host'], ':') !== false) {
-        list($smtp_host, $smtp_port) = explode(':', $pun_config['o_smtp_host']);
-    } else {
-        $smtp_host = $pun_config['o_smtp_host'];
-        $smtp_port = 25;
+    $smtp_host = '';
+    $smtp_port = 25;
+    // tests: https://3v4l.org/lp3EZ
+    // ssl://mail.yandex.ru
+    // ssl://mail.yandex.ru:25
+    // mail.yandex.ru
+    // mail.yandex.ru:25
+    $smtp = parse_url($pun_config['o_smtp_host']);
+    if ($smtp['scheme']) {
+        $smtp_host .= $smtp['scheme'] . '://';
     }
+    if ($smtp['host']) {
+        $smtp_host .= $smtp['host'];
+    }
+    if (!$smtp_host && $smtp['path']) {
+        $smtp_host = $smtp['path'];
+    }
+
+    if ($smtp['port']) {
+        $smtp_port = $smtp['port'];
+    }
+
 
     if (!($socket = fsockopen($smtp_host, $smtp_port, $errno, $errstr, 15))) {
         error('Could not connect to smtp host "' . $pun_config['o_smtp_host'] . '" (' . $errno . ') (' . $errstr . ')', __FILE__, __LINE__);
