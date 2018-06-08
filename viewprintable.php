@@ -8,7 +8,7 @@ if (!$pun_user['g_read_board']) {
 }
 
 
-$id = @intval(@$_GET['id']);
+$id = (int)@$_GET['id'];
 if ($id < 1) {
     message($lang_common['Bad request']);
 }

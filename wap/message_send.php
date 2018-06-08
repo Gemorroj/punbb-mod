@@ -169,8 +169,8 @@ if (isset($_POST['form_sent'])) {
     }
 
     if (isset($_GET['reply']) || isset($_GET['quote'])) {
-        $r = @intval(@$_GET['reply']);
-        $q = @intval(@$_GET['quote']);
+        $r = (int)@$_GET['reply'];
+        $q = (int)@$_GET['quote'];
 
         // Get message info
         empty($r) ? $id = $q : $id = $r;

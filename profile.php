@@ -848,10 +848,10 @@ if ($action == 'change_pass') {
             }
 
             // REAL MARK TOPIC AS READ MOD BEGIN
-            if (@intval(@$form['mark_after']) > 100) {
+            if ((int)@$form['mark_after'] > 100) {
                 $form['mark_after'] = 1296000;
             } else {
-                $form['mark_after'] = $form['mark_after'] * 86400;
+                $form['mark_after'] *= 86400;
             }
             // REAL MARK TOPIC AS READ MOD END
 

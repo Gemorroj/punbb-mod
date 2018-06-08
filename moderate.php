@@ -292,7 +292,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         }
 
         $topics = explode(',', $_POST['topics']);
-        $move_to_forum = @intval(@$_POST['move_to_forum']);
+        $move_to_forum = (int)@$_POST['move_to_forum'];
         if (!$topics || $move_to_forum < 1) {
             message($lang_common['Bad request']);
         }
