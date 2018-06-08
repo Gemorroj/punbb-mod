@@ -128,7 +128,7 @@
     </div>
     <div class="input">
 
-    {if sizeof($languages) > 1}
+    {if count($languages) > 1}
         <strong>{$lang_prof_reg.Language}</strong>: {$lang_prof_reg.$Language_info}<br/>
         <select name="language">
             {foreach from=$languages item=temp}

@@ -259,7 +259,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $db->free_result($result);
 
-                $num_hits = sizeof($search_ids);
+                $num_hits = count($search_ids);
             } else {
                 $result = $db->query('
                     SELECT p.id
@@ -279,7 +279,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $db->free_result($result);
 
-                $num_hits = sizeof($search_ids);
+                $num_hits = count($search_ids);
             }
         } else if ($_GET['action'] == 'show_new' || $_GET['action'] == 'show_24h' || $_GET['action'] == 'show_user' || $_GET['action'] == 'show_subscriptions' || $_GET['action'] == 'show_unanswered') {
             // If it's a search for new posts
@@ -512,7 +512,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }
 
         // Finally, lets loop through the results and output them
-        for ($i = 0, $all = sizeof($search_set); $i < $all; ++$i) {
+        for ($i = 0, $all = count($search_set); $i < $all; ++$i) {
             reset($forum_list);
             foreach ($forum_list as $temp) {
                 if ($temp[0] == $search_set[$i]['forum_id']) {

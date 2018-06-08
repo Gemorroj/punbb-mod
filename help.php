@@ -106,7 +106,7 @@ require_once PUN_ROOT . 'header.php';
 // Display the smiley set
 include_once PUN_ROOT . 'include/parser.php';
 
-$num_smilies = sizeof($smiley_text);
+$num_smilies = count($smiley_text);
 for ($i = 0; $i < $num_smilies; ++$i) {
     // Is there a smiley at the current index?
     if (!isset($smiley_text[$i])) {

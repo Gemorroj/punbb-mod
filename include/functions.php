@@ -193,7 +193,7 @@ function check_bans()
         if ($cur_ban['ip']) {
             $cur_ban_ips = explode(' ', $cur_ban['ip']);
 
-            for ($i = 0, $all = sizeof($cur_ban_ips); $i < $all; ++$i) {
+            for ($i = 0, $all = count($cur_ban_ips); $i < $all; ++$i) {
                 $cur_ban_ips[$i] = $cur_ban_ips[$i] . '.';
 
                 if (substr($user_ip, 0, strlen($cur_ban_ips[$i])) == $cur_ban_ips[$i]) {
@@ -303,7 +303,7 @@ function generate_navlinks()
     if ($pun_config['o_additional_navlinks']) {
         if (preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
             // Insert any additional links into the $links array (at the correct index)
-            for ($i = 0, $all = sizeof($extra_links[1]); $i < $all; ++$i) {
+            for ($i = 0, $all = count($extra_links[1]); $i < $all; ++$i) {
                 array_splice($links, $extra_links[1][$i], 0, array('<li id="navextra' . ($i + 1) . '">' . $extra_links[2][$i]));
             }
         }
@@ -364,7 +364,7 @@ function generate_wap_navlinks()
     if ($pun_config['o_additional_navlinks']) {
         if (preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
             // Insert any additional links into the $links array (at the correct index)
-            for ($i = 0, $all = sizeof($extra_links[1]); $i < $all; ++$i) {
+            for ($i = 0, $all = count($extra_links[1]); $i < $all; ++$i) {
                 if (preg_match('!<a[^>]+href="?\'?([^ "\'>]+)"?\'?[^>]*>([^<>]*?)</a>!is', $extra_links[2][$i], $row)) {
                     array_splice($out, $extra_links[1][$i], 0, array('<option value="' . $row[1] . '">' . $row[2] . '</option>'));
                 }
@@ -414,7 +414,7 @@ function generate_wap_1_navlinks()
     if ($pun_config['o_additional_navlinks']) {
         if (preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
             // Insert any additional links into the $links array (at the correct index)
-            for ($i = 0, $all = sizeof($extra_links[1]); $i < $all; ++$i) {
+            for ($i = 0, $all = count($extra_links[1]); $i < $all; ++$i) {
                 array_splice($links, $extra_links[1][$i], 0, array('' . ($i + 1) . '">' . $extra_links[2][$i]));
             }
         }

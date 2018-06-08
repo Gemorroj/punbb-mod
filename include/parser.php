@@ -323,7 +323,7 @@ function split_text($text, $start, $end)
     $outside[] = $tokens[0];
     $inside = array();
 
-    $num_tokens = sizeof($tokens);
+    $num_tokens = count($tokens);
     for ($i = 1; $i < $num_tokens; ++$i) {
         $temp = explode($end, $tokens[$i]);
         $inside[] = $temp[0];
@@ -629,7 +629,7 @@ function do_smilies($text)
 
     $text = ' ' . $text . ' ';
 
-    $num_smilies = sizeof($smiley_text);
+    $num_smilies = count($smiley_text);
     for ($i = 0; $i < $num_smilies; ++$i) {
         $text = preg_replace(
             "#(?<=.\W|\W.|^\W)" . preg_quote($smiley_text[$i], '#') . "(?=.\W|\W.|\W$)#m",
@@ -776,7 +776,7 @@ function do_code ($text, $inside = array())
     // If we split up the message before we have to concatenate it together again (code tags)
     if ($inside) {
         $outside = explode('<">', $text);
-        $num_tokens = sizeof($outside);
+        $num_tokens = count($outside);
         $text = '';
 
         for ($i = 0; $i < $num_tokens; ++$i) {
@@ -810,7 +810,7 @@ function do_code ($text, $inside = array())
                 }
 
                 $c = explode('<br />', $code);
-                $s = sizeof($c);
+                $s = count($c);
 
                 if ($s > 1) {
                     $code = $num_line = '';

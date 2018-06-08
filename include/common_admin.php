@@ -68,7 +68,7 @@ function generate_admin_menu($page = '')
     $d->close();
 
     // Did we find any plugins?
-    if (sizeof($plugins) > 1) {
+    if (count($plugins) > 1) {
         echo '<h2 class="block2"><span>Plugins</span></h2>
 <div class="box">
 <div class="inbox">

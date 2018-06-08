@@ -408,7 +408,7 @@ while (($entry = $d->read()) !== false) {
 $d->close();
 
 // Only display the language selection box if there's more than one language available
-if (sizeof($languages) > 1) {
+if (count($languages) > 1) {
     echo '<label>' . $lang_prof_reg['Language'] . ': ' . $lang_prof_reg['Language info'] . '<br /><select name="language">';
 
     foreach ($languages as $temp) {

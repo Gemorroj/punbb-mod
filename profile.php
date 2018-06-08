@@ -1394,7 +1394,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         closedir($d);
 
         // Only display the language selection box if there's more than one language available
-        if (sizeof($languages) > 1) {
+        if (count($languages) > 1) {
             natsort($languages);
             echo '<label>' . $lang_prof_reg['Language'] . ': ' . $lang_prof_reg['Language info'] . '<br /><select name="form[language]">';
 
@@ -1643,7 +1643,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         closedir($d);
 
         // Only display the style selection box if there's more than one style available
-        switch (sizeof($styles)) {
+        switch (count($styles)) {
             case 1:
                 echo '<div><input type="hidden" name="form[style]" value="' . $styles[0] . '" /></div>';
                 break;

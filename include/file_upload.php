@@ -78,7 +78,7 @@ function get_dir_contents($dir)
 */
 function get_dir_file_count($dir)
 {
-    return sizeof(get_dir_contents($dir));
+    return count(get_dir_contents($dir));
 }
 
 
@@ -108,7 +108,7 @@ function show_problems()
         $log[] = 'Thumbnails directory not writable';
     }
 
-    if (!sizeof($log)) {
+    if (!count($log)) {
         $log[] = 'No problems Found!';
     }
 
@@ -135,7 +135,7 @@ function delete_orphans()
 // collect files
     $files_dir = $pun_config['file_upload_path'];
     $files = get_dir_contents(PUN_ROOT . $files_dir);
-    for ($i = 0; $i < sizeof($files); $i++) {
+    for ($i = 0, $l = count($files); $i < $l; $i++) {
         $files[$i] = $files_dir . $files[$i];
     }
 
@@ -162,7 +162,7 @@ function delete_orphans()
     }
 
 // delete all orhpaned files in upload folder
-    while (sizeof($files) > 0) {
+    while (count($files) > 0) {
         $file = $files[0];
         if ($file != 'index.html' && $file != '.htaccess') {
             $log[] = 'File "' . $file . '": No related record - Deleted';
@@ -171,7 +171,7 @@ function delete_orphans()
         array_splice($files, 0, 1);
     }
 
-    if (!sizeof($log)) {
+    if (!count($log)) {
         $log[] = 'No problems Found!';
     }
 
@@ -199,7 +199,7 @@ function delete_all_thumbnails()
     $thumbs_dir = $pun_config['file_thumb_path'];
     $thumbs = get_dir_contents(PUN_ROOT . $thumbs_dir);
 
-    while (sizeof($thumbs) > 0) {
+    while (count($thumbs) > 0) {
         $file = $thumbs[0];
         if ($file != 'index.html' && $file != '.htaccess' && $file[0] . $file[1] . $file[2] . $file[3] != 'err_') {
             $log[] = $file . ' - Deleted';
@@ -208,7 +208,7 @@ function delete_all_thumbnails()
         array_splice($thumbs, 0, 1);
     }
 
-    if (!sizeof($log)) {
+    if (!count($log)) {
         $log[] = 'No files Found!';
     }
 
@@ -240,7 +240,7 @@ function fix_user_counters()
     $db->query('UPDATE ' . $db->prefix . 'users SET num_files=0') or error('Unable to clear user counters', __FILE__, __LINE__, $db->error());
 
     $updated = 0;
-    $sizeof = sizeof($counters);
+    $sizeof = count($counters);
     $log = array();
     $log[] = $sizeof . ' users has attachments';
 
@@ -437,7 +437,7 @@ function process_deleted_files($pid, &$total_deleted)
         $aid_list = implode(',', $aid_list);
         $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id IN (' . $aid_list . ')') or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         $file_limit++;
-        $total_deleted = sizeof($aid_list);
+        $total_deleted = count($aid_list);
     }
 
     if ($total_deleted) {

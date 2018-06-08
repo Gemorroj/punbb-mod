@@ -1001,7 +1001,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || ($pun
         closedir($d);
 
         // Only display the language selection box if there's more than one language available
-        if (sizeof($languages) > 1) {
+        if (count($languages) > 1) {
             natsort($languages);
         }
 

@@ -162,7 +162,7 @@ if ($pun_config['o_users_online'] == 1) {
         }
     }
 
-    $num_users = sizeof($users);
+    $num_users = count($users);
     echo '<dd>' . $lang_index['Users online'] . ': <strong>' . $num_users . '</strong></dd> <dd>' . $lang_index['Guests online'] . ': <strong>' . $num_guests . '</strong></dd> </dl>';
 
 

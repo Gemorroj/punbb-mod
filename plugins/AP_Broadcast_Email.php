@@ -118,7 +118,7 @@ if (isset($_POST['confirm'])) {
         $addresses[$row['username']] = $row['email'];
     }
 
-    $usercount = sizeof($addresses);
+    $usercount = count($addresses);
 
     foreach ($addresses as $recipientname => $recipientemail) {
         $mail_to = $recipientname . ' <' . $recipientemail . '>';

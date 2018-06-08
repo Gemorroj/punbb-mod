@@ -184,10 +184,10 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
         $addresses = explode(' ', $ban_ip);
         $addresses = array_map('trim', $addresses);
 
-        for ($i = 0, $all = sizeof($addresses); $i < $all; ++$i) {
+        for ($i = 0, $all = count($addresses); $i < $all; ++$i) {
             $octets = explode('.', $addresses[$i]);
 
-            for ($c = 0, $all2 = sizeof($octets); $c < $all2; ++$c) {
+            for ($c = 0, $all2 = count($octets); $c < $all2; ++$c) {
                 $octets[$c] = (strlen($octets[$c]) > 1) ? ltrim($octets[$c], '0') : $octets[$c];
 
                 if ($c > 3 || preg_match('/[^0-9]/', $octets[$c]) || intval($octets[$c]) > 255) {

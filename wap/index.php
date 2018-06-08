@@ -105,7 +105,7 @@ if ($pun_config['o_users_online'] == 1) {
     }
     
     if ($users) {
-        $num_users = sizeof($users);
+        $num_users = count($users);
     }
 }
 

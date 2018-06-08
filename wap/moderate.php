@@ -225,7 +225,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         // Verify that the topic IDs are valid
         $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'topics WHERE id IN(' . implode(',', $topics) . ') AND forum_id=' . $fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
 
-        if ($db->num_rows($result) != sizeof($topics)) {
+        if ($db->num_rows($result) != count($topics)) {
             wap_message($lang_common['Bad request']);
         }
 
@@ -251,7 +251,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         update_forum($fid); // Update the forum FROM which the topic was moved
         update_forum($move_to_forum); // Update the forum TO which the topic was moved
 
-        $redirect_msg = (sizeof($topics) > 1) ? $lang_misc['Move topics redirect'] : $lang_misc['Move topic redirect'];
+        $redirect_msg = (count($topics) > 1) ? $lang_misc['Move topics redirect'] : $lang_misc['Move topic redirect'];
         wap_redirect('viewforum.php?id=' . $move_to_forum);
     }
 

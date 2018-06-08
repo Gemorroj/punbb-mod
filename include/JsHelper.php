@@ -78,7 +78,7 @@ class JsHelper
      */
     public function count()
     {
-        return sizeof($this->js);
+        return count($this->js);
     }
 
     /**
@@ -86,6 +86,6 @@ class JsHelper
      */
     public function countInternal()
     {
-        return sizeof($this->jsInternal);
+        return count($this->jsInternal);
     }
 }

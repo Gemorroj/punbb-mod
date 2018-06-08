@@ -186,7 +186,7 @@ if (!$upl_conf['p_view']) {
         // lets deal with description
         $descript = mb_substr($_POST['descr'], 0, 100);
         $deslist = explode(' ', $descript);
-        for ($i = 0, $all = sizeof($deslist); $i < $all; ++$i) {
+        for ($i = 0, $all = count($deslist); $i < $all; ++$i) {
             $deslist[$i] = trim($deslist[$i]);
             if (mb_strlen($deslist[$i]) > 22) {
                 $deslist[$i] = mb_substr($deslist[$i], 0, 22);
@@ -246,9 +246,9 @@ if (!$upl_conf['p_view']) {
         if ($ar = $db->fetch_assoc($result)) {
             $extens = explode(' ', $ar['exts']);
         }
-        if (sizeof($extens) > 0) {
+        if (count($extens) > 0) {
             $sql .= ' AND (file LIKE "%' . $extens[0] . '"';
-            for ($i = 1, $all = sizeof($extens); $i < $all; ++$i) {
+            for ($i = 1, $all = count($extens); $i < $all; ++$i) {
                 $sql .= ' OR file LIKE "%' . $extens[$i] . '"';
             }
             $sql .= ')';
@@ -260,7 +260,7 @@ if (!$upl_conf['p_view']) {
     $s = intval($s_sort);
     $sorto = ' ORDER BY ';
     $sorters = array('id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr');
-    if ($s < 1 || $s >= sizeof($sorters)) {
+    if ($s < 1 || $s >= count($sorters)) {
         $s = 1;
     }
     $sorto .= $sorters[$s];
@@ -275,7 +275,7 @@ if (!$upl_conf['p_view']) {
 
     echo '<div class="inform"><fieldset><legend>' . $lang_uploads['Filter'] . '</legend><div class="infldset"><form method="post" action="' . $_SERVER['PHP_SELF'] . '?" enctype="multipart/form-data"><table><tr><td>' . $lang_uploads['Pages'] . '</td><td>' . $lang_uploads['Categ'] . '</td><td>' . $lang_uploads['Part'] . '</td><td>' . $lang_uploads['Posted by'] . '</td><td>' . $lang_uploads['Desc'] . '</td></tr><tr><td><select id="nump" name="nump">';
 
-    for ($i = 0, $all = sizeof($pages); $i < $all; ++$i) {
+    for ($i = 0, $all = count($pages); $i < $all; ++$i) {
         echo '<option value="' . $pages[$i] . '"';
         if ($s_nump == $pages[$i]) {
             echo ' selected="selected"';
@@ -285,7 +285,7 @@ if (!$upl_conf['p_view']) {
 
     echo '</select></td><td><select id="cat" name="cat"><option value="0">' . $lang_uploads['All'] . '</option>';
 
-    for ($i = 0, $all = sizeof($cats); $i < $all; ++$i) {
+    for ($i = 0, $all = count($cats); $i < $all; ++$i) {
         echo '<option value="' . $ids[$i] . '"';
         if ($s_cat == $ids[$i]) {
             echo ' selected="selected"';

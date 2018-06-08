@@ -180,7 +180,7 @@ if (isset($_GET['uploadit'])) {
         // lets deal with description
         $descript = mb_substr($_POST['descr'], 0, 100);
         $deslist = explode(' ', $descript);
-        for ($i = 0, $all = sizeof($deslist); $i < $all; ++$i) {
+        for ($i = 0, $all = count($deslist); $i < $all; ++$i) {
             $deslist[$i] = trim($deslist[$i]);
             if (mb_strlen($deslist[$i]) > 22) {
                 $deslist[$i] = mb_substr($deslist[$i], 0, 22);
@@ -237,9 +237,9 @@ if (isset($_GET['uploadit'])) {
         if ($ar = $db->fetch_assoc($result)) {
             $extens = explode(' ', $ar['exts']);
         }
-        if (sizeof($extens) > 0) {
+        if (count($extens) > 0) {
             $sql .= ' AND (file LIKE "%' . $extens[0] . '"';
-            for ($i = 1, $all = sizeof($extens); $i < $all; ++$i) {
+            for ($i = 1, $all = count($extens); $i < $all; ++$i) {
                 $sql .= ' OR file LIKE "%' . $extens[$i] . '"';
             }
             $sql .= ')';
@@ -251,7 +251,7 @@ if (isset($_GET['uploadit'])) {
     $s = intval($s_sort);
     $sorto = ' ORDER BY ';
     $sorters = array('id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr');
-    if ($s < 1 || $s >= sizeof($sorters)) {
+    if ($s < 1 || $s >= count($sorters)) {
         $s = 1;
     }
     $sorto .= $sorters[$s];
