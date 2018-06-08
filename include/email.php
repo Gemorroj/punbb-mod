@@ -65,27 +65,35 @@ function is_banned_email($email)
  * @param string $to
  * @param string $subject
  * @param string $message
- * @param string $from
+ * @param string $reply
  * @return bool
  */
-function pun_mail($to, $subject, $message, $from = '')
+function pun_mail($to, $subject, $message, $reply = '')
 {
     global $pun_config, $lang_common;
 
     $sender = str_replace('"', '', $pun_config['o_board_title'] . ' ' . $lang_common['Mailer']);
+    $from = '"=?UTF-8?B?' . base64_encode($sender) . '?=" <' . $pun_config['o_webmaster_email'] . '>';
 
     // Default sender/return address
-    if (!$from) {
-        $from = '"=?UTF-8?B?' . base64_encode($sender) . '?=" <' . $pun_config['o_webmaster_email'] . '>';
+    if (!$reply) {
+        $reply = $from;
     }
 
     // Do a little spring cleaning
     $to = trim(preg_replace('#[\n\r]+#s', '', $to));
     $subject = trim(preg_replace('#[\n\r]+#s', '', $subject));
     $from = trim(preg_replace('#[\n\r:]+#s', '', $from));
+    $reply = trim(preg_replace('#[\n\r:]+#s', '', $reply));
 
     $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    $headers = 'From: ' . $from . "\r\n" . 'Date: ' . date('r') . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-transfer-encoding: 8bit' . "\r\n" . 'Content-type: text/plain; charset=UTF-8' . "\r\n" . 'X-Mailer: PunBB Mod v' . $pun_config['o_show_version'];
+    $headers = 'From: ' . $from . "\r\n" .
+        'Reply-To: ' . $reply . "\r\n" .
+        'Date: ' . date('r') . "\r\n" .
+        'MIME-Version: 1.0' . "\r\n" .
+        'Content-transfer-encoding: 8bit' . "\r\n" .
+        'Content-type: text/plain; charset=UTF-8' . "\r\n" .
+        'X-Mailer: PunBB Mod v' . $pun_config['o_show_version'];
 
     // Make sure all linebreaks are CRLF in message (and strip out any NULL bytes)
     $message = str_replace(array("\n", "\0"), array("\r\n", ''), pun_linebreaks($message));
