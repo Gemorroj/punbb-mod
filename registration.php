@@ -199,7 +199,7 @@ if (isset($_GET['cancel'])) {
     // Insert the new user into the database. We do this now to get the last inserted id for later use.
     $now = time();
 
-    $intial_group_id = (!$pun_config['o_regs_verify']) ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
+    $initial_group_id = (!$pun_config['o_regs_verify']) ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
     $password_hash = pun_hash($password1);
 
     $sex = intval($_POST['req_sex']);
@@ -209,7 +209,7 @@ if (isset($_GET['cancel'])) {
         INSERT INTO ' . $db->prefix . 'users (
             username, group_id, password, sex, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit
         ) VALUES(
-            \'' . $db->escape($username) . '\', ' . $intial_group_id . ', \'' . $password_hash . '\', \'' . $sex . '\', \'' . $email1 . '\', ' . $email_setting . ', ' . $save_pass . ', ' . $timezone . ' , \'' . $db->escape($language) . '\', \'' . $pun_config['o_default_style'] . '\', ' . $now . ', \'' . get_remote_address() . '\', ' . $now . '
+            \'' . $db->escape($username) . '\', ' . $initial_group_id . ', \'' . $password_hash . '\', \'' . $sex . '\', \'' . $email1 . '\', ' . $email_setting . ', ' . $save_pass . ', ' . $timezone . ' , \'' . $db->escape($language) . '\', \'' . $pun_config['o_default_style'] . '\', ' . $now . ', \'' . get_remote_address() . '\', ' . $now . '
         )
     ') or error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();

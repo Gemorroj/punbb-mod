@@ -109,11 +109,11 @@ if (isset($_POST['prune'])) {
 
 
     // Insert the new user into the database. We do this now to get the last inserted id for later use.
-    $intial_group_id = ($_POST['random_pass'] == '0') ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
+    $initial_group_id = ($_POST['random_pass'] == '0') ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
     $password_hash = pun_hash($password1);
 
     // Add the user
-    $db->query('INSERT INTO ' . $db->prefix . 'users (username, group_id, password, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit) VALUES(\'' . $db->escape($username) . '\', ' . $intial_group_id . ', \'' . $password_hash . '\', \'' . $email1 . '\', 1, ' . $save_pass . ', ' . $timezone . ' , \'' . $language . '\', \'' . $pun_config['o_default_style'] . '\', ' . $_SERVER['REQUEST_TIME'] . ', \'' . get_remote_address() . '\', ' . $_SERVER['REQUEST_TIME'] . ')') or error('Unable to create user', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO ' . $db->prefix . 'users (username, group_id, password, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit) VALUES(\'' . $db->escape($username) . '\', ' . $initial_group_id . ', \'' . $password_hash . '\', \'' . $email1 . '\', 1, ' . $save_pass . ', ' . $timezone . ' , \'' . $language . '\', \'' . $pun_config['o_default_style'] . '\', ' . $_SERVER['REQUEST_TIME'] . ', \'' . get_remote_address() . '\', ' . $_SERVER['REQUEST_TIME'] . ')') or error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();
 
     // Should we alert people on the admin mailing list that a new user has registered?

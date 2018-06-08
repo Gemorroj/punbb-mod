@@ -59,10 +59,15 @@ function is_banned_email($email)
 }
 
 
-//
-// Wrapper for PHP's mail()
-//
-
+/**
+ * Send email
+ *
+ * @param string $to
+ * @param string $subject
+ * @param string $message
+ * @param string $from
+ * @return bool
+ */
 function pun_mail($to, $subject, $message, $from = '')
 {
     global $pun_config, $lang_common;
@@ -80,7 +85,7 @@ function pun_mail($to, $subject, $message, $from = '')
     $from = trim(preg_replace('#[\n\r:]+#s', '', $from));
 
     $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    $headers = 'From: ' . $from . "\r\n" . 'Date: ' . date('r') . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-transfer-encoding: 8bit' . "\r\n" . 'Content-type: text/plain; charset=UTF-8' . "\r\n" . 'X-Mailer: PunBB Mailer';
+    $headers = 'From: ' . $from . "\r\n" . 'Date: ' . date('r') . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-transfer-encoding: 8bit' . "\r\n" . 'Content-type: text/plain; charset=UTF-8' . "\r\n" . 'X-Mailer: PunBB Mod v' . $pun_config['o_show_version'];
 
     // Make sure all linebreaks are CRLF in message (and strip out any NULL bytes)
     $message = str_replace(array("\n", "\0"), array("\r\n", ''), pun_linebreaks($message));
