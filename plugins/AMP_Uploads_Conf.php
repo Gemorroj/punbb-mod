@@ -69,7 +69,7 @@ if (isset($_POST['save_options'])) {
 } else if (isset($_POST['add_type'])) {
     $db->query('INSERT INTO ' . $db->prefix . 'uploads_types (type,exts) VALUES ("' . $db->escape($_POST['cat0']) . '","' . $db->escape($_POST['ext0']) . '")') or error('Unable to add new type', __FILE__, __LINE__, $db->error());
     redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &#x2026;');
-} else if (isset($_GET['action']) && isset($_GET['id'])) {
+} else if (isset($_GET['action'], $_GET['id'])) {
     if ($_GET['action'] == 'delete') {
         $db->query('DELETE FROM ' . $db->prefix . 'uploads_types WHERE id=' . intval($_GET['id'])) or error('Unable to delete a type', __FILE__, __LINE__, $db->error());
         redirect('admin_loader.php?plugin=' . $plugin, 'Type deleted, redirecting &#x2026;');

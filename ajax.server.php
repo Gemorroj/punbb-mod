@@ -34,7 +34,7 @@ if (isset($_GET['poll'])) {
     $cur_post = $db->fetch_assoc($result);
 
     echo '[quote=' . $cur_post['poster'] . ']' . $cur_post['message'] . '[/quote]' . "\n";
-} else if (isset($_GET['informer']) && isset($_GET['method'])) {
+} else if (isset($_GET['informer'], $_GET['method'])) {
     header('Content-Type: application/json; charset=UTF-8');
 
     try {

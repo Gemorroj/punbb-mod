@@ -380,10 +380,7 @@ if (isset($_POST['form_sent'])) {
                 if ($_POST['has_poll'] && !$pun_user['is_guest']) {
 
                     $_POST['polldata'] = 'pdescription=' . $_POST['pdescription'] . '&pmultiselect=' . $_POST['pmultiselect'] . '&pexpire=' . $_POST['pexpire'] . '&pquestions=' . $_POST['pquestions'];
-                    unset($_POST['pdescription']);
-                    unset($_POST['pmultiselect']);
-                    unset($_POST['pexpire']);
-                    unset($_POST['pquestions']);
+                    unset($_POST['pdescription'], $_POST['pmultiselect'], $_POST['pexpire'], $_POST['pquestions']);
 
                     include_once PUN_ROOT . 'include/poll/poll.inc.php';
                     $poll_id = $Poll->create($pun_user['id']);

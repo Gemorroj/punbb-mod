@@ -412,12 +412,12 @@ function process_deleted_files($pid, &$total_deleted)
         return $result;
     }
 
-    $aid_list = implode(',', $_POST['delete_image']);
+    $aid_list_str = implode(',', array_map('intval', $_POST['delete_image']));
     $thumb_dir = PUN_ROOT . $pun_config['file_thumb_path'];
     $thumb_files = get_dir_contents($thumb_dir);
 
 // check post_id to prevent hack
-    $result_attach = $db->query('SELECT af.id, af.location FROM ' . $db->prefix . 'attachments AS af WHERE af.post_id=' . $pid . ' AND af.id IN (' . $aid_list . ')') or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
+    $result_attach = $db->query('SELECT af.id, af.location FROM ' . $db->prefix . 'attachments AS af WHERE af.post_id=' . $pid . ' AND af.id IN (' . $aid_list_str . ')') or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
     $aid_list = array();
 
     $total_deleted = 0;
@@ -434,10 +434,10 @@ function process_deleted_files($pid, &$total_deleted)
     }
 
     if ($aid_list) {
+		$total_deleted = count($aid_list);
         $aid_list = implode(',', $aid_list);
         $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id IN (' . $aid_list . ')') or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         $file_limit++;
-        $total_deleted = count($aid_list);
     }
 
     if ($total_deleted) {

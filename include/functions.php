@@ -24,7 +24,6 @@ function is_ip_not_spammer($ip)
     return true;
 }
 
-// Это utf-8
 // Cookie stuff!
 function check_cookie(&$pun_user)
 {
@@ -36,13 +35,10 @@ function check_cookie(&$pun_user)
     $cookie = array('user_id' => 1, 'password_hash' => 'Guest');
 
     // If a cookie is set, we get the user_id and password hash from it
-    /*
+	// @see http://php-security.org/2010/06/25/mops-2010-061-php-splobjectstorage-deserialization-use-after-free-vulnerability/index.html
+	// уязвимость при использовании unserialize
     if (isset($_COOKIE[$cookie_name]) && preg_match('/a:2:{i:0;s:\d+:"(\d+)";i:1;s:\d+:"([0-9a-f]+)";}/', $_COOKIE[$cookie_name], $matches)) {
         list(, $cookie['user_id'], $cookie['password_hash']) = $matches;
-    }
-    */
-    if (isset($_COOKIE[$cookie_name])) {
-        list($cookie['user_id'], $cookie['password_hash']) = unserialize($_COOKIE[$cookie_name]);
     }
 
     if ($cookie['user_id'] > 1) {
@@ -471,8 +467,6 @@ function generate_profile_menu($page = '')
         echo '><a href="profile.php?section=admin&amp;id=' . $id . '">' . $lang_profile['Section admin'] . '</a></li>';
     }
     echo '<li><a href="profile.php?id=' . $id . '&amp;preview=1">' . $lang_profile['Preview'] . '</a></li></ul></div></div></div>';
-
-    return;
 }
 
 
@@ -801,7 +795,7 @@ function wap_message($message, $no_back_link = false)
         require_once PUN_ROOT . 'wap/header.php';
     }
     
-    if (! isset($page_title)) {
+    if (!isset($page_title)) {
         
         $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Info'];
     }
@@ -1274,7 +1268,7 @@ function generate_rss()
         '<title>' . $pun_config['o_board_title'] . '</title>' .
         '<link>' . $pun_config['o_base_url'] . '</link>' .
         '<description>' . $pun_config['o_board_desc'] . '</description>' .
-        '<pubDate>' . date(DATE_RSS, time()) . '</pubDate>' .
+        '<pubDate>' . date(DATE_RSS) . '</pubDate>' .
         '<generator>RSS Generator</generator>' . "\r\n");
 
     //$onlysubforum = 'WHERE t.forum_id=1'; //do not delete
@@ -1335,6 +1329,10 @@ class Getf
     // аттач
     public $attach = true;
 
+	/**
+	 * @param string $file
+	 * @return null|string
+	 */
     public function mime($file)
     {
         // если есть Fileinfo

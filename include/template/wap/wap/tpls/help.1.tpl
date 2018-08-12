@@ -62,7 +62,7 @@
     <input type="text" value="[code][/code]" size="10"/><br/>
     {$lang_help.$produces_code_box}<br/>
 
-    <div class="code">{$lang_common.Code}:<br/><table class="p_cnt" style="white-space: pre;font-family:'Courier New';font-size:8pt;"><tr><td>Hello world!</td></tr></table></div>
+    <div class="code">{$lang_common.Code}:<br/><table class="p_cnt" style="white-space: pre;font-family:'Courier New',monospace;font-size:8pt;"><tr><td>Hello world!</td></tr></table></div>
 </div>
 <div class="con">{$lang_help.$Nested_tags}</div>
 <div class="msg">

@@ -1,4 +1,4 @@
-<?
+<?php
 
 # preparing PNG fonts to use with KCAPTCHA.
 # reads files from folder "../fonts0", scans for symbols ans spaces and writes new font file with cached symbols positions to filder "../fonts"
@@ -39,4 +39,3 @@ if ($handle = opendir('../fonts0')) {
     }
     closedir($handle);
 }
-?> 

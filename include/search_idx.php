@@ -87,8 +87,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
         $words['del']['subject'] = array();
     }
 
-    unset($words_message);
-    unset($words_subject);
+    unset($words_message, $words_subject);
 
 // Get unique words from the above arrays
     $unique_words = array_unique(array_merge($words['add']['post'], $words['add']['subject']));

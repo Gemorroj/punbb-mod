@@ -123,7 +123,7 @@ if ($_GET['action'] == 'rules') {
 
 
     // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to the users profile after the e-mail is sent)
-    $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote($pun_config['o_base_url']) . '/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
+    $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^' . preg_quote($pun_config['o_base_url'], '#') . '/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_misc['Send e-mail to'] . ' ' . pun_htmlspecialchars($recipient);
     $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);

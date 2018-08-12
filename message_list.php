@@ -57,7 +57,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
 
         require_once PUN_ROOT . 'footer.php';
     }
-} else if ($_GET['action'] == 'markall') {
+} else if ($_GET['action'] === 'markall') {
     // Mark all messages as read
     $db->query('UPDATE ' . $db->prefix . 'messages SET showed=1 WHERE owner=' . $pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
     redirect('message_list.php?box=' . $box . '&p=' . $p, $lang_pms['Read redirect']);

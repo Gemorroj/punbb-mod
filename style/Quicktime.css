@@ -25,7 +25,7 @@ text-decoration: none
 #brdmenu a:link, #brdmenu a:visited,
 #brdmenu a:hover {
 color: #000;
-font-family: Arial narrow, Arial, Tahoma;
+font-family: Arial Narrow, Arial, Tahoma, sans-serif;
 line-height: 17px;
 margin-top: -2px;
 font-size: 1.1em;

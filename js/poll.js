@@ -14,7 +14,7 @@ poll.lng = ({
 });
 
 poll.remove = function () {
-    $("#apcreate").text(poll.lng.create).unbind('click').modalBox({
+    $("#apcreate").text(poll.lng.create).off('click').modalBox({
         'title': poll.lng.create_poll, 'height': 600, 'width': 600, 'ajax': "ajax.server.php?poll=gcfrm"
     });
     $("#ppreview").slideUp(200).empty();
@@ -53,7 +53,7 @@ poll.pForm = function () {
     $("#has_poll").val(1);
 
     $('#post').append($('<input type="hidden" name="polldata" id="polldata" value="" />').val($('#pollcreate').serialize()));
-    $("#apcreate").unbind('click').text(poll.lng['delete']).click(poll.remove);
+    $("#apcreate").off('click').text(poll.lng['delete']).click(poll.remove);
     $.modalBox.hideBox(function () {
         $("#ppreview").slideDown(200);
     });

@@ -72,6 +72,7 @@ else if (isset($_GET['del_forum'])) {
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
+			$orphans = array();
             for ($i = 0; $i < $num_orphans; ++$i) {
                 $orphans[] = $db->result($result, $i);
             }

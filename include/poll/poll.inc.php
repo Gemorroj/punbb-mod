@@ -117,10 +117,10 @@ class _Poll
     {
         $questions = array();
 
-        foreach (explode("\n", $value) as $value) {
-            $value = trim($value);
-            if ($value && $value != "\n" && $value != "\t") {
-                $questions[] = array($value, 0);
+        foreach (explode("\n", $value) as $val) {
+			$val = trim($val);
+            if ($val && $val != "\n" && $val != "\t") {
+                $questions[] = array($val, 0);
             }
         }
         return $questions;
@@ -134,8 +134,8 @@ class _Poll
         if (is_int($value)) {
             $answers[] = $value;
         } else {
-            foreach (explode('&', $value) as $value) {
-                $result2 = explode('=', $value);
+            foreach (explode('&', $value) as $val) {
+                $result2 = explode('=', $val);
                 $answers[] = $result2[1];
             }
         }

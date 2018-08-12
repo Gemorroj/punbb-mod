@@ -85,7 +85,7 @@ require_once PUN_ROOT . 'header.php';
         &#160; &#160; [code]<?php echo $lang_help['Code text']; ?>[/code]<br/><br/>
         <?php echo $lang_help['produces code box']; ?><br/><br/>
 
-        <div class="postmsg"><div class="codebox"><div class="incqbox"><h4><?php echo $lang_common['Code']; ?>:</h4><div class="scrollbox" style="height: 4.5em"><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table><tr><td>1</td></tr></table></td><td><table><tr><td><?php echo $lang_help['Code text']; ?></td></tr></table></td></tr></table></div></div></div></div>
+        <div class="postmsg"><div class="codebox"><div class="incqbox"><h4><?php echo $lang_common['Code']; ?>:</h4><div class="scrollbox" style="height: 4.5em"><table class="p_cnt" style="font-family:'Courier New',monospace;"><tr><td style="width:1pt;"><table><tr><td>1</td></tr></table></td><td><table><tr><td><?php echo $lang_help['Code text']; ?></td></tr></table></td></tr></table></div></div></div></div>
     </div>
 </div>
 <h2><?php echo $lang_help['Nested tags']; ?></h2>
@@ -127,8 +127,7 @@ for ($i = 0; $i < $num_smilies; ++$i) {
             echo ' ' . $lang_common['and'] . ' ' . $smiley_text[$next];
 
             // Remove the dupe so we won't display it twice
-            unset($smiley_text[$next]);
-            unset($smiley_img[$next]);
+            unset($smiley_text[$next], $smiley_img[$next]);
         }
     }
 

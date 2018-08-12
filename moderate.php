@@ -26,8 +26,8 @@ if (isset($_GET['get_host'])) {
         $ip = $db->result($result);
     }
 
-
-    if ($whois = gethostbyaddr($ip) != $ip) {
+	$whois = gethostbyaddr($ip);
+    if ($whois != $ip) {
         $whois = ' (' . $whois . ')';
     } else {
         $whois = null;
@@ -149,7 +149,7 @@ if (isset($_GET['tid'])) {
 <fieldset>
 <legend>' . $lang_misc['Confirm delete legend'] . '</legend>
 <div class="infldset">
-<input type="hidden" name="posts" value="' . implode(',', array_keys($posts)) . '" />
+<input type="hidden" name="posts" value="' . htmlspecialchars(implode(',', array_keys($posts))) . '" />
 <p>' . $lang_misc['Delete posts comply'] . '</p>
 </div>
 </fieldset>
