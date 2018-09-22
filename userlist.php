@@ -48,7 +48,7 @@ if ($show_group == -1) {
 }
 echo '>' . $lang_ul['All users'] . '</option>';
 
-$result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
 while ($cur_group = $db->fetch_assoc($result)) {
     if ($cur_group['g_id'] == $show_group) {
@@ -143,7 +143,7 @@ if ($show_post_count) {
 echo '<th class="tcr" scope="col">' . $lang_common['Registered'] . '</th></tr></thead><tbody>';
 
 // Grab the users
-$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM ' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id WHERE u.id>1' . (!empty($where_sql) ? ' AND ' . implode(' AND ', $where_sql) : '') . ' ORDER BY ' . $sort_by . ' ' . $sort_dir . ', u.id ASC ' . ($start_from != -1 ? 'LIMIT ' . $start_from . ', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM `' . $db->prefix . 'users` AS u LEFT JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id WHERE u.id>1' . (!empty($where_sql) ? ' AND ' . implode(' AND ', $where_sql) : '') . ' ORDER BY ' . $sort_by . ' ' . $sort_dir . ', u.id ASC ' . ($start_from != -1 ? 'LIMIT ' . $start_from . ', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $user_title_field = get_title($user_data);

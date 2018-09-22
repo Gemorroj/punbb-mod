@@ -20,7 +20,7 @@ $user_id = intval(@$_GET['user_id']);
 
 
 if (isset($_GET['user_id'])) {
-    $result = $db->query('SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title FROM ' . $db->prefix . 'users AS u JOIN ' . $db->prefix . 'groups AS g ON (u.group_id=g.g_id) WHERE u.id=' . $user_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title FROM `' . $db->prefix . 'users` AS u JOIN `' . $db->prefix . 'groups` AS g ON (u.group_id=g.g_id) WHERE u.id=' . $user_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         message('No user by that ID registered.');
     }

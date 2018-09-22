@@ -45,10 +45,10 @@ function check_cookie(&$pun_user)
         // Check if there's a user with the user ID and password hash from the cookie
         $result = $db->query('
             SELECT u.*, g.*, o.logged, o.idle
-            FROM ' . $db->prefix . 'users AS u
-            INNER JOIN ' . $db->prefix . 'groups AS g ON u.group_id=g.g_id
-            LEFT JOIN ' . $db->prefix . 'online AS o ON o.user_id=u.id
-            WHERE u.id=' . intval($cookie['user_id'])
+            FROM `' . $db->prefix . 'users` AS u
+            INNER JOIN `' . $db->prefix . 'groups` AS g ON u.group_id=g.g_id
+            LEFT JOIN `' . $db->prefix . 'online` AS o ON o.user_id=u.id
+            WHERE u.id=' . (int)$cookie['user_id']
         ) or error('Unable to fetch user information', __FILE__, __LINE__, $db->error());
         $pun_user = $db->fetch_assoc($result);
 
@@ -121,7 +121,13 @@ function set_default_user()
     $remote_addr = get_remote_address();
 
     // Fetch guest user
-    $result = $db->query('SELECT u.*, g.*, o.logged FROM ' . $db->prefix . 'users AS u INNER JOIN ' . $db->prefix . 'groups AS g ON u.group_id=g.g_id LEFT JOIN ' . $db->prefix . 'online AS o ON o.ident=\'' . $remote_addr . '\' WHERE u.id=1') or error('Unable to fetch guest information', __FILE__, __LINE__, $db->error());
+    $result = $db->query('
+      SELECT u.*, g.*, o.logged
+      FROM `' . $db->prefix . 'users` AS u
+      INNER JOIN `' . $db->prefix . 'groups` AS g ON g.g_id = u.group_id
+      LEFT JOIN `' . $db->prefix . 'online` AS o ON o.ident="' . $remote_addr . '"
+      WHERE u.id=1
+    ') or error('Unable to fetch guest information', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         exit('Unable to fetch guest information. The table \'' . $db->prefix . 'users\' must contain an entry with id = 1 that represents anonymous users.');
     }

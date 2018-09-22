@@ -187,10 +187,10 @@ if ($pun_config['poll_enabled'] == 1) {
 
 $result = $db->query('
     SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
-    FROM ' . $db->prefix . 'posts AS p
-    INNER JOIN ' . $db->prefix . 'users AS u ON u.id=p.poster_id
-    INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id
-    LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
+    FROM `' . $db->prefix . 'posts` AS p
+    INNER JOIN `' . $db->prefix . 'users` AS u ON u.id=p.poster_id
+    INNER JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id
+    LEFT JOIN `' . $db->prefix . 'online` AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
     WHERE p.topic_id=' . $id . '
     ORDER BY p.id
     LIMIT ' . $start_from . ',' . $pun_user['disp_posts']

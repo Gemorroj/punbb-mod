@@ -189,7 +189,7 @@ if (isset($_POST['confirm'])) {
                                         <option></option>
                                         <option value="0">Все группы</option>
                                         <?php
-                                        $result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_title != "Guest" ORDER BY g_id');
+                                        $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_title != "Guest" ORDER BY g_id');
                                         while ($groups = $db->fetch_assoc($result)) {
                                             echo '<option value="' . $groups['g_id'] . '">' . pun_htmlspecialchars($groups['g_title']) . '</option>';
                                         }

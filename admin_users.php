@@ -126,7 +126,7 @@ if (isset($_GET['show_users'])) {
         for ($i = 0; $i < $num_posts; ++$i) {
             list($poster_id, $poster) = $db->fetch_row($result);
 
-            $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM ' . $db->prefix . 'users AS u INNER JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id=' . $poster_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+            $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM ' . $db->prefix . 'users AS u INNER JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id=' . $poster_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
             if (($user_data = $db->fetch_assoc($result2))) {
                 $user_title = get_title($user_data);
@@ -269,7 +269,7 @@ if (isset($_GET['show_users'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM ' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id WHERE u.id>1 AND ' . implode(' AND ', $conditions) . ' ORDER BY ' . $db->escape($order_by) . ' ' . $db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `' . $db->prefix . 'users` AS u LEFT JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND ' . implode(' AND ', $conditions) . ' ORDER BY ' . $db->escape($order_by) . ' ' . $db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                     if ($db->num_rows($result)) {
                         while ($user_data = $db->fetch_assoc($result)) {
                             $user_title = get_title($user_data);
@@ -432,7 +432,7 @@ if (isset($_GET['show_users'])) {
                                         <option value="all"
                                                 selected="selected"><?php echo $lang_admin['All groups']; ?></option>
                                         <?php
-                                        $result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                                        $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
                                         while ($cur_group = $db->fetch_assoc($result))
                                             echo '<option value="' . $cur_group['g_id'] . '">' . pun_htmlspecialchars($cur_group['g_title']) . '</option>';

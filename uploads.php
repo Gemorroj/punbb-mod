@@ -79,7 +79,7 @@ if (!$upl_conf) {
 }
 
 
-$result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups') or error('Unable to get usergroups', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups`') or error('Unable to get usergroups', __FILE__, __LINE__, $db->error());
 $i = 0;
 while ($i < $db->num_rows($result)) {
     $groups[$i] = $db->fetch_assoc($result);

@@ -956,7 +956,7 @@ if ($action == 'change_pass') {
 }
 
 // REAL MARK TOPIC AS READ MOD BEGIN
-$result = $db->query('SELECT u.username, u.email, u.title, u.realname, u.url, u.sex, u.birthday, u.jabber, u.icq, u.msn, u.aim, u.yahoo, u.location, u.use_avatar, u.signature, u.disp_topics, u.disp_posts, u.email_setting, u.save_pass, u.notify_with_post, u.show_smilies, u.show_img, u.show_img_sig, u.show_avatars, u.show_sig, u.timezone, u.language, u.style, u.num_posts, u.num_files, u.file_bonus, u.last_post, u.registered, u.registration_ip, u.admin_note, g.g_id, g.g_user_title, u.mark_after, u.show_bbpanel_qpost FROM ' . $db->prefix . 'users AS u LEFT JOIN ' . $db->prefix . 'groups AS g ON g.g_id=u.group_id WHERE u.id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT u.username, u.email, u.title, u.realname, u.url, u.sex, u.birthday, u.jabber, u.icq, u.msn, u.aim, u.yahoo, u.location, u.use_avatar, u.signature, u.disp_topics, u.disp_posts, u.email_setting, u.save_pass, u.notify_with_post, u.show_smilies, u.show_img, u.show_img_sig, u.show_avatars, u.show_sig, u.timezone, u.language, u.style, u.num_posts, u.num_files, u.file_bonus, u.last_post, u.registered, u.registration_ip, u.admin_note, g.g_id, g.g_user_title, u.mark_after, u.show_bbpanel_qpost FROM `' . $db->prefix . 'users` AS u LEFT JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id WHERE u.id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
 
@@ -1832,7 +1832,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                 echo '<legend>' . $lang_profile['Group membership legend'] . '</legend><div class="infldset"><select id="group_id" name="group_id">';
 
 
-                $result = $db->query('SELECT g_id, g_title FROM ' . $db->prefix . 'groups WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
                 while ($cur_group = $db->fetch_assoc($result)) {
                     if ($cur_group['g_id'] == $user['g_id'] || ($cur_group['g_id'] == $pun_config['o_default_user_group'] && !$user['g_id'])) {

@@ -142,9 +142,9 @@ if ($box < 2) {
     u.admin_note,
     u.signature,
     o.user_id AS is_online
-    FROM ' . $db->prefix . 'messages AS m, ' . $db->prefix . 'users AS u
-    LEFT JOIN ' . $db->prefix . 'online AS o ON (o.user_id=u.id AND o.idle=0)
-    LEFT JOIN ' . $db->prefix . 'groups AS g ON u.group_id = g.g_id
+    FROM `' . $db->prefix . 'messages` AS m, `' . $db->prefix . 'users` AS u
+    LEFT JOIN `' . $db->prefix . 'online` AS o ON (o.user_id=u.id AND o.idle=0)
+    LEFT JOIN `' . $db->prefix . 'groups` AS g ON u.group_id = g.g_id
     WHERE ' . $where . ' AND m.id=' . $id
         ) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
         $cur_post = $db->fetch_assoc($result);

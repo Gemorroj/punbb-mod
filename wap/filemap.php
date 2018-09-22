@@ -22,8 +22,8 @@ $user_id = isset($_GET['user_id']) ? (int) $_GET['user_id'] : null;
 if ($user_id) {
     $result = $db->query('
         SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title
-        FROM ' . $db->prefix . 'users AS u
-        JOIN ' . $db->prefix . 'groups AS g ON (u.group_id=g.g_id)
+        FROM `' . $db->prefix . 'users` AS u
+        JOIN `' . $db->prefix . 'groups` AS g ON (u.group_id=g.g_id)
         WHERE u.id=' . $user_id
     ) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
@@ -37,8 +37,8 @@ $fid_list = $categories = $forums = array();
 // get available forum list
 $result = $db->query('
     SELECT f.id AS fid, f.forum_name, f.moderators, fp.file_download
-    FROM ' . $db->prefix . 'forums AS f
-    LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ')
+    FROM `' . $db->prefix . 'forums` AS f
+    LEFT JOIN `' . $db->prefix . 'forum_perms` AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ')
     WHERE fp.read_forum IS NULL OR fp.read_forum=1
     ORDER BY f.id
 ') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
