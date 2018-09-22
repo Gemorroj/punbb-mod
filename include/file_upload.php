@@ -132,7 +132,7 @@ function delete_orphans()
         return $log;
     }
 
-// collect files
+    // collect files
     $files_dir = $pun_config['file_upload_path'];
     $files = get_dir_contents(PUN_ROOT . $files_dir);
     for ($i = 0, $l = count($files); $i < $l; $i++) {
@@ -141,27 +141,27 @@ function delete_orphans()
 
     $result = $db->query('SELECT a.id, a.post_id, a.location, p.id AS pid FROM ' . $db->prefix . 'attachments AS a LEFT JOIN ' . $db->prefix . 'posts AS p ON a.post_id=p.id') or error('Unable to execute query', __FILE__, __LINE__, $db->error());
 
-// check every record
+    // check every record
     while ($attachment = $db->fetch_assoc($result)) {
-// missing post for attachment
+        // missing post for attachment
         if (!$attachment['pid']) {
             $log[] = 'Attachment #' . $attachment['id'] . ': No related post - Deleted';
             $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id=' . $attachment['id']) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         } else {
             $idx = array_search($attachment['location'], $files);
 
-// file not exists but record in 'attachments' is
+            // file not exists but record in 'attachments' is
             if ($idx === false) {
                 $log[] = 'File "' . $attachment['location'] . '" not found. Attathment #' . $attachment['id'] . ' from post #' . $attachment['post_id'] . ' will removed';
                 $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id=' . $attachment['id']) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
             } else {
-// allright, this file attached well. remove them from list
+                // allright, this file attached well. remove them from list
                 array_splice($files, $idx, 1);
             }
         }
     }
 
-// delete all orhpaned files in upload folder
+    // delete all orhpaned files in upload folder
     while (count($files) > 0) {
         $file = $files[0];
         if ($file != 'index.html' && $file != '.htaccess') {
@@ -236,7 +236,7 @@ function fix_user_counters()
     }
     $db->free_result($result);
 
-// erase counters for all users
+    // erase counters for all users
     $db->query('UPDATE ' . $db->prefix . 'users SET num_files=0') or error('Unable to clear user counters', __FILE__, __LINE__, $db->error());
 
     $updated = 0;
@@ -295,23 +295,22 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
     $image_ext = $pun_config['file_image_ext'];
     $image_ext = explode(',', $image_ext);
 
-// Upload all files
+    // Upload all files
     $i = 0;
     $thumb_from = $thumb_to = array();
 
     foreach ($_FILES['attach']['error'] as $key => $error) {
         $i++;
         if ($error == UPLOAD_ERR_OK) {
-
             if ($file_limit <= 0) {
                 break;
             }
 
-// Grab the tmp file location, and the original file name
+            // Grab the tmp file location, and the original file name
             $mime = $_FILES['attach']['type'][$key];
             $tmp_name = $_FILES['attach']['tmp_name'][$key];
-// there are some PHP exploits with fake filenames
-// file_exists() is not secure in this case!
+            // there are some PHP exploits with fake filenames
+            // file_exists() is not secure in this case!
             if (!is_uploaded_file($tmp_name)) {
                 continue;
             }
@@ -319,20 +318,20 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             $size = $_FILES['attach']['size'][$key];
             $file_ext = strtolower(get_file_extension($orig_name));
 
-// Skip files with banned extensions
+            // Skip files with banned extensions
             if (!in_array($file_ext, $allowed_ext) || !$file_ext) {
                 $result .= $orig_name . ' ' . $lang_fu['Extension Banned'] . '.<br />';
                 continue;
             }
 
-// Skip files larger then max file size
+            // Skip files larger then max file size
             if ($size > $pun_config['file_max_size']) {
                 $result .= $orig_name . ' ' . $lang_fu['Size Too Big'] . '.<br />';
                 continue;
             }
 
             if (in_array($file_ext, $image_ext)) {
-// Skip files that have larger then allowed dimensions
+                // Skip files that have larger then allowed dimensions
                 list($width, $height, $type, $attr) = getimagesize($tmp_name);
                 if (!$width || !$height) {
                     $result .= $orig_name . ' ' . $lang_fu['Not Image'] . '.<br />';
@@ -347,12 +346,12 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
                 $dim = null;
             }
 
-// save file to upload directory
+            // save file to upload directory
             $store_name = generate_unique_filename(PUN_ROOT . $dest, '.ext');
             move_uploaded_file($tmp_name, PUN_ROOT . $dest . $store_name);
             chmod($dest . $store_name, 0666);
 
-// NOTE: post author and attachment author may differ (if attach in edit)
+            // NOTE: post author and attachment author may differ (if attach in edit)
             $attach_poster = $GLOBALS['pun_user']['id'];
             $now = time();
             $db->query('INSERT INTO ' . $db->prefix . 'attachments (poster_id, topic_id, post_id, uploaded, filename, mime, location, size, image_dim) VALUES (\'' . $attach_poster . '\', \'' . $tid . '\', \'' . $pid . '\', ' . $now . ', \'' . $db->escape($orig_name) . '\', \'' . $db->escape($mime) . '\', \'' . $db->escape($dest . $store_name) . '\', \'' . $size . '\', \'' . $dim . '\')') or error('Unable to insert attachment record into database.', __FILE__, __LINE__, $db->error());
@@ -388,7 +387,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
         $result .= '<br />' . $lang_fu['Uploaded'] . ' ' . $total_uploaded . ' ' . $lang_fu['files'] . '<br /><br />';
     }
 
-// translate #i to ::thumbNN::
+    // translate #i to ::thumbNN::
     if (strpos($message, '::thumb$') !== false) {
         $message = str_replace($thumb_from, $thumb_to, $message);
         $db->query('UPDATE ' . $db->prefix . 'posts SET message=\'' . $db->escape($message) . '\' WHERE id=' . $pid) or error('Unable to update post', __FILE__, __LINE__, $db->error());
@@ -416,7 +415,7 @@ function process_deleted_files($pid, &$total_deleted)
     $thumb_dir = PUN_ROOT . $pun_config['file_thumb_path'];
     $thumb_files = get_dir_contents($thumb_dir);
 
-// check post_id to prevent hack
+    // check post_id to prevent hack
     $result_attach = $db->query('SELECT af.id, af.location FROM ' . $db->prefix . 'attachments AS af WHERE af.post_id=' . $pid . ' AND af.id IN (' . $aid_list_str . ')') or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
     $aid_list = array();
 
@@ -434,7 +433,7 @@ function process_deleted_files($pid, &$total_deleted)
     }
 
     if ($aid_list) {
-		$total_deleted = count($aid_list);
+        $total_deleted = count($aid_list);
         $aid_list = implode(',', $aid_list);
         $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id IN (' . $aid_list . ')') or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         $file_limit++;
@@ -466,9 +465,9 @@ function delete_files($pid)
     $result_attach = $db->query('SELECT af.id, af.location FROM ' . $db->prefix . 'attachments AS af WHERE af.post_id=' . $pid) or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
 
     while (list($aid, $location) = $db->fetch_row($result_attach)) {
-// Remove attachment
+        // Remove attachment
         unlink($location);
-// Remove all it's thumbnails
+        // Remove all it's thumbnails
         foreach ($thumb_files as $thumb_file) {
             if (preg_match('/^' . $aid . '(-[0-9x]*)?\.jpg$/i', $thumb_file)) {
                 unlink($thumb_dir . $thumb_file);
@@ -507,7 +506,7 @@ function delete_post_attachments($post_ids)
                 $poster_ids[$row['poster_id']] = 1;
             }
 
-// Delete file and all it's possible thumbnails
+            // Delete file and all it's possible thumbnails
             unlink(PUN_ROOT . $row['location']);
             foreach ($thumb_files as $thumb_file) {
                 if (preg_match('/^' . $row['id'] . '-[0-9x]+.*/i', $thumb_file)) {
@@ -518,10 +517,10 @@ function delete_post_attachments($post_ids)
         $db->free_result($result);
 
         if ($att_ids) {
-// Delete attachment records
+            // Delete attachment records
             $db->query('DELETE FROM ' . $db->prefix . 'attachments WHERE id IN(' . $att_ids . ')') or error('Unable to delete attachments', __FILE__, __LINE__, $db->error());
             foreach ($poster_ids as $poster_id => $num_files) {
-// Fix user file counter
+                // Fix user file counter
                 $db->query('UPDATE ' . $db->prefix . 'users SET num_files=IF((num_files-' . $num_files . ')>0, num_files-' . $num_files . ', 0) WHERE id=' . $poster_id) or error('Unable to update users file counter', __FILE__, __LINE__, $db->error());
             }
         }
@@ -556,14 +555,14 @@ function create_thumbnail($orig_fname, $thum_fname, $thumb_width = 100, $thumb_h
 
     $orig_img = $icfunc($orig_fname);
     if (($size[0] <= $thumb_width) && ($size[1] <= $thumb_height)) {
-// use original size
+        // use original size
         $width = $size[0];
         $height = $size[1];
     } else {
         $width = $thumb_width;
         $height = $thumb_height;
 
-// calculate fit ratio
+        // calculate fit ratio
         $ratio_width = $size[0] / $thumb_width;
         $ratio_height = $size[1] / $thumb_height;
 
@@ -622,8 +621,8 @@ function require_thumb($aid, $location, $width = 100, $height = 100, $do_cut = f
         $thum_fname = require_thumb_name($aid, $width, $height, $do_cut);
         if (!is_file($thum_fname)) {
             @set_time_limit(10);
-// if any error, create_thumbnail() will not call again, but
-// thumbnail will be copy of err_thumb.gif
+            // if any error, create_thumbnail() will not call again, but
+            // thumbnail will be copy of err_thumb.gif
             copy(PUN_ROOT . $pun_config['file_thumb_path'] . 'err_thumb.gif', $thum_fname);
             create_thumbnail($location, $thum_fname, $width, $height, $do_cut);
         }

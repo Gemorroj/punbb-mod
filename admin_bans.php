@@ -17,7 +17,6 @@ if ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config
 
 // Add/edit a ban (stage 1)
 if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
-
     if (isset($_GET['add_ban']) || isset($_POST['add_ban'])) {
         // If the id of the user to ban was provided through GET (a link from profile.php)
         if (isset($_GET['add_ban'])) {
@@ -162,7 +161,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_POST['add_edit_ban'])) {
+} elseif (isset($_POST['add_edit_ban'])) {
     // Add/edit a ban (stage 2)
     //confirm_referrer('admin_bans.php');
 
@@ -174,7 +173,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 
     if (!$ban_user && !$ban_ip && !$ban_email) {
         message($lang_admin['bans_no']);
-    } else if (strtolower($ban_user) == 'guest') {
+    } elseif (strtolower($ban_user) == 'guest') {
         message($lang_admin['bans_guest']);
     }
 
@@ -235,7 +234,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     generate_bans_cache();
 
     redirect('admin_bans.php', $lang_admin['Updated'] . ' ' . $lang_admin['Redirect']);
-} else if (isset($_GET['del_ban'])) {
+} elseif (isset($_GET['del_ban'])) {
     // Remove a ban
     //confirm_referrer('admin_bans.php');
 

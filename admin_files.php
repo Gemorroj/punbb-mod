@@ -18,11 +18,11 @@ if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_P
 
 // If the "Show text" button was clicked
 if (isset($_POST['save'])) {
-//confirm_referrer('admin_files.php');
+    //confirm_referrer('admin_files.php');
 
     $form = array_map('trim', $_POST['form']);
 
-// Error checking
+    // Error checking
     if (!$form['upload_path']) {
         message('You must enter an upload path.', true);
     }
@@ -100,7 +100,7 @@ if (isset($_POST['save'])) {
     $form['allowed_ext'] = strtolower($form['allowed_ext']);
 
     foreach ($form as $key => $input) {
-// Only update values that have changed
+        // Only update values that have changed
         if (array_key_exists('file_' . $key, $pun_config) && $pun_config['file_' . $key] != $input) {
             if ($input || is_int($input)) {
                 $value = '\'' . $db->escape($input) . '\'';
@@ -112,23 +112,22 @@ if (isset($_POST['save'])) {
         }
     }
 
-// Regenerate the config cache
+    // Regenerate the config cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
 
     redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
-} else // If not, we show the "Show text" form
-{
+} else { // If not, we show the "Show text" form
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Files';
     $focus_element = array('files', 'form[upload_path]');
     require_once PUN_ROOT . 'header.php';
 
-// Display the admin navigation menu
+    // Display the admin navigation menu
     generate_admin_menu('files');
 
 
     if (isset($_POST['show_errors'])) {
-//confirm_referrer('admin_files.php');
+        //confirm_referrer('admin_files.php');
 
         $log = show_problems();
 
@@ -152,7 +151,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['delete_orphans'])) {
-//confirm_referrer('admin_files.php');
+        //confirm_referrer('admin_files.php');
 
         $log = delete_orphans();
 
@@ -176,7 +175,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['delete_thumbnails'])) {
-//confirm_referrer('admin_files.php');
+        //confirm_referrer('admin_files.php');
 
         $log = delete_all_thumbnails();
 
@@ -200,7 +199,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['fix_counters'])) {
-//confirm_referrer('admin_files.php');
+        //confirm_referrer('admin_files.php');
 
         $log = fix_user_counters();
 
@@ -221,9 +220,7 @@ if (isset($_POST['save'])) {
 </div>
 </div>
 <br />';
-
-    }
-    ?>
+    } ?>
 <div id="imageupload" class="blockform">
     <h2><span>Файловые параметры</span></h2>
 
@@ -341,11 +338,17 @@ if (isset($_POST['save'])) {
                                 <th scope="row">Доп. информация</th>
                                 <td>
                                     <input type="radio" name="form[popup_info]"
-                                           value="0"<?php if (!$pun_config['file_popup_info']) echo ' checked="checked"' ?> />
+                                           value="0"<?php if (!$pun_config['file_popup_info']) {
+        echo ' checked="checked"';
+    } ?> />
                                     Нет <input type="radio" name="form[popup_info]"
-                                               value="1"<?php if ($pun_config['file_popup_info'] == 1) echo ' checked="checked"' ?> />
+                                               value="1"<?php if ($pun_config['file_popup_info'] == 1) {
+        echo ' checked="checked"';
+    } ?> />
                                     Поп-ап <input type="radio" name="form[popup_info]"
-                                                  value="2"<?php if ($pun_config['file_popup_info'] == '2') echo ' checked="checked"' ?> />
+                                                  value="2"<?php if ($pun_config['file_popup_info'] == '2') {
+        echo ' checked="checked"';
+    } ?> />
                                     На месте
                                     <span>Выберите метод отображения дополнительной информации. Вы можете выбрать варианты "не выводить совсем", "во всплывающем окне" или "статичная информация в сообщении".</span>
                                 </td>
@@ -409,7 +412,6 @@ if (isset($_POST['save'])) {
 <div class="clearer"></div>
 </div>
 <?php
-
 }
 
 require_once PUN_ROOT . 'footer.php';

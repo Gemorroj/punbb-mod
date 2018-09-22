@@ -14,7 +14,7 @@ header('Content-Type: text/html; charset=UTF-8');
 // Load the template
 if (defined('PUN_ADMIN_CONSOLE')) {
     $tpl_main = file_get_contents(PUN_ROOT . 'include/template/admin.tpl');
-} else if (defined('PUN_HELP')) {
+} elseif (defined('PUN_HELP')) {
     $tpl_main = file_get_contents(PUN_ROOT . 'include/template/help.tpl');
 } else {
     $tpl_main = file_get_contents(PUN_ROOT . 'include/template/main.tpl');
@@ -166,12 +166,12 @@ if ($pun_user['is_guest']) {
     } elseif ($basename == 'viewforum.php') {
         // REAL MARK TOPICS AS READ MOD	BEGIN
         $tpl_temp .= '</ul><ul class="conr"><li><a href="misc.php?action=markread&amp;fid=' . $id . '">' . $lang_common['Mark all as read'] . '</a></li></ul><div class="clearer"></div></div>';
-        // REAL MARK TOPICS AS READ MOD	END
+    // REAL MARK TOPICS AS READ MOD	END
     } else {
         /// MOD PRINTABLE TOPIC BEGIN
         if ($basename == 'viewtopic.php') {
             $tpl_temp .= '</ul><ul class="conr"><li><span class="printable"><a href="viewprintable.php?id=' . $id . '">' . $lang_common['Print version'] . '</a></span></li></ul><div class="clearer"></div></div>';
-            /// MOD PRINTABLE TOPIC END
+        /// MOD PRINTABLE TOPIC END
         } else {
             $tpl_temp .= '</ul><div class="clearer"></div></div>';
         }

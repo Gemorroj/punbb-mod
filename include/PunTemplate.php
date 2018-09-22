@@ -1,5 +1,7 @@
 <?php
-if (!defined('PUN')) exit();
+if (!defined('PUN')) {
+    exit();
+}
 define('PUN_TEMPLATE', 1);
 
 

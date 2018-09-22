@@ -71,6 +71,6 @@ $lang_pms = array(
     'Popup send'		=>		' Отправлено - ',
     'Popup open msg'		=>		'Открыть это сообщение в этом же окне',
     'Popup go in'		=>		'Перейти в папку Входящие',
-	'Popup close'		=>		'Закрыть это окно',
-	'Popup open this'		=>		'Открыть в этом окне'
+    'Popup close'		=>		'Закрыть это окно',
+    'Popup open this'		=>		'Открыть в этом окне'
 );

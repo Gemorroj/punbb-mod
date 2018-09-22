@@ -12,11 +12,11 @@ if (!$pun_user['g_read_board']) {
 //+ Real mark topic as read mod
 // под вопросом!
 if (!$pun_user['is_guest']) {
-    
     $db->query(
     'DELETE FROM `' . $db->prefix . 'log_forums` '
     . 'WHERE `log_time` < ' . ($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']) . ' '
-    . 'AND `user_id`=' . $pun_user['id'])
+    . 'AND `user_id`=' . $pun_user['id']
+    )
     or error('Unable to delete marked as read forum info', __FILE__, __LINE__, $db->error());
 }
 //- Real mark topic as read mod
@@ -66,7 +66,8 @@ $stats = array();
 $result = $db->query(
 'SELECT COUNT(1) - 1 '
 . 'FROM `' . $db->prefix . 'users` '
-. 'LIMIT 1')
+. 'LIMIT 1'
+)
 or error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
 $stats['total_users'] = $db->result($result);
 
@@ -74,14 +75,16 @@ $result = $db->query(
 'SELECT `id`, `username` '
 . 'FROM `' . $db->prefix . 'users` '
 . 'ORDER BY `registered` DESC '
-. 'LIMIT 1') 
+. 'LIMIT 1'
+)
 or error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
 $stats['last_user'] = $db->fetch_assoc($result);
 
 $result = $db->query(
 'SELECT SUM(`num_topics`), SUM(`num_posts`) '
 . 'FROM `' . $db->prefix . 'forums` '
-. 'LIMIT 1')
+. 'LIMIT 1'
+)
 or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
 list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
 
@@ -94,7 +97,8 @@ if ($pun_config['o_users_online'] == 1) {
     . 'FROM `' . $db->prefix . 'online` '
     . 'WHERE `idle`=0 '
     . 'ORDER BY `ident`;
-    ') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    '
+    ) or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
     
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {
@@ -124,14 +128,14 @@ require_once(PUN_ROOT . 'wap/header.php');
 $page_title = $pun_config['o_board_title'];
 
 $smarty->assign('page_title', $page_title);
-$smarty->assign('forums',     $forums);
+$smarty->assign('forums', $forums);
 $smarty->assign('lang_index', $lang_index);
-$smarty->assign('lang_pms',   $lang_pms);
-$smarty->assign('pun_user',   $pun_user);
-$smarty->assign('stats',      $stats);
-$smarty->assign('logout',     sha1($pun_user['id'] . sha1(get_remote_address())));
-$smarty->assign('users',      $users);
-$smarty->assign('num_users',  $num_users);
+$smarty->assign('lang_pms', $lang_pms);
+$smarty->assign('pun_user', $pun_user);
+$smarty->assign('stats', $stats);
+$smarty->assign('logout', sha1($pun_user['id'] . sha1(get_remote_address())));
+$smarty->assign('users', $users);
+$smarty->assign('num_users', $num_users);
 $smarty->assign('num_guests', $num_guests);
 
 $smarty->display('index.tpl');

@@ -28,8 +28,7 @@ if ($action == 'rules') {
     $smarty->display('misc.rules.tpl');
 
     exit();
-
-} else if ($action == 'markread') {
+} elseif ($action == 'markread') {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);
     }
@@ -61,7 +60,7 @@ if ($action == 'rules') {
     // REAL MARK TOPIC AS READ MOD END
 
     wap_redirect('index.php');
-} else if (isset($_GET['email'])) {
+} elseif (isset($_GET['email'])) {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);
     }
@@ -89,9 +88,9 @@ if ($action == 'rules') {
 
         if (!$subject) {
             wap_message($lang_misc['No e-mail subject']);
-        } else if (!$message) {
+        } elseif (!$message) {
             wap_message($lang_misc['No e-mail message']);
-        } else if (mb_strlen($message) > 65535) {
+        } elseif (mb_strlen($message) > 65535) {
             wap_message($lang_misc['Too long e-mail message']);
         }
 
@@ -133,8 +132,7 @@ if ($action == 'rules') {
     $smarty->display('misc.email.tpl');
 
     exit();
-
-} else if (isset($_GET['report'])) {
+} elseif (isset($_GET['report'])) {
     if ($pun_user['is_guest']) {
         wap_message($lang_common['No permission']);
     }
@@ -199,8 +197,7 @@ if ($action == 'rules') {
     $smarty->display('misc.report.tpl');
 
     exit();
-
-} else if (isset($_GET['subscribe'])) {
+} elseif (isset($_GET['subscribe'])) {
     if ($pun_user['is_guest'] || $pun_config['o_subscriptions'] != 1) {
         wap_message($lang_common['No permission']);
     }
@@ -224,7 +221,7 @@ if ($action == 'rules') {
     $db->query('INSERT INTO ' . $db->prefix . 'subscriptions (user_id, topic_id) VALUES(' . $pun_user['id'] . ' ,' . $topic_id . ')') or error('Unable to add subscription', __FILE__, __LINE__, $db->error());
 
     wap_redirect('viewtopic.php?id=' . $topic_id);
-} else if (isset($_GET['unsubscribe'])) {
+} elseif (isset($_GET['unsubscribe'])) {
     if ($pun_user['is_guest'] || $pun_config['o_subscriptions'] != 1) {
         wap_message($lang_common['No permission']);
     }

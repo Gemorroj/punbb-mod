@@ -26,7 +26,8 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php';
 
 
 // If a post ID is specified we determine topic ID and page number so we can redirect to the correct message
-$result = $db->query('
+$result = $db->query(
+    '
     SELECT `topic_id`
     FROM `' . $db->prefix . 'posts`
     WHERE `id`=' . $pid
@@ -99,7 +100,8 @@ if (!$pun_user['is_guest']) {
             )
         ') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
-        $result = $db->query('
+        $result = $db->query(
+            '
             UPDATE ' . $db->prefix . 'log_topics
             SET forum_id=' . $cur_topic['forum_id'] . ',
             log_time=' . $cur_time . '
@@ -108,7 +110,8 @@ if (!$pun_user['is_guest']) {
         ) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
-    $result = $db->query('
+    $result = $db->query(
+        '
         SELECT t.id, t.last_post, lt.log_time
         FROM ' . $db->prefix . 'topics AS t
         LEFT JOIN ' . $db->prefix . 'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id=' . $pun_user['id'] . '
@@ -125,7 +128,8 @@ if (!$pun_user['is_guest']) {
 
     if (!$find_new) {
         $cur_time = $cur_time + 10;
-        $result = $db->query('
+        $result = $db->query(
+            '
             UPDATE ' . $db->prefix . 'log_forums
             SET log_time=' . $cur_time . '
             WHERE forum_id=' . $cur_topic['forum_id'] . '
@@ -238,7 +242,8 @@ $bg_switch = true; // Used for switching background color in posts
 $post_count = 0; // Keep track of post numbers
 
 // Retrieve the posts (and their respective poster/online status)
-$result = $db->query('
+$result = $db->query(
+    '
     SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
     FROM `' . $db->prefix . 'posts` AS p
     INNER JOIN `' . $db->prefix . 'users` AS u ON u.id=p.poster_id

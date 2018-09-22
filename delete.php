@@ -48,13 +48,13 @@ if (isset($_POST['delete'])) {
     include PUN_ROOT . 'include/search_idx.php';
 
     if ($is_topic_post) {
-// Delete the topic and all of it's posts
+        // Delete the topic and all of it's posts
         delete_topic($cur_post['tid']);
         update_forum($cur_post['fid']);
         generate_rss();
         redirect('viewforum.php?id=' . $cur_post['fid'], $lang_delete['Topic del redirect']);
     } else {
-// Delete just this one post
+        // Delete just this one post
         delete_post($id, $cur_post['tid']);
         update_forum($cur_post['fid']);
 

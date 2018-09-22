@@ -48,9 +48,9 @@ if (isset($_POST['form_sent'])) {
     $subject = pun_trim($_POST['req_subject']);
     if (!$subject) {
         wap_message($lang_post['No subject']);
-    } else if (mb_strlen($subject) > 70) {
+    } elseif (mb_strlen($subject) > 70) {
         wap_message($lang_post['Too long subject']);
-    } else if (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
+    } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
         $subject = ucwords(mb_strtolower($subject));
     }
 
@@ -60,9 +60,9 @@ if (isset($_POST['form_sent'])) {
     // Check message
     if (!$message) {
         wap_message($lang_post['No message']);
-    } else if (mb_strlen($message) > 65535) {
+    } elseif (mb_strlen($message) > 65535) {
         wap_message($lang_post['Too long message']);
-    } else if (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
+    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
         $message = ucwords(strtolower($message));
     }
 
@@ -152,7 +152,7 @@ if (isset($_POST['form_sent'])) {
     
     if ($from_profile) {
         wap_redirect('profile.php?id=' . $from_profile);
-    } else if ($topic_redirect) {
+    } elseif ($topic_redirect) {
         wap_redirect('viewtopic.php?id=' . $topic_redirect);
     } else {
         wap_redirect('message_list.php');
@@ -198,9 +198,9 @@ if (isset($_POST['form_sent'])) {
     $smarty->assign('page_title', $page_title);
     
     $smarty->assign('username', @$username);
-    $smarty->assign('subject',  @$subject);
-    $smarty->assign('quote',    @$quote);
-    $smarty->assign('lang_pms',  $lang_pms);
+    $smarty->assign('subject', @$subject);
+    $smarty->assign('quote', @$quote);
+    $smarty->assign('lang_pms', $lang_pms);
     $smarty->assign('lang_post', $lang_post);
 
     $smarty->display('message_send.tpl');

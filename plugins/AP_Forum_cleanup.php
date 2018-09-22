@@ -42,29 +42,29 @@ if (isset($_POST['forum_post_sync'])) {
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'forum_topics SELECT forum_id, count(*) as topics FROM ' . $db->prefix . 'topics GROUP BY forum_id') or error('Creating topics table failed', __FILE__, __LINE__, $db->error());
     $db->query('UPDATE ' . $db->prefix . 'forums, ' . $db->prefix . 'forum_topics SET num_topics=topics WHERE id=forum_id') or error('Could not update topic counts', __FILE__, __LINE__, $db->error());
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Форумы синхронизированы');
-} else if (isset($_POST['topic_post_sync'])) {
+} elseif (isset($_POST['topic_post_sync'])) {
     // synchronise topic posts
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'topic_posts SELECT topic_id, count(*)-1 as replies FROM ' . $db->prefix . 'posts GROUP BY topic_id') or error('Creating topics table failed', __FILE__, __LINE__, $db->error());
     $db->query('UPDATE ' . $db->prefix . 'topics, ' . $db->prefix . 'topic_posts SET num_replies=replies WHERE id=topic_id') or error('Could not update topic counts', __FILE__, __LINE__, $db->error());
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Темы синхронизированы');
-} else if (isset($_POST['user_post_sync'])) {
+} elseif (isset($_POST['user_post_sync'])) {
     // synchronise user posts
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'user_posts SELECT poster_id, count(*)as posts FROM ' . $db->prefix . 'posts GROUP BY poster_id') or error('Creating posts table failed', __FILE__, __LINE__, $db->error());
     $db->query('UPDATE ' . $db->prefix . 'users, ' . $db->prefix . 'user_posts SET num_posts=posts WHERE id=poster_id') or error('Could not update post counts', __FILE__, __LINE__, $db->error());
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Количество сообщений пользователей синхронизированы');
-} else if (isset($_POST['forum_last_post'])) {
+} elseif (isset($_POST['forum_last_post'])) {
     // synchronise forum last posts
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'forum_last SELECT p.posted AS n_last_post, p.id AS n_last_post_id, p.poster AS n_last_poster, t.forum_id FROM ' . $db->prefix . 'posts AS p LEFT JOIN ' . $db->prefix . 'topics AS t ON p.topic_id=t.id ORDER BY p.posted DESC') or error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'forum_lastb SELECT * FROM ' . $db->prefix . 'forum_last WHERE forum_id > 0 GROUP BY forum_id') or error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
     $db->query('UPDATE ' . $db->prefix . 'forums, ' . $db->prefix . 'forum_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=forum_id') or error('Could not update last post', __FILE__, __LINE__, $db->error());
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения форума синхронизированы');
-} else if (isset($_POST['topic_last_post'])) {
+} elseif (isset($_POST['topic_last_post'])) {
     // synchronise topic last posts
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'topic_last SELECT posted AS n_last_post, id AS n_last_post_id, poster AS n_last_poster, topic_id FROM ' . $db->prefix . 'posts ORDER BY posted DESC') or error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'topic_lastb SELECT * FROM ' . $db->prefix . 'topic_last WHERE topic_id > 0 GROUP BY topic_id') or error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
     $db->query('UPDATE ' . $db->prefix . 'topics, ' . $db->prefix . 'topic_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=topic_id') or error('Could not update last post', __FILE__, __LINE__, $db->error());
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения тем синхронизированы');
-} else if (isset($_POST['delete_orphans'])) {
+} elseif (isset($_POST['delete_orphans'])) {
     // Clear orphans
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $db->prefix . 'orph_topic SELECT t.id as o_id FROM ' . $db->prefix . 'topics AS t LEFT JOIN ' . $db->prefix . 'posts AS p ON p.topic_id = t.id WHERE p.id IS NULL') or error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
     $db->query('DELETE ' . $db->prefix . 'topics FROM ' . $db->prefix . 'topics, ' . $db->prefix . 'orph_topic WHERE o_id=id') or error('Could not delete topics', __FILE__, __LINE__, $db->error());
@@ -75,8 +75,7 @@ if (isset($_POST['forum_post_sync'])) {
     redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Предки удалены');
 } else {
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка форумов - v<?php echo PLUGIN_VERSION; ?></span></h2>
 

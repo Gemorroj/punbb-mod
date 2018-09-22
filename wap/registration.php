@@ -27,7 +27,7 @@ if (!$pun_config['o_regs_allow']) {
 // User pressed the cancel button
 if (@$_GET['cancel']) {
     wap_redirect('index.php');
-} else if ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
+} elseif ($pun_config['o_rules'] == 1 && !$_GET['agree'] && !$_POST['form_sent']) {
     $page_title = $pun_config['o_board_title'] . ' / ' . $lang_registration['Register'];
 
     $smarty->assign('page_title', $page_title);
@@ -35,8 +35,7 @@ if (@$_GET['cancel']) {
 
     $smarty->display('registration.agree.tpl');
     exit();
-
-} else if (isset($_POST['form_sent'])) {
+} elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
     $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE registration_ip=\'' . get_remote_address() . '\' AND registered>' . (time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
@@ -87,19 +86,19 @@ if (@$_GET['cancel']) {
     // Validate username and passwords
     if (mb_strlen($username) < 2) {
         wap_message($lang_prof_reg['Username too short']);
-    } else if (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } elseif (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         wap_message($lang_common['Bad request']);
-    } else if (mb_strlen($password1) < 4) {
+    } elseif (mb_strlen($password1) < 4) {
         wap_message($lang_prof_reg['Pass too short']);
-    } else if ($password1 != $password2) {
+    } elseif ($password1 != $password2) {
         wap_message($lang_prof_reg['Pass not match']);
-    } else if (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+    } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
         wap_message($lang_prof_reg['Username guest']);
-    } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         wap_message($lang_prof_reg['Username IP']);
-    } else if ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
+    } elseif ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
         wap_message($lang_prof_reg['Username reserved chars']);
-    } else if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
+    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
         wap_message($lang_prof_reg['Username BBCode']);
     }
 

@@ -46,8 +46,7 @@ $lang_post = array(
 
 function seconds_st($nm)
 {
-    switch ($nm)
-    {
+    switch ($nm) {
         case 1:
         case 21:
         case 31:
@@ -83,8 +82,7 @@ function seconds_st($nm)
 
 function minutes_st($nm)
 {
-    switch ($nm)
-    {
+    switch ($nm) {
         case 1:
         case 21:
         case 31:
@@ -120,8 +118,7 @@ function minutes_st($nm)
 
 function hours_st($nm)
 {
-    switch ($nm)
-    {
+    switch ($nm) {
         case 1:
         case 21:
             $st = 'hours';
@@ -144,8 +141,7 @@ function hours_st($nm)
 
 function days_st($nm)
 {
-    switch ( $nm )
-    {
+    switch ($nm) {
         case 1:
         case 21:
             $st = 'days';

@@ -116,7 +116,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
         if ($error) {
             // A BBCode error was spotted in check_tag_order()
             $errors[] = $error;
-        } else if ($overflow) {
+        } elseif ($overflow) {
             // The quote depth level was too high, so we strip out the inner most quote(s)
             $text = substr($text, 0, $overflow[0]) . substr($text, $overflow[1], (strlen($text) - $overflow[0]));
         }
@@ -212,7 +212,7 @@ function check_tag_order($text, &$error)
 
             ++$q_depth;
             $text = substr($text, $q3_start + $step);
-        } else if ($q_end < min($q_start, $c_start, $c_end, $h_start, $h_end)) {
+        } elseif ($q_end < min($q_start, $c_start, $c_end, $h_start, $h_end)) {
             // We found a [/quote]
             if (!$q_depth) {
                 $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 1'];
@@ -228,7 +228,7 @@ function check_tag_order($text, &$error)
             }
 
             $text = substr($text, $q_end + 8);
-        } else if ($c_start < min($c_end, $q_start, $q_end, $h_start, $h_end)) {
+        } elseif ($c_start < min($c_end, $q_start, $q_end, $h_start, $h_end)) {
             // We found a [code]
             // Make sure there's a [/code] and that any new [code] doesn't occur before the end tag
             $tmp = strpos($text, '[/code]');
@@ -245,7 +245,7 @@ function check_tag_order($text, &$error)
             }
 
             $cur_index += $tmp + 7;
-        } else if ($c_end < min($c_start, $q_start, $q_end, $h_start, $h_end)) {
+        } elseif ($c_end < min($c_start, $q_start, $q_end, $h_start, $h_end)) {
             // We found a [/code] (this shouldn't happen since we handle both start and end tag in the if clause above)
             $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 3'];
             return;
@@ -264,7 +264,7 @@ function check_tag_order($text, &$error)
 
             ++$h_depth;
             $text = substr($text, $h3_start + $step);
-        } else if ($h_end < min($h_start, $c_start, $c_end, $q_start, $q_end)) {
+        } elseif ($h_end < min($h_start, $c_start, $c_end, $q_start, $q_end)) {
             // We found a [/hide]
             if (!$h_depth) {
                 $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 7'];
@@ -287,7 +287,7 @@ function check_tag_order($text, &$error)
     if ($q_depth) {
         $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 4'];
         return;
-    } else if ($q_depth < 0) {
+    } elseif ($q_depth < 0) {
         $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 5'];
         return;
     }
@@ -296,7 +296,7 @@ function check_tag_order($text, &$error)
     if ($h_depth) {
         $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 7'];
         return;
-    } else if ($h_depth < 0) {
+    } elseif ($h_depth < 0) {
         $error = $lang_common['BBCode error'] . ' ' . $lang_common['BBCode error 8'];
         return;
     }
@@ -351,9 +351,9 @@ function handle_url_tag($url, $link = '')
     );
     if (strpos($url, 'www.') === 0) { // If it starts with www, we add http://
         $full_url = 'http://' . $full_url;
-    } else if (strpos($url, 'ftp.') === 0) { // Else if it starts with ftp, we add ftp://
+    } elseif (strpos($url, 'ftp.') === 0) { // Else if it starts with ftp, we add ftp://
         $full_url = 'ftp://' . $full_url;
-    } else if (!preg_match('#^([a-z0-9]{3,6})://#', $url, $bah)) { // Else if it doesn't start with abcdef://, we add http://
+    } elseif (!preg_match('#^([a-z0-9]{3,6})://#', $url, $bah)) { // Else if it doesn't start with abcdef://, we add http://
         $full_url = 'http://' . $full_url;
     }
 
@@ -407,7 +407,7 @@ function handle_img_tag_modern($align, $url, $is_signature = false)
 
     if ($is_signature && $pun_user['show_img_sig']) {
         $img_tag = '<img class="sigimage" src="' . $url . '" alt="' . htmlspecialchars($url) . '" />';
-    } else if (!$is_signature && $pun_user['show_img']) {
+    } elseif (!$is_signature && $pun_user['show_img']) {
         if ($align) {
             $img_tag = '<img class="postimg" style="float: ' . $align . '; clear: ' . $align . '" src="' . $url . '" alt="' . htmlspecialchars($url) . '" />';
         }
@@ -428,7 +428,7 @@ function handle_img_tag($url, $is_signature = false)
 
     if ($is_signature && $pun_user['show_img_sig']) {
         $img_tag = '<img class="sigimage" src="' . $url . '" alt="' . htmlspecialchars($url) . '" />';
-    } else if (!$is_signature && $pun_user['show_img']) {
+    } elseif (!$is_signature && $pun_user['show_img']) {
         $img_tag = '<img class="postimg" src="' . $url . '" alt="' . htmlspecialchars($url) . '" />';
     }
 
@@ -452,11 +452,13 @@ function handle_poll_tag($pid)
     return $poll_tag;
 }
 
-function _replace_quote(array $matches) {
+function _replace_quote(array $matches)
+{
     global $lang_common;
     return '</p><blockquote><div class="incqbox"><h4>' . str_replace(array('[', '\"'), array('&#91;', '"'), $matches[2]) . ' ' . $lang_common['wrote'] . ':</h4><p>';
 }
-function _replace_quote_wap(array $matches) {
+function _replace_quote_wap(array $matches)
+{
     global $lang_common;
     return '<div class="quote"><strong>' . str_replace(array('[', '\"'), array('&#91;', '"'), $matches[2]) . ' ' . $lang_common['wrote'] . ':</strong><br />';
 }
@@ -767,7 +769,7 @@ function _replace_poll(array $matches)
     return handle_poll_tag($matches[1]);
 }
 
-function do_code ($text, $inside = array())
+function do_code($text, $inside = array())
 {
     global $pun_config, $lang_common, $pun_user;
     $wap = pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME) == 'wap';
@@ -816,7 +818,6 @@ function do_code ($text, $inside = array())
                     $code = $num_line = '';
                     $span = '<span>';
                     for ($i2 = 0; $i2 < $s; ++$i2) {
-
                         if ($c[$i2] === '') {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
@@ -841,7 +842,6 @@ function do_code ($text, $inside = array())
                             }
                         }
                         $num_line .= '<tr><td>' . ($i2 + 1) . '</td></tr>';
-
                     }
                 } else {
                     if (substr($code, -7) === '</span>') {

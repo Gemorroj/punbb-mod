@@ -35,15 +35,16 @@ function check_cookie(&$pun_user)
     $cookie = array('user_id' => 1, 'password_hash' => 'Guest');
 
     // If a cookie is set, we get the user_id and password hash from it
-	// @see http://php-security.org/2010/06/25/mops-2010-061-php-splobjectstorage-deserialization-use-after-free-vulnerability/index.html
-	// уязвимость при использовании unserialize
+    // @see http://php-security.org/2010/06/25/mops-2010-061-php-splobjectstorage-deserialization-use-after-free-vulnerability/index.html
+    // уязвимость при использовании unserialize
     if (isset($_COOKIE[$cookie_name]) && preg_match('/a:2:{i:0;s:\d+:"(\d+)";i:1;s:\d+:"([0-9a-f]+)";}/', $_COOKIE[$cookie_name], $matches)) {
         list(, $cookie['user_id'], $cookie['password_hash']) = $matches;
     }
 
     if ($cookie['user_id'] > 1) {
         // Check if there's a user with the user ID and password hash from the cookie
-        $result = $db->query('
+        $result = $db->query(
+            '
             SELECT u.*, g.*, o.logged, o.idle
             FROM `' . $db->prefix . 'users` AS u
             INNER JOIN `' . $db->prefix . 'groups` AS g ON u.group_id=g.g_id
@@ -72,7 +73,7 @@ function check_cookie(&$pun_user)
 
         // Set a default style if the user selected style no longer exists
         // if (!@file_exists(PUN_ROOT . 'style_wap/' . $pun_user['style_wap'] . '.css')) {
-            // $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
+        // $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
         // }
         if (!@is_file(PUN_ROOT . '/style/wap/' . $pun_user['style_wap'] . '/style.css')) {
             $pun_user['style_wap'] = $pun_config['o_default_style_wap'];
@@ -256,7 +257,7 @@ function generate_navlinks()
     if ($pun_config['o_rules'] == 1) {
         $links[] = '<li id="navrules"><a href="misc.php?action=rules">' . $lang_common['Rules'] . '</a>';
     }
-//-для гостя
+    //-для гостя
     if ($pun_user['is_guest']) {
         if ($pun_user['g_search'] == 1) {
             $links[] = '<li id="navsearch"><a href="search.php">' . $lang_common['Search'] . '</a>';
@@ -396,7 +397,7 @@ function generate_wap_1_navlinks()
             //для юзеров
 
             $links[] = '<a href="profile.php?id=' . $pun_user['id'] . '">' . $lang_common['Profile'] . ' (<span style="font-weight: bold">' . pun_htmlspecialchars($pun_user['username']) . '</span>)</a>';
-            // PMS MOD BEGIN           
+            // PMS MOD BEGIN
             include PUN_ROOT . 'include/pms/functions_wap_navlinks.php';
             // PMS MOD END
             $links[] = '<a href="login.php?action=out&amp;id=' . $pun_user['id'] . '&amp;csrf_token=' . sha1($pun_user['id'] . sha1(get_remote_address())) . '">' . $lang_common['Logout'] . '</a>';
@@ -569,7 +570,7 @@ function delete_post($post_id, $topic_id)
     global $db, $pun_user;
 
     $result = $db->query('SELECT `id`, `poster`, `posted` FROM `' . $db->prefix . 'posts` WHERE `topic_id` = ' . $topic_id . ' ORDER BY `id` DESC LIMIT 2') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-    list($last_id, $poster,) = $db->fetch_row($result);
+    list($last_id, $poster, ) = $db->fetch_row($result);
     list($second_last_id, $second_poster, $second_posted) = $db->fetch_row($result);
 
     // Delete the post
@@ -667,13 +668,13 @@ function get_title($user)
     if ($user['title']) {
         // If the user has a custom title
         $user_title = pun_htmlspecialchars($user['title']);
-    } else if (in_array(mb_strtolower(@$user['username']), $ban_list)) {
+    } elseif (in_array(mb_strtolower(@$user['username']), $ban_list)) {
         // If the user is banned
         $user_title = $lang_common['Banned'];
-    } else if ($user['g_user_title']) {
+    } elseif ($user['g_user_title']) {
         // If the user group has a default user title
         $user_title = pun_htmlspecialchars($user['g_user_title']);
-    } else if ($user['g_id'] == PUN_GUEST) {
+    } elseif ($user['g_id'] == PUN_GUEST) {
         // If the user is a guest
         $user_title = $lang_common['Guest'];
     } else {
@@ -738,7 +739,7 @@ function paginate($num_pages, $cur_page, $link_to)
         for ($current = $cur_page - 2, $stop = $cur_page + 3; $current < $stop; ++$current) {
             if ($current < 1 || $current > $num_pages) {
                 continue;
-            } else if ($current != $cur_page || $link_to_all) {
+            } elseif ($current != $cur_page || $link_to_all) {
                 $pages[] = '<a href="' . $link_to . '&amp;p=' . $current . '">' . $current . '</a>';
             } else {
                 $pages[] = '<strong>' . $current . '</strong>';
@@ -802,7 +803,6 @@ function wap_message($message, $no_back_link = false)
     }
     
     if (!isset($page_title)) {
-        
         $page_title = $pun_config['o_board_title'] . ' / ' . $lang_common['Info'];
     }
     
@@ -835,7 +835,7 @@ function format_time($timestamp, $date_only = false)
 
     if ($date == $today) {
         $date = $lang_common['Today'];
-    } else if ($date == $yesterday) {
+    } elseif ($date == $yesterday) {
         $date = $lang_common['Yesterday'];
     }
 
@@ -882,7 +882,7 @@ function pun_hash($str)
 {
     if (function_exists('sha1')) {
         return sha1($str);
-    } else if (function_exists('mhash')) {
+    } elseif (function_exists('mhash')) {
         return bin2hex(mhash(MHASH_SHA1, $str));
     } else {
         return md5($str);
@@ -933,9 +933,9 @@ function pun_show_avatar()
     if ($pun_config['o_avatars'] == 1 && $cur_post['use_avatar'] == 1 && $pun_user['show_avatars']) {
         if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif')) {
             $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.gif" alt="" />';
-        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg')) {
+        } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg')) {
             $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.jpg" alt="" />';
-        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png')) {
+        } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png')) {
             $user_avatar = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $cur_post['poster_id'] . '.png" alt="" />';
         }
     }
@@ -1208,7 +1208,6 @@ function display_saved_queries()
 </div>
 </div>
 </div>';
-
 }
 
 
@@ -1267,7 +1266,7 @@ function generate_rss()
 
     $rss = fopen(PUN_ROOT . 'rss.xml', 'wb');
 
-    fputs($rss, '<?xml version="1.0" encoding="utf-8"?>' . "\r\n" .
+    fwrite($rss, '<?xml version="1.0" encoding="utf-8"?>' . "\r\n" .
         '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">' .
         '<channel>' .
         '<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="' . $pun_config['o_base_url'] . '/rss.xml" type="application/rss+xml" />' .
@@ -1291,7 +1290,7 @@ function generate_rss()
 
     if ($db->num_rows($result)) {
         while ($cur_topic = $db->fetch_assoc($result)) {
-            fputs($rss, '<item>' .
+            fwrite($rss, '<item>' .
                 '<title>' . $cur_topic['subject'] . '</title>' .
                 '<link>' . $pun_config['o_base_url'] . '/viewtopic.php?id=' . $cur_topic['id'] . '</link>' .
                 '<comments>' . $pun_config['o_base_url'] . '/viewtopic.php?pid=' . $cur_topic['last_post_id'] . '#p' . $cur_topic['last_post_id'] . '</comments>' .
@@ -1304,7 +1303,7 @@ function generate_rss()
         }
     }
 
-    fputs($rss, '</channel></rss>');
+    fwrite($rss, '</channel></rss>');
     fclose($rss);
 }
 
@@ -1335,10 +1334,10 @@ class Getf
     // аттач
     public $attach = true;
 
-	/**
-	 * @param string $file
-	 * @return null|string
-	 */
+    /**
+     * @param string $file
+     * @return null|string
+     */
     public function mime($file)
     {
         // если есть Fileinfo
@@ -1658,5 +1657,4 @@ class Getf
 
         echo $this->data;
     }
-
 }

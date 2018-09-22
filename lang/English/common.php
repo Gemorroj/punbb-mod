@@ -1,20 +1,20 @@
 <?php
 // Determine what locale to use
 switch (PHP_OS) {
-	case 'WINNT':
-	case 'WIN32':
-		$locale = 'english';
-		break;
+    case 'WINNT':
+    case 'WIN32':
+        $locale = 'english';
+        break;
 
-	case 'FreeBSD':
-	case 'NetBSD':
-	case 'OpenBSD':
-		$locale = 'en_US.utf-8';
-		break;
+    case 'FreeBSD':
+    case 'NetBSD':
+    case 'OpenBSD':
+        $locale = 'en_US.utf-8';
+        break;
 
-	default:
-		$locale = 'en_US';
-		break;
+    default:
+        $locale = 'en_US';
+        break;
 }
 
 // Attempt to set the locale

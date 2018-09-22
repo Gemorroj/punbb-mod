@@ -1,5 +1,7 @@
 <?php
-if (! (defined('PUN') and defined('PUN_ROOT'))) exit;
+if (! (defined('PUN') and defined('PUN_ROOT'))) {
+    exit;
+}
 define('PUN_HEADER', 1);
 
 // Send no-cache headers

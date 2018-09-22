@@ -31,7 +31,7 @@ function generate_config_cache()
         error('Unable to write configuration cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fputs($fh, '<?php' . "\n\n" . 'define(\'PUN_CONFIG_LOADED\', 1);' . "\n\n" . '$pun_config = ' . var_export($output, true) . ';' . "\n");
+    fwrite($fh, '<?php' . "\n\n" . 'define(\'PUN_CONFIG_LOADED\', 1);' . "\n\n" . '$pun_config = ' . var_export($output, true) . ';' . "\n");
     fclose($fh);
 }
 
@@ -57,7 +57,7 @@ function generate_bans_cache()
         error('Unable to write bans cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fputs($fh, '<?php' . "\n\n" . 'define(\'PUN_BANS_LOADED\', 1);' . "\n\n" . '$pun_bans = ' . var_export($output, true) . ';' . "\n");
+    fwrite($fh, '<?php' . "\n\n" . 'define(\'PUN_BANS_LOADED\', 1);' . "\n\n" . '$pun_bans = ' . var_export($output, true) . ';' . "\n");
     fclose($fh);
 }
 
@@ -83,7 +83,7 @@ function generate_ranks_cache()
         error('Unable to write ranks cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fputs($fh, '<?php' . "\n\n" . 'define(\'PUN_RANKS_LOADED\', 1);' . "\n\n" . '$pun_ranks = ' . var_export($output, true) . ';' . "\n");
+    fwrite($fh, '<?php' . "\n\n" . 'define(\'PUN_RANKS_LOADED\', 1);' . "\n\n" . '$pun_ranks = ' . var_export($output, true) . ';' . "\n");
     fclose($fh);
 }
 
@@ -154,7 +154,7 @@ function generate_quickjump_cache($group_id = false)
 
         $output .= '</optgroup></select><input type="submit" value="\' . $lang_common[\'Go\'] . \'" accesskey="g" /></label></div></form>\';';
 
-        fputs($fh, $output);
+        fwrite($fh, $output);
         fclose($fh);
     }
 }

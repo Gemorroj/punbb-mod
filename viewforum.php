@@ -98,7 +98,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
         WHERE t.forum_id=' . $id . '
         ORDER BY sticky DESC, ' . (($cur_forum['sort_by'] == 1) ? 'posted' : 'last_post') . ' DESC
         LIMIT ' . $start_from . ', ' . $pun_user['disp_topics'];
-    // REAL MARK TOPIC AS READ MOD END
+// REAL MARK TOPIC AS READ MOD END
 } else {
     // With "the dot"
     // REAL MARK TOPIC AS READ MOD BEGIN
@@ -136,7 +136,7 @@ if ($db->num_rows($result)) {
 
         if ($cur_topic['moved_to']) {
             $subject = $lang_forum['Moved'] . ': <a href="viewtopic.php?id=' . $cur_topic['moved_to'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span class="byuser">' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';
-        } else if (!$cur_topic['closed']) {
+        } elseif (!$cur_topic['closed']) {
             $subject = '<a href="viewtopic.php?id=' . $cur_topic['id'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span class="byuser">' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';
         } else {
             $subject = '<a href="viewtopic.php?id=' . $cur_topic['id'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span class="byuser">' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';

@@ -11,9 +11,7 @@ function generate_admin_menu($page = '')
 {
     global $pun_config, $pun_user;
 
-    $is_admin = $pun_user['g_id'] == PUN_ADMIN ? true : false;
-
-    ?>
+    $is_admin = $pun_user['g_id'] == PUN_ADMIN ? true : false; ?>
 <div id="adminconsole" class="block2col">
     <div id="adminmenu" class="blockmenu">
         <h2><span><?php echo ($is_admin) ? 'Admin' : 'Moderator' ?> menu</span></h2>
@@ -21,34 +19,62 @@ function generate_admin_menu($page = '')
         <div class="box">
             <div class="inbox">
                 <ul>
-                    <li<?php if ($page == 'index') echo ' class="isactive"'; ?>><a href="admin_index.php">Index</a></li>
+                    <li<?php if ($page == 'index') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_index.php">Index</a></li>
                     <?php if ($is_admin): ?>
-                    <li<?php if ($page == 'categories') echo ' class="isactive"'; ?>><a href="admin_categories.php">Categories</a></li>
+                    <li<?php if ($page == 'categories') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_categories.php">Categories</a></li>
                     <?php endif; ?><?php if ($is_admin): ?>
-                    <li<?php if ($page == 'forums') echo ' class="isactive"'; ?>><a href="admin_forums.php">Forums</a></li>
+                    <li<?php if ($page == 'forums') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_forums.php">Forums</a></li>
                     <?php endif; ?>
                     <?php if ($is_admin): ?>
-                    <li<?php if ($page == 'files') echo ' class="isactive"'; ?>><a href="admin_files.php">Files</a></li>
+                    <li<?php if ($page == 'files') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_files.php">Files</a></li>
                     <?php endif; ?>
-                    <li<?php if ($page == 'users') echo ' class="isactive"'; ?>><a href="admin_users.php">Users</a></li>
+                    <li<?php if ($page == 'users') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_users.php">Users</a></li>
                     <?php if ($is_admin): ?>
-                    <li<?php if ($page == 'groups') echo ' class="isactive"'; ?>><a href="admin_groups.php">User groups</a></li>
+                    <li<?php if ($page == 'groups') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_groups.php">User groups</a></li>
                     <?php endif; ?><?php if ($is_admin): ?>
-                    <li<?php if ($page == 'options') echo ' class="isactive"'; ?>><a href="admin_options.php">Options</a></li>
+                    <li<?php if ($page == 'options') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_options.php">Options</a></li>
                     <?php endif; ?><?php if ($is_admin): ?>
-                    <li<?php if ($page == 'permissions') echo ' class="isactive"'; ?>><a href="admin_permissions.php">Permissions</a></li>
+                    <li<?php if ($page == 'permissions') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_permissions.php">Permissions</a></li>
                     <?php endif; ?>
-                    <li<?php if ($page == 'censoring') echo ' class="isactive"'; ?>><a href="admin_censoring.php">Censoring</a></li>
+                    <li<?php if ($page == 'censoring') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_censoring.php">Censoring</a></li>
                     <?php if ($is_admin): ?>
-                    <li<?php if ($page == 'ranks') echo ' class="isactive"'; ?>><a href="admin_ranks.php">Ranks</a></li>
+                    <li<?php if ($page == 'ranks') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_ranks.php">Ranks</a></li>
                     <?php endif; ?><?php if ($is_admin || $pun_config['p_mod_ban_users'] == 1): ?>
-                    <li<?php if ($page == 'bans') echo ' class="isactive"'; ?>><a href="admin_bans.php">Bans</a></li>
+                    <li<?php if ($page == 'bans') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_bans.php">Bans</a></li>
                     <?php endif; ?><?php if ($is_admin): ?>
-                    <li<?php if ($page == 'prune') echo ' class="isactive"'; ?>><a href="admin_prune.php">Prune</a></li>
+                    <li<?php if ($page == 'prune') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_prune.php">Prune</a></li>
                     <?php endif; ?><?php if ($is_admin): ?>
-                    <li<?php if ($page == 'maintenance') echo ' class="isactive"'; ?>><a href="admin_maintenance.php">Maintenance</a></li>
+                    <li<?php if ($page == 'maintenance') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_maintenance.php">Maintenance</a></li>
                     <?php endif; ?>
-                    <li<?php if ($page == 'reports') echo ' class="isactive"'; ?>><a href="admin_reports.php">Reports</a></li>
+                    <li<?php if ($page == 'reports') {
+        echo ' class="isactive"';
+    } ?>><a href="admin_reports.php">Reports</a></li>
                 </ul>
             </div>
         </div>
@@ -79,7 +105,6 @@ function generate_admin_menu($page = '')
         }
 
         echo '</ul></div></div>';
-
     }
 
     echo '</div>';

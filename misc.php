@@ -33,7 +33,7 @@ if ($_GET['action'] == 'rules') {
     </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($_GET['action'] == 'markread') {
+} elseif ($_GET['action'] == 'markread') {
     if ($pun_user['is_guest']) {
         message($lang_common['No permission']);
     }
@@ -66,7 +66,7 @@ if ($_GET['action'] == 'rules') {
     // REAL MARK TOPIC AS READ MOD END
 
     redirect('index.php', $lang_misc['Mark read redirect']);
-} else if (isset($_GET['email'])) {
+} elseif (isset($_GET['email'])) {
     if ($pun_user['is_guest']) {
         message($lang_common['No permission']);
     }
@@ -94,9 +94,9 @@ if ($_GET['action'] == 'rules') {
 
         if (!$subject) {
             message($lang_misc['No e-mail subject']);
-        } else if (!$message) {
+        } elseif (!$message) {
             message($lang_misc['No e-mail message']);
-        } else if (mb_strlen($message) > 65535) {
+        } elseif (mb_strlen($message) > 65535) {
             message($lang_misc['Too long e-mail message']);
         }
 
@@ -155,7 +155,7 @@ if ($_GET['action'] == 'rules') {
     </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_GET['report'])) {
+} elseif (isset($_GET['report'])) {
     if ($pun_user['is_guest']) {
         message($lang_common['No permission']);
     }
@@ -234,7 +234,7 @@ if ($_GET['action'] == 'rules') {
     </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_GET['subscribe'])) {
+} elseif (isset($_GET['subscribe'])) {
     if ($pun_user['is_guest'] || $pun_config['o_subscriptions'] != 1) {
         message($lang_common['No permission']);
     }
@@ -258,7 +258,7 @@ if ($_GET['action'] == 'rules') {
     $db->query('INSERT INTO ' . $db->prefix . 'subscriptions (user_id, topic_id) VALUES(' . $pun_user['id'] . ' ,' . $topic_id . ')') or error('Unable to add subscription', __FILE__, __LINE__, $db->error());
 
     redirect('viewtopic.php?id=' . $topic_id, $lang_misc['Subscribe redirect']);
-} else if (isset($_GET['unsubscribe'])) {
+} elseif (isset($_GET['unsubscribe'])) {
     if ($pun_user['is_guest'] || $pun_config['o_subscriptions'] != 1) {
         message($lang_common['No permission']);
     }

@@ -28,7 +28,7 @@ if ($tid < 1 && $fid < 1 || $tid > 0 && $fid > 0) {
 if ($tid) {
     // MERGE POSTS MOD BEGIN
     $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM ' . $db->prefix . 'topics AS t INNER JOIN ' . $db->prefix . 'forums AS f ON f.id=t.forum_id LEFT JOIN ' . $db->prefix . 'posts AS p ON (t.last_post_id=p.id AND p.poster_id=' . $pun_user['id'] . ') LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id=' . $tid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
-    // MERGE POSTS END
+// MERGE POSTS END
 } else {
     $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM ' . $db->prefix . 'forums AS f LEFT JOIN ' . $db->prefix . 'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=' . $pun_user['g_id'] . ') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id=' . $fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 }
@@ -73,7 +73,7 @@ if ($pun_user['is_guest']) {
 
     if ($pun_user['g_id'] == PUN_ADMIN) {
         $file_limit = 100;
-        // just unlimited
+    // just unlimited
     } else {
         $file_limit = min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit);
     }
@@ -143,9 +143,9 @@ if (isset($_POST['form_sent'])) {
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } else if (mb_strlen($subject) > 70) {
+        } elseif (mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } else if (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
             $subject = ucwords(mb_strtolower($subject));
         }
     }
@@ -166,9 +166,9 @@ if (isset($_POST['form_sent'])) {
         // It's a guest, so we have to validate the username
         if (mb_strlen($username) < 2) {
             $errors[] = $lang_prof_reg['Username too short'];
-        } else if (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+        } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
             $errors[] = $lang_prof_reg['Username guest'];
-        } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+        } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
             $errors[] = $lang_prof_reg['Username IP'];
         }
 
@@ -207,9 +207,9 @@ if (isset($_POST['form_sent'])) {
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } else if (mb_strlen($message) > 65535) {
+    } elseif (mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } else if (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
         $message = ucwords(mb_strtolower($message));
     }
 
@@ -242,7 +242,7 @@ if (isset($_POST['form_sent'])) {
         }
 
 
-        if (!$pun_user['is_guest'] && !$fid && (($is_admmod && $_POST['merge']) == 1 || !$is_admmod) && $cur_posting['poster_id'] != NULL && $cur_posting['message'] != NULL && $_SERVER['REQUEST_TIME'] - $cur_posting['posted'] < $pun_config['o_timeout_merge']) {
+        if (!$pun_user['is_guest'] && !$fid && (($is_admmod && $_POST['merge']) == 1 || !$is_admmod) && $cur_posting['poster_id'] != null && $cur_posting['message'] != null && $_SERVER['REQUEST_TIME'] - $cur_posting['posted'] < $pun_config['o_timeout_merge']) {
             // Preparing separator
             $merged_after = ($_SERVER['REQUEST_TIME'] - $cur_posting['posted']);
             $merged_sec = $merged_after % 60;
@@ -301,9 +301,8 @@ if (isset($_POST['form_sent'])) {
             // Should we send out notifications?
             // MERGE POSTS BEGIN
 
-            if ($pun_config['o_subscriptions'] == 1 && !$merged)
+            if ($pun_config['o_subscriptions'] == 1 && !$merged) {
                 // MERGE POSTS END
-            {
                 // Get the post time for the previous post in this topic
                 $result = $db->query('SELECT posted FROM ' . $db->prefix . 'posts WHERE topic_id=' . $tid . ' ORDER BY id DESC LIMIT 1, 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
                 $previous_post_time = $db->result($result);
@@ -369,7 +368,7 @@ if (isset($_POST['form_sent'])) {
                 }
             }
         } // If it's a new topic
-        else if ($fid) {
+        elseif ($fid) {
             // Create the topic
             $db->query('INSERT INTO ' . $db->prefix . 'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\'' . $db->escape($username) . '\', \'' . $db->escape($subject) . '\', ' . $_SERVER['REQUEST_TIME'] . ', ' . $_SERVER['REQUEST_TIME'] . ', \'' . $db->escape($username) . '\', ' . $fid . ')') or error('Unable to create topic', __FILE__, __LINE__, $db->error());
             $new_tid = $db->insert_id();
@@ -378,7 +377,6 @@ if (isset($_POST['form_sent'])) {
             // hcs AJAX POLL MOD BEGIN
             if ($pun_config['poll_enabled'] == 1) {
                 if ($_POST['has_poll'] && !$pun_user['is_guest']) {
-
                     $_POST['polldata'] = 'pdescription=' . $_POST['pdescription'] . '&pmultiselect=' . $_POST['pmultiselect'] . '&pexpire=' . $_POST['pexpire'] . '&pquestions=' . $_POST['pquestions'];
                     unset($_POST['pdescription'], $_POST['pmultiselect'], $_POST['pexpire'], $_POST['pquestions']);
 
@@ -478,7 +476,7 @@ if ($tid) {
                 // Deal with quoting "Username" or 'Username' (becomes '"Username"' or "'Username'")
                 if ($ends == "''") {
                     $q_poster = '"'.$q_poster.'"';
-                } else if ($ends == '""') {
+                } elseif ($ends == '""') {
                     $q_poster = "'".$q_poster."'";
                 }
             }
@@ -487,7 +485,7 @@ if ($tid) {
         } else {
             $quote = '> '.$q_poster.' '.$lang_common['wrote'].':'."\n".'> '.$q_message."\n";
         }
-    } else if (isset($_GET['rid'])) {
+    } elseif (isset($_GET['rid'])) {
         $rid = intval($_GET['rid']);
         if ($rid < 1) {
             wap_message($lang_common['Bad request']);
@@ -504,7 +502,7 @@ if ($tid) {
             $quote = $q_poster;
         }
     }
-} else if (! $fid) {
+} elseif (! $fid) {
     wap_message($lang_common['Bad request']);
 }
 

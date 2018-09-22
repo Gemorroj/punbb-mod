@@ -17,7 +17,6 @@ if (!$pun_user['is_guest'] && $pun_user['g_pm'] == 1 && $pun_config['o_pms_enabl
     $count = $db->result($result, 0);
 
     if ($count >= $pun_user['g_pm_limit']) {
-        
         $smarty->assign('full_inbox', true);
     }
 }

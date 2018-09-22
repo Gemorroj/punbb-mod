@@ -83,32 +83,32 @@ if (isset($_POST['form_sent'])) {
     {confirm_referrer('edit.php');}
     */
 
-// If it is a topic it must contain a subject
+    // If it is a topic it must contain a subject
     if ($can_edit_subject) {
         $subject = pun_trim($_POST['req_subject']);
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } else if (mb_strlen($subject) > 70) {
+        } elseif (mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } else if (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
             $subject = ucwords(mb_strtolower($subject));
         }
     }
 
-// Clean up message from POST
+    // Clean up message from POST
     $message = pun_linebreaks(pun_trim($_POST['req_message']));
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } else if (mb_strlen($message) > 65535) {
+    } elseif (mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } else if (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
         $message = ucwords(mb_strtolower($message));
     }
 
 
-// Validate BBCode syntax
+    // Validate BBCode syntax
     if ($pun_config['p_message_bbcode'] == 1 && strpos($message, '[') !== false && strpos($message, ']') !== false) {
         include_once PUN_ROOT . 'include/parser.php';
         $message = preparse_bbcode($message, $errors);
@@ -120,7 +120,7 @@ if (isset($_POST['form_sent'])) {
         $hide_smilies = 0;
     }
 
-// Did everything go according to plan?
+    // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
         $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited=' . time() . ', edited_by=\'' . $db->escape($pun_user['username']) . '\'' : '';
 
@@ -136,14 +136,14 @@ if (isset($_POST['form_sent'])) {
             update_search_index('edit', $id, $message);
         }
 
-// Update the post
+        // Update the post
         $db->query('UPDATE ' . $db->prefix . 'posts SET message=\'' . $db->escape($message) . '\', hide_smilies=\'' . $hide_smilies . '\'' . $edited_sql . ' WHERE id=' . $id) or error('Unable to update post', __FILE__, __LINE__, $db->error());
 
 
         $uploaded = $deleted = 0;
         $attach_result = process_deleted_files($id, $deleted) . process_uploaded_files($cur_post['tid'], $id, $uploaded);
 
-// If the posting user is logged in, increment his/her post count
+        // If the posting user is logged in, increment his/her post count
         if (!$pun_user['is_guest'] && ($uploaded - $deleted) != 0) {
             $db->query('UPDATE ' . $db->prefix . 'users SET num_files=num_files+' . ($uploaded - $deleted) . ' WHERE id=' . $pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
         }
@@ -172,7 +172,6 @@ echo '<div class="linkst">
 
 // If there are errors, we display them
 if ($errors) {
-
     echo '<div id="posterror" class="block">
 <h2><span>' . $lang_post['Post errors'] . '</span></h2>
 <div class="box">
@@ -185,8 +184,7 @@ if ($errors) {
     }
 
     echo '</ul></div></div></div>';
-
-} else if (isset($_POST['preview'])) {
+} elseif (isset($_POST['preview'])) {
     include_once PUN_ROOT . 'include/parser.php';
     $preview_message = parse_message($message, $hide_smilies);
 
@@ -219,12 +217,13 @@ if ($errors) {
                     <input type="hidden" name="form_sent" value="1"/>
 
                     <div class="infldset txtarea">
-                        <?php if ($can_edit_subject) { ?>
+                        <?php if ($can_edit_subject) {
+    ?>
                         <label><?php echo $lang_common['Subject']; ?><br/>
                             <input class="longinput" type="text" name="req_subject" size="80" maxlength="70"
                                    value="<?php echo pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']); ?>"/><br/></label>
                         <?php
-                        }
+}
                         require PUN_ROOT . 'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
                         if ($pun_config['file_popup_info'] == 1) {

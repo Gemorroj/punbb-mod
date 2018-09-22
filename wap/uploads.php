@@ -11,7 +11,7 @@ require_once(PUN_ROOT . 'include/common.php');
  * Maximum size of all uploaded files in the dir uploaded.
  * Size in Mbytes.
 **/
-define('MAX_DIR_UPLOAD', 100); 
+define('MAX_DIR_UPLOAD', 100);
 
 session_name('bunbb_upload');
 session_start();
@@ -140,14 +140,12 @@ while ($ar = $db->fetch_assoc($result)) {
 $exts = trim($exts); // now we have all file types in one string
 
 if (isset($_GET['uploadit'])) {
-
     if ($upl_conf['p_upload'] == 1) {
-
         $maxsize = $upl_conf['u_fsize'];
         $rules = str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
         $rules = str_replace('%EXT%', $exts, $rules);
     }
-} else if (isset($_POST['act'])) {
+} elseif (isset($_POST['act'])) {
 
     // try to upload a file
     $temp_name = $_FILES['file']['tmp_name'];
@@ -163,13 +161,13 @@ if (isset($_GET['uploadit'])) {
     // Here could be check of MAX_DIR_UPLOAD > 100 Mbytes, for example
     if (round((dir_size(PUN_ROOT . 'uploaded') + $file_size) / 1048576) > MAX_DIR_UPLOAD) {
         error('The directory is full. Contact administrator, please.', __FILE__, __LINE__, $db->error());
-    } else if (!$file_name) {
+    } elseif (!$file_name) {
         error($lang_uploads['Err no file'], __FILE__, __LINE__, $db->error());
-    } else if (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
+    } elseif (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
-    } else if ($file_size > $upl_conf['u_fsize']) {
+    } elseif ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } else if (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
+    } elseif (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
@@ -196,8 +194,7 @@ if (isset($_GET['uploadit'])) {
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
     }
-} else if (isset($_GET['del'])) {
-
+} elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
     $delfile = strtr($delfile, '/', ' '); // убираем любые слыши и бэкслэши, которые используются в Lin-Win в качестве пути
     $delfile = strtr($delfile, '\\', ' ');
@@ -218,7 +215,6 @@ if (isset($_GET['uploadit'])) {
         $result = $db->query('DELETE FROM ' . $db->prefix . 'uploaded WHERE file=\'' . $db->escape($delfile) . '\'') or error('Unable to delete file from table', __FILE__, __LINE__, $db->error());
     }
 } else {
-
     $sql = 1;
     // lets try to filter records
     if (strlen($s_file) > 0) {
@@ -286,7 +282,6 @@ if (isset($_GET['uploadit'])) {
     }
 
     while ($info = $db->fetch_assoc($result)) {
-        
         $info['sizeValue'] = 'kb';
         $files[] = $info;
     }
@@ -301,7 +296,7 @@ function dir_size($dir)
             if ($fnm[0] != '.') {
                 if (is_file($dir . '/' . $fnm)) {
                     $sz += filesize($dir . '/' . $fnm);
-                } else if (is_dir($dir . '/' . $fnm)) {
+                } elseif (is_dir($dir . '/' . $fnm)) {
                     $sz += dir_size($dir . '/' . $fnm);
                 }
             }
@@ -319,19 +314,19 @@ require_once(PUN_ROOT . 'lang/' . $pun_user['language'] . '/topic.php');
 require_once(PUN_ROOT . 'wap/header.php');
 
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_uploads['Uploader'];
-$smarty->assign('page_title',   $page_title);
+$smarty->assign('page_title', $page_title);
 $smarty->assign('lang_uploads', $lang_uploads);
-$smarty->assign('upl_conf',     $upl_conf);
-$smarty->assign('rules',       @$rules);
-$smarty->assign('file_name',   @$file_name);
-$smarty->assign('delfile',     @$delfile);
-$smarty->assign('pages',       @$pages);
-$smarty->assign('s_nump',       $s_nump);
-$smarty->assign('s_page',       $s_page);
-$smarty->assign('flist',       @$flist);
-$smarty->assign('files',       @$files);
-$smarty->assign('cp',          @$cp);
-$smarty->assign('s_u',          @$s_u);
+$smarty->assign('upl_conf', $upl_conf);
+$smarty->assign('rules', @$rules);
+$smarty->assign('file_name', @$file_name);
+$smarty->assign('delfile', @$delfile);
+$smarty->assign('pages', @$pages);
+$smarty->assign('s_nump', $s_nump);
+$smarty->assign('s_page', $s_page);
+$smarty->assign('flist', @$flist);
+$smarty->assign('files', @$files);
+$smarty->assign('cp', @$cp);
+$smarty->assign('s_u', @$s_u);
 //$smarty->assign('',           $);
 
 $smarty->display('uploads.tpl');

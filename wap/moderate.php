@@ -11,7 +11,6 @@ $getPageNumber = isset($_GET['p']) ? (int) $_GET['p'] : 1;
 // This particular function doesn't require forum-based moderator access. It can be used
 // by all moderators and admins.
 if (isset($_GET['get_host'])) {
-
     if ($pun_user['g_id'] > PUN_MOD) {
         wap_message($lang_common['No permission']);
     }
@@ -68,7 +67,6 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/misc.php';
 
 // All other topic moderation features require a topic id in GET
 if (isset($_GET['tid'])) {
-
     $tid = intval($_GET['tid']);
     if ($tid < 1) {
         wap_message($lang_common['Bad request']);
@@ -84,7 +82,6 @@ if (isset($_GET['tid'])) {
 
     // Delete one or more posts
     if (isset($_POST['delete_posts']) || isset($_POST['delete_posts_comply'])) {
-
         $posts = $_POST['posts'];
         if (!$posts) {
             wap_message($lang_misc['No posts selected']);
@@ -206,7 +203,6 @@ if (isset($_GET['tid'])) {
 
 // Move one or more topics
 if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
-
     if (isset($_POST['move_topics_to'])) {
 
         //confirm_referrer('moderate.php');
@@ -237,7 +233,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
         // Should we create redirect topics?
         if (isset($_POST['with_redirect'])) {
-
             foreach ($topics as $cur_topic) {
                 // Fetch info for the redirect topic
                 $result = $db->query('SELECT poster, subject, posted, last_post FROM ' . $db->prefix . 'topics WHERE id=' . $cur_topic) or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
@@ -256,7 +251,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     }
 
     if (isset($_POST['move_topics'])) {
-
         $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
 
         if (!$topics) {
@@ -266,7 +260,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         $topics = implode(',', array_map('intval', array_keys($topics)));
         $action = 'multi';
     } else {
-
         $topics = intval($_GET['move_topics']);
 
         if ($topics < 1) {
@@ -299,7 +292,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
 // Delete one or more topics
 if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) {
-
     $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
 
     if (!$topics) {
@@ -375,7 +367,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
     $smarty->display('moderate.delete_topics.tpl');
     exit();
-} else if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
+} elseif (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
 
     // Open or close one or more topics
     $action = (isset($_REQUEST['open'])) ? 0 : 1;
@@ -414,7 +406,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         wap_redirect('viewtopic.php?id=' . $topic_id);
     }
-} else if (isset($_GET['stick'])) {
+} elseif (isset($_GET['stick'])) {
 
     // Stick a topic
 
@@ -429,7 +421,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     $db->query('UPDATE `' . $db->prefix . 'topics` SET sticky=1 WHERE id=' . $stick . ' AND forum_id=' . $fid) or error('Unable to stick topic', __FILE__, __LINE__, $db->error());
 
     wap_redirect('viewtopic.php?id=' . $stick);
-} else if (isset($_GET['unstick'])) {
+} elseif (isset($_GET['unstick'])) {
 
     // Unstick a topic
 

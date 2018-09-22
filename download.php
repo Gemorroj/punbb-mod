@@ -12,7 +12,8 @@ if (!isset($_GET['aid'])) {
 $aid = intval($_GET['aid']);
 
 // Retrieve attachment info and permissions
-$result_attach = $db->query('
+$result_attach = $db->query(
+    '
     SELECT a.filename, a.location, a.mime, p.poster_id, f.moderators, fp.file_download
     FROM ' . $db->prefix . 'attachments AS a
     INNER JOIN ' . $db->prefix . 'posts AS p ON p.id=a.post_id

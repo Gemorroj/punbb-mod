@@ -38,11 +38,14 @@ $result = $db->query(
         . 'ON (`fp`.`forum_id`=`f`.`id` '
         . 'AND `fp`.`group_id`=' . $pun_user['g_id']. ') '
         . 'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
-        . 'AND `p`.`id`=' . $id)
-        or error('Unable to fetch post info',
+        . 'AND `p`.`id`=' . $id
+)
+        or error(
+            'Unable to fetch post info',
                  __FILE__,
                  __LINE__,
-                 $db->error());
+                 $db->error()
+        );
 if (!$db->num_rows($result)) {
     wap_message($lang_common['Bad request']);
 }
@@ -59,11 +62,14 @@ $result = $db->query(
         . 'FROM `' . $db->prefix . 'posts` '
         . 'WHERE `topic_id`=' . $cur_post['tid'] . ' '
         . 'ORDER BY `posted` '
-        . 'LIMIT 1;')
-        or error('Unable to fetch post info',
+        . 'LIMIT 1;'
+)
+        or error(
+            'Unable to fetch post info',
                  __FILE__,
                  __LINE__,
-                 $db->error());
+                 $db->error()
+        );
 $topic_post_id = $db->result($result);
 
 $is_topic_post = ($id == $topic_post_id);
@@ -80,7 +86,6 @@ if ((!$pun_user['g_delete_posts']
 }
 
 if (isset($_POST['delete'])) {
-
     require_once(PUN_ROOT . 'include/search_idx.php');
 
     if ($is_topic_post) {
@@ -107,9 +112,9 @@ require_once(PUN_ROOT . 'include/parser.php'); //parser.php будет испо�
 $page_title = $pun_config['o_board_title'] . ' / ' . $lang_delete['Delete post'];
 $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $id);
 
-$smarty->assign('page_title',  $page_title);
-$smarty->assign('cur_post',    $cur_post);
-$smarty->assign('id',          $id);
+$smarty->assign('page_title', $page_title);
+$smarty->assign('cur_post', $cur_post);
+$smarty->assign('id', $id);
 $smarty->assign('lang_delete', $lang_delete);
 
 $smarty->display('delete.tpl');

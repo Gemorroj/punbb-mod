@@ -27,13 +27,15 @@ if ($num_to_upload >= 2) {
 
     for ($i = 2, $a = min(5, $num_to_upload); $i <= $a; ++$i) {
         echo '<div class="floated" id="input_' . $i . '"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$' . $i . ':: \');">#' . $i . '</a> </span><input type="file" name="attach[]" size="50" /></div>';
-    }
-    ?>
+    } ?>
 <div id="addMoreFiles2" class="fine_print">
-<?php if ($num_to_upload > 5) { ?>
+<?php if ($num_to_upload > 5) {
+        ?>
         <a href="javascript:void(0);" onclick="toggle('lblFileFive', 'lblFileTwenty', 'addMoreFiles2', 'divImage3');"><?php echo $lang_fu['Add even more here']; ?></a>
         (<?php echo $lang_fu['or just']; ?> <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['one slot']; ?></a>)
-        <?php } else { ?>
+        <?php
+    } else {
+        ?>
         <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['Upload just one']; ?></a>
         <?php
     }
@@ -41,7 +43,6 @@ if ($num_to_upload >= 2) {
     echo '</div></div>';
 
     if ($num_to_upload > 5) {
-
         echo '<div id="divImage3" class="inputArea" style="display:none;">';
 
         for ($i = 6; $i <= $num_to_upload; ++$i) {
@@ -49,7 +50,6 @@ if ($num_to_upload >= 2) {
         }
 
         echo '<div id="addMoreFiles3" class="fine_print"><a href="javascript:void(0);" onclick="toggle(\'lblFileOne\', \'lblFileTwenty\', \'addMoreFiles1\', \'addMoreFiles2\', \'divImage2\', \'divImage3\');">' . $lang_fu['Upload just one'] . '</a></div></div>';
-
     }
 } else {
     echo '</div>';

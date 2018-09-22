@@ -18,7 +18,8 @@ if ($id < 1) {
     message($lang_common['Bad request']);
 }
 
-$q = $db->fetch_row($db->query('
+$q = $db->fetch_row($db->query(
+    '
     SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $id . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $id
 ));
 
@@ -46,7 +47,8 @@ $str = '';
 
 
 if ($num_hits) {
-    $q = $db->query('
+    $q = $db->query(
+        '
         SELECT `karma`.*, `users`.`username` AS `from`
         FROM `' . $db->prefix . 'karma` AS `karma`
         LEFT JOIN `' . $db->prefix . 'users` AS `users` ON `users`.`id` = `karma`.`id`

@@ -16,7 +16,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply'])) {
     if (isset($_POST['prune_comply'])) {
-//confirm_referrer('admin_prune.php');
+        //confirm_referrer('admin_prune.php');
 
         $prune_from = $_POST['prune_from'];
         $prune_sticky = isset($_POST['prune_sticky']) ? 1 : 0;
@@ -41,12 +41,12 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
             update_forum($prune_from);
         }
 
-// Locate any "orphaned redirect topics" and delete them
+        // Locate any "orphaned redirect topics" and delete them
         $result = $db->query('SELECT t1.id FROM ' . $db->prefix . 'topics AS t1 LEFT JOIN ' . $db->prefix . 'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL') or error('Unable to fetch redirect topics', __FILE__, __LINE__, $db->error());
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
-			$orphans = array();
+            $orphans = array();
             for ($i = 0; $i < $num_orphans; ++$i) {
                 $orphans[] = $db->result($result, $i);
             }
@@ -66,7 +66,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     $prune_date = time() - ($prune_days * 86400);
     $prune_from = $_POST['prune_from'];
 
-// Concatenate together the query for counting number or topics to prune
+    // Concatenate together the query for counting number or topics to prune
     $sql = 'SELECT COUNT(id) FROM ' . $db->prefix . 'topics WHERE last_post<' . $prune_date . ' AND moved_to IS NULL';
 
     if (!$prune_sticky) {
@@ -77,7 +77,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $prune_from = intval($prune_from);
         $sql .= ' AND forum_id=' . $prune_from;
 
-// Fetch the forum name (just for cosmetic reasons)
+        // Fetch the forum name (just for cosmetic reasons)
         $result = $db->query('SELECT forum_name FROM ' . $db->prefix . 'forums WHERE id=' . $prune_from) or error('Unable to fetch forum name', __FILE__, __LINE__, $db->error());
         $forum = '"' . pun_htmlspecialchars($db->result($result)) . '"';
     } else {
@@ -94,8 +94,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Prune';
     require_once PUN_ROOT . 'header.php';
 
-    generate_admin_menu('prune');
-    ?>
+    generate_admin_menu('prune'); ?>
 <div class="blockform">
     <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
@@ -129,8 +128,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     $focus_element = array('prune', 'req_prune_days');
     require_once PUN_ROOT . 'header.php';
 
-    generate_admin_menu('prune');
-    ?>
+    generate_admin_menu('prune'); ?>
 <div class="blockform">
     <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
@@ -171,21 +169,20 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 <?php
 $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM ' . $db->prefix . 'categories AS c INNER JOIN ' . $db->prefix . 'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
-$cur_category = 0;
-while ($forum = $db->fetch_assoc($result)) {
-    if ($forum['cid'] != $cur_category) // Are we still in the same category?
-    {
-        if ($cur_category) {
-            echo '</optgroup>';
+    $cur_category = 0;
+    while ($forum = $db->fetch_assoc($result)) {
+        if ($forum['cid'] != $cur_category) { // Are we still in the same category?
+            if ($cur_category) {
+                echo '</optgroup>';
+            }
+            echo '<optgroup label="' . pun_htmlspecialchars($forum['cat_name']) . '">';
+            $cur_category = $forum['cid'];
         }
-        echo '<optgroup label="' . pun_htmlspecialchars($forum['cat_name']) . '">';
-        $cur_category = $forum['cid'];
+
+        echo '<option value="' . $forum['fid'] . '">' . pun_htmlspecialchars($forum['forum_name']) . '</option>';
     }
 
-    echo '<option value="' . $forum['fid'] . '">' . pun_htmlspecialchars($forum['forum_name']) . '</option>';
-}
-
-echo '</optgroup>
+    echo '</optgroup>
 </select>
 <span>' . $lang_admin['About prune forums'] . '</span>
 </td>
@@ -202,5 +199,5 @@ echo '</optgroup>
 <div class="clearer"></div>
 </div>';
 
-require_once PUN_ROOT . 'footer.php';
+    require_once PUN_ROOT . 'footer.php';
 }

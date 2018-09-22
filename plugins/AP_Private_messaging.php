@@ -41,8 +41,7 @@ if (isset($_POST['form_sent'])) {
     redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &#x2026;');
 } else {
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Личные сообщения - v<?php echo PLUGIN_VERSION; ?></span></h2>
 
@@ -69,9 +68,13 @@ if (isset($_POST['form_sent'])) {
                                 <th scope="row">Включить личные сообщения</th>
                                 <td>
                                     <input type="radio" name="form[pms_enabled]"
-                                           value="1"<?php if ($pun_config['o_pms_enabled'] == 1) echo ' checked="checked"'; ?> />
+                                           value="1"<?php if ($pun_config['o_pms_enabled'] == 1) {
+        echo ' checked="checked"';
+    } ?> />
                                     <strong>Да</strong>&#160; &#160;<input type="radio" name="form[pms_enabled]"
-                                                                           value="0"<?php if ($pun_config['o_pms_enabled'] == 0) echo ' checked="checked"'; ?> />
+                                                                           value="0"<?php if ($pun_config['o_pms_enabled'] == 0) {
+        echo ' checked="checked"';
+    } ?> />
                                     <strong>Нет</strong>
                                     <span>Если "нет" - все функции личных сообщений будут отключены.</span>
                                 </td>
@@ -96,16 +99,20 @@ if (isset($_POST['form_sent'])) {
                             <?php
 // g_id>'.PUN_ADMIN.' AND
                             $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `' . $db->prefix . 'groups` WHERE g_id != 3 ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
-                            while ($cur_group = $db->fetch_assoc($result)) {
-                                ?>
+    while ($cur_group = $db->fetch_assoc($result)) {
+        ?>
                                 <tr>
                                     <th scope="row"><?php echo pun_htmlspecialchars($cur_group['g_title']); ?></th>
                                     <td>
                                         <input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]"
-                                               value="1"<?php if ($cur_group['g_pm'] == 1) echo ' checked="checked"'; ?> />
+                                               value="1"<?php if ($cur_group['g_pm'] == 1) {
+            echo ' checked="checked"';
+        } ?> />
                                         <strong>Да</strong>&#160; &#160;<input type="radio"
                                                                                name="allow[<?php echo $cur_group['g_id']; ?>]"
-                                                                               value="0"<?php if ($cur_group['g_pm'] == 0) echo ' checked="checked"'; ?> />
+                                                                               value="0"<?php if ($cur_group['g_pm'] == 0) {
+            echo ' checked="checked"';
+        } ?> />
                                         <strong>Нет</strong>
                                         <span>Разрешить этой группе использовать личные сообщения.</span>
                                     </td>
@@ -121,8 +128,7 @@ if (isset($_POST['form_sent'])) {
                                     </td>
                                 </tr>
                                 <?php
-                            }
-                            ?>
+    } ?>
 
                         </table>
                     </div>

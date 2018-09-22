@@ -42,8 +42,7 @@ if ($pid) {
     ++$i; // we started at 0
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
-
-} else if ($action == 'new' && !$pun_user['is_guest']) {
+} elseif ($action == 'new' && !$pun_user['is_guest']) {
     // If action=new, we redirect to the first new post (if any)
 
     $result = $db->query('SELECT MIN(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id . ' AND posted>' . $pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -55,7 +54,7 @@ if ($pid) {
         // If there is no new post, we go to the last post
         wap_redirect('viewtopic.php?id=' . $id . '&action=last');
     }
-} else if ($action == 'last') {
+} elseif ($action == 'last') {
     // If action=last, we redirect to the last post
 
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -81,7 +80,6 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-
     $message_stack = array();
 
     if ($cur_topic['log_time'] == null) {
@@ -94,7 +92,6 @@ if (!$pun_user['is_guest']) {
 
     $find_new = false;
     while ($topic = $db->fetch_assoc($result)) {
-
         if ((!$topic['log_time'] && $topic['last_post'] > $pun_user['last_visit']) || ($topic['log_time'] < $topic['last_post'] && $topic['last_post'] > $pun_user['last_visit'])) {
             $find_new = true;
             break;
@@ -106,7 +103,6 @@ if (!$pun_user['is_guest']) {
         $result = $db->query('UPDATE ' . $db->prefix . 'log_forums SET log_time=' . $requestTime . ' WHERE forum_id=' . $cur_topic['forum_id'] . ' AND user_id=' . $pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 
         if ($db->affected_rows() < 1) {
-
             $result = $db->query('INSERT INTO ' . $db->prefix . 'log_forums (user_id, forum_id, log_time) VALUES (' . $pun_user['id'] . ', ' . $cur_topic['forum_id'] . ', ' . $requestTime . ')');
             $dberror = $db->error();
 
@@ -185,7 +181,8 @@ if ($pun_config['poll_enabled'] == 1) {
 }
 // hcs AJAX POLL MOD END
 
-$result = $db->query('
+$result = $db->query(
+    '
     SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
     FROM `' . $db->prefix . 'posts` AS p
     INNER JOIN `' . $db->prefix . 'users` AS u ON u.id=p.poster_id

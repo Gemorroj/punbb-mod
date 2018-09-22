@@ -46,18 +46,17 @@ if ($action == 'change_pass') {
     if ($pun_user['id'] != $id) {
         if ($pun_user['g_id'] > PUN_MOD) { // A regular user trying to change another users password?
             message($lang_common['No permission']);
-        } else
-            if ($pun_user['g_id'] == PUN_MOD) {
-                // A moderator trying to change a users password?
-                $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
-                if (!$db->num_rows($result)) {
-                    message($lang_common['Bad request']);
-                }
-
-                if (!$pun_config['p_mod_edit_users'] || !$pun_config['p_mod_change_passwords'] || $db->result($result) < PUN_GUEST) {
-                    message($lang_common['No permission']);
-                }
+        } elseif ($pun_user['g_id'] == PUN_MOD) {
+            // A moderator trying to change a users password?
+            $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+            if (!$db->num_rows($result)) {
+                message($lang_common['Bad request']);
             }
+
+            if (!$pun_config['p_mod_edit_users'] || !$pun_config['p_mod_change_passwords'] || $db->result($result) < PUN_GUEST) {
+                message($lang_common['No permission']);
+            }
+        }
     }
 
     if (isset($_POST['form_sent'])) {
@@ -135,12 +134,12 @@ if ($action == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($action == 'change_email') {
+} elseif ($action == 'change_email') {
     // Make sure we are allowed to change this users e-mail
     if ($pun_user['id'] != $id) {
         if ($pun_user['g_id'] > PUN_MOD) { // A regular user trying to change another users e-mail?
             message($lang_common['No permission']);
-        } else if ($pun_user['g_id'] == PUN_MOD) {
+        } elseif ($pun_user['g_id'] == PUN_MOD) {
             // A moderator trying to change a users e-mail?
             $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
             if (!$db->num_rows($result)) {
@@ -165,7 +164,7 @@ if ($action == 'change_pass') {
             $db->query('UPDATE ' . $db->prefix . 'users SET email=activate_string, activate_string=NULL, activate_key=NULL WHERE id=' . $id) or error('Unable to update e-mail address', __FILE__, __LINE__, $db->error());
             message($lang_profile['E-mail updated'], true);
         }
-    } else if (isset($_POST['form_sent'])) {
+    } elseif (isset($_POST['form_sent'])) {
         if (pun_hash($_POST['req_password']) != $pun_user['password']) {
             message($lang_profile['Wrong pass']);
         }
@@ -181,7 +180,7 @@ if ($action == 'change_pass') {
         if (is_banned_email($new_email)) {
             if (!$pun_config['p_allow_banned_email']) {
                 message($lang_prof_reg['Banned e-mail']);
-            } else if ($pun_config['o_mailing_list']) {
+            } elseif ($pun_config['o_mailing_list']) {
                 $mail_subject = 'Alert - Banned e-mail detected';
                 $mail_message = 'User "' . $pun_user['username'] .
                     '" changed to banned e-mail address: ' . $new_email . "\n\n" . 'User profile: ' .
@@ -198,7 +197,7 @@ if ($action == 'change_pass') {
         if ($db->num_rows($result)) {
             if (!$pun_config['p_allow_dupe_email']) {
                 message($lang_prof_reg['Dupe e-mail']);
-            } else if ($pun_config['o_mailing_list']) {
+            } elseif ($pun_config['o_mailing_list']) {
                 while ($cur_dupe = $db->fetch_assoc($result)) {
                     $dupe_list[] = $cur_dupe['username'];
                 }
@@ -273,7 +272,7 @@ if ($action == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($action == 'upload_avatar' || $action == 'upload_avatar2') {
+} elseif ($action == 'upload_avatar' || $action == 'upload_avatar2') {
     if (!$pun_config['o_avatars']) {
         message($lang_profile['Avatars disabled']);
     }
@@ -335,7 +334,7 @@ if ($action == 'change_pass') {
             $extensions = null;
             if ($uploaded_file['type'] == 'image/gif') {
                 $extensions = array('.gif', '.jpg', '.png');
-            } else if ($uploaded_file['type'] == 'image/jpeg' || $uploaded_file['type'] == 'image/pjpeg') {
+            } elseif ($uploaded_file['type'] == 'image/jpeg' || $uploaded_file['type'] == 'image/pjpeg') {
                 $extensions = array('.jpg', '.gif', '.png');
             } else {
                 $extensions = array('.png', '.gif', '.jpg');
@@ -347,7 +346,7 @@ if ($action == 'change_pass') {
             }
 
             // Now check the width/height
-            list($width, $height, $type,) = getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] .
+            list($width, $height, $type, ) = getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] .
                 '/' . $id . '.tmp');
             if (!$width || !$height || $width > $pun_config['o_avatars_width'] || $height >
                 $pun_config['o_avatars_height']
@@ -355,7 +354,7 @@ if ($action == 'change_pass') {
                 @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp');
                 message($lang_profile['Too wide or high'] . ' ' . $pun_config['o_avatars_width'] .
                     'x' . $pun_config['o_avatars_height'] . ' ' . $lang_profile['pixels'] . '.');
-            } else if ($type == 1 && $uploaded_file['type'] != 'image/gif') {
+            } elseif ($type == 1 && $uploaded_file['type'] != 'image/gif') {
                 // Prevent dodgy uploads
                 @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp');
                 message($lang_profile['Bad type']);
@@ -367,8 +366,10 @@ if ($action == 'change_pass') {
             @unlink(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . $extensions[2]);
             @rename(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.tmp', PUN_ROOT .
                 $pun_config['o_avatars_dir'] . '/' . $id . $extensions[0]);
-            @chmod(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . $extensions[0],
-                0644);
+            @chmod(
+                PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . $extensions[0],
+                0644
+            );
         } else {
             message($lang_profile['Unknown failure']);
         }
@@ -414,7 +415,7 @@ if ($action == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if ($action == 'delete_avatar') {
+} elseif ($action == 'delete_avatar') {
     if ($pun_user['id'] != $id && $pun_user['g_id'] > PUN_MOD) {
         message($lang_common['No permission']);
     }
@@ -430,7 +431,7 @@ if ($action == 'change_pass') {
         error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
     redirect('profile.php?section=personality&amp;id=' . $id, $lang_profile['Avatar deleted redirect']);
-} else if (isset($_POST['update_group_membership'])) {
+} elseif (isset($_POST['update_group_membership'])) {
     if ($pun_user['g_id'] > PUN_ADMIN) {
         message($lang_common['No permission']);
     }
@@ -440,8 +441,12 @@ if ($action == 'change_pass') {
     $new_group_id = intval($_POST['group_id']);
 
     $db->query('UPDATE ' . $db->prefix . 'users SET group_id=' . $new_group_id .
-        ' WHERE id=' . $id) or error('Unable to change user group', __FILE__, __LINE__,
-        $db->error());
+        ' WHERE id=' . $id) or error(
+            'Unable to change user group',
+            __FILE__,
+            __LINE__,
+        $db->error()
+        );
 
     // If the user was a moderator or an administrator, we remove him/her from the moderator list in all forums as well
     if ($new_group_id > PUN_MOD) {
@@ -463,7 +468,7 @@ if ($action == 'change_pass') {
     }
 
     redirect('profile.php?section=admin&amp;id=' . $id, $lang_profile['Group membership redirect']);
-} else if (isset($_POST['update_forums'])) {
+} elseif (isset($_POST['update_forums'])) {
     if ($pun_user['g_id'] > PUN_ADMIN) {
         message($lang_common['No permission']);
     }
@@ -489,11 +494,14 @@ if ($action == 'change_pass') {
             $cur_moderators[$username] = $id;
             ksort($cur_moderators);
 
-            $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize
-            ($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error('Unable to update forum',
-                __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE ' . $db->prefix . 'forums SET moderators=\'' . $db->escape(serialize($cur_moderators)) . '\' WHERE id=' . $cur_forum['id']) or error(
+                'Unable to update forum',
+                __FILE__,
+                __LINE__,
+                $db->error()
+            );
         } // If the user shouldn't have moderator access (and he/she already has it)
-        else if (!in_array($cur_forum['id'], $moderator_in) && in_array($id, $cur_moderators)) {
+        elseif (!in_array($cur_forum['id'], $moderator_in) && in_array($id, $cur_moderators)) {
             unset($cur_moderators[$username]);
             $cur_moderators = ($cur_moderators) ? '\'' . $db->escape(serialize($cur_moderators)) . '\'' : 'NULL';
 
@@ -502,13 +510,13 @@ if ($action == 'change_pass') {
     }
 
     redirect('profile.php?section=admin&amp;id=' . $id, $lang_profile['Update forums redirect']);
-} else if (isset($_POST['ban'])) {
+} elseif (isset($_POST['ban'])) {
     if ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_ban_users'])) {
         message($lang_common['No permission']);
     }
 
     redirect('admin_bans.php?add_ban=' . $id, $lang_profile['Ban redirect']);
-} else if (isset($_POST['delete_user']) || isset($_POST['delete_user_comply'])) {
+} elseif (isset($_POST['delete_user']) || isset($_POST['delete_user_comply'])) {
     if ($pun_user['g_id'] > PUN_ADMIN) {
         message($lang_common['No permission']);
     }
@@ -517,8 +525,12 @@ if ($action == 'change_pass') {
 
     // Get the username and group of the user we are deleting
     $result = $db->query('SELECT group_id, username FROM ' . $db->prefix .
-        'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__,
-        __LINE__, $db->error());
+        'users WHERE id=' . $id) or error(
+            'Unable to fetch user info',
+            __FILE__,
+        __LINE__,
+            $db->error()
+        );
     list($group_id, $username) = $db->fetch_row($result);
 
     if ($group_id == PUN_ADMIN) {
@@ -561,14 +573,22 @@ if ($action == 'change_pass') {
             $result = $db->query('SELECT p.id, p.topic_id, t.forum_id FROM ' . $db->prefix .
                 'posts AS p INNER JOIN ' . $db->prefix .
                 'topics AS t ON t.id=p.topic_id INNER JOIN ' . $db->prefix .
-                'forums AS f ON f.id=t.forum_id WHERE p.poster_id=' . $id) or error('Unable to fetch posts',
-                __FILE__, __LINE__, $db->error());
+                'forums AS f ON f.id=t.forum_id WHERE p.poster_id=' . $id) or error(
+                    'Unable to fetch posts',
+                __FILE__,
+                    __LINE__,
+                    $db->error()
+                );
             if ($db->num_rows($result)) {
                 while ($cur_post = $db->fetch_assoc($result)) {
                     // Determine whether this post is the "topic post" or not
                     $result2 = $db->query('SELECT id FROM ' . $db->prefix . 'posts WHERE topic_id=' .
-                        $cur_post['topic_id'] . ' ORDER BY posted LIMIT 1') or error('Unable to fetch post info',
-                        __FILE__, __LINE__, $db->error());
+                        $cur_post['topic_id'] . ' ORDER BY posted LIMIT 1') or error(
+                            'Unable to fetch post info',
+                        __FILE__,
+                            __LINE__,
+                            $db->error()
+                        );
 
                     if ($db->result($result2) == $cur_post['id']) {
                         delete_topic($cur_post['topic_id']);
@@ -586,14 +606,22 @@ if ($action == 'change_pass') {
 
             // Set all his/her attachments to guest
             $db->query('UPDATE ' . $db->prefix .
-                'attachments SET poster_id=1 WHERE poster_id=' . $id) or error('Unable to update attachments',
-                __FILE__, __LINE__, $db->error());
+                'attachments SET poster_id=1 WHERE poster_id=' . $id) or error(
+                    'Unable to update attachments',
+                __FILE__,
+                    __LINE__,
+                    $db->error()
+                );
         }
 
 
         // Delete the user
-        $db->query('DELETE FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to delete user',
-            __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM ' . $db->prefix . 'users WHERE id=' . $id) or error(
+            'Unable to delete user',
+            __FILE__,
+            __LINE__,
+            $db->error()
+        );
 
         // PMS MOD BEGIN
         include PUN_ROOT . 'include/pms/profile_delete.php';
@@ -642,7 +670,7 @@ if ($action == 'change_pass') {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_POST['form_sent'])) {
+} elseif (isset($_POST['form_sent'])) {
     // Fetch the user group of the user we are editing
     $result = $db->query('SELECT group_id FROM ' . $db->prefix . 'users WHERE id=' . $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
@@ -695,13 +723,13 @@ if ($action == 'change_pass') {
 
                     if (mb_strlen($form['username']) < 2) {
                         message($lang_prof_reg['Username too short']);
-                    } else if (mb_strlen($form['username']) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+                    } elseif (mb_strlen($form['username']) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
                         message($lang_common['Bad request']);
-                    } else if (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
+                    } elseif (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
                         message($lang_prof_reg['Username guest']);
-                    } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
+                    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
                         message($lang_prof_reg['Username IP']);
-                    } else if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $form['username'])) {
+                    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $form['username'])) {
                         message($lang_prof_reg['Username BBCode']);
                     }
 
@@ -758,22 +786,21 @@ if ($action == 'change_pass') {
 
             if ($pun_user['g_id'] == PUN_ADMIN) {
                 $form['title'] = trim($_POST['title']);
-            } else
-                if ($pun_user['g_set_title'] == 1) {
-                    $form['title'] = trim($_POST['title']);
+            } elseif ($pun_user['g_set_title'] == 1) {
+                $form['title'] = trim($_POST['title']);
 
-                    if ($form['title']) {
-                        // A list of words that the title may not contain
-                        // If the language is English, there will be some duplicates, but it's not the end of the world
-                        $forbidden = array('Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
+                if ($form['title']) {
+                    // A list of words that the title may not contain
+                    // If the language is English, there will be some duplicates, but it's not the end of the world
+                    $forbidden = array('Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
                             $lang_common['Moderator'], $lang_common['Administrator'], $lang_common['Banned'],
                             $lang_common['Guest']);
 
-                        if (in_array($form['title'], $forbidden)) {
-                            message($lang_profile['Forbidden title']);
-                        }
+                    if (in_array($form['title'], $forbidden)) {
+                        message($lang_profile['Forbidden title']);
                     }
                 }
+            }
 
             // Add http:// if the URL doesn't contain it already
             if ($form['url'] && strpos(strtolower($form['url']), 'http://') !== 0) {
@@ -801,9 +828,9 @@ if ($action == 'change_pass') {
             // Validate signature
             if (mb_strlen($form['signature']) > $pun_config['p_sig_length']) {
                 message($lang_prof_reg['Sig too long'] . ' ' . $pun_config['p_sig_length'] . ' ' . $lang_prof_reg['characters'] . '.');
-            } else if (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
+            } elseif (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
                 message($lang_prof_reg['Sig too many lines'] . ' ' . $pun_config['p_sig_lines'] . ' ' . $lang_prof_reg['lines'] . '.');
-            } else if ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) == $form['signature'] && $pun_user['g_id'] > PUN_MOD) {
+            } elseif ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) == $form['signature'] && $pun_user['g_id'] > PUN_MOD) {
                 $form['signature'] = ucwords(mb_strtolower($form['signature']));
             }
 
@@ -895,8 +922,12 @@ if ($action == 'change_pass') {
             // If the save_pass setting has changed, we need to set a new cookie with the appropriate expire date
             if ($pun_user['id'] == $id && $form['save_pass'] != $pun_user['save_pass']) {
                 $result = $db->query('SELECT `password` FROM `' . $db->prefix .
-                    'users` WHERE id=' . $id) or error('Unable to fetch user password hash',
-                    __FILE__, __LINE__, $db->error());
+                    'users` WHERE id=' . $id) or error(
+                        'Unable to fetch user password hash',
+                    __FILE__,
+                        __LINE__,
+                        $db->error()
+                    );
                 pun_setcookie($id, $db->result($result), ($form['save_pass'] == 1) ? $_SERVER['REQUEST_TIME'] +
                     31536000 : 0);
             }
@@ -976,7 +1007,8 @@ if ($user['signature']) {
 
 //if($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST)
 //{
-$q = $db->fetch_row($db->query('
+$q = $db->fetch_row($db->query(
+    '
     SELECT COUNT(1), (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $id . ') FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $id
 ));
 
@@ -996,7 +1028,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 ) {
     if (!$user['email_setting'] && !$pun_user['is_guest']) {
         $email_field = '<a href="mailto:' . rawurlencode($user['email']) . '">' . pun_htmlspecialchars($user['email']) . '</a>';
-    } else if ($user['email_setting'] == 1 && !$pun_user['is_guest']) {
+    } elseif ($user['email_setting'] == 1 && !$pun_user['is_guest']) {
         $email_field = '<a href="misc.php?email=' . $id . '">' . $lang_common['Send e-mail'] . '</a>';
     } else {
         $email_field = $lang_profile['Private'];
@@ -1020,9 +1052,9 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         if ($user['use_avatar'] == 1) {
             if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.gif')) {
                 $avatar_field = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.gif" ' . $img_size[3] . ' alt="" />';
-            } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.jpg')) {
+            } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.jpg')) {
                 $avatar_field = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.jpg" ' . $img_size[3] . ' alt="" />';
-            } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.png')) {
+            } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.png')) {
                 $avatar_field = '<img src="' . PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.png" ' . $img_size[3] . ' alt="" />';
             } else {
                 $avatar_field = $lang_profile['No avatar'];
@@ -1183,9 +1215,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             // PMS MOD BEGIN
             include PUN_ROOT . 'lang/' . $pun_user['language'] . '/pms.php';
             $email_field .= '<p><a href="message_send.php?id=' . $id . '">' . $lang_pms['Quick message'] . '</a></p>';
-            // PMS MOD END
-
-
+        // PMS MOD END
         } else {
             $username_field = '<p>' . $lang_common['Username'] . ': ' . pun_htmlspecialchars($user['username']) .
                 '</p>';
@@ -1215,7 +1245,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                 '" size="8" maxlength="8" /><br /></label>
 <p><a href="filemap.php?user_id=' . $id . '">' . $lang_profile['Show files'] .
                 '</a></p>';
-        } else if ($pun_config['o_show_post_count'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
+        } elseif ($pun_config['o_show_post_count'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
             $posts_field = '<p>' . $lang_common['Posts'] . ': ' . $user['num_posts'] .
                 ' - <a href="search.php?action=show_user&amp;user_id=' . $id . '">' . $lang_profile['Show posts'] .
                 '</a></p>';
@@ -1267,119 +1297,155 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <legend>' . $lang_prof_reg['Localisation legend'] . '</legend>
 <div class="infldset">
 <label>' . $lang_prof_reg['Timezone'] . ': ' . $lang_prof_reg['Timezone info'] .
-            '<br />';
-        ?>
+            '<br />'; ?>
     <select name="form[timezone]">
-    <option value="-12"<?php if ($user['timezone'] == -12)
-        echo ' selected="selected"' ?>>-12
+    <option value="-12"<?php if ($user['timezone'] == -12) {
+                echo ' selected="selected"';
+            } ?>>-12
     </option>
-    <option value="-11"<?php if ($user['timezone'] == -11)
-        echo ' selected="selected"' ?>>-11
+    <option value="-11"<?php if ($user['timezone'] == -11) {
+                echo ' selected="selected"';
+            } ?>>-11
     </option>
-    <option value="-10"<?php if ($user['timezone'] == -10)
-        echo ' selected="selected"' ?>>-10
+    <option value="-10"<?php if ($user['timezone'] == -10) {
+                echo ' selected="selected"';
+            } ?>>-10
     </option>
-    <option value="-9.5"<?php if ($user['timezone'] == -9.5)
-        echo ' selected="selected"' ?>>-09.5
+    <option value="-9.5"<?php if ($user['timezone'] == -9.5) {
+                echo ' selected="selected"';
+            } ?>>-09.5
     </option>
-    <option value="-9"<?php if ($user['timezone'] == -9)
-        echo ' selected="selected"' ?>>-09
+    <option value="-9"<?php if ($user['timezone'] == -9) {
+                echo ' selected="selected"';
+            } ?>>-09
     </option>
-    <option value="-8.5"<?php if ($user['timezone'] == -8.5)
-        echo ' selected="selected"' ?>>-08.5
+    <option value="-8.5"<?php if ($user['timezone'] == -8.5) {
+                echo ' selected="selected"';
+            } ?>>-08.5
     </option>
-    <option value="-8"<?php if ($user['timezone'] == -8)
-        echo ' selected="selected"' ?>>-08 PST
+    <option value="-8"<?php if ($user['timezone'] == -8) {
+                echo ' selected="selected"';
+            } ?>>-08 PST
     </option>
-    <option value="-7"<?php if ($user['timezone'] == -7)
-        echo ' selected="selected"' ?>>-07 MST
+    <option value="-7"<?php if ($user['timezone'] == -7) {
+                echo ' selected="selected"';
+            } ?>>-07 MST
     </option>
-    <option value="-6"<?php if ($user['timezone'] == -6)
-        echo ' selected="selected"' ?>>-06 CST
+    <option value="-6"<?php if ($user['timezone'] == -6) {
+                echo ' selected="selected"';
+            } ?>>-06 CST
     </option>
-    <option value="-5"<?php if ($user['timezone'] == -5)
-        echo ' selected="selected"' ?>>-05 EST
+    <option value="-5"<?php if ($user['timezone'] == -5) {
+                echo ' selected="selected"';
+            } ?>>-05 EST
     </option>
-    <option value="-4"<?php if ($user['timezone'] == -4)
-        echo ' selected="selected"' ?>>-04 AST
+    <option value="-4"<?php if ($user['timezone'] == -4) {
+                echo ' selected="selected"';
+            } ?>>-04 AST
     </option>
-    <option value="-3.5"<?php if ($user['timezone'] == -3.5)
-        echo ' selected="selected"' ?>>-03.5
+    <option value="-3.5"<?php if ($user['timezone'] == -3.5) {
+                echo ' selected="selected"';
+            } ?>>-03.5
     </option>
-    <option value="-3"<?php if ($user['timezone'] == -3)
-        echo ' selected="selected"' ?>>-03 ADT
+    <option value="-3"<?php if ($user['timezone'] == -3) {
+                echo ' selected="selected"';
+            } ?>>-03 ADT
     </option>
-    <option value="-2"<?php if ($user['timezone'] == -2)
-        echo ' selected="selected"' ?>>-02
+    <option value="-2"<?php if ($user['timezone'] == -2) {
+                echo ' selected="selected"';
+            } ?>>-02
     </option>
-    <option value="-1"<?php if ($user['timezone'] == -1)
-        echo ' selected="selected"' ?>>-01
+    <option value="-1"<?php if ($user['timezone'] == -1) {
+                echo ' selected="selected"';
+            } ?>>-01
     </option>
-    <option value="0"<?php if ($user['timezone'] == 0)
-        echo ' selected="selected"' ?>>00 GMT
+    <option value="0"<?php if ($user['timezone'] == 0) {
+                echo ' selected="selected"';
+            } ?>>00 GMT
     </option>
-    <option value="1"<?php if ($user['timezone'] == 1)
-        echo ' selected="selected"' ?>>+01 CET
+    <option value="1"<?php if ($user['timezone'] == 1) {
+                echo ' selected="selected"';
+            } ?>>+01 CET
     </option>
-    <option value="2"<?php if ($user['timezone'] == 2)
-        echo ' selected="selected"' ?>>+02
+    <option value="2"<?php if ($user['timezone'] == 2) {
+                echo ' selected="selected"';
+            } ?>>+02
     </option>
-    <option value="3"<?php if ($user['timezone'] == 3)
-        echo ' selected="selected"' ?>>+03
+    <option value="3"<?php if ($user['timezone'] == 3) {
+                echo ' selected="selected"';
+            } ?>>+03
     </option>
-    <option value="3.5"<?php if ($user['timezone'] == 3.5)
-        echo ' selected="selected"' ?>>+03.5
+    <option value="3.5"<?php if ($user['timezone'] == 3.5) {
+                echo ' selected="selected"';
+            } ?>>+03.5
     </option>
-    <option value="4"<?php if ($user['timezone'] == 4)
-        echo ' selected="selected"' ?>>+04
+    <option value="4"<?php if ($user['timezone'] == 4) {
+                echo ' selected="selected"';
+            } ?>>+04
     </option>
-    <option value="4.5"<?php if ($user['timezone'] == 4.5)
-        echo ' selected="selected"' ?>>+04.5
+    <option value="4.5"<?php if ($user['timezone'] == 4.5) {
+                echo ' selected="selected"';
+            } ?>>+04.5
     </option>
-    <option value="5"<?php if ($user['timezone'] == 5)
-        echo ' selected="selected"' ?>>+05
+    <option value="5"<?php if ($user['timezone'] == 5) {
+                echo ' selected="selected"';
+            } ?>>+05
     </option>
-    <option value="5.5"<?php if ($user['timezone'] == 5.5)
-        echo ' selected="selected"' ?>>+05.5
+    <option value="5.5"<?php if ($user['timezone'] == 5.5) {
+                echo ' selected="selected"';
+            } ?>>+05.5
     </option>
-    <option value="6"<?php if ($user['timezone'] == 6)
-        echo ' selected="selected"' ?>>+06
+    <option value="6"<?php if ($user['timezone'] == 6) {
+                echo ' selected="selected"';
+            } ?>>+06
     </option>
-    <option value="6.5"<?php if ($user['timezone'] == 6.5)
-        echo ' selected="selected"' ?>>+06.5
+    <option value="6.5"<?php if ($user['timezone'] == 6.5) {
+                echo ' selected="selected"';
+            } ?>>+06.5
     </option>
-    <option value="7"<?php if ($user['timezone'] == 7)
-        echo ' selected="selected"' ?>>+07
+    <option value="7"<?php if ($user['timezone'] == 7) {
+                echo ' selected="selected"';
+            } ?>>+07
     </option>
-    <option value="8"<?php if ($user['timezone'] == 8)
-        echo ' selected="selected"' ?>>+08
+    <option value="8"<?php if ($user['timezone'] == 8) {
+                echo ' selected="selected"';
+            } ?>>+08
     </option>
-    <option value="9"<?php if ($user['timezone'] == 9)
-        echo ' selected="selected"' ?>>+09
+    <option value="9"<?php if ($user['timezone'] == 9) {
+                echo ' selected="selected"';
+            } ?>>+09
     </option>
-    <option value="9.5"<?php if ($user['timezone'] == 9.5)
-        echo ' selected="selected"' ?>>+09.5
+    <option value="9.5"<?php if ($user['timezone'] == 9.5) {
+                echo ' selected="selected"';
+            } ?>>+09.5
     </option>
-    <option value="10"<?php if ($user['timezone'] == 10)
-        echo ' selected="selected"' ?>>+10
+    <option value="10"<?php if ($user['timezone'] == 10) {
+                echo ' selected="selected"';
+            } ?>>+10
     </option>
-    <option value="10.5"<?php if ($user['timezone'] == 10.5)
-        echo ' selected="selected"' ?>>+10.5
+    <option value="10.5"<?php if ($user['timezone'] == 10.5) {
+                echo ' selected="selected"';
+            } ?>>+10.5
     </option>
-    <option value="11"<?php if ($user['timezone'] == 11)
-        echo ' selected="selected"' ?>>+11
+    <option value="11"<?php if ($user['timezone'] == 11) {
+                echo ' selected="selected"';
+            } ?>>+11
     </option>
-    <option value="11.5"<?php if ($user['timezone'] == 11.5)
-        echo ' selected="selected"' ?>>+11.5
+    <option value="11.5"<?php if ($user['timezone'] == 11.5) {
+                echo ' selected="selected"';
+            } ?>>+11.5
     </option>
-    <option value="12"<?php if ($user['timezone'] == 12)
-        echo ' selected="selected"' ?>>+12
+    <option value="12"<?php if ($user['timezone'] == 12) {
+                echo ' selected="selected"';
+            } ?>>+12
     </option>
-    <option value="13"<?php if ($user['timezone'] == 13)
-        echo ' selected="selected"' ?>>+13
+    <option value="13"<?php if ($user['timezone'] == 13) {
+                echo ' selected="selected"';
+            } ?>>+13
     </option>
-    <option value="14"<?php if ($user['timezone'] == 14)
-        echo ' selected="selected"' ?>>+14
+    <option value="14"<?php if ($user['timezone'] == 14) {
+                echo ' selected="selected"';
+            } ?>>+14
     </option>
     </select>
     <br/></label>
@@ -1409,7 +1475,6 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 
 
             echo '</select><br /></label>';
-
         }
 
 
@@ -1438,8 +1503,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-
-    } else if ($_GET['section'] == 'personal') {
+    } elseif ($_GET['section'] == 'personal') {
         if ($pun_user['g_set_title'] == 1) {
             $title_field = '<label>' . $lang_common['Title'] . ' (<em>' . $lang_profile['Leave blank'] . '</em>)<br /><input type="text" name="title" value="' . pun_htmlspecialchars($user['title']) . '" size="30" maxlength="50" /><br /></label>';
         }
@@ -1494,9 +1558,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-
-    } else if ($_GET['section'] == 'messaging') {
-
+    } elseif ($_GET['section'] == 'messaging') {
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Profile'];
         require_once PUN_ROOT . 'header.php';
 
@@ -1540,14 +1602,14 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-    } else if ($_GET['section'] == 'personality') {
+    } elseif ($_GET['section'] == 'personality') {
         $avatar_field = '<a href="profile.php?action=upload_avatar&amp;id=' . $id . '">' .
             $lang_profile['Change avatar'] . '</a>';
         if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.gif')) {
             $avatar_format = 'gif';
-        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.jpg')) {
+        } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.jpg')) {
             $avatar_format = 'jpg';
-        } else if ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.png')) {
+        } elseif ($img_size = @getimagesize(PUN_ROOT . $pun_config['o_avatars_dir'] . '/' . $id . '.png')) {
             $avatar_format = 'png';
         } else {
             $avatar_field = '<a href="profile.php?action=upload_avatar&amp;id=' . $id . '">' . $lang_profile['Upload avatar'] . '</a>';
@@ -1619,8 +1681,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-
-    } else if ($_GET['section'] == 'display') {
+    } elseif ($_GET['section'] == 'display') {
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Profile'];
         require_once PUN_ROOT . 'header.php';
 
@@ -1738,8 +1799,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-
-    } else if ($_GET['section'] == 'privacy') {
+    } elseif ($_GET['section'] == 'privacy') {
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_common['Profile'];
         require_once PUN_ROOT . 'header.php';
 
@@ -1798,8 +1858,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
     </form>
     </div>
     </div>';
-
-    } else if ($_GET['section'] == 'admin') {
+    } elseif ($_GET['section'] == 'admin') {
         if ($pun_user['g_id'] > PUN_MOD || ($pun_user['g_id'] == PUN_MOD && !$pun_config['p_mod_ban_users'])) {
             message($lang_common['Bad request']);
         }
@@ -1825,10 +1884,8 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </div>
 </fieldset>
 </div>';
-
         } else {
             if ($pun_user['id'] != $id) {
-
                 echo '<legend>' . $lang_profile['Group membership legend'] . '</legend><div class="infldset"><select id="group_id" name="group_id">';
 
 
@@ -1849,7 +1906,6 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             echo '<legend>' . $lang_profile['Delete ban legend'] . '</legend><div class="infldset"><input type="submit" name="delete_user" value="' . $lang_profile['Delete user'] . '" /> <input type="submit" name="ban" value="' . $lang_profile['Ban user'] . '" /></div></fieldset></div>';
 
             if ($user['g_id'] == PUN_MOD || $user['g_id'] == PUN_ADMIN) {
-
                 echo '<div class="inform"><fieldset><legend>' . $lang_profile['Set mods legend'] . '</legend><div class="infldset"><p>' . $lang_profile['Moderator in info'] . '</p>';
 
 
@@ -1876,7 +1932,6 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                     echo '</div></div>';
                 }
                 echo '<br class="clearb" /><input type="submit" name="update_forums" value="' . $lang_profile['Update forums'] . '" /></div></fieldset></div>';
-
             }
         }
 

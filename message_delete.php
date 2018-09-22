@@ -31,12 +31,12 @@ if ($cur_post['owner'] != $pun_user['id']) {
 }
 
 if (isset($_POST['delete'])) {
-// confirm_referrer('message_delete.php');
+    // confirm_referrer('message_delete.php');
 
-// Delete message
+    // Delete message
     $db->query('DELETE FROM ' . $db->prefix . 'messages WHERE id=' . $id) or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
-// Redirect
+    // Redirect
     redirect('message_list.php?box=' . $_POST['box'] . '&p=' . $_POST['p'], $lang_pms['Del redirect']);
 } else {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_pms['Delete message'];

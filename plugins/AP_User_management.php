@@ -21,7 +21,7 @@ if (isset($_POST['prune'])) {
 
     if ($_POST['verified'] == 1) {
         $verified = '';
-    } else if ($_POST['verified'] == 0) {
+    } elseif ($_POST['verified'] == 0) {
         $verified = 'AND (group_id < 32000)';
     } else {
         $verified = 'AND (group_id = 32000)';
@@ -33,7 +33,7 @@ if (isset($_POST['prune'])) {
     $result = $db->query('DELETE FROM ' . $db->prefix . 'users WHERE (num_posts < ' . intval($_POST['posts']) . ') AND (' . $prune . ' < ' . intval($user_time) . ') AND (id > 2) AND (' . $admod_delete . ')' . $verified) or error('Unable to delete users', __FILE__, __LINE__, $db->error());
     $users_pruned = $db->affected_rows();
     message('Сокращение завершено. Удалены пользователи ' . $users_pruned . '.');
-} else if (isset($_POST['add_user'])) {
+} elseif (isset($_POST['add_user'])) {
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/prof_reg.php';
     require PUN_ROOT . 'lang/' . $pun_user['language'] . '/registration.php';
     $username = pun_trim($_POST['username']);
@@ -54,19 +54,19 @@ if (isset($_POST['prune'])) {
     // Validate username and passwords
     if (mb_strlen($username) < 2) {
         message($lang_prof_reg['Username too short']);
-    } else if (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } elseif (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         message($lang_common['Bad request']);
-    } else if (mb_strlen($password1) < 4) {
+    } elseif (mb_strlen($password1) < 4) {
         message($lang_prof_reg['Pass too short']);
-    } else if ($password1 != $password2) {
+    } elseif ($password1 != $password2) {
         message($lang_prof_reg['Pass not match']);
-    } else if (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+    } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
         message($lang_prof_reg['Username guest']);
-    } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         message($lang_prof_reg['Username IP']);
-    } else if ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
+    } elseif ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
         message($lang_prof_reg['Username reserved chars']);
-    } else if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]|\[hide|\[/hide\]#i', $username)) {
+    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]|\[hide|\[/hide\]#i', $username)) {
         message($lang_prof_reg['Username BBCode']);
     }
 
@@ -145,9 +145,7 @@ if (isset($_POST['prune'])) {
     message('Пользователь создан');
 } else {
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Управление пользователями - v<?php echo PLUGIN_VERSION; ?></span></h2>
 

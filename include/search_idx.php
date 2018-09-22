@@ -21,19 +21,19 @@ function split_words($text)
         $stopwords = array_map('trim', $stopwords);
     }
 
-// Clean up
+    // Clean up
     $patterns[] = '#&[\#a-z0-9]+?;#iu';
     $patterns[] = '#\b[\w]+:\/\/[a-z0-9\.\-]+(\/[a-z0-9\?\.%_\-\+=&\/~]+)?#u';
     $patterns[] = '#\[\/?[a-z\*=\+\-]+(\:?[0-9a-z]+)?:[a-z0-9]{10,}(\:[a-z0-9]+)?=?.*?\]#u';
     $text = preg_replace($patterns, ' ', ' ' . mb_strtolower($text) . ' ');
 
-// Filter out junk
+    // Filter out junk
     $text = str_replace($noise_match, $noise_replace, $text);
 
-// Strip out extra whitespace between words
+    // Strip out extra whitespace between words
     $text = trim(preg_replace('#\s+#u', ' ', $text));
 
-// Fill an array with all the words
+    // Fill an array with all the words
     $words = explode(' ', $text);
 
     if ($words) {
@@ -58,14 +58,14 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 {
     global $db;
 
-// Split old and new post/subject to obtain array of 'words'
+    // Split old and new post/subject to obtain array of 'words'
     $words_message = split_words($message);
     $words_subject = ($subject) ? split_words($subject) : array();
 
     if ($mode == 'edit') {
         $result = $db->query('SELECT w.id, w.word, m.subject_match FROM ' . $db->prefix . 'search_words AS w INNER JOIN ' . $db->prefix . 'search_matches AS m ON w.id=m.word_id WHERE m.post_id=' . $post_id) or error('Unable to fetch search index words', __FILE__, __LINE__, $db->error());
 
-// Declare here to stop array_keys() and array_diff() from complaining if not set
+        // Declare here to stop array_keys() and array_diff() from complaining if not set
         $cur_words['post'] = array();
         $cur_words['subject'] = array();
 
@@ -89,7 +89,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 
     unset($words_message, $words_subject);
 
-// Get unique words from the above arrays
+    // Get unique words from the above arrays
     $unique_words = array_unique(array_merge($words['add']['post'], $words['add']['subject']));
 
     if ($unique_words) {
@@ -112,7 +112,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
         unset($new_words);
     }
 
-// Delete matches (only if editing a post)
+    // Delete matches (only if editing a post)
     foreach ($words['del'] as $match_in => $wordlist) {
         $subject_match = ($match_in == 'subject') ? 1 : 0;
 
@@ -126,7 +126,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
         }
     }
 
-// Add new matches
+    // Add new matches
     foreach ($words['add'] as $match_in => $wordlist) {
         $subject_match = ($match_in == 'subject') ? 1 : 0;
 

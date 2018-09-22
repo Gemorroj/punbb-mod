@@ -16,7 +16,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 // Add a rank
 if (isset($_POST['add_rank'])) {
-//confirm_referrer('admin_ranks.php');
+    //confirm_referrer('admin_ranks.php');
 
     $rank = trim($_POST['new_rank']);
     $min_posts = $_POST['new_min_posts'];
@@ -29,7 +29,7 @@ if (isset($_POST['add_rank'])) {
         message($lang_admin['Rank posts not numeric']);
     }
 
-// Make sure there isn't already a rank with the same min_posts value
+    // Make sure there isn't already a rank with the same min_posts value
     $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'ranks WHERE min_posts=' . $min_posts) or error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         message($lang_admin['Double rank']);
@@ -37,14 +37,14 @@ if (isset($_POST['add_rank'])) {
 
     $db->query('INSERT INTO ' . $db->prefix . 'ranks (rank, min_posts) VALUES(\'' . $db->escape($rank) . '\', ' . $min_posts . ')') or error('Unable to add rank', __FILE__, __LINE__, $db->error());
 
-// Regenerate the ranks cache
+    // Regenerate the ranks cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_ranks_cache();
 
     redirect('admin_ranks.php', $lang_admin['Added'] . ' ' . $lang_admin['Redirect']);
 } // Update a rank
-else if (isset($_POST['update'])) {
-//confirm_referrer('admin_ranks.php');
+elseif (isset($_POST['update'])) {
+    //confirm_referrer('admin_ranks.php');
 
     $id = intval(key($_POST['update']));
 
@@ -59,7 +59,7 @@ else if (isset($_POST['update'])) {
         message($lang_admin['Rank posts not numeric']);
     }
 
-// Make sure there isn't already a rank with the same min_posts value
+    // Make sure there isn't already a rank with the same min_posts value
     $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'ranks WHERE id!=' . $id . ' AND min_posts=' . $min_posts) or error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         message($lang_admin['Double rank']);
@@ -67,20 +67,20 @@ else if (isset($_POST['update'])) {
 
     $db->query('UPDATE ' . $db->prefix . 'ranks SET rank=\'' . $db->escape($rank) . '\', min_posts=' . $min_posts . ' WHERE id=' . $id) or error('Unable to update rank', __FILE__, __LINE__, $db->error());
 
-// Regenerate the ranks cache
+    // Regenerate the ranks cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_ranks_cache();
 
     redirect('admin_ranks.php', $lang_admin['Updated'] . ' ' . $lang_admin['Redirect']);
 } // Remove a rank
-else if (isset($_POST['remove'])) {
-//confirm_referrer('admin_ranks.php');
+elseif (isset($_POST['remove'])) {
+    //confirm_referrer('admin_ranks.php');
 
     $id = intval(key($_POST['remove']));
 
     $db->query('DELETE FROM ' . $db->prefix . 'ranks WHERE id=' . $id) or error('Unable to delete rank', __FILE__, __LINE__, $db->error());
 
-// Regenerate the ranks cache
+    // Regenerate the ranks cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_ranks_cache();
 
@@ -145,7 +145,6 @@ if ($db->num_rows($result)) {
     }
 
     print '</tbody></table>';
-
 } else {
     echo '<p>' . $lang_admin['Not ranks'] . '</p>';
 }

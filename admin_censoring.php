@@ -16,7 +16,7 @@ if ($pun_user['g_id'] > PUN_MOD) {
 
 // Add a censor word
 if (isset($_POST['add_word'])) {
-//confirm_referrer('admin_censoring.php');
+    //confirm_referrer('admin_censoring.php');
 
     $search_for = trim($_POST['new_search_for']);
     $replace_with = trim($_POST['new_replace_with']);
@@ -29,8 +29,8 @@ if (isset($_POST['add_word'])) {
 
     redirect('admin_censoring.php', $lang_admin['Added'] . ' ' . $lang_admin['Redirect']);
 } // Update a censor word
-else if (isset($_POST['update'])) {
-//confirm_referrer('admin_censoring.php');
+elseif (isset($_POST['update'])) {
+    //confirm_referrer('admin_censoring.php');
 
     $id = intval(key($_POST['update']));
 
@@ -45,8 +45,8 @@ else if (isset($_POST['update'])) {
 
     redirect('admin_censoring.php', $lang_admin['Updated'] . ' ' . $lang_admin['Redirect']);
 } // Remove a censor word
-else if (isset($_POST['remove'])) {
-//confirm_referrer('admin_censoring.php');
+elseif (isset($_POST['remove'])) {
+    //confirm_referrer('admin_censoring.php');
 
     $id = intval(key($_POST['remove']));
 
@@ -102,7 +102,6 @@ generate_admin_menu('censoring');
 
 $result = $db->query('SELECT id, search_for, replace_with FROM ' . $db->prefix . 'censoring ORDER BY id') or error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
-
     echo '<table cellspacing="0">
 <thead>
 <tr>
@@ -119,7 +118,6 @@ if ($db->num_rows($result)) {
     }
 
     echo '</tbody></table>';
-
 } else {
     echo '<p>' . $lang_admin['Not cens'] . '</p>';
 }

@@ -20,7 +20,8 @@ require PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
 $user_id = isset($_GET['user_id']) ? (int) $_GET['user_id'] : null;
 
 if ($user_id) {
-    $result = $db->query('
+    $result = $db->query(
+        '
         SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title
         FROM `' . $db->prefix . 'users` AS u
         JOIN `' . $db->prefix . 'groups` AS g ON (u.group_id=g.g_id)
@@ -68,7 +69,8 @@ if (!$fid_list) {
     $num_rows = 0;
 } else {
     // get number of topics and which we have to start from
-    $result = $db->query('
+    $result = $db->query(
+        '
         SELECT COUNT(1)
         FROM ' . $db->prefix . 'attachments AS a
         INNER JOIN ' . $db->prefix . 'topics AS t ON a.topic_id=t.id
@@ -91,7 +93,8 @@ $paging_links = paginate($num_pages, $p, 'filemap.php?' . $user_cond);
 $attachments = array();
 if ($fid_list) {
     // loop through topics
-    $result = $db->query('
+    $result = $db->query(
+        '
         SELECT f.cat_id,
         t.forum_id, t.id AS tid, t.subject, t.last_post, t.poster, t.posted,
         a.id AS id, a.mime, a.uploaded, a.image_dim, a.filename, a.downloads, a.location, a.size

@@ -34,7 +34,6 @@ $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHER
 
 if ($db->num_rows($result)) {
     while ($cur_group = $db->fetch_assoc($result)) {
-
         $groups[] = $cur_group;
     }
 }

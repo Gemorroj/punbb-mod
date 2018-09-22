@@ -104,7 +104,7 @@ function pun_mail($to, $subject, $message, $reply = '')
         // Change the linebreaks used in the headers according to OS
         if (strtoupper(substr(PHP_OS, 0, 3)) == 'MAC') {
             $headers = str_replace("\r\n", "\r", $headers);
-        } else if (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
+        } elseif (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
             $headers = str_replace("\r\n", "\n", $headers);
         }
 

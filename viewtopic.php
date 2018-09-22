@@ -51,7 +51,7 @@ if ($pid) {
 
     $_GET['p'] = ceil($i / $pun_user['disp_posts']);
 } // If action=new, we redirect to the first new post (if any)
-else if ($action == 'new' && !$pun_user['is_guest']) {
+elseif ($action == 'new' && !$pun_user['is_guest']) {
     $result = $db->query('SELECT MIN(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id . ' AND posted>' . $pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $first_new_post_id = $db->result($result);
 
@@ -61,7 +61,7 @@ else if ($action == 'new' && !$pun_user['is_guest']) {
         // If there is no new post, we go to the last post
         redirect('viewtopic.php?id=' . $id . '&action=last', '');
     }
-} else if ($action == 'last') {
+} elseif ($action == 'last') {
     // If action=last, we redirect to the last post
 
     $result = $db->query('SELECT MAX(id) FROM ' . $db->prefix . 'posts WHERE topic_id=' . $id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -88,7 +88,6 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-
     $message_stack = array();
     if ($cur_topic['log_time'] == null) {
         $db->query('INSERT INTO ' . $db->prefix . 'log_topics (user_id, forum_id, topic_id, log_time) VALUES (' . $pun_user['id'] . ', ' . $cur_topic['forum_id'] . ', ' . $id . ', ' . $_SERVER['REQUEST_TIME'] . ')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
@@ -219,7 +218,8 @@ $post_count = 0; // Keep track of post numbers
 
 // Retrieve the posts (and their respective poster/online status)
 
-$result = $db->query('
+$result = $db->query(
+    '
     SELECT u.email, u.title, u.url, u.location, u.use_avatar, u.signature, u.email_setting, u.num_posts, u.registered, u.admin_note, p.id, p.poster AS username, p.poster_id, p.poster_ip, p.poster_email, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by, g.g_id, g.g_user_title, o.user_id AS is_online
     FROM `' . $db->prefix . 'posts` AS p
     INNER JOIN `' . $db->prefix . 'users` AS u ON u.id=p.poster_id
@@ -296,7 +296,8 @@ foreach ($posts as $cur_post) {
 
 
             if ($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST) {
-                $q = $db->fetch_row($db->query('
+                $q = $db->fetch_row($db->query(
+                    '
                     SELECT COUNT(1),
                     (SELECT COUNT(1) FROM `' . $db->prefix . 'karma` WHERE `vote` = "-1" AND `to` = ' . $cur_post['poster_id'] . ')
                     FROM `' . $db->prefix . 'karma` WHERE `vote` = "1" AND `to` = ' . $cur_post['poster_id']
@@ -309,7 +310,7 @@ foreach ($posts as $cur_post) {
 
                 if ($pun_user['is_guest']) {
                     $user_info[] = '<dd>' . $lang_common['Karma'] . ': ' . $karma['karma'];
-                } else if ($db->num_rows($db->query('SELECT 1 FROM `' . $db->prefix . 'karma` WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . $cur_post['poster_id'] . ' LIMIT 1'))) {
+                } elseif ($db->num_rows($db->query('SELECT 1 FROM `' . $db->prefix . 'karma` WHERE `id`=' . $pun_user['id'] . ' AND `to`=' . $cur_post['poster_id'] . ' LIMIT 1'))) {
                     $user_info[] = '<dd>' . $lang_common['Karma'] . ': ' . $karma['karma'];
                 } else {
                     $user_info[] = '<dd>' . $lang_common['Karma'] . ': <span class="num_' . $cur_post['poster_id'] . '">' . $karma['karma'] . '</span> <span class="karma_' . $cur_post['poster_id'] . '"><a href="javascript:karmaPlus(' . $cur_post['poster_id'] . ');">+</a>/<a href="javascript:karmaMinus(' . $cur_post['poster_id'] . ');">-</a></span>';
@@ -324,7 +325,7 @@ foreach ($posts as $cur_post) {
             // Now let's deal with the contact links (E-mail and URL)
             if ((!$cur_post['email_setting'] && !$pun_user['is_guest']) || $pun_user['g_id'] < PUN_GUEST) {
                 $user_contacts[] = '<a href="mailto:' . $cur_post['email'] . '">' . $lang_common['E-mail'] . '</a>';
-            } else if ($cur_post['email_setting'] == 1 && !$pun_user['is_guest']) {
+            } elseif ($cur_post['email_setting'] == 1 && !$pun_user['is_guest']) {
                 $user_contacts[] = '<a href="misc.php?email=' . $cur_post['poster_id'] . '">' . $lang_common['E-mail'] . '</a>';
             }
 

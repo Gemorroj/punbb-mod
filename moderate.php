@@ -26,7 +26,7 @@ if (isset($_GET['get_host'])) {
         $ip = $db->result($result);
     }
 
-	$whois = gethostbyaddr($ip);
+    $whois = gethostbyaddr($ip);
     if ($whois != $ip) {
         $whois = ' (' . $whois . ')';
     } else {
@@ -491,7 +491,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
+} elseif (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
     // Open or close one or more topics
     $action = (isset($_REQUEST['open'])) ? 0 : 1;
 
@@ -522,7 +522,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         $redirect_msg = ($action) ? $lang_misc['Close topic redirect'] : $lang_misc['Open topic redirect'];
         redirect('viewtopic.php?id=' . $topic_id, $redirect_msg);
     }
-} else if (isset($_GET['stick'])) {
+} elseif (isset($_GET['stick'])) {
     // Stick a topic
     //confirm_referrer('viewtopic.php');
 
@@ -534,7 +534,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     $db->query('UPDATE ' . $db->prefix . 'topics SET sticky=1 WHERE id=' . $stick . ' AND forum_id=' . $fid) or error('Unable to stick topic', __FILE__, __LINE__, $db->error());
 
     redirect('viewtopic.php?id=' . $stick, $lang_misc['Stick topic redirect']);
-} else if (isset($_GET['unstick'])) {
+} elseif (isset($_GET['unstick'])) {
     // Unstick a topic
     //confirm_referrer('viewtopic.php');
 
@@ -640,7 +640,7 @@ if ($db->num_rows($result)) {
 
         if ($cur_topic['moved_to']) {
             $subject = $lang_forum['Moved'] . ': <a href="viewtopic.php?id=' . $cur_topic['moved_to'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span class="byuser">' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';
-        } else if (!$cur_topic['closed']) {
+        } elseif (!$cur_topic['closed']) {
             $subject = '<a href="viewtopic.php?id=' . $cur_topic['id'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span>' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';
         } else {
             $subject = '<a href="viewtopic.php?id=' . $cur_topic['id'] . '">' . pun_htmlspecialchars($cur_topic['subject']) . '</a> <span class="byuser">' . $lang_common['by'] . ' ' . pun_htmlspecialchars($cur_topic['poster']) . '</span>';
@@ -690,9 +690,10 @@ if ($db->num_rows($result)) {
         if (!empty($subject_new_posts) || !empty($subject_multipage)) {
             $subject .= ' ' . (!empty($subject_new_posts) ? $subject_new_posts : '');
             $subject .= !empty($subject_multipage) ? ' ' . $subject_multipage : '';
-        }
-        ?>
-    <tr<?php if ($item_status) echo ' class="' . trim($item_status) . '"'; ?>>
+        } ?>
+    <tr<?php if ($item_status) {
+            echo ' class="' . trim($item_status) . '"';
+        } ?>>
         <td class="tcl">
             <div class="<?php echo $icon_type ?>">
                 <div class="nosize"><?php echo trim($icon_text); ?></div>

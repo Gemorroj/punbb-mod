@@ -9,7 +9,7 @@ require_once PUN_ROOT . 'include/parser.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
-} else if (!$pun_user['g_search']) {
+} elseif (!$pun_user['g_search']) {
     wap_message($lang_search['No search permission']);
 }
 
@@ -27,7 +27,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         if ($search_id < 1) {
             wap_message($lang_common['Bad request']);
         }
-    } else if ($_GET['action'] == 'search') {
+    } elseif ($_GET['action'] == 'search') {
         // If it's a regular search (keywords and/or author)
 
         // UTF FIX BEGIN
@@ -55,7 +55,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $show_as = (isset($_GET['show_as'])) ? $_GET['show_as'] : 'posts';
         $sort_by = intval($_GET['sort_by']);
         $search_in = (!isset($_GET['search_in']) || $_GET['search_in'] == 'all') ? 0 : (($_GET['search_in'] == 'message') ? 1 : -1);
-    } else if ($_GET['action'] == 'show_user') {
+    } elseif ($_GET['action'] == 'show_user') {
         // If it's a user search (by id)
         $user_id = intval($_GET['user_id']);
         if ($user_id < 2) {
@@ -162,9 +162,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                                 if (!$word_count) {
                                     $result_list[$temp[0]] = 1;
-                                } else if ($match_type == 'or') {
+                                } elseif ($match_type == 'or') {
                                     $result_list[$temp[0]] = 1;
-                                } else if ($match_type == 'not') {
+                                } elseif ($match_type == 'not') {
                                     $result_list[$temp[0]] = 0;
                                 }
                             }
@@ -227,8 +227,8 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             if ($author && $keywords) {
                 // If we searched for both keywords and author name we want the intersection between the results
                 $search_ids = array_intersect($keyword_results, $author_results);
-                unset ($keyword_results, $author_results);
-            } else if ($keywords) {
+                unset($keyword_results, $author_results);
+            } elseif ($keywords) {
                 $search_ids = $keyword_results;
             } else {
                 $search_ids = $author_results;
@@ -261,7 +261,8 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $num_hits = count($search_ids);
             } else {
-                $result = $db->query('
+                $result = $db->query(
+                    '
                     SELECT p.id
                     FROM ' . $db->prefix . 'posts AS p
                     INNER JOIN ' . $db->prefix . 'topics AS t ON t.id=p.topic_id
@@ -281,7 +282,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $num_hits = count($search_ids);
             }
-        } else if ($_GET['action'] == 'show_new' || $_GET['action'] == 'show_24h' || $_GET['action'] == 'show_user' || $_GET['action'] == 'show_subscriptions' || $_GET['action'] == 'show_unanswered') {
+        } elseif ($_GET['action'] == 'show_new' || $_GET['action'] == 'show_24h' || $_GET['action'] == 'show_user' || $_GET['action'] == 'show_subscriptions' || $_GET['action'] == 'show_unanswered') {
             // If it's a search for new posts
             if ($_GET['action'] == 'show_new') {
                 if ($pun_user['is_guest']) {
@@ -302,7 +303,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 if (!$num_hits) {
                     wap_message($lang_search['No new posts']);
                 }
-            } else if ($_GET['action'] == 'show_24h') {
+            } elseif ($_GET['action'] == 'show_24h') {
                 // If it's a search for todays posts
                 $result = $db->query('
                     SELECT t.id
@@ -318,7 +319,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 if (!$num_hits) {
                     wap_message($lang_search['No recent posts']);
                 }
-            } else if ($_GET['action'] == 'show_user') {
+            } elseif ($_GET['action'] == 'show_user') {
                 // If it's a search for posts by a specific user ID
                 $result = $db->query('
                     SELECT t.id
@@ -335,7 +336,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 if (!$num_hits) {
                     wap_message($lang_search['No user posts']);
                 }
-            } else if ($_GET['action'] == 'show_subscriptions') {
+            } elseif ($_GET['action'] == 'show_subscriptions') {
                 // If it's a search for subscribed topics
                 if ($pun_user['is_guest']) {
                     wap_message($lang_common['Bad request']);

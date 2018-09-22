@@ -45,11 +45,11 @@ $result = $db->query(
 . 'LEFT JOIN `' . $db->prefix . 'log_forums` AS `lf` '
 . 'ON (`lf`.`user_id`=' . $pun_user['id'] . ' AND `lf`.`forum_id`=`f`.`id`) '
 . 'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
-. 'AND `f`.`id`=' . $id)
+. 'AND `f`.`id`=' . $id
+)
 or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 if (! $db->num_rows($result)) {
-    
     wap_message($lang_common['Bad request']);
 }
 
@@ -62,15 +62,16 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     . '(`user_id`, `forum_id`, `log_time`) '
     . 'VALUES (' . $pun_user['id'] . ', '
     . $cur_forum['forum_id'] . ', '
-    . $_SERVER['REQUEST_TIME'] . ')')
+    . $_SERVER['REQUEST_TIME'] . ')'
+    )
     or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
-}
-else {
+} else {
     $result = $db->query(
     'UPDATE `' . $db->prefix . 'log_forums` '
     . 'SET `log_time`=' . $_SERVER['REQUEST_TIME'] . ' '
     . 'WHERE `forum_id`=' . $cur_forum['forum_id'] . ' '
-    . 'AND `user_id`=' . $pun_user['id'])
+    . 'AND `user_id`=' . $pun_user['id']
+    )
     or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 }
 //- REAL MARK TOPIC AS READ MOD
@@ -89,10 +90,11 @@ if ($cur_forum['moderators']) {
 $is_admmod = false;
 if ($pun_user['g_id'] == PUN_ADMIN
     || ($pun_user['g_id'] == PUN_MOD
-        && array_key_exists($pun_user['username'],
-                            $mods_array))
+        && array_key_exists(
+            $pun_user['username'],
+                            $mods_array
+        ))
     ) {
-    
     $is_admmod = true;
 }
 
@@ -115,7 +117,6 @@ $paging_links = paginate($num_pages, $p, 'viewforum.php?id=' . $id);
 //+ REAL MARK TOPIC AS READ MOD
 // ......................... Without "the dot"
 if ($pun_user['is_guest'] || ! $pun_config['o_show_dot']) {
-    
     $sql = 'SELECT `t`.`id`, '
          . '`t`.`poster`, '
          . '`t`.`has_poll`, '
@@ -179,7 +180,6 @@ if ($db->num_rows($result)) {
         // Pagination in topics on index page.
         $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
         if (1 < $num_pages_topic) {
-            
             $cur_topic['paging_links'] = paginate($num_pages_topic, -1, 'viewtopic.php?id=' . $cur_topic['id']);
         }
         if ($pun_config['o_censoring'] == 1) {

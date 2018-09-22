@@ -22,7 +22,7 @@ $box = intval($_GET['box']);
 
 if ($box == 1) {
     $name = $lang_pms['Outbox'];
-} else if ($box == 2) {
+} elseif ($box == 2) {
     $name = $lang_pms['Options'];
 } else {
     $box = 0;
@@ -57,7 +57,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
 
         require_once PUN_ROOT . 'footer.php';
     }
-} else if ($_GET['action'] === 'markall') {
+} elseif ($_GET['action'] === 'markall') {
     // Mark all messages as read
     $db->query('UPDATE ' . $db->prefix . 'messages SET showed=1 WHERE owner=' . $pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
     redirect('message_list.php?box=' . $box . '&p=' . $p, $lang_pms['Read redirect']);
@@ -90,11 +90,17 @@ require_once PUN_ROOT . 'header.php';
     <div class="box">
         <div class="inbox">
             <ul>
-                <li <?php if ($box == 0) echo 'class="isactive"'; ?>><a
+                <li <?php if ($box == 0) {
+    echo 'class="isactive"';
+} ?>><a
                     href="message_list.php?box=0"><?php echo $lang_pms['Inbox']; ?></a></li>
-                <li <?php if ($box == 1) echo 'class="isactive"'; ?>><a
+                <li <?php if ($box == 1) {
+    echo 'class="isactive"';
+} ?>><a
                     href="message_list.php?box=1"><?php echo $lang_pms['Outbox']; ?></a></li>
-                <li <?php if ($box == 2) echo 'class="isactive"'; ?>><a
+                <li <?php if ($box == 2) {
+    echo 'class="isactive"';
+} ?>><a
                     href="message_list.php?box=2"><?php echo $lang_pms['Options']; ?></a></li>
                 <li><a href="message_send.php"><?php echo $lang_pms['New message']; ?></a></li>
             </ul>
@@ -107,15 +113,16 @@ if ($box < 2) {
 
 //Are we viewing a PM?
     if (isset($_GET['id'])) {
-//Yes! Lets get the details
+        //Yes! Lets get the details
         $id = intval($_GET['id']);
 
-// Set user
+        // Set user
         $result = $db->query('SELECT status, owner FROM ' . $db->prefix . 'messages WHERE id=' . $id) or error('Unable to get message status', __FILE__, __LINE__, $db->error());
         list($status, $owner) = $db->fetch_row($result);
         $status == 0 ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
-        $result = $db->query('
+        $result = $db->query(
+            '
     SELECT m.id AS mid,
     m.subject,
     m.sender_ip,
@@ -165,12 +172,12 @@ if ($box < 2) {
                 $user_title = censor_words($user_title);
             }
 
-// Format the online indicator
+            // Format the online indicator
             $is_online = ($cur_post['is_online'] == $cur_post['id']) ? '<strong>' . $lang_topic['Online'] . '</strong>' : $lang_topic['Offline'];
 
             $user_avatar = pun_show_avatar();
 
-// We only show location, register date, post count and the contact links if "Show user info" is enabled
+            // We only show location, register date, post count and the contact links if "Show user info" is enabled
             if ($pun_config['o_show_user_info'] == 1) {
                 if ($cur_post['location']) {
                     if ($pun_config['o_censoring'] == 1) {
@@ -186,10 +193,10 @@ if ($box < 2) {
                     $user_info[] = '<dd>' . $lang_common['Posts'] . ': ' . $cur_post['num_posts'];
                 }
 
-// Now let's deal with the contact links (E-mail and URL)
+                // Now let's deal with the contact links (E-mail and URL)
                 if ((!$cur_post['email_setting'] && !$pun_user['is_guest']) || $pun_user['g_id'] < PUN_GUEST) {
                     $user_contacts[] = '<a href="mailto:' . $cur_post['email'] . '">' . $lang_common['E-mail'] . '</a>';
-                } else if ($cur_post['email_setting'] == 1 && !$pun_user['is_guest']) {
+                } elseif ($cur_post['email_setting'] == 1 && !$pun_user['is_guest']) {
                     $user_contacts[] = '<a href="misc.php?email=' . $cur_post['id'] . '">' . $lang_common['E-mail'] . '</a>';
                 }
                 include PUN_ROOT . 'include/pms/viewtopic_PM-link.php';
@@ -198,7 +205,7 @@ if ($box < 2) {
                 }
             }
 
-//Moderator and Admin stuff
+            //Moderator and Admin stuff
             if ($pun_user['g_id'] < PUN_GUEST) {
                 $user_info[] = '<dd>IP: <a href="moderate.php?get_host=' . $cur_post['id'] . '">' . $cur_post['sender_ip'] . '</a>';
 
@@ -206,7 +213,7 @@ if ($box < 2) {
                     $user_info[] = '<dd>' . $lang_topic['Note'] . ': <strong>' . pun_htmlspecialchars($cur_post['admin_note']) . '</strong>';
                 }
             }
-// Generation post action array (reply, delete etc.)
+            // Generation post action array (reply, delete etc.)
             if (!$status) {
                 $post_actions[] = '<li><a href="message_send.php?id=' . $cur_post['id'] . '&amp;reply=' . $cur_post['mid'] . '">' . $lang_pms['Reply'] . '</a>';
             }
@@ -216,7 +223,6 @@ if ($box < 2) {
             if (!$status) {
                 $post_actions[] = '<li><a href="message_send.php?id=' . $cur_post['id'] . '&amp;quote=' . $cur_post['mid'] . '">' . $lang_pms['Quote'] . '</a>';
             }
-
         } // If the sender has been deleted
         else {
             $result = $db->query('SELECT id,sender,message,posted FROM ' . $db->prefix . 'messages WHERE id=' . $id) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
@@ -230,16 +236,14 @@ if ($box < 2) {
             $is_online = $lang_topic['Offline'];
         }
 
-// Perform the main parsing of the message (BBCode, smilies, censor words etc)
+        // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
         $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys']);
 
-// Do signature parsing/caching
+        // Do signature parsing/caching
         if (isset($cur_post['signature']) && $pun_user['show_sig']) {
             $signature = parse_signature($cur_post['signature']);
-        }
-
-        ?>
+        } ?>
 <div id="p<?php echo $cur_post['id']; ?>" class="blockpost row_odd firstpost" style="margin-left: 14em;">
     <h2><span><?php echo format_time($cur_post['posted']); ?></span></h2>
 
@@ -249,19 +253,33 @@ if ($box < 2) {
                 <dl>
                     <dt><strong><?php echo $username; ?></strong></dt>
                     <dd class="usertitle"><strong><?php echo $user_title; ?></strong></dd>
-                    <dd class="postavatar"><?php if (isset($user_avatar)) echo $user_avatar; ?></dd>
-                    <?php if (isset($user_info)) if ($user_info) echo implode('</dd>', $user_info) . '</dd>'; ?>
-                    <?php if (isset($user_contacts)) if ($user_contacts) echo '<dd class="usercontacts">' . implode(' ', $user_contacts) . '</dd>'; ?>
+                    <dd class="postavatar"><?php if (isset($user_avatar)) {
+            echo $user_avatar;
+        } ?></dd>
+                    <?php if (isset($user_info)) {
+            if ($user_info) {
+                echo implode('</dd>', $user_info) . '</dd>';
+            }
+        } ?>
+                    <?php if (isset($user_contacts)) {
+            if ($user_contacts) {
+                echo '<dd class="usercontacts">' . implode(' ', $user_contacts) . '</dd>';
+            }
+        } ?>
                 </dl>
             </div>
             <div class="postright">
                 <div class="postmsg">
                     <?php echo $cur_post['message']; ?>
                 </div>
-                <?php if (isset($signature)) echo '<div class="postsignature"><hr />' . $signature . '</div>'; ?>
+                <?php if (isset($signature)) {
+            echo '<div class="postsignature"><hr />' . $signature . '</div>';
+        } ?>
             </div>
             <div class="clearer"></div>
-            <div class="postfootleft"><?php if ($cur_post['id'] > 1) echo '<p>' . $is_online . '</p>'; ?></div>
+            <div class="postfootleft"><?php if ($cur_post['id'] > 1) {
+            echo '<p>' . $is_online . '</p>';
+        } ?></div>
             <div
                 class="postfootright"><?php echo ($post_actions) ? '<ul>' . implode($lang_topic['Link separator'] . '</li>', $post_actions) . '</li></ul></div>' : '<div> </div></div>' ?>
             </div>
@@ -269,7 +287,7 @@ if ($box < 2) {
     </div>
     <div class="clearer"></div>
 <?php
-}
+    }
 
     if ($_GET['action'] == 'all') {
         $p = $num_pages + 1;
@@ -313,11 +331,11 @@ if ($box < 2) {
 <tbody>';
 
 
-// Fetch messages
+    // Fetch messages
     $result = $db->query('SELECT * FROM ' . $db->prefix . 'messages WHERE owner=' . $pun_user['id'] . ' AND status=' . $box . ' ORDER BY posted DESC ' . $limit) or error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
     $new_messages = $messages_exist = false;
 
-// If there are messages in this folder.
+    // If there are messages in this folder.
     if ($all = $db->num_rows($result)) {
         $messages_exist = true;
         while ($cur_mess = $db->fetch_assoc($result)) {
@@ -348,7 +366,6 @@ if ($box < 2) {
 <td style="white-space:nowrap;">' . format_time($cur_mess['posted']) . '</td>
 <td style="text-align:center;"><input type="checkbox" name="delete_messages[]" value="' . $cur_mess['id'] . '"/></td>
 </tr>';
-
         }
     } else {
         echo '<tr><td class="puncon1" colspan="' . (isset($_GET['action']) ? 4 : 3) . '">' . $lang_pms['No messages'] . '</td></tr>';
@@ -367,9 +384,7 @@ if ($box < 2) {
     if (isset($_GET['id'])) {
         $forum_id = $id;
     }
-
 } else {
-
     if (isset($_POST['update'])) {
         isset($_POST['popup_enable']) ? $popup = 1 : $popup = 0;
         isset($_POST['messages_enable']) ? $msg_enable = 1 : $msg_enable = 0;
@@ -411,7 +426,6 @@ if ($box < 2) {
 </div>
 <div class="clearer"></div>
 </div>';
-
 }
 $footer_style = 'message_list';
 require_once PUN_ROOT . 'footer.php';

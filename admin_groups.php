@@ -20,8 +20,7 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
         $group = $db->fetch_assoc($result);
 
         $mode = 'add';
-    } else // We are editing a group
-    {
+    } else { // We are editing a group
         $group_id = intval($_GET['edit_group']);
         if ($group_id < 1) {
             message($lang_common['Bad request']);
@@ -43,9 +42,7 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
     $focus_element = array('groups2', 'req_title');
     require_once PUN_ROOT . 'header.php';
 
-    generate_admin_menu('groups');
-
-    ?>
+    generate_admin_menu('groups'); ?>
 <div class="blockform">
     <h2><span>Настройки группы</span></h2>
 
@@ -70,7 +67,9 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Название группы</th>
                                 <td>
                                     <input type="text" name="req_title" size="25" maxlength="50"
-                                           value="<?php if ($mode == 'edit') echo pun_htmlspecialchars($group['g_title']); ?>"/>
+                                           value="<?php if ($mode == 'edit') {
+        echo pun_htmlspecialchars($group['g_title']);
+    } ?>"/>
                                 </td>
                             </tr>
                             <tr>
@@ -86,10 +85,14 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Читать форумы</th>
                                 <td>
                                     <input type="radio" name="read_board"
-                                           value="1"<?php if ($group['g_read_board'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_read_board'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                            name="read_board"
-                                           value="0"<?php if (!$group['g_read_board']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                           value="0"<?php if (!$group['g_read_board']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Позволить пользователям этой группы смотреть форумы. Эта настройка применяется к любым аспектам форумов и следовательно не может быть отменена специальными настройками форума. Если выбрать "Нет", пользователи этой группы смогут только войти/выйти и зарегистрироваться.</span>
                                 </td>
                             </tr>
@@ -97,12 +100,18 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Ответы в темах</th>
                                 <td>
                                     <input type="radio" name="post_replies"
-                                           value="1"<?php if ($group['g_post_replies'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_post_replies'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                            name="post_replies"
-                                           value="2"<?php if ($group['g_post_replies'] == 2) echo ' checked="checked"' ?>/>&#160;<strong>С капчей</strong>&#160;&#160;&#160;
+                                           value="2"<?php if ($group['g_post_replies'] == 2) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>С капчей</strong>&#160;&#160;&#160;
                                     <input type="radio" name="post_replies"
-                                           value="0"<?php if (!$group['g_post_replies']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                           value="0"<?php if (!$group['g_post_replies']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Разрешить пользователям группы отвечать в темах.</span>
                                 </td>
                             </tr>
@@ -110,10 +119,14 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Новые темы</th>
                                 <td>
                                     <input type="radio" name="post_topics"
-                                           value="1"<?php if ($group['g_post_topics'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_post_topics'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                            name="post_topics"
-                                           value="0"<?php if (!$group['g_post_topics']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                           value="0"<?php if (!$group['g_post_topics']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Разрешить пользователям группы создавать новые темы.</span>
                                 </td>
                             </tr>
@@ -122,9 +135,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <th scope="row">Редактировать свои сообщения</th>
                                     <td>
                                         <input type="radio" name="edit_posts"
-                                               value="1"<?php if ($group['g_edit_posts'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
+                                               value="1"<?php if ($group['g_edit_posts'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
                                         type="radio" name="edit_posts"
-                                        value="0"<?php if (!$group['g_edit_posts']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                        value="0"<?php if (!$group['g_edit_posts']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                         <span>Разрешить пользователям группы редактировать свои сообщения.</span>
                                     </td>
                                 </tr>
@@ -132,9 +149,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <th scope="row">Удалять свои сообщения</th>
                                     <td>
                                         <input type="radio" name="delete_posts"
-                                               value="1"<?php if ($group['g_delete_posts'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
+                                               value="1"<?php if ($group['g_delete_posts'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
                                         type="radio" name="delete_posts"
-                                        value="0"<?php if (!$group['g_delete_posts']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                        value="0"<?php if (!$group['g_delete_posts']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                         <span>Разрешить пользователям группы удалять свои сообщения.</span>
                                     </td>
                                 </tr>
@@ -142,9 +163,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <th scope="row">Удалять свои темы</th>
                                     <td>
                                         <input type="radio" name="delete_topics"
-                                               value="1"<?php if ($group['g_delete_topics'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
+                                               value="1"<?php if ($group['g_delete_topics'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
                                         type="radio" name="delete_topics"
-                                        value="0"<?php if (!$group['g_delete_topics']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                        value="0"<?php if (!$group['g_delete_topics']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                         <span>Разрешить пользователям группы удалять свои темы (включая любые ответы).</span>
                                     </td>
                                 </tr>
@@ -152,9 +177,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <th scope="row">Задать название пользователя</th>
                                     <td>
                                         <input type="radio" name="set_title"
-                                               value="1"<?php if ($group['g_set_title'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
+                                               value="1"<?php if ($group['g_set_title'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;<input
                                         type="radio" name="set_title"
-                                        value="0"<?php if (!$group['g_set_title']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                        value="0"<?php if (!$group['g_set_title']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                         <span>Разрешить пользователям группы задать свое название пользователя.</span>
                                     </td>
                                 </tr>
@@ -163,10 +192,14 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Использовать поиск</th>
                                 <td>
                                     <input type="radio" name="search"
-                                           value="1"<?php if ($group['g_search'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_search'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                             name="search"
-                                            value="0"<?php if (!$group['g_search']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                            value="0"<?php if (!$group['g_search']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Разрешить пользователям группы использовать поиск.</span>
                                 </td>
                             </tr>
@@ -174,10 +207,14 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Поиск по списку пользователей</th>
                                 <td>
                                     <input type="radio" name="search_users"
-                                           value="1"<?php if ($group['g_search_users'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_search_users'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                             name="search_users"
-                                            value="0"<?php if (!$group['g_search_users']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                            value="0"<?php if (!$group['g_search_users']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Разрешить пользователям группы полнотекстовый поиск пользователей в списке пользователей.</span>
                                 </td>
                             </tr>
@@ -185,10 +222,14 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Скачивание файлов</th>
                                 <td>
                                     <input type="radio" name="file_download"
-                                           value="1"<?php if ($group['g_file_download'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                           value="1"<?php if ($group['g_file_download'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                     <input type="radio"
                                             name="file_download"
-                                            value="0"<?php if (!$group['g_file_download']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                            value="0"<?php if (!$group['g_file_download']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                     <span>Разрешить пользователям группы скачивать файлы, прикрепленные к сообщениям.</span>
                                 </td>
                             </tr>
@@ -197,9 +238,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                     <th scope="row">Выкладывание файлов</th>
                                     <td>
                                         <input type="radio" name="file_upload"
-                                               value="1"<?php if ($group['g_file_upload'] == 1) echo ' checked="checked"' ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
+                                               value="1"<?php if ($group['g_file_upload'] == 1) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Да</strong>&#160;&#160;&#160;
                                         <input type="radio" name="file_upload"
-                                                value="0"<?php if (!$group['g_file_upload']) echo ' checked="checked"' ?>/>&#160;<strong>Нет</strong>
+                                                value="0"<?php if (!$group['g_file_upload']) {
+        echo ' checked="checked"';
+    } ?>/>&#160;<strong>Нет</strong>
                                         <span>Разрешить пользователям группы прикреплять свои файлы к сообщениям.</span>
                                     </td>
                                 </tr>
@@ -235,7 +280,8 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                         <span>Количество секунд которое пользователь группы должен ждать между поисковыми запросами. Поставьте 0 чтобы отключить.</span>
                                     </td>
                                 </tr>
-                                <?php endif; endif; ?>
+                                <?php endif;
+    endif; ?>
                         </table>
                         <?php if ($group['g_id'] == PUN_MOD): ?>
                         <p class="warntext">Пожалуйста учтите чтобы дать пользователю этой группы права модератора,
@@ -255,10 +301,10 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
 
     require_once PUN_ROOT . 'footer.php';
 } // Add/edit a group (stage 2)
-else if (isset($_POST['add_edit_group'])) {
-//confirm_referrer('admin_groups.php');
+elseif (isset($_POST['add_edit_group'])) {
+    //confirm_referrer('admin_groups.php');
 
-// Is this the admin group? (special rules apply)
+    // Is this the admin group? (special rules apply)
     $is_admin_group = (isset($_POST['group_id']) && $_POST['group_id'] == PUN_ADMIN) ? true : false;
 
     $title = trim($_POST['req_title']);
@@ -294,7 +340,7 @@ else if (isset($_POST['add_edit_group'])) {
         $db->query('INSERT INTO `' . $db->prefix . 'groups` (g_title, g_user_title, g_read_board, g_post_replies, g_post_topics, g_edit_posts, g_delete_posts, g_delete_topics, g_set_title, g_search, g_search_users, g_file_download, g_file_upload, g_file_limit, g_edit_subjects_interval, g_post_flood, g_search_flood) VALUES(\'' . $db->escape($title) . '\', ' . $user_title . ', ' . $read_board . ', ' . $post_replies . ', ' . $post_topics . ', ' . $edit_posts . ', ' . $delete_posts . ', ' . $delete_topics . ', ' . $set_title . ', ' . $search . ', ' . $search_users . ', ' . $file_download . ', ' . $file_upload . ', ' . $file_limit . ', ' . $edit_subjects_interval . ', ' . $post_flood . ', ' . $search_flood . ')') or error('Unable to add group', __FILE__, __LINE__, $db->error());
         $new_group_id = $db->insert_id();
 
-// Now lets copy the forum specific permissions from the group which this group is based on
+        // Now lets copy the forum specific permissions from the group which this group is based on
         $result = $db->query('SELECT forum_id, read_forum, post_replies, post_topics FROM ' . $db->prefix . 'forum_perms WHERE group_id=' . intval($_POST['base_group'])) or error('Unable to fetch group forum permission list', __FILE__, __LINE__, $db->error());
         while ($cur_forum_perm = $db->fetch_assoc($result)) {
             $db->query('INSERT INTO ' . $db->prefix . 'forum_perms (group_id, forum_id, read_forum, post_replies, post_topics) VALUES(' . $new_group_id . ', ' . $cur_forum_perm['forum_id'] . ', ' . $cur_forum_perm['read_forum'] . ', ' . $cur_forum_perm['post_replies'] . ', ' . $cur_forum_perm['post_topics'] . ')') or error('Unable to insert group forum permissions', __FILE__, __LINE__, $db->error());
@@ -308,15 +354,15 @@ else if (isset($_POST['add_edit_group'])) {
         $db->query('UPDATE `' . $db->prefix . 'groups` SET g_title=\'' . $db->escape($title) . '\', g_user_title=' . $user_title . ', g_read_board=' . $read_board . ', g_post_replies=' . $post_replies . ', g_post_topics=' . $post_topics . ', g_edit_posts=' . $edit_posts . ', g_delete_posts=' . $delete_posts . ', g_delete_topics=' . $delete_topics . ', g_set_title=' . $set_title . ', g_search=' . $search . ', g_search_users=' . $search_users . ', g_file_download=' . $file_download . ', g_file_upload=' . $file_upload . ', g_file_limit=' . $file_limit . ', g_edit_subjects_interval=' . $edit_subjects_interval . ', g_post_flood=' . $post_flood . ', g_search_flood=' . $search_flood . ' WHERE g_id=' . intval($_POST['group_id'])) or error('Unable to update group', __FILE__, __LINE__, $db->error());
     }
 
-// Regenerate the quickjump cache
+    // Regenerate the quickjump cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_quickjump_cache();
     generate_wap_quickjump_cache();
 
     redirect('admin_groups.php', 'Группа ' . (($_POST['mode'] == 'edit') ? 'отредактирована' : 'добавлена') . '. Перенаправление &#x2026;');
 } // Set default group
-else if (isset($_POST['set_default_group'])) {
-//confirm_referrer('admin_groups.php');
+elseif (isset($_POST['set_default_group'])) {
+    //confirm_referrer('admin_groups.php');
 
     $group_id = intval($_POST['default_group']);
     if ($group_id < 4) {
@@ -325,41 +371,41 @@ else if (isset($_POST['set_default_group'])) {
 
     $db->query('UPDATE ' . $db->prefix . 'config SET conf_value=' . $group_id . ' WHERE conf_name=\'o_default_user_group\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
 
-// Regenerate the config cache
+    // Regenerate the config cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
 
     redirect('admin_groups.php', 'Группа по умолчанию задана. Перенаправление &#x2026;');
 } // Remove a group
-else if (isset($_GET['del_group'])) {
-//confirm_referrer('admin_groups.php');
+elseif (isset($_GET['del_group'])) {
+    //confirm_referrer('admin_groups.php');
 
     $group_id = intval($_GET['del_group']);
     if ($group_id < 5) {
         message($lang_common['Bad request']);
     }
 
-// Make sure we don't remove the default group
+    // Make sure we don't remove the default group
     if ($group_id == $pun_config['o_default_user_group']) {
         message('The default group cannot be removed. In order to delete this group, you must first setup a different group as the default.');
     }
 
 
-// Check if this group has any members
+    // Check if this group has any members
     $result = $db->query('SELECT g.g_title, COUNT(u.id) FROM `' . $db->prefix . 'groups` AS g INNER JOIN `' . $db->prefix . 'users` AS u ON g.g_id=u.group_id WHERE g.g_id=' . $group_id . ' GROUP BY g.g_id, g_title') or error('Unable to fetch group info', __FILE__, __LINE__, $db->error());
 
-// If the group doesn't have any members or if we've already selected a group to move the members to
+    // If the group doesn't have any members or if we've already selected a group to move the members to
     if (!$db->num_rows($result) || isset($_POST['del_group'])) {
         if (isset($_POST['del_group'])) {
             $move_to_group = intval($_POST['move_to_group']);
             $db->query('UPDATE ' . $db->prefix . 'users SET group_id=' . $move_to_group . ' WHERE group_id=' . $group_id) or error('Unable to move users into group', __FILE__, __LINE__, $db->error());
         }
 
-// Delete the group and any forum specific permissions
+        // Delete the group and any forum specific permissions
         $db->query('DELETE FROM `' . $db->prefix . 'groups` WHERE g_id=' . $group_id) or error('Unable to delete group', __FILE__, __LINE__, $db->error());
         $db->query('DELETE FROM ' . $db->prefix . 'forum_perms WHERE group_id=' . $group_id) or error('Unable to delete group forum permissions', __FILE__, __LINE__, $db->error());
 
-// Regenerate the quickjump cache
+        // Regenerate the quickjump cache
         include_once PUN_ROOT . 'include/cache.php';
         generate_quickjump_cache();
         generate_wap_quickjump_cache();

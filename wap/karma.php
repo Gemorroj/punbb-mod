@@ -31,10 +31,12 @@ $q = 'SELECT `group_id`, `username` '
    . 'FROM `' . $db->prefix . 'users` '
    . 'WHERE `id` = ' . $id;
 $q = $db->query($q)
-or error('Unable to fetch username',
+or error(
+    'Unable to fetch username',
          __FILE__,
          __LINE__,
-         $db->error());
+         $db->error()
+);
 
 // Если пользователя с таким id нет, то чью карму то показывать?
 // Гостей не учитываем.
@@ -57,10 +59,12 @@ $q = '
     WHERE `vote` = "1" AND `to` = ' . $id;
 
 $q = $db->query($q)
-or error('Unable to count votes',
+or error(
+    'Unable to count votes',
          __FILE__,
          __LINE__,
-         $db->error());
+         $db->error()
+);
 
 $karma = $db->fetch_assoc($q);
 
@@ -91,10 +95,12 @@ if ($num_hits) {
        . 'LIMIT ' . $start . ',' . $pun_user['disp_posts'];
 
     $q = $db->query($q)
-    or error('Unable to fetch votes',
+    or error(
+        'Unable to fetch votes',
              __FILE__,
              __LINE__,
-             $db->error());
+             $db->error()
+    );
 
     $votes = array();
     while ($result = $db->fetch_assoc($q)) {

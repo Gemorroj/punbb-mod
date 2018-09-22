@@ -27,7 +27,7 @@ if (!$pun_config['o_regs_allow']) {
 // User pressed the cancel button
 if (isset($_GET['cancel'])) {
     redirect('index.php', $lang_registration['Reg cancel redirect']);
-} else if ($pun_config['o_rules'] == 1 && !isset($_GET['agree']) && !isset($_POST['form_sent'])) {
+} elseif ($pun_config['o_rules'] == 1 && !isset($_GET['agree']) && !isset($_POST['form_sent'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_registration['Register'];
     require_once PUN_ROOT . 'header.php';
 
@@ -49,7 +49,7 @@ if (isset($_GET['cancel'])) {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_POST['form_sent'])) {
+} elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
     $result = $db->query('SELECT 1 FROM ' . $db->prefix . 'users WHERE registration_ip=\'' . get_remote_address() . '\' AND registered>' . (time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
@@ -99,19 +99,19 @@ if (isset($_GET['cancel'])) {
     // Validate username and passwords
     if (mb_strlen($username) < 2) {
         message($lang_prof_reg['Username too short']);
-    } else if (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } elseif (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         message($lang_common['Bad request']);
-    } else if (mb_strlen($password1) < 4) {
+    } elseif (mb_strlen($password1) < 4) {
         message($lang_prof_reg['Pass too short']);
-    } else if ($password1 != $password2) {
+    } elseif ($password1 != $password2) {
         message($lang_prof_reg['Pass not match']);
-    } else if (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+    } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
         message($lang_prof_reg['Username guest']);
-    } else if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         message($lang_prof_reg['Username IP']);
-    } else if ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
+    } elseif ((strpos($username, '[') !== false || strpos($username, ']') !== false) && strpos($username, "'") !== false && strpos($username, '"') !== false) {
         message($lang_prof_reg['Username reserved chars']);
-    } else if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
+    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
         message($lang_prof_reg['Username BBCode']);
     }
 
@@ -357,43 +357,117 @@ echo '</div></fieldset></div>
 <label>' . $lang_prof_reg['Timezone'] . ': ' . $lang_prof_reg['Timezone info'] . '<br />';
 ?>
 <select id="time_zone" name="timezone">
-<option value="-12"<?php if ($pun_config['o_server_timezone'] == -12) echo ' selected="selected"' ?>>-12</option>
-<option value="-11"<?php if ($pun_config['o_server_timezone'] == -11) echo ' selected="selected"' ?>>-11</option>
-<option value="-10"<?php if ($pun_config['o_server_timezone'] == -10) echo ' selected="selected"' ?>>-10</option>
-<option value="-9.5"<?php if ($pun_config['o_server_timezone'] == -9.5) echo ' selected="selected"' ?>>-9.5</option>
-<option value="-9"<?php if ($pun_config['o_server_timezone'] == -9) echo ' selected="selected"' ?>>-09</option>
-<option value="-8.5"<?php if ($pun_config['o_server_timezone'] == -8.5) echo ' selected="selected"' ?>>-8.5</option>
-<option value="-8"<?php if ($pun_config['o_server_timezone'] == -8) echo ' selected="selected"' ?>>-08 PST</option>
-<option value="-7"<?php if ($pun_config['o_server_timezone'] == -7) echo ' selected="selected"' ?>>-07 MST</option>
-<option value="-6"<?php if ($pun_config['o_server_timezone'] == -6) echo ' selected="selected"' ?>>-06 CST</option>
-<option value="-5"<?php if ($pun_config['o_server_timezone'] == -5) echo ' selected="selected"' ?>>-05 EST</option>
-<option value="-4"<?php if ($pun_config['o_server_timezone'] == -4) echo ' selected="selected"' ?>>-04 AST</option>
-<option value="-3.5"<?php if ($pun_config['o_server_timezone'] == -3.5) echo ' selected="selected"' ?>>-3.5</option>
-<option value="-3"<?php if ($pun_config['o_server_timezone'] == -3) echo ' selected="selected"' ?>>-03 ADT</option>
-<option value="-2"<?php if ($pun_config['o_server_timezone'] == -2) echo ' selected="selected"' ?>>-02</option>
-<option value="-1"<?php if ($pun_config['o_server_timezone'] == -1) echo ' selected="selected"' ?>>-01</option>
-<option value="0"<?php if ($pun_config['o_server_timezone'] == 0) echo ' selected="selected"' ?>>00 GMT</option>
-<option value="1"<?php if ($pun_config['o_server_timezone'] == 1) echo ' selected="selected"' ?>>+01 CET</option>
-<option value="2"<?php if ($pun_config['o_server_timezone'] == 2) echo ' selected="selected"' ?>>+02</option>
-<option value="3"<?php if ($pun_config['o_server_timezone'] == 3) echo ' selected="selected"' ?>>+03</option>
-<option value="3.5"<?php if ($pun_config['o_server_timezone'] == 3.5) echo ' selected="selected"' ?>>+03.5</option>
-<option value="4"<?php if ($pun_config['o_server_timezone'] == 4) echo ' selected="selected"' ?>>+04</option>
-<option value="4.5"<?php if ($pun_config['o_server_timezone'] == 4.5) echo ' selected="selected"' ?>>+04.5</option>
-<option value="5"<?php if ($pun_config['o_server_timezone'] == 5) echo ' selected="selected"' ?>>+05</option>
-<option value="5.5"<?php if ($pun_config['o_server_timezone'] == 5.5) echo ' selected="selected"' ?>>+05.5</option>
-<option value="6"<?php if ($pun_config['o_server_timezone'] == 6) echo ' selected="selected"' ?>>+06</option>
-<option value="6.5"<?php if ($pun_config['o_server_timezone'] == 6.5) echo ' selected="selected"' ?>>+06.5</option>
-<option value="7"<?php if ($pun_config['o_server_timezone'] == 7) echo ' selected="selected"' ?>>+07</option>
-<option value="8"<?php if ($pun_config['o_server_timezone'] == 8) echo ' selected="selected"' ?>>+08</option>
-<option value="9"<?php if ($pun_config['o_server_timezone'] == 9) echo ' selected="selected"' ?>>+09</option>
-<option value="9.5"<?php if ($pun_config['o_server_timezone'] == 9.5) echo ' selected="selected"' ?>>+09.5</option>
-<option value="10"<?php if ($pun_config['o_server_timezone'] == 10) echo ' selected="selected"' ?>>+10</option>
-<option value="10.5"<?php if ($pun_config['o_server_timezone'] == 10.5) echo ' selected="selected"' ?>>+10.5</option>
-<option value="11"<?php if ($pun_config['o_server_timezone'] == 11) echo ' selected="selected"' ?>>+11</option>
-<option value="11.5"<?php if ($pun_config['o_server_timezone'] == 11.5) echo ' selected="selected"' ?>>+11.5</option>
-<option value="12"<?php if ($pun_config['o_server_timezone'] == 12) echo ' selected="selected"' ?>>+12</option>
-<option value="13"<?php if ($pun_config['o_server_timezone'] == 13) echo ' selected="selected"' ?>>+13</option>
-<option value="14"<?php if ($pun_config['o_server_timezone'] == 14) echo ' selected="selected"' ?>>+14</option>
+<option value="-12"<?php if ($pun_config['o_server_timezone'] == -12) {
+    echo ' selected="selected"';
+} ?>>-12</option>
+<option value="-11"<?php if ($pun_config['o_server_timezone'] == -11) {
+    echo ' selected="selected"';
+} ?>>-11</option>
+<option value="-10"<?php if ($pun_config['o_server_timezone'] == -10) {
+    echo ' selected="selected"';
+} ?>>-10</option>
+<option value="-9.5"<?php if ($pun_config['o_server_timezone'] == -9.5) {
+    echo ' selected="selected"';
+} ?>>-9.5</option>
+<option value="-9"<?php if ($pun_config['o_server_timezone'] == -9) {
+    echo ' selected="selected"';
+} ?>>-09</option>
+<option value="-8.5"<?php if ($pun_config['o_server_timezone'] == -8.5) {
+    echo ' selected="selected"';
+} ?>>-8.5</option>
+<option value="-8"<?php if ($pun_config['o_server_timezone'] == -8) {
+    echo ' selected="selected"';
+} ?>>-08 PST</option>
+<option value="-7"<?php if ($pun_config['o_server_timezone'] == -7) {
+    echo ' selected="selected"';
+} ?>>-07 MST</option>
+<option value="-6"<?php if ($pun_config['o_server_timezone'] == -6) {
+    echo ' selected="selected"';
+} ?>>-06 CST</option>
+<option value="-5"<?php if ($pun_config['o_server_timezone'] == -5) {
+    echo ' selected="selected"';
+} ?>>-05 EST</option>
+<option value="-4"<?php if ($pun_config['o_server_timezone'] == -4) {
+    echo ' selected="selected"';
+} ?>>-04 AST</option>
+<option value="-3.5"<?php if ($pun_config['o_server_timezone'] == -3.5) {
+    echo ' selected="selected"';
+} ?>>-3.5</option>
+<option value="-3"<?php if ($pun_config['o_server_timezone'] == -3) {
+    echo ' selected="selected"';
+} ?>>-03 ADT</option>
+<option value="-2"<?php if ($pun_config['o_server_timezone'] == -2) {
+    echo ' selected="selected"';
+} ?>>-02</option>
+<option value="-1"<?php if ($pun_config['o_server_timezone'] == -1) {
+    echo ' selected="selected"';
+} ?>>-01</option>
+<option value="0"<?php if ($pun_config['o_server_timezone'] == 0) {
+    echo ' selected="selected"';
+} ?>>00 GMT</option>
+<option value="1"<?php if ($pun_config['o_server_timezone'] == 1) {
+    echo ' selected="selected"';
+} ?>>+01 CET</option>
+<option value="2"<?php if ($pun_config['o_server_timezone'] == 2) {
+    echo ' selected="selected"';
+} ?>>+02</option>
+<option value="3"<?php if ($pun_config['o_server_timezone'] == 3) {
+    echo ' selected="selected"';
+} ?>>+03</option>
+<option value="3.5"<?php if ($pun_config['o_server_timezone'] == 3.5) {
+    echo ' selected="selected"';
+} ?>>+03.5</option>
+<option value="4"<?php if ($pun_config['o_server_timezone'] == 4) {
+    echo ' selected="selected"';
+} ?>>+04</option>
+<option value="4.5"<?php if ($pun_config['o_server_timezone'] == 4.5) {
+    echo ' selected="selected"';
+} ?>>+04.5</option>
+<option value="5"<?php if ($pun_config['o_server_timezone'] == 5) {
+    echo ' selected="selected"';
+} ?>>+05</option>
+<option value="5.5"<?php if ($pun_config['o_server_timezone'] == 5.5) {
+    echo ' selected="selected"';
+} ?>>+05.5</option>
+<option value="6"<?php if ($pun_config['o_server_timezone'] == 6) {
+    echo ' selected="selected"';
+} ?>>+06</option>
+<option value="6.5"<?php if ($pun_config['o_server_timezone'] == 6.5) {
+    echo ' selected="selected"';
+} ?>>+06.5</option>
+<option value="7"<?php if ($pun_config['o_server_timezone'] == 7) {
+    echo ' selected="selected"';
+} ?>>+07</option>
+<option value="8"<?php if ($pun_config['o_server_timezone'] == 8) {
+    echo ' selected="selected"';
+} ?>>+08</option>
+<option value="9"<?php if ($pun_config['o_server_timezone'] == 9) {
+    echo ' selected="selected"';
+} ?>>+09</option>
+<option value="9.5"<?php if ($pun_config['o_server_timezone'] == 9.5) {
+    echo ' selected="selected"';
+} ?>>+09.5</option>
+<option value="10"<?php if ($pun_config['o_server_timezone'] == 10) {
+    echo ' selected="selected"';
+} ?>>+10</option>
+<option value="10.5"<?php if ($pun_config['o_server_timezone'] == 10.5) {
+    echo ' selected="selected"';
+} ?>>+10.5</option>
+<option value="11"<?php if ($pun_config['o_server_timezone'] == 11) {
+    echo ' selected="selected"';
+} ?>>+11</option>
+<option value="11.5"<?php if ($pun_config['o_server_timezone'] == 11.5) {
+    echo ' selected="selected"';
+} ?>>+11.5</option>
+<option value="12"<?php if ($pun_config['o_server_timezone'] == 12) {
+    echo ' selected="selected"';
+} ?>>+12</option>
+<option value="13"<?php if ($pun_config['o_server_timezone'] == 13) {
+    echo ' selected="selected"';
+} ?>>+13</option>
+<option value="14"<?php if ($pun_config['o_server_timezone'] == 14) {
+    echo ' selected="selected"';
+} ?>>+14</option>
 </select>
 <br/></label>
 <?php

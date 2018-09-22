@@ -22,9 +22,7 @@ if (isset($_GET['ip_stats'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Users';
-    require_once PUN_ROOT . 'header.php';
-
-    ?>
+    require_once PUN_ROOT . 'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
         <div><a href="javascript:history.go(-1)"><?php echo $lang_admin['Back']; ?></a></div>
@@ -48,10 +46,9 @@ if (isset($_GET['ip_stats'])) {
                     <?php
 
                     $result = $db->query('SELECT poster_ip, MAX(posted) AS last_used, COUNT(id) AS used_times FROM ' . $db->prefix . 'posts WHERE poster_id=' . $ip_stats . ' GROUP BY poster_ip ORDER BY last_used DESC') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-                    if ($db->num_rows($result)) {
-                        while ($cur_ip = $db->fetch_assoc($result)) {
-
-                            ?>
+    if ($db->num_rows($result)) {
+        while ($cur_ip = $db->fetch_assoc($result)) {
+            ?>
                         <tr>
                             <td class="tcl"><a
                                 href="moderate.php?get_host=<?php echo $cur_ip['poster_ip']; ?>"><?php echo $cur_ip['poster_ip']; ?></a>
@@ -63,11 +60,10 @@ if (isset($_GET['ip_stats'])) {
                             </td>
                         </tr>
                             <?php
-                        }
-                    } else {
-                        echo '<tr><td class="tcl" colspan="4">' . $lang_admin['No message'] . '</tr>';
-                    }
-                    ?>
+        }
+    } else {
+        echo '<tr><td class="tcl" colspan="4">' . $lang_admin['No message'] . '</tr>';
+    } ?>
                 </tbody>
             </table>
         </div>
@@ -92,9 +88,7 @@ if (isset($_GET['show_users'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Users';
-    require_once PUN_ROOT . 'header.php';
-
-    ?>
+    require_once PUN_ROOT . 'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
         <div><a href="javascript:history.go(-1)"><?php print $lang_admin['Back']; ?></a></div>
@@ -122,7 +116,7 @@ if (isset($_GET['show_users'])) {
     $num_posts = $db->num_rows($result);
 
     if ($num_posts) {
-// Loop through users and print out some info
+        // Loop through users and print out some info
         for ($i = 0; $i < $num_posts; ++$i) {
             list($poster_id, $poster) = $db->fetch_row($result);
 
@@ -130,9 +124,7 @@ if (isset($_GET['show_users'])) {
 
             if (($user_data = $db->fetch_assoc($result2))) {
                 $user_title = get_title($user_data);
-                $actions = '<a href="admin_users.php?ip_stats=' . $user_data['id'] . '">' . $lang_admin['IP stats'] . '</a> - <a href="search.php?action=show_user&amp;user_id=' . $user_data['id'] . '">' . $lang_admin['Num posts'] . '</a>';
-
-                ?>
+                $actions = '<a href="admin_users.php?ip_stats=' . $user_data['id'] . '">' . $lang_admin['IP stats'] . '</a> - <a href="search.php?action=show_user&amp;user_id=' . $user_data['id'] . '">' . $lang_admin['Num posts'] . '</a>'; ?>
             <tr>
                 <td class="tcl"><?php echo '<a href="profile.php?id=' . $user_data['id'] . '">' . pun_htmlspecialchars($user_data['username']) . '</a>'; ?></td>
                 <td class="tc2"><a
@@ -170,11 +162,11 @@ if (isset($_GET['show_users'])) {
 </div>';
 
     require_once PUN_ROOT . 'footer.php';
-} else if (isset($_POST['find_user'])) {
+} elseif (isset($_POST['find_user'])) {
     $form = $_POST['form'];
     $form['username'] = $_POST['username'];
 
-// trim() all elements in $form
+    // trim() all elements in $form
     $form = array_map('trim', $form);
     $conditions = array();
 
@@ -192,7 +184,7 @@ if (isset($_GET['show_users'])) {
         message($lang_admin['Not numeric']);
     }
 
-// Try to convert date/time to timestamps
+    // Try to convert date/time to timestamps
     if ($last_post_after) {
         $last_post_after = strtotime($last_post_after);
     }
@@ -225,8 +217,9 @@ if (isset($_GET['show_users'])) {
 
     $like_command = 'LIKE';
     foreach ($form as $key => $input) {
-        if ($input && in_array($key, array('username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note')))
+        if ($input && in_array($key, array('username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note'))) {
             $conditions[] = 'u.' . $db->escape($key) . ' ' . $like_command . ' \'' . $db->escape(str_replace('*', '%', $input)) . '\'';
+        }
     }
 
     if ($posts_greater) {
@@ -244,8 +237,7 @@ if (isset($_GET['show_users'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Users';
-    require_once PUN_ROOT . 'header.php';
-    ?>
+    require_once PUN_ROOT . 'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
         <div><a href="javascript:history.go(-1)"><?php print $lang_admin['Back']; ?></a></div>
@@ -270,16 +262,16 @@ if (isset($_GET['show_users'])) {
                 <tbody>
                     <?php
                     $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `' . $db->prefix . 'users` AS u LEFT JOIN `' . $db->prefix . 'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND ' . implode(' AND ', $conditions) . ' ORDER BY ' . $db->escape($order_by) . ' ' . $db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
-                    if ($db->num_rows($result)) {
-                        while ($user_data = $db->fetch_assoc($result)) {
-                            $user_title = get_title($user_data);
+    if ($db->num_rows($result)) {
+        while ($user_data = $db->fetch_assoc($result)) {
+            $user_title = get_title($user_data);
 
-// This script is a special case in that we want to display "Not verified" for non-verified users
-                            if ((!$user_data['g_id'] || $user_data['g_id'] == PUN_UNVERIFIED) && $user_title != $lang_common['Banned'])
-                                $user_title = '<span class="warntext">Не проверен</span>';
+            // This script is a special case in that we want to display "Not verified" for non-verified users
+            if ((!$user_data['g_id'] || $user_data['g_id'] == PUN_UNVERIFIED) && $user_title != $lang_common['Banned']) {
+                $user_title = '<span class="warntext">Не проверен</span>';
+            }
 
-                            $actions = '<a href="admin_users.php?ip_stats=' . $user_data['id'] . '">' . $lang_admin['IP stats'] . '</a> - <a href="search.php?action=show_user&amp;user_id=' . $user_data['id'] . '">' . $lang_admin['Num posts'] . '</a>';
-                            ?>
+            $actions = '<a href="admin_users.php?ip_stats=' . $user_data['id'] . '">' . $lang_admin['IP stats'] . '</a> - <a href="search.php?action=show_user&amp;user_id=' . $user_data['id'] . '">' . $lang_admin['Num posts'] . '</a>'; ?>
                         <tr>
                             <td class="tcl"><?php echo '<a href="profile.php?id=' . $user_data['id'] . '">' . pun_htmlspecialchars($user_data['username']) . '</a>'; ?></td>
                             <td class="tc2"><a
@@ -291,11 +283,10 @@ if (isset($_GET['show_users'])) {
                             <td class="tcr"><?php echo $actions; ?></td>
                         </tr>
                             <?php
-                        }
-                    } else {
-                        echo '<tr><td class="tcl" colspan="6">' . $lang_admin['Not found'] . '</td></tr>';
-                    }
-                    ?>
+        }
+    } else {
+        echo '<tr><td class="tcl" colspan="6">' . $lang_admin['Not found'] . '</td></tr>';
+    } ?>
                 </tbody>
             </table>
         </div>
@@ -314,8 +305,7 @@ if (isset($_GET['show_users'])) {
     $focus_element = array('find_user', 'username');
     require_once PUN_ROOT . 'header.php';
 
-    generate_admin_menu('users');
-    ?>
+    generate_admin_menu('users'); ?>
 <div class="blockform">
     <h2><span><?php print $lang_admin['Search users']; ?></span></h2>
 
@@ -434,9 +424,9 @@ if (isset($_GET['show_users'])) {
                                         <?php
                                         $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_id!=' . PUN_GUEST . ' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
-                                        while ($cur_group = $db->fetch_assoc($result))
-                                            echo '<option value="' . $cur_group['g_id'] . '">' . pun_htmlspecialchars($cur_group['g_title']) . '</option>';
-                                        ?>
+    while ($cur_group = $db->fetch_assoc($result)) {
+        echo '<option value="' . $cur_group['g_id'] . '">' . pun_htmlspecialchars($cur_group['g_title']) . '</option>';
+    } ?>
                                     </select>
                                 </td>
                             </tr>

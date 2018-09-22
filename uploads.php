@@ -144,7 +144,7 @@ while ($ar = $db->fetch_assoc($result)) {
 $exts = trim($exts); // now we have all file types in one string
 if (!$upl_conf['p_view']) {
     echo '<div id="announce" class="block"><h2><span><strong>' . $lang_uploads['Not allowed'] . '</strong></span></h2><div class="box"><div class="inbox"><div><strong>' . $lang_uploads['Not allowed mes'] . '</strong></div></div></div></div>';
-} else if (isset($_GET['uploadit'])) {
+} elseif (isset($_GET['uploadit'])) {
     if ($upl_conf['p_upload'] == 1) {
         $maxsize = $upl_conf['u_fsize'];
         $rules = str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
@@ -154,7 +154,7 @@ if (!$upl_conf['p_view']) {
     } else {
         echo '<div id="announce" class="block"><h2><span><strong>' . $lang_uploads['Not allowed'] . '</strong></span></h2><div class="box"><div class="inbox"><div><strong>' . $lang_uploads['Not allowed mes'] . '</strong></div></div></div></div>';
     }
-} else if (isset($_POST['act'])) {
+} elseif (isset($_POST['act'])) {
     // try to upload a file
     $temp_name = $_FILES['file']['tmp_name'];
     $file_name = $_FILES['file']['name'];
@@ -169,13 +169,13 @@ if (!$upl_conf['p_view']) {
     // Here could be check of MAX_DIR_UPLOAD > 100 Mbytes, for example
     if (round((dir_size(PUN_ROOT . 'uploaded') + $file_size) / 1048576) > MAX_DIR_UPLOAD) {
         error('The directory is full. Contact administrator, please.', __FILE__, __LINE__, $db->error());
-    } else if (!$file_name) {
+    } elseif (!$file_name) {
         error($lang_uploads['Err no file'], __FILE__, __LINE__, $db->error());
-    } else if (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
+    } elseif (file_exists(PUN_ROOT . 'uploaded/' . $file_name)) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
-    } else if ($file_size > $upl_conf['u_fsize']) {
+    } elseif ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } else if (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
+    } elseif (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
@@ -205,7 +205,7 @@ if (!$upl_conf['p_view']) {
 
         echo '<div class="inform"><fieldset><legend>' . $lang_uploads['Upload file'] . '</legend><div class="infldset"><div><strong>' . $lang_uploads['File uploaded'] . '<a href="' . $_SERVER['PHP_SELF'] . '?file=' . rawurlencode($file_name) . '">' . $pun_config['o_base_url'] . '/uploads.php?file=' . pun_htmlspecialchars($file_name) . '</a></strong></div></div></fieldset></div>';
     }
-} else if (isset($_GET['del'])) {
+} elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
     $delfile = strtr($delfile, '/', ' '); // убираем любые слыши и бэкслэши, которые используются в Lin-Win в качестве пути
     $delfile = strtr($delfile, '\\', ' ');
@@ -349,7 +349,7 @@ if (!$upl_conf['p_view']) {
 
         if ($upl_conf['p_globaldelete']) {
             echo '<td class="puncon1" align="center"><a href="' . $_SERVER['PHP_SELF'] . '?del=' . rawurlencode($info['file']) . '">' . $lang_uploads['Delete'] . '</a></td>';
-        } else if ($upl_conf['p_delete']) {
+        } elseif ($upl_conf['p_delete']) {
             if ($info['uid'] == $pun_user['id']) {
                 echo '<td class="puncon1" align="center"><a href="' . $_SERVER['PHP_SELF'] . '?del=' . rawurlencode($info['file']) . '">' . $lang_uploads['Delete'] . '</a></td>';
             } else {
@@ -389,7 +389,7 @@ function dir_size($dir)
             if ($fnm[0] != '.') {
                 if (is_file($dir . '/' . $fnm)) {
                     $sz += filesize($dir . '/' . $fnm);
-                } else if (is_dir($dir . '/' . $fnm)) {
+                } elseif (is_dir($dir . '/' . $fnm)) {
                     $sz += dir_size($dir . '/' . $fnm);
                 }
             }

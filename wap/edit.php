@@ -17,7 +17,8 @@ if ($id < 1) {
 
 
 // Fetch some info about the post, the topic and the forum
-$result = $db->query('
+$result = $db->query(
+    '
     SELECT f.id AS fid,
     f.forum_name,
     f.moderators,
@@ -118,9 +119,9 @@ if (isset($_POST['form_sent'])) {
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } else if (mb_strlen($subject) > 70) {
+        } elseif (mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } else if (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
             $subject = ucwords(mb_strtolower($subject));
         }
     }
@@ -130,9 +131,9 @@ if (isset($_POST['form_sent'])) {
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } else if (mb_strlen($message) > 65535) {
+    } elseif (mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } else if (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
         $message = ucwords(mb_strtolower($message));
     }
 

@@ -38,7 +38,7 @@ if ($action == 'check_upgrade') {
     } else {
         message($lang_admin['index_update_yes']);
     }
-} else if ($action == 'phpinfo' && $pun_user['g_id'] == PUN_ADMIN) {
+} elseif ($action == 'phpinfo' && $pun_user['g_id'] == PUN_ADMIN) {
     // Is phpinfo() a disabled function?
     if (strpos(strtolower((string)@ini_get('disable_functions')), 'phpinfo') !== false) {
         message($lang_admin['phpinfo']);
@@ -46,7 +46,7 @@ if ($action == 'check_upgrade') {
 
     phpinfo();
     exit;
-} else if ($action == 'optimize') {
+} elseif ($action == 'optimize') {
     $errors = array();
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
@@ -74,7 +74,7 @@ if (@file_exists('/proc/loadavg') && is_readable('/proc/loadavg')) {
 
     $load_averages = @explode(' ', $load_averages);
     $server_load = isset($load_averages[2]) ? $load_averages[0] . ' ' . $load_averages[1] . ' ' . $load_averages[2] : 'Not available';
-} else if (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages)) {
+} elseif (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages)) {
     $server_load = $load_averages[1] . ' ' . $load_averages[2] . ' ' . $load_averages[3];
 } else {
     $server_load = 'Not available';

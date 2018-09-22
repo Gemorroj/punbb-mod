@@ -26,11 +26,11 @@ if (isset($_POST['lang'])) {
     // Do Post
     $db->query('UPDATE ' . $db->prefix . 'users SET language=\'' . $_POST['form']['language'] . '\' WHERE id>1') or error('Unable to set lang settings', __FILE__, __LINE__, $db->error());
     message('Языки установлены');
-} else if (isset($_POST['style'])) {
+} elseif (isset($_POST['style'])) {
     // Do Post
     $db->query('UPDATE ' . $db->prefix . 'users SET style=\'' . $_POST['form']['style'] . '\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
     message('WEB стили установлены');
-} else if (isset($_POST['style_wap'])) {
+} elseif (isset($_POST['style_wap'])) {
     // Do Post
     $db->query('UPDATE ' . $db->prefix . 'users SET style_wap=\'' . $_POST['form']['style_wap'] . '\' WHERE id>1') or error('Unable to set style settings', __FILE__, __LINE__, $db->error());
     message('WAP стили установлены');

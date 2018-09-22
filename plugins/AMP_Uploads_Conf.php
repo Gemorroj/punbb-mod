@@ -59,17 +59,17 @@ if (isset($_POST['save_options'])) {
         $k++;
     }
     redirect($_SERVER['REQUEST_URI'], 'Permissions updated, redirecting &#x2026;');
-} else if (isset($_POST['save_types'])) {
+} elseif (isset($_POST['save_types'])) {
     $k = 1;
     while ($k <= $_POST['num_types']) {
         $db->query('UPDATE ' . $db->prefix . 'uploads_types SET type="' . $db->escape($_POST['cat' . $k]) . '", exts="' . $db->escape($_POST['ext' . $k]) . '" WHERE id=' . $k) or error('Unable to update info about types', __FILE__, __LINE__, $db->error());
         $k++;
     }
     redirect($_SERVER['REQUEST_URI'], 'Types updated, redirecting &#x2026;');
-} else if (isset($_POST['add_type'])) {
+} elseif (isset($_POST['add_type'])) {
     $db->query('INSERT INTO ' . $db->prefix . 'uploads_types (type,exts) VALUES ("' . $db->escape($_POST['cat0']) . '","' . $db->escape($_POST['ext0']) . '")') or error('Unable to add new type', __FILE__, __LINE__, $db->error());
     redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &#x2026;');
-} else if (isset($_GET['action'], $_GET['id'])) {
+} elseif (isset($_GET['action'], $_GET['id'])) {
     if ($_GET['action'] == 'delete') {
         $db->query('DELETE FROM ' . $db->prefix . 'uploads_types WHERE id=' . intval($_GET['id'])) or error('Unable to delete a type', __FILE__, __LINE__, $db->error());
         redirect('admin_loader.php?plugin=' . $plugin, 'Type deleted, redirecting &#x2026;');
@@ -92,7 +92,6 @@ generate_admin_menu($plugin);
 if (!$upl_conf['p_setop']) {
     echo '<p>You do not have permissions to set configuration of this module. Please contact Administration.</p>';
 } else {
-
     ?>
     <p>This plugin edits settings for PunUploadExtra module.</p>
     <?php
@@ -132,40 +131,57 @@ if (!$upl_conf['p_setop']) {
 
     $k = 0;
     foreach ($groups as $group) {
-        echo '<tr><th class="atcl">' . pun_htmlspecialchars($group['g_title']) . '<input type="hidden" name="g_title_' . $group['g_id'] . '" value="' . pun_htmlspecialchars($group['g_title']) . '" /></th>';
-        ?>
+        echo '<tr><th class="atcl">' . pun_htmlspecialchars($group['g_title']) . '<input type="hidden" name="g_title_' . $group['g_id'] . '" value="' . pun_htmlspecialchars($group['g_title']) . '" /></th>'; ?>
 
         <td>
         <input type="checkbox" name="p_view_<?php echo $group['g_id']; ?>"
-               value="1" <?php if ($perms[$k]['p_view'] == 1) echo 'checked="checked"'; ?> />
+               value="1" <?php if ($perms[$k]['p_view'] == 1) {
+            echo 'checked="checked"';
+        } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_upload_<?php echo $group['g_id']; ?>"
-                   value="1" <?php if ($perms[$k]['p_upload'] == 1) echo 'checked="checked"'; ?> />
+                   value="1" <?php if ($perms[$k]['p_upload'] == 1) {
+            echo 'checked="checked"';
+        } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_globalview_<?php echo $group['g_id']; ?>"
-                   value="1" <?php if ($perms[$k]['p_globalview'] == 1) echo 'checked="checked"'; ?> />
+                   value="1" <?php if ($perms[$k]['p_globalview'] == 1) {
+            echo 'checked="checked"';
+        } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_delete_<?php echo $group['g_id']; ?>"
-                   value="1" <?php if ($perms[$k]['p_delete'] == 1) echo 'checked="checked"'; ?> />
+                   value="1" <?php if ($perms[$k]['p_delete'] == 1) {
+            echo 'checked="checked"';
+        } ?> />
         </td>
         <td>
-            <?php if ($group['g_id'] != 3) { ?>
+            <?php if ($group['g_id'] != 3) {
+            ?>
             <input type="checkbox" name="p_globaldelete_<?php echo $group['g_id']; ?>"
-                   value="1" <?php if ($perms[$k]['p_globaldelete'] == 1) echo 'checked="checked"'; ?> />
-            <?php } else {
+                   value="1" <?php if ($perms[$k]['p_globaldelete'] == 1) {
+                echo 'checked="checked"';
+            } ?> />
+            <?php
+        } else {
             echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
-                                                  value="0"/><?php } ?>
+                                                  value="0"/><?php
+        } ?>
         </td>
         <td>
-            <?php if ($group['g_id'] == 1 || $group['g_id'] == 2) { ?>
+            <?php if ($group['g_id'] == 1 || $group['g_id'] == 2) {
+            ?>
             <input type="checkbox" name="p_setop_<?php     echo $group['g_id']; ?>"
-                   value="1" <?php if ($perms[$k]['p_setop'] == 1) echo 'checked="checked"'; ?> />
-            <?php } else {
+                   value="1" <?php if ($perms[$k]['p_setop'] == 1) {
+                echo 'checked="checked"';
+            } ?> />
+            <?php
+        } else {
             echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
-                                                  value="0"/><?php } ?>
+                                                  value="0"/><?php
+        } ?>
         </td>
         <td>
             <input type="text" size="7" name="u_fsize_<?php echo $group['g_id']; ?>"
@@ -175,8 +191,7 @@ if (!$upl_conf['p_setop']) {
 
         <?php
         $k++;
-    }
-    ?>
+    } ?>
 
     </tbody>
     </table>
@@ -197,13 +212,13 @@ if (!$upl_conf['p_setop']) {
                 <br/>
 <?php
 $result = $db->query('SELECT * FROM ' . $db->prefix . 'uploads_types') or error('Unable to read upload typess', __FILE__, __LINE__, $db->error());
-$num_types = 0;
-while ($ar = $db->fetch_assoc($result)) {
-    echo '<input type="text" size="30" maxlength="1000" value="' . pun_htmlspecialchars($ar['type']) . '" name="cat' . $ar['id'] . '" /> <input type="text" size="50" maxlength="5000" value="' . pun_htmlspecialchars($ar['exts']) . '" name="ext' . $ar['id'] . '" /> <a href="' . $_SERVER['REQUEST_URI'] . '&amp;action=delete&amp;id=' . $ar['id'] . '">Delete</a><br />';
-    $num_types++;
-}
+    $num_types = 0;
+    while ($ar = $db->fetch_assoc($result)) {
+        echo '<input type="text" size="30" maxlength="1000" value="' . pun_htmlspecialchars($ar['type']) . '" name="cat' . $ar['id'] . '" /> <input type="text" size="50" maxlength="5000" value="' . pun_htmlspecialchars($ar['exts']) . '" name="ext' . $ar['id'] . '" /> <a href="' . $_SERVER['REQUEST_URI'] . '&amp;action=delete&amp;id=' . $ar['id'] . '">Delete</a><br />';
+        $num_types++;
+    }
 
-echo '<input type="hidden" name="num_types" value="' . $num_types . '" />
+    echo '<input type="hidden" name="num_types" value="' . $num_types . '" />
 <div class="fsetsubmit"><input type="submit" name="save_types" value="Save types" /></div><br />
 <div class="inform">
 <fieldset><legend>Add a new type</legend>

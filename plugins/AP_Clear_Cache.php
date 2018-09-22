@@ -18,8 +18,7 @@ if (isset($_POST['regen_all_cache'])) {
     generate_wap_quickjump_cache();
 
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>
 
@@ -33,12 +32,11 @@ if (isset($_POST['regen_all_cache'])) {
 </div>
 <?php
 } // If the "Regenerate ban cache" button was clicked
-else if (isset($_POST['regen_ban_cache'])) {
+elseif (isset($_POST['regen_ban_cache'])) {
     // We re-generate it
     generate_bans_cache();
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>
 
@@ -52,12 +50,11 @@ else if (isset($_POST['regen_ban_cache'])) {
 </div>
 <?php
 } // If the "Regenerate ranks cache" button was clicked
-else if (isset($_POST['regen_ranks_cache'])) {
+elseif (isset($_POST['regen_ranks_cache'])) {
     // We re-generate it
     generate_ranks_cache();
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>
 
@@ -71,12 +68,11 @@ else if (isset($_POST['regen_ranks_cache'])) {
 </div>
 <?php
 } // If the "Regenerate config cache" button was clicked
-else if (isset($_POST['regen_config_cache'])) {
+elseif (isset($_POST['regen_config_cache'])) {
     // We re-generate it
     generate_config_cache();
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>
 
@@ -90,13 +86,12 @@ else if (isset($_POST['regen_config_cache'])) {
 </div>
 <?php
 } // If the "Regenerate quickjump cache" button was clicked
-else if (isset($_POST['regen_jump_cache'])) {
+elseif (isset($_POST['regen_jump_cache'])) {
     // We re-generate it
     generate_quickjump_cache();
     generate_wap_quickjump_cache();
     // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+    generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Очистка кэша</span></h2>
 
@@ -110,10 +105,9 @@ else if (isset($_POST['regen_jump_cache'])) {
 </div>
 <?php
 } else {
-    // If not, we show the form
-    // Display the admin navigation menu
-    generate_admin_menu($plugin);
-    ?>
+        // If not, we show the form
+        // Display the admin navigation menu
+        generate_admin_menu($plugin); ?>
 <div id="exampleplugin" class="blockform">
     <h2><span>Переоздание кэша</span></h2>
 
@@ -137,4 +131,4 @@ else if (isset($_POST['regen_jump_cache'])) {
     </div>
 </div>
 <?php
-}
+    }

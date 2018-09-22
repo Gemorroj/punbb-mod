@@ -27,14 +27,14 @@ if (isset($_GET['poll'])) {
             echo $Poll->updatePoll();
             break;
     }
-} else if (isset($_GET['quote'])) {
+} elseif (isset($_GET['quote'])) {
     header('Content-Type: text/html; charset=UTF-8');
 
     $result = $db->query('SELECT poster, message FROM ' . $db->prefix . 'posts WHERE id=' . intval($_GET['quote'])) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $cur_post = $db->fetch_assoc($result);
 
     echo '[quote=' . $cur_post['poster'] . ']' . $cur_post['message'] . '[/quote]' . "\n";
-} else if (isset($_GET['informer'], $_GET['method'])) {
+} elseif (isset($_GET['informer'], $_GET['method'])) {
     header('Content-Type: application/json; charset=UTF-8');
 
     try {

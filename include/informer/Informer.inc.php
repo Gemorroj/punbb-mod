@@ -52,7 +52,7 @@ class Informer
     public function getForums($args = null)
     {
         if (!$this->_pun_user['g_read_board']) {
-            throw new Exception ($this->_lang['No view']);
+            throw new Exception($this->_lang['No view']);
         }
 
         $r = $this->_db->query('
@@ -72,10 +72,10 @@ class Informer
             ORDER BY NULL
         ');
         if (!$r) {
-            throw new Exception ($this->_db->error());
+            throw new Exception($this->_db->error());
         }
         if (!$this->_db->num_rows($r)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
         $data = array();
@@ -107,23 +107,23 @@ class Informer
 
         $topicId = intval($topicId);
         if ($topicId <= 0) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
         if ($this->_pun_user['is_guest']) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
         if ($this->_pun_user['last_post'] && ($_SERVER['REQUEST_TIME'] - $this->_pun_user['last_post']) < $this->_pun_user['g_post_flood']) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
         // Clean up message
         $message = pun_linebreaks(pun_trim($message));
 
         if (!$message) {
-            throw new Exception ($this->_lang['Bad request']);
-        } else if (mb_strlen($message) > 65535) {
-            throw new Exception ($this->_lang['Bad request']);
-        } else if (!$this->_pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $this->_pun_user['g_id'] > PUN_MOD) {
+            throw new Exception($this->_lang['Bad request']);
+        } elseif (mb_strlen($message) > 65535) {
+            throw new Exception($this->_lang['Bad request']);
+        } elseif (!$this->_pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $this->_pun_user['g_id'] > PUN_MOD) {
             $message = ucwords(mb_strtolower($message));
         }
         convert_forum_url($message);
@@ -145,17 +145,18 @@ class Informer
         ');
 
         if (!$r) {
-            throw new Exception ($this->_db->error());
+            throw new Exception($this->_db->error());
         }
         if (!$this->_db->affected_rows()) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
         $id = $this->_db->insert_id();
 
 
         // Count number of replies in the topic
-        $result = $this->_db->query('
+        $result = $this->_db->query(
+            '
             SELECT COUNT(1)
             FROM ' . $this->_db->prefix . 'posts
             WHERE topic_id=' . $topicId
@@ -163,7 +164,8 @@ class Informer
         $num_replies = $this->_db->result($result, 0) - 1;
 
         // Update topic
-        $this->_db->query('
+        $this->_db->query(
+            '
             UPDATE ' . $this->_db->prefix . 'topics
             SET num_replies=' . $num_replies . ',
             last_post=' . $_SERVER['REQUEST_TIME'] . ',
@@ -174,7 +176,8 @@ class Informer
 
         //update_search_index('post', $id, $message);
 
-        $result = $this->_db->query('
+        $result = $this->_db->query(
+            '
             SELECT f.id
             FROM ' . $this->_db->prefix . 'topics AS t
             INNER JOIN ' . $this->_db->prefix . 'forums AS f ON f.id=t.forum_id
@@ -208,13 +211,14 @@ class Informer
 
 
         if (!$this->_pun_user['g_read_board']) {
-            throw new Exception ($this->_lang['No view']);
+            throw new Exception($this->_lang['No view']);
         }
         if (!$id || $id < 1 || !is_numeric($id)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
-        $r = $this->_db->query('
+        $r = $this->_db->query(
+            '
             SELECT p.poster, p.message, p.hide_smilies, p.posted, p.topic_id
             FROM ' . $this->_db->prefix . 'posts AS p
             INNER JOIN ' . $this->_db->prefix . 'topics AS t ON t.id = p.topic_id
@@ -227,10 +231,10 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception ($this->_db->error());
+            throw new Exception($this->_db->error());
         }
         if (!$this->_db->num_rows($r)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
         $data = $this->_db->fetch_assoc($r);
@@ -257,13 +261,14 @@ class Informer
 
 
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
-            throw new Exception ($this->_lang['No view']);
+            throw new Exception($this->_lang['No view']);
         }
         if (!$id || $id < 1 || !is_numeric($id)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
-        $r = $this->_db->query('
+        $r = $this->_db->query(
+            '
             SELECT m.subject, m.message, m.smileys, m.posted, m.sender
             FROM ' . $this->_db->prefix . 'messages AS m
             WHERE m.owner = ' . $this->_pun_user['id'] . '
@@ -271,10 +276,10 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception ($this->_db->error());
+            throw new Exception($this->_db->error());
         }
         if (!$this->_db->num_rows($r)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
         $data = $this->_db->fetch_assoc($r);
@@ -301,13 +306,14 @@ class Informer
 
 
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
-            throw new Exception ($this->_lang['No view']);
+            throw new Exception($this->_lang['No view']);
         }
         if (!$limit || $limit < 1 || !is_numeric($limit)) {
-            throw new Exception ($this->_lang['Bad request']);
+            throw new Exception($this->_lang['Bad request']);
         }
 
-        $r = $this->_db->query('
+        $r = $this->_db->query(
+            '
             SELECT m.id, m.subject, m.message, m.smileys, m.posted, m.sender
             FROM ' . $this->_db->prefix . 'messages AS m
             WHERE m.owner = ' . $this->_pun_user['id'] . '
@@ -316,7 +322,7 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception ($this->_db->error());
+            throw new Exception($this->_db->error());
         }
         if (!$this->_db->num_rows($r)) {
             return array();

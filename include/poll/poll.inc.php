@@ -18,13 +18,14 @@ require_once PUN_ROOT . 'lang/' . $pun_user['language'] . '/poll.php';
 
 class _Poll
 {
-    var $errorState = false;
-    var $errorDescr;
-    var $cachePID, $cacheUID;
-    var $polled = false;
+    public $errorState = false;
+    public $errorDescr;
+    public $cachePID;
+    public $cacheUID;
+    public $polled = false;
 
 
-    function create($userid)
+    public function create($userid)
     {
         global $db;
 
@@ -38,12 +39,11 @@ class _Poll
         }
 
         if ($this->validCreateData($poll['pdescription'], $poll['pmultiselect'], $poll['pquestions'], $userid)) {
-
             if (!is_int($poll['pexpire'])) {
                 $poll['pexpire'] = 0;
-            } else if ($poll['pexpire'] < 0) {
+            } elseif ($poll['pexpire'] < 0) {
                 $poll['pexpire'] = 0;
-            } else if ($poll['pexpire'] > 365) {
+            } elseif ($poll['pexpire'] > 365) {
                 $poll['pexpire'] = 365;
             }
 
@@ -55,7 +55,7 @@ class _Poll
     }
 
 
-    function deleteTopic($topics)
+    public function deleteTopic($topics)
     {
         global $db;
 
@@ -73,7 +73,7 @@ class _Poll
     }
 
 
-    function updatePoll()
+    public function updatePoll()
     {
         $out = '';
         foreach (explode('&', $_POST['d']) as $val) {
@@ -84,7 +84,7 @@ class _Poll
     }
 
 
-    function vote($pid, $q)
+    public function vote($pid, $q)
     {
         global $pun_user, $db;
 
@@ -109,16 +109,15 @@ class _Poll
         } else {
             return 2;
         }
-
     }
 
 
-    function convertQustions($value)
+    public function convertQustions($value)
     {
         $questions = array();
 
         foreach (explode("\n", $value) as $val) {
-			$val = trim($val);
+            $val = trim($val);
             if ($val && $val != "\n" && $val != "\t") {
                 $questions[] = array($val, 0);
             }
@@ -127,7 +126,7 @@ class _Poll
     }
 
 
-    function convertAnswers($value)
+    public function convertAnswers($value)
     {
         $answers = array();
 
@@ -144,7 +143,7 @@ class _Poll
     }
 
 
-    function validAnswers($value)
+    public function validAnswers($value)
     {
         foreach ($value as $answ) {
             if (!is_numeric($answ)) {
@@ -158,7 +157,7 @@ class _Poll
     }
 
 
-    function validCreateData($description, $multiselect, $questions, $userid)
+    public function validCreateData($description, $multiselect, $questions, $userid)
     {
         $this->errorState = true;
         if ($multiselect && $multiselect != 1) {
@@ -178,7 +177,7 @@ class _Poll
     }
 
 
-    function showPoll($pollid)
+    public function showPoll($pollid)
     {
         global $pun_config, $pun_user, $lang_poll;
 
@@ -211,7 +210,7 @@ class _Poll
     }
 
 
-    function wap_showPoll($pollid, $warning = null)
+    public function wap_showPoll($pollid, $warning = null)
     {
         global $pun_config, $pun_user, $lang_poll;
 
@@ -243,7 +242,7 @@ class _Poll
     }
 
 
-    function wap_showResult($pollid, $poll, $q, $total, $pieces = '')
+    public function wap_showResult($pollid, $poll, $q, $total, $pieces = '')
     {
         global $lang_poll, $pun_user, $lang_common;
 
@@ -259,13 +258,13 @@ class _Poll
     }
 
 
-    function wap_showQuest($pollid, $poll, $pieces, $warning = null)
+    public function wap_showQuest($pollid, $poll, $pieces, $warning = null)
     {
         global $lang_poll, $pun_user, $lang_common;
 
         if ($warning == 2) {
             $warning = $lang_poll['voted'];
-        } else if ($warning == 1) {
+        } elseif ($warning == 1) {
             $warning = $lang_poll['answer must select'];
         } else {
             $warning = null;
@@ -295,7 +294,7 @@ class _Poll
     }
 
 
-    function showResult($pollid, $poll, $q, $total, $pieces = '')
+    public function showResult($pollid, $poll, $q, $total, $pieces = '')
     {
         global $lang_poll, $pun_user, $lang_common;
 
@@ -321,7 +320,7 @@ class _Poll
     }
 
 
-    function showQuest($pollid, $poll, $pieces)
+    public function showQuest($pollid, $poll, $pieces)
     {
         global $lang_poll, $pun_user, $lang_common;
 
@@ -360,7 +359,7 @@ class _Poll
     }
 
 
-    function isVoted($pid, $uid)
+    public function isVoted($pid, $uid)
     {
         global $db;
 
@@ -379,7 +378,7 @@ class _Poll
     }
 
 
-    function setPolled($pid, $uid)
+    public function setPolled($pid, $uid)
     {
         $this->polled = true;
         $this->cachePID = $pid;
@@ -387,7 +386,7 @@ class _Poll
     }
 
 
-    function getPollDB($pollId)
+    public function getPollDB($pollId)
     {
         global $db;
 
@@ -405,7 +404,7 @@ class _Poll
     }
 
 
-    function showForm()
+    public function showForm()
     {
         global $lang_poll, $pun_user, $lang_common;
 
@@ -413,7 +412,7 @@ class _Poll
     }
 
 
-    function showContainer()
+    public function showContainer()
     {
         global $lang_poll;
         JsHelper::getInstance()->add(PUN_ROOT . 'js/jquery.punmodalbox.js');
@@ -423,14 +422,14 @@ class _Poll
     }
 
 
-    function wap_showContainer()
+    public function wap_showContainer()
     {
         global $lang_poll;
         return '<fieldset><legend>' . $lang_poll['poll'] . '</legend><input type="hidden" name="has_poll" value="1" /><textarea name="pdescription" rows="1" cols="12"></textarea><br/>' . $lang_poll['allow multiselect'] . '<br/><label for="multiselect_yes"><input type="radio" id="multiselect_yes" name="pmultiselect" value="1"/>' . $lang_poll['yes'] . '</label> <label for="multiselect_no"><input type="radio" id="multiselect_no" name="pmultiselect" value="0" checked="checked"/>' . $lang_poll['no'] . '</label><br/>' . $lang_poll['how long'] . '<br/><input name="pexpire" type="text" value=""/><br/>' . $lang_poll['list answers'] . '<br/><textarea rows="2" cols="12" name="pquestions"></textarea></fieldset>';
     }
 
 
-    function showEditForm($pid)
+    public function showEditForm($pid)
     {
         global $lang_poll, $pun_user, $lang_common;
 

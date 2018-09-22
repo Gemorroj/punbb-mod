@@ -46,9 +46,9 @@ if (isset($_POST['form_sent'])) {
     $subject = pun_trim($_POST['req_subject']);
     if (!$subject) {
         message($lang_post['No subject']);
-    } else if (mb_strlen($subject) > 70) {
+    } elseif (mb_strlen($subject) > 70) {
         message($lang_post['Too long subject']);
-    } else if (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
+    } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
         $subject = ucwords(mb_strtolower($subject));
     }
 
@@ -58,9 +58,9 @@ if (isset($_POST['form_sent'])) {
     // Check message
     if (!$message) {
         message($lang_post['No message']);
-    } else if (mb_strlen($message) > 65535) {
+    } elseif (mb_strlen($message) > 65535) {
         message($lang_post['Too long message']);
-    } else if (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
+    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
         $message = ucwords(mb_strtolower($message));
     }
 
@@ -148,7 +148,7 @@ if (isset($_POST['form_sent'])) {
     $from_profile = intval(@$_POST['from_profile']);
     if ($from_profile) {
         redirect('profile.php?id=' . $from_profile, $lang_pms['Sent redirect']);
-    } else if ($topic_redirect) {
+    } elseif ($topic_redirect) {
         redirect('viewtopic.php?id=' . $topic_redirect, $lang_pms['Sent redirect']);
     } else {
         redirect('message_list.php', $lang_pms['Sent redirect']);
@@ -197,8 +197,7 @@ if (isset($_POST['form_sent'])) {
     }
     $required_fields = array('req_message' => $lang_common['Message'], 'req_subject' => $lang_common['Subject'], 'req_username' => $lang_pms['Send to']);
 
-    require_once PUN_ROOT . 'header.php';
-    ?>
+    require_once PUN_ROOT . 'header.php'; ?>
 <div id="profile" class="block2col">
     <div class="blockmenu">
         <h2><span><?php echo $lang_pms['Private Messages'] ?></span></h2>
@@ -258,14 +257,14 @@ if (isset($_POST['form_sent'])) {
 <?php
 $checkboxes = array();
 
-if ($pun_config['o_smilies'] == 1) {
-    $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" ' . (isset($_POST['hide_smilies']) ? 'checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
-}
+    if ($pun_config['o_smilies'] == 1) {
+        $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" ' . (isset($_POST['hide_smilies']) ? 'checked="checked"' : '') . ' />' . $lang_post['Hide smilies'];
+    }
 
-$checkboxes[] = '<label><input type="checkbox" name="savemessage" value="1" checked="checked" />' . $lang_pms['Save message'];
+    $checkboxes[] = '<label><input type="checkbox" name="savemessage" value="1" checked="checked" />' . $lang_pms['Save message'];
 
-if ($checkboxes) {
-    echo '</div>
+    if ($checkboxes) {
+        echo '</div>
 <div class="inform">
 <fieldset>
 <legend>' . $lang_common['Options'] . '</legend>
@@ -275,9 +274,9 @@ if ($checkboxes) {
 </div>
 </div>
 </fieldset>';
-}
+    }
 
-echo '</div>
+    echo '</div>
 <p><input type="submit" name="submit" value="' . $lang_pms['Send'] . '" accesskey="s" /><a href="javascript:history.go(-1)">' . $lang_common['Go back'] . '</a></p>
 </form>
 </div>
@@ -286,5 +285,5 @@ echo '</div>
 </div>';
 
 
-require_once PUN_ROOT . 'footer.php';
+    require_once PUN_ROOT . 'footer.php';
 }
