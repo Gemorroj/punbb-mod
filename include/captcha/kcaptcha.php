@@ -224,7 +224,9 @@ class KCAPTCHA
                 imagesetpixel($img2, $x, $y, imagecolorallocate($img2, $newred, $newgreen, $newblue));
             }
         }
-        
+
+        imageinterlace($img2, 1);
+
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Cache-Control: no-store, no-cache, must-revalidate');
         header('Cache-Control: post-check=0, pre-check=0', false);
@@ -236,7 +238,7 @@ class KCAPTCHA
             header("Content-Type: image/gif");
             imagegif($img2);
         } elseif (function_exists("imagepng")) {
-            header("Content-Type: image/x-png");
+            header("Content-Type: image/png");
             imagepng($img2);
         }
     }

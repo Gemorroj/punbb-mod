@@ -13,8 +13,8 @@ if ($handle = opendir('../fonts0')) {
         }
 
         $img=imagecreatefrompng('../fonts0/'.$file);
-        imageAlphaBlending($img, false);
-        imageSaveAlpha($img, true);
+        imagealphablending($img, false);
+        imagesavealpha($img, true);
         $transparent=imagecolorallocatealpha($img, 255, 255, 255, 127);
         $white=imagecolorallocate($img, 255, 255, 255);
         $black=imagecolorallocate($img, 0, 0, 0);
@@ -24,7 +24,7 @@ if ($handle = opendir('../fonts0')) {
             $space=true;
             $column_opacity=0;
             for ($y=1;$y<imagesy($img);$y++) {
-                $rgb = ImageColorAt($img, $x, $y);
+                $rgb = imagecolorat($img, $x, $y);
                 $opacity=$rgb>>24;
                 if ($opacity!=127) {
                     $space=false;
