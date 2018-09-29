@@ -44,8 +44,7 @@ $is_image = preg_match('/^image\/(?:.*)$/i', $mime);
 if (!$can_download && !($poster_id == $pun_user['id'])) {
     if ($is_image) {
         // show noaccess icon instead of image
-        $location = PUN_ROOT . $pun_config['file_thumb_path'] . 'err_access.gif';
-        $mime = 'image/gif';
+        download(PUN_ROOT . $pun_config['file_thumb_path'] . 'err_access.gif', 'err_access.gif', 'image/gif');
     } else {
         message('Access denied');
     }
@@ -57,14 +56,4 @@ if (!is_file($location)) {
 
 $db->query('UPDATE `' . $db->prefix . 'attachments` SET `downloads` = `downloads` + 1 WHERE `id`=' . $aid) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
 
-$getf = new Getf();
-$getf->get(file_get_contents($location), $file, ($mime == 'application/octet-stream' ? null : $mime), !$is_image);
-exit;
-
-/*
-header('Content-type: '.$mime);
-header('Content-Disposition: attachment; filename="'.$file.'";');
-header('Accept-Ranges: bytes');
-header('Content-Length: '.filesize($location));
-exit(file_get_contents($location));
-*/
+download($location, $file, $mime);

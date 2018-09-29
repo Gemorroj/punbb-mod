@@ -96,8 +96,7 @@ if (isset($_GET['file'])) {
     // an author of Attachment mod).
     // lets download a file
     $file_name = $_GET['file'];
-    $file_name = strtr($file_name, '/', ' '); // убираем любые слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
-    $file_name = strtr($file_name, '\\', ' ');
+    $file_name = str_replace(array('/', '\\'), '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if (!$upl_conf['p_view']) {
         message($lang_common['No permission']);
@@ -110,15 +109,14 @@ if (isset($_GET['file'])) {
         }
     }
 
+    if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
+        message($lang_common['Bad request']);
+    }
+
     // update number of downloads
     $result = $db->query('UPDATE ' . $db->prefix . 'uploaded SET downs=downs+1 WHERE file=\'' . $db->escape($file_name) . '\' LIMIT 1') or error($lang_uploads['Err counter'], __FILE__, __LINE__, $db->error());
 
-    if (!is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
-        message($lang_common['Bad request']);
-    } else {
-        redirect('uploaded/' . $file_name);
-    }
-    exit;
+    download(PUN_ROOT . 'uploaded/' . $file_name, $file_name);
 }
 
 
@@ -177,28 +175,22 @@ if (!$upl_conf['p_view']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
     } elseif (!in_array('.' . strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
+    } elseif (mb_strlen($file_name) > 255) {
+        error($lang_uploads['Err file name big'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
-        if (!move_uploaded_file($temp_name, PUN_ROOT . 'uploaded/' . $file_name) || !filesize(PUN_ROOT . 'uploaded/' . $file_name)) {
+        if (!move_uploaded_file($temp_name, PUN_ROOT . 'uploaded/' . $file_name) || !is_file(PUN_ROOT . 'uploaded/' . $file_name)) {
             error('{' . pun_htmlspecialchars($file_name) . '} - ' . $lang_uploads['Err file couldnot'], __FILE__, __LINE__, $db->error());
         }
 
         // lets deal with description
-        $descript = mb_substr($_POST['descr'], 0, 100);
-        $deslist = explode(' ', $descript);
-        for ($i = 0, $all = count($deslist); $i < $all; ++$i) {
-            $deslist[$i] = trim($deslist[$i]);
-            if (mb_strlen($deslist[$i]) > 22) {
-                $deslist[$i] = mb_substr($deslist[$i], 0, 22);
-            }
-        }
-        $descript = implode(' ', $deslist);
+        $descript = mb_substr($_POST['descr'], 0, 1000);
 
         $result = $db->query('
             INSERT INTO ' . $db->prefix . 'uploaded (
                 `file`, `user`, `uid`, `user_stat`, `data`, `size`, `downs`, `descr`
             ) VALUES (
-                "' . $db->escape(mb_substr($file_name, 0, 255)) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
+                "' . $db->escape($file_name) . '", "' . $db->escape($pun_user['username']) . '", "' . $pun_user['id'] . '", "' . $db->escape($pun_user['g_user_title']) . '", ' . $_SERVER['REQUEST_TIME'] . ', ' . $file_size . ', 0, "' . $db->escape($descript) . '"
             )
         ') or error('Unable to add upload data', __FILE__, __LINE__, $db->error());
 

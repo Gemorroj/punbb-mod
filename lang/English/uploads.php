@@ -27,20 +27,20 @@ $lang_uploads = array(
 'Not allowed mes'	=>	'I am sorry, but you are have not permission to access this module.',
 'Upload file'		=>	'Upload file',
 'Upload rules'		=>	'Uploading rules:',
-'Upload rules mes'	=>	"- You can upload file with extensions: %EXT%<br />
-				- Maximum file size is %SIZE% KB<br />- Do not upload illegal content",
-'Descr'			=>	"File description:",
-'Upload warn'		=>	"Files can contain viruses or illegal content. Please, report to administrator if such a case.",
-'File list'		=>	"File list. Files fetched: %NUM%. Page %CUR% of %ALL%.",
-'Err no file'		=>	"You have not specified any file to upload",
-'Err file exists'	=>	"There is such file on the server",
-'Err file big'		=>	"File is too large",
-'Err file type'		=>	"Illegal extension",
-'Err file couldnot'	=>	"could not upload the file",
-'Err file not found'	=>	"File not found",
-'Err counter'		=>	"Could not increase file's counter, may be there is no such file",
+'Upload rules mes'	=>	'- You can upload file with extensions: %EXT%<br />- Maximum file size is %SIZE% KB<br />- Do not upload illegal content',
+'Descr'			=>	'File description:',
+'Upload warn'		=>	'Files can contain viruses or illegal content. Please, report to administrator if such a case.',
+'File list'		=>	'File list. Files fetched: %NUM%. Page %CUR% of %ALL%.',
+'Err no file'		=>	'You have not specified any file to upload',
+'Err file exists'	=>	'There is such file on the server',
+'Err file name big'	=>	'File name is too large',
+'Err file big'		=>	'File is too large',
+'Err file type'		=>	'Illegal extension',
+'Err file couldnot'	=>	'could not upload the file',
+'Err file not found'	=>	'File not found',
+'Err counter'		=>	'Could not increase file\'s counter, may be there is no such file',
 
-'File uploaded'		=>	"File uploaded: ",
-'File deleted'		=>	" - file deleted!"
+'File uploaded'		=>	'File uploaded: ',
+'File deleted'		=>	' - file deleted!'
 
 );

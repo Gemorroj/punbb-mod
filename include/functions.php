@@ -1323,338 +1323,233 @@ function vote($to = 0, $vote = 1)
 }
 
 
-class Getf
+/**
+ * @param string $file
+ * @param string $default
+ * @return string
+ */
+function mime($file, $default = 'application/octet-stream')
 {
-    // содержимое
-    public $data;
-    // имя
-    public $file;
-    // mime
-    public $mime;
-    // аттач
-    public $attach = true;
-
-    /**
-     * @param string $file
-     * @return null|string
-     */
-    public function mime($file)
-    {
-        // если есть Fileinfo
-        if (function_exists('finfo_open') && is_file($file)) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $this->mime = finfo_file($finfo, $file);
-            finfo_close($finfo);
-        }
-        // если нет, ставим MIME в зависимости от расширения
-        if (!$this->mime) {
-            switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
-                case 'jar':
-                    $this->mime = 'application/java-archive';
-                    break;
-
-                case 'jad':
-                    $this->mime = 'text/vnd.sun.j2me.app-descriptor';
-                    break;
-
-                case 'apk':
-                    $this->mime = 'application/vnd.android.package-archive';
-                    break;
-
-                case 'cab':
-                    $this->mime = 'application/vnd.ms-cab-compressed';
-                    break;
-
-                case 'sis':
-                    $this->mime = 'application/vnd.symbian.install';
-                    break;
-
-                case 'zip':
-                    $this->mime = 'application/x-zip';
-                    break;
-
-                case 'rar':
-                    $this->mime = 'application/x-rar-compressed';
-                    break;
-
-                case '7z':
-                    $this->mime = 'application/x-7z-compressed';
-                    break;
-
-                case 'gz':
-                case 'tgz':
-                    $this->mime = 'application/x-gzip';
-                    break;
-
-                case 'bz':
-                case 'bz2':
-                    $this->mime = 'application/x-bzip';
-                    break;
-
-                case 'jpg':
-                case 'jpe':
-                case 'jpeg':
-                    $this->mime = 'image/jpeg';
-                    break;
-
-                case 'gif':
-                    $this->mime = 'image/gif';
-                    break;
-
-                case 'png':
-                    $this->mime = 'image/png';
-                    break;
-
-                case 'bmp':
-                    $this->mime = 'image/bmp';
-                    break;
-
-                case 'ico':
-                    $this->mime = 'image/x-icon';
-                    break;
-
-                case 'asp':
-                case 'txt':
-                case 'dat':
-                case 'php':
-                case 'php5':
-                case 'py':
-                case 'rb':
-                case 'c':
-                case 'h':
-                case 'cpp':
-                case 'cs':
-                case 'pl':
-                case 'wml':
-                case 'sql':
-                case 'ini':
-                case 'log':
-                case 'bat':
-                case 'sh':
-                    $this->mime = 'text/plain';
-                    break;
-
-                case 'css':
-                    $this->mime = 'text/css';
-                    break;
-
-                case 'js':
-                    $this->mime = 'application/javascript';
-                    break;
-
-                case 'json':
-                    $this->mime = 'application/json';
-                    break;
-
-                case 'xml':
-                case 'xsd':
-                    $this->mime = 'application/xml';
-                    break;
-
-                case 'xsl':
-                case 'xslt':
-                    $this->mime = 'application/xslt+xml';
-                    break;
-
-                case 'wsdl':
-                    $this->mime = 'application/wsdl+xml';
-                    break;
-
-                case 'mmf':
-                    $this->mime = 'application/x-smaf';
-                    break;
-
-                case 'mid':
-                    $this->mime = 'audio/mid';
-                    break;
-
-                case 'mp3':
-                    $this->mime = 'audio/mpeg';
-                    break;
-
-                case 'amr':
-                    $this->mime = 'audio/amr';
-                    break;
-
-                case 'wav':
-                    $this->mime = 'audio/x-wav';
-                    break;
-
-                case 'mp4':
-                    $this->mime = 'video/mp4';
-                    break;
-
-                case 'wmv':
-                    $this->mime = 'video/x-ms-wmv';
-                    break;
-
-                case '3gp':
-                    $this->mime = 'video/3gpp';
-                    break;
-
-                case 'avi':
-                    $this->mime = 'video/x-msvideo';
-                    break;
-
-                case 'flv':
-                    $this->mime = 'video/x-flv';
-                    break;
-
-                case 'mpg':
-                case 'mpe':
-                case 'mpeg':
-                    $this->mime = 'video/mpeg';
-                    break;
-
-                case 'swf':
-                    $this->mime = 'application/x-shockwave-flash';
-                    break;
-
-                case 'pdf':
-                    $this->mime = 'application/pdf';
-                    break;
-
-                case 'rtf':
-                    $this->mime = 'application/rtf';
-                    break;
-
-                case 'doc':
-                    $this->mime = 'application/msword';
-                    break;
-
-                case 'docx':
-                    $this->mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-                    break;
-
-                case 'xls':
-                    $this->mime = 'application/vnd.ms-excel';
-                    break;
-
-                case 'xlsx':
-                    $this->mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                    break;
-
-                default:
-                    $this->mime = 'application/octet-stream';
-                    break;
-            }
-        }
-
-        return $this->mime;
+    // если есть Fileinfo
+    if (function_exists('finfo_open') && is_file($file)) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $file);
+        finfo_close($finfo);
     }
 
+    // если нет, ставим MIME в зависимости от расширения
+    if (!$mime) {
+        switch (strtolower(pathinfo($file, PATHINFO_EXTENSION))) {
+            case 'jar':
+                $mime = 'application/java-archive';
+                break;
 
-    /**
-     * @param string $data Содержимое файла
-     * @param string $file имя файла
-     * @param string $mime MIME (опционально)
-     * @param bool $attach аттач (опционально)
-     *
-     * @return string
-     */
-    public function get($data, $file, $mime = null, $attach = true)
-    {
-        ob_implicit_flush(1);
-        set_time_limit(2000);
+            case 'jad':
+                $mime = 'text/vnd.sun.j2me.app-descriptor';
+                break;
 
-        ini_set('zlib.output_compression', 'Off');
-        ini_set('output_handler', '');
-        ob_end_clean();
+            case 'apk':
+                $mime = 'application/vnd.android.package-archive';
+                break;
 
-        $this->file = $file;
-        $this->mime = $mime;
-        $this->attach = $attach;
+            case 'cab':
+                $mime = 'application/vnd.ms-cab-compressed';
+                break;
 
-        if (!$this->file) {
-            return 'File not found';
+            case 'sis':
+                $mime = 'application/vnd.symbian.install';
+                break;
+
+            case 'zip':
+                $mime = 'application/x-zip';
+                break;
+
+            case 'rar':
+                $mime = 'application/x-rar-compressed';
+                break;
+
+            case '7z':
+                $mime = 'application/x-7z-compressed';
+                break;
+
+            case 'gz':
+            case 'tgz':
+                $mime = 'application/x-gzip';
+                break;
+
+            case 'bz':
+            case 'bz2':
+                $mime = 'application/x-bzip';
+                break;
+
+            case 'jpg':
+            case 'jpe':
+            case 'jpeg':
+                $mime = 'image/jpeg';
+                break;
+
+            case 'gif':
+                $mime = 'image/gif';
+                break;
+
+            case 'png':
+                $mime = 'image/png';
+                break;
+
+            case 'bmp':
+                $mime = 'image/bmp';
+                break;
+
+            case 'ico':
+                $mime = 'image/x-icon';
+                break;
+
+            case 'asp':
+            case 'txt':
+            case 'dat':
+            case 'php':
+            case 'php5':
+            case 'py':
+            case 'rb':
+            case 'c':
+            case 'h':
+            case 'cpp':
+            case 'cs':
+            case 'pl':
+            case 'wml':
+            case 'sql':
+            case 'ini':
+            case 'log':
+            case 'bat':
+            case 'sh':
+                $mime = 'text/plain';
+                break;
+
+            case 'css':
+                $mime = 'text/css';
+                break;
+
+            case 'js':
+                $mime = 'application/javascript';
+                break;
+
+            case 'json':
+                $mime = 'application/json';
+                break;
+
+            case 'xml':
+            case 'xsd':
+                $mime = 'application/xml';
+                break;
+
+            case 'xsl':
+            case 'xslt':
+                $mime = 'application/xslt+xml';
+                break;
+
+            case 'wsdl':
+                $mime = 'application/wsdl+xml';
+                break;
+
+            case 'mmf':
+                $mime = 'application/x-smaf';
+                break;
+
+            case 'mid':
+                $mime = 'audio/mid';
+                break;
+
+            case 'mp3':
+                $mime = 'audio/mpeg';
+                break;
+
+            case 'amr':
+                $mime = 'audio/amr';
+                break;
+
+            case 'wav':
+                $mime = 'audio/x-wav';
+                break;
+
+            case 'mp4':
+                $mime = 'video/mp4';
+                break;
+
+            case 'wmv':
+                $mime = 'video/x-ms-wmv';
+                break;
+
+            case '3gp':
+                $mime = 'video/3gpp';
+                break;
+
+            case 'avi':
+                $mime = 'video/x-msvideo';
+                break;
+
+            case 'flv':
+                $mime = 'video/x-flv';
+                break;
+
+            case 'mpg':
+            case 'mpe':
+            case 'mpeg':
+                $mime = 'video/mpeg';
+                break;
+
+            case 'swf':
+                $mime = 'application/x-shockwave-flash';
+                break;
+
+            case 'pdf':
+                $mime = 'application/pdf';
+                break;
+
+            case 'rtf':
+                $mime = 'application/rtf';
+                break;
+
+            case 'doc':
+                $mime = 'application/msword';
+                break;
+
+            case 'docx':
+                $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+
+            case 'xls':
+                $mime = 'application/vnd.ms-excel';
+                break;
+
+            case 'xlsx':
+                $mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+
+            default:
+                $mime = $default;
+                break;
         }
-
-
-        if ($data) {
-            $this->data = $data;
-        } else {
-            $this->data = file_get_contents($this->file);
-        }
-
-        if (!$this->mime) {
-            $this->mime = $this->mime($this->file);
-        }
-
-        $sz = $range = strlen($this->data);
-
-        // "От" и  "До" по умолчанию
-        $file_range = array('from' => 0, 'to' => $sz);
-
-        // Если докачка
-        $isset = isset($_SERVER['HTTP_RANGE']);
-        if ($isset) {
-            if (preg_match('/bytes=(\d+)\-(\d*)/i', $_SERVER['HTTP_RANGE'], $matches)) {
-                // "От", "До" если "До" нету, "До" равняется размеру файла
-                $file_range = array('from' => $matches[1], 'to' => (!$matches[2]) ? $sz : $matches[2]);
-
-                // Режем переменную в соответствии с данными
-                if ($file_range) {
-                    $this->data = substr($this->data, $file_range['from'], $file_range['to']);
-                    $range = $file_range['to'] - $file_range['from'];
-                }
-            }
-        }
-
-
-        // Хэш
-        $etag = md5($this->data);
-        $etag = substr($etag, 0, 4) . '-' . substr($etag, 5, 5) . '-' . substr($etag, 10, 8);
-
-        if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-            if ($_SERVER['HTTP_IF_NONE_MATCH'] == '"' . $etag . '"') {
-                header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
-                //header('Date: ' . gmdate('r'));
-                exit;
-            }
-        }
-
-
-        // Заголовки...
-        if ($file_range['from']) {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 206 Partial Content');
-        } else {
-            header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
-        }
-
-        header('ETag: "' . $etag . '"');
-
-
-        //header('Date: ' . gmdate('r'));
-        //header('Content-Transfer-Encoding: binary');
-        //header('Last-Modified: ' . gmdate('r'));
-
-        // Кэш
-        header('Cache-Control: public, max-age=86400');
-        header('Pragma: public');
-        //header('Expires: Tue, 10 Apr 2038 01:00:00 GMT');
-
-
-        header('Connection: Close');
-        //header('Keep-Alive: timeout=10, max=60');
-        //header('Connection: Keep-Alive');
-
-        header('Accept-Ranges: bytes');
-        header('Content-Length: ' . $range);
-
-
-        // Если докачка
-        if ($file_range['from']) {
-            header('Content-Range: bytes ' . $file_range['from'] . '-' . $file_range['to'] . '/' . $sz);
-        }
-
-        header('Content-Type: ' . $this->mime);
-        header('Content-Transfer-Encoding: binary');
-
-        // Если отдаем как аттач
-        if ($this->attach) {
-            header('Content-Disposition: attachment; filename="' . basename($this->file) . '"');
-        }
-
-        echo $this->data;
     }
+
+    return $mime;
+}
+
+
+function download($path, $name, $mime = null)
+{
+    if (!$mime || $mime === 'application/octet-stream') {
+        $mime = mime($path);
+    }
+
+    $disposition = 'attachment';
+    if (0 === strpos($mime, 'image/') || 0 === strpos($mime, 'video/') || 0 === strpos($mime, 'audio/')) {
+        $disposition = 'inline';
+    }
+
+    header('Content-Type: ' . $mime);
+    header('Content-Disposition: ' . $disposition . '; filename*=UTF-8\'\'' . rawurlencode($name));
+    header('Content-Length: ' . filesize($path));
+    header('Content-Transfer-Encoding: binary');
+    readfile($path);
+    exit;
 }
