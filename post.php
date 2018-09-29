@@ -599,7 +599,7 @@ require PUN_ROOT . 'include/attach/post_buttons.php';
 <?php
 // если есть проверка капчей
 if ($pun_user['g_post_replies'] == 2) {
-    echo '<table style="width:25%;"><tr><td><img src="' . $pun_config['o_base_url'] . '/include/captcha/captcha.php?' . session_name() . '=' . session_id() . '" alt=""/></td><td>' . $lang_post['Image text'] . '<br /><input type="text" name="req_image_" size="16" maxlength="4" /></td></tr></table>';
+    echo '<table style="width:25%;"><tr><td><img src="' . $pun_config['o_base_url'] . '/captcha.php?' . session_name() . '=' . session_id() . '" alt=""/></td><td>' . $lang_post['Image text'] . '<br /><input type="text" name="req_image_" size="16" maxlength="4" /></td></tr></table>';
 }
 ?>
 <ul class="bblinks">

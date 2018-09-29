@@ -328,7 +328,7 @@ if ($pun_config['o_regs_verify_image'] == 1) {
 <fieldset>
 <legend>' . $lang_registration['Image verification'] . '</legend>
 <div class="infldset">
-<img src="' . $pun_config['o_base_url'] . '/include/captcha/captcha.php?' . session_name() . '=' . session_id() . '" alt=""/><br />
+<img src="' . $pun_config['o_base_url'] . '/captcha.php?' . session_name() . '=' . session_id() . '" alt=""/><br />
 <label class="conl"><strong>' . $lang_registration['Image text'] . '</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" /><br /></label>
 <p class="clearb">' . $lang_registration['Image info'] . '</p>
 </div>

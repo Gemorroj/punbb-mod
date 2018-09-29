@@ -57,7 +57,7 @@
 {if $pun_config.o_regs_verify_image == 1}
     <div class="input2">
         <strong>{$lang_registration.$Image_verification}</strong><br/>
-        <img src="{$pun_config.o_base_url}/include/captcha/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
+        <img src="{$pun_config.o_base_url}/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
         <strong>{$lang_registration.$Image_text}</strong><br/>
         <input type="text" name="req_image_" maxlength="4"/><br/>
         {$lang_registration.$Image_info}

@@ -2,7 +2,7 @@
 //error_reporting (0);
 
 session_start();
-require('kcaptcha.php');
+require dirname(__FILE__) . '/include/captcha/kcaptcha.php';
 
 $captcha = new KCAPTCHA();
 
