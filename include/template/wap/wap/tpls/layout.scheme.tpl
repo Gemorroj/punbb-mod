@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>{$page_title|escape}</title>
-    <link rel="stylesheet" type="text/css" href="{$pun_config.o_base_url}/style/wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{$smarty.const.PUN_ROOT}style/wap/{if $pun_user}{$pun_user.style_wap}{else}{$pun_config.o_default_style_wap}{/if}/style.css"/>
     <link rel="alternate" type="application/rss+xml" title="{$pun_config.o_board_title}" href="{$smarty.const.PUN_ROOT}rss.xml"/>
 {/block}
 
@@ -30,7 +30,7 @@
 </div>
 
 <div class="copy">
-    <a href="http://forum.wapinet.ru">PunBB Mod v{$pun_config.o_show_version}</a><br/>
+    <a href="{$pun_config.o_base_url}">PunBB Mod v{$pun_config.o_show_version}</a><br/>
     <span class="red">{sprintf('%.3f', microtime(true) - $pun_start)} s</span>
 </div>
 {/block}

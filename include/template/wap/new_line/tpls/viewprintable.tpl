@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{$pun_config.o_base_url}/style/imports/printable.css" type="text/css">
+    <link rel="stylesheet" href="{$smarty.const.PUN_ROOT}style/imports/printable.css" type="text/css">
     <title>{$page_title|escape}</title>
 </head>
 <body>

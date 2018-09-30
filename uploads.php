@@ -199,8 +199,8 @@ if (!$upl_conf['p_view']) {
     }
 } elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
-    $delfile = strtr($delfile, '/', ' '); // убираем любые слыши и бэкслэши, которые используются в Lin-Win в качестве пути
-    $delfile = strtr($delfile, '\\', ' ');
+    $delfile = str_replace(array('/', '\\'), '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+
     if (($upl_conf['p_delete'] != 1) && ($upl_conf['p_globaldelete'] != 1)) {
         error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
     }

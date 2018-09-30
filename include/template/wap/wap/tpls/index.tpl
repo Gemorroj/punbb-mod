@@ -2,7 +2,7 @@
 
 {block name='logo'}
 <div class="hd">
-    <img src="{$pun_config.o_base_url}/style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
+    <img src="{$smarty.const.PUN_ROOT}style/wap/{$pun_user.style_wap}/img/logo.gif" alt="{$lang_common.Forum} {$smarty.server.HTTP_HOST}"/>
     {$pun_config.o_board_title}
 </div>
 
