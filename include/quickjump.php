@@ -1,5 +1,5 @@
 <?php
-if (!defined('PUN') or ! defined('PUN_ROOT')) {
+if (!defined('PUN') || !defined('PUN_ROOT')) {
     exit();
 }
 

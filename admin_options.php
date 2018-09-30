@@ -48,7 +48,7 @@ if (@$_POST['form_sent']) {
     }
 
     // Make sure base_url doesn't end with a slash
-    if (substr($form['base_url'], -1) == '/') {
+    if (substr($form['base_url'], -1) === '/') {
         $form['base_url'] = substr($form['base_url'], 0, -1);
     }
 
@@ -139,6 +139,8 @@ if (@$_POST['form_sent']) {
     // Regenerate the config cache
     include_once PUN_ROOT . 'include/cache.php';
     generate_config_cache();
+    generate_quickjump_cache();
+    generate_wap_quickjump_cache();
 
     redirect('admin_options.php', $lang_admin['Updated'] . ' ' . $lang_admin['Redirect']);
 }
