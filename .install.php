@@ -606,7 +606,6 @@ $db->query("CREATE TABLE IF NOT EXISTS `karma` (
 @chmod(PUN_ROOT . 'cache/', 0777);
 @chmod(PUN_ROOT . 'img/avatars/', 0777);
 @chmod(PUN_ROOT . 'img/thumb/', 0777);
-@chmod(PUN_ROOT . 'rss.xml', 0666);
 @chmod(PUN_ROOT . 'lang/Russian/stopwords.txt', 0666);
 @chmod(PUN_ROOT . 'lang/English/stopwords.txt', 0666);
 

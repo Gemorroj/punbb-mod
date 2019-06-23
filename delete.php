@@ -50,7 +50,6 @@ if (isset($_POST['delete'])) {
         // Delete the topic and all of it's posts
         delete_topic($cur_post['tid']);
         update_forum($cur_post['fid']);
-        generate_rss();
         redirect('viewforum.php?id='.$cur_post['fid'], $lang_delete['Topic del redirect']);
     } else {
         // Delete just this one post

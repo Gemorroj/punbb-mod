@@ -472,7 +472,7 @@ function _replace_quote_wap(array $matches)
 function do_bbcode($text)
 {
     global $lang_common, $pun_user;
-    $wap = 'wap' == pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
+    $wap = 'wap' === pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
 
     if (false !== strpos($text, 'quote')) {
         if ($wap) {
@@ -668,7 +668,7 @@ function do_hide($text, $post = 0, $matches)
 
     $basename = basename($_SERVER['PHP_SELF']);
 
-    if ('wap' == pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME)) {
+    if ('wap' === pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME)) {
         if ('hide.php' == $basename) {
             return str_replace($matches[0], '<div class="attach_list">'.$matches[4].'</div>', $text);
         }
@@ -691,7 +691,7 @@ function do_hide($text, $post = 0, $matches)
 function parse_message($text, $hide_smilies, $post = 0)
 {
     global $pun_config, $lang_common, $pun_user;
-    $wap = 'wap' == pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
+    $wap = 'wap' === pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
 
     if (1 == $pun_config['o_censoring']) {
         $text = censor_words($text);
@@ -775,7 +775,7 @@ function _replace_poll(array $matches)
 function do_code($text, $inside = array())
 {
     global $pun_config, $lang_common, $pun_user;
-    $wap = 'wap' == pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
+    $wap = 'wap' === pathinfo(dirname($_SERVER['PHP_SELF']), PATHINFO_FILENAME);
 
     // If we split up the message before we have to concatenate it together again (code tags)
     if ($inside) {

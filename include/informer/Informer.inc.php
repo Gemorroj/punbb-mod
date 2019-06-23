@@ -189,7 +189,6 @@ class Informer
         $forumId = $this->_db->result($result, 0);
 
         update_forum($forumId);
-        generate_rss();
 
         return array(
             'message' => $this->_parseMessage($message, $hideSmiles),

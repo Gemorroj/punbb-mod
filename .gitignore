@@ -14,8 +14,6 @@ uploaded/*
 !uploaded/.htaccess
 !uploaded/index.html
 
-rss.xml
-
 img/avatars/*
 !img/avatars/index.html
 img/thumb/*

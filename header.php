@@ -35,14 +35,6 @@ while (preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $t
 }
 // END SUBST - <pun_include "*">
 
-// START SUBST - <pun_rssname>
-$tpl_main = str_replace('<pun_rssname>', $pun_config['o_board_title'], $tpl_main);
-// END SUBST - <pun_rssname>
-
-// START SUBST - <pun_rss>
-$tpl_main = str_replace('<pun_rss>', PUN_ROOT.'rss.xml', $tpl_main);
-// END SUBST - <pun_rss>
-
 $basename = basename($_SERVER['PHP_SELF']);
 
 // START SUBST - <pun_head>
@@ -166,7 +158,6 @@ if ($pun_user['is_guest']) {
 }
 
 $tpl_main = str_replace('<pun_status>', $tpl_temp, $tpl_main);
-$tpl_temp .= '<div id="announce" class="block"><h2><span>RSS</span></h2><div class="box"><div class="inbox"><div><a href="'.PUN_ROOT.'rss.xml">RSS</a></div></div></div>';
 
 // END SUBST - <pun_status>
 

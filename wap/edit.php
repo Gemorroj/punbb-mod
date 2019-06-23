@@ -168,8 +168,6 @@ if (isset($_POST['form_sent'])) {
             $db->query('UPDATE '.$db->prefix.'users SET num_files=num_files+'.($uploaded - $deleted).' WHERE id='.$pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
         }
 
-        generate_rss();
-
         wap_redirect('viewtopic.php?pid='.$id.'#p'.$id);
     }
 }

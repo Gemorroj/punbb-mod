@@ -395,7 +395,6 @@ if (isset($_POST['form_sent'])) {
             update_forum($fid);
         }
 
-        generate_rss();
         $uploaded = 0;
         $upload_result = process_uploaded_files(($fid ? $new_tid : $tid), $new_pid, $uploaded);
 

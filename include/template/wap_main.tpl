@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <pun_head>
         <pun_js_helper>
-        <link rel="alternate" type="application/rss+xml" title="<pun_rssname>" href="<pun_rss>" />
     </head>
     <body>
         <pun_title>
