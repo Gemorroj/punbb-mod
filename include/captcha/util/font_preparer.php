@@ -1,38 +1,38 @@
 <?php
 
-# preparing PNG fonts to use with KCAPTCHA.
-# reads files from folder "../fonts0", scans for symbols ans spaces and writes new font file with cached symbols positions to filder "../fonts"
+// preparing PNG fonts to use with KCAPTCHA.
+// reads files from folder "../fonts0", scans for symbols ans spaces and writes new font file with cached symbols positions to filder "../fonts"
 
-# comment or remove next line for using (commented for security reason):
+// comment or remove next line for using (commented for security reason):
 //exit();
 
 if ($handle = opendir('../fonts0')) {
     while (false !== ($file = readdir($handle))) {
-        if ($file == "." || $file == "..") {
+        if ('.' == $file || '..' == $file) {
             continue;
         }
 
-        $img=imagecreatefrompng('../fonts0/'.$file);
+        $img = imagecreatefrompng('../fonts0/'.$file);
         imagealphablending($img, false);
         imagesavealpha($img, true);
-        $transparent=imagecolorallocatealpha($img, 255, 255, 255, 127);
-        $white=imagecolorallocate($img, 255, 255, 255);
-        $black=imagecolorallocate($img, 0, 0, 0);
-        $gray=imagecolorallocate($img, 100, 100, 100);
+        $transparent = imagecolorallocatealpha($img, 255, 255, 255, 127);
+        $white = imagecolorallocate($img, 255, 255, 255);
+        $black = imagecolorallocate($img, 0, 0, 0);
+        $gray = imagecolorallocate($img, 100, 100, 100);
 
-        for ($x=0;$x<imagesx($img);$x++) {
-            $space=true;
-            $column_opacity=0;
-            for ($y=1;$y<imagesy($img);$y++) {
+        for ($x = 0; $x < imagesx($img); ++$x) {
+            $space = true;
+            $column_opacity = 0;
+            for ($y = 1; $y < imagesy($img); ++$y) {
                 $rgb = imagecolorat($img, $x, $y);
-                $opacity=$rgb>>24;
-                if ($opacity!=127) {
-                    $space=false;
+                $opacity = $rgb >> 24;
+                if (127 != $opacity) {
+                    $space = false;
                 }
-                $column_opacity+=127-$opacity;
+                $column_opacity += 127 - $opacity;
             }
             if (!$space) {
-                imageline($img, $x, 0, $x, 0, $column_opacity<200?$gray:$black);
+                imageline($img, $x, 0, $x, 0, $column_opacity < 200 ? $gray : $black);
             }
         }
         imagepng($img, '../fonts/'.$file);

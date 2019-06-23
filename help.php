@@ -2,20 +2,17 @@
 define('PUN_HELP', 1);
 
 define('PUN_ROOT', './');
-require PUN_ROOT . 'include/common.php';
-
+require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-
 // Load the help.php language file
-require PUN_ROOT . 'lang/' . $pun_user['language'] . '/help.php';
+require PUN_ROOT.'lang/'.$pun_user['language'].'/help.php';
 
-
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / ' . $lang_help['Help'];
-require_once PUN_ROOT . 'header.php';
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_help['Help'];
+require_once PUN_ROOT.'header.php';
 
 ?>
 <h2><?php echo $lang_common['BBCode']; ?></h2>
@@ -44,8 +41,8 @@ require_once PUN_ROOT . 'header.php';
     <p><?php echo $lang_help['Links info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [url=<?php echo $pun_config['o_base_url'] . '/'; ?>]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url'] . '/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
-        [url]<?php echo $pun_config['o_base_url'] . '/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'] . '/'; ?></a><br/>
+        [url=<?php echo $pun_config['o_base_url'].'/'; ?>]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url'].'/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
+        [url]<?php echo $pun_config['o_base_url'].'/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'].'/'; ?></a><br/>
         [email]myname@mydomain.com[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com">myname@mydomain.com</a><br/>
         [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address']; ?>[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address']; ?></a><br/><br/>
     </div>
@@ -104,7 +101,7 @@ require_once PUN_ROOT . 'header.php';
 <?php
 
 // Display the smiley set
-include_once PUN_ROOT . 'include/parser.php';
+include_once PUN_ROOT.'include/parser.php';
 
 $num_smilies = count($smiley_text);
 for ($i = 0; $i < $num_smilies; ++$i) {
@@ -113,7 +110,7 @@ for ($i = 0; $i < $num_smilies; ++$i) {
         continue;
     }
 
-    echo '&#160; &#160; ' . $smiley_text[$i];
+    echo '&#160; &#160; '.$smiley_text[$i];
 
     // Save the current text and image
     $cur_img = $smiley_img[$i];
@@ -124,18 +121,16 @@ for ($i = 0; $i < $num_smilies; ++$i) {
     for ($next = $i + 1; $next < $num_smilies; ++$next) {
         // Did we find a dupe?
         if (isset($smiley_img[$next]) && $smiley_img[$i] == $smiley_img[$next]) {
-            echo ' ' . $lang_common['and'] . ' ' . $smiley_text[$next];
+            echo ' '.$lang_common['and'].' '.$smiley_text[$next];
 
             // Remove the dupe so we won't display it twice
             unset($smiley_text[$next], $smiley_img[$next]);
         }
     }
 
-    echo ' ' . $lang_help['produces'] . ' <img src="' . PUN_ROOT . 'img/smilies/' . $cur_img . '" style="width:15px; height:15px;" alt="' . $cur_text . '"/><br/>';
+    echo ' '.$lang_help['produces'].' <img src="'.PUN_ROOT.'img/smilies/'.$cur_img.'" style="width:15px; height:15px;" alt="'.$cur_text.'"/><br/>';
 }
-
 
 echo '<br /></div></div>';
 
-
-require_once PUN_ROOT . 'footer.php';
+require_once PUN_ROOT.'footer.php';

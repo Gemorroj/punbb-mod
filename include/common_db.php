@@ -5,7 +5,6 @@ if (!defined('PUN')) {
     exit;
 }
 
-
 // Коннект с MySQL
 class DBLayer
 {
@@ -18,13 +17,12 @@ class DBLayer
      */
     protected $link_id;
     /**
-     * @var mysqli_result|null|bool
+     * @var null|bool|mysqli_result
      */
     protected $query_result;
 
     protected $saved_queries = array();
     protected $num_queries = 0;
-
 
     /**
      * @param string $db_host
@@ -37,13 +35,13 @@ class DBLayer
         $this->link_id = mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
         if (!$this->link_id) {
-            error('Unable to connect to MySQL server. MySQL reported: ' . mysqli_connect_error(), __FILE__, __LINE__);
+            error('Unable to connect to MySQL server. MySQL reported: '.mysqli_connect_error(), __FILE__, __LINE__);
         }
     }
 
-
     /**
      * @param string $sql
+     *
      * @return bool|mysqli_result
      */
     public function query($sql)
@@ -63,19 +61,18 @@ class DBLayer
             ++$this->num_queries;
 
             return $this->query_result;
-        } else {
-            if ($stat) {
-                $this->saved_queries[] = array($sql, 0);
-            }
-
-            return false;
         }
-    }
+        if ($stat) {
+            $this->saved_queries[] = array($sql, 0);
+        }
 
+        return false;
+    }
 
     /**
      * @param mysqli_result $query_id
-     * @param int $row
+     * @param int           $row
+     *
      * @return bool
      */
     public function result($query_id, $row = 0)
@@ -83,60 +80,58 @@ class DBLayer
         if ($query_id && $query_id->num_rows) {
             $query_id->data_seek($row);
             $result = $query_id->fetch_row();
+
             return $result[0];
         }
 
         return false;
     }
 
-
     /**
      * @param mysqli_result $query_id
+     *
      * @return array|bool
      */
     public function fetch_assoc($query_id)
     {
-        return ($query_id ? $query_id->fetch_assoc() : false);
+        return $query_id ? $query_id->fetch_assoc() : false;
     }
-
 
     /**
      * @param mysqli_result $query_id
+     *
      * @return array|bool
      */
     public function fetch_row($query_id)
     {
-        return ($query_id ? $query_id->fetch_row() : false);
+        return $query_id ? $query_id->fetch_row() : false;
     }
-
 
     /**
      * @param mysqli_result $query_id
+     *
      * @return bool|int
      */
     public function num_rows($query_id)
     {
-        return ($query_id ? $query_id->num_rows : false);
+        return $query_id ? $query_id->num_rows : false;
     }
-
 
     /**
      * @return bool|int
      */
     public function affected_rows()
     {
-        return ($this->link_id ? $this->link_id->affected_rows : false);
+        return $this->link_id ? $this->link_id->affected_rows : false;
     }
-
 
     /**
      * @return bool|int
      */
     public function insert_id()
     {
-        return ($this->link_id ? $this->link_id->insert_id : false);
+        return $this->link_id ? $this->link_id->insert_id : false;
     }
-
 
     /**
      * @return int
@@ -146,7 +141,6 @@ class DBLayer
         return $this->num_queries;
     }
 
-
     /**
      * @return array
      */
@@ -154,7 +148,6 @@ class DBLayer
     {
         return $this->saved_queries;
     }
-
 
     /**
      * @param mysqli_result $query_id
@@ -166,16 +159,15 @@ class DBLayer
         }
     }
 
-
     /**
      * @param string $str
+     *
      * @return string
      */
     public function escape($str)
     {
         return mysqli_real_escape_string($this->link_id, $str);
     }
-
 
     /**
      * @return array
@@ -189,7 +181,6 @@ class DBLayer
         );
     }
 
-
     /**
      * @return bool
      */
@@ -201,9 +192,9 @@ class DBLayer
             //}
 
             return $this->link_id->close();
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
 

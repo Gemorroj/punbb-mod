@@ -15,27 +15,27 @@ if (isset($_POST['form_sent'])) {
 
     foreach ($form as $key => $input) {
         // Only update values that have changed
-        if ((isset($pun_config['o_' . $key])) || ($pun_config['o_' . $key] == null)) {
-            if ($pun_config['o_' . $key] != $input) {
-                if ($input != '' || is_int($input)) {
-                    $value = '\'' . $db->escape($input) . '\'';
+        if ((isset($pun_config['o_'.$key])) || (null == $pun_config['o_'.$key])) {
+            if ($pun_config['o_'.$key] != $input) {
+                if ('' != $input || is_int($input)) {
+                    $value = '\''.$db->escape($input).'\'';
                 } else {
                     $value = 'NULL';
                 }
 
-                $db->query('UPDATE ' . $db->prefix . 'config SET conf_value=' . $value . ' WHERE conf_name=\'o_' . $key . '\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'o_'.$key.'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
             }
         }
     }
 
     foreach ($allow as $id => $set) {
-        $db->query('UPDATE `' . $db->prefix . 'groups` SET g_pm=' . $set . ' WHERE g_id=' . $id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm='.$set.' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     foreach ($limit as $id => $set) {
-        $db->query('UPDATE `' . $db->prefix . 'groups` SET g_pm_limit=' . intval($set) . ' WHERE g_id=' . $id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm_limit='.intval($set).' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     // Regenerate the config cache
-    require_once PUN_ROOT . 'include/cache.php';
+    require_once PUN_ROOT.'include/cache.php';
     generate_config_cache();
 
     redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &#x2026;');
@@ -68,11 +68,11 @@ if (isset($_POST['form_sent'])) {
                                 <th scope="row">Включить личные сообщения</th>
                                 <td>
                                     <input type="radio" name="form[pms_enabled]"
-                                           value="1"<?php if ($pun_config['o_pms_enabled'] == 1) {
+                                           value="1"<?php if (1 == $pun_config['o_pms_enabled']) {
         echo ' checked="checked"';
     } ?> />
                                     <strong>Да</strong>&#160; &#160;<input type="radio" name="form[pms_enabled]"
-                                                                           value="0"<?php if ($pun_config['o_pms_enabled'] == 0) {
+                                                                           value="0"<?php if (0 == $pun_config['o_pms_enabled']) {
         echo ' checked="checked"';
     } ?> />
                                     <strong>Нет</strong>
@@ -98,19 +98,19 @@ if (isset($_POST['form_sent'])) {
                         <table class="aligntop" cellspacing="0">
                             <?php
 // g_id>'.PUN_ADMIN.' AND
-                            $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `' . $db->prefix . 'groups` WHERE g_id != 3 ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                            $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
     while ($cur_group = $db->fetch_assoc($result)) {
         ?>
                                 <tr>
                                     <th scope="row"><?php echo pun_htmlspecialchars($cur_group['g_title']); ?></th>
                                     <td>
                                         <input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]"
-                                               value="1"<?php if ($cur_group['g_pm'] == 1) {
+                                               value="1"<?php if (1 == $cur_group['g_pm']) {
             echo ' checked="checked"';
         } ?> />
                                         <strong>Да</strong>&#160; &#160;<input type="radio"
                                                                                name="allow[<?php echo $cur_group['g_id']; ?>]"
-                                                                               value="0"<?php if ($cur_group['g_pm'] == 0) {
+                                                                               value="0"<?php if (0 == $cur_group['g_pm']) {
             echo ' checked="checked"';
         } ?> />
                                         <strong>Нет</strong>

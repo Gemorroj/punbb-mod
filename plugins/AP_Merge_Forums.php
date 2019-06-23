@@ -15,21 +15,21 @@ if (isset($_POST['run_merge'])) {
     $forum2 = intval($_POST['forum2']);
 
     // Make sure a forum was specified.
-    if (trim($forum1) == '') {
+    if ('' == trim($forum1)) {
         message('Вы не уточнили из какого форума брать темы.');
     }
 
-    if (trim($forum2) == '') {
+    if ('' == trim($forum2)) {
         message('Вы не уточнили в какой форум переносить темы.');
     }
 
     //Make sure the forum specified exists
-    $result = $db->query('SELECT * FROM ' . $db->prefix . 'forums WHERE id=' . $forum1);
+    $result = $db->query('SELECT * FROM '.$db->prefix.'forums WHERE id='.$forum1);
     if (!$db->num_rows($result)) {
         message('Такого форума - источника нет.');
     }
 
-    $result = $db->query('SELECT * FROM ' . $db->prefix . 'forums WHERE id=' . $forum2);
+    $result = $db->query('SELECT * FROM '.$db->prefix.'forums WHERE id='.$forum2);
     if (!$db->num_rows($result)) {
         message('Такого форума - назначения нет.');
     }
@@ -40,10 +40,10 @@ if (isset($_POST['run_merge'])) {
     }
 
     //Run the update query.
-    $db->query('UPDATE ' . $db->prefix . 'topics SET forum_id=' . $forum2 . ' WHERE forum_id=' . $forum1);
+    $db->query('UPDATE '.$db->prefix.'topics SET forum_id='.$forum2.' WHERE forum_id='.$forum1);
 
     //Delete the old forum
-    $db->query('DELETE FROM ' . $db->prefix . 'forums WHERE id = ' . $forum1);
+    $db->query('DELETE FROM '.$db->prefix.'forums WHERE id = '.$forum1);
 
     //Update the forum last post, etc.
     update_forum($forum2);
@@ -92,18 +92,18 @@ if (isset($_POST['run_merge'])) {
                                 <td>
                                     <select name="forum1">
                                         <?php
-                                        $categories_result = $db->query('SELECT id, cat_name FROM ' . $db->prefix . 'categories WHERE 1=1 ORDER BY id ASC');
-        $forums_result = $db->query('SELECT id, forum_name, cat_id FROM ' . $db->prefix . 'forums WHERE 1=1 ORDER BY cat_id ASC');
+                                        $categories_result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories WHERE 1=1 ORDER BY id ASC');
+        $forums_result = $db->query('SELECT id, forum_name, cat_id FROM '.$db->prefix.'forums WHERE 1=1 ORDER BY cat_id ASC');
         $cat_now = 0;
 
         while ($forums = $db->fetch_assoc($forums_result)) {
             //Check if it is a new cat
             if ($forums['cat_id'] != $cat_now) {
                 $categories = $db->fetch_assoc($categories_result);
-                echo '<option value="blargh" disabled="disabled">' . $categories['id'] . '</option>';
+                echo '<option value="blargh" disabled="disabled">'.$categories['id'].'</option>';
                 $cat_now = $categories['id'];
             }
-            echo '<option value="' . $forums['id'] . '">' . pun_htmlspecialchars($forums['forum_name']) . '</option>';
+            echo '<option value="'.$forums['id'].'">'.pun_htmlspecialchars($forums['forum_name']).'</option>';
         } ?>
                                     </select>
                                     <span>Выберите форум - источник.</span>
@@ -111,18 +111,18 @@ if (isset($_POST['run_merge'])) {
                                 <td>
                                     <select name="forum2">
                                         <?php
-                                        $categories_result = $db->query('SELECT id, cat_name FROM ' . $db->prefix . 'categories WHERE 1=1 ORDER BY id ASC');
-        $forums_result = $db->query('SELECT id, forum_name, cat_id FROM ' . $db->prefix . 'forums WHERE 1=1 ORDER BY cat_id ASC');
+                                        $categories_result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories WHERE 1=1 ORDER BY id ASC');
+        $forums_result = $db->query('SELECT id, forum_name, cat_id FROM '.$db->prefix.'forums WHERE 1=1 ORDER BY cat_id ASC');
         $cat_now = 0;
 
         while ($forums = $db->fetch_assoc($forums_result)) {
             //Check if it is a new cat
             if ($forums['cat_id'] != $cat_now) {
                 $categories = $db->fetch_assoc($categories_result);
-                echo '<option value="blargh" disabled="disabled">' . $categories['id'] . '</option>';
+                echo '<option value="blargh" disabled="disabled">'.$categories['id'].'</option>';
                 $cat_now = $categories['id'];
             }
-            echo '<option value="' . $forums['id'] . '">' . pun_htmlspecialchars($forums['forum_name']) . '</option>';
+            echo '<option value="'.$forums['id'].'">'.pun_htmlspecialchars($forums['forum_name']).'</option>';
         } ?>
                                     </select>
                                     <span>Выберите форум, куда переносить темы.</span>

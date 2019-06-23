@@ -1,5 +1,5 @@
 <?php
-/***********************************************************************
+/*
 
 Show buttons above edit and post form.
 This file is part of Elektra File Upload mod for PunBB.
@@ -13,20 +13,20 @@ Incoming variables;
 
 Outgoing variables:
 $attachments: array - cache of attachments records
- ************************************************************************/
+ */
 
-JsHelper::getInstance()->add(PUN_ROOT . 'js/reply.js');
+JsHelper::getInstance()->add(PUN_ROOT.'js/reply.js');
 JsHelper::getInstance()->addInternal('
-var post_form = \'' . $focus_element[0] . '\';
+var post_form = \''.$focus_element[0].'\';
 var txt	 = \'\';
-var text_enter_title = \'' . $lang_fu['JS enter title'] . '\';
-var text_enter_url = \'' . $lang_fu['JS enter url'] . '\';
-var text_enter_url_name = \'' . $lang_fu['JS enter url name'] . '\';
-var text_enter_image = \'' . $lang_fu['JS enter image'] . '\';
-var text_enter_email = \'' . $lang_fu['JS enter email'] . '\';
-var error_no_url = \'' . $lang_fu['JS no url'] . '\';
-var error_no_title = \'' . $lang_fu['JS no title'] . '\';
-var error_no_email = \'' . $lang_fu['JS no email'] . '\';
+var text_enter_title = \''.$lang_fu['JS enter title'].'\';
+var text_enter_url = \''.$lang_fu['JS enter url'].'\';
+var text_enter_url_name = \''.$lang_fu['JS enter url name'].'\';
+var text_enter_image = \''.$lang_fu['JS enter image'].'\';
+var text_enter_email = \''.$lang_fu['JS enter email'].'\';
+var error_no_url = \''.$lang_fu['JS no url'].'\';
+var error_no_title = \''.$lang_fu['JS no title'].'\';
+var error_no_email = \''.$lang_fu['JS no email'].'\';
 ');
 ?>
 <div id="buttonmenu">
@@ -205,10 +205,10 @@ var error_no_email = \'' . $lang_fu['JS no email'] . '\';
 <div id="smilies-area">
     <div style="float: left;">
         <?php
-        include_once PUN_ROOT . 'include/parser.php';
+        include_once PUN_ROOT.'include/parser.php';
 
         foreach (array_combine($smiley_img, $smiley_text) as $k => $v) {
-            echo '<img src="' . PUN_ROOT . 'img/smilies/' . $k . '" alt="' . $v . '" style="cursor: pointer" onclick="return insert_text(\' ' . $v . ' \', \'\');"/> ';
+            echo '<img src="'.PUN_ROOT.'img/smilies/'.$k.'" alt="'.$v.'" style="cursor: pointer" onclick="return insert_text(\' '.$v.' \', \'\');"/> ';
         }
         ?>
     </div>

@@ -1,4 +1,5 @@
 <?php
+
 // Make sure no one attempts to run this script "directly"
 if (!defined('PUN')) {
     exit;
@@ -22,52 +23,50 @@ if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countIntern
 // START SUBST - <pun_footer>
 ob_start();
 
-
-echo '<div id="brdfooter" class="block"><h2><span>' . $lang_common['Board footer'] . '</span></h2><div class="box"><div class="inbox">';
-
+echo '<div id="brdfooter" class="block"><h2><span>'.$lang_common['Board footer'].'</span></h2><div class="box"><div class="inbox">';
 
 //PMS MOD BEGIN
-require PUN_ROOT . 'include/pms/footer_links.php';
+require PUN_ROOT.'include/pms/footer_links.php';
 //PMS MOD END
 
-if ($footer_style == 'index' || $footer_style == 'search') {
+if ('index' == $footer_style || 'search' == $footer_style) {
     if (!$pun_user['is_guest']) {
-        echo '<dl id="searchlinks" class="conl"> <dt><strong>' . $lang_common['Search links'] . '</strong></dt> <dd><a href="search.php?action=show_24h">' . $lang_common['Show recent posts'] . '</a></dd> <dd><a href="search.php?action=show_unanswered">' . $lang_common['Show unanswered posts'] . '</a></dd>';
+        echo '<dl id="searchlinks" class="conl"> <dt><strong>'.$lang_common['Search links'].'</strong></dt> <dd><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a></dd> <dd><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a></dd>';
 
-        if ($pun_config['o_subscriptions'] == 1) {
-            echo '<dd><a href="search.php?action=show_subscriptions">' . $lang_common['Show subscriptions'] . '</a></dd>';
+        if (1 == $pun_config['o_subscriptions']) {
+            echo '<dd><a href="search.php?action=show_subscriptions">'.$lang_common['Show subscriptions'].'</a></dd>';
         }
 
-        echo '<dd><a href="search.php?action=show_user&amp;user_id=' . $pun_user['id'] . '">' . $lang_common['Show your posts'] . '</a></dd> </dl>';
+        echo '<dd><a href="search.php?action=show_user&amp;user_id='.$pun_user['id'].'">'.$lang_common['Show your posts'].'</a></dd> </dl>';
     } else {
-        if ($pun_user['g_search'] == 1) {
-            echo '<dl id="searchlinks" class="conl"> <dt><strong>' . $lang_common['Search links'] . '</strong></dt><dd><a href="search.php?action=show_24h">' . $lang_common['Show recent posts'] . '</a></dd> <dd><a href="search.php?action=show_unanswered">' . $lang_common['Show unanswered posts'] . '</a></dd> </dl>';
+        if (1 == $pun_user['g_search']) {
+            echo '<dl id="searchlinks" class="conl"> <dt><strong>'.$lang_common['Search links'].'</strong></dt><dd><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a></dd> <dd><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a></dd> </dl>';
         }
     }
-} elseif ($footer_style == 'viewforum' || $footer_style == 'viewtopic') {
+} elseif ('viewforum' == $footer_style || 'viewtopic' == $footer_style) {
     echo '<div class="conl">';
 
     // Display the "Jump to" drop list
-    if ($pun_config['o_quickjump'] == 1) {
+    if (1 == $pun_config['o_quickjump']) {
         // Load cached quickjump
-        echo include PUN_ROOT . 'include/quickjump.php';
+        echo include PUN_ROOT.'include/quickjump.php';
     }
 
-    if ($footer_style == 'viewforum' && $is_admmod) {
-        echo '<p id="modcontrols"><a href="moderate.php?fid=' . $forum_id . '&amp;p=' . $p . '">' . $lang_common['Moderate forum'] . '</a></p>';
-    } elseif ($footer_style == 'viewtopic' && $is_admmod) {
-        echo '<dl id="modcontrols"><dt><strong>' . $lang_topic['Mod controls'] . '</strong></dt><dd><a href="moderate.php?fid=' . $forum_id . '&amp;tid=' . $id . '&amp;p=' . $p . '">' . $lang_common['Delete posts'] . '</a></dd><dd><a href="moderate.php?fid=' . $forum_id . '&amp;move_topics=' . $id . '">' . $lang_common['Move topic'] . '</a></dd>';
+    if ('viewforum' == $footer_style && $is_admmod) {
+        echo '<p id="modcontrols"><a href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a></p>';
+    } elseif ('viewtopic' == $footer_style && $is_admmod) {
+        echo '<dl id="modcontrols"><dt><strong>'.$lang_topic['Mod controls'].'</strong></dt><dd><a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a></dd><dd><a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a></dd>';
 
-        if ($cur_topic['closed'] == 1) {
-            echo '<dd><a href="moderate.php?fid=' . $forum_id . '&amp;open=' . $id . '">' . $lang_common['Open topic'] . '</a></dd>';
+        if (1 == $cur_topic['closed']) {
+            echo '<dd><a href="moderate.php?fid='.$forum_id.'&amp;open='.$id.'">'.$lang_common['Open topic'].'</a></dd>';
         } else {
-            echo '<dd><a href="moderate.php?fid=' . $forum_id . '&amp;close=' . $id . '">' . $lang_common['Close topic'] . '</a></dd>';
+            echo '<dd><a href="moderate.php?fid='.$forum_id.'&amp;close='.$id.'">'.$lang_common['Close topic'].'</a></dd>';
         }
 
-        if ($cur_topic['sticky'] == 1) {
-            echo '<dd><a href="moderate.php?fid=' . $forum_id . '&amp;unstick=' . $id . '">' . $lang_common['Unstick topic'] . '</a></dd></dl>';
+        if (1 == $cur_topic['sticky']) {
+            echo '<dd><a href="moderate.php?fid='.$forum_id.'&amp;unstick='.$id.'">'.$lang_common['Unstick topic'].'</a></dd></dl>';
         } else {
-            echo '<dd><a href="moderate.php?fid=' . $forum_id . '&amp;stick=' . $id . '">' . $lang_common['Stick topic'] . '</a></dd></dl>';
+            echo '<dd><a href="moderate.php?fid='.$forum_id.'&amp;stick='.$id.'">'.$lang_common['Stick topic'].'</a></dd></dl>';
         }
     }
 
@@ -75,8 +74,7 @@ if ($footer_style == 'index' || $footer_style == 'search') {
 }
 
 // $db->get_num_queries() - show sql queries
-echo '<p class="conr"><strong><a href="/">' . parse_url($pun_config['o_base_url'], PHP_URL_HOST) . '</a></strong></p><p class="conr">PunBB Mod v' . pun_htmlspecialchars($pun_config['o_show_version']) . '<br />' . sprintf('%.3f', microtime(true) - $pun_start) . ' s</p><div class="clearer"></div></div></div></div>';
-
+echo '<p class="conr"><strong><a href="/">'.parse_url($pun_config['o_base_url'], PHP_URL_HOST).'</a></strong></p><p class="conr">PunBB Mod v'.pun_htmlspecialchars($pun_config['o_show_version']).'<br />'.sprintf('%.3f', microtime(true) - $pun_start).' s</p><div class="clearer"></div></div></div></div>';
 
 // Display executed queries (if enabled)
 if (defined('PUN_SHOW_QUERIES')) {
@@ -87,7 +85,6 @@ $tpl_temp = trim(ob_get_contents());
 $tpl_main = str_replace('<pun_footer>', $tpl_temp, $tpl_main);
 ob_end_clean();
 // END SUBST - <pun_footer>
-
 
 // Close the db connection (and free up any result data)
 $db->close();

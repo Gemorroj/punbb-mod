@@ -1,0 +1,22 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude(['cache', 'img', 'js', 'style', 'uploaded', 'uploads', 'Smarty'])
+    ->in('.');
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PhpCsFixer' => true,
+        '@PSR2' => true,
+        'array_syntax' => ['syntax' => 'long'],
+        'combine_consecutive_issets' => true,
+        'combine_consecutive_unsets' => true,
+        'linebreak_after_opening_tag' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+        'phpdoc_order' => true,
+        //'strict_comparison' => true,
+    ])
+    ->setFinder($finder)
+;

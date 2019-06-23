@@ -1,4 +1,5 @@
 <?php
+
 class JsHelper
 {
     protected $js = array();
@@ -12,19 +13,19 @@ class JsHelper
     private function __construct()
     {
     }
+
     private function __clone()
     {
     }
 
-
     /**
-     * getInstance
+     * getInstance.
      *
      * @return JsHelper
      */
     public static function getInstance()
     {
-        if (self::$instance === null) {
+        if (null === self::$instance) {
             self::$instance = new JsHelper();
         }
 
@@ -61,7 +62,6 @@ class JsHelper
         }
     }
 
-
     /**
      * @return string
      */
@@ -69,11 +69,12 @@ class JsHelper
     {
         $str = '';
         foreach ($this->js as $file) {
-            $str .= '<script src="' . $file . '"></script>';
+            $str .= '<script src="'.$file.'"></script>';
         }
         foreach ($this->jsInternal as $script) {
-            $str .= '<script>' . $script . '</script>';
+            $str .= '<script>'.$script.'</script>';
         }
+
         return $str;
     }
 

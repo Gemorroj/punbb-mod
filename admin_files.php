@@ -3,17 +3,16 @@
 define('PUN_ADMIN_CONSOLE', 1);
 
 define('PUN_ROOT', './');
-require PUN_ROOT . 'include/common.php';
-require PUN_ROOT . 'include/common_admin.php';
-
+require PUN_ROOT.'include/common.php';
+require PUN_ROOT.'include/common_admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
     message($lang_common['No permission']);
 }
 
 if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_POST['delete_thumbnails']) || isset($_POST['fix_counters'])) {
-    include PUN_ROOT . 'lang/' . $pun_user['language'] . '/fileup.php';
-    include PUN_ROOT . 'include/file_upload.php';
+    include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+    include PUN_ROOT.'include/file_upload.php';
 }
 
 // If the "Show text" button was clicked
@@ -27,7 +26,7 @@ if (isset($_POST['save'])) {
         message('You must enter an upload path.', true);
     }
 
-    if (realpath($form['upload_path']) === false) {
+    if (false === realpath($form['upload_path'])) {
         message('Upload path you entered is not a valid directory.', true);
     }
 
@@ -43,7 +42,7 @@ if (isset($_POST['save'])) {
         message('Upload path you entered is not a valid directory.', true);
     }
 
-    if (realpath($form['thumb_path']) === false) {
+    if (false === realpath($form['thumb_path'])) {
         message('Thumbnail path you entered is not a valid directory.', true);
     }
 
@@ -90,7 +89,7 @@ if (isset($_POST['save'])) {
         message('Invalid preview height.', true);
     }
 
-    $form['first_only'] = (isset($form['first_only']) && $form['first_only'] == 1) ? 1 : 0;
+    $form['first_only'] = (isset($form['first_only']) && 1 == $form['first_only']) ? 1 : 0;
 
     $form['max_post_files'] = intval($form['max_post_files']);
     if ($form['max_post_files'] < 1) {
@@ -101,30 +100,29 @@ if (isset($_POST['save'])) {
 
     foreach ($form as $key => $input) {
         // Only update values that have changed
-        if (array_key_exists('file_' . $key, $pun_config) && $pun_config['file_' . $key] != $input) {
+        if (array_key_exists('file_'.$key, $pun_config) && $pun_config['file_'.$key] != $input) {
             if ($input || is_int($input)) {
-                $value = '\'' . $db->escape($input) . '\'';
+                $value = '\''.$db->escape($input).'\'';
             } else {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE ' . $db->prefix . 'config SET conf_value=' . $value . ' WHERE conf_name=\'file_' . $db->escape($key) . '\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 
     // Regenerate the config cache
-    include_once PUN_ROOT . 'include/cache.php';
+    include_once PUN_ROOT.'include/cache.php';
     generate_config_cache();
 
     redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
 } else { // If not, we show the "Show text" form
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin / Files';
+    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Files';
     $focus_element = array('files', 'form[upload_path]');
-    require_once PUN_ROOT . 'header.php';
+    require_once PUN_ROOT.'header.php';
 
     // Display the admin navigation menu
     generate_admin_menu('files');
-
 
     if (isset($_POST['show_errors'])) {
         //confirm_referrer('admin_files.php');
@@ -329,7 +327,7 @@ if (isset($_POST['save'])) {
                                 <th scope="row">Только в первом</th>
                                 <td>
                                     <input type="checkbox" name="form[first_only]"
-                                           value="1" <?php echo ($pun_config['file_first_only'] == 1) ? ' checked="checked"' : ''; ?> />
+                                           value="1" <?php echo (1 == $pun_config['file_first_only']) ? ' checked="checked"' : ''; ?> />
                                     Вложения разрешены только в начале темы.
                                     <span>Отметьте этот пункт чтобы запретить вложения в комментариях.</span>
                                 </td>
@@ -342,11 +340,11 @@ if (isset($_POST['save'])) {
         echo ' checked="checked"';
     } ?> />
                                     Нет <input type="radio" name="form[popup_info]"
-                                               value="1"<?php if ($pun_config['file_popup_info'] == 1) {
+                                               value="1"<?php if (1 == $pun_config['file_popup_info']) {
         echo ' checked="checked"';
     } ?> />
                                     Поп-ап <input type="radio" name="form[popup_info]"
-                                                  value="2"<?php if ($pun_config['file_popup_info'] == '2') {
+                                                  value="2"<?php if ('2' == $pun_config['file_popup_info']) {
         echo ' checked="checked"';
     } ?> />
                                     На месте
@@ -414,4 +412,4 @@ if (isset($_POST['save'])) {
 <?php
 }
 
-require_once PUN_ROOT . 'footer.php';
+require_once PUN_ROOT.'footer.php';

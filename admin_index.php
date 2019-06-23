@@ -1,23 +1,23 @@
 <?php
+
 // Tell header.php to use the admin template
 define('PUN_ADMIN_CONSOLE', 1);
 
 define('PUN_ROOT', './');
-require PUN_ROOT . 'include/common.php';
-require PUN_ROOT . 'include/common_admin.php';
+require PUN_ROOT.'include/common.php';
+require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
-include PUN_ROOT . 'lang/Russian/admin.php';
+include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
     message($lang_common['No permission']);
 }
 
-
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 
 // Check for upgrade
-if ($action == 'check_upgrade') {
+if ('check_upgrade' == $action) {
     if (!ini_get('allow_url_fopen')) {
         message($lang_admin['index_allow_url_fopen']);
     }
@@ -26,7 +26,7 @@ if ($action == 'check_upgrade') {
     $latest_version = trim(@fread($fp, 16));
     @fclose($fp);
 
-    if ($latest_version == '') {
+    if ('' == $latest_version) {
         message($lang_admin['index_fail_update']);
     }
 
@@ -38,20 +38,20 @@ if ($action == 'check_upgrade') {
     } else {
         message($lang_admin['index_update_yes']);
     }
-} elseif ($action == 'phpinfo' && $pun_user['g_id'] == PUN_ADMIN) {
+} elseif ('phpinfo' == $action && PUN_ADMIN == $pun_user['g_id']) {
     // Is phpinfo() a disabled function?
-    if (strpos(strtolower((string)@ini_get('disable_functions')), 'phpinfo') !== false) {
+    if (false !== strpos(strtolower((string) @ini_get('disable_functions')), 'phpinfo')) {
         message($lang_admin['phpinfo']);
     }
 
     phpinfo();
     exit;
-} elseif ($action == 'optimize') {
+} elseif ('optimize' == $action) {
     $errors = array();
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
-        if ($row['Name'] != 'online') {
-            if (!$db->query('ALTER TABLE `' . str_replace('`', '``', $row['Name']) . '` ENGINE=InnoDB')) {
+        if ('online' != $row['Name']) {
+            if (!$db->query('ALTER TABLE `'.str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
                 $errors[] = $db->error();
             }
         }
@@ -64,7 +64,6 @@ if ($action == 'check_upgrade') {
     }
 }
 
-
 // Get the server load averages (if possible)
 if (@file_exists('/proc/loadavg') && is_readable('/proc/loadavg')) {
     // We use @ just in case
@@ -73,29 +72,26 @@ if (@file_exists('/proc/loadavg') && is_readable('/proc/loadavg')) {
     @fclose($fh);
 
     $load_averages = @explode(' ', $load_averages);
-    $server_load = isset($load_averages[2]) ? $load_averages[0] . ' ' . $load_averages[1] . ' ' . $load_averages[2] : 'Not available';
+    $server_load = isset($load_averages[2]) ? $load_averages[0].' '.$load_averages[1].' '.$load_averages[2] : 'Not available';
 } elseif (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages)) {
-    $server_load = $load_averages[1] . ' ' . $load_averages[2] . ' ' . $load_averages[3];
+    $server_load = $load_averages[1].' '.$load_averages[2].' '.$load_averages[3];
 } else {
     $server_load = 'Not available';
 }
 
-
 // Get number of current visitors
-$result = $db->query('SELECT COUNT(user_id) FROM ' . $db->prefix . 'online WHERE idle = 0') or error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') or error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
 $num_online = $db->result($result);
-
 
 // Get the database system version
 $result = $db->query('SELECT VERSION()') or error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
 $db_version = $db->result($result);
 
-
 // Collect some additional info about MySQL
-$db_version = 'MySQL ' . $db_version;
+$db_version = 'MySQL '.$db_version;
 
 // Calculate total db size/row count
-$result = $db->query('SHOW TABLE STATUS FROM `' . $db_name . '`') or error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
+$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') or error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
 
 $total_records = $total_size = 0;
 while ($status = $db->fetch_assoc($result)) {
@@ -106,11 +102,10 @@ while ($status = $db->fetch_assoc($result)) {
 $total_size = $total_size / 1024;
 
 if ($total_size > 1024) {
-    $total_size = round($total_size / 1024, 2) . ' mb';
+    $total_size = round($total_size / 1024, 2).' mb';
 } else {
-    $total_size = round($total_size, 2) . ' kb';
+    $total_size = round($total_size, 2).' kb';
 }
-
 
 // See if php accelerator is loaded
 $php_accelerators = array();
@@ -142,7 +137,6 @@ if (extension_loaded('wincache')) {
     $php_accelerators[] = '<a href="http://www.iis.net/downloads/microsoft/wincache-extension">WinCache</a>';
 }
 
-
 $server_info = '';
 if (function_exists('apache_get_version')) {
     $server_info = apache_get_version();
@@ -151,54 +145,50 @@ if (function_exists('apache_get_version')) {
 }
 $server_info = htmlspecialchars($server_info);
 
-
-
-
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']) . ' / Admin';
-require_once PUN_ROOT . 'header.php';
+$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin';
+require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('index');
 
-
 echo '<div class="block">
-<h2>' . $lang_admin['index'] . '</h2>
+<h2>'.$lang_admin['index'].'</h2>
 <div id="adintro" class="box">
 <div class="inbox">
-<p>' . $lang_admin['index_main'] . '</p>
+<p>'.$lang_admin['index_main'].'</p>
 <a href="admin_index.php?action=optimize">Optimize Tables</a>
 </div>
 </div>
 
-<h2 class="block2"><span>' . $lang_admin['index_stats'] . '</span></h2>
+<h2 class="block2"><span>'.$lang_admin['index_stats'].'</span></h2>
 <div id="adstats" class="box">
 <div class="inbox">
 <dl>
-<dt>' . $lang_admin['index_punbb'] . '</dt>
+<dt>'.$lang_admin['index_punbb'].'</dt>
 <dd>
-PunBB ' . $pun_config['o_cur_version'] . '<!-- - <a href="admin_index.php?action=check_upgrade">Update</a> --><br />
+PunBB '.$pun_config['o_cur_version'].'<!-- - <a href="admin_index.php?action=check_upgrade">Update</a> --><br />
 &copy; Copyright 2002, 2003, 2004, 2005 Rickard Andersson<br />
 </dd>
-<dt>' . $lang_admin['index_punbb_mod'] . '</dt>
+<dt>'.$lang_admin['index_punbb_mod'].'</dt>
 <dd>
-PunBB Mod ' . $pun_config['o_show_version'] . '<br />
+PunBB Mod '.$pun_config['o_show_version'].'<br />
 <a href="https://github.com/Gemorroj/punbb-mod">https://github.com/Gemorroj/punbb-mod</a><br />
 </dd>
-<dt>' . $lang_admin['index_server'] . '</dt>
+<dt>'.$lang_admin['index_server'].'</dt>
 <dd>
-' . $server_load . ' (' . $num_online . ' on-line)
+'.$server_load.' ('.$num_online.' on-line)
 </dd>
-<dt>' . $lang_admin['index_int'] . '</dt>
+<dt>'.$lang_admin['index_int'].'</dt>
 <dd>
-OS: ' . PHP_OS . '<br />
-Server: ' . $server_info . '<br />
-PHP: ' . phpversion() . ' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
-Accelerator: ' . ($php_accelerators ? implode(', ', $php_accelerators) : 'N/A') . '
+OS: '.PHP_OS.'<br />
+Server: '.$server_info.'<br />
+PHP: '.phpversion().' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
+Accelerator: '.($php_accelerators ? implode(', ', $php_accelerators) : 'N/A').'
 </dd>
-<dt>' . $lang_admin['index_bd'] . '</dt>
+<dt>'.$lang_admin['index_bd'].'</dt>
 <dd>
-' . $db_version . '<br />
-Lines: ' . $total_records . '<br />
-Size: ' . $total_size . '
+'.$db_version.'<br />
+Lines: '.$total_records.'<br />
+Size: '.$total_size.'
 </dd>
 </dl>
 </div>
@@ -207,4 +197,4 @@ Size: ' . $total_size . '
 <div class="clearer"></div>
 </div>';
 
-require_once PUN_ROOT . 'footer.php';
+require_once PUN_ROOT.'footer.php';

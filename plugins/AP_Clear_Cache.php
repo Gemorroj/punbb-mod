@@ -7,7 +7,7 @@ if (!defined('PUN')) {
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
 define('PUN_PLUGIN_LOADED', 1);
 
-require PUN_ROOT . 'include/cache.php';
+require PUN_ROOT.'include/cache.php';
 
 // If the "Regenerate all cache" button was clicked
 if (isset($_POST['regen_all_cache'])) {

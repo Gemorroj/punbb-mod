@@ -7,7 +7,6 @@ if (!defined('PUN')) {
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
 define('PUN_PLUGIN_LOADED', 1);
 
-
 // Confirm Page
 
 if (isset($_POST['confirm'])) {
@@ -22,7 +21,7 @@ if (isset($_POST['confirm'])) {
     }
 
     // Make sure group id was entered
-    if (!trim($_POST['g_id']) == '') {
+    if ('' == !trim($_POST['g_id'])) {
         message('Вы не выбрали группу!');
     }
 
@@ -31,13 +30,13 @@ if (isset($_POST['confirm'])) {
 
     $preview_message_body = nl2br(pun_htmlspecialchars($_POST['message_body']));
 
-    if ($_POST['g_id'] != 0) {
-        $adv = 'and group_id = ' . $_POST['g_id'];
+    if (0 != $_POST['g_id']) {
+        $adv = 'and group_id = '.$_POST['g_id'];
     } else {
         $adv = '';
     }
 
-    $result = $db->query('SELECT COUNT(1) AS usercount FROM ' . $db->prefix . 'users WHERE username != "Guest" ' . $adv . ' ORDER BY username') or error('Could not get user count from database', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) AS usercount FROM '.$db->prefix.'users WHERE username != "Guest" '.$adv.' ORDER BY username') or error('Could not get user count from database', __FILE__, __LINE__, $db->error());
     $row = $db->fetch_assoc($result); ?>
 <div id="exampleplugin" class="blockform">
     <h2><span>Массовая рассылка - Подтверждение</span></h2>
@@ -101,18 +100,18 @@ if (isset($_POST['confirm'])) {
 <?php
 } elseif (isset($_POST['send_message'])) {
         // Send the Message
-        require_once PUN_ROOT . 'include/email.php';
+        require_once PUN_ROOT.'include/email.php';
 
         // Display the admin navigation menu
         generate_admin_menu($plugin);
 
-        if ($_POST['g_id'] != 0) {
-            $gid = 'and group_id = ' . $_POST['g_id'];
+        if (0 != $_POST['g_id']) {
+            $gid = 'and group_id = '.$_POST['g_id'];
         } else {
             $gid = '';
         }
 
-        $result = $db->query('SELECT username, email FROM ' . $db->prefix . 'users WHERE username != "Guest" ' . $gid . ' ORDER BY username') or error('Could not get users from the database', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') or error('Could not get users from the database', __FILE__, __LINE__, $db->error());
         while ($row = $db->fetch_assoc($result)) {
             $addresses[$row['username']] = $row['email'];
         }
@@ -120,7 +119,7 @@ if (isset($_POST['confirm'])) {
         $usercount = count($addresses);
 
         foreach ($addresses as $recipientname => $recipientemail) {
-            $mail_to = $recipientname . ' <' . $recipientemail . '>';
+            $mail_to = $recipientname.' <'.$recipientemail.'>';
             $mail_subject = $_POST['message_subject'];
             $mail_message = $_POST['message_body'];
 
@@ -186,9 +185,9 @@ if (isset($_POST['confirm'])) {
                                         <option></option>
                                         <option value="0">Все группы</option>
                                         <?php
-                                        $result = $db->query('SELECT g_id, g_title FROM `' . $db->prefix . 'groups` WHERE g_title != "Guest" ORDER BY g_id');
+                                        $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_title != "Guest" ORDER BY g_id');
         while ($groups = $db->fetch_assoc($result)) {
-            echo '<option value="' . $groups['g_id'] . '">' . pun_htmlspecialchars($groups['g_title']) . '</option>';
+            echo '<option value="'.$groups['g_id'].'">'.pun_htmlspecialchars($groups['g_title']).'</option>';
         } ?>
                                     </select>
                                 </td>
