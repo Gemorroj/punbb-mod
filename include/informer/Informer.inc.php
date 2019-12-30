@@ -10,10 +10,9 @@ class Informer
     /**
      * Constructor.
      *
-     * @param DBLayer $db
-     * @param array   $pun_user
-     * @param array   $lang
-     * @param array   $pun_config
+     * @param array $pun_user
+     * @param array $lang
+     * @param array $pun_config
      */
     public function __construct(DBLayer $db, $pun_user, $lang, $pun_config)
     {

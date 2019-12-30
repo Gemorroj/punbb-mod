@@ -23,8 +23,8 @@
 
 ### Требования
 * Apache 2 / Nginx
-* MySQL >= 5.0.7
-* PHP >= 5.2.3
+* MySQL >= 5.6
+* PHP >= 5.6
 
 ### Установка:
 Права на директории cache/, uploaded/, uploads/, img/avatars/, img/thumb/ - 777  
