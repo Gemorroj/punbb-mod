@@ -1,13 +1,13 @@
 Options -Indexes
 
 <Files ~ "config.php$">
-Deny from All
+    Deny from All
 </Files>
 
 
 # Глобальные переменные
 # Обязательно Off!
-php_flag register_globals Off
+# php_flag register_globals Off
 
 # Индексная страница
 DirectoryIndex index.php index.html
@@ -16,15 +16,15 @@ DirectoryIndex index.php index.html
 php_value default_mimetype text/html
 
 # Магические кавычки
-php_flag magic_quotes_gpc Off
-php_flag magic_quotes_runtime Off
-php_flag magic_quotes_sybase Off
+# php_flag magic_quotes_gpc Off
+# php_flag magic_quotes_runtime Off
+# php_flag magic_quotes_sybase Off
 
 # переменные argc и argv
-php_flag register_argc_argv Off
+# php_flag register_argc_argv Off
 
 # для подсветки кода
-php_value short_open_tag 1
+# php_value short_open_tag 1
 
 # отладка
 php_flag display_errors Off
