@@ -37,7 +37,7 @@ class JsHelper
      */
     public function add($path)
     {
-        if (!in_array($path, $this->js)) {
+        if (!\in_array($path, $this->js)) {
             $this->js[] = $path;
         }
     }
@@ -47,8 +47,8 @@ class JsHelper
      */
     public function addFirst($path)
     {
-        if (!in_array($path, $this->js)) {
-            array_unshift($this->js, $path);
+        if (!\in_array($path, $this->js)) {
+            \array_unshift($this->js, $path);
         }
     }
 
@@ -57,7 +57,7 @@ class JsHelper
      */
     public function addInternal($script)
     {
-        if (!in_array($script, $this->js)) {
+        if (!\in_array($script, $this->js)) {
             $this->jsInternal[] = $script;
         }
     }
@@ -83,7 +83,7 @@ class JsHelper
      */
     public function count()
     {
-        return count($this->js);
+        return \count($this->js);
     }
 
     /**
@@ -91,6 +91,6 @@ class JsHelper
      */
     public function countInternal()
     {
-        return count($this->jsInternal);
+        return \count($this->jsInternal);
     }
 }

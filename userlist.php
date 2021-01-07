@@ -1,6 +1,7 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
@@ -17,16 +18,17 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/search.php';
 $show_post_count = (1 == $pun_config['o_show_post_count'] || $pun_user['g_id'] < PUN_GUEST) ? true : false;
 
 $username = (isset($_GET['username']) && 1 == $pun_user['g_search_users']) ? pun_trim($_GET['username']) : '';
-$show_group = (!isset($_GET['show_group']) || intval($_GET['show_group']) < -1 && intval($_GET['show_group']) > 2) ? -1 : intval($_GET['show_group']);
+$show_group = (!isset($_GET['show_group']) || \intval($_GET['show_group']) < -1 && \intval($_GET['show_group']) > 2) ? -1 : \intval($_GET['show_group']);
 $sort_by = (!isset($_GET['sort_by']) || 'username' != $_GET['sort_by'] && 'registered' != $_GET['sort_by'] && ('num_posts' != $_GET['sort_by'] || !$show_post_count)) ? 'username' : $_GET['sort_by'];
-$sort_dir = (!isset($_GET['sort_dir']) || 'ASC' != $_GET['sort_dir'] && 'DESC' != $_GET['sort_dir']) ? 'ASC' : strtoupper($_GET['sort_dir']);
+$sort_dir = (!isset($_GET['sort_dir']) || 'ASC' != $_GET['sort_dir'] && 'DESC' != $_GET['sort_dir']) ? 'ASC' : \strtoupper($_GET['sort_dir']);
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['User list'];
 if (1 == $pun_user['g_search_users']) {
     $focus_element = array('userlist', 'username');
 }
 
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ALLOW_INDEX', 1);
+
 require_once PUN_ROOT.'header.php';
 
 echo '<div class="blockform"><h2><span>'.$lang_search['User search'].'</span></h2>
@@ -97,18 +99,18 @@ $where_sql = array();
 $like_command = 'LIKE';
 
 if (1 == $pun_user['g_search_users'] && $username) {
-    $where_sql[] = 'u.username '.$like_command.' \''.$db->escape(str_replace('*', '%', $username)).'\'';
+    $where_sql[] = 'u.username '.$like_command.' \''.$db->escape(\str_replace('*', '%', $username)).'\'';
 }
 if ($show_group > -1) {
     $where_sql[] = 'u.group_id='.$show_group;
 }
 
 // Fetch user count
-$result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'users AS u WHERE u.id>1'.(($where_sql) ? ' AND '.implode(' AND ', $where_sql) : '')) or error('Unable to fetch user list count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'users AS u WHERE u.id>1'.(($where_sql) ? ' AND '.\implode(' AND ', $where_sql) : '')) or error('Unable to fetch user list count', __FILE__, __LINE__, $db->error());
 $num_users = $db->result($result);
 
 // Determine the user offset (based on $_GET['p'])
-$num_pages = ceil($num_users / 50);
+$num_pages = \ceil($num_users / 50);
 
 if (isset($_GET['action']) && 'all' == $_GET['action']) {
     $p = $num_pages + 1;
@@ -119,7 +121,7 @@ if (isset($_GET['action']) && 'all' == $_GET['action']) {
 }
 
 // Generate paging links
-$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'userlist.php?username='.urlencode($username).'&amp;show_group='.$show_group.'&amp;sort_by='.$sort_by.'&amp;sort_dir='.strtoupper($sort_dir));
+$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'userlist.php?username='.\urlencode($username).'&amp;show_group='.$show_group.'&amp;sort_by='.$sort_by.'&amp;sort_dir='.\strtoupper($sort_dir));
 
 echo '<div class="linkst"><div class="inbox"><p class="pagelink">'.$paging_links.'</p></div></div>
 <div id="users1" class="blocktable">
@@ -136,7 +138,7 @@ if ($show_post_count) {
 echo '<th class="tcr" scope="col">'.$lang_common['Registered'].'</th></tr></thead><tbody>';
 
 // Grab the users
-$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1'.(!empty($where_sql) ? ' AND '.implode(' AND ', $where_sql) : '').' ORDER BY '.$sort_by.' '.$sort_dir.', u.id ASC '.(-1 != $start_from ? 'LIMIT '.$start_from.', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1'.(!empty($where_sql) ? ' AND '.\implode(' AND ', $where_sql) : '').' ORDER BY '.$sort_by.' '.$sort_dir.', u.id ASC '.(-1 != $start_from ? 'LIMIT '.$start_from.', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $user_title_field = get_title($user_data);

@@ -1,18 +1,20 @@
 <?php
 
 // Determine what locale to use
-switch (PHP_OS) {
+switch (\PHP_OS) {
     case 'WINNT':
     case 'WIN32':
         $locale = 'russian';
 
         break;
+
     case 'FreeBSD':
     case 'NetBSD':
     case 'OpenBSD':
         $locale = 'ru_RU.utf-8';
 
         break;
+
     default:
         $locale = 'ru_RU';
 
@@ -20,11 +22,11 @@ switch (PHP_OS) {
 }
 
 // Attempt to set the locale
-setlocale(LC_CTYPE, $locale);
-setlocale(LC_TIME, $locale);
+\setlocale(\LC_CTYPE, $locale);
+\setlocale(\LC_TIME, $locale);
 
 // FIX UTF REGULAR EXPRESSIONS BUG BEGIN
-define('ALPHANUM', '[:punct:]а-яА-ЯёЁ\w'); //[:alnum:]
+\define('ALPHANUM', '[:punct:]а-яА-ЯёЁ\w'); //[:alnum:]
 // FIX UTF REGULAR EXPRESSIONS BUG END
 
 // Language definitions for frequently used strings

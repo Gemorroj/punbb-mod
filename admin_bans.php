@@ -1,10 +1,12 @@
 <?php
 
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -19,7 +21,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     if (isset($_GET['add_ban']) || isset($_POST['add_ban'])) {
         // If the id of the user to ban was provided through GET (a link from profile.php)
         if (isset($_GET['add_ban'])) {
-            $add_ban = intval($_GET['add_ban']);
+            $add_ban = \intval($_GET['add_ban']);
             if ($add_ban < 2) {
                 message($lang_common['Bad request']);
             }
@@ -28,18 +30,18 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 
             $result = $db->query('SELECT group_id, username, email FROM '.$db->prefix.'users WHERE id='.$user_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
             if ($db->num_rows($result)) {
-                list($group_id, $ban_user, $ban_email) = $db->fetch_row($result);
+                [$group_id, $ban_user, $ban_email] = $db->fetch_row($result);
             } else {
                 message($lang_admin['bans_id_no']);
             }
         } else {
             // Otherwise the username is in POST
-            $ban_user = trim($_POST['new_ban_user']);
+            $ban_user = \trim($_POST['new_ban_user']);
 
             if ($ban_user) {
                 $result = $db->query('SELECT id, group_id, username, email FROM '.$db->prefix.'users WHERE username=\''.$db->escape($ban_user).'\' AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
-                    list($user_id, $group_id, $ban_user, $ban_email) = $db->fetch_row($result);
+                    [$user_id, $group_id, $ban_user, $ban_email] = $db->fetch_row($result);
                 } else {
                     message($lang_admin['bans_name_no']);
                 }
@@ -60,24 +62,25 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
         $mode = 'add';
     } else {
         // We are editing a ban
-        $ban_id = intval($_GET['edit_ban']);
+        $ban_id = \intval($_GET['edit_ban']);
         if ($ban_id < 1) {
             message($lang_common['Bad request']);
         }
 
         $result = $db->query('SELECT username, ip, email, message, expire FROM '.$db->prefix.'bans WHERE id='.$ban_id) or error('Unable to fetch ban info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
-            list($ban_user, $ban_ip, $ban_email, $ban_message, $ban_expire) = $db->fetch_row($result);
+            [$ban_user, $ban_ip, $ban_email, $ban_message, $ban_expire] = $db->fetch_row($result);
         } else {
             message($lang_common['Bad request']);
         }
 
-        $ban_expire = ($ban_expire) ? date('Y-m-d', $ban_expire) : '';
+        $ban_expire = ($ban_expire) ? \date('Y-m-d', $ban_expire) : '';
         $mode = 'edit';
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
     $focus_element = array('bans2', 'ban_user');
+
     require_once PUN_ROOT.'header.php';
 
     generate_admin_menu('bans');
@@ -120,7 +123,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">'.$lang_admin['bans_mail_domain'].'</th>
 <td>
-<input type="text" name="ban_email" size="40" maxlength="50" value="'.strtolower($ban_email).'" />
+<input type="text" name="ban_email" size="40" maxlength="50" value="'.\strtolower($ban_email).'" />
 <span>'.$lang_admin['bans_mail_domain_about'].'</span>
 </td>
 </tr>
@@ -164,51 +167,51 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     // Add/edit a ban (stage 2)
     //confirm_referrer('admin_bans.php');
 
-    $ban_user = trim($_POST['ban_user']);
-    $ban_ip = trim($_POST['ban_ip']);
-    $ban_email = strtolower(trim($_POST['ban_email']));
-    $ban_message = trim($_POST['ban_message']);
-    $ban_expire = trim($_POST['ban_expire']);
+    $ban_user = \trim($_POST['ban_user']);
+    $ban_ip = \trim($_POST['ban_ip']);
+    $ban_email = \strtolower(\trim($_POST['ban_email']));
+    $ban_message = \trim($_POST['ban_message']);
+    $ban_expire = \trim($_POST['ban_expire']);
 
     if (!$ban_user && !$ban_ip && !$ban_email) {
         message($lang_admin['bans_no']);
-    } elseif ('guest' == strtolower($ban_user)) {
+    } elseif ('guest' == \strtolower($ban_user)) {
         message($lang_admin['bans_guest']);
     }
 
     // Validate IP/IP range (it's overkill, I know)
     if ($ban_ip) {
-        $ban_ip = preg_replace('/[\s]{2,}/', ' ', $ban_ip);
-        $addresses = explode(' ', $ban_ip);
-        $addresses = array_map('trim', $addresses);
+        $ban_ip = \preg_replace('/[\s]{2,}/', ' ', $ban_ip);
+        $addresses = \explode(' ', $ban_ip);
+        $addresses = \array_map('trim', $addresses);
 
-        for ($i = 0, $all = count($addresses); $i < $all; ++$i) {
-            $octets = explode('.', $addresses[$i]);
+        for ($i = 0, $all = \count($addresses); $i < $all; ++$i) {
+            $octets = \explode('.', $addresses[$i]);
 
-            for ($c = 0, $all2 = count($octets); $c < $all2; ++$c) {
-                $octets[$c] = (strlen($octets[$c]) > 1) ? ltrim($octets[$c], '0') : $octets[$c];
+            for ($c = 0, $all2 = \count($octets); $c < $all2; ++$c) {
+                $octets[$c] = (\strlen($octets[$c]) > 1) ? \ltrim($octets[$c], '0') : $octets[$c];
 
-                if ($c > 3 || preg_match('/[^0-9]/', $octets[$c]) || intval($octets[$c]) > 255) {
+                if ($c > 3 || \preg_match('/[^0-9]/', $octets[$c]) || \intval($octets[$c]) > 255) {
                     message($lang_admin['bans_fail_ip']);
                 }
             }
 
-            $cur_address = implode('.', $octets);
+            $cur_address = \implode('.', $octets);
             $addresses[$i] = $cur_address;
         }
 
-        $ban_ip = implode(' ', $addresses);
+        $ban_ip = \implode(' ', $addresses);
     }
 
     include PUN_ROOT.'include/email.php';
     if ($ban_email && !is_valid_email($ban_email)) {
-        if (!preg_match('/^[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $ban_email)) {
+        if (!\preg_match('/^[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $ban_email)) {
             message($lang_admin['bans_fail_mail_domain']);
         }
     }
 
     if ($ban_expire && 'Never' != $ban_expire) {
-        $ban_expire = strtotime($ban_expire);
+        $ban_expire = \strtotime($ban_expire);
 
         if (-1 == $ban_expire || $ban_expire <= $_SERVER['REQUEST_TIME']) {
             message($lang_admin['bans_fail_date']);
@@ -225,7 +228,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     if ('add' == $_POST['mode']) {
         $db->query('INSERT INTO '.$db->prefix.'bans (username, ip, email, message, expire) VALUES('.$ban_user.', '.$ban_ip.', '.$ban_email.', '.$ban_message.', '.$ban_expire.')') or error('Unable to add ban', __FILE__, __LINE__, $db->error());
     } else {
-        $db->query('UPDATE '.$db->prefix.'bans SET username='.$ban_user.', ip='.$ban_ip.', email='.$ban_email.', message='.$ban_message.', expire='.$ban_expire.' WHERE id='.intval($_POST['ban_id'])) or error('Unable to update ban', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'bans SET username='.$ban_user.', ip='.$ban_ip.', email='.$ban_email.', message='.$ban_message.', expire='.$ban_expire.' WHERE id='.\intval($_POST['ban_id'])) or error('Unable to update ban', __FILE__, __LINE__, $db->error());
     }
 
     // Regenerate the bans cache
@@ -237,7 +240,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     // Remove a ban
     //confirm_referrer('admin_bans.php');
 
-    $ban_id = intval($_GET['del_ban']);
+    $ban_id = \intval($_GET['del_ban']);
     if ($ban_id < 1) {
         message($lang_common['Bad request']);
     }
@@ -253,6 +256,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
 $focus_element = array('bans', 'new_ban_user');
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('bans');

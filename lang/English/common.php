@@ -1,18 +1,20 @@
 <?php
 
 // Determine what locale to use
-switch (PHP_OS) {
+switch (\PHP_OS) {
     case 'WINNT':
     case 'WIN32':
         $locale = 'english';
 
         break;
+
     case 'FreeBSD':
     case 'NetBSD':
     case 'OpenBSD':
         $locale = 'en_US.utf-8';
 
         break;
+
     default:
         $locale = 'en_US';
 
@@ -20,7 +22,7 @@ switch (PHP_OS) {
 }
 
 // Attempt to set the locale
-setlocale(LC_CTYPE, $locale);
+\setlocale(\LC_CTYPE, $locale);
 
 // Language definitions for frequently used strings
 $lang_common = array(

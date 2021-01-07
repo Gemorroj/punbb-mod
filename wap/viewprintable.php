@@ -1,13 +1,14 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     wap_message($lang_common['Bad request']);
 }

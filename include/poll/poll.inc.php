@@ -28,15 +28,15 @@ class _Poll
 
         if (isset($_POST['polldata'])) {
             $poll = array();
-            $data = explode('&', $_POST['polldata']);
+            $data = \explode('&', $_POST['polldata']);
             foreach ($data as $val) {
-                $current = explode('=', $val);
-                $poll[$current[0]] = urldecode($current[1]);
+                $current = \explode('=', $val);
+                $poll[$current[0]] = \urldecode($current[1]);
             }
         }
 
         if ($this->validCreateData($poll['pdescription'], $poll['pmultiselect'], $poll['pquestions'], $userid)) {
-            if (!is_int($poll['pexpire'])) {
+            if (!\is_int($poll['pexpire'])) {
                 $poll['pexpire'] = 0;
             } elseif ($poll['pexpire'] < 0) {
                 $poll['pexpire'] = 0;
@@ -44,7 +44,7 @@ class _Poll
                 $poll['pexpire'] = 365;
             }
 
-            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') or error('Unable to create poll.', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.\time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(\serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') or error('Unable to create poll.', __FILE__, __LINE__, $db->error());
 
             return $db->insert_id();
         }
@@ -72,9 +72,9 @@ class _Poll
     public function updatePoll()
     {
         $out = '';
-        foreach (explode('&', $_POST['d']) as $val) {
-            $current = explode('=', $val);
-            $out .= urldecode($current[0]).'='.urldecode($current[1]).'<br />';
+        foreach (\explode('&', $_POST['d']) as $val) {
+            $current = \explode('=', $val);
+            $out .= \urldecode($current[0]).'='.\urldecode($current[1]).'<br />';
         }
 
         return $out;
@@ -97,7 +97,7 @@ class _Poll
                 ++$poll['data'][$value][1];
             }
 
-            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) or error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(\serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) or error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
 
             $db->query('INSERT INTO '.$db->prefix.'log_polls (pid, uid) VALUES('.$pid.','.$pun_user['id'].')') or error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
             $this->setPolled($pid, $pun_user['id']);
@@ -112,8 +112,8 @@ class _Poll
     {
         $questions = array();
 
-        foreach (explode("\n", $value) as $val) {
-            $val = trim($val);
+        foreach (\explode("\n", $value) as $val) {
+            $val = \trim($val);
             if ($val && "\n" != $val && "\t" != $val) {
                 $questions[] = array($val, 0);
             }
@@ -126,11 +126,11 @@ class _Poll
     {
         $answers = array();
 
-        if (is_int($value)) {
+        if (\is_int($value)) {
             $answers[] = $value;
         } else {
-            foreach (explode('&', $value) as $val) {
-                $result2 = explode('=', $val);
+            foreach (\explode('&', $value) as $val) {
+                $result2 = \explode('=', $val);
                 $answers[] = $result2[1];
             }
         }
@@ -141,7 +141,7 @@ class _Poll
     public function validAnswers($value)
     {
         foreach ($value as $answ) {
-            if (!is_numeric($answ)) {
+            if (!\is_numeric($answ)) {
                 $this->errorState = true;
                 $this->errorDescr = 'Invalid answer value';
 
@@ -161,12 +161,12 @@ class _Poll
 
             return false;
         }
-        if (strlen($description) < 1) {
+        if (\strlen($description) < 1) {
             $this->errorDescr = 'Invalid description value';
 
             return false;
         }
-        if (strlen($questions) < 1) {
+        if (\strlen($questions) < 1) {
             $this->errorDescr = 'Invalid answer value';
 
             return false;
@@ -195,7 +195,7 @@ class _Poll
 
             $pieces = '';
 
-            if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
+            if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < \time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
                     $pieces .= '<p style="text-align:right;font-size:7px">'.$lang_poll['guest'].'</p>';
                 }
@@ -227,7 +227,7 @@ class _Poll
 
             $pieces = '';
 
-            if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < time()) || $this->isVoted($pollid, $pun_user['id'])) {
+            if ($pun_user['is_guest'] || ($poll['expire'] && $poll['expire'] < \time()) || $this->isVoted($pollid, $pun_user['id'])) {
                 if ($pun_user['is_guest']) {
                     $pieces .= '<p style="text-align:right;font-size:7px">'.$lang_poll['guest'].'</p>';
                 }
@@ -248,7 +248,7 @@ class _Poll
         $out = '<div class="in"><strong>'.$lang_poll['poll'].'</strong>: '.pun_htmlspecialchars($poll['description']).'</div><div class="msg2"><span class="sub">';
 
         foreach ($poll['data'] as $quest) {
-            $out .= '<strong>'.pun_htmlspecialchars($quest[0]).'</strong> ['.$quest[1].'] '.round($quest[1] * $q, 1).'%<br />';
+            $out .= '<strong>'.pun_htmlspecialchars($quest[0]).'</strong> ['.$quest[1].'] '.\round($quest[1] * $q, 1).'%<br />';
         }
 
         $out .= $lang_poll['total voters'].': '.$poll['vcount'].' | '.$lang_poll['votes'].': '.$total.' '.$pieces.'</span></div>';
@@ -302,7 +302,7 @@ class _Poll
             $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
             $vtbg = ($bg_switch) ? 'roweven' : 'rowodd';
 
-            $out .= '<tr><td class="col1 '.$vtbg.'">'.pun_htmlspecialchars($quest[0]).' ['.$quest[1].']</td><td class="col2 '.$vtbg.'"><div style="width:'.ceil($quest[1] * $q).'%;"></div></td><td class="col3 '.$vtbg.'"> '.round($quest[1] * $q, 1).'% </td></tr>';
+            $out .= '<tr><td class="col1 '.$vtbg.'">'.pun_htmlspecialchars($quest[0]).' ['.$quest[1].']</td><td class="col2 '.$vtbg.'"><div style="width:'.\ceil($quest[1] * $q).'%;"></div></td><td class="col3 '.$vtbg.'"> '.\round($quest[1] * $q, 1).'% </td></tr>';
         }
 
         $out .= '<tr><td class="'.((!$bg_switch) ? 'roweven' : 'rowodd').'" colspan="3" style="text-align:center;">'.$lang_poll['total voters'].': '.$poll['vcount'].' / '.$lang_poll['votes'].': '.$total.'</td></tr></table></div>'.$pieces.'</fieldset></div><br class="clearb" />';
@@ -389,7 +389,7 @@ class _Poll
             $poll['error'] = 1; // no result
         } else {
             $poll = $db->fetch_assoc($result);
-            $poll['data'] = unserialize($poll['data']);
+            $poll['data'] = \unserialize($poll['data']);
             $poll['error'] = 0;
         }
 

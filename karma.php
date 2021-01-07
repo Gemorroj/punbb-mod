@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 
 require PUN_ROOT.'include/common.php';
 
@@ -8,13 +8,14 @@ if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-$to = isset($_GET['to']) ? intval($_GET['to']) : 0;
+$to = isset($_GET['to']) ? \intval($_GET['to']) : 0;
 if ($to > 0) {
-    vote($to, intval($_GET['vote']));
+    vote($to, \intval($_GET['vote']));
+
     exit;
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     message($lang_common['Bad request']);
 }
@@ -24,14 +25,14 @@ $q = $db->fetch_row($db->query(
     SELECT COUNT(1), (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$id
 ));
 
-$karma['plus'] = intval($q[0]);
-$karma['minus'] = intval($q[1]);
+$karma['plus'] = \intval($q[0]);
+$karma['minus'] = \intval($q[1]);
 $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 
 $num_hits = $karma['plus'] + $karma['minus'];
 
-$num_pages = ceil($num_hits / $pun_user['disp_posts']);
+$num_pages = \ceil($num_hits / $pun_user['disp_posts']);
 
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
 
@@ -77,4 +78,5 @@ require_once PUN_ROOT.'header.php';
 echo $str;
 
 $footer_style = 'index';
+
 require_once PUN_ROOT.'footer.php';

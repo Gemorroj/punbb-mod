@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -14,8 +16,8 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 if (isset($_POST['add_forum'])) {
     //confirm_referrer('admin_forums.php');
 
-    $forum_name = (!trim($_POST['forum_name'])) ? 'New forum' : trim($_POST['forum_name']);
-    $add_to_cat = intval($_POST['add_to_cat']);
+    $forum_name = (!\trim($_POST['forum_name'])) ? 'New forum' : \trim($_POST['forum_name']);
+    $add_to_cat = \intval($_POST['add_to_cat']);
     if ($add_to_cat < 1) {
         message($lang_common['Bad request']);
     }
@@ -30,7 +32,7 @@ if (isset($_POST['add_forum'])) {
     redirect('admin_forums.php', 'Форум добавлен. Перенаправление &#x2026;');
 } // Make new forum with the same permissions
 elseif (isset($_GET['clone_forum'])) {
-    $forum_id = intval($_GET['clone_forum']);
+    $forum_id = \intval($_GET['clone_forum']);
     if ($forum_id < 1) {
         message($lang_common['Bad request']);
     }
@@ -53,13 +55,13 @@ elseif (isset($_GET['clone_forum'])) {
 elseif (isset($_GET['del_forum'])) {
     //confirm_referrer('admin_forums.php');
 
-    $forum_id = intval($_GET['del_forum']);
+    $forum_id = \intval($_GET['del_forum']);
     if ($forum_id < 1) {
         message($lang_common['Bad request']);
     }
 
     if (isset($_POST['del_forum_comply'])) { // Delete a forum with all posts
-        @set_time_limit(0);
+        @\set_time_limit(0);
 
         // Prune all posts and topics
         prune($forum_id, 1, -1);
@@ -74,7 +76,7 @@ elseif (isset($_GET['del_forum'])) {
                 $orphans[] = $db->result($result, $i);
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
         }
 
         // Delete the forum and any forum specific group permissions
@@ -92,6 +94,7 @@ elseif (isset($_GET['del_forum'])) {
         $forum_name = pun_htmlspecialchars($db->result($result));
 
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Forums';
+
         require_once PUN_ROOT.'header.php';
 
         generate_admin_menu('forums');
@@ -123,11 +126,11 @@ elseif (isset($_POST['update_positions'])) {
     //confirm_referrer('admin_forums.php');
 
     foreach ($_POST['position'] as $forum_id => $disp_position) {
-        if (!@preg_match('#^\d+$#', $disp_position)) {
+        if (!@\preg_match('#^\d+$#', $disp_position)) {
             message('Position must be a positive integer value.');
         }
 
-        $db->query('UPDATE '.$db->prefix.'forums SET disp_position='.$disp_position.' WHERE id='.intval($forum_id)) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'forums SET disp_position='.$disp_position.' WHERE id='.\intval($forum_id)) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
     }
 
     // Regenerate the quickjump cache
@@ -137,7 +140,7 @@ elseif (isset($_POST['update_positions'])) {
 
     redirect('admin_forums.php', 'Форумы обновлены. Перенаправление &#x2026;');
 } elseif (isset($_GET['edit_forum'])) {
-    $forum_id = intval($_GET['edit_forum']);
+    $forum_id = \intval($_GET['edit_forum']);
     if ($forum_id < 1) {
         message($lang_common['Bad request']);
     }
@@ -147,11 +150,11 @@ elseif (isset($_POST['update_positions'])) {
         //confirm_referrer('admin_forums.php');
 
         // Start with the forum details
-        $forum_name = trim($_POST['forum_name']);
-        $forum_desc = pun_linebreaks(trim($_POST['forum_desc']));
-        $cat_id = intval($_POST['cat_id']);
-        $sort_by = intval($_POST['sort_by']);
-        $redirect_url = isset($_POST['redirect_url']) ? trim($_POST['redirect_url']) : null;
+        $forum_name = \trim($_POST['forum_name']);
+        $forum_desc = pun_linebreaks(\trim($_POST['forum_desc']));
+        $cat_id = \intval($_POST['cat_id']);
+        $sort_by = \intval($_POST['sort_by']);
+        $redirect_url = isset($_POST['redirect_url']) ? \trim($_POST['redirect_url']) : null;
 
         if (!$forum_name) {
             message('You must enter a forum name.');
@@ -170,7 +173,7 @@ elseif (isset($_POST['update_positions'])) {
         if (isset($_POST['read_forum_old'])) {
             $result = $db->query('SELECT g_id, g_read_board, g_post_replies, g_post_topics, g_file_upload, g_file_download, g_file_limit FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_ADMIN) or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
             while ($cur_group = $db->fetch_assoc($result)) {
-                $read_forum_new = (1 == $cur_group['g_read_board']) ? isset($_POST['read_forum_new'][$cur_group['g_id']]) ? 1 : '0' : intval($_POST['read_forum_old'][$cur_group['g_id']]);
+                $read_forum_new = (1 == $cur_group['g_read_board']) ? isset($_POST['read_forum_new'][$cur_group['g_id']]) ? 1 : '0' : \intval($_POST['read_forum_old'][$cur_group['g_id']]);
                 $post_replies_new = isset($_POST['post_replies_new'][$cur_group['g_id']]) ? 1 : '0';
                 $post_topics_new = isset($_POST['post_topics_new'][$cur_group['g_id']]) ? 1 : '0';
 
@@ -181,7 +184,7 @@ elseif (isset($_POST['update_positions'])) {
                     $file_limit_new = $_POST['file_limit_old'][$cur_group['g_id']] = $cur_group['g_file_limit'];
                 } else {
                     $file_upload_new = isset($_POST['file_upload_new'][$cur_group['g_id']]) ? 1 : '0';
-                    $file_limit_new = isset($_POST['file_limit_new'][$cur_group['g_id']]) ? intval($_POST['file_limit_new'][$cur_group['g_id']]) : '0';
+                    $file_limit_new = isset($_POST['file_limit_new'][$cur_group['g_id']]) ? \intval($_POST['file_limit_new'][$cur_group['g_id']]) : '0';
                 }
 
                 // Check if the new settings differ from the old
@@ -228,6 +231,7 @@ elseif (isset($_POST['update_positions'])) {
     $cur_forum = $db->fetch_assoc($result);
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Forums';
+
     require_once PUN_ROOT.'header.php';
 
     generate_admin_menu('forums');
@@ -402,6 +406,7 @@ elseif (isset($_POST['update_positions'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Forums';
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('forums');

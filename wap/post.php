@@ -1,23 +1,27 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
+
 require_once PUN_ROOT.'include/parser.php';
 
 // если проверка каптчей
 if (2 == $pun_user['g_post_replies']) {
-    session_start();
+    \session_start();
 }
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
-$tid = isset($_GET['tid']) ? intval($_GET['tid']) : 0;
-$fid = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
-$rid = isset($_GET['rid']) ? intval($_GET['rid']) : 0;
+$tid = isset($_GET['tid']) ? \intval($_GET['tid']) : 0;
+$fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
+$rid = isset($_GET['rid']) ? \intval($_GET['rid']) : 0;
 
 if ($tid < 1 && $fid < 1 || $tid > 0 && $fid > 0) {
     wap_message($lang_common['Bad request']);
@@ -44,12 +48,12 @@ if ($cur_posting['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? unserialize($cur_posting['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? unserialize($cur_posting['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // have we permission to attachments?
 $can_download = $is_admmod || (!$cur_posting['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_posting['file_download'];
@@ -62,17 +66,17 @@ if ($pun_user['is_guest']) {
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
-    $forum_file_limit = ($cur_posting['file_limit']) ? intval($cur_posting['file_limit']) : intval($pun_user['g_file_limit']);
+    $forum_file_limit = ($cur_posting['file_limit']) ? \intval($cur_posting['file_limit']) : \intval($pun_user['g_file_limit']);
 
     $global_file_limit = $pun_user['g_file_limit'] + $pun_user['file_bonus'];
 
-    $topic_file_limit = intval($pun_config['file_max_post_files']);
+    $topic_file_limit = \intval($pun_config['file_max_post_files']);
 
     if (PUN_ADMIN == $pun_user['g_id']) {
         $file_limit = 100;
     // just unlimited
     } else {
-        $file_limit = min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit);
+        $file_limit = \min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit);
     }
 }
 
@@ -101,7 +105,7 @@ if (isset($_POST['form_sent'])) {
     // Image verifcation
     if (2 == $pun_user['g_post_replies']) {
         // Make sure what they submitted is not empty
-        if (!trim($_POST['req_image_'])) {
+        if (!\trim($_POST['req_image_'])) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
@@ -110,7 +114,7 @@ if (isset($_POST['form_sent'])) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_common['Bad request']);
         }
-        if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
+        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
             //unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
@@ -133,10 +137,10 @@ if (isset($_POST['form_sent'])) {
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } elseif (mb_strlen($subject) > 70) {
+        } elseif (\mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
-            $subject = ucwords(mb_strtolower($subject));
+        } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+            $subject = \ucwords(\mb_strtolower($subject));
         }
     }
 
@@ -146,27 +150,28 @@ if (isset($_POST['form_sent'])) {
         $email = $pun_user['email'];
     } else {
         // Otherwise it should be in $_POST
-        $username = trim($_POST['req_username']);
-        $email = strtolower(trim((1 == $pun_config['p_force_guest_email']) ? $_POST['req_email'] : $_POST['email']));
+        $username = \trim($_POST['req_username']);
+        $email = \strtolower(\trim((1 == $pun_config['p_force_guest_email']) ? $_POST['req_email'] : $_POST['email']));
 
         // Load the registration.php/profile.php language files
         include PUN_ROOT.'lang/'.$pun_user['language'].'/prof_reg.php';
+
         include PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
 
         // It's a guest, so we have to validate the username
-        if (mb_strlen($username) < 2) {
+        if (\mb_strlen($username) < 2) {
             $errors[] = $lang_prof_reg['Username too short'];
-        } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+        } elseif (!\strcasecmp($username, 'Guest') || !\strcasecmp($username, $lang_common['Guest'])) {
             $errors[] = $lang_prof_reg['Username guest'];
-        } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+        } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
             $errors[] = $lang_prof_reg['Username IP'];
         }
 
-        if ((false !== strpos($username, '[') || false !== strpos($username, ']')) && false !== strpos($username, "'") && false !== strpos($username, '"')) {
+        if ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
             $errors[] = $lang_prof_reg['Username reserved chars'];
         }
 
-        if (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[hide\]|\[hide=|\[/hide\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
+        if (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[hide\]|\[hide=|\[/hide\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
             $errors[] = $lang_prof_reg['Username BBCode'];
         }
 
@@ -177,7 +182,7 @@ if (isset($_POST['form_sent'])) {
         }
 
         // Check that the username (or a too similar username) is not already registered
-        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE (username=\''.$db->escape($username).'\' OR username=\''.$db->escape(preg_replace('/[^\w]/', '', $username)).'\') AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE (username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
             $errors[] = $lang_registration['Username dupe 1'].' '.pun_htmlspecialchars($busy).'. '.$lang_registration['Username dupe 2'];
@@ -196,10 +201,10 @@ if (isset($_POST['form_sent'])) {
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } elseif (mb_strlen($message) > 65535) {
+    } elseif (\mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
-        $message = ucwords(mb_strtolower($message));
+    } elseif (!$pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+        $message = \ucwords(\mb_strtolower($message));
     }
 
     // MOD CONVENIENT FORUM URL BEGIN
@@ -208,7 +213,7 @@ if (isset($_POST['form_sent'])) {
     // MOD CONVENIENT FORUM URL END
 
     // Validate BBCode syntax
-    if (1 == $pun_config['p_message_bbcode'] && false !== strpos($message, '[') && false !== strpos($message, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
         $message = preparse_bbcode($message, $errors);
     }
 
@@ -293,7 +298,7 @@ if (isset($_POST['form_sent'])) {
                 $previous_post_time = $db->result($result);
 
                 // Get any subscribed users that should be notified (banned users are excluded)
-                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.intval($pun_user['id'])) or error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.\intval($pun_user['id'])) or error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
@@ -304,34 +309,34 @@ if (isset($_POST['form_sent'])) {
                         // Is the subscription e-mail for $cur_subscriber['language'] cached or not?
                         if (!$notification_emails[$cur_subscriber['language']]) {
                             // Load the "new reply" template
-                            $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$cur_subscriber['language'].'/mail_templates/new_reply.tpl'));
+                            $mail_tpl = \trim(\file_get_contents(PUN_ROOT.'lang/'.$cur_subscriber['language'].'/mail_templates/new_reply.tpl'));
 
                             // Load the "new reply full" template (with post included)
-                            $mail_tpl_full = trim(file_get_contents(PUN_ROOT.'lang/'.$cur_subscriber['language'].'/mail_templates/new_reply_full.tpl'));
+                            $mail_tpl_full = \trim(\file_get_contents(PUN_ROOT.'lang/'.$cur_subscriber['language'].'/mail_templates/new_reply_full.tpl'));
 
                             // The first row contains the subject (it also starts with "Subject:")
-                            $first_crlf = strpos($mail_tpl, "\n");
-                            $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
-                            $mail_message = trim(substr($mail_tpl, $first_crlf));
+                            $first_crlf = \strpos($mail_tpl, "\n");
+                            $mail_subject = \trim(\substr($mail_tpl, 8, $first_crlf - 8));
+                            $mail_message = \trim(\substr($mail_tpl, $first_crlf));
 
-                            $first_crlf = strpos($mail_tpl_full, "\n");
-                            $mail_subject_full = trim(substr($mail_tpl_full, 8, $first_crlf - 8));
-                            $mail_message_full = trim(substr($mail_tpl_full, $first_crlf));
+                            $first_crlf = \strpos($mail_tpl_full, "\n");
+                            $mail_subject_full = \trim(\substr($mail_tpl_full, 8, $first_crlf - 8));
+                            $mail_message_full = \trim(\substr($mail_tpl_full, $first_crlf));
 
-                            $mail_subject = str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_subject);
-                            $mail_message = str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_message);
-                            $mail_message = str_replace('<replier>', $username, $mail_message);
-                            $mail_message = str_replace('<post_url>', $pun_config['o_base_url'].'/viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $mail_message);
-                            $mail_message = str_replace('<unsubscribe_url>', $pun_config['o_base_url'].'/misc.php?unsubscribe='.$tid, $mail_message);
-                            $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+                            $mail_subject = \str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_subject);
+                            $mail_message = \str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_message);
+                            $mail_message = \str_replace('<replier>', $username, $mail_message);
+                            $mail_message = \str_replace('<post_url>', $pun_config['o_base_url'].'/viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $mail_message);
+                            $mail_message = \str_replace('<unsubscribe_url>', $pun_config['o_base_url'].'/misc.php?unsubscribe='.$tid, $mail_message);
+                            $mail_message = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
 
-                            $mail_subject_full = str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_subject_full);
-                            $mail_message_full = str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_message_full);
-                            $mail_message_full = str_replace('<replier>', $username, $mail_message_full);
-                            $mail_message_full = str_replace('<message>', $message, $mail_message_full);
-                            $mail_message_full = str_replace('<post_url>', $pun_config['o_base_url'].'/viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $mail_message_full);
-                            $mail_message_full = str_replace('<unsubscribe_url>', $pun_config['o_base_url'].'/misc.php?unsubscribe='.$tid, $mail_message_full);
-                            $mail_message_full = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message_full);
+                            $mail_subject_full = \str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_subject_full);
+                            $mail_message_full = \str_replace('<topic_subject>', '\''.$cur_posting['subject'].'\'', $mail_message_full);
+                            $mail_message_full = \str_replace('<replier>', $username, $mail_message_full);
+                            $mail_message_full = \str_replace('<message>', $message, $mail_message_full);
+                            $mail_message_full = \str_replace('<post_url>', $pun_config['o_base_url'].'/viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $mail_message_full);
+                            $mail_message_full = \str_replace('<unsubscribe_url>', $pun_config['o_base_url'].'/misc.php?unsubscribe='.$tid, $mail_message_full);
+                            $mail_message_full = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message_full);
 
                             $notification_emails[$cur_subscriber['language']][0] = $mail_subject;
                             $notification_emails[$cur_subscriber['language']][1] = $mail_message;
@@ -426,7 +431,7 @@ if (isset($_POST['form_sent'])) {
 if ($tid) {
     // If a quote-id was specified in the url.
     if (isset($_GET['qid'])) {
-        $qid = intval($_GET['qid']);
+        $qid = \intval($_GET['qid']);
         if ($qid < 1) {
             wap_message($lang_common['Bad request']);
         }
@@ -436,23 +441,23 @@ if ($tid) {
             wap_message($lang_common['Bad request']);
         }
 
-        list($q_poster, $q_message) = $db->fetch_row($result);
+        [$q_poster, $q_message] = $db->fetch_row($result);
 
         //$q_message = pun_htmlspecialchars(str_replace('[/img]', '[/url]', str_replace('[img]', '[url]', $q_message)));
-        $q_message = str_replace(array('[img]', '[/img]'), array('[url]', '[/url]'), $q_message);
+        $q_message = \str_replace(array('[img]', '[/img]'), array('[url]', '[/url]'), $q_message);
         // pun_htmlspecialchars => {$quote|escape} in post.tpl
 
         if (1 == $pun_config['p_message_bbcode']) {
             // If username contains a square bracket, we add "" or '' around it (so we know when it starts and ends)
-            if (false !== strpos($q_poster, '[') || false !== strpos($q_poster, ']')) {
-                if (false !== strpos($q_poster, "'")) {
+            if (false !== \strpos($q_poster, '[') || false !== \strpos($q_poster, ']')) {
+                if (false !== \strpos($q_poster, "'")) {
                     $q_poster = '"'.$q_poster.'"';
                 } else {
                     $q_poster = "'".$q_poster."'";
                 }
             } else {
                 // Get the characters at the start and end of $q_poster
-                $ends = substr($q_poster, 0, 1).substr($q_poster, -1, 1);
+                $ends = \substr($q_poster, 0, 1).\substr($q_poster, -1, 1);
 
                 // Deal with quoting "Username" or 'Username' (becomes '"Username"' or "'Username'")
                 if ("''" == $ends) {
@@ -467,7 +472,7 @@ if ($tid) {
             $quote = '> '.$q_poster.' '.$lang_common['wrote'].':'."\n".'> '.$q_message."\n";
         }
     } elseif (isset($_GET['rid'])) {
-        $rid = intval($_GET['rid']);
+        $rid = \intval($_GET['rid']);
         if ($rid < 1) {
             wap_message($lang_common['Bad request']);
         }
@@ -476,7 +481,7 @@ if ($tid) {
         if (!$db->num_rows($result)) {
             wap_message($lang_common['Bad request']);
         }
-        list($q_poster) = $db->fetch_row($result);
+        [$q_poster] = $db->fetch_row($result);
         if (1 == $pun_config['p_message_bbcode']) {
             $quote = '[b]'.$q_poster.'[/b]';
         } else {
@@ -498,7 +503,7 @@ if (1 == $pun_config['poll_enabled'] && $fid) {
 // hcs AJAX POLL MOD END
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_post['Post a reply'];
-$message = isset($message) ? $message : '';
+$message = $message ?? '';
 $message_preview = ('' == $message ? '' : parse_message($message, isset($_POST['hide_smilies'])));
 
 $smarty->assign('poll_container', $poll_container);
@@ -522,7 +527,7 @@ $smarty->assign('lang_fu', $lang_fu);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);
 
-$num_to_upload = min($file_limit, 20);
+$num_to_upload = \min($file_limit, 20);
 $smarty->assign('num_to_upload', $num_to_upload);
 
 $smarty->display('post.tpl');

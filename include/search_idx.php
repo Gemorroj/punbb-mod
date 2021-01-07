@@ -1,7 +1,7 @@
 <?php
 
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
@@ -18,37 +18,37 @@ function split_words($text)
         $noise_match = array('[quote', '[code', '[url', '[img', '[email', '[color', '[colour', 'quote]', 'code]', 'url]', 'img]', 'email]', 'color]', 'colour]', '^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '+', '[', ']', '{', '}', ':', '\\', '/', '=', '#', ';', '!', '*');
         $noise_replace = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ');
 
-        $stopwords = (array) @file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
-        $stopwords = array_map('trim', $stopwords);
+        $stopwords = (array) @\file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
+        $stopwords = \array_map('trim', $stopwords);
     }
 
     // Clean up
     $patterns[] = '#&[\#a-z0-9]+?;#iu';
     $patterns[] = '#\b[\w]+:\/\/[a-z0-9\.\-]+(\/[a-z0-9\?\.%_\-\+=&\/~]+)?#u';
     $patterns[] = '#\[\/?[a-z\*=\+\-]+(\:?[0-9a-z]+)?:[a-z0-9]{10,}(\:[a-z0-9]+)?=?.*?\]#u';
-    $text = preg_replace($patterns, ' ', ' '.mb_strtolower($text).' ');
+    $text = \preg_replace($patterns, ' ', ' '.\mb_strtolower($text).' ');
 
     // Filter out junk
-    $text = str_replace($noise_match, $noise_replace, $text);
+    $text = \str_replace($noise_match, $noise_replace, $text);
 
     // Strip out extra whitespace between words
-    $text = trim(preg_replace('#\s+#u', ' ', $text));
+    $text = \trim(\preg_replace('#\s+#u', ' ', $text));
 
     // Fill an array with all the words
-    $words = explode(' ', $text);
+    $words = \explode(' ', $text);
 
     if ($words) {
         foreach ($words as $i => $word) {
-            $words[$i] = trim($word, '.');
-            $num_chars = mb_strlen($word);
+            $words[$i] = \trim($word, '.');
+            $num_chars = \mb_strlen($word);
 
-            if ($num_chars < 3 || $num_chars > 40 || in_array($word, $stopwords)) {
+            if ($num_chars < 3 || $num_chars > 40 || \in_array($word, $stopwords)) {
                 unset($words[$i]);
             }
         }
     }
 
-    return array_unique($words);
+    return \array_unique($words);
 }
 
 //
@@ -76,10 +76,10 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 
         $db->free_result($result);
 
-        $words['add']['post'] = array_diff($words_message, array_keys($cur_words['post']));
-        $words['add']['subject'] = array_diff($words_subject, array_keys($cur_words['subject']));
-        $words['del']['post'] = array_diff(array_keys($cur_words['post']), $words_message);
-        $words['del']['subject'] = array_diff(array_keys($cur_words['subject']), $words_subject);
+        $words['add']['post'] = \array_diff($words_message, \array_keys($cur_words['post']));
+        $words['add']['subject'] = \array_diff($words_subject, \array_keys($cur_words['subject']));
+        $words['del']['post'] = \array_diff(\array_keys($cur_words['post']), $words_message);
+        $words['del']['subject'] = \array_diff(\array_keys($cur_words['subject']), $words_subject);
     } else {
         $words['add']['post'] = $words_message;
         $words['add']['subject'] = $words_subject;
@@ -90,10 +90,10 @@ function update_search_index($mode, $post_id, $message, $subject = null)
     unset($words_message, $words_subject);
 
     // Get unique words from the above arrays
-    $unique_words = array_unique(array_merge($words['add']['post'], $words['add']['subject']));
+    $unique_words = \array_unique(\array_merge($words['add']['post'], $words['add']['subject']));
 
     if ($unique_words) {
-        $result = $db->query('SELECT id, word FROM '.$db->prefix.'search_words WHERE word IN('.implode(',', preg_replace('#^(.*)$#u', '\'\1\'', $unique_words)).')') or error('Unable to fetch search index words', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id, word FROM '.$db->prefix.'search_words WHERE word IN('.\implode(',', \preg_replace('#^(.*)$#u', '\'\1\'', $unique_words)).')') or error('Unable to fetch search index words', __FILE__, __LINE__, $db->error());
 
         $word_ids = array();
         while ($row = $db->fetch_row($result)) {
@@ -102,11 +102,11 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 
         $db->free_result($result);
 
-        $new_words = array_unique(array_diff($unique_words, array_keys($word_ids)));
+        $new_words = \array_unique(\array_diff($unique_words, \array_keys($word_ids)));
         unset($unique_words);
 
         if ($new_words) {
-            $db->query('INSERT INTO '.$db->prefix.'search_words (word) VALUES'.implode(',', preg_replace('#^(.*)$#u', '(\'\1\')', $new_words))) or error('Unable to insert search index words', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'search_words (word) VALUES'.\implode(',', \preg_replace('#^(.*)$#u', '(\'\1\')', $new_words))) or error('Unable to insert search index words', __FILE__, __LINE__, $db->error());
         }
 
         unset($new_words);
@@ -131,7 +131,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
         $subject_match = ('subject' == $match_in) ? 1 : 0;
 
         if ($wordlist) {
-            $db->query('INSERT INTO '.$db->prefix.'search_matches (post_id, word_id, subject_match) SELECT '.$post_id.', id, '.$subject_match.' FROM '.$db->prefix.'search_words WHERE word IN('.implode(',', preg_replace('#^(.*)$#', '\'\1\'', $wordlist)).')') or error('Unable to insert search index word matches', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'search_matches (post_id, word_id, subject_match) SELECT '.$post_id.', id, '.$subject_match.' FROM '.$db->prefix.'search_words WHERE word IN('.\implode(',', \preg_replace('#^(.*)$#', '\'\1\'', $wordlist)).')') or error('Unable to insert search index word matches', __FILE__, __LINE__, $db->error());
         }
     }
 

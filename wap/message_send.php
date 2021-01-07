@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -10,6 +10,7 @@ if (!$pun_config['o_pms_enabled'] || $pun_user['is_guest'] || !$pun_user['g_pm']
 
 // Load the post.php language file
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
+
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 if (isset($_POST['form_sent'])) {
@@ -17,7 +18,7 @@ if (isset($_POST['form_sent'])) {
     // Flood protection
     if ($pun_user['g_id'] > PUN_GUEST) {
         $result = $db->query('SELECT posted FROM '.$db->prefix.'messages WHERE sender_id='.$pun_user['id'].' ORDER BY id DESC LIMIT 1') or error('Unable to fetch message time for flood protection', __FILE__, __LINE__, $db->error());
-        if (list($last) = $db->fetch_row($result)) {
+        if ([$last] = $db->fetch_row($result)) {
             if (($_SERVER['REQUEST_TIME'] - $last) < $pun_user['g_post_flood']) {
                 wap_message($lang_pms['Flood start'].' '.$pun_user['g_post_flood'].' '.$lang_pms['Flood end']);
             }
@@ -47,10 +48,10 @@ if (isset($_POST['form_sent'])) {
     $subject = pun_trim($_POST['req_subject']);
     if (!$subject) {
         wap_message($lang_post['No subject']);
-    } elseif (mb_strlen($subject) > 70) {
+    } elseif (\mb_strlen($subject) > 70) {
         wap_message($lang_post['Too long subject']);
-    } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
-        $subject = ucwords(mb_strtolower($subject));
+    } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_GUEST) {
+        $subject = \ucwords(\mb_strtolower($subject));
     }
 
     // Clean up message from POST
@@ -59,14 +60,14 @@ if (isset($_POST['form_sent'])) {
     // Check message
     if (!$message) {
         wap_message($lang_post['No message']);
-    } elseif (mb_strlen($message) > 65535) {
+    } elseif (\mb_strlen($message) > 65535) {
         wap_message($lang_post['Too long message']);
-    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
-        $message = ucwords(strtolower($message));
+    } elseif (!$pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_GUEST) {
+        $message = \ucwords(\strtolower($message));
     }
 
     // Validate BBCode syntax
-    if (1 == $pun_config['p_message_bbcode'] && false !== strpos($message, '[') && false !== strpos($message, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
         include_once PUN_ROOT.'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
@@ -81,7 +82,7 @@ if (isset($_POST['form_sent'])) {
     $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
 
     // Send message
-    if (list($id, $user, $status, $group_pm_limit, $messages_enable) = $db->fetch_row($result)) {
+    if ([$id, $user, $status, $group_pm_limit, $messages_enable] = $db->fetch_row($result)) {
         if (!$messages_enable) {
             wap_message($lang_pms['Receiver'].' '.$_POST['req_username'].' '.$lang_pms['Disable options']);
         }
@@ -91,7 +92,7 @@ if (isset($_POST['form_sent'])) {
         // Check inbox status
         if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST && $status > PUN_GUEST) {
             $result = $db->query('SELECT COUNT(*) FROM '.$db->prefix.'messages WHERE owner='.$id) or error('Unable to get message count for the receiver', __FILE__, __LINE__, $db->error());
-            list($count) = $db->fetch_row($result);
+            [$count] = $db->fetch_row($result);
 
             //if($count >= $pun_user['g_pm_limit'])
             if ($count >= $group_pm_limit) {
@@ -99,9 +100,9 @@ if (isset($_POST['form_sent'])) {
             }
 
             // Also check users own box
-            if (isset($_POST['savemessage']) && 1 == intval($_POST['savemessage'])) {
+            if (isset($_POST['savemessage']) && 1 == \intval($_POST['savemessage'])) {
                 $result = $db->query('SELECT count(*) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) or error('Unable to get message count the sender', __FILE__, __LINE__, $db->error());
-                list($count) = $db->fetch_row($result);
+                [$count] = $db->fetch_row($result);
                 if ($count >= $pun_user['g_pm_limit']) {
                     wap_message($lang_pms['Sent full']);
                 }
@@ -143,8 +144,8 @@ if (isset($_POST['form_sent'])) {
         wap_message($lang_pms['No user']);
     }
 
-    $topic_redirect = intval($_POST['topic_redirect']);
-    $from_profile = intval(@$_POST['from_profile']);
+    $topic_redirect = \intval($_POST['topic_redirect']);
+    $from_profile = \intval(@$_POST['from_profile']);
 
     if ($from_profile) {
         wap_redirect('profile.php?id='.$from_profile);
@@ -154,14 +155,14 @@ if (isset($_POST['form_sent'])) {
         wap_redirect('message_list.php');
     }
 } else {
-    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 
     if ($id > 0) {
         $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE id='.$id) or error('Unable to fetch message info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
             wap_message($lang_common['Bad request']);
         }
-        list($username) = $db->fetch_row($result);
+        [$username] = $db->fetch_row($result);
     }
 
     if (isset($_GET['reply']) || isset($_GET['quote'])) {
@@ -181,7 +182,7 @@ if (isset($_POST['form_sent'])) {
             $quote = '[quote='.$message['sender'].']'.$message['message'].'[/quote]';
         }
         // Add subject
-        $subject = 'RE:' == substr($message['subject'], 0, 3) ? $message['subject'] : 'RE: '.$message['subject'];
+        $subject = 'RE:' == \substr($message['subject'], 0, 3) ? $message['subject'] : 'RE: '.$message['subject'];
     }
 
     if (1 != $pun_user['messages_enable']) {

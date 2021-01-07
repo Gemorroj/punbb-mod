@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -12,6 +14,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_POST['delete_thumbnails']) || isset($_POST['fix_counters'])) {
     include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
     include PUN_ROOT.'include/file_upload.php';
 }
 
@@ -19,14 +22,14 @@ if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_P
 if (isset($_POST['save'])) {
     //confirm_referrer('admin_files.php');
 
-    $form = array_map('trim', $_POST['form']);
+    $form = \array_map('trim', $_POST['form']);
 
     // Error checking
     if (!$form['upload_path']) {
         message('You must enter an upload path.', true);
     }
 
-    if (false === realpath($form['upload_path'])) {
+    if (false === \realpath($form['upload_path'])) {
         message('Upload path you entered is not a valid directory.', true);
     }
 
@@ -34,74 +37,74 @@ if (isset($_POST['save'])) {
         message('You must enter a thumbnail path.', true);
     }
 
-    if (!is_writable($form['upload_path'])) {
+    if (!\is_writable($form['upload_path'])) {
         message('Upload path is not writable.', true);
     }
 
-    if (!is_dir($form['upload_path'])) {
+    if (!\is_dir($form['upload_path'])) {
         message('Upload path you entered is not a valid directory.', true);
     }
 
-    if (false === realpath($form['thumb_path'])) {
+    if (false === \realpath($form['thumb_path'])) {
         message('Thumbnail path you entered is not a valid directory.', true);
     }
 
-    if (!is_writable($form['thumb_path'])) {
+    if (!\is_writable($form['thumb_path'])) {
         message('Thumbnail path is not writable.', true);
     }
 
-    if (!is_dir($form['thumb_path'])) {
+    if (!\is_dir($form['thumb_path'])) {
         message('Thumbnail path you entered is not a valid directory.', true);
     }
 
-    $form['max_width'] = intval($form['max_width']);
+    $form['max_width'] = \intval($form['max_width']);
     if ($form['max_width'] < 1) {
         message('Invalid maximum image width.', true);
     }
 
-    $form['max_height'] = intval($form['max_height']);
+    $form['max_height'] = \intval($form['max_height']);
     if ($form['max_height'] < 1) {
         message('Invalid maximum image height.', true);
     }
 
-    $form['max_size'] = intval($form['max_size']);
+    $form['max_size'] = \intval($form['max_size']);
     if ($form['max_size'] < 1) {
         message('Invalid maximum image size.', true);
     }
 
-    $form['thumb_width'] = intval($form['thumb_width']);
+    $form['thumb_width'] = \intval($form['thumb_width']);
     if ($form['thumb_width'] < 1) {
         message('Invalid thumbnail width.', true);
     }
 
-    $form['thumb_height'] = intval($form['thumb_height']);
+    $form['thumb_height'] = \intval($form['thumb_height']);
     if ($form['thumb_height'] < 1) {
         message('Invalid thumbnail height.', true);
     }
 
-    $form['preview_width'] = intval($form['preview_width']);
+    $form['preview_width'] = \intval($form['preview_width']);
     if ($form['preview_width'] < 1) {
         message('Invalid preview width.', true);
     }
 
-    $form['preview_height'] = intval($form['preview_height']);
+    $form['preview_height'] = \intval($form['preview_height']);
     if ($form['preview_height'] < 1) {
         message('Invalid preview height.', true);
     }
 
     $form['first_only'] = (isset($form['first_only']) && 1 == $form['first_only']) ? 1 : 0;
 
-    $form['max_post_files'] = intval($form['max_post_files']);
+    $form['max_post_files'] = \intval($form['max_post_files']);
     if ($form['max_post_files'] < 1) {
         message('Invalid maximum files per post.', true);
     }
 
-    $form['allowed_ext'] = strtolower($form['allowed_ext']);
+    $form['allowed_ext'] = \strtolower($form['allowed_ext']);
 
     foreach ($form as $key => $input) {
         // Only update values that have changed
-        if (array_key_exists('file_'.$key, $pun_config) && $pun_config['file_'.$key] != $input) {
-            if ($input || is_int($input)) {
+        if (\array_key_exists('file_'.$key, $pun_config) && $pun_config['file_'.$key] != $input) {
+            if ($input || \is_int($input)) {
                 $value = '\''.$db->escape($input).'\'';
             } else {
                 $value = 'NULL';
@@ -119,6 +122,7 @@ if (isset($_POST['save'])) {
 } else { // If not, we show the "Show text" form
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Files';
     $focus_element = array('files', 'form[upload_path]');
+
     require_once PUN_ROOT.'header.php';
 
     // Display the admin navigation menu
@@ -137,7 +141,7 @@ if (isset($_POST['save'])) {
 <table class="aligntop" cellspacing="0">
 <tr>
 <td>';
-        echo implode('<br/>', $log);
+        echo \implode('<br/>', $log);
         echo '</td>
 </tr>
 </table>
@@ -161,7 +165,7 @@ if (isset($_POST['save'])) {
 <table class="aligntop" cellspacing="0">
 <tr>
 <td>';
-        echo implode('<br/>', $log);
+        echo \implode('<br/>', $log);
         echo '</td>
 </tr>
 </table>
@@ -185,7 +189,7 @@ if (isset($_POST['save'])) {
 <table class="aligntop" cellspacing="0">
 <tr>
 <td>';
-        echo implode('<br/>', $log);
+        echo \implode('<br/>', $log);
         echo '</td>
 </tr>
 </table>
@@ -209,7 +213,7 @@ if (isset($_POST['save'])) {
 <table class="aligntop" cellspacing="0">
 <tr>
 <td>';
-        echo implode('<br/>', $log);
+        echo \implode('<br/>', $log);
         echo '</td>
 </tr>
 </table>

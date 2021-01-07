@@ -1,13 +1,13 @@
 <?php
 
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', '1.0 mod');
+\define('PUN_PLUGIN_LOADED', 1);
+\define('PLUGIN_VERSION', '1.0 mod');
 
 function RoundSigDigs($number, $sigdigs)
 {
@@ -21,7 +21,7 @@ function RoundSigDigs($number, $sigdigs)
         $multiplier *= 10;
     }
 
-    return round($number, $sigdigs) * $multiplier;
+    return \round($number, $sigdigs) * $multiplier;
 }
 
 if (isset($_POST['lang'])) {
@@ -65,15 +65,15 @@ if (isset($_POST['lang'])) {
     $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') or error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
     while ($cur_lang = $db->fetch_assoc($result)) {
-        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.str_replace('_', ' ', $cur_lang['language']).'</strong><br />';
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.\str_replace('_', ' ', $cur_lang['language']).'</strong><br />';
     }
 
     echo '</td></tr><tr><th scope="row">Язык</th><td>';
 
     $languages = array();
-    $d = dir(PUN_ROOT.'lang');
+    $d = \dir(PUN_ROOT.'lang');
     while (false !== ($entry = $d->read())) {
-        if ('.' != $entry && '..' != $entry && is_dir(PUN_ROOT.'lang/'.$entry)) {
+        if ('.' != $entry && '..' != $entry && \is_dir(PUN_ROOT.'lang/'.$entry)) {
             $languages[] = $entry;
         }
     }
@@ -113,16 +113,16 @@ if (isset($_POST['lang'])) {
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {
-        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.str_replace('_', ' ', $cur_lang['style']).'</strong><br />';
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.\str_replace('_', ' ', $cur_lang['style']).'</strong><br />';
     }
 
     echo '</td></tr><tr><th scope="row">WEB Стиль</th><td>';
 
     $styles = array();
-    $d = dir(PUN_ROOT.'style');
+    $d = \dir(PUN_ROOT.'style');
     while (false !== ($entry = $d->read())) {
-        if ('css' == pathinfo($entry, PATHINFO_EXTENSION)) {
-            $styles[] = pathinfo($entry, PATHINFO_FILENAME);
+        if ('css' == \pathinfo($entry, \PATHINFO_EXTENSION)) {
+            $styles[] = \pathinfo($entry, \PATHINFO_FILENAME);
         }
     }
     $d->close();
@@ -130,7 +130,7 @@ if (isset($_POST['lang'])) {
     echo '<select name="form[style]">';
 
     foreach ($styles as $temp) {
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'">'.\str_replace('_', ' ', $temp).'</option>';
     }
 
     echo '</select>
@@ -160,15 +160,15 @@ if (isset($_POST['lang'])) {
     $number = $db->num_rows($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {
-        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.str_replace('_', ' ', $cur_lang['style_wap']).'</strong><br />';
+        echo $cur_lang['number'].' - '.RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.\str_replace('_', ' ', $cur_lang['style_wap']).'</strong><br />';
     }
 
     echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
 
     $stylesWap = array();
-    $d = dir(PUN_ROOT.'include/template/wap');
+    $d = \dir(PUN_ROOT.'include/template/wap');
     while (false !== ($entry = $d->read())) {
-        if ('.' != $entry[0] && is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
+        if ('.' != $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
             $stylesWap[] = $entry;
         }
     }
@@ -177,7 +177,7 @@ if (isset($_POST['lang'])) {
     echo '<select name="form[style_wap]">';
 
     foreach ($stylesWap as $temp) {
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'">'.\str_replace('_', ' ', $temp).'</option>';
     }
 
     echo '</select>

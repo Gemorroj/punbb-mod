@@ -1,12 +1,14 @@
 <?php
 
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 // Tell common.php that we don't want output buffering
-define('PUN_DISABLE_BUFFERING', 1);
+\define('PUN_DISABLE_BUFFERING', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -17,13 +19,13 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 }
 
 if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
-    $per_page = intval($_GET['i_per_page']);
-    $start_at = intval($_GET['i_start_at']);
+    $per_page = \intval($_GET['i_per_page']);
+    $start_at = \intval($_GET['i_start_at']);
     if ($per_page < 1 || $start_at < 1) {
         message($lang_common['Bad request']);
     }
 
-    @set_time_limit(0);
+    @\set_time_limit(0);
 
     // If this is the first cycle of posts we empty the search index before we proceed
     if (isset($_GET['i_empty_index'])) {
@@ -49,6 +51,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     <style type="text/css">body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style>
 </head>
 <body><div>'.$lang_admin['maintenance_go'].'<br /><br />';
+
     include PUN_ROOT.'include/search_idx.php';
 
     // Fetch posts to process
@@ -58,7 +61,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
         if ($cur_post[0] != $cur_topic) {
             // Fetch subject and ID of first post in topic
             $result2 = $db->query('SELECT p.id, t.subject, MIN(p.posted) AS first FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id WHERE t.id='.$cur_post[0].' GROUP BY p.id, t.subject ORDER BY first LIMIT 1') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
-            list($first_post, $subject) = $db->fetch_row($result2);
+            [$first_post, $subject] = $db->fetch_row($result2);
 
             $cur_topic = $cur_post[0];
         }
@@ -92,6 +95,7 @@ if ($db->num_rows($result)) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Maintenance';
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('maintenance');

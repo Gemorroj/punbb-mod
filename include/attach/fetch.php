@@ -16,19 +16,22 @@ $attachments: array - cache of attachments records
  */
 
 // there are different sources to include fetch.php
-switch (basename($_SERVER['PHP_SELF'])) {
+switch (\basename($_SERVER['PHP_SELF'])) {
     case 'viewtopic.php':
-        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.intval($id).' AND post_id IN ('.implode(',', array_map('intval', $pids)).')';
+        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.\intval($id).' AND post_id IN ('.\implode(',', \array_map('intval', $pids)).')';
 
         break;
+
     case 'hide.php':
-        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.intval($id).' AND post_id = '.intval($cur_post['id']);
+        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.\intval($id).' AND post_id = '.\intval($cur_post['id']);
 
         break;
+
     case 'edit.php':
-        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE post_id='.intval($id);
+        $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE post_id='.\intval($id);
 
         break;
+
     default:
         $att_sql = null;
 

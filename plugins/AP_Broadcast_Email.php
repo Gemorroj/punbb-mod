@@ -1,34 +1,34 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
+\define('PUN_PLUGIN_LOADED', 1);
 
 // Confirm Page
 
 if (isset($_POST['confirm'])) {
     // Make sure message body was entered
-    if (!trim($_POST['message_body'])) {
+    if (!\trim($_POST['message_body'])) {
         message('Вы не ввели тело письма!');
     }
 
     // Make sure message subject was entered
-    if (!trim($_POST['message_subject'])) {
+    if (!\trim($_POST['message_subject'])) {
         message('Вы не ввели тему письма!');
     }
 
     // Make sure group id was entered
-    if ('' == !trim($_POST['g_id'])) {
+    if ('' == !\trim($_POST['g_id'])) {
         message('Вы не выбрали группу!');
     }
 
     // Display the admin navigation menu
     generate_admin_menu($plugin);
 
-    $preview_message_body = nl2br(pun_htmlspecialchars($_POST['message_body']));
+    $preview_message_body = \nl2br(pun_htmlspecialchars($_POST['message_body']));
 
     if (0 != $_POST['g_id']) {
         $adv = 'and group_id = '.$_POST['g_id'];
@@ -116,7 +116,7 @@ if (isset($_POST['confirm'])) {
             $addresses[$row['username']] = $row['email'];
         }
 
-        $usercount = count($addresses);
+        $usercount = \count($addresses);
 
         foreach ($addresses as $recipientname => $recipientemail) {
             $mail_to = $recipientname.' <'.$recipientemail.'>';

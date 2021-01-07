@@ -1,27 +1,27 @@
 <?php
 
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
-$footer_style = isset($footer_style) ? $footer_style : '';
-$tpl_temp = trim(ob_get_contents());
-$tpl_main = str_replace('<pun_main>', $tpl_temp, $tpl_main);
-ob_end_clean();
+$footer_style = $footer_style ?? '';
+$tpl_temp = \trim(\ob_get_contents());
+$tpl_main = \str_replace('<pun_main>', $tpl_temp, $tpl_main);
+\ob_end_clean();
 // END SUBST - <pun_main>
 
 // JS_HELPER MOD BEGIN
 if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countInternal() > 0) {
     JsHelper::getInstance()->addFirst('//code.jquery.com/jquery-3.5.1.min.js');
-    $tpl_main = str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
+    $tpl_main = \str_replace('<pun_js_helper>', JsHelper::getInstance()->headerOut(), $tpl_main);
 } else {
-    $tpl_main = str_replace('<pun_js_helper>', '', $tpl_main);
+    $tpl_main = \str_replace('<pun_js_helper>', '', $tpl_main);
 }
 // JS_HELPER MOD END
 
 // START SUBST - <pun_footer>
-ob_start();
+\ob_start();
 
 echo '<div id="brdfooter" class="block"><h2><span>'.$lang_common['Board footer'].'</span></h2><div class="box"><div class="inbox">';
 
@@ -74,16 +74,16 @@ if ('index' == $footer_style || 'search' == $footer_style) {
 }
 
 // $db->get_num_queries() - show sql queries
-echo '<p class="conr"><strong><a href="/">'.parse_url($pun_config['o_base_url'], PHP_URL_HOST).'</a></strong></p><p class="conr">PunBB Mod v'.pun_htmlspecialchars($pun_config['o_show_version']).'<br />'.sprintf('%.3f', microtime(true) - $pun_start).' s</p><div class="clearer"></div></div></div></div>';
+echo '<p class="conr"><strong><a href="/">'.\parse_url($pun_config['o_base_url'], \PHP_URL_HOST).'</a></strong></p><p class="conr">PunBB Mod v'.pun_htmlspecialchars($pun_config['o_show_version']).'<br />'.\sprintf('%.3f', \microtime(true) - $pun_start).' s</p><div class="clearer"></div></div></div></div>';
 
 // Display executed queries (if enabled)
-if (defined('PUN_SHOW_QUERIES')) {
+if (\defined('PUN_SHOW_QUERIES')) {
     display_saved_queries();
 }
 
-$tpl_temp = trim(ob_get_contents());
-$tpl_main = str_replace('<pun_footer>', $tpl_temp, $tpl_main);
-ob_end_clean();
+$tpl_temp = \trim(\ob_get_contents());
+$tpl_main = \str_replace('<pun_footer>', $tpl_temp, $tpl_main);
+\ob_end_clean();
 // END SUBST - <pun_footer>
 
 // Close the db connection (and free up any result data)

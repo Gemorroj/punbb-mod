@@ -1,7 +1,7 @@
 <?php
 
-define('PUN_ROOT', '../');
-define('PUN_ALLOW_INDEX', 1); //?
+\define('PUN_ROOT', '../');
+\define('PUN_ALLOW_INDEX', 1); //?
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -86,7 +86,7 @@ $result = $db->query(
 .'LIMIT 1'
 )
 or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
-list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
+[$stats['total_topics'], $stats['total_posts']] = $db->fetch_row($result);
 
 $num_guests = $num_users = 0;
 $users = array();
@@ -109,7 +109,7 @@ if (1 == $pun_config['o_users_online']) {
     }
 
     if ($users) {
-        $num_users = count($users);
+        $num_users = \count($users);
     }
 }
 
@@ -133,10 +133,11 @@ $smarty->assign('lang_index', $lang_index);
 $smarty->assign('lang_pms', $lang_pms);
 $smarty->assign('pun_user', $pun_user);
 $smarty->assign('stats', $stats);
-$smarty->assign('logout', sha1($pun_user['id'].sha1(get_remote_address())));
+$smarty->assign('logout', \sha1($pun_user['id'].\sha1(get_remote_address())));
 $smarty->assign('users', $users);
 $smarty->assign('num_users', $num_users);
 $smarty->assign('num_guests', $num_guests);
 
 $smarty->display('index.tpl');
+
 exit();

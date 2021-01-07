@@ -1,9 +1,11 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 // Mod InstantQuote
@@ -11,13 +13,14 @@ require PUN_ROOT.'include/file_upload.php';
 // // Mod InstantQuote
 
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
-$pid = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$pid = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($pid < 1) {
     wap_message($lang_common['Bad request']);
 }
@@ -56,7 +59,7 @@ for ($i = 0; $i < $num_posts; ++$i) {
 
 ++$i; // we started at 0
 
-$_GET['p'] = ceil($i / $pun_user['disp_posts']);
+$_GET['p'] = \ceil($i / $pun_user['disp_posts']);
 
 // Fetch some info about the topic
 if (!$pun_user['is_guest']) {
@@ -87,7 +90,7 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-    $cur_time = time();
+    $cur_time = \time();
     $message_stack = array();
     if (null == $cur_topic['log_time']) {
         $result = $db->query('
@@ -152,8 +155,8 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? unserialize($cur_topic['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 /*
 // Can we or can we not post replies?
@@ -200,7 +203,8 @@ if (1 == $pun_config['o_censoring']) {
 
 $page_title = $pun_config['o_board_title'].' / '.$cur_topic['subject'];
 
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ALLOW_INDEX', 1);
+
 require_once PUN_ROOT.'wap/header.php';
 
 include_once PUN_ROOT.'include/parser.php';
@@ -213,11 +217,11 @@ if (1 == $pun_config['poll_enabled']) {
 
     if ($cur_topic['has_poll']) {
         if (isset($_POST['pollid']) && $_POST['pollid']) {
-            if (is_array($_POST['poll_vote'])) {
+            if (\is_array($_POST['poll_vote'])) {
                 foreach ($_POST['poll_vote'] as $var) {
                     $q .= $var.'='.$var.'&';
                 }
-                $q = rtrim($q, '&');
+                $q = \rtrim($q, '&');
             } else {
                 $q = 'poll_vote='.$_POST['poll_vote'];
             }

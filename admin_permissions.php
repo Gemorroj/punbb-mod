@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -16,11 +18,11 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 if (isset($_POST['form_sent'])) {
     //confirm_referrer('admin_permissions.php');
 
-    $form = array_map('intval', $_POST['form']);
+    $form = \array_map('intval', $_POST['form']);
 
     foreach ($form as $key => $input) {
         // Only update values that have changed
-        if (array_key_exists('p_'.$key, $pun_config) && $pun_config['p_'.$key] != $input) {
+        if (\array_key_exists('p_'.$key, $pun_config) && $pun_config['p_'.$key] != $input) {
             $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$input.' WHERE conf_name=\'p_'.$db->escape($key).'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
@@ -33,6 +35,7 @@ if (isset($_POST['form_sent'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Permissions';
+
 require_once PUN_ROOT.'header.php';
 generate_admin_menu('permissions');
 

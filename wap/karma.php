@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -19,6 +19,7 @@ if (null !== $to) {
         $id = $to;
     } else {
         wap_redirect('viewtopic.php?pid='.$pid.'#p'.$pid);
+
         exit();
     }
 }
@@ -76,7 +77,7 @@ $num_hits = $karma['plus'] + $karma['minus'];
 
 if ($num_hits) {
     //+ Pagination
-    $num_pages = ceil($num_hits / $pun_user['disp_posts']);
+    $num_pages = \ceil($num_hits / $pun_user['disp_posts']);
     $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start = ($p - 1) * $pun_user['disp_posts'];
     if ('all' == @$_GET['action']) {

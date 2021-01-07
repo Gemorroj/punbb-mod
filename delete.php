@@ -1,13 +1,14 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     message($lang_common['Bad request']);
 }
@@ -21,8 +22,8 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? unserialize($cur_post['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
 $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -61,6 +62,7 @@ if (isset($_POST['delete'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_delete['Delete post'];
+
 require_once PUN_ROOT.'header.php';
 
 include_once PUN_ROOT.'include/parser.php';

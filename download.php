@@ -1,6 +1,7 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
@@ -10,7 +11,7 @@ if (!$pun_user['g_read_board']) {
 if (!isset($_GET['aid'])) {
     error('Invalid image parameters', __FILE__, __LINE__);
 }
-$aid = intval($_GET['aid']);
+$aid = \intval($_GET['aid']);
 
 // Retrieve attachment info and permissions
 $result_attach = $db->query(
@@ -27,20 +28,20 @@ if (!$db->num_rows($result_attach)) {
     error('There are no attachment or access denied', __FILE__, __LINE__);
 }
 
-list($file, $location, $mime, $poster_id, $moderators, $file_download) = $db->fetch_row($result_attach);
+[$file, $location, $mime, $poster_id, $moderators, $file_download] = $db->fetch_row($result_attach);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = array();
 if ($moderators) {
-    $mods_array = unserialize($moderators);
+    $mods_array = \unserialize($moderators);
 }
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 $can_download = (!$file_download && 1 == $pun_user['g_file_download']) || 1 == $file_download || $is_admmod;
 
 // author of post always can download his attachments
 // other users can has rights or not
 
-$is_image = preg_match('/^image\/(?:.*)$/i', $mime);
+$is_image = \preg_match('/^image\/(?:.*)$/i', $mime);
 
 if (!$can_download && !($poster_id == $pun_user['id'])) {
     if ($is_image) {
@@ -51,7 +52,7 @@ if (!$can_download && !($poster_id == $pun_user['id'])) {
     }
 }
 
-if (!is_file($location)) {
+if (!\is_file($location)) {
     error($location.' - this file does not exist', __FILE__, __LINE__);
 }
 

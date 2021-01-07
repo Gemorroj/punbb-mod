@@ -1,7 +1,8 @@
 <?php
-define('PUN_HELP', 1);
+\define('PUN_HELP', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
@@ -12,6 +13,7 @@ if (!$pun_user['g_read_board']) {
 require PUN_ROOT.'lang/'.$pun_user['language'].'/help.php';
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_help['Help'];
+
 require_once PUN_ROOT.'header.php';
 
 ?>
@@ -103,7 +105,7 @@ require_once PUN_ROOT.'header.php';
 // Display the smiley set
 include_once PUN_ROOT.'include/parser.php';
 
-$num_smilies = count($smiley_text);
+$num_smilies = \count($smiley_text);
 for ($i = 0; $i < $num_smilies; ++$i) {
     // Is there a smiley at the current index?
     if (!isset($smiley_text[$i])) {

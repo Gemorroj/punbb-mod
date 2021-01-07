@@ -1,14 +1,17 @@
 <?php
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     message($lang_common['Bad request']);
 }
@@ -22,8 +25,8 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? unserialize($cur_post['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
 $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -45,16 +48,16 @@ if ($pun_user['is_guest']) {
     $uploaded_to_post = $db->fetch_row($result);
     $uploaded_to_post = $uploaded_to_post[0];
 
-    $forum_file_limit = ($cur_post['file_limit']) ? intval($cur_post['file_limit']) : intval($pun_user['g_file_limit']);
+    $forum_file_limit = ($cur_post['file_limit']) ? \intval($cur_post['file_limit']) : \intval($pun_user['g_file_limit']);
 
     $global_file_limit = $pun_user['g_file_limit'] + $pun_user['file_bonus'];
 
-    $topic_file_limit = intval($pun_config['file_max_post_files']);
+    $topic_file_limit = \intval($pun_config['file_max_post_files']);
 
     if (PUN_ADMIN == $pun_user['g_id']) {
         $file_limit = 100; // just unlimited
     } else {
-        $file_limit = min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit - $uploaded_to_post);
+        $file_limit = \min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit - $uploaded_to_post);
     }
 }
 
@@ -85,10 +88,10 @@ if (isset($_POST['form_sent'])) {
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } elseif (mb_strlen($subject) > 70) {
+        } elseif (\mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
-            $subject = ucwords(mb_strtolower($subject));
+        } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+            $subject = \ucwords(\mb_strtolower($subject));
         }
     }
 
@@ -97,14 +100,14 @@ if (isset($_POST['form_sent'])) {
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } elseif (mb_strlen($message) > 65535) {
+    } elseif (\mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
-        $message = ucwords(mb_strtolower($message));
+    } elseif (!$pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+        $message = \ucwords(\mb_strtolower($message));
     }
 
     // Validate BBCode syntax
-    if (1 == $pun_config['p_message_bbcode'] && false !== strpos($message, '[') && false !== strpos($message, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
         include_once PUN_ROOT.'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
@@ -116,7 +119,7 @@ if (isset($_POST['form_sent'])) {
 
     // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
-        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited='.time().', edited_by=\''.$db->escape($pun_user['username']).'\'' : '';
+        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited='.\time().', edited_by=\''.$db->escape($pun_user['username']).'\'' : '';
 
         include PUN_ROOT.'include/search_idx.php';
 
@@ -148,6 +151,7 @@ if (isset($_POST['form_sent'])) {
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_post['Edit post'];
 $required_fields = array('req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message']);
 $focus_element = array('edit', 'req_message');
+
 require_once PUN_ROOT.'header.php';
 
 echo '<div class="linkst">
@@ -206,14 +210,16 @@ if ($errors) {
     ?>
                         <label><?php echo $lang_common['Subject']; ?><br/>
                             <input class="longinput" type="text" name="req_subject" size="80" maxlength="70"
-                                   value="<?php echo pun_htmlspecialchars(isset($_POST['req_subject']) ? $_POST['req_subject'] : $cur_post['subject']); ?>"/><br/></label>
+                                   value="<?php echo pun_htmlspecialchars($_POST['req_subject'] ?? $cur_post['subject']); ?>"/><br/></label>
                         <?php
 }
+
                         require PUN_ROOT.'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
                         if (1 == $pun_config['file_popup_info']) {
                             include PUN_ROOT.'include/attach/popup_data.php';
                         }
+
                         require PUN_ROOT.'include/attach/post_buttons.php';
                         ?>
                         <label>
@@ -238,10 +244,11 @@ if ($errors) {
 // $file_limit will grow up when user delete files and become lower on each upload
 // but numer of rows is less or equal 20
 $num_to_upload = $file_limit /* + $uploaded_to_post*/;
-$num_to_upload = min($num_to_upload, 20);
+$num_to_upload = \min($num_to_upload, 20);
 if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
     include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
     echo '<br class="clearb" /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
+
     include PUN_ROOT.'include/attach/view_attachments.php';
     if ($can_upload && $num_to_upload > 0) {
         include PUN_ROOT.'include/attach/post_input.php';
@@ -272,7 +279,7 @@ if ($checkboxes) {
 <fieldset>
 <legend>'.$lang_common['Options'].'</legend>
 <div class="infldset">
-<div class="rbox">'.implode('</label>', $checkboxes).'</label>
+<div class="rbox">'.\implode('</label>', $checkboxes).'</label>
 </div>
 </div>
 </fieldset>';

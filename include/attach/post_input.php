@@ -1,12 +1,12 @@
 <?php
 
 echo '<div class="infldset txtarea"><div id="divAttachRules" style="display:none;"><em>';
-printf($lang_fu['File Upload limits'], $file_limit, $pun_config['file_max_size'] / 1024, ($pun_config['file_max_width'].'x'.$pun_config['file_max_height']), $pun_config['file_allowed_ext']);
+\printf($lang_fu['File Upload limits'], $file_limit, $pun_config['file_max_size'] / 1024, ($pun_config['file_max_width'].'x'.$pun_config['file_max_height']), $pun_config['file_allowed_ext']);
 echo '</em>';
 
-if (defined('PUN_DEBUG')) {
+if (\defined('PUN_DEBUG')) {
     echo '<br /><em>';
-    printf($lang_fu['Personal stats'], $pun_user['g_file_limit'], $pun_user['file_bonus'], $pun_user['num_files'], $forum_file_limit, $uploaded_to_forum);
+    \printf($lang_fu['Personal stats'], $pun_user['g_file_limit'], $pun_user['file_bonus'], $pun_user['num_files'], $forum_file_limit, $uploaded_to_forum);
     echo '</em>';
 }
 
@@ -25,7 +25,7 @@ if ($num_to_upload >= 2) {
 </div>
 <div id="divImage2" style="display:none;">';
 
-    for ($i = 2, $a = min(5, $num_to_upload); $i <= $a; ++$i) {
+    for ($i = 2, $a = \min(5, $num_to_upload); $i <= $a; ++$i) {
         echo '<div class="floated" id="input_'.$i.'"><span><a href="#" onclick="return insert_text(\'\',\' ::thumb$'.$i.':: \');">#'.$i.'</a> </span><input type="file" name="attach[]" size="50" /></div>';
     } ?>
 <div id="addMoreFiles2" class="fine_print">

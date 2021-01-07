@@ -106,7 +106,7 @@ class Informer
         $topicId = $args['topicId'];
         $hideSmiles = $args['hideSmiles'];
 
-        $topicId = intval($topicId);
+        $topicId = \intval($topicId);
         if ($topicId <= 0) {
             throw new Exception($this->_lang['Bad request']);
         }
@@ -123,11 +123,11 @@ class Informer
         if (!$message) {
             throw new Exception($this->_lang['Bad request']);
         }
-        if (mb_strlen($message) > 65535) {
+        if (\mb_strlen($message) > 65535) {
             throw new Exception($this->_lang['Bad request']);
         }
-        if (!$this->_pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $this->_pun_user['g_id'] > PUN_MOD) {
-            $message = ucwords(mb_strtolower($message));
+        if (!$this->_pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $this->_pun_user['g_id'] > PUN_MOD) {
+            $message = \ucwords(\mb_strtolower($message));
         }
         convert_forum_url($message);
 
@@ -140,7 +140,7 @@ class Informer
                 '.$this->_pun_user['id'].',
                 \''.get_remote_address().'\',
                 \''.$this->_db->escape($message).'\',
-                \''.intval($hideSmiles).'\',
+                \''.\intval($hideSmiles).'\',
                 '.$_SERVER['REQUEST_TIME'].',
                 '.$topicId.'
             )
@@ -212,7 +212,7 @@ class Informer
         if (!$this->_pun_user['g_read_board']) {
             throw new Exception($this->_lang['No view']);
         }
-        if (!$id || $id < 1 || !is_numeric($id)) {
+        if (!$id || $id < 1 || !\is_numeric($id)) {
             throw new Exception($this->_lang['Bad request']);
         }
 
@@ -262,7 +262,7 @@ class Informer
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
             throw new Exception($this->_lang['No view']);
         }
-        if (!$id || $id < 1 || !is_numeric($id)) {
+        if (!$id || $id < 1 || !\is_numeric($id)) {
             throw new Exception($this->_lang['Bad request']);
         }
 
@@ -307,7 +307,7 @@ class Informer
         if ($this->_pun_user['is_guest'] || !$this->_pun_user['g_pm'] || !$this->_pun_user['messages_enable'] || !$this->_pun_config['o_pms_enabled']) {
             throw new Exception($this->_lang['No view']);
         }
-        if (!$limit || $limit < 1 || !is_numeric($limit)) {
+        if (!$limit || $limit < 1 || !\is_numeric($limit)) {
             throw new Exception($this->_lang['Bad request']);
         }
 
@@ -350,7 +350,7 @@ class Informer
      */
     private function _parseMessage($message, $hide_smilies = false)
     {
-        require_once dirname(__FILE__).'/../parser.php';
+        require_once \dirname(__FILE__).'/../parser.php';
 
         return parse_message($message, $hide_smilies);
     }

@@ -1,19 +1,21 @@
 <?php
 
-define('PUN_ROOT', '../');
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ROOT', '../');
+\define('PUN_ALLOW_INDEX', 1);
 
 require_once PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require_once PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
-$action = isset($_GET['action']) ? $_GET['action'] : null;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
+$pid = isset($_GET['pid']) ? \intval($_GET['pid']) : 0;
+$action = $_GET['action'] ?? null;
 
 if ($id < 1 && $pid < 1) {
     wap_message($lang_common['Bad request']);
@@ -41,7 +43,7 @@ if ($pid) {
 
     ++$i; // we started at 0
 
-    $_GET['p'] = ceil($i / $pun_user['disp_posts']);
+    $_GET['p'] = \ceil($i / $pun_user['disp_posts']);
 } elseif ('new' == $action && !$pun_user['is_guest']) {
     // If action=new, we redirect to the first new post (if any)
 
@@ -116,14 +118,14 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? unserialize($cur_topic['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not download attachments?
 $can_download = (!$cur_topic['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_topic['file_download'] || $is_admmod;
 
 // Determine the post offset (based on $_GET['p'])
-$num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+$num_pages = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 $start_from = $pun_user['disp_posts'] * ($p - 1);
 
@@ -149,9 +151,9 @@ if (1 == $pun_config['o_censoring']) {
 
 // !$pun_user['is_guest'] && - wft?
 $quickpost = false;
-if (1 == $pun_config['o_quickpost'] &&
+if (1 == $pun_config['o_quickpost']
 // !$pun_user['is_guest'] &&
-    (1 == $cur_topic['post_replies'] || (!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies'])) && (!$cur_topic['closed'] || $is_admmod)
+    && (1 == $cur_topic['post_replies'] || (!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies'])) && (!$cur_topic['closed'] || $is_admmod)
 ) {
     $quickpost = true;
 }
@@ -165,11 +167,11 @@ if (1 == $pun_config['poll_enabled']) {
         $warning = '';
         if (@$_POST['pollid']) {
             $q = '';
-            if (is_array($_POST['poll_vote'])) {
+            if (\is_array($_POST['poll_vote'])) {
                 foreach ($_POST['poll_vote'] as $var) {
                     $q .= $var.'='.$var.'&';
                 }
-                $q = rtrim($q, '&');
+                $q = \rtrim($q, '&');
             } else {
                 $q = 'poll_vote='.$_POST['poll_vote'];
             }
@@ -253,7 +255,9 @@ $db->query('UPDATE '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$i
 
 // Load the viewtopic.php language file
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
+
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
+
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 require_once PUN_ROOT.'wap/header.php';

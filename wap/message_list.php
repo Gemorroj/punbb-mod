@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -14,22 +14,27 @@ if ($pun_user['is_guest']) {
 
 // Load the message.php language file
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
+
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
+
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
 require_once PUN_ROOT.'wap/header.php';
 
 $box = isset($_GET['box']) ? (int) $_GET['box'] : null;
+
 switch ($box) {
     default:
         $box = 0;
         $name = $lang_pms['Inbox'];
 
         break;
+
     case 1:
         $name = $lang_pms['Outbox'];
 
         break;
+
     case 2:
         $name = $lang_pms['Options'];
 
@@ -46,20 +51,20 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         //Check this is legit
         //confirm_referrer('message_list.php');
 
-        if (preg_match('/[^0-9,]/', $_POST['messages']) || !trim($_POST['messages'])) {
+        if (\preg_match('/[^0-9,]/', $_POST['messages']) || !\trim($_POST['messages'])) {
             wap_message($lang_common['Bad request']);
         }
 
         // Delete messages
         $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN('.$_POST['messages'].') AND owner=\''.$pun_user['id'].'\'') or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
-        wap_redirect('message_list.php?box='.intval($_POST['box']));
+        wap_redirect('message_list.php?box='.\intval($_POST['box']));
     } else {
         $page_title = $pun_config['o_board_title'].' / '.$lang_pms['Multidelete'];
-        $idlist = is_array($_POST['delete_messages']) ? array_map('intval', $_POST['delete_messages']) : array();
+        $idlist = \is_array($_POST['delete_messages']) ? \array_map('intval', $_POST['delete_messages']) : array();
 
         $smarty->assign('page_title', $page_title);
         $smarty->assign('lang_pms', $lang_pms);
-        $smarty->assign('idlist_str', implode(',', array_values($idlist)));
+        $smarty->assign('idlist_str', \implode(',', \array_values($idlist)));
         //$smarty->assign('', $);
 
         $smarty->display('message_list.delete_messages.tpl');
@@ -79,10 +84,10 @@ $smarty->assign('page_title', $page_title);
 if ($box < 2) {
     // Get message count
     $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) or error('Unable to count messages', __FILE__, __LINE__, $db->error());
-    list($num_messages) = $db->fetch_row($result);
+    [$num_messages] = $db->fetch_row($result);
 
     //What page are we on?
-    $num_pages = ceil($num_messages / $pun_config['o_pms_mess_per_page']);
+    $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
     if ('all' != @$_GET['action']) {
@@ -98,7 +103,7 @@ if ($box < 2) {
         //Yes! Lets get the details
         // Set user
         $result = $db->query('SELECT status,owner FROM '.$db->prefix.'messages WHERE id='.$id) or error('Unable to get message status', __FILE__, __LINE__, $db->error());
-        list($status, $owner) = $db->fetch_row($result);
+        [$status, $owner] = $db->fetch_row($result);
         0 == $status ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
         $result = $db->query('
@@ -132,7 +137,7 @@ if ($box < 2) {
         }
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
-        $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
+        $cur_post['smileys'] = $cur_post['smileys'] ?? $pun_user['show_smilies'];
         $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys'], $cur_post['id']);
         $cur_post['user_avatar'] = pun_show_avatar();
     }
@@ -140,8 +145,8 @@ if ($box < 2) {
     if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST) {
         // Get total message count
         $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) or error('Unable to count messages', __FILE__, __LINE__, $db->error());
-        list($tot_messages) = $db->fetch_row($result);
-        $proc = ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
+        [$tot_messages] = $db->fetch_row($result);
+        $proc = \ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
     }
 
     // Fetch messages

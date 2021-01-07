@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -19,10 +21,10 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 
         $prune_from = $_POST['prune_from'];
         $prune_sticky = isset($_POST['prune_sticky']) ? 1 : 0;
-        $prune_days = intval($_POST['prune_days']);
-        $prune_date = ($prune_days) ? time() - ($prune_days * 86400) : -1;
+        $prune_days = \intval($_POST['prune_days']);
+        $prune_date = ($prune_days) ? \time() - ($prune_days * 86400) : -1;
 
-        @set_time_limit(0);
+        @\set_time_limit(0);
 
         if ('all' == $prune_from) {
             $result = $db->query('SELECT id FROM '.$db->prefix.'forums') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
@@ -35,7 +37,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                 update_forum($fid);
             }
         } else {
-            $prune_from = intval($prune_from);
+            $prune_from = \intval($prune_from);
             prune($prune_from, $prune_sticky, $prune_date);
             update_forum($prune_from);
         }
@@ -50,18 +52,18 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                 $orphans[] = $db->result($result, $i);
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
         }
 
         redirect('admin_prune.php', $lang_admin['Cleared'].' '.$lang_admin['Redirect']);
     }
 
     $prune_days = $_POST['req_prune_days'];
-    if (!@preg_match('#^\d+$#', $prune_days)) {
+    if (!@\preg_match('#^\d+$#', $prune_days)) {
         message($lang_admin['Prune days not numeric']);
     }
 
-    $prune_date = time() - ($prune_days * 86400);
+    $prune_date = \time() - ($prune_days * 86400);
     $prune_from = $_POST['prune_from'];
 
     // Concatenate together the query for counting number or topics to prune
@@ -72,7 +74,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     }
 
     if ('all' != $prune_from) {
-        $prune_from = intval($prune_from);
+        $prune_from = \intval($prune_from);
         $sql .= ' AND forum_id='.$prune_from;
 
         // Fetch the forum name (just for cosmetic reasons)
@@ -90,6 +92,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
+
     require_once PUN_ROOT.'header.php';
 
     generate_admin_menu('prune'); ?>
@@ -124,6 +127,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
     $required_fields = array('req_prune_days' => 'Days old');
     $focus_element = array('prune', 'req_prune_days');
+
     require_once PUN_ROOT.'header.php';
 
     generate_admin_menu('prune'); ?>

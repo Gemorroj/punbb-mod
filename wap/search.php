@@ -1,11 +1,14 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require_once PUN_ROOT.'include/common.php';
+
 require_once PUN_ROOT.'wap/header.php';
 
 // Load the search.php language file
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/search.php';
+
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_user['g_read_board']) {
@@ -16,7 +19,7 @@ if (!$pun_user['g_read_board']) {
 
 // Figure out what to do :-)
 if (isset($_GET['action']) || isset($_GET['search_id'])) {
-    $forum = (isset($_GET['forum'])) ? intval($_GET['forum']) : -1;
+    $forum = (isset($_GET['forum'])) ? \intval($_GET['forum']) : -1;
     $sort_dir = (isset($_GET['sort_dir'])) ? (('DESC' == $_GET['sort_dir']) ? 'DESC' : 'ASC') : 'DESC';
     if (isset($search_id)) {
         unset($search_id);
@@ -24,7 +27,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
     // If a search_id was supplied
     if (isset($_GET['search_id'])) {
-        $search_id = intval($_GET['search_id']);
+        $search_id = \intval($_GET['search_id']);
         if ($search_id < 1) {
             wap_message($lang_common['Bad request']);
         }
@@ -32,14 +35,14 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // If it's a regular search (keywords and/or author)
 
         // UTF FIX BEGIN
-        $keywords = (isset($_GET['keywords'])) ? mb_strtolower(trim($_GET['keywords'])) : null;
-        $author = (isset($_GET['author'])) ? mb_strtolower(trim($_GET['author'])) : null;
+        $keywords = (isset($_GET['keywords'])) ? \mb_strtolower(\trim($_GET['keywords'])) : null;
+        $author = (isset($_GET['author'])) ? \mb_strtolower(\trim($_GET['author'])) : null;
 
-        if (preg_match('#^[\*%]+$#', $keywords) || mb_strlen(str_replace(array('*', '%'), '', $keywords)) < 3) {
+        if (\preg_match('#^[\*%]+$#', $keywords) || \mb_strlen(\str_replace(array('*', '%'), '', $keywords)) < 3) {
             $keywords = null;
         }
 
-        if (preg_match('#^[\*%]+$#', $author) || mb_strlen(str_replace(array('*', '%'), '', $author)) < 3) {
+        if (\preg_match('#^[\*%]+$#', $author) || \mb_strlen(\str_replace(array('*', '%'), '', $author)) < 3) {
             $author = null;
         }
         // UTF FIX END
@@ -49,15 +52,15 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }
 
         if ($author) {
-            $author = str_replace('*', '%', $author);
+            $author = \str_replace('*', '%', $author);
         }
 
         $show_as = (isset($_GET['show_as'])) ? $_GET['show_as'] : 'posts';
-        $sort_by = intval($_GET['sort_by']);
+        $sort_by = \intval($_GET['sort_by']);
         $search_in = (!isset($_GET['search_in']) || 'all' == $_GET['search_in']) ? 0 : (('message' == $_GET['search_in']) ? 1 : -1);
     } elseif ('show_user' == $_GET['action']) {
         // If it's a user search (by id)
-        $user_id = intval($_GET['user_id']);
+        $user_id = \intval($_GET['user_id']);
         if ($user_id < 2) {
             wap_message($lang_common['Bad request']);
         }
@@ -79,7 +82,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         ') or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
         if ($row = $db->fetch_assoc($result)) {
-            $temp = unserialize($row['search_data']);
+            $temp = \unserialize($row['search_data']);
 
             $search_results = $temp['search_results'];
             $num_hits = $temp['num_hits'];
@@ -100,30 +103,30 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         if (@$author || @$keywords) {
             // If it's a search for keywords
             if ($keywords) {
-                $stopwords = file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
-                $stopwords = array_map('trim', $stopwords);
+                $stopwords = \file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
+                $stopwords = \array_map('trim', $stopwords);
 
                 // Filter out non-alphabetical chars
-                $keywords = str_replace(
-                    array('^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '[', ']', '{', '}', ':', '\\', '/', '=', '#', "'", ';', '!', chr(239)),
+                $keywords = \str_replace(
+                    array('^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '[', ']', '{', '}', ':', '\\', '/', '=', '#', "'", ';', '!', \chr(239)),
                     array(' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' '),
                     $keywords
                 );
 
                 // Strip out excessive whitespace
-                $keywords = trim(preg_replace('#\s+#', ' ', $keywords));
+                $keywords = \trim(\preg_replace('#\s+#', ' ', $keywords));
 
                 // Fill an array with all the words
-                $keywords_array = explode(' ', $keywords);
+                $keywords_array = \explode(' ', $keywords);
 
                 if (!$keywords_array) {
                     wap_message($lang_search['No hits']);
                 }
 
                 foreach ($keywords_array as $i => $word) {
-                    $num_chars = mb_strlen($word);
+                    $num_chars = \mb_strlen($word);
 
-                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || in_array($word, $stopwords))) {
+                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || \in_array($word, $stopwords))) {
                         unset($keywords_array[$i]);
                     }
                 }
@@ -134,7 +137,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 $word_count = 0;
                 $match_type = 'and';
                 $result_list = array();
-                reset($keywords_array);
+                \reset($keywords_array);
                 foreach ($keywords_array as $cur_word) {
                     switch ($cur_word) {
                         case 'and':
@@ -143,8 +146,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                             $match_type = $cur_word;
 
                             break;
+
                         default:
-                            $cur_word = $db->escape(str_replace('*', '%', $cur_word));
+                            $cur_word = $db->escape(\str_replace('*', '%', $cur_word));
                             $sql = '
                                 SELECT m.post_id
                                 FROM '.$db->prefix.'search_words AS w
@@ -167,7 +171,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                             }
 
                             if ('and' == $match_type && $word_count) {
-                                reset($result_list);
+                                \reset($result_list);
                                 foreach ($result_list as $post_id => $post) {
                                     if (!isset($row[$post_id])) {
                                         $result_list[$post_id] = 0;
@@ -182,7 +186,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     }
                 }
 
-                reset($result_list);
+                \reset($result_list);
                 foreach ($result_list as $post_id => $matches) {
                     if ($matches) {
                         $keyword_results[] = $post_id;
@@ -193,7 +197,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             }
 
             // If it's a search for author name (and that author name isn't Guest)
-            if ($author && strcasecmp($author, 'Guest') && strcasecmp($author, $lang_common['Guest'])) {
+            if ($author && \strcasecmp($author, 'Guest') && \strcasecmp($author, $lang_common['Guest'])) {
                 $result = $db->query('
                     SELECT id
                     FROM '.$db->prefix.'users
@@ -223,7 +227,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
             if ($author && $keywords) {
                 // If we searched for both keywords and author name we want the intersection between the results
-                $search_ids = array_intersect($keyword_results, $author_results);
+                $search_ids = \array_intersect($keyword_results, $author_results);
                 unset($keyword_results, $author_results);
             } elseif ($keywords) {
                 $search_ids = $keyword_results;
@@ -243,7 +247,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
                     LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
-                    AND p.id IN('.implode(',', $search_ids).')
+                    AND p.id IN('.\implode(',', $search_ids).')
                     '.$forum_sql.'
                     GROUP BY t.id
                 ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
@@ -255,7 +259,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $db->free_result($result);
 
-                $num_hits = count($search_ids);
+                $num_hits = \count($search_ids);
             } else {
                 $result = $db->query(
                     '
@@ -265,7 +269,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
                     LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
-                    AND p.id IN('.implode(',', $search_ids).')
+                    AND p.id IN('.\implode(',', $search_ids).')
                     '.$forum_sql
                 ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
@@ -276,7 +280,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $db->free_result($result);
 
-                $num_hits = count($search_ids);
+                $num_hits = \count($search_ids);
             }
         } elseif ('show_new' == $_GET['action'] || 'show_24h' == $_GET['action'] || 'show_user' == $_GET['action'] || 'show_subscriptions' == $_GET['action'] || 'show_unanswered' == $_GET['action']) {
             // If it's a search for new posts
@@ -393,11 +397,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 $old_searches[] = '\''.$db->escape($row[0]).'\'';
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'search_cache WHERE ident NOT IN('.implode(',', $old_searches).')') or error('Unable to delete search results', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'search_cache WHERE ident NOT IN('.\implode(',', $old_searches).')') or error('Unable to delete search results', __FILE__, __LINE__, $db->error());
         }
 
         // Final search results
-        $search_results = implode(',', $search_ids);
+        $search_results = \implode(',', $search_ids);
 
         // Fill an array with our results and search properties
         $temp['search_results'] = $search_results;
@@ -405,8 +409,8 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $temp['sort_by'] = $sort_by;
         $temp['sort_dir'] = $sort_dir;
         $temp['show_as'] = $show_as;
-        $temp = serialize($temp);
-        $search_id = mt_rand(1, mt_getrandmax());
+        $temp = \serialize($temp);
+        $search_id = \mt_rand(1, \mt_getrandmax());
 
         $ident = ($pun_user['is_guest']) ? get_remote_address() : $pun_user['username'];
 
@@ -427,18 +431,22 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 $sort_by_sql = ('topics' == $show_as) ? 't.poster' : 'p.poster';
 
                 break;
+
             case 2:
                 $sort_by_sql = 't.subject';
 
                 break;
+
             case 3:
                 $sort_by_sql = 't.forum_id';
 
                 break;
+
             case 4:
                 $sort_by_sql = 't.last_post';
 
                 break;
+
             default:
                 $sort_by_sql = ('topics' == $show_as) ? 't.posted' : 'p.posted';
 
@@ -463,7 +471,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         //+ Pagination
         // Determine the topic or post offset (based on $_GET['p'])
         $per_page = ('posts' == $show_as) ? $pun_user['disp_posts'] : $pun_user['disp_topics'];
-        $num_pages = ceil($num_hits / $per_page);
+        $num_pages = \ceil($num_hits / $per_page);
         $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
         $start_from = $per_page * ($p - 1);
 
@@ -524,6 +532,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $smarty->assign('paging_links', $paging_links);
 
         $smarty->display('search.result.tpl');
+
         exit();
     }
     wap_message($lang_search['No hits']);

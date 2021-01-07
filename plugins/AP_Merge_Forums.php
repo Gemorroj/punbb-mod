@@ -1,25 +1,25 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', '0.1 mod');
+\define('PUN_PLUGIN_LOADED', 1);
+\define('PLUGIN_VERSION', '0.1 mod');
 
 // If the "Run Merge" button was clicked
 if (isset($_POST['run_merge'])) {
     // Get the variables
-    $forum1 = intval($_POST['forum1']);
-    $forum2 = intval($_POST['forum2']);
+    $forum1 = \intval($_POST['forum1']);
+    $forum2 = \intval($_POST['forum2']);
 
     // Make sure a forum was specified.
-    if ('' == trim($forum1)) {
+    if ('' == \trim($forum1)) {
         message('Вы не уточнили из какого форума брать темы.');
     }
 
-    if ('' == trim($forum2)) {
+    if ('' == \trim($forum2)) {
         message('Вы не уточнили в какой форум переносить темы.');
     }
 

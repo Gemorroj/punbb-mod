@@ -1,8 +1,11 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
@@ -10,12 +13,12 @@ if (!$pun_user['g_read_board']) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title'].' :: '.$lang_common['Attachments']);
-define('PUN_ALLOW_INDEX', 0);
-define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
+\define('PUN_ALLOW_INDEX', 0);
+\define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
 require_once PUN_ROOT.'header.php';
 
-$user_id = intval(@$_GET['user_id']);
+$user_id = \intval(@$_GET['user_id']);
 
 if (isset($_GET['user_id'])) {
     $result = $db->query('SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title FROM `'.$db->prefix.'users` AS u JOIN `'.$db->prefix.'groups` AS g ON (u.group_id=g.g_id) WHERE u.id='.$user_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
@@ -40,8 +43,8 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
 
     // we have to calculate download rights for every forum
-    $mods_array = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
-    $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+    $mods_array = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+    $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
     $can_download = $is_admmod || (!$cur_forum['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_forum['file_download'];
 
     $forums[$cur_forum['fid']] = array(
@@ -49,7 +52,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
         'can_download' => $can_download,
     );
 }
-$fid_list = implode(',', $fid_list);
+$fid_list = \implode(',', $fid_list);
 unset($can_download);
 
 // get category list for cache
@@ -66,13 +69,13 @@ if (!$fid_list) {
     FROM '.$db->prefix.'attachments AS a
     INNER JOIN '.$db->prefix.'topics AS t ON a.topic_id=t.id
     INNER JOIN '.$db->prefix.'forums AS f ON f.id = t.forum_id
-    WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : '')) or
-        error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
+    WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : ''))
+        or error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
     $num_rows = $db->fetch_row($result);
     $num_rows = $num_rows[0];
 }
 // Determine the attachment offset (based on $_GET['p'])
-$num_pages = ceil($num_rows / ATTACHMENTS_PER_PAGE);
+$num_pages = \ceil($num_rows / ATTACHMENTS_PER_PAGE);
 
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
 $start_from = ATTACHMENTS_PER_PAGE * ($p - 1);
@@ -93,8 +96,8 @@ if ($fid_list) {
     INNER JOIN '.$db->prefix.'categories AS c ON f.cat_id = c.id
     WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : '').'
     ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc, a.filename'.
-        ((!isset($_GET['action']) || 'all' != $_GET['action']) ? ' LIMIT '.$start_from.','.ATTACHMENTS_PER_PAGE : '')) or
-        error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+        ((!isset($_GET['action']) || 'all' != $_GET['action']) ? ' LIMIT '.$start_from.','.ATTACHMENTS_PER_PAGE : ''))
+        or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions
@@ -163,7 +166,7 @@ foreach ($attachments as $post_attachments) {
         } else {
             $link_events = '';
             if (2 == $pun_config['file_popup_info']) {
-                $att_info = '('.round($row['size'] / 1024, 1).'kb, '.((preg_match('|^image/(.*)$|i', $row['mime'], $regs)) ? ($regs[1].' '.$row['image_dim'].', ') : '').'downloads: '.$row['downloads'].')';
+                $att_info = '('.\round($row['size'] / 1024, 1).'kb, '.((\preg_match('|^image/(.*)$|i', $row['mime'], $regs)) ? ($regs[1].' '.$row['image_dim'].', ') : '').'downloads: '.$row['downloads'].')';
             } else {
                 $att_info = null;
             }
@@ -188,4 +191,5 @@ echo '<br/></div></div><br/>
 </div>';
 
 $footer_style = 'index';
+
 require_once PUN_ROOT.'footer.php';

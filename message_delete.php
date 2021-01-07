@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 
 require PUN_ROOT.'include/common.php';
 
@@ -8,13 +8,14 @@ if ($pun_user['is_guest'] || !$pun_user['g_pm']) {
     message($lang_common['No permission']);
 }
 
-$id = intval($_GET['id']);
+$id = \intval($_GET['id']);
 if (!$id) {
     message($lang_common['Bad request']);
 }
 
 // Load the delete.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/delete.php';
 
 // Fetch some info from the message we are deleting
@@ -42,16 +43,17 @@ if (isset($_POST['delete'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Delete message'];
 
     require_once PUN_ROOT.'header.php';
+
     include_once PUN_ROOT.'include/parser.php';
 
-    $cur_post['message'] = parse_message($cur_post['message'], intval(!$cur_post['smileys']));
+    $cur_post['message'] = parse_message($cur_post['message'], \intval(!$cur_post['smileys']));
 
     echo '<div class="blockform">
 <h2><span>'.$lang_pms['Delete message'].'</span></h2>
 <div class="box">
 <form method="post" action="message_delete.php?id='.$id.'">
-<input type="hidden" name="box" value="'.intval($_GET['box']).'">
-<input type="hidden" name="p" value="'.intval($_GET['p']).'">
+<input type="hidden" name="box" value="'.\intval($_GET['box']).'">
+<input type="hidden" name="p" value="'.\intval($_GET['p']).'">
 <div class="inform">
 <fieldset>
 <div class="infldset">

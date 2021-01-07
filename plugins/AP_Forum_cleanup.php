@@ -1,17 +1,17 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', 1.0);
+\define('PUN_PLUGIN_LOADED', 1);
+\define('PLUGIN_VERSION', 1.0);
 
 if (isset($_POST['cleanup'])) {
     //delete all users and posts from specified ips, then perform all other cleanup tasks except resetting post counts since that might not be needed or wanted.
-    @set_time_limit(0);
-    $ip = "'".implode("','", array_values(explode(' ', $_POST['ip_addys'])))."'";
+    @\set_time_limit(0);
+    $ip = "'".\implode("','", \array_values(\explode(' ', $_POST['ip_addys'])))."'";
     $db->query('DELETE FROM '.$db->prefix.'posts WHERE poster_ip IN('.$ip.')') or error('Could not delete posts', __FILE__, __LINE__, $db->error());
     $db->query('DELETE FROM '.$db->prefix.'users WHERE registration_ip IN('.$ip.')') or error('Could not delete users', __FILE__, __LINE__, $db->error());
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_posts SELECT t.forum_id, count(*) as posts FROM '.$db->prefix.'posts as p LEFT JOIN '.$db->prefix.'topics as t on p.topic_id=t.id GROUP BY t.forum_id') or error('Creating posts table failed', __FILE__, __LINE__, $db->error());

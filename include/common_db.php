@@ -1,7 +1,7 @@
 <?php
 
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
@@ -32,10 +32,10 @@ class DBLayer
      */
     public function __construct($db_host, $db_username, $db_password, $db_name)
     {
-        $this->link_id = mysqli_connect($db_host, $db_username, $db_password, $db_name);
+        $this->link_id = \mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
         if (!$this->link_id) {
-            error('Unable to connect to MySQL server. MySQL reported: '.mysqli_connect_error(), __FILE__, __LINE__);
+            error('Unable to connect to MySQL server. MySQL reported: '.\mysqli_connect_error(), __FILE__, __LINE__);
         }
     }
 
@@ -46,16 +46,16 @@ class DBLayer
      */
     public function query($sql)
     {
-        $stat = defined('PUN_SHOW_QUERIES');
+        $stat = \defined('PUN_SHOW_QUERIES');
         if ($stat) {
-            $q_start = microtime(true);
+            $q_start = \microtime(true);
         }
 
-        $this->query_result = mysqli_query($this->link_id, $sql);
+        $this->query_result = \mysqli_query($this->link_id, $sql);
 
         if ($this->query_result) {
             if ($stat) {
-                $this->saved_queries[] = array($sql, sprintf('%.5f', microtime(true) - $q_start));
+                $this->saved_queries[] = array($sql, \sprintf('%.5f', \microtime(true) - $q_start));
             }
 
             ++$this->num_queries;
@@ -166,7 +166,7 @@ class DBLayer
      */
     public function escape($str)
     {
-        return mysqli_real_escape_string($this->link_id, $str);
+        return \mysqli_real_escape_string($this->link_id, $str);
     }
 
     /**
@@ -175,7 +175,7 @@ class DBLayer
     public function error()
     {
         return array(
-            'error_sql' => @current(@end($this->saved_queries)),
+            'error_sql' => @\current(@\end($this->saved_queries)),
             'error_no' => $this->link_id ? $this->link_id->errno : '',
             'error_msg' => $this->link_id ? $this->link_id->error : '',
         );

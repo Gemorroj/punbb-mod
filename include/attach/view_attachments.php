@@ -4,7 +4,7 @@ if ($attachments[$cur_post['id']]) {
     echo '<ul class="attach_list">';
 
     $is_inplace = (2 == $pun_config['file_popup_info']);
-    $basename = basename($_SERVER['PHP_SELF']);
+    $basename = \basename($_SERVER['PHP_SELF']);
 
     foreach ($attachments[$cur_post['id']] as $attachment) {
         $title = pun_htmlspecialchars($attachment['filename']);
@@ -25,9 +25,9 @@ if ($attachments[$cur_post['id']]) {
         } else {
             $link_events = null;
             if ($is_inplace) {
-                $att_info = '<br />'.(($attachment['size'] >= 1048576) ? (round($attachment['size'] / 1048576, 0).'mb') : (round($attachment['size'] / 1024, 0).'kb'));
+                $att_info = '<br />'.(($attachment['size'] >= 1048576) ? (\round($attachment['size'] / 1048576, 0).'mb') : (\round($attachment['size'] / 1024, 0).'kb'));
 
-                if (preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
+                if (\preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
                     $att_info .= ','.$regs[1].' '.$attachment['image_dim'].'<br />'.$lang_fu['Downloads'].': '.$attachment['downloads'];
                     $thumbnail = '<img src="'.PUN_ROOT.require_thumb($attachment['id'], $attachment['location'], $pun_config['file_thumb_width'], $pun_config['file_thumb_height'], true).'">';
                     if ($can_download) {

@@ -1,6 +1,7 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
@@ -11,7 +12,8 @@ if (!$pun_user['g_read_board']) {
 require PUN_ROOT.'lang/'.$pun_user['language'].'/index.php';
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']);
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ALLOW_INDEX', 1);
+
 require_once PUN_ROOT.'header.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
@@ -109,14 +111,14 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     }
 
     if ($cur_forum['moderators'] && $pun_config['o_show_moderators']) {
-        $mods_array = unserialize($cur_forum['moderators']);
+        $mods_array = \unserialize($cur_forum['moderators']);
         $moderators = array();
 
         foreach ($mods_array as $mod_username => $mod_id) {
             $moderators[] = '<a href="profile.php?id='.$mod_id.'">'.pun_htmlspecialchars($mod_username).'</a>';
         }
 
-        $moderators = '<p><em>('.$lang_common['Moderated by'].'</em> '.implode(', ', $moderators).')</p>';
+        $moderators = '<p><em>('.$lang_common['Moderated by'].'</em> '.\implode(', ', $moderators).')</p>';
     }
 
     echo '<tr'.($item_status ? ' class="'.$item_status.'"' : '').'><td class="tcl"><div class="intd"><div class="'.$icon_type.'"><div class="nosize">'.$icon_text.'</div></div><div class="tclcon">'.$forum_field.$moderators.'</div></div></td><td class="tc2">'.$num_topics.'</td><td class="tc3">'.$num_posts.'</td><td class="tcr">'.$last_post.'</td></tr>';
@@ -137,7 +139,7 @@ $result = $db->query('SELECT id, username FROM '.$db->prefix.'users ORDER BY reg
 $stats['last_user'] = $db->fetch_assoc($result);
 
 $result = $db->query('SELECT SUM(num_topics), SUM(num_posts) FROM '.$db->prefix.'forums') or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
-list($stats['total_topics'], $stats['total_posts']) = $db->fetch_row($result);
+[$stats['total_topics'], $stats['total_posts']] = $db->fetch_row($result);
 
 echo '<div id="brdstats" class="block"><h2><span>'.$lang_index['Board info'].'</span></h2><div class="box"><div class="inbox"><dl class="conr"><dt><strong>'.$lang_index['Board stats'].'</strong></dt><dd>'.$lang_index['No of users'].': <strong>'.$stats['total_users'].'</strong></dd><dd>'.$lang_index['No of topics'].': <strong>'.$stats['total_topics'].'</strong></dd><dd>'.$lang_index['No of posts'].': <strong>'.$stats['total_posts'].'</strong></dd></dl><dl class="conl"><dt><strong>'.$lang_index['User info'].'</strong></dt><dd>'.$lang_index['Newest user'].': <a href="profile.php?id='.$stats['last_user']['id'].'">'.pun_htmlspecialchars($stats['last_user']['username']).'</a></dd>';
 
@@ -155,11 +157,11 @@ if (1 == $pun_config['o_users_online']) {
         }
     }
 
-    $num_users = count($users);
+    $num_users = \count($users);
     echo '<dd>'.$lang_index['Users online'].': <strong>'.$num_users.'</strong></dd> <dd>'.$lang_index['Guests online'].': <strong>'.$num_guests.'</strong></dd> </dl>';
 
     if ($num_users > 0) {
-        echo '<dl id="onlinelist" class= "clearb"> <dt><strong>'.$lang_index['Online'].': </strong></dt>'.implode(',</dd> ', $users).'</dd> </dl>';
+        echo '<dl id="onlinelist" class= "clearb"> <dt><strong>'.$lang_index['Online'].': </strong></dt>'.\implode(',</dd> ', $users).'</dd> </dl>';
     } else {
         echo '<div class="clearer"></div>';
     }
@@ -170,4 +172,5 @@ if (1 == $pun_config['o_users_online']) {
 echo '</div></div></div>';
 
 $footer_style = 'index';
+
 require_once PUN_ROOT.'footer.php';

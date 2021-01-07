@@ -1,8 +1,11 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
@@ -10,10 +13,11 @@ if (!$pun_user['g_read_board']) {
 }
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_common['Attachments'];
-define('PUN_ALLOW_INDEX', 0);
-define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
+\define('PUN_ALLOW_INDEX', 0);
+\define('ATTACHMENTS_PER_PAGE', $pun_user['disp_posts']);
 
 require_once PUN_ROOT.'wap/header.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
 
 $user_id = isset($_GET['user_id']) ? (int) $_GET['user_id'] : null;
@@ -46,8 +50,8 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
 
     // we have to calculate download rights for every forum
-    $mods_array = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
-    $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+    $mods_array = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+    $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
     $can_download = $is_admmod || (!$cur_forum['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_forum['file_download'];
 
     $forums[$cur_forum['fid']] = array(
@@ -55,7 +59,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
         'can_download' => $can_download,
     );
 }
-$fid_list = implode(',', $fid_list);
+$fid_list = \implode(',', $fid_list);
 unset($can_download);
 
 // get category list for cache
@@ -80,7 +84,7 @@ if (!$fid_list) {
     $num_rows = $num_rows[0];
 }
 // Determine the attachment offset (based on $_GET['p'])
-$num_pages = ceil($num_rows / ATTACHMENTS_PER_PAGE);
+$num_pages = \ceil($num_rows / ATTACHMENTS_PER_PAGE);
 
 $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 $start_from = ATTACHMENTS_PER_PAGE * ($p - 1);

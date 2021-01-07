@@ -1,15 +1,18 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
     wap_message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     wap_message($lang_common['Bad request']);
 }
@@ -47,8 +50,8 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? unserialize($cur_post['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
 $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -70,17 +73,17 @@ if ($pun_user['is_guest']) {
     $uploaded_to_post = $db->fetch_row($result);
     $uploaded_to_post = $uploaded_to_post[0];
 
-    $forum_file_limit = ($cur_post['file_limit']) ? intval($cur_post['file_limit']) : intval($pun_user['g_file_limit']);
+    $forum_file_limit = ($cur_post['file_limit']) ? \intval($cur_post['file_limit']) : \intval($pun_user['g_file_limit']);
 
     $global_file_limit = $pun_user['g_file_limit'] + $pun_user['file_bonus'];
 
-    $topic_file_limit = intval($pun_config['file_max_post_files']);
+    $topic_file_limit = \intval($pun_config['file_max_post_files']);
 
     if (PUN_ADMIN == $pun_user['g_id']) {
         // just unlimited
         $file_limit = 100;
     } else {
-        $file_limit = min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit - $uploaded_to_post);
+        $file_limit = \min($forum_file_limit - $uploaded_to_forum, $global_file_limit - $pun_user['num_files'], $topic_file_limit - $uploaded_to_post);
     }
 }
 
@@ -117,10 +120,10 @@ if (isset($_POST['form_sent'])) {
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
-        } elseif (mb_strlen($subject) > 70) {
+        } elseif (\mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } elseif (!$pun_config['p_subject_all_caps'] && mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
-            $subject = ucwords(mb_strtolower($subject));
+        } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+            $subject = \ucwords(\mb_strtolower($subject));
         }
     }
 
@@ -129,21 +132,21 @@ if (isset($_POST['form_sent'])) {
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
-    } elseif (mb_strlen($message) > 65535) {
+    } elseif (\mb_strlen($message) > 65535) {
         $errors[] = $lang_post['Too long message'];
-    } elseif (!$pun_config['p_message_all_caps'] && mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
-        $message = ucwords(mb_strtolower($message));
+    } elseif (!$pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $pun_user['g_id'] > PUN_MOD) {
+        $message = \ucwords(\mb_strtolower($message));
     }
 
     // Validate BBCode syntax
-    if (1 == $pun_config['p_message_bbcode'] && false !== strpos($message, '[') && false !== strpos($message, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
         include_once PUN_ROOT.'include/parser.php';
         $message = preparse_bbcode($message, $errors);
     }
 
     // Did everything go according to plan?
     if (!$errors && !isset($_POST['preview'])) {
-        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited='.time().', edited_by=\''.$db->escape($pun_user['username']).'\'' : '';
+        $edited_sql = (!isset($_POST['silent']) || !$is_admmod) ? $edited_sql = ', edited='.\time().', edited_by=\''.$db->escape($pun_user['username']).'\'' : '';
 
         include PUN_ROOT.'include/search_idx.php';
 
@@ -181,7 +184,7 @@ if (@$_POST['preview']) {
 }
 
 //+ Attachments//
-$num_to_upload = min($file_limit, 20);
+$num_to_upload = \min($file_limit, 20);
 $smarty->assign('num_to_upload', $num_to_upload);
 $smarty->assign('can_download', $can_download);
 $smarty->assign('can_upload', $can_upload);

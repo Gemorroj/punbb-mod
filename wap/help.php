@@ -2,7 +2,8 @@
 
 //define('PUN_HELP', 1);
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
@@ -11,6 +12,7 @@ if (!$pun_user['g_read_board']) {
 
 // Load the help.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/help.php';
+
 require_once PUN_ROOT.'wap/header.php';
 
 $smarty->assign('lang_help', $lang_help);
@@ -35,7 +37,6 @@ switch (@$_GET['id']) {
         break;
     //smilies
     case 3:
-
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_common['Smilies'];
         // Display the smiley set
         include_once PUN_ROOT.'include/parser.php';
@@ -56,6 +57,7 @@ switch (@$_GET['id']) {
         $smarty->display('help.4.tpl');
 
         break;
+
     default:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'];
 

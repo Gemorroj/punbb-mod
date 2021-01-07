@@ -1,10 +1,12 @@
 <?php
 
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -18,7 +20,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 if (isset($_POST['add_cat'])) {
     //confirm_referrer('admin_categories.php');
 
-    $new_cat_name = trim($_POST['new_cat_name']);
+    $new_cat_name = \trim($_POST['new_cat_name']);
     if (!$new_cat_name) {
         message($lang_admin['categories_no']);
     }
@@ -30,13 +32,13 @@ if (isset($_POST['add_cat'])) {
 elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
     //confirm_referrer('admin_categories.php');
 
-    $cat_to_delete = intval($_POST['cat_to_delete']);
+    $cat_to_delete = \intval($_POST['cat_to_delete']);
     if ($cat_to_delete < 1) {
         message($lang_common['Bad request']);
     }
 
     if (isset($_POST['del_cat_comply'])) { // Delete a category with all forums and posts
-        @set_time_limit(0);
+        @\set_time_limit(0);
 
         $result = $db->query('SELECT id FROM '.$db->prefix.'forums WHERE cat_id='.$cat_to_delete) or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
         $num_forums = $db->num_rows($result);
@@ -61,7 +63,7 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
                 $orphans[] = $db->result($result, $i);
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
         }
 
         // Delete the category
@@ -78,6 +80,7 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
         $cat_name = $db->result($result);
 
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Categories';
+
         require_once PUN_ROOT.'header.php';
 
         generate_admin_menu('categories');
@@ -119,11 +122,11 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
             message($lang_admin['categories_no']);
         }
 
-        if (!@preg_match('#^\d+$#', $cat_order[$i])) {
+        if (!@\preg_match('#^\d+$#', $cat_order[$i])) {
             message($_lang_admin['categories_fail_position']);
         }
 
-        list($cat_id, $position) = $db->fetch_row($result);
+        [$cat_id, $position] = $db->fetch_row($result);
 
         $db->query('UPDATE '.$db->prefix.'categories SET cat_name=\''.$db->escape($cat_name[$i]).'\', disp_position='.$cat_order[$i].' WHERE id='.$cat_id) or error('Unable to update category', __FILE__, __LINE__, $db->error());
     }
@@ -145,6 +148,7 @@ for ($i = 0; $i < $num_cats; ++$i) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Categories';
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('categories');
@@ -198,7 +202,7 @@ if ($num_cats) {
 </thead>
 <tbody>';
 
-    @reset($cat_list);
+    @\reset($cat_list);
     foreach ($cat_list as $cat) {
         echo '<tr><td>
 <input type="text" name="cat_name['.$cat[0].']" value="'.pun_htmlspecialchars($cat[1]).'" size="35" maxlength="80" />

@@ -52,6 +52,7 @@ function seconds_st($nm)
             $st = 'seconds';
 
         break;
+
         case 2:
         case 3:
         case 4:
@@ -70,6 +71,7 @@ function seconds_st($nm)
             $st = 'seconds';
 
         break;
+
         default:
             $st = 'seconds';
 
@@ -90,6 +92,7 @@ function minutes_st($nm)
             $st = 'minuts';
 
         break;
+
         case 2:
         case 3:
         case 4:
@@ -108,6 +111,7 @@ function minutes_st($nm)
             $st = 'minuts';
 
         break;
+
         default:
             $st = 'minuts';
 
@@ -125,6 +129,7 @@ function hours_st($nm)
             $st = 'hours';
 
         break;
+
         case 2:
         case 3:
         case 4:
@@ -133,6 +138,7 @@ function hours_st($nm)
             $st = 'hours';
 
         break;
+
         default:
             $st = 'hours';
 
@@ -150,6 +156,7 @@ function days_st($nm)
             $st = 'days';
 
         break;
+
         case 2:
         case 3:
         case 4:
@@ -158,6 +165,7 @@ function days_st($nm)
             $st = 'days';
 
         break;
+
         default:
             $st = 'days';
 

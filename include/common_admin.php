@@ -1,6 +1,6 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
@@ -82,26 +82,26 @@ function generate_admin_menu($page = '')
 
     // See if there are any plugins
     $plugins = array();
-    $d = dir(PUN_ROOT.'plugins');
+    $d = \dir(PUN_ROOT.'plugins');
     while (false !== ($entry = $d->read())) {
-        $prefix = substr($entry, 0, strpos($entry, '_'));
-        $suffix = substr($entry, strlen($entry) - 4);
+        $prefix = \substr($entry, 0, \strpos($entry, '_'));
+        $suffix = \substr($entry, \strlen($entry) - 4);
 
         if ('.php' == $suffix && ((!$is_admin && 'AMP' == $prefix) || ($is_admin && ('AP' == $prefix || 'AMP' == $prefix)))) {
-            $plugins[] = array(substr(substr($entry, strpos($entry, '_') + 1), 0, -4), $entry);
+            $plugins[] = array(\substr(\substr($entry, \strpos($entry, '_') + 1), 0, -4), $entry);
         }
     }
     $d->close();
 
     // Did we find any plugins?
-    if (count($plugins) > 1) {
+    if (\count($plugins) > 1) {
         echo '<h2 class="block2"><span>Plugins</span></h2>
 <div class="box">
 <div class="inbox">
 <ul>';
 
         foreach ($plugins as $cur_plugin) {
-            echo '<li'.(($page == $cur_plugin[1]) ? ' class="isactive"' : '').'><a href="admin_loader.php?plugin='.$cur_plugin[1].'">'.str_replace('_', ' ', $cur_plugin[0]).'</a></li>';
+            echo '<li'.(($page == $cur_plugin[1]) ? ' class="isactive"' : '').'><a href="admin_loader.php?plugin='.$cur_plugin[1].'">'.\str_replace('_', ' ', $cur_plugin[0]).'</a></li>';
         }
 
         echo '</ul></div></div>';
@@ -159,6 +159,7 @@ function prune($forum_id, $prune_sticky, $prune_date)
 
             // Delete attachments
             include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
             include_once PUN_ROOT.'include/file_upload.php';
             delete_post_attachments($post_ids);
         }

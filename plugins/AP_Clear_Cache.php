@@ -1,11 +1,11 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
+\define('PUN_PLUGIN_LOADED', 1);
 
 require PUN_ROOT.'include/cache.php';
 

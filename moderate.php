@@ -1,5 +1,6 @@
 <?php
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 // This particular function doesn't require forum-based moderator access. It can be used
@@ -10,10 +11,10 @@ if (isset($_GET['get_host'])) {
     }
 
     // Is get_host an IP address or a post ID?
-    if (preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $_GET['get_host'])) {
+    if (\preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $_GET['get_host'])) {
         $ip = $_GET['get_host'];
     } else {
-        $get_host = intval($_GET['get_host']);
+        $get_host = \intval($_GET['get_host']);
         if ($get_host < 1) {
             message($lang_common['Bad request']);
         }
@@ -26,7 +27,7 @@ if (isset($_GET['get_host'])) {
         $ip = $db->result($result);
     }
 
-    $whois = gethostbyaddr($ip);
+    $whois = \gethostbyaddr($ip);
     if ($whois != $ip) {
         $whois = ' ('.$whois.')';
     } else {
@@ -34,6 +35,7 @@ if (isset($_GET['get_host'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Info'];
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div id="msg" class="block">
@@ -49,11 +51,12 @@ if (isset($_GET['get_host'])) {
 </div></div></div>';
 
     require_once PUN_ROOT.'footer.php';
+
     exit;
 }
 
 // All other functions require moderator/admin access
-$fid = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
+$fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
 if ($fid < 1) {
     message($lang_common['Bad request']);
 }
@@ -61,9 +64,9 @@ if ($fid < 1) {
 $result = $db->query('SELECT moderators FROM '.$db->prefix.'forums WHERE id='.$fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 $moderators = $db->result($result);
-$mods_array = ($moderators) ? unserialize($moderators) : array();
+$mods_array = ($moderators) ? \unserialize($moderators) : array();
 
-if (PUN_ADMIN != $pun_user['g_id'] && (PUN_MOD != $pun_user['g_id'] || !array_key_exists($pun_user['username'], $mods_array))) {
+if (PUN_ADMIN != $pun_user['g_id'] && (PUN_MOD != $pun_user['g_id'] || !\array_key_exists($pun_user['username'], $mods_array))) {
     message($lang_common['No permission']);
 }
 
@@ -72,7 +75,7 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 // All other topic moderation features require a topic id in GET
 if (isset($_GET['tid'])) {
-    $tid = intval($_GET['tid']);
+    $tid = \intval($_GET['tid']);
     if ($tid < 1) {
         message($lang_common['Bad request']);
     }
@@ -95,14 +98,14 @@ if (isset($_GET['tid'])) {
         if (isset($_POST['delete_posts_comply'])) {
             //confirm_referrer('moderate.php');
 
-            if (preg_match('/[^0-9,]/', $posts)) {
+            if (\preg_match('/[^0-9,]/', $posts)) {
                 message($lang_common['Bad request']);
             }
 
             // Verify that the post IDs are valid
             $result = $db->query('SELECT 1 FROM '.$db->prefix.'posts WHERE id IN('.$posts.') AND topic_id='.$tid) or error('Unable to check posts', __FILE__, __LINE__, $db->error());
 
-            if ($db->num_rows($result) != substr_count($posts, ',') + 1) {
+            if ($db->num_rows($result) != \substr_count($posts, ',') + 1) {
                 message($lang_common['Bad request']);
             }
 
@@ -114,6 +117,7 @@ if (isset($_GET['tid'])) {
 
             // Delete attachments
             include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
             include PUN_ROOT.'include/file_upload.php';
             delete_post_attachments($posts);
 
@@ -122,7 +126,7 @@ if (isset($_GET['tid'])) {
             $last_post = $db->fetch_assoc($result);
 
             // How many posts did we just delete?
-            $num_posts_deleted = substr_count($posts, ',') + 1;
+            $num_posts_deleted = \substr_count($posts, ',') + 1;
 
             // Update the topic
             $db->query('UPDATE '.$db->prefix.'topics SET last_post='.$last_post['posted'].', last_post_id='.$last_post['id'].', last_poster=\''.$db->escape($last_post['poster']).'\', num_replies=num_replies-'.$num_posts_deleted.' WHERE id='.$tid) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
@@ -133,6 +137,7 @@ if (isset($_GET['tid'])) {
         }
 
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Moderate'];
+
         require_once PUN_ROOT.'header.php';
 
         echo '<div class="blockform">
@@ -143,7 +148,7 @@ if (isset($_GET['tid'])) {
 <fieldset>
 <legend>'.$lang_misc['Confirm delete legend'].'</legend>
 <div class="infldset">
-<input type="hidden" name="posts" value="'.htmlspecialchars(implode(',', array_keys($posts))).'" />
+<input type="hidden" name="posts" value="'.\htmlspecialchars(\implode(',', \array_keys($posts))).'" />
 <p>'.$lang_misc['Delete posts comply'].'</p>
 </div>
 </fieldset>
@@ -165,9 +170,9 @@ if (isset($_GET['tid'])) {
     $button_status = (!$cur_topic['num_replies']) ? ' disabled="disabled"' : '';
 
     // Determine the post offset (based on $_GET['p'])
-    $num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+    $num_pages = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
-    $_GET['p'] = intval($_GET['p']);
+    $_GET['p'] = \intval($_GET['p']);
     $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
     $start_from = $pun_user['disp_posts'] * ($p - 1);
 
@@ -179,6 +184,7 @@ if (isset($_GET['tid'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$cur_topic['subject'];
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="linkst">
@@ -273,28 +279,28 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     if (isset($_POST['move_topics_to'])) {
         //confirm_referrer('moderate.php');
 
-        if (preg_match('/[^0-9,]/', $_POST['topics'])) {
+        if (\preg_match('/[^0-9,]/', $_POST['topics'])) {
             message($lang_common['Bad request']);
         }
 
-        $topics = explode(',', $_POST['topics']);
+        $topics = \explode(',', $_POST['topics']);
         $move_to_forum = (int) @$_POST['move_to_forum'];
         if (!$topics || $move_to_forum < 1) {
             message($lang_common['Bad request']);
         }
 
         // Verify that the topic IDs are valid
-        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.implode(',', $topics).') AND forum_id='.$fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $topics).') AND forum_id='.$fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
 
-        if ($db->num_rows($result) != count($topics)) {
+        if ($db->num_rows($result) != \count($topics)) {
             message($lang_common['Bad request']);
         }
 
         // Delete any redirect topics if there are any (only if we moved/copied the topic back to where it where it was once moved from)
-        $db->query('DELETE FROM '.$db->prefix.'topics WHERE forum_id='.$move_to_forum.' AND moved_to IN('.implode(',', $topics).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'topics WHERE forum_id='.$move_to_forum.' AND moved_to IN('.\implode(',', $topics).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
 
         // Move the topic(s)
-        $db->query('UPDATE '.$db->prefix.'topics SET forum_id='.$move_to_forum.' WHERE id IN('.implode(',', $topics).')') or error('Unable to move topics', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'topics SET forum_id='.$move_to_forum.' WHERE id IN('.\implode(',', $topics).')') or error('Unable to move topics', __FILE__, __LINE__, $db->error());
 
         // Should we create redirect topics?
         if (isset($_POST['with_redirect'])) {
@@ -311,20 +317,20 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         update_forum($fid); // Update the forum FROM which the topic was moved
         update_forum($move_to_forum); // Update the forum TO which the topic was moved
 
-        $redirect_msg = (count($topics) > 1) ? $lang_misc['Move topics redirect'] : $lang_misc['Move topic redirect'];
+        $redirect_msg = (\count($topics) > 1) ? $lang_misc['Move topics redirect'] : $lang_misc['Move topic redirect'];
         redirect('viewforum.php?id='.$move_to_forum, $redirect_msg);
     }
 
     if (isset($_POST['move_topics'])) {
-        $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
+        $topics = $_POST['topics'] ?? array();
         if (!$topics) {
             message($lang_misc['No topics selected']);
         }
 
-        $topics = implode(',', array_map('intval', array_keys($topics)));
+        $topics = \implode(',', \array_map('intval', \array_keys($topics)));
         $action = 'multi';
     } else {
-        $topics = intval($_GET['move_topics']);
+        $topics = \intval($_GET['move_topics']);
         if ($topics < 1) {
             message($lang_common['Bad request']);
         }
@@ -333,6 +339,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Moderate';
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="blockform"><h2><span>';
@@ -389,7 +396,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
 // Delete one or more topics
 if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) {
-    $topics = isset($_POST['topics']) ? $_POST['topics'] : array();
+    $topics = $_POST['topics'] ?? array();
     if (!$topics) {
         message($lang_misc['No topics selected']);
     }
@@ -397,7 +404,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     if (isset($_POST['delete_topics_comply'])) {
         //confirm_referrer('moderate.php');
 
-        if (preg_match('/[^0-9,]/', $topics)) {
+        if (\preg_match('/[^0-9,]/', $topics)) {
             message($lang_common['Bad request']);
         }
 
@@ -406,7 +413,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         // Verify that the topic IDs are valid
         $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.$topics.') AND forum_id='.$fid) or error('Unable to check topics', __FILE__, __LINE__, $db->error());
 
-        if ($db->num_rows($result) != substr_count($topics, ',') + 1) {
+        if ($db->num_rows($result) != \substr_count($topics, ',') + 1) {
             message($lang_common['Bad request']);
         }
 
@@ -438,6 +445,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         // Delete attachments
         include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
         include_once PUN_ROOT.'include/file_upload.php';
         delete_post_attachments($post_ids);
 
@@ -450,13 +458,14 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Moderate'];
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="blockform">
 <h2>'.$lang_misc['Delete topics'].'</h2>
 <div class="box">
 <form method="post" action="moderate.php?fid='.$fid.'">
-<input type="hidden" name="topics" value="'.implode(',', array_map('intval', array_keys($topics))).'" />
+<input type="hidden" name="topics" value="'.\implode(',', \array_map('intval', \array_keys($topics))).'" />
 <div class="inform">
 <fieldset>
 <legend>'.$lang_misc['Confirm delete legend'].'</legend>
@@ -479,12 +488,12 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     if (isset($_POST['open']) || isset($_POST['close'])) {
         //confirm_referrer('moderate.php');
 
-        $topics = isset($_POST['topics']) ? @array_map('intval', @array_keys($_POST['topics'])) : array();
+        $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : array();
         if (!$topics) {
             message($lang_misc['No topics selected']);
         }
 
-        $db->query('UPDATE '.$db->prefix.'topics SET closed='.$action.' WHERE id IN('.implode(',', $topics).') AND forum_id='.$fid) or error('Unable to close topics', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'topics SET closed='.$action.' WHERE id IN('.\implode(',', $topics).') AND forum_id='.$fid) or error('Unable to close topics', __FILE__, __LINE__, $db->error());
 
         $redirect_msg = ($action) ? $lang_misc['Close topics redirect'] : $lang_misc['Open topics redirect'];
         redirect('moderate.php?fid='.$fid, $redirect_msg);
@@ -492,7 +501,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         // Or just one in $_GET
         //confirm_referrer('viewtopic.php');
 
-        $topic_id = ($action) ? intval($_GET['close']) : intval($_GET['open']);
+        $topic_id = ($action) ? \intval($_GET['close']) : \intval($_GET['open']);
         if ($topic_id < 1) {
             message($lang_common['Bad request']);
         }
@@ -506,7 +515,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     // Stick a topic
     //confirm_referrer('viewtopic.php');
 
-    $stick = intval($_GET['stick']);
+    $stick = \intval($_GET['stick']);
     if ($stick < 1) {
         message($lang_common['Bad request']);
     }
@@ -518,7 +527,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     // Unstick a topic
     //confirm_referrer('viewtopic.php');
 
-    $unstick = intval($_GET['unstick']);
+    $unstick = \intval($_GET['unstick']);
     if ($unstick < 1) {
         message($lang_common['Bad request']);
     }
@@ -547,12 +556,13 @@ if ($cur_forum['redirect_url']) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.pun_htmlspecialchars($cur_forum['forum_name']);
+
 require_once PUN_ROOT.'header.php';
 
 // Determine the topic offset (based on $_GET['p'])
-$num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
+$num_pages = \ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 
-$_GET['p'] = intval($_GET['p']);
+$_GET['p'] = \intval($_GET['p']);
 $p = ($_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : $_GET['p'];
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 
@@ -653,7 +663,7 @@ if ($db->num_rows($result)) {
             $icon_text .= ' '.$lang_forum['Sticky'];
         }
 
-        $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+        $num_pages_topic = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
         if ($num_pages_topic > 1) {
             $subject_multipage = '[ '.paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']).' ]';
@@ -667,11 +677,11 @@ if ($db->num_rows($result)) {
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         } ?>
     <tr<?php if ($item_status) {
-            echo ' class="'.trim($item_status).'"';
+            echo ' class="'.\trim($item_status).'"';
         } ?>>
         <td class="tcl">
             <div class="<?php echo $icon_type; ?>">
-                <div class="nosize"><?php echo trim($icon_text); ?></div>
+                <div class="nosize"><?php echo \trim($icon_text); ?></div>
             </div>
             <div class="tclcon">
                 <?php echo $subject; ?>

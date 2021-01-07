@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -17,8 +19,8 @@ if ($pun_user['g_id'] > PUN_MOD) {
 if (isset($_POST['add_word'])) {
     //confirm_referrer('admin_censoring.php');
 
-    $search_for = trim($_POST['new_search_for']);
-    $replace_with = trim($_POST['new_replace_with']);
+    $search_for = \trim($_POST['new_search_for']);
+    $replace_with = \trim($_POST['new_replace_with']);
 
     if (!$search_for || !$replace_with) {
         message($lang_admin['Cens not found']);
@@ -31,10 +33,10 @@ if (isset($_POST['add_word'])) {
 elseif (isset($_POST['update'])) {
     //confirm_referrer('admin_censoring.php');
 
-    $id = intval(key($_POST['update']));
+    $id = \intval(\key($_POST['update']));
 
-    $search_for = trim($_POST['search_for'][$id]);
-    $replace_with = trim($_POST['replace_with'][$id]);
+    $search_for = \trim($_POST['search_for'][$id]);
+    $replace_with = \trim($_POST['replace_with'][$id]);
 
     if (!$search_for || !$replace_with) {
         message($lang_admin['Cens not found']);
@@ -47,7 +49,7 @@ elseif (isset($_POST['update'])) {
 elseif (isset($_POST['remove'])) {
     //confirm_referrer('admin_censoring.php');
 
-    $id = intval(key($_POST['remove']));
+    $id = \intval(\key($_POST['remove']));
 
     $db->query('DELETE FROM '.$db->prefix.'censoring WHERE id='.$id) or error('Unable to delete censor word', __FILE__, __LINE__, $db->error());
 
@@ -56,6 +58,7 @@ elseif (isset($_POST['remove'])) {
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Censoring';
 $focus_element = array('censoring', 'new_search_for');
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('censoring');

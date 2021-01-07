@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -84,13 +84,13 @@ if ($cur_forum['redirect_url']) {
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = array();
 if ($cur_forum['moderators']) {
-    $mods_array = unserialize($cur_forum['moderators']);
+    $mods_array = \unserialize($cur_forum['moderators']);
 }
 
 $is_admmod = false;
 if (PUN_ADMIN == $pun_user['g_id']
     || (PUN_MOD == $pun_user['g_id']
-        && array_key_exists(
+        && \array_key_exists(
             $pun_user['username'],
             $mods_array
         ))
@@ -100,7 +100,7 @@ if (PUN_ADMIN == $pun_user['g_id']
 
 //+ Pagination
 // Determine the topic offset (based on $_GET['p'])
-$num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
+$num_pages = \ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
 $start_from = $pun_user['disp_topics'] * ($p - 1);
 // Generate paging links
@@ -178,7 +178,7 @@ $topics = array();
 if ($db->num_rows($result)) {
     while ($cur_topic = $db->fetch_assoc($result)) {
         // Pagination in topics on index page.
-        $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+        $num_pages_topic = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
         if (1 < $num_pages_topic) {
             $cur_topic['paging_links'] = paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']);
         }

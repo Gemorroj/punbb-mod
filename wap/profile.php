@@ -1,11 +1,13 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
+
 require_once PUN_ROOT.'include/common.php';
+
 require_once PUN_ROOT.'wap/header.php';
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$action = isset($_GET['action']) ? $_GET['action'] : '';
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
+$action = $_GET['action'] ?? '';
 
 if ($id < 2) {
     wap_message($lang_common['Bad request']);
@@ -35,7 +37,7 @@ if ('change_pass' == $action) {
         $key = $_GET['key'];
 
         $result = $db->query('SELECT activate_string, activate_key FROM '.$db->prefix.'users WHERE id='.$id) or error('Unable to fetch new password', __FILE__, __LINE__, $db->error());
-        list($new_password_hash, $new_password_key) = $db->fetch_row($result);
+        [$new_password_hash, $new_password_key] = $db->fetch_row($result);
 
         if (!$key || $key != $new_password_key) {
             wap_message($lang_profile['Pass key bad'].' <a href="mailto:'.$pun_config['o_admin_email'].'">'.$pun_config['o_admin_email'].'</a>.');
@@ -57,8 +59,8 @@ if ('change_pass' == $action) {
                 wap_message($lang_common['Bad request']);
             }
 
-            if (!$pun_config['p_mod_edit_users'] || !$pun_config['p_mod_change_passwords'] ||
-                    $db->result($result) < PUN_GUEST
+            if (!$pun_config['p_mod_edit_users'] || !$pun_config['p_mod_change_passwords']
+                    || $db->result($result) < PUN_GUEST
                 ) {
                 wap_message($lang_common['No permission']);
             }
@@ -71,29 +73,29 @@ if ('change_pass' == $action) {
         {confirm_referrer('profile.php');}
         */
 
-        $old_password = isset($_POST['req_old_password']) ? trim($_POST['req_old_password']) : '';
-        $new_password1 = trim($_POST['req_new_password1']);
-        $new_password2 = trim($_POST['req_new_password2']);
+        $old_password = isset($_POST['req_old_password']) ? \trim($_POST['req_old_password']) : '';
+        $new_password1 = \trim($_POST['req_new_password1']);
+        $new_password2 = \trim($_POST['req_new_password2']);
 
         if ($new_password1 != $new_password2) {
             wap_message($lang_prof_reg['Pass not match']);
         }
-        if (strlen($new_password1) < 4) {
+        if (\strlen($new_password1) < 4) {
             wap_message($lang_prof_reg['Pass too short']);
         }
 
         $result = $db->query('SELECT password, save_pass FROM '.$db->prefix.'users WHERE id='.$id) or error('Unable to fetch password', __FILE__, __LINE__, $db->error());
-        list($db_password_hash, $save_pass) = $db->fetch_row($result);
+        [$db_password_hash, $save_pass] = $db->fetch_row($result);
 
         $authorized = false;
 
         if ($db_password_hash) {
-            $sha1_in_db = (40 == strlen($db_password_hash)) ? true : false;
-            $sha1_available = (function_exists('sha1') || function_exists('mhash')) ? true : false;
+            $sha1_in_db = (40 == \strlen($db_password_hash)) ? true : false;
+            $sha1_available = (\function_exists('sha1') || \function_exists('mhash')) ? true : false;
 
             $old_password_hash = pun_hash($old_password); // This could result in either an SHA-1 or an MD5 hash
 
-            if (($sha1_in_db && $sha1_available && $db_password_hash == $old_password_hash) || (!$sha1_in_db && $db_password_hash == md5($old_password)) || $pun_user['g_id'] < PUN_GUEST) {
+            if (($sha1_in_db && $sha1_available && $db_password_hash == $old_password_hash) || (!$sha1_in_db && $db_password_hash == \md5($old_password)) || $pun_user['g_id'] < PUN_GUEST) {
                 $authorized = true;
             }
         }
@@ -123,6 +125,7 @@ if ('change_pass' == $action) {
     $smarty->assign('id', $id);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.password.tpl');
+
     exit();
 }
 if ('change_email' == $action) {
@@ -148,7 +151,7 @@ if ('change_email' == $action) {
         $key = $_GET['key'];
 
         $result = $db->query('SELECT activate_string, activate_key FROM '.$db->prefix.'users WHERE id='.$id) or error('Unable to fetch activation data', __FILE__, __LINE__, $db->error());
-        list($new_email, $new_email_key) = $db->fetch_row($result);
+        [$new_email, $new_email_key] = $db->fetch_row($result);
 
         if ($key != $new_email_key) {
             wap_message($lang_profile['E-mail key bad'].' <a href="mailto:'.$pun_config['o_admin_email'].'">'.$pun_config['o_admin_email'].'</a>.');
@@ -165,7 +168,7 @@ if ('change_email' == $action) {
         include_once PUN_ROOT.'include/email.php';
 
         // Validate the email-address
-        $new_email = strtolower(trim($_POST['req_new_email']));
+        $new_email = \strtolower(\trim($_POST['req_new_email']));
         if (!is_valid_email($new_email)) {
             wap_message($lang_common['Invalid e-mail']);
         }
@@ -203,7 +206,7 @@ if ('change_email' == $action) {
 
                 $mail_subject = 'Alert - Duplicate e-mail detected';
                 $mail_message = 'User \''.$pun_user['username'].'\' changed to an e-mail address that also belongs to: '.
-                    implode(', ', $dupe_list)."\n\n".'User profile: '.$pun_config['o_base_url'].
+                    \implode(', ', $dupe_list)."\n\n".'User profile: '.$pun_config['o_base_url'].
                     '/profile.php?id='.$id."\n\n".'-- '."\n".'Forum Mailer'."\n".
                     '(Do not reply to this message)';
 
@@ -214,23 +217,23 @@ if ('change_email' == $action) {
         $new_email_key = random_pass(8);
 
         $db->query('UPDATE '.$db->prefix.'users SET activate_string=\''.$db->
-            escape($new_email).'\', activate_key=\''.$new_email_key.'\' WHERE id='.$id) or
-            error('Unable to update activation data', __FILE__, __LINE__, $db->error());
+            escape($new_email).'\', activate_key=\''.$new_email_key.'\' WHERE id='.$id)
+            or error('Unable to update activation data', __FILE__, __LINE__, $db->error());
 
         // Load the "activate e-mail" template
-        $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].
+        $mail_tpl = \trim(\file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].
             '/mail_templates/activate_email.tpl'));
 
         // The first row contains the subject
-        $first_crlf = strpos($mail_tpl, "\n");
-        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
-        $mail_message = trim(substr($mail_tpl, $first_crlf));
+        $first_crlf = \strpos($mail_tpl, "\n");
+        $mail_subject = \trim(\substr($mail_tpl, 8, $first_crlf - 8));
+        $mail_message = \trim(\substr($mail_tpl, $first_crlf));
 
-        $mail_message = str_replace('<username>', $pun_user['username'], $mail_message);
-        $mail_message = str_replace('<base_url>', $pun_config['o_base_url'], $mail_message);
-        $mail_message = str_replace('<activation_url>', $pun_config['o_base_url'].
+        $mail_message = \str_replace('<username>', $pun_user['username'], $mail_message);
+        $mail_message = \str_replace('<base_url>', $pun_config['o_base_url'], $mail_message);
+        $mail_message = \str_replace('<activation_url>', $pun_config['o_base_url'].
             '/profile.php?action=change_email&id='.$id.'&key='.$new_email_key, $mail_message);
-        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+        $mail_message = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
         pun_mail($new_email, $mail_subject, $mail_message);
 
         wap_message($lang_profile['Activate e-mail sent'].' <a href="mailto:'.$pun_config['o_admin_email'].
@@ -246,6 +249,7 @@ if ('change_email' == $action) {
     $smarty->assign('id', $id);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.email.tpl');
+
     exit();
 }
 if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
@@ -272,18 +276,22 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
                     wap_message($lang_profile['Too large ini']);
 
                     break;
+
                 case 3: // UPLOAD_ERR_PARTIAL
                     wap_message($lang_profile['Partial upload']);
 
                     break;
+
                 case 4: // UPLOAD_ERR_NO_FILE
                     wap_message($lang_profile['No file']);
 
                     break;
+
                 case 6: // UPLOAD_ERR_NO_TMP_DIR
                     wap_message($lang_profile['No tmp directory']);
 
                     break;
+
                 default:
                     // No error occured, but was something actually uploaded?
                     if (!$uploaded_file['size']) {
@@ -294,10 +302,10 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
             }
         }
 
-        if (is_uploaded_file($uploaded_file['tmp_name'])) {
+        if (\is_uploaded_file($uploaded_file['tmp_name'])) {
             $allowed_types = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png',
                 'image/x-png', );
-            if (!in_array($uploaded_file['type'], $allowed_types)) {
+            if (!\in_array($uploaded_file['type'], $allowed_types)) {
                 wap_message($lang_profile['Bad type']);
             }
 
@@ -318,7 +326,7 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
             }
 
             // Move the file to the avatar directory. We do this before checking the width/height to circumvent open_basedir restrictions.
-            if (!@move_uploaded_file($uploaded_file['tmp_name'], PUN_ROOT.$pun_config['o_avatars_dir'].
+            if (!@\move_uploaded_file($uploaded_file['tmp_name'], PUN_ROOT.$pun_config['o_avatars_dir'].
                 '/'.$id.'.tmp')
             ) {
                 wap_message($lang_profile['Move failed'].' <a href="mailto:'.$pun_config['o_admin_email'].
@@ -326,38 +334,38 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
             }
 
             // Now check the width/height
-            list($width, $height, $type) = getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].
+            [$width, $height, $type] = \getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].
                 '/'.$id.'.tmp');
             if (!$width || !$height || $width > $pun_config['o_avatars_width'] || $height >
                 $pun_config['o_avatars_height']
             ) {
-                @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp');
+                @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp');
                 wap_message($lang_profile['Too wide or high'].' '.$pun_config['o_avatars_width'].
                     'x'.$pun_config['o_avatars_height'].' '.$lang_profile['pixels'].'.');
             } elseif (1 == $type && 'image/gif' != $uploaded_file['type']) {
                 // Prevent dodgy uploads
-                @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp');
+                @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp');
                 wap_message($lang_profile['Bad type']);
             }
 
             // Delete any old avatars and put the new one in place
-            @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
-            @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[1]);
-            @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[2]);
-            @rename(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp', PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
-            @chmod(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0], 0644);
+            @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
+            @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[1]);
+            @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[2]);
+            @\rename(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp', PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
+            @\chmod(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0], 0644);
         } else {
             wap_message($lang_profile['Unknown failure']);
         }
 
         // Enable use_avatar (seems sane since the user just uploaded an avatar)
-        $db->query('UPDATE '.$db->prefix.'users SET use_avatar=1 WHERE id='.$id) or
-            error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'users SET use_avatar=1 WHERE id='.$id)
+            or error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
         wap_redirect('profile.php?section=personality&id='.$id);
     }
 
-    $avatarSize = ceil($pun_config['o_avatars_size'] / 1024); // kb
+    $avatarSize = \ceil($pun_config['o_avatars_size'] / 1024); // kb
     $avatarSize .= '&#160;kb';
 
     //upload_avatar
@@ -370,6 +378,7 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
     $smarty->assign('avatarSize', $avatarSize);
 
     $smarty->display('profile.avatar.tpl');
+
     exit();
 }
 if ('delete_avatar' == $action) {
@@ -379,13 +388,13 @@ if ('delete_avatar' == $action) {
 
     //confirm_referrer('profile.php');
 
-    @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.jpg');
-    @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.png');
-    @unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.gif');
+    @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.jpg');
+    @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.png');
+    @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.gif');
 
     // Disable use_avatar
-    $db->query('UPDATE '.$db->prefix.'users SET use_avatar=0 WHERE id='.$id) or
-        error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET use_avatar=0 WHERE id='.$id)
+        or error('Unable to update avatar state', __FILE__, __LINE__, $db->error());
 
     wap_redirect('profile.php?section=personality&id='.$id);
 } elseif (isset($_POST['update_group_membership'])) {
@@ -395,7 +404,7 @@ if ('delete_avatar' == $action) {
 
     //confirm_referrer('profile.php');
 
-    $new_group_id = intval($_POST['group_id']);
+    $new_group_id = \intval($_POST['group_id']);
 
     $db->query('UPDATE '.$db->prefix.'users SET group_id='.$new_group_id.
         ' WHERE id='.$id) or error(
@@ -407,16 +416,16 @@ if ('delete_avatar' == $action) {
 
     // If the user was a moderator or an administrator, we remove him/her from the moderator list in all forums as well
     if ($new_group_id > PUN_MOD) {
-        $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums') or
-            error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums')
+            or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
         while ($cur_forum = $db->fetch_assoc($result)) {
-            $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
+            $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
 
-            if (in_array($id, $cur_moderators)) {
-                $username = array_search($id, $cur_moderators);
+            if (\in_array($id, $cur_moderators)) {
+                $username = \array_search($id, $cur_moderators);
                 unset($cur_moderators[$username]);
-                $cur_moderators = ($cur_moderators) ? '\''.$db->escape(serialize($cur_moderators)).'\'' : 'NULL';
+                $cur_moderators = ($cur_moderators) ? '\''.$db->escape(\serialize($cur_moderators)).'\'' : 'NULL';
 
                 $db->query('UPDATE '.$db->prefix.'forums SET moderators='.$cur_moderators.' WHERE id='.$cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
             }
@@ -436,31 +445,31 @@ if ('delete_avatar' == $action) {
         $id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     $username = $db->result($result);
 
-    $moderator_in = (isset($_POST['moderator_in'])) ? array_keys($_POST['moderator_in']) :
+    $moderator_in = (isset($_POST['moderator_in'])) ? \array_keys($_POST['moderator_in']) :
         array();
 
     // Loop through all forums
-    $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums') or
-        error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums')
+        or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
     while ($cur_forum = $db->fetch_assoc($result)) {
-        $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
+        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
             array();
         // If the user should have moderator access (and he/she doesn't already have it)
-        if (in_array($cur_forum['id'], $moderator_in) && !in_array($id, $cur_moderators)) {
+        if (\in_array($cur_forum['id'], $moderator_in) && !\in_array($id, $cur_moderators)) {
             $cur_moderators[$username] = $id;
-            ksort($cur_moderators);
+            \ksort($cur_moderators);
 
-            $db->query('UPDATE '.$db->prefix.'forums SET moderators=\''.$db->escape(serialize($cur_moderators)).'\' WHERE id='.$cur_forum['id']) or error(
+            $db->query('UPDATE '.$db->prefix.'forums SET moderators=\''.$db->escape(\serialize($cur_moderators)).'\' WHERE id='.$cur_forum['id']) or error(
                 'Unable to update forum',
                 __FILE__,
                 __LINE__,
                 $db->error()
             );
         } // If the user shouldn't have moderator access (and he/she already has it)
-        elseif (!in_array($cur_forum['id'], $moderator_in) && in_array($id, $cur_moderators)) {
+        elseif (!\in_array($cur_forum['id'], $moderator_in) && \in_array($id, $cur_moderators)) {
             unset($cur_moderators[$username]);
-            $cur_moderators = ($cur_moderators) ? '\''.$db->escape(serialize($cur_moderators)).'\'' : 'NULL';
+            $cur_moderators = ($cur_moderators) ? '\''.$db->escape(\serialize($cur_moderators)).'\'' : 'NULL';
 
             $db->query('UPDATE '.$db->prefix.'forums SET moderators='.$cur_moderators.' WHERE id='.$cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
         }
@@ -488,7 +497,7 @@ if ('delete_avatar' == $action) {
             __LINE__,
             $db->error()
         );
-    list($group_id, $username) = $db->fetch_row($result);
+    [$group_id, $username] = $db->fetch_row($result);
 
     if (PUN_ADMIN == $group_id) {
         wap_message('Administrators cannot be deleted. In order to delete this user, you must first move him/her to a different user group.');
@@ -497,15 +506,15 @@ if ('delete_avatar' == $action) {
     if ($_POST['delete_user_comply']) {
         // If the user is a moderator or an administrator, we remove him/her from the moderator list in all forums as well
         if ($group_id < PUN_GUEST) {
-            $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums') or
-                error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums')
+                or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) : array();
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
 
-                if (in_array($id, $cur_moderators)) {
+                if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$username]);
-                    $cur_moderators = ($cur_moderators) ? '\''.$db->escape(serialize($cur_moderators)).'\'' : 'NULL';
+                    $cur_moderators = ($cur_moderators) ? '\''.$db->escape(\serialize($cur_moderators)).'\'' : 'NULL';
 
                     $db->query('UPDATE '.$db->prefix.'forums SET moderators='.$cur_moderators.' WHERE id='.$cur_forum['id']) or error('Unable to update forum', __FILE__, __LINE__, $db->error());
                 }
@@ -513,17 +522,17 @@ if ('delete_avatar' == $action) {
         }
 
         // Delete any subscriptions
-        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id) or
-            error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id)
+            or error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
 
         // Remove him/her from the online list (if they happen to be logged in)
-        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id) or
-            error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id)
+            or error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
 
         // Should we delete all posts made by this user?
         if ($_POST['delete_posts']) {
             include PUN_ROOT.'include/search_idx.php';
-            @set_time_limit(0);
+            @\set_time_limit(0);
 
             // Find all posts made by this user
             $result = $db->query('SELECT p.id, p.topic_id, t.forum_id FROM '.$db->prefix.
@@ -583,14 +592,14 @@ if ('delete_avatar' == $action) {
         // PMS MOD END
 
         // Delete user avatar
-        if (file_exists($pun_config['o_avatars_dir'].'/'.$id.'.gif')) {
-            unlink($pun_config['o_avatars_dir'].'/'.$id.'.gif');
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$id.'.gif')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$id.'.gif');
         }
-        if (file_exists($pun_config['o_avatars_dir'].'/'.$id.'.jpg')) {
-            unlink($pun_config['o_avatars_dir'].'/'.$id.'.jpg');
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$id.'.jpg')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$id.'.jpg');
         }
-        if (file_exists($pun_config['o_avatars_dir'].'/'.$id.'.png')) {
-            unlink($pun_config['o_avatars_dir'].'/'.$id.'.png');
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$id.'.png')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$id.'.png');
         }
 
         wap_redirect('index.php');
@@ -604,6 +613,7 @@ if ('delete_avatar' == $action) {
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->assign('username', $username);
     $smarty->display('profile.delete.tpl');
+
     exit();
 } elseif (isset($_POST['form_sent']) and $_POST['form_sent']) {
     // Fetch the user group of the user we are editing
@@ -616,8 +626,8 @@ if ('delete_avatar' == $action) {
     $group_id = $db->result($result);
 
     if ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_MOD ==
-        $pun_user['g_id'] && !$pun_config['p_mod_edit_users']) || (PUN_MOD == $pun_user['g_id'] &&
-        $group_id < PUN_GUEST))
+        $pun_user['g_id'] && !$pun_config['p_mod_edit_users']) || (PUN_MOD == $pun_user['g_id']
+        && $group_id < PUN_GUEST))
     ) {
         wap_message($lang_common['No permission']);
     }
@@ -634,7 +644,7 @@ if ('delete_avatar' == $action) {
         $form = array();
 
         foreach ($_POST['form'] as $key => $value) {
-            if (in_array($key, $allowed_elements)) {
+            if (\in_array($key, $allowed_elements)) {
                 $form[$key] = $value;
             }
         }
@@ -650,25 +660,25 @@ if ('delete_avatar' == $action) {
             $form = extract_elements(array('timezone', 'language'));
 
             if ($pun_user['g_id'] < PUN_GUEST) {
-                $form['admin_note'] = trim($_POST['admin_note']);
+                $form['admin_note'] = \trim($_POST['admin_note']);
 
                 // Are we allowed to change usernames?
                 if (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && 1 ==
                     $pun_config['p_mod_rename_users'])
                 ) {
-                    $form['username'] = trim($_POST['req_username']);
-                    $old_username = trim($_POST['old_username']);
+                    $form['username'] = \trim($_POST['req_username']);
+                    $old_username = \trim($_POST['old_username']);
 
-                    if (mb_strlen($form['username']) < 2) {
+                    if (\mb_strlen($form['username']) < 2) {
                         wap_message($lang_prof_reg['Username too short']);
-                    } elseif (mb_strlen($form['username']) > 25) {
+                    } elseif (\mb_strlen($form['username']) > 25) {
                         // This usually doesn't happen since the form element only accepts 25 characters
                         wap_message($lang_common['Bad request']);
-                    } elseif (!strcasecmp($form['username'], 'Guest') || !strcasecmp($form['username'], $lang_common['Guest'])) {
+                    } elseif (!\strcasecmp($form['username'], 'Guest') || !\strcasecmp($form['username'], $lang_common['Guest'])) {
                         wap_message($lang_prof_reg['Username guest']);
-                    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
+                    } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $form['username'])) {
                         wap_message($lang_prof_reg['Username IP']);
-                    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $form['username'])) {
+                    } elseif (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $form['username'])) {
                         wap_message($lang_prof_reg['Username BBCode']);
                     }
 
@@ -691,9 +701,9 @@ if ('delete_avatar' == $action) {
 
                 // We only allow administrators to update the post count
                 if (PUN_ADMIN == $pun_user['g_id']) {
-                    $form['num_posts'] = abs($_POST['num_posts']);
-                    $form['num_files'] = abs($_POST['num_files']);
-                    $form['file_bonus'] = abs($_POST['file_bonus']);
+                    $form['num_posts'] = \abs($_POST['num_posts']);
+                    $form['num_files'] = \abs($_POST['num_files']);
+                    $form['file_bonus'] = \abs($_POST['file_bonus']);
                 }
             }
 
@@ -701,7 +711,7 @@ if ('delete_avatar' == $action) {
                 include_once PUN_ROOT.'include/email.php';
 
                 // Validate the email-address
-                $form['email'] = strtolower(trim($_POST['req_email']));
+                $form['email'] = \strtolower(\trim($_POST['req_email']));
                 if (!is_valid_email($form['email'])) {
                     wap_message($lang_common['Invalid e-mail']);
                 }
@@ -709,16 +719,17 @@ if ('delete_avatar' == $action) {
 
             // Make sure we got a valid language string
             if ($form['language']) {
-                $form['language'] = preg_replace('#[\.\\\/]#', '', $form['language']);
-                if (!file_exists(PUN_ROOT.'lang/'.$form['language'].'/common.php')) {
+                $form['language'] = \preg_replace('#[\.\\\/]#', '', $form['language']);
+                if (!\file_exists(PUN_ROOT.'lang/'.$form['language'].'/common.php')) {
                     wap_message($lang_common['Bad request']);
                 }
             }
 
             break;
+
         case 'personal':
-            $_POST['form']['birthday'] = intval($_POST['day']).'.'.intval($_POST['month']).
-                '.'.intval($_POST['year']);
+            $_POST['form']['birthday'] = \intval($_POST['day']).'.'.\intval($_POST['month']).
+                '.'.\intval($_POST['year']);
             if ('0.0.0' == $_POST['form']['birthday']) {
                 $_POST['form']['birthday'] = '';
             }
@@ -726,9 +737,9 @@ if ('delete_avatar' == $action) {
             $form = extract_elements(array('realname', 'url', 'location', 'sex', 'birthday'));
 
             if (PUN_ADMIN == $pun_user['g_id']) {
-                $form['title'] = trim($_POST['title']);
+                $form['title'] = \trim($_POST['title']);
             } elseif (1 == $pun_user['g_set_title']) {
-                $form['title'] = trim($_POST['title']);
+                $form['title'] = \trim($_POST['title']);
 
                 if ($form['title']) {
                     // A list of words that the title may not contain
@@ -737,46 +748,48 @@ if ('delete_avatar' == $action) {
                         $lang_common['Moderator'], $lang_common['Administrator'], $lang_common['Banned'],
                         $lang_common['Guest'], );
 
-                    if (in_array($form['title'], $forbidden)) {
+                    if (\in_array($form['title'], $forbidden)) {
                         wap_message($lang_profile['Forbidden title']);
                     }
                 }
             }
 
             // Add http:// if the URL doesn't contain it already
-            if ($form['url'] && 0 !== strpos(strtolower($form['url']), 'http://')) {
+            if ($form['url'] && 0 !== \strpos(\strtolower($form['url']), 'http://')) {
                 $form['url'] = 'http://'.$form['url'];
             }
 
             break;
+
         case 'messaging':
             $form = extract_elements(array('jabber', 'icq', 'msn', 'aim', 'yahoo'));
 
             // If the ICQ UIN contains anything other than digits it's invalid
-            if ($form['icq'] && !intval($form['icq'])) {
+            if ($form['icq'] && !\intval($form['icq'])) {
                 wap_message($lang_prof_reg['Bad ICQ']);
             }
 
             break;
+
         case 'personality':
             $form = extract_elements(array('use_avatar'));
 
             // Clean up signature from POST
-            $form['signature'] = pun_linebreaks(trim($_POST['signature']));
+            $form['signature'] = pun_linebreaks(\trim($_POST['signature']));
 
             // Validate signature
-            if (mb_strlen($form['signature']) > $pun_config['p_sig_length']) {
+            if (\mb_strlen($form['signature']) > $pun_config['p_sig_length']) {
                 wap_message($lang_prof_reg['Sig too long'].' '.$pun_config['p_sig_length'].
                     ' '.$lang_prof_reg['characters'].'.');
-            } elseif (substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
+            } elseif (\substr_count($form['signature'], "\n") > ($pun_config['p_sig_lines'] - 1)) {
                 wap_message($lang_prof_reg['Sig too many lines'].' '.$pun_config['p_sig_lines'].
                     ' '.$lang_prof_reg['lines'].'.');
-            } elseif ($form['signature'] && !$pun_config['p_sig_all_caps'] && mb_strtoupper($form['signature']) == $form['signature'] && $pun_user['g_id'] > PUN_MOD) {
-                $form['signature'] = ucwords(mb_strtolower($form['signature']));
+            } elseif ($form['signature'] && !$pun_config['p_sig_all_caps'] && \mb_strtoupper($form['signature']) == $form['signature'] && $pun_user['g_id'] > PUN_MOD) {
+                $form['signature'] = \ucwords(\mb_strtolower($form['signature']));
             }
 
             // Validate BBCode syntax
-            if ($pun_config['p_sig_bbcode'] && false !== strpos($form['signature'], '[') && false !== strpos($form['signature'], ']')) {
+            if ($pun_config['p_sig_bbcode'] && false !== \strpos($form['signature'], '[') && false !== \strpos($form['signature'], ']')) {
                 include_once PUN_ROOT.'include/parser.php';
                 $form['signature'] = preparse_bbcode($form['signature'], $foo, true);
             }
@@ -786,6 +799,7 @@ if ('delete_avatar' == $action) {
             }
 
             break;
+
         case 'display':
             // REAL MARK TOPIC AS READ MOD BEGIN
             $form = extract_elements(array('disp_topics', 'disp_posts', 'show_smilies',
@@ -795,24 +809,24 @@ if ('delete_avatar' == $action) {
             if (!$form['disp_topics']) {
                 $form['disp_topics'] = null;
             }
-            if ($form['disp_topics'] && intval($form['disp_topics']) < 3) {
+            if ($form['disp_topics'] && \intval($form['disp_topics']) < 3) {
                 $form['disp_topics'] = 3;
             }
-            if ($form['disp_topics'] && intval($form['disp_topics']) > 75) {
+            if ($form['disp_topics'] && \intval($form['disp_topics']) > 75) {
                 $form['disp_topics'] = 75;
             }
             if (!$form['disp_posts']) {
                 $form['disp_posts'] = null;
             }
-            if ($form['disp_posts'] && intval($form['disp_posts']) < 3) {
+            if ($form['disp_posts'] && \intval($form['disp_posts']) < 3) {
                 $form['disp_posts'] = 3;
             }
-            if ($form['disp_posts'] && intval($form['disp_posts']) > 75) {
+            if ($form['disp_posts'] && \intval($form['disp_posts']) > 75) {
                 $form['disp_posts'] = 75;
             }
 
             // REAL MARK TOPIC AS READ MOD BEGIN
-            if (intval(@$form['mark_after']) > 100) {
+            if (\intval(@$form['mark_after']) > 100) {
                 $form['mark_after'] = 1296000;
             } else {
                 $form['mark_after'] = $form['mark_after'] * 86400;
@@ -839,10 +853,11 @@ if ('delete_avatar' == $action) {
             }
 
             break;
+
         case 'privacy':
             $form = extract_elements(array('email_setting', 'save_pass', 'notify_with_post'));
 
-            $form['email_setting'] = intval($form['email_setting']);
+            $form['email_setting'] = \intval($form['email_setting']);
             if ($form['email_setting'] < 0 && $form['email_setting'] > 2) {
                 $form['email_setting'] = 1;
             }
@@ -861,6 +876,7 @@ if ('delete_avatar' == $action) {
             }
 
             break;
+
         default:
             wap_message($lang_common['Bad request']);
 
@@ -878,7 +894,7 @@ if ('delete_avatar' == $action) {
         wap_message($lang_common['Bad request']);
     }
 
-    $db->query('UPDATE `'.$db->prefix.'users` SET '.implode(',', $temp).' WHERE `id`='.$id) or error('Unable to update profile', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE `'.$db->prefix.'users` SET '.\implode(',', $temp).' WHERE `id`='.$id) or error('Unable to update profile', __FILE__, __LINE__, $db->error());
 
     // If we changed the username we have to update some stuff
     if ($username_updated) {
@@ -923,19 +939,19 @@ if ('delete_avatar' == $action) {
         $group_id = $db->result($result);
 
         if ($group_id < PUN_GUEST) {
-            $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums') or
-                error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums')
+                or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? unserialize($cur_forum['moderators']) :
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
                     array();
 
-                if (in_array($id, $cur_moderators)) {
+                if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$old_username]);
                     $cur_moderators[$form['username']] = $id;
-                    ksort($cur_moderators);
+                    \ksort($cur_moderators);
 
-                    $db->query('UPDATE '.$db->prefix.'forums SET moderators=\''.$db->escape(serialize($cur_moderators)).'\' WHERE id='.$cur_forum['id']) or error(
+                    $db->query('UPDATE '.$db->prefix.'forums SET moderators=\''.$db->escape(\serialize($cur_moderators)).'\' WHERE id='.$cur_forum['id']) or error(
                         'Unable to update forum',
                         __FILE__,
                         __LINE__,
@@ -946,7 +962,7 @@ if ('delete_avatar' == $action) {
         }
     }
 
-    wap_redirect('profile.php?section='.htmlspecialchars($_GET['section']).'&id='.$id);
+    wap_redirect('profile.php?section='.\htmlspecialchars($_GET['section']).'&id='.$id);
 }
 
 // REAL MARK TOPIC AS READ MOD BEGIN
@@ -974,8 +990,8 @@ $q = $db->fetch_row($db->query(
     SELECT COUNT(1), (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$id
 ));
 
-$karma['plus'] = intval($q[0]);
-$karma['minus'] = intval($q[1]);
+$karma['plus'] = \intval($q[0]);
+$karma['minus'] = \intval($q[1]);
 $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 //}
@@ -1030,6 +1046,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
     $smarty->assign('user_avatar', pun_show_avatar());
 
     $smarty->display('profile.view.tpl');
+
     exit();
 }
     //profile general
@@ -1038,17 +1055,17 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
     if ('essentials' == $section) {
         $languages = array();
-        $d = opendir(PUN_ROOT.'lang');
-        while (false !== ($entry = readdir($d))) {
-            if ('.' != $entry[0] && is_dir(PUN_ROOT.'lang/'.$entry) && file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+        $d = \opendir(PUN_ROOT.'lang');
+        while (false !== ($entry = \readdir($d))) {
+            if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
                 $languages[] = $entry;
             }
         }
-        closedir($d);
+        \closedir($d);
 
         // Only display the language selection box if there's more than one language available
-        if (count($languages) > 1) {
-            natsort($languages);
+        if (\count($languages) > 1) {
+            \natsort($languages);
         }
 
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
@@ -1056,19 +1073,22 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
         $smarty->assign('karma', $karma);
 
         $smarty->display('profile.general.tpl');
+
         exit();
     }
     if ('personal' == $section) {
         if ($user['birthday']) {
-            $birthday = explode('.', $user['birthday']);
+            $birthday = \explode('.', $user['birthday']);
             $smarty->assign('birthday', $birthday);
         }
 
         $smarty->display('profile.personal.tpl');
+
         exit();
     }
     if ('messaging' == $section) {
         $smarty->display('profile.messaging.tpl');
+
         exit();
     }
     if ('personality' == $section) {
@@ -1082,27 +1102,30 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
         $smarty->assign('user_avatar', pun_show_avatar());
 
         $smarty->display('profile.personality.tpl');
+
         exit();
     }
     if ('display' == $section) {
         $styles = array();
-        $d = opendir(PUN_ROOT.'include/template/wap');
-        while (false !== ($entry = readdir($d))) {
-            if ('.' !== $entry[0] && is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
+        $d = \opendir(PUN_ROOT.'include/template/wap');
+        while (false !== ($entry = \readdir($d))) {
+            if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
                 $styles[] = $entry;
             }
         }
-        closedir($d);
+        \closedir($d);
 
         $smarty->assign('styles', $styles);
 
         $smarty->display('profile.display.tpl');
+
         exit();
     }
     if ('privacy' == $section) {
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
 
         $smarty->display('profile.privacy.tpl');
+
         exit();
     }
     if ('admin' == $section) {
@@ -1160,7 +1183,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
                 $forums = array();
                 while ($cur_forum = $db->fetch_assoc($result)) {
                     if ($cur_forum['moderators']) {
-                        $cur_forum['is_moderator'] = in_array($id, unserialize($cur_forum['moderators']));
+                        $cur_forum['is_moderator'] = \in_array($id, \unserialize($cur_forum['moderators']));
                     }
 
                     $forums[] = $cur_forum;
@@ -1176,5 +1199,6 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
         $smarty->assign('forums', @$forums);
 
         $smarty->display('profile.admin.tpl');
+
         exit();
     }

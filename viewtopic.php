@@ -1,9 +1,11 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
+
 require PUN_ROOT.'include/file_upload.php';
 
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
@@ -12,9 +14,9 @@ if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$pid = isset($_GET['pid']) ? intval($_GET['pid']) : 0;
-$action = isset($_GET['action']) ? $_GET['action'] : null;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
+$pid = isset($_GET['pid']) ? \intval($_GET['pid']) : 0;
+$action = $_GET['action'] ?? null;
 
 if ($id < 1 && $pid < 1) {
     message($lang_common['Bad request']);
@@ -45,7 +47,7 @@ if ($pid) {
 
     ++$i; // we started at 0
 
-    $_GET['p'] = ceil($i / $pun_user['disp_posts']);
+    $_GET['p'] = \ceil($i / $pun_user['disp_posts']);
 } // If action=new, we redirect to the first new post (if any)
 elseif ('new' == $action && !$pun_user['is_guest']) {
     $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
@@ -115,8 +117,8 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? unserialize($cur_topic['moderators']) : array();
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not post replies?
 if (!$cur_topic['closed']) {
@@ -137,7 +139,7 @@ if (!$cur_topic['closed']) {
 $can_download = (!$cur_topic['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_topic['file_download'] || $is_admmod;
 
 // Determine the post offset (based on $_GET['p'])
-$num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+$num_pages = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
 $start_from = $pun_user['disp_posts'] * ($p - 1);
@@ -162,10 +164,10 @@ if (1 == $pun_config['o_censoring']) {
 
 // !$pun_user['is_guest'] && - Это поебень
 $quickpost = false;
-if (1 == $pun_config['o_quickpost'] &&
+if (1 == $pun_config['o_quickpost']
 // !$pun_user['is_guest'] &&
-    (1 == $cur_topic['post_replies'] || (!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies'])) &&
-    (!$cur_topic['closed'] || $is_admmod)
+    && (1 == $cur_topic['post_replies'] || (!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies']))
+    && (!$cur_topic['closed'] || $is_admmod)
 ) {
     $required_fields = array('req_message' => $lang_common['Message']);
     $quickpost = true;
@@ -184,7 +186,8 @@ if (!$pun_user['is_guest'] && 1 == $pun_config['o_subscriptions']) {
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_topic['subject']);
 
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ALLOW_INDEX', 1);
+
 require_once PUN_ROOT.'header.php';
 
 if (1 == $pun_config['o_show_post_karma'] || $pun_user['g_id'] < PUN_GUEST) {
@@ -279,7 +282,7 @@ foreach ($posts as $cur_post) {
                 $user_info[] = '<dd>'.$lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);
             }
 
-            $user_info[] = '<dd>'.$lang_common['Registered'].': '.date($pun_config['o_date_format'], $cur_post['registered']);
+            $user_info[] = '<dd>'.$lang_common['Registered'].': '.\date($pun_config['o_date_format'], $cur_post['registered']);
 
             if (1 == $pun_config['o_show_post_count'] || $pun_user['g_id'] < PUN_GUEST) {
                 $user_info[] = '<dd>'.$lang_common['Posts'].': '.$cur_post['num_posts'];
@@ -293,8 +296,8 @@ foreach ($posts as $cur_post) {
                     FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$cur_post['poster_id']
                 ));
 
-                $karma['plus'] = intval($q[0]);
-                $karma['minus'] = intval($q[1]);
+                $karma['plus'] = \intval($q[0]);
+                $karma['minus'] = \intval($q[1]);
                 $karma['karma'] = $karma['plus'] - $karma['minus'];
                 unset($q);
 
@@ -410,11 +413,11 @@ foreach ($posts as $cur_post) {
     echo '"><h2><span><span class="conr">#'.($start_from + $post_count).' </span><a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">'.format_time($cur_post['posted']).'</a></span></h2><div class="box"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd class="usertitle"><strong>'.$user_title.'</strong></dd><dd class="postavatar">'.$user_avatar.'</dd>';
 
     if ($user_info) {
-        echo implode('</dd>', $user_info).'</dd>';
+        echo \implode('</dd>', $user_info).'</dd>';
     }
 
     if ($user_contacts) {
-        echo '<dd class="usercontacts">'.implode(' ', $user_contacts).'</dd>';
+        echo '<dd class="usercontacts">'.\implode(' ', $user_contacts).'</dd>';
     }
 
     echo '</dl></div><div class="postright"><h3>';
@@ -428,6 +431,7 @@ foreach ($posts as $cur_post) {
     if (isset($attachments[$cur_post['id']])) {
         include_once PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
         echo '<br /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
+
         include PUN_ROOT.'include/attach/view_attachments.php';
         echo '</fieldset>';
     }
@@ -449,7 +453,7 @@ foreach ($posts as $cur_post) {
     }
     echo '</div><div class="postfootright">';
     if ($post_actions) {
-        echo '<ul>'.implode($lang_topic['Link separator'].'</li>', $post_actions).'</li></ul></div>';
+        echo '<ul>'.\implode($lang_topic['Link separator'].'</li>', $post_actions).'</li></ul></div>';
     } else {
         echo '<div> </div></div>';
     }
@@ -498,4 +502,5 @@ $db->query('UPDATE `'.$db->prefix.'topics` SET `num_views`=`num_views`+1 WHERE i
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';
+
 require_once PUN_ROOT.'footer.php';

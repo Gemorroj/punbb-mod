@@ -1,17 +1,18 @@
 <?php
 
 if (isset($_GET['action'])) {
-    define('PUN_QUIET_VISIT', 1);
+    \define('PUN_QUIET_VISIT', 1);
 }
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 // Load the misc.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
-$mark_forum_id = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
+$mark_forum_id = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
 // message($lang_common['Bad request']);
 // REAL MARK TOPIC AS READ MOD END
 
@@ -20,6 +21,7 @@ if ('rules' == $_GET['action']) {
     include PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_registration['Forum rules'];
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="block">
@@ -38,7 +40,7 @@ if ('rules' == $_GET['action']) {
     }
 
     // fix problem with null $pun_user['logged']
-    $now = time();
+    $now = \time();
     if (!$pun_user['logged']) {
         $pun_user['logged'] = $now;
     }
@@ -70,7 +72,7 @@ if ('rules' == $_GET['action']) {
         message($lang_common['No permission']);
     }
 
-    $recipient_id = intval($_GET['email']);
+    $recipient_id = \intval($_GET['email']);
     if ($recipient_id < 2) {
         message($lang_common['Bad request']);
     }
@@ -80,7 +82,7 @@ if ('rules' == $_GET['action']) {
         message($lang_common['Bad request']);
     }
 
-    list($recipient, $recipient_email, $email_setting) = $db->fetch_row($result);
+    [$recipient, $recipient_email, $email_setting] = $db->fetch_row($result);
 
     if (2 == $email_setting && $pun_user['g_id'] > PUN_MOD) {
         message($lang_misc['Form e-mail disabled']);
@@ -95,37 +97,38 @@ if ('rules' == $_GET['action']) {
             message($lang_misc['No e-mail subject']);
         } elseif (!$message) {
             message($lang_misc['No e-mail message']);
-        } elseif (mb_strlen($message) > 65535) {
+        } elseif (\mb_strlen($message) > 65535) {
             message($lang_misc['Too long e-mail message']);
         }
 
         // Load the "form e-mail" template
-        $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/form_email.tpl'));
+        $mail_tpl = \trim(\file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/form_email.tpl'));
 
         // The first row contains the subject
-        $first_crlf = strpos($mail_tpl, "\n");
-        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
-        $mail_message = trim(substr($mail_tpl, $first_crlf));
+        $first_crlf = \strpos($mail_tpl, "\n");
+        $mail_subject = \trim(\substr($mail_tpl, 8, $first_crlf - 8));
+        $mail_message = \trim(\substr($mail_tpl, $first_crlf));
 
-        $mail_subject = str_replace('<mail_subject>', $subject, $mail_subject);
-        $mail_message = str_replace('<sender>', $pun_user['username'], $mail_message);
-        $mail_message = str_replace('<board_title>', $pun_config['o_board_title'], $mail_message);
-        $mail_message = str_replace('<mail_message>', $message, $mail_message);
-        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+        $mail_subject = \str_replace('<mail_subject>', $subject, $mail_subject);
+        $mail_message = \str_replace('<sender>', $pun_user['username'], $mail_message);
+        $mail_message = \str_replace('<board_title>', $pun_config['o_board_title'], $mail_message);
+        $mail_message = \str_replace('<mail_message>', $message, $mail_message);
+        $mail_message = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
 
         include_once PUN_ROOT.'include/email.php';
 
-        pun_mail($recipient_email, $mail_subject, $mail_message, '"'.str_replace('"', '', $pun_user['username']).'" <'.$pun_user['email'].'>');
+        pun_mail($recipient_email, $mail_subject, $mail_message, '"'.\str_replace('"', '', $pun_user['username']).'" <'.$pun_user['email'].'>');
 
-        redirect(htmlspecialchars($_POST['redirect_url']), $lang_misc['E-mail sent redirect']);
+        redirect(\htmlspecialchars($_POST['redirect_url']), $lang_misc['E-mail sent redirect']);
     }
 
     // Try to determine if the data in HTTP_REFERER is valid (if not, we redirect to the users profile after the e-mail is sent)
-    $redirect_url = (isset($_SERVER['HTTP_REFERER']) && preg_match('#^'.preg_quote($pun_config['o_base_url'], '#').'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
+    $redirect_url = (isset($_SERVER['HTTP_REFERER']) && \preg_match('#^'.\preg_quote($pun_config['o_base_url'], '#').'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? \htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Send e-mail to'].' '.pun_htmlspecialchars($recipient);
     $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);
     $focus_element = array('email', 'req_subject');
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="blockform">
@@ -157,7 +160,7 @@ if ('rules' == $_GET['action']) {
         message($lang_common['No permission']);
     }
 
-    $post_id = intval($_GET['report']);
+    $post_id = \intval($_GET['report']);
     if ($post_id < 1) {
         message($lang_common['Bad request']);
     }
@@ -183,11 +186,11 @@ if ('rules' == $_GET['action']) {
             message($lang_common['Bad request']);
         }
 
-        list($subject, $forum_id) = $db->fetch_row($result);
+        [$subject, $forum_id] = $db->fetch_row($result);
 
         // Should we use the internal report handling?
         if (!$pun_config['o_report_method'] || 2 == $pun_config['o_report_method']) {
-            $db->query('INSERT INTO '.$db->prefix.'reports (post_id, topic_id, forum_id, reported_by, created, message) VALUES('.$post_id.', '.$topic_id.', '.$forum_id.', '.$pun_user['id'].', '.time().', \''.$db->escape($reason).'\')') or error('Unable to create report', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'reports (post_id, topic_id, forum_id, reported_by, created, message) VALUES('.$post_id.', '.$topic_id.', '.$forum_id.', '.$pun_user['id'].', '.\time().', \''.$db->escape($reason).'\')') or error('Unable to create report', __FILE__, __LINE__, $db->error());
         }
 
         // Should we e-mail the report?
@@ -209,6 +212,7 @@ if ('rules' == $_GET['action']) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Report post'];
     $required_fields = array('req_reason' => $lang_misc['Reason']);
     $focus_element = array('report', 'req_reason');
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="blockform">
@@ -235,7 +239,7 @@ if ('rules' == $_GET['action']) {
         message($lang_common['No permission']);
     }
 
-    $topic_id = intval($_GET['subscribe']);
+    $topic_id = \intval($_GET['subscribe']);
     if ($topic_id < 1) {
         message($lang_common['Bad request']);
     }
@@ -259,7 +263,7 @@ if ('rules' == $_GET['action']) {
         message($lang_common['No permission']);
     }
 
-    $topic_id = intval($_GET['unsubscribe']);
+    $topic_id = \intval($_GET['unsubscribe']);
     if ($topic_id < 1) {
         message($lang_common['Bad request']);
     }

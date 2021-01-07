@@ -1,9 +1,9 @@
 <?php
 
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit();
 }
-define('PUN_TEMPLATE', 1);
+\define('PUN_TEMPLATE', 1);
 
 require_once 'Smarty/Smarty.class.php';
 
@@ -18,7 +18,7 @@ class PunTemplate extends Smarty
     {
         parent::__construct();
 
-        $dir = dirname(__FILE__);
+        $dir = \dirname(__FILE__);
 
         //$root = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', $dir)) . '/template/wap/' . $punDesignName . '/';
 

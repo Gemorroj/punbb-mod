@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('PUN') || !defined('PUN_ROOT')) {
+if (!\defined('PUN') || !\defined('PUN_ROOT')) {
     exit();
 }
 

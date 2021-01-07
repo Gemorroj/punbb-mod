@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -15,12 +17,13 @@ if ($pun_user['g_id'] > PUN_MOD) {
 
 // Show IP statistics for a certain user ID
 if (isset($_GET['ip_stats'])) {
-    $ip_stats = intval($_GET['ip_stats']);
+    $ip_stats = \intval($_GET['ip_stats']);
     if ($ip_stats < 1) {
         message($lang_common['Bad request']);
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
@@ -81,11 +84,12 @@ if (isset($_GET['ip_stats'])) {
 if (isset($_GET['show_users'])) {
     $ip = $_GET['show_users'];
 
-    if (!@preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $ip)) {
+    if (!@\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $ip)) {
         message($lang_admin['Bad IP']);
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
@@ -116,7 +120,7 @@ if (isset($_GET['show_users'])) {
     if ($num_posts) {
         // Loop through users and print out some info
         for ($i = 0; $i < $num_posts; ++$i) {
-            list($poster_id, $poster) = $db->fetch_row($result);
+            [$poster_id, $poster] = $db->fetch_row($result);
 
             $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM '.$db->prefix.'users AS u INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id='.$poster_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
@@ -165,35 +169,35 @@ if (isset($_GET['show_users'])) {
     $form['username'] = $_POST['username'];
 
     // trim() all elements in $form
-    $form = array_map('trim', $form);
+    $form = \array_map('trim', $form);
     $conditions = array();
 
-    $posts_greater = trim($_POST['posts_greater']);
-    $posts_less = trim($_POST['posts_less']);
-    $last_post_after = trim($_POST['last_post_after']);
-    $last_post_before = trim($_POST['last_post_before']);
-    $registered_after = trim($_POST['registered_after']);
-    $registered_before = trim($_POST['registered_before']);
+    $posts_greater = \trim($_POST['posts_greater']);
+    $posts_less = \trim($_POST['posts_less']);
+    $last_post_after = \trim($_POST['last_post_after']);
+    $last_post_before = \trim($_POST['last_post_before']);
+    $registered_after = \trim($_POST['registered_after']);
+    $registered_before = \trim($_POST['registered_before']);
     $order_by = $_POST['order_by'];
     $direction = $_POST['direction'];
     $user_group = $_POST['user_group'];
 
-    if (preg_match('/[^0-9]/', $posts_greater.$posts_less)) {
+    if (\preg_match('/[^0-9]/', $posts_greater.$posts_less)) {
         message($lang_admin['Not numeric']);
     }
 
     // Try to convert date/time to timestamps
     if ($last_post_after) {
-        $last_post_after = strtotime($last_post_after);
+        $last_post_after = \strtotime($last_post_after);
     }
     if ($last_post_before) {
-        $last_post_before = strtotime($last_post_before);
+        $last_post_before = \strtotime($last_post_before);
     }
     if ($registered_after) {
-        $registered_after = strtotime($registered_after);
+        $registered_after = \strtotime($registered_after);
     }
     if ($registered_before) {
-        $registered_before = strtotime($registered_before);
+        $registered_before = \strtotime($registered_before);
     }
 
     if (-1 == $last_post_after || -1 == $last_post_before || -1 == $registered_after || -1 == $registered_before) {
@@ -215,8 +219,8 @@ if (isset($_GET['show_users'])) {
 
     $like_command = 'LIKE';
     foreach ($form as $key => $input) {
-        if ($input && in_array($key, array('username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note'))) {
-            $conditions[] = 'u.'.$db->escape($key).' '.$like_command.' \''.$db->escape(str_replace('*', '%', $input)).'\'';
+        if ($input && \in_array($key, array('username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note'))) {
+            $conditions[] = 'u.'.$db->escape($key).' '.$like_command.' \''.$db->escape(\str_replace('*', '%', $input)).'\'';
         }
     }
 
@@ -227,7 +231,7 @@ if (isset($_GET['show_users'])) {
         $conditions[] = 'u.num_posts<'.$posts_less;
     }
     if ('all' != $user_group) {
-        $conditions[] = 'u.group_id='.intval($user_group);
+        $conditions[] = 'u.group_id='.\intval($user_group);
     }
 
     if (empty($conditions)) {
@@ -235,6 +239,7 @@ if (isset($_GET['show_users'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
     <div class="inbox">
@@ -259,7 +264,7 @@ if (isset($_GET['show_users'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND '.implode(' AND ', $conditions).' ORDER BY '.$db->escape($order_by).' '.$db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND '.\implode(' AND ', $conditions).' ORDER BY '.$db->escape($order_by).' '.$db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         while ($user_data = $db->fetch_assoc($result)) {
             $user_title = get_title($user_data);
@@ -301,6 +306,7 @@ if (isset($_GET['show_users'])) {
 } else {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
     $focus_element = array('find_user', 'username');
+
     require_once PUN_ROOT.'header.php';
 
     generate_admin_menu('users'); ?>

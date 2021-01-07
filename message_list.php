@@ -1,7 +1,8 @@
 <?php
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 
 require_once PUN_ROOT.'include/common.php';
+
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
@@ -14,11 +15,13 @@ if ($pun_user['is_guest']) {
 
 // Load the message.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
+
 require PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 // Inbox or Sent?
-$box = intval($_GET['box']);
+$box = \intval($_GET['box']);
 
 if (1 == $box) {
     $name = $lang_pms['Outbox'];
@@ -40,19 +43,20 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         //Check this is legit
         // confirm_referrer('message_list.php');
 
-        if (preg_match('/[^0-9,]/', $_POST['messages']) || !trim($_POST['messages'])) {
+        if (\preg_match('/[^0-9,]/', $_POST['messages']) || !\trim($_POST['messages'])) {
             message($lang_common['Bad request']);
         }
 
         // Delete messages
         $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN('.$_POST['messages'].') AND owner='.$pun_user['id']) or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
-        redirect('message_list.php?box='.intval($_POST['box']), $lang_pms['Deleted redirect']);
+        redirect('message_list.php?box='.\intval($_POST['box']), $lang_pms['Deleted redirect']);
     } else {
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Multidelete'];
-        $idlist = is_array($_POST['delete_messages']) ? array_map('intval', $_POST['delete_messages']) : array();
+        $idlist = \is_array($_POST['delete_messages']) ? \array_map('intval', $_POST['delete_messages']) : array();
+
         require_once PUN_ROOT.'header.php';
 
-        echo '<div class="blockform"><h2><span>'.$lang_pms['Multidelete'].'</span></h2><div class="box"><form method="post" action="message_list.php?"><input type="hidden" name="messages" value="'.htmlspecialchars(implode(',', array_values($idlist))).'"/><input type="hidden" name="box" value="'.intval($_POST['box']).'"/><div class="inform"><fieldset><div class="infldset"><p class="warntext"><strong>'.$lang_pms['Delete messages comply'].'</strong></p></div></fieldset></div><p><input type="submit" name="delete_messages_comply" value="'.$lang_pms['Delete'].'" /><a href="javascript:history.go(-1);">'.$lang_common['Go back'].'</a></p></form></div></div>';
+        echo '<div class="blockform"><h2><span>'.$lang_pms['Multidelete'].'</span></h2><div class="box"><form method="post" action="message_list.php?"><input type="hidden" name="messages" value="'.\htmlspecialchars(\implode(',', \array_values($idlist))).'"/><input type="hidden" name="box" value="'.\intval($_POST['box']).'"/><div class="inform"><fieldset><div class="infldset"><p class="warntext"><strong>'.$lang_pms['Delete messages comply'].'</strong></p></div></fieldset></div><p><input type="submit" name="delete_messages_comply" value="'.$lang_pms['Delete'].'" /><a href="javascript:history.go(-1);">'.$lang_common['Go back'].'</a></p></form></div></div>';
 
         require_once PUN_ROOT.'footer.php';
     }
@@ -70,7 +74,7 @@ if ($box < 2) {
     $num_messages = $db->result($result);
 
     //What page are we on?
-    $num_pages = ceil($num_messages / $pun_config['o_pms_mess_per_page']);
+    $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
     if ('all' != $_GET['action']) {
@@ -109,11 +113,11 @@ if ($box < 2) {
     //Are we viewing a PM?
     if (isset($_GET['id'])) {
         //Yes! Lets get the details
-        $id = intval($_GET['id']);
+        $id = \intval($_GET['id']);
 
         // Set user
         $result = $db->query('SELECT status, owner FROM '.$db->prefix.'messages WHERE id='.$id) or error('Unable to get message status', __FILE__, __LINE__, $db->error());
-        list($status, $owner) = $db->fetch_row($result);
+        [$status, $owner] = $db->fetch_row($result);
         0 == $status ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
         $result = $db->query(
@@ -182,7 +186,7 @@ if ($box < 2) {
                     $user_info[] = '<dd>'.$lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);
                 }
 
-                $user_info[] = '<dd>'.$lang_common['Registered'].': '.date($pun_config['o_date_format'], $cur_post['registered']);
+                $user_info[] = '<dd>'.$lang_common['Registered'].': '.\date($pun_config['o_date_format'], $cur_post['registered']);
 
                 if (1 == $pun_config['o_show_post_count'] || $pun_user['g_id'] < PUN_GUEST) {
                     $user_info[] = '<dd>'.$lang_common['Posts'].': '.$cur_post['num_posts'];
@@ -194,6 +198,7 @@ if ($box < 2) {
                 } elseif (1 == $cur_post['email_setting'] && !$pun_user['is_guest']) {
                     $user_contacts[] = '<a href="misc.php?email='.$cur_post['id'].'">'.$lang_common['E-mail'].'</a>';
                 }
+
                 include PUN_ROOT.'include/pms/viewtopic_PM-link.php';
                 if ($cur_post['url']) {
                     $user_contacts[] = '<a href="'.pun_htmlspecialchars($cur_post['url']).'">'.$lang_topic['Website'].'</a>';
@@ -232,7 +237,7 @@ if ($box < 2) {
         }
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
-        $cur_post['smileys'] = isset($cur_post['smileys']) ? $cur_post['smileys'] : $pun_user['show_smilies'];
+        $cur_post['smileys'] = $cur_post['smileys'] ?? $pun_user['show_smilies'];
         $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys']);
 
         // Do signature parsing/caching
@@ -253,12 +258,12 @@ if ($box < 2) {
         } ?></dd>
                     <?php if (isset($user_info)) {
             if ($user_info) {
-                echo implode('</dd>', $user_info).'</dd>';
+                echo \implode('</dd>', $user_info).'</dd>';
             }
         } ?>
                     <?php if (isset($user_contacts)) {
             if ($user_contacts) {
-                echo '<dd class="usercontacts">'.implode(' ', $user_contacts).'</dd>';
+                echo '<dd class="usercontacts">'.\implode(' ', $user_contacts).'</dd>';
             }
         } ?>
                 </dl>
@@ -276,7 +281,7 @@ if ($box < 2) {
             echo '<p>'.$is_online.'</p>';
         } ?></div>
             <div
-                class="postfootright"><?php echo ($post_actions) ? '<ul>'.implode($lang_topic['Link separator'].'</li>', $post_actions).'</li></ul></div>' : '<div> </div></div>'; ?>
+                class="postfootright"><?php echo ($post_actions) ? '<ul>'.\implode($lang_topic['Link separator'].'</li>', $post_actions).'</li></ul></div>' : '<div> </div></div>'; ?>
             </div>
         </div>
     </div>
@@ -306,8 +311,8 @@ if ($box < 2) {
     if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST) {
         // Get total message count
         $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) or error('Unable to count messages', __FILE__, __LINE__, $db->error());
-        list($tot_messages) = $db->fetch_row($result);
-        $proc = ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
+        [$tot_messages] = $db->fetch_row($result);
+        $proc = \ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
         $status = ' - '.$lang_pms['Status'].' '.$proc.'%';
     } else {
         $status = null;
@@ -422,4 +427,5 @@ if ($box < 2) {
 </div>';
 }
 $footer_style = 'message_list';
+
 require_once PUN_ROOT.'footer.php';

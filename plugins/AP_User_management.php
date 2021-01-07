@@ -1,16 +1,16 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', 1.3);
+\define('PUN_PLUGIN_LOADED', 1);
+\define('PLUGIN_VERSION', 1.3);
 
 if (isset($_POST['prune'])) {
     // Make sure something something was entered
-    if (('' == trim($_POST['days'])) || '' == trim($_POST['posts'])) {
+    if (('' == \trim($_POST['days'])) || '' == \trim($_POST['posts'])) {
         message('Вы должны задать все настройки!');
     }
     if ($_POST['admods_delete']) {
@@ -30,43 +30,44 @@ if (isset($_POST['prune'])) {
     $prune = (1 == $_POST['prune_by']) ? 'registered' : 'last_visit';
 
     $user_time = $_SERVER['REQUEST_TIME'] - ($_POST['days'] * 86400);
-    $result = $db->query('DELETE FROM '.$db->prefix.'users WHERE (num_posts < '.intval($_POST['posts']).') AND ('.$prune.' < '.intval($user_time).') AND (id > 2) AND ('.$admod_delete.')'.$verified) or error('Unable to delete users', __FILE__, __LINE__, $db->error());
+    $result = $db->query('DELETE FROM '.$db->prefix.'users WHERE (num_posts < '.\intval($_POST['posts']).') AND ('.$prune.' < '.\intval($user_time).') AND (id > 2) AND ('.$admod_delete.')'.$verified) or error('Unable to delete users', __FILE__, __LINE__, $db->error());
     $users_pruned = $db->affected_rows();
     message('Сокращение завершено. Удалены пользователи '.$users_pruned.'.');
 } elseif (isset($_POST['add_user'])) {
     require PUN_ROOT.'lang/'.$pun_user['language'].'/prof_reg.php';
+
     require PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
     $username = pun_trim($_POST['username']);
-    $email1 = mb_strtolower(trim($_POST['email']));
-    $email2 = mb_strtolower(trim($_POST['email']));
+    $email1 = \mb_strtolower(\trim($_POST['email']));
+    $email2 = \mb_strtolower(\trim($_POST['email']));
 
     if (1 == $_POST['random_pass']) {
         $password1 = random_pass(8);
         $password2 = $password1;
     } else {
-        $password1 = trim($_POST['password']);
-        $password2 = trim($_POST['password']);
+        $password1 = \trim($_POST['password']);
+        $password2 = \trim($_POST['password']);
     }
 
     // Convert multiple whitespace characters into one (to prevent people from registering with indistinguishable usernames)
-    $username = preg_replace('#\s+#s', ' ', $username);
+    $username = \preg_replace('#\s+#s', ' ', $username);
 
     // Validate username and passwords
-    if (mb_strlen($username) < 2) {
+    if (\mb_strlen($username) < 2) {
         message($lang_prof_reg['Username too short']);
-    } elseif (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } elseif (\mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         message($lang_common['Bad request']);
-    } elseif (mb_strlen($password1) < 4) {
+    } elseif (\mb_strlen($password1) < 4) {
         message($lang_prof_reg['Pass too short']);
     } elseif ($password1 != $password2) {
         message($lang_prof_reg['Pass not match']);
-    } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+    } elseif (!\strcasecmp($username, 'Guest') || !\strcasecmp($username, $lang_common['Guest'])) {
         message($lang_prof_reg['Username guest']);
-    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+    } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         message($lang_prof_reg['Username IP']);
-    } elseif ((false !== strpos($username, '[') || false !== strpos($username, ']')) && false !== strpos($username, "'") && false !== strpos($username, '"')) {
+    } elseif ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
         message($lang_prof_reg['Username reserved chars']);
-    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]|\[hide|\[/hide\]#i', $username)) {
+    } elseif (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]|\[hide|\[/hide\]#i', $username)) {
         message($lang_prof_reg['Username BBCode']);
     }
 
@@ -79,7 +80,7 @@ if (isset($_POST['prune'])) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE username=\''.$db->escape($username).'\' OR username=\''.$db->escape(preg_replace('/[^\w]/', '', $username)).'\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
@@ -103,7 +104,7 @@ if (isset($_POST['prune'])) {
     }
 
     $timezone = 0;
-    $language = isset($_POST['language']) ? $_POST['language'] : $pun_config['o_default_lang'];
+    $language = $_POST['language'] ?? $pun_config['o_default_lang'];
     $save_pass = (!isset($_POST['save_pass']) || 1 != $_POST['save_pass']) ? 0 : 1;
 
     // Insert the new user into the database. We do this now to get the last inserted id for later use.
@@ -125,18 +126,18 @@ if (isset($_POST['prune'])) {
     // Must the user verify the registration or do we log him/her in right now?
     if (1 == $_POST['random_pass']) {
         // Load the "welcome" template
-        $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/welcome.tpl'));
+        $mail_tpl = \trim(\file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/welcome.tpl'));
 
         // The first row contains the subject
-        $first_crlf = strpos($mail_tpl, "\n");
-        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
-        $mail_message = trim(substr($mail_tpl, $first_crlf));
-        $mail_subject = str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
-        $mail_message = str_replace('<base_url>', $pun_config['o_base_url'].'/', $mail_message);
-        $mail_message = str_replace('<username>', $username, $mail_message);
-        $mail_message = str_replace('<password>', $password1, $mail_message);
-        $mail_message = str_replace('<login_url>', $pun_config['o_base_url'].'/login.php', $mail_message);
-        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+        $first_crlf = \strpos($mail_tpl, "\n");
+        $mail_subject = \trim(\substr($mail_tpl, 8, $first_crlf - 8));
+        $mail_message = \trim(\substr($mail_tpl, $first_crlf));
+        $mail_subject = \str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
+        $mail_message = \str_replace('<base_url>', $pun_config['o_base_url'].'/', $mail_message);
+        $mail_message = \str_replace('<username>', $username, $mail_message);
+        $mail_message = \str_replace('<password>', $password1, $mail_message);
+        $mail_message = \str_replace('<login_url>', $pun_config['o_base_url'].'/login.php', $mail_message);
+        $mail_message = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
         pun_mail($email1, $mail_subject, $mail_message);
     }
 

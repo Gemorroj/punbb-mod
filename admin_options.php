@@ -1,9 +1,11 @@
 <?php
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -20,46 +22,46 @@ if (@$_POST['form_sent']) {
     {message($lang_common['Bad referrer']);}
     */
 
-    $form = array_map('trim', $_POST['form']);
+    $form = \array_map('trim', $_POST['form']);
 
     if (!$form['board_title']) {
         message($lang_admin['options_fail_board_title']);
     }
 
     // Clean default_lang
-    $form['default_lang'] = preg_replace('#[\.\\\/]#', '', $form['default_lang']);
+    $form['default_lang'] = \preg_replace('#[\.\\\/]#', '', $form['default_lang']);
 
     require PUN_ROOT.'include/email.php';
 
-    $form['admin_email'] = strtolower($form['admin_email']);
+    $form['admin_email'] = \strtolower($form['admin_email']);
     if (!is_valid_email($form['admin_email'])) {
         message($lang_admin['options_fail_email']);
     }
 
-    $form['webmaster_email'] = strtolower($form['webmaster_email']);
+    $form['webmaster_email'] = \strtolower($form['webmaster_email']);
     if (!is_valid_email($form['webmaster_email'])) {
         message($lang_admin['options_fail_webm_email']);
     }
 
     if ($form['mailing_list']) {
-        $form['mailing_list'] = strtolower(preg_replace('/[\s]/', '', $form['mailing_list']));
+        $form['mailing_list'] = \strtolower(\preg_replace('/[\s]/', '', $form['mailing_list']));
     }
 
     // Make sure base_url doesn't end with a slash
-    if ('/' === substr($form['base_url'], -1)) {
-        $form['base_url'] = substr($form['base_url'], 0, -1);
+    if ('/' === \substr($form['base_url'], -1)) {
+        $form['base_url'] = \substr($form['base_url'], 0, -1);
     }
 
     // Clean avatars_dir
-    $form['avatars_dir'] = str_replace(chr(0), '', $form['avatars_dir']);
+    $form['avatars_dir'] = \str_replace(\chr(0), '', $form['avatars_dir']);
 
     // Make sure avatars_dir doesn't end with a slash
-    if ('/' == substr($form['avatars_dir'], -1)) {
-        $form['avatars_dir'] = substr($form['avatars_dir'], 0, -1);
+    if ('/' == \substr($form['avatars_dir'], -1)) {
+        $form['avatars_dir'] = \substr($form['avatars_dir'], 0, -1);
     }
 
     if ($form['additional_navlinks']) {
-        $form['additional_navlinks'] = trim(pun_linebreaks($form['additional_navlinks']));
+        $form['additional_navlinks'] = \trim(pun_linebreaks($form['additional_navlinks']));
         if ($form['additional_navlinks']) {
             $form['additional_navlinks'] .= "\n";
         }
@@ -95,22 +97,22 @@ if (@$_POST['form_sent']) {
         }
     }
 
-    $form['timeout_visit'] = intval($form['timeout_visit']);
-    $form['timeout_online'] = intval($form['timeout_online']);
-    $form['redirect_delay'] = intval($form['redirect_delay']);
-    $form['topic_review'] = intval($form['topic_review']);
-    $form['disp_topics_default'] = intval($form['disp_topics_default']);
-    $form['disp_posts_default'] = intval($form['disp_posts_default']);
-    $form['indent_num_spaces'] = intval($form['indent_num_spaces']);
-    $form['avatars_width'] = intval($form['avatars_width']);
-    $form['avatars_height'] = intval($form['avatars_height']);
-    $form['avatars_size'] = intval($form['avatars_size']);
-    $form['timeout_reg'] = intval($form['timeout_reg']);
-    $form['timeout_merge'] = intval($form['timeout_merge']);
-    $form['show_moderators'] = intval($form['show_moderators']);
+    $form['timeout_visit'] = \intval($form['timeout_visit']);
+    $form['timeout_online'] = \intval($form['timeout_online']);
+    $form['redirect_delay'] = \intval($form['redirect_delay']);
+    $form['topic_review'] = \intval($form['topic_review']);
+    $form['disp_topics_default'] = \intval($form['disp_topics_default']);
+    $form['disp_posts_default'] = \intval($form['disp_posts_default']);
+    $form['indent_num_spaces'] = \intval($form['indent_num_spaces']);
+    $form['avatars_width'] = \intval($form['avatars_width']);
+    $form['avatars_height'] = \intval($form['avatars_height']);
+    $form['avatars_size'] = \intval($form['avatars_size']);
+    $form['timeout_reg'] = \intval($form['timeout_reg']);
+    $form['timeout_merge'] = \intval($form['timeout_merge']);
+    $form['show_moderators'] = \intval($form['show_moderators']);
 
     // голосования
-    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.intval($form['poll']).'" WHERE conf_name="poll_enabled"') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.\intval($form['poll']).'" WHERE conf_name="poll_enabled"') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
     unset($form['poll']);
 
     if ($form['timeout_online'] >= $form['timeout_visit']) {
@@ -119,8 +121,8 @@ if (@$_POST['form_sent']) {
 
     foreach ($form as $key => $input) {
         // Only update values that have changed
-        if (array_key_exists('o_'.$key, $pun_config) && $pun_config['o_'.$key] != $input) {
-            if ($input || is_int($input)) {
+        if (\array_key_exists('o_'.$key, $pun_config) && $pun_config['o_'.$key] != $input) {
+            if ($input || \is_int($input)) {
                 $value = "'".$db->escape($input)."'";
             } else {
                 $value = 'NULL';
@@ -141,6 +143,7 @@ if (@$_POST['form_sent']) {
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Options';
 $form_name = 'update_options';
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('options');
@@ -307,15 +310,15 @@ echo '<span>'.$lang_admin['options_timezone_about'].'</span>
 <select name="form[default_lang]">';
 
 $languages = array();
-$d = dir(PUN_ROOT.'lang');
+$d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
-    if ('.' != $entry[0] && is_dir(PUN_ROOT.'lang/'.$entry) && file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+    if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
         $languages[] = $entry;
     }
 }
 $d->close();
 
-@natsort($languages);
+@\natsort($languages);
 
 foreach ($languages as $temp) {
     if ($pun_config['o_default_lang'] == $temp) {
@@ -335,21 +338,21 @@ echo '</select>
 <select name="form[default_style]">';
 
 $styles = array();
-$d = dir(PUN_ROOT.'style');
+$d = \dir(PUN_ROOT.'style');
 while (false !== ($entry = $d->read())) {
-    if ('.css' == substr($entry, strlen($entry) - 4)) {
-        $styles[] = substr($entry, 0, strlen($entry) - 4);
+    if ('.css' == \substr($entry, \strlen($entry) - 4)) {
+        $styles[] = \substr($entry, 0, \strlen($entry) - 4);
     }
 }
 $d->close();
 
-@natsort($styles);
+@\natsort($styles);
 
 foreach ($styles as $temp) {
     if ($pun_config['o_default_style'] == $temp) {
-        echo '<option value="'.$temp.'" selected="selected">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'" selected="selected">'.\str_replace('_', ' ', $temp).'</option>';
     } else {
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'">'.\str_replace('_', ' ', $temp).'</option>';
     }
 }
 
@@ -363,21 +366,21 @@ echo '</select>
 <select name="form[default_style_wap]">';
 
 $stylesWap = array();
-$d = dir(PUN_ROOT.'include/template/wap');
+$d = \dir(PUN_ROOT.'include/template/wap');
 while (false !== ($entry = $d->read())) {
-    if ('.' != $entry[0] && is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
+    if ('.' != $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
         $stylesWap[] = $entry;
     }
 }
 $d->close();
 
-@natsort($stylesWap);
+@\natsort($stylesWap);
 
 foreach ($stylesWap as $temp) {
     if ($pun_config['o_default_style_wap'] == $temp) {
-        echo '<option value="'.$temp.'" selected="selected">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'" selected="selected">'.\str_replace('_', ' ', $temp).'</option>';
     } else {
-        echo '<option value="'.$temp.'">'.str_replace('_', ' ', $temp).'</option>';
+        echo '<option value="'.$temp.'">'.\str_replace('_', ' ', $temp).'</option>';
     }
 }
 
@@ -398,14 +401,14 @@ echo '</select>
 <th scope="row">Формат времени</th>
 <td>
 <input type="text" name="form[time_format]" size="25" maxlength="25" value="'.pun_htmlspecialchars($pun_config['o_time_format']).'" />
-<span>[Нынешний формат: '.date($pun_config['o_time_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
+<span>[Нынешний формат: '.\date($pun_config['o_time_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
 </td>
 </tr>
 <tr>
 <th scope="row">Формат даты</th>
 <td>
 <input type="text" name="form[date_format]" size="25" maxlength="25" value="'.pun_htmlspecialchars($pun_config['o_date_format']).'" />
-<span>[Нынешний формат: '.date($pun_config['o_date_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
+<span>[Нынешний формат: '.\date($pun_config['o_date_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
 </td>
 </tr>
 <tr>

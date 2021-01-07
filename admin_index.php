@@ -1,10 +1,12 @@
 <?php
 
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -14,44 +16,45 @@ if ($pun_user['g_id'] > PUN_MOD) {
     message($lang_common['No permission']);
 }
 
-$action = isset($_GET['action']) ? $_GET['action'] : null;
+$action = $_GET['action'] ?? null;
 
 // Check for upgrade
 if ('check_upgrade' == $action) {
-    if (!ini_get('allow_url_fopen')) {
+    if (!\ini_get('allow_url_fopen')) {
         message($lang_admin['index_allow_url_fopen']);
     }
 
-    $fp = @fopen('http://punbb.informer.com/latest_version', 'r');
-    $latest_version = trim(@fread($fp, 16));
-    @fclose($fp);
+    $fp = @\fopen('http://punbb.informer.com/latest_version', 'r');
+    $latest_version = \trim(@\fread($fp, 16));
+    @\fclose($fp);
 
     if ('' == $latest_version) {
         message($lang_admin['index_fail_update']);
     }
 
-    $latest_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $latest_version);
-    $cur_version = preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $cur_version);
+    $latest_version = \preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $latest_version);
+    $cur_version = \preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $cur_version);
 
-    if (version_compare($cur_version, $latest_version, '>=')) {
+    if (\version_compare($cur_version, $latest_version, '>=')) {
         message($lang_admin['index_update_no']);
     } else {
         message($lang_admin['index_update_yes']);
     }
 } elseif ('phpinfo' == $action && PUN_ADMIN == $pun_user['g_id']) {
     // Is phpinfo() a disabled function?
-    if (false !== strpos(strtolower((string) @ini_get('disable_functions')), 'phpinfo')) {
+    if (false !== \strpos(\strtolower((string) @\ini_get('disable_functions')), 'phpinfo')) {
         message($lang_admin['phpinfo']);
     }
 
-    phpinfo();
+    \phpinfo();
+
     exit;
 } elseif ('optimize' == $action) {
     $errors = array();
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
         if ('online' != $row['Name']) {
-            if (!$db->query('ALTER TABLE `'.str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
+            if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
                 $errors[] = $db->error();
             }
         }
@@ -65,15 +68,15 @@ if ('check_upgrade' == $action) {
 }
 
 // Get the server load averages (if possible)
-if (@file_exists('/proc/loadavg') && is_readable('/proc/loadavg')) {
+if (@\file_exists('/proc/loadavg') && \is_readable('/proc/loadavg')) {
     // We use @ just in case
-    $fh = @fopen('/proc/loadavg', 'r');
-    $load_averages = @fread($fh, 64);
-    @fclose($fh);
+    $fh = @\fopen('/proc/loadavg', 'r');
+    $load_averages = @\fread($fh, 64);
+    @\fclose($fh);
 
-    $load_averages = @explode(' ', $load_averages);
+    $load_averages = @\explode(' ', $load_averages);
     $server_load = isset($load_averages[2]) ? $load_averages[0].' '.$load_averages[1].' '.$load_averages[2] : 'Not available';
-} elseif (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages)) {
+} elseif (!\in_array(\PHP_OS, array('WINNT', 'WIN32')) && \preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @\exec('uptime'), $load_averages)) {
     $server_load = $load_averages[1].' '.$load_averages[2].' '.$load_averages[3];
 } else {
     $server_load = 'Not available';
@@ -102,50 +105,51 @@ while ($status = $db->fetch_assoc($result)) {
 $total_size = $total_size / 1024;
 
 if ($total_size > 1024) {
-    $total_size = round($total_size / 1024, 2).' mb';
+    $total_size = \round($total_size / 1024, 2).' mb';
 } else {
-    $total_size = round($total_size, 2).' kb';
+    $total_size = \round($total_size, 2).' kb';
 }
 
 // See if php accelerator is loaded
 $php_accelerators = array();
-if (extension_loaded('ionCube Loader')) {
+if (\extension_loaded('ionCube Loader')) {
     $php_accelerators[] = '<a href="http://www.ioncube.com/php_encoder.php">ionCube PHP Encoder</a>';
 }
-if (extension_loaded('apc')) {
+if (\extension_loaded('apc')) {
     $php_accelerators[] = '<a href="http://pecl.php.net/package/apc">APC</a>';
 }
-if (extension_loaded('apcu')) {
+if (\extension_loaded('apcu')) {
     $php_accelerators[] = '<a href="http://pecl.php.net/package/apcu">APCu</a>';
 }
-if (extension_loaded('eaccelerator')) {
+if (\extension_loaded('eaccelerator')) {
     $php_accelerators[] = '<a href="http://eaccelerator.net/">eAccelerator</a>';
 }
-if (extension_loaded('Zend Optimizer')) {
+if (\extension_loaded('Zend Optimizer')) {
     $php_accelerators[] = '<a href="http://www.zend.com/en/products/guard/runtime-decoders">Zend Optimizer</a>';
 }
-if (extension_loaded('Zend Optimizer+')) {
+if (\extension_loaded('Zend Optimizer+')) {
     $php_accelerators[] = '<a href="https://github.com/zend-dev/ZendOptimizerPlus">Zend Optimizer+</a>';
 }
-if (extension_loaded('Zend OPcache')) {
+if (\extension_loaded('Zend OPcache')) {
     $php_accelerators[] = '<a href="https://github.com/php/php-src/tree/master/ext/opcache">Zend OPcache</a>';
 }
-if (extension_loaded('xcache')) {
+if (\extension_loaded('xcache')) {
     $php_accelerators[] = '<a href="http://xcache.lighttpd.net/">XCache</a>';
 }
-if (extension_loaded('wincache')) {
+if (\extension_loaded('wincache')) {
     $php_accelerators[] = '<a href="http://www.iis.net/downloads/microsoft/wincache-extension">WinCache</a>';
 }
 
 $server_info = '';
-if (function_exists('apache_get_version')) {
+if (\function_exists('apache_get_version')) {
     $server_info = apache_get_version();
 } else {
-    $server_info = php_sapi_name();
+    $server_info = \php_sapi_name();
 }
-$server_info = htmlspecialchars($server_info);
+$server_info = \htmlspecialchars($server_info);
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin';
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('index');
@@ -179,10 +183,10 @@ PunBB Mod '.$pun_config['o_show_version'].'<br />
 </dd>
 <dt>'.$lang_admin['index_int'].'</dt>
 <dd>
-OS: '.PHP_OS.'<br />
+OS: '.\PHP_OS.'<br />
 Server: '.$server_info.'<br />
-PHP: '.phpversion().' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
-Accelerator: '.($php_accelerators ? implode(', ', $php_accelerators) : 'N/A').'
+PHP: '.\phpversion().' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
+Accelerator: '.($php_accelerators ? \implode(', ', $php_accelerators) : 'N/A').'
 </dd>
 <dt>'.$lang_admin['index_bd'].'</dt>
 <dd>

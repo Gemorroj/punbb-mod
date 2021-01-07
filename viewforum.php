@@ -1,6 +1,7 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
@@ -19,7 +20,7 @@ if (!$pun_user['g_read_board']) {
     message($lang_common['No view']);
 }
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
     message($lang_common['Bad request']);
 }
@@ -51,10 +52,10 @@ if ($cur_forum['redirect_url']) {
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = array();
 if ($cur_forum['moderators']) {
-    $mods_array = unserialize($cur_forum['moderators']);
+    $mods_array = \unserialize($cur_forum['moderators']);
 }
 
-$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && array_key_exists($pun_user['username'], $mods_array))) ? true : false;
+$is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not post new topics?
 if ((!$cur_forum['post_topics'] && 1 == $pun_user['g_post_topics']) || 1 == $cur_forum['post_topics'] || $is_admmod) {
@@ -64,7 +65,7 @@ if ((!$cur_forum['post_topics'] && 1 == $pun_user['g_post_topics']) || 1 == $cur
 }
 
 // Determine the topic offset (based on $_GET['p'])
-$num_pages = ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
+$num_pages = \ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
 $start_from = $pun_user['disp_topics'] * ($p - 1);
@@ -77,7 +78,8 @@ if (isset($_GET['action']) && 'all' == $_GET['action']) {
 $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewforum.php?id='.$id);
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_forum['forum_name']);
-define('PUN_ALLOW_INDEX', 1);
+\define('PUN_ALLOW_INDEX', 1);
+
 require_once PUN_ROOT.'header.php';
 
 echo '<div class="linkst"><div class="inbox"><p class="pagelink conl">'.$paging_links.'</p>'.$post_link.'<ul><li><a href="index.php">'.$lang_common['Index'].'</a> </li><li>&#187; '.pun_htmlspecialchars($cur_forum['forum_name']).'</li></ul><div class="clearer"></div></div></div><div id="vf" class="blocktable"><h2><span>'.pun_htmlspecialchars($cur_forum['forum_name']).'</span></h2><div class="box"><div class="inbox"><table cellspacing="0"><thead><tr><th class="tcl" scope="col">'.$lang_common['Topic'].'</th><th class="tc2" scope="col">'.$lang_common['Replies'].'</th><th class="tc3" scope="col">'.$lang_forum['Views'].'</th><th class="tcr" scope="col">'.$lang_common['Last post'].'</th></tr></thead><tbody>';
@@ -176,7 +178,7 @@ if ($db->num_rows($result)) {
             $icon_text .= ' '.$lang_forum['Sticky'];
         }
 
-        $num_pages_topic = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+        $num_pages_topic = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
         if ($num_pages_topic > 1) {
             $subject_multipage = '[ '.paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']).' ]';
@@ -190,7 +192,7 @@ if ($db->num_rows($result)) {
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         }
 
-        echo '<tr'.($item_status ? ' class="'.trim($item_status).'"' : '').'><td class="tcl"><div class="intd"><div class="'.$icon_type.'"><div class="nosize">'.trim($icon_text).'</div></div><div class="tclcon">'.$subject.'</div></div></td><td class="tc2">'.((null == $cur_topic['moved_to']) ? $cur_topic['num_replies'] : '&#160;').'</td><td class="tc3">'.((null == $cur_topic['moved_to']) ? $cur_topic['num_views'] : '&#160;').'</td><td class="tcr">'.$last_post.'</td></tr>';
+        echo '<tr'.($item_status ? ' class="'.\trim($item_status).'"' : '').'><td class="tcl"><div class="intd"><div class="'.$icon_type.'"><div class="nosize">'.\trim($icon_text).'</div></div><div class="tclcon">'.$subject.'</div></div></td><td class="tc2">'.((null == $cur_topic['moved_to']) ? $cur_topic['num_replies'] : '&#160;').'</td><td class="tc3">'.((null == $cur_topic['moved_to']) ? $cur_topic['num_views'] : '&#160;').'</td><td class="tcr">'.$last_post.'</td></tr>';
     }
 } else {
     echo '<tr><td class="tcl" colspan="4">'.$lang_forum['Empty forum'].'</td></tr>';
@@ -200,4 +202,5 @@ echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><
 
 $forum_id = $id;
 $footer_style = 'viewforum';
+
 require_once PUN_ROOT.'footer.php';

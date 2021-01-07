@@ -1,6 +1,6 @@
 <?php
 
-define('PUN_ROOT', '../');
+\define('PUN_ROOT', '../');
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -11,10 +11,10 @@ require_once PUN_ROOT.'include/common.php';
  * Maximum size of all uploaded files in the dir uploaded.
  * Size in Mbytes.
 */
-define('MAX_DIR_UPLOAD', 100);
+\define('MAX_DIR_UPLOAD', 100);
 
-session_name('bunbb_upload');
-session_start();
+\session_name('bunbb_upload');
+\session_start();
 
 // is it first time we run uploader?
 if (!isset($_SESSION['firsttime'])) {
@@ -100,7 +100,7 @@ if (isset($_GET['file'])) {
     // an author of Attachment mod).
     // lets download a file
     $file_name = $_GET['file'];
-    $file_name = str_replace(array('/', '\\'), '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $file_name = \str_replace(array('/', '\\'), '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if (!$upl_conf['p_view']) {
         wap_message($lang_common['No permission']);
@@ -113,7 +113,7 @@ if (isset($_GET['file'])) {
         }
     }
 
-    if (!is_file(PUN_ROOT.'uploaded/'.$file_name)) {
+    if (!\is_file(PUN_ROOT.'uploaded/'.$file_name)) {
         wap_message($lang_common['Bad request']);
     }
 
@@ -134,20 +134,20 @@ while ($ar = $db->fetch_assoc($result)) {
 }
 /////////////////////////////////
 
-$exts = trim($exts); // now we have all file types in one string
+$exts = \trim($exts); // now we have all file types in one string
 
 if (isset($_GET['uploadit'])) {
     if (1 == $upl_conf['p_upload']) {
         $maxsize = $upl_conf['u_fsize'];
-        $rules = str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
-        $rules = str_replace('%EXT%', $exts, $rules);
+        $rules = \str_replace('%SIZE%', $maxsize, $lang_uploads['Upload rules mes']);
+        $rules = \str_replace('%EXT%', $exts, $rules);
     }
 } elseif (isset($_POST['act'])) {
     // try to upload a file
     $temp_name = $_FILES['file']['tmp_name'];
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
-    $file_size = @round(($_FILES['file']['size']) / 1024);
+    $file_size = @\round(($_FILES['file']['size']) / 1024);
 
     $result = $_FILES['file']['error'];
     if (1 != $upl_conf['p_upload']) {
@@ -155,26 +155,26 @@ if (isset($_GET['uploadit'])) {
     }
 
     // Here could be check of MAX_DIR_UPLOAD > 100 Mbytes, for example
-    if (round((dir_size(PUN_ROOT.'uploaded') + $file_size) / 1048576) > MAX_DIR_UPLOAD) {
+    if (\round((dir_size(PUN_ROOT.'uploaded') + $file_size) / 1048576) > MAX_DIR_UPLOAD) {
         error('The directory is full. Contact administrator, please.', __FILE__, __LINE__, $db->error());
     } elseif (!$file_name) {
         error($lang_uploads['Err no file'], __FILE__, __LINE__, $db->error());
-    } elseif (file_exists(PUN_ROOT.'uploaded/'.$file_name)) {
+    } elseif (\file_exists(PUN_ROOT.'uploaded/'.$file_name)) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
     } elseif ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } elseif (!in_array('.'.strtolower(pathinfo($file_name, PATHINFO_EXTENSION)), explode(' ', $exts))) {
+    } elseif (!\in_array('.'.\strtolower(\pathinfo($file_name, \PATHINFO_EXTENSION)), \explode(' ', $exts))) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
-    } elseif (mb_strlen($file_name) > 255) {
+    } elseif (\mb_strlen($file_name) > 255) {
         error($lang_uploads['Err file name big'], __FILE__, __LINE__, $db->error());
     } else {
         // file matches
-        if (!move_uploaded_file($temp_name, PUN_ROOT.'uploaded/'.$file_name) || !is_file(PUN_ROOT.'uploaded/'.$file_name)) {
+        if (!\move_uploaded_file($temp_name, PUN_ROOT.'uploaded/'.$file_name) || !\is_file(PUN_ROOT.'uploaded/'.$file_name)) {
             error('{'.pun_htmlspecialchars($file_name).'} - '.$lang_uploads['Err file couldnot'], __FILE__, __LINE__, $db->error());
         }
 
         // lets deal with description
-        $descript = mb_substr($_POST['descr'], 0, 1000);
+        $descript = \mb_substr($_POST['descr'], 0, 1000);
 
         $result = $db->query('
             INSERT INTO '.$db->prefix.'uploaded (
@@ -186,7 +186,7 @@ if (isset($_GET['uploadit'])) {
     }
 } elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
-    $delfile = str_replace(array('/', '\\'), '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $delfile = \str_replace(array('/', '\\'), '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if ((1 != $upl_conf['p_delete']) && (1 != $upl_conf['p_globaldelete'])) {
         error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
@@ -198,34 +198,34 @@ if (isset($_GET['uploadit'])) {
         }
     }
 
-    if (!file_exists(PUN_ROOT.'uploaded/'.$delfile)) {
+    if (!\file_exists(PUN_ROOT.'uploaded/'.$delfile)) {
         error($lang_uploads['Err file not found'], __FILE__, __LINE__, $db->error());
     } else {
-        @unlink(PUN_ROOT.'uploaded/'.$delfile);
+        @\unlink(PUN_ROOT.'uploaded/'.$delfile);
         $result = $db->query('DELETE FROM '.$db->prefix.'uploaded WHERE file=\''.$db->escape($delfile).'\'') or error('Unable to delete file from table', __FILE__, __LINE__, $db->error());
     }
 } else {
     $sql = 1;
     // lets try to filter records
-    if (strlen($s_file) > 0) {
+    if (\strlen($s_file) > 0) {
         $sql .= ' AND file LIKE "%'.$db->escape($s_file).'%"';
     }
-    if (strlen($s_user) > 0) {
+    if (\strlen($s_user) > 0) {
         $sql .= ' AND user LIKE "%'.$db->escape($s_user).'%"';
     }
-    if (strlen($s_desc) > 0) {
+    if (\strlen($s_desc) > 0) {
         $sql .= ' AND descr LIKE "%'.$db->escape($s_desc).'%"';
     }
-    $cat = intval($s_cat);
+    $cat = \intval($s_cat);
     if ($cat > 0) {
         $result = $db->query('SELECT exts FROM '.$db->prefix.'uploads_types WHERE id = '.$cat) or error('Unable to get types', __FILE__, __LINE__, $db->error());
         $extens = array();
         if ($ar = $db->fetch_assoc($result)) {
-            $extens = explode(' ', $ar['exts']);
+            $extens = \explode(' ', $ar['exts']);
         }
-        if (count($extens) > 0) {
+        if (\count($extens) > 0) {
             $sql .= ' AND (file LIKE "%'.$extens[0].'"';
-            for ($i = 1, $all = count($extens); $i < $all; ++$i) {
+            for ($i = 1, $all = \count($extens); $i < $all; ++$i) {
                 $sql .= ' OR file LIKE "%'.$extens[$i].'"';
             }
             $sql .= ')';
@@ -234,10 +234,10 @@ if (isset($_GET['uploadit'])) {
 
     $sorto = ' ORDER BY data DESC';
     // try to sort on specified column
-    $s = intval($s_sort);
+    $s = \intval($s_sort);
     $sorto = ' ORDER BY ';
     $sorters = array('id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr');
-    if ($s < 1 || $s >= count($sorters)) {
+    if ($s < 1 || $s >= \count($sorters)) {
         $s = 1;
     }
     $sorto .= $sorters[$s];
@@ -257,13 +257,13 @@ if (isset($_GET['uploadit'])) {
     }
     $allrec = $db->result($result); // amount of all records satisfying our query
     $currec = $s_page * $s_nump;
-    $kolvop = ceil($allrec / $s_nump); // number of pages
+    $kolvop = \ceil($allrec / $s_nump); // number of pages
     $cp = (0 == $kolvop ? 1 : $kolvop); //real
     $temppage = $s_page + 1;
 
-    $flist = str_replace('%NUM%', $allrec, $lang_uploads['File list']);
-    $flist = str_replace('%CUR%', $temppage, $flist);
-    $flist = str_replace('%ALL%', $cp, $flist);
+    $flist = \str_replace('%NUM%', $allrec, $lang_uploads['File list']);
+    $flist = \str_replace('%CUR%', $temppage, $flist);
+    $flist = \str_replace('%ALL%', $cp, $flist);
 
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT * FROM '.$db->prefix.'uploaded WHERE '.$sql.$sorto.' LIMIT '.$currec.','.$s_nump) or error('Error getting file list', __FILE__, __LINE__, $db->error());
@@ -281,18 +281,18 @@ if (isset($_GET['uploadit'])) {
 function dir_size($dir)
 {
     $sz = 0;
-    if ($str = @opendir($dir)) {
-        while (false !== ($fnm = readdir($str))) {
+    if ($str = @\opendir($dir)) {
+        while (false !== ($fnm = \readdir($str))) {
             if ('.' != $fnm[0]) {
-                if (is_file($dir.'/'.$fnm)) {
-                    $sz += filesize($dir.'/'.$fnm);
-                } elseif (is_dir($dir.'/'.$fnm)) {
+                if (\is_file($dir.'/'.$fnm)) {
+                    $sz += \filesize($dir.'/'.$fnm);
+                } elseif (\is_dir($dir.'/'.$fnm)) {
                     $sz += dir_size($dir.'/'.$fnm);
                 }
             }
         }
     }
-    closedir($str);
+    \closedir($str);
 
     return $sz;
 }

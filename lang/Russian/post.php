@@ -49,6 +49,7 @@ function seconds_st($nm)
             $st = 'секунду';
 
             break;
+
         case 2:
         case 3:
         case 4:
@@ -67,6 +68,7 @@ function seconds_st($nm)
             $st = 'секунды';
 
             break;
+
         default:
             $st = 'секунд';
 
@@ -87,6 +89,7 @@ function minutes_st($nm)
             $st = 'минуту';
 
             break;
+
         case 2:
         case 3:
         case 4:
@@ -105,6 +108,7 @@ function minutes_st($nm)
             $st = 'минуты';
 
             break;
+
         default:
             $st = 'минут';
 
@@ -122,6 +126,7 @@ function hours_st($nm)
             $st = 'час';
 
             break;
+
         case 2:
         case 3:
         case 4:
@@ -130,6 +135,7 @@ function hours_st($nm)
             $st = 'часа';
 
             break;
+
         default:
             $st = 'часов';
 
@@ -147,6 +153,7 @@ function days_st($nm)
             $st = 'день';
 
             break;
+
         case 2:
         case 3:
         case 4:
@@ -155,6 +162,7 @@ function days_st($nm)
             $st = 'дня';
 
             break;
+
         default:
             $st = 'дней';
 

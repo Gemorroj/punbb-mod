@@ -1,8 +1,9 @@
 <?php
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 
 require_once PUN_ROOT.'include/common.php';
+
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
@@ -14,7 +15,7 @@ if ($pun_user['is_guest']) {
 }
 
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+    $id = \intval($_GET['id']);
     $result_messages = $db->query('SELECT owner, sender, posted, subject FROM '.$db->prefix.'messages WHERE status=0 AND id='.$id) or error('Unable check owner popup', __FILE__, __LINE__, $db->error());
     $return = $db->fetch_assoc($result_messages);
     if ($return['owner'] != $pun_user['id']) {

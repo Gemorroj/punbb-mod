@@ -1,7 +1,8 @@
 <?php
-session_start();
+\session_start();
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
 
 // If we are logged in, we shouldn't be here
@@ -27,6 +28,7 @@ if (isset($_GET['cancel'])) {
     redirect('index.php', $lang_registration['Reg cancel redirect']);
 } elseif (1 == $pun_config['o_rules'] && !isset($_GET['agree']) && !isset($_POST['form_sent'])) {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_registration['Register'];
+
     require_once PUN_ROOT.'header.php';
 
     echo '<div class="blockform">
@@ -49,7 +51,7 @@ if (isset($_GET['cancel'])) {
     require_once PUN_ROOT.'footer.php';
 } elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.get_remote_address().'\' AND registered>'.(time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg'])) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         message($lang_registration['Timeout']);
@@ -58,12 +60,12 @@ if (isset($_GET['cancel'])) {
     // Image verifcation
     if (1 == $pun_config['o_regs_verify_image']) {
         // Make sure what they submitted is not empty
-        if (!trim($_POST['req_image_'])) {
+        if (!\trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
             message($lang_registration['Text mismatch']);
         }
 
-        if ($_SESSION['captcha_keystring'] != strtolower(trim($_POST['req_image_']))) {
+        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
             message($lang_registration['Text mismatch']);
         }
@@ -76,37 +78,37 @@ if (isset($_GET['cancel'])) {
     // IMAGE VERIFICATION MOD END
 
     $username = pun_trim($_POST['req_username']);
-    $email1 = strtolower(trim($_POST['req_email1']));
+    $email1 = \strtolower(\trim($_POST['req_email1']));
 
     if (1 == $pun_config['o_regs_verify']) {
-        $email2 = strtolower(trim($_POST['req_email2']));
+        $email2 = \strtolower(\trim($_POST['req_email2']));
 
-        $password1 = random_pass(mt_rand(8, 9));
+        $password1 = random_pass(\mt_rand(8, 9));
         $password2 = $password1;
     } else {
-        $password1 = trim($_POST['req_password1']);
-        $password2 = trim($_POST['req_password2']);
+        $password1 = \trim($_POST['req_password1']);
+        $password2 = \trim($_POST['req_password2']);
     }
 
     // Convert multiple whitespace characters into one (to prevent people from registering with indistinguishable usernames)
-    $username = preg_replace('#\s+#s', ' ', $username);
+    $username = \preg_replace('#\s+#s', ' ', $username);
 
     // Validate username and passwords
-    if (mb_strlen($username) < 2) {
+    if (\mb_strlen($username) < 2) {
         message($lang_prof_reg['Username too short']);
-    } elseif (mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+    } elseif (\mb_strlen($username) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
         message($lang_common['Bad request']);
-    } elseif (mb_strlen($password1) < 4) {
+    } elseif (\mb_strlen($password1) < 4) {
         message($lang_prof_reg['Pass too short']);
     } elseif ($password1 != $password2) {
         message($lang_prof_reg['Pass not match']);
-    } elseif (!strcasecmp($username, 'Guest') || !strcasecmp($username, $lang_common['Guest'])) {
+    } elseif (!\strcasecmp($username, 'Guest') || !\strcasecmp($username, $lang_common['Guest'])) {
         message($lang_prof_reg['Username guest']);
-    } elseif (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
+    } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         message($lang_prof_reg['Username IP']);
-    } elseif ((false !== strpos($username, '[') || false !== strpos($username, ']')) && false !== strpos($username, "'") && false !== strpos($username, '"')) {
+    } elseif ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
         message($lang_prof_reg['Username reserved chars']);
-    } elseif (preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
+    } elseif (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
         message($lang_prof_reg['Username BBCode']);
     }
 
@@ -119,7 +121,7 @@ if (isset($_GET['cancel'])) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(preg_replace('/[^\w]/', '', $username)).'\')') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\')') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
@@ -172,29 +174,29 @@ if (isset($_GET['cancel'])) {
 
     // Make sure we got a valid language string
     if (isset($_POST['language'])) {
-        $language = preg_replace('#[\.\\\/]#', '', $_POST['language']);
-        if (!file_exists(PUN_ROOT.'lang/'.$language.'/common.php')) {
+        $language = \preg_replace('#[\.\\\/]#', '', $_POST['language']);
+        if (!\file_exists(PUN_ROOT.'lang/'.$language.'/common.php')) {
             message($lang_common['Bad request']);
         }
     } else {
         $language = $pun_config['o_default_lang'];
     }
 
-    $timezone = round($_POST['timezone'], 1);
+    $timezone = \round($_POST['timezone'], 1);
     $save_pass = (!isset($_POST['save_pass']) || 1 != $_POST['save_pass']) ? 0 : 1;
 
-    $email_setting = intval($_POST['email_setting']);
+    $email_setting = \intval($_POST['email_setting']);
     if ($email_setting < 0 || $email_setting > 2) {
         $email_setting = 1;
     }
 
     // Insert the new user into the database. We do this now to get the last inserted id for later use.
-    $now = time();
+    $now = \time();
 
     $initial_group_id = (!$pun_config['o_regs_verify']) ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
     $password_hash = pun_hash($password1);
 
-    $sex = intval($_POST['req_sex']);
+    $sex = \intval($_POST['req_sex']);
 
     // Add the user
     $db->query('
@@ -217,7 +219,7 @@ if (isset($_GET['cancel'])) {
     // If we previously found out that the e-mail was a dupe
     if ($dupe_list && $pun_config['o_mailing_list']) {
         $mail_subject = 'Alert - Duplicate e-mail detected';
-        $mail_message = 'User \''.$username.'\' registered with an e-mail address that also belongs to: '.implode(', ', $dupe_list)."\n\n".'User profile: '.$pun_config['o_base_url'].'/profile.php?id='.$new_uid."\n\n".'-- '."\n".'Forum Mailer'."\n".'(Do not reply to this message)';
+        $mail_message = 'User \''.$username.'\' registered with an e-mail address that also belongs to: '.\implode(', ', $dupe_list)."\n\n".'User profile: '.$pun_config['o_base_url'].'/profile.php?id='.$new_uid."\n\n".'-- '."\n".'Forum Mailer'."\n".'(Do not reply to this message)';
 
         pun_mail($pun_config['o_mailing_list'], $mail_subject, $mail_message);
     }
@@ -233,19 +235,19 @@ if (isset($_GET['cancel'])) {
     // Must the user verify the registration or do we log him/her in right now?
     if (1 == $pun_config['o_regs_verify']) {
         // Load the "welcome" template
-        $mail_tpl = trim(file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/welcome.tpl'));
+        $mail_tpl = \trim(\file_get_contents(PUN_ROOT.'lang/'.$pun_user['language'].'/mail_templates/welcome.tpl'));
 
         // The first row contains the subject
-        $first_crlf = strpos($mail_tpl, "\n");
-        $mail_subject = trim(substr($mail_tpl, 8, $first_crlf - 8));
-        $mail_message = trim(substr($mail_tpl, $first_crlf));
+        $first_crlf = \strpos($mail_tpl, "\n");
+        $mail_subject = \trim(\substr($mail_tpl, 8, $first_crlf - 8));
+        $mail_message = \trim(\substr($mail_tpl, $first_crlf));
 
-        $mail_subject = str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
-        $mail_message = str_replace('<base_url>', $pun_config['o_base_url'].'/', $mail_message);
-        $mail_message = str_replace('<username>', $username, $mail_message);
-        $mail_message = str_replace('<password>', $password1, $mail_message);
-        $mail_message = str_replace('<login_url>', $pun_config['o_base_url'].'/login.php', $mail_message);
-        $mail_message = str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
+        $mail_subject = \str_replace('<board_title>', $pun_config['o_board_title'], $mail_subject);
+        $mail_message = \str_replace('<base_url>', $pun_config['o_base_url'].'/', $mail_message);
+        $mail_message = \str_replace('<username>', $username, $mail_message);
+        $mail_message = \str_replace('<password>', $password1, $mail_message);
+        $mail_message = \str_replace('<login_url>', $pun_config['o_base_url'].'/login.php', $mail_message);
+        $mail_message = \str_replace('<board_mailer>', $pun_config['o_board_title'].' '.$lang_common['Mailer'], $mail_message);
 
         pun_mail($email1, $mail_subject, $mail_message);
 
@@ -275,6 +277,7 @@ $required_fields = array(
 
 // Image Verification mod end
 $focus_element = array('registration', 'req_username');
+
 require_once PUN_ROOT.'header.php';
 
 echo '<div class="blockform">
@@ -316,7 +319,7 @@ if (1 == $pun_config['o_regs_verify_image']) {
 <fieldset>
 <legend>'.$lang_registration['Image verification'].'</legend>
 <div class="infldset">
-<img src="'.$pun_config['o_base_url'].'/captcha.php?'.session_name().'='.session_id().'" alt=""/><br />
+<img src="'.$pun_config['o_base_url'].'/captcha.php?'.\session_name().'='.\session_id().'" alt=""/><br />
 <label class="conl"><strong>'.$lang_registration['Image text'].'</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" /><br /></label>
 <p class="clearb">'.$lang_registration['Image info'].'</p>
 </div>
@@ -461,16 +464,16 @@ echo '</div></fieldset></div>
 <?php
 
 $languages = array();
-$d = dir(PUN_ROOT.'lang');
+$d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
-    if ('.' != $entry[0] && is_dir(PUN_ROOT.'lang/'.$entry) && file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+    if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
         $languages[] = $entry;
     }
 }
 $d->close();
 
 // Only display the language selection box if there's more than one language available
-if (count($languages) > 1) {
+if (\count($languages) > 1) {
     echo '<label>'.$lang_prof_reg['Language'].': '.$lang_prof_reg['Language info'].'<br /><select name="language">';
 
     foreach ($languages as $temp) {

@@ -1,12 +1,12 @@
 <?php
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
 // Tell admin_loader.php that this is indeed a plugin and that it is loaded
-define('PUN_PLUGIN_LOADED', 1);
-define('PLUGIN_VERSION', 1.2);
+\define('PUN_PLUGIN_LOADED', 1);
+\define('PLUGIN_VERSION', 1.2);
 
 $result = $db->query('SELECT * FROM '.$db->prefix.'uploads_conf WHERE g_id='.$pun_user['g_id']);
 $upl_conf = $db->fetch_assoc($result);
@@ -19,13 +19,13 @@ if (!$upl_conf) {
 if (isset($_POST['save_options'])) {
     $k = 1;
     while ($k <= $_POST['k']) {
-        $p_view[$k] = isset($_POST['p_view_'.$k]) ? intval($_POST['p_view_'.$k]) : 0;
-        $p_upload[$k] = isset($_POST['p_upload_'.$k]) ? intval($_POST['p_upload_'.$k]) : 0;
-        $p_globalview[$k] = isset($_POST['p_globalview_'.$k]) ? intval($_POST['p_globalview_'.$k]) : 0;
-        $p_delete[$k] = isset($_POST['p_delete_'.$k]) ? intval($_POST['p_delete_'.$k]) : 0;
-        $p_globaldelete[$k] = isset($_POST['p_globaldelete_'.$k]) ? intval($_POST['p_globaldelete_'.$k]) : 0;
-        $p_setop[$k] = isset($_POST['p_setop_'.$k]) ? intval($_POST['p_setop_'.$k]) : 0;
-        $u_fsize[$k] = isset($_POST['u_fsize_'.$k]) ? intval($_POST['u_fsize_'.$k]) : 0;
+        $p_view[$k] = isset($_POST['p_view_'.$k]) ? \intval($_POST['p_view_'.$k]) : 0;
+        $p_upload[$k] = isset($_POST['p_upload_'.$k]) ? \intval($_POST['p_upload_'.$k]) : 0;
+        $p_globalview[$k] = isset($_POST['p_globalview_'.$k]) ? \intval($_POST['p_globalview_'.$k]) : 0;
+        $p_delete[$k] = isset($_POST['p_delete_'.$k]) ? \intval($_POST['p_delete_'.$k]) : 0;
+        $p_globaldelete[$k] = isset($_POST['p_globaldelete_'.$k]) ? \intval($_POST['p_globaldelete_'.$k]) : 0;
+        $p_setop[$k] = isset($_POST['p_setop_'.$k]) ? \intval($_POST['p_setop_'.$k]) : 0;
+        $u_fsize[$k] = isset($_POST['u_fsize_'.$k]) ? \intval($_POST['u_fsize_'.$k]) : 0;
 
         $result2 = $db->query('SELECT g_id FROM '.$db->prefix.'uploads_conf WHERE g_id='.$k);
         if ($db->fetch_assoc($result2)) {
@@ -70,7 +70,7 @@ if (isset($_POST['save_options'])) {
     redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &#x2026;');
 } elseif (isset($_GET['action'], $_GET['id'])) {
     if ('delete' == $_GET['action']) {
-        $db->query('DELETE FROM '.$db->prefix.'uploads_types WHERE id='.intval($_GET['id'])) or error('Unable to delete a type', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'uploads_types WHERE id='.\intval($_GET['id'])) or error('Unable to delete a type', __FILE__, __LINE__, $db->error());
         redirect('admin_loader.php?plugin='.$plugin, 'Type deleted, redirecting &#x2026;');
     } else {
         redirect('admin_loader.php?plugin='.$plugin, 'Action unknown, redirecting &#x2026;');
@@ -170,7 +170,7 @@ if (!$upl_conf['p_setop']) {
         <td>
             <?php if (1 == $group['g_id'] || 2 == $group['g_id']) {
             ?>
-            <input type="checkbox" name="p_setop_<?php     echo $group['g_id']; ?>"
+            <input type="checkbox" name="p_setop_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_setop']) {
                 echo 'checked="checked"';
             } ?> />

@@ -1,7 +1,7 @@
 <?php
 
 // Make sure no one attempts to run this script "directly"
-if (!defined('PUN')) {
+if (!\defined('PUN')) {
     exit;
 }
 
@@ -27,13 +27,13 @@ function generate_config_cache()
     }
 
     // Output config as PHP code
-    $fh = @fopen(PUN_ROOT.'cache/cache_config.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_config.php', 'wb');
     if (!$fh) {
         error('Unable to write configuration cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fwrite($fh, '<?php'."\n\n".'define(\'PUN_CONFIG_LOADED\', 1);'."\n\n".'$pun_config = '.var_export($output, true).';'."\n");
-    fclose($fh);
+    \fwrite($fh, '<?php'."\n\n".'define(\'PUN_CONFIG_LOADED\', 1);'."\n\n".'$pun_config = '.\var_export($output, true).';'."\n");
+    \fclose($fh);
 }
 
 //
@@ -52,13 +52,13 @@ function generate_bans_cache()
     }
 
     // Output ban list as PHP code
-    $fh = @fopen(PUN_ROOT.'cache/cache_bans.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_bans.php', 'wb');
     if (!$fh) {
         error('Unable to write bans cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fwrite($fh, '<?php'."\n\n".'define(\'PUN_BANS_LOADED\', 1);'."\n\n".'$pun_bans = '.var_export($output, true).';'."\n");
-    fclose($fh);
+    \fwrite($fh, '<?php'."\n\n".'define(\'PUN_BANS_LOADED\', 1);'."\n\n".'$pun_bans = '.\var_export($output, true).';'."\n");
+    \fclose($fh);
 }
 
 //
@@ -77,13 +77,13 @@ function generate_ranks_cache()
     }
 
     // Output ranks list as PHP code
-    $fh = @fopen(PUN_ROOT.'cache/cache_ranks.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_ranks.php', 'wb');
     if (!$fh) {
         error('Unable to write ranks cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
 
-    fwrite($fh, '<?php'."\n\n".'define(\'PUN_RANKS_LOADED\', 1);'."\n\n".'$pun_ranks = '.var_export($output, true).';'."\n");
-    fclose($fh);
+    \fwrite($fh, '<?php'."\n\n".'define(\'PUN_RANKS_LOADED\', 1);'."\n\n".'$pun_ranks = '.\var_export($output, true).';'."\n");
+    \fclose($fh);
 }
 
 //
@@ -110,7 +110,7 @@ function generate_quickjump_cache($group_id = false)
     // Loop through the groups in $groups and output the cache for each of them
     foreach ($groups as $group_id) {
         // Output quickjump as PHP code
-        $fh = @fopen(PUN_ROOT.'cache/cache_quickjump_'.$group_id.'.php', 'wb');
+        $fh = @\fopen(PUN_ROOT.'cache/cache_quickjump_'.$group_id.'.php', 'wb');
         if (!$fh) {
             error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
@@ -152,8 +152,8 @@ function generate_quickjump_cache($group_id = false)
 
         $output .= '</optgroup></select><input type="submit" value="\' . $lang_common[\'Go\'] . \'" accesskey="g" /></label></div></form>\';';
 
-        fwrite($fh, $output);
-        fclose($fh);
+        \fwrite($fh, $output);
+        \fclose($fh);
     }
 }
 
@@ -180,7 +180,7 @@ function generate_wap_quickjump_cache($group_id = false)
     // Loop through the groups in $groups and output the cache for each of them
     foreach ($groups as $group_id) {
         // Output wap quickjump as PHP code
-        $fh = fopen(PUN_ROOT.'cache/cache_wap_quickjump_'.$group_id.'.php', 'wb');
+        $fh = \fopen(PUN_ROOT.'cache/cache_wap_quickjump_'.$group_id.'.php', 'wb');
         if (!$fh) {
             error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
@@ -214,7 +214,7 @@ function generate_wap_quickjump_cache($group_id = false)
 
         $output .= '</optgroup></select><input type="submit" value="\' . $lang_common[\'Go\'] . \'" accesskey="g" /></label></div></form>\';';
 
-        fwrite($fh, $output);
-        fclose($fh);
+        \fwrite($fh, $output);
+        \fclose($fh);
     }
 }

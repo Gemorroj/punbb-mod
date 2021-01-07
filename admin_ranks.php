@@ -1,10 +1,12 @@
 <?php
 
 // Tell header.php to use the admin template
-define('PUN_ADMIN_CONSOLE', 1);
+\define('PUN_ADMIN_CONSOLE', 1);
 
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
+
 require PUN_ROOT.'include/common.php';
+
 require PUN_ROOT.'include/common_admin.php';
 // Язык
 //include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
@@ -18,14 +20,14 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 if (isset($_POST['add_rank'])) {
     //confirm_referrer('admin_ranks.php');
 
-    $rank = trim($_POST['new_rank']);
+    $rank = \trim($_POST['new_rank']);
     $min_posts = $_POST['new_min_posts'];
 
     if (!$rank) {
         message($lang_admin['Rank']);
     }
 
-    if (!@preg_match('#^\d+$#', $min_posts)) {
+    if (!@\preg_match('#^\d+$#', $min_posts)) {
         message($lang_admin['Rank posts not numeric']);
     }
 
@@ -46,16 +48,16 @@ if (isset($_POST['add_rank'])) {
 elseif (isset($_POST['update'])) {
     //confirm_referrer('admin_ranks.php');
 
-    $id = intval(key($_POST['update']));
+    $id = \intval(\key($_POST['update']));
 
-    $rank = trim($_POST['rank'][$id]);
-    $min_posts = trim($_POST['min_posts'][$id]);
+    $rank = \trim($_POST['rank'][$id]);
+    $min_posts = \trim($_POST['min_posts'][$id]);
 
     if (!$rank) {
         message($lang_admin['Rank']);
     }
 
-    if (!@preg_match('#^\d+$#', $min_posts)) {
+    if (!@\preg_match('#^\d+$#', $min_posts)) {
         message($lang_admin['Rank posts not numeric']);
     }
 
@@ -76,7 +78,7 @@ elseif (isset($_POST['update'])) {
 elseif (isset($_POST['remove'])) {
     //confirm_referrer('admin_ranks.php');
 
-    $id = intval(key($_POST['remove']));
+    $id = \intval(\key($_POST['remove']));
 
     $db->query('DELETE FROM '.$db->prefix.'ranks WHERE id='.$id) or error('Unable to delete rank', __FILE__, __LINE__, $db->error());
 
@@ -89,6 +91,7 @@ elseif (isset($_POST['remove'])) {
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Ranks';
 $focus_element = array('ranks', 'new_rank');
+
 require_once PUN_ROOT.'header.php';
 
 generate_admin_menu('ranks');
