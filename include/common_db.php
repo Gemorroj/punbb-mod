@@ -21,7 +21,7 @@ class DBLayer
      */
     protected $query_result;
 
-    protected $saved_queries = array();
+    protected $saved_queries = [];
     protected $num_queries = 0;
 
     /**
@@ -55,7 +55,7 @@ class DBLayer
 
         if ($this->query_result) {
             if ($stat) {
-                $this->saved_queries[] = array($sql, \sprintf('%.5f', \microtime(true) - $q_start));
+                $this->saved_queries[] = [$sql, \sprintf('%.5f', \microtime(true) - $q_start)];
             }
 
             ++$this->num_queries;
@@ -63,7 +63,7 @@ class DBLayer
             return $this->query_result;
         }
         if ($stat) {
-            $this->saved_queries[] = array($sql, 0);
+            $this->saved_queries[] = [$sql, 0];
         }
 
         return false;
@@ -174,11 +174,11 @@ class DBLayer
      */
     public function error()
     {
-        return array(
+        return [
             'error_sql' => @\current(@\end($this->saved_queries)),
             'error_no' => $this->link_id ? $this->link_id->errno : '',
             'error_msg' => $this->link_id ? $this->link_id->error : '',
-        );
+        ];
     }
 
     /**

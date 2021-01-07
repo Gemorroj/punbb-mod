@@ -309,7 +309,7 @@ echo '<span>'.$lang_admin['options_timezone_about'].'</span>
 <td>
 <select name="form[default_lang]">';
 
-$languages = array();
+$languages = [];
 $d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
     if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
@@ -337,7 +337,7 @@ echo '</select>
 <td>
 <select name="form[default_style]">';
 
-$styles = array();
+$styles = [];
 $d = \dir(PUN_ROOT.'style');
 while (false !== ($entry = $d->read())) {
     if ('.css' == \substr($entry, \strlen($entry) - 4)) {
@@ -365,7 +365,7 @@ echo '</select>
 <td>
 <select name="form[default_style_wap]">';
 
-$stylesWap = array();
+$stylesWap = [];
 $d = \dir(PUN_ROOT.'include/template/wap');
 while (false !== ($entry = $d->read())) {
     if ('.' != $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {

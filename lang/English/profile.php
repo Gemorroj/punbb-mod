@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in profile.php
-$lang_profile = array(
+$lang_profile = [
     // Navigation and sections
     'Profile menu' => 'Profile menu',
     'Section essentials' => 'Essentials',
@@ -159,4 +159,4 @@ $lang_profile = array(
     'day' => 'Day',
     'month' => 'Month',
     'year' => 'Year',
-);
+];

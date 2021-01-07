@@ -58,7 +58,7 @@ if ($fid < 1) {
 $result = $db->query('SELECT `moderators` FROM `'.$db->prefix.'forums` WHERE id='.$fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 $moderators = $db->result($result);
-$mods_array = ($moderators) ? \unserialize($moderators) : array();
+$mods_array = ($moderators) ? \unserialize($moderators) : [];
 
 if (PUN_ADMIN != $pun_user['g_id'] && (PUN_MOD != $pun_user['g_id'] || !\array_key_exists($pun_user['username'], $mods_array))) {
     wap_message($lang_common['No permission']);
@@ -253,7 +253,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     }
 
     if (isset($_POST['move_topics'])) {
-        $topics = $_POST['topics'] ?? array();
+        $topics = $_POST['topics'] ?? [];
 
         if (!$topics) {
             wap_message($lang_misc['No topics selected']);
@@ -295,7 +295,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
 // Delete one or more topics
 if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) {
-    $topics = $_POST['topics'] ?? array();
+    $topics = $_POST['topics'] ?? [];
 
     if (!$topics) {
         wap_message($lang_misc['No topics selected']);
@@ -380,7 +380,7 @@ if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
     if (isset($_POST['open']) || isset($_POST['close'])) {
         //confirm_referrer('moderate.php');
 
-        $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : array();
+        $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : [];
 
         if (!$topics) {
             wap_message($lang_misc['No topics selected']);
@@ -478,7 +478,7 @@ if ('all' != @$_GET['action']) {
 // Select topics
 $result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, last_post_id, last_poster, num_views, num_replies, closed, sticky, moved_to FROM '.$db->prefix.'topics WHERE forum_id='.$fid.' ORDER BY sticky DESC, last_post DESC'.$act_all) or error('Unable to fetch topic list for forum', __FILE__, __LINE__, $db->error());
 
-$topics = array();
+$topics = [];
 while ($topic = $db->fetch_assoc($result)) {
     if (1 == $pun_config['o_censoring']) {
         $topic['subject'] = censor_words($topic['subject']);

@@ -55,13 +55,13 @@ $result = $db->query(
 ) or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 //- Add topic title info to last post column mod
 
-$forums = array();
+$forums = [];
 while ($cur_forum = $db->fetch_assoc($result)) {
     $forums[] = $cur_forum;
 }
 
 // Collect some statistics from the database
-$stats = array();
+$stats = [];
 
 $result = $db->query(
     'SELECT COUNT(1) - 1 '
@@ -89,7 +89,7 @@ or error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
 [$stats['total_topics'], $stats['total_posts']] = $db->fetch_row($result);
 
 $num_guests = $num_users = 0;
-$users = array();
+$users = [];
 if (1 == $pun_config['o_users_online']) {
     // Fetch users online info and generate strings for output
     $result = $db->query(

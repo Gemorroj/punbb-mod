@@ -2,8 +2,8 @@
 
 class JsHelper
 {
-    protected $js = array();
-    protected $jsInternal = array();
+    protected $js = [];
+    protected $jsInternal = [];
 
     /**
      * @var JsHelper

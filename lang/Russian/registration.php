@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in registration.php
-$lang_registration = array(
+$lang_registration = [
     // Miscellaneous
     'No new regs' => 'В данный момент форум не регистрирует новых пользователей.',
     'Reg cancel redirect' => 'Регистрация отменена. Переадресация...',
@@ -40,4 +40,4 @@ $lang_registration = array(
     'Confirm e-mail' => 'Подтвердите e-mail адрес',
 
     'Timeout' => 'С этого IP недавно регистрировались, попробуйте зарегистрироваться чуть позднее',
-);
+];

@@ -25,7 +25,7 @@ class KCAPTCHA
     public function __construct()
     { // new PHP declaration
         require \dirname(__FILE__).'/kcaptcha_config.php';
-        $fonts = array();
+        $fonts = [];
         $fontsdir_absolute = \dirname(__FILE__).'/'.$fontsdir;
         if ($handle = \opendir($fontsdir_absolute)) {
             while (false !== ($file = \readdir($handle))) {
@@ -57,7 +57,7 @@ class KCAPTCHA
             $fontfile_width = \imagesx($font);
             $fontfile_height = \imagesy($font) - 1;
 
-            $font_metrics = array();
+            $font_metrics = [];
             $symbol = 0;
             $reading_symbol = false;
 
@@ -66,7 +66,7 @@ class KCAPTCHA
                 $transparent = 127 == (\imagecolorat($font, $i, 0) >> 24);
 
                 if (!$reading_symbol && !$transparent) {
-                    $font_metrics[$alphabet[$symbol]] = array('start' => $i);
+                    $font_metrics[$alphabet[$symbol]] = ['start' => $i];
                     $reading_symbol = true;
 
                     continue;

@@ -79,7 +79,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
-    $focus_element = array('bans2', 'ban_user');
+    $focus_element = ['bans2', 'ban_user'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -255,7 +255,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
-$focus_element = array('bans', 'new_ban_user');
+$focus_element = ['bans', 'new_ban_user'];
 
 require_once PUN_ROOT.'header.php';
 

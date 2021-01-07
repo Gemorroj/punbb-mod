@@ -12,7 +12,7 @@ function generate_config_cache()
 {
     global $db;
 
-    $output = array();
+    $output = [];
 
     // Get the forum config from the DB
     $result = $db->query('SELECT * FROM '.$db->prefix.'config') or error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
@@ -46,7 +46,7 @@ function generate_bans_cache()
     // Get the ban list from the DB
     $result = $db->query('SELECT * FROM '.$db->prefix.'bans') or error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
 
-    $output = array();
+    $output = [];
     while ($cur_ban = $db->fetch_assoc($result)) {
         $output[] = $cur_ban;
     }
@@ -71,7 +71,7 @@ function generate_ranks_cache()
     // Get the rank list from the DB
     $result = $db->query('SELECT * FROM '.$db->prefix.'ranks ORDER BY min_posts') or error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 
-    $output = array();
+    $output = [];
     while ($cur_rank = $db->fetch_assoc($result)) {
         $output[] = $cur_rank;
     }
@@ -93,7 +93,7 @@ function generate_quickjump_cache($group_id = false)
 {
     global $db, $lang_common, $pun_config;
 
-    $groups = array();
+    $groups = [];
     // If a group_id was supplied, we generate the quickjump cache for that group only
     if (false !== $group_id) {
         $groups[0] = $group_id;

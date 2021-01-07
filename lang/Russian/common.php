@@ -30,7 +30,7 @@ switch (\PHP_OS) {
 // FIX UTF REGULAR EXPRESSIONS BUG END
 
 // Language definitions for frequently used strings
-$lang_common = array(
+$lang_common = [
     // Text orientation and encoding
     'lang_direction' => 'ltr',	// ltr (Left-To-Right) or rtl (Right-To-Left)
 
@@ -183,4 +183,4 @@ $lang_common = array(
     //wap moderate IP
     'Show IP' => 'Показать еще пользователем с этим IP',
     'Find email in stop forum spam' => 'Искать e-mail в StopForumSpam',
-);
+];

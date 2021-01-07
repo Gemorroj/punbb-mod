@@ -31,7 +31,7 @@ if (!$db->num_rows($result_attach)) {
 [$file, $location, $mime, $poster_id, $moderators, $file_download] = $db->fetch_row($result_attach);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = array();
+$mods_array = [];
 if ($moderators) {
     $mods_array = \unserialize($moderators);
 }

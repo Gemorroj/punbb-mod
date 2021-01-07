@@ -33,11 +33,11 @@ class Informer
      */
     public function getConfig($args = null)
     {
-        return array(
+        return [
             'timezone' => $this->_pun_user['timezone'],
             'username' => $this->_pun_user['username'],
             'is_guest' => $this->_pun_user['is_guest'],
-        );
+        ];
     }
 
     /**
@@ -78,14 +78,14 @@ class Informer
             throw new Exception($this->_lang['Bad request']);
         }
 
-        $data = array();
+        $data = [];
         while ($forum = $this->_db->fetch_assoc($r)) {
-            $data[$forum['fid']] = array(
+            $data[$forum['fid']] = [
                 'last_post_id' => $forum['last_post_id'],
                 'subject' => $forum['subject'],
                 'last_post_time' => $forum['last_post'],
                 'last_poster' => $forum['last_poster'],
-            );
+            ];
         }
 
         return $data;
@@ -189,11 +189,11 @@ class Informer
 
         update_forum($forumId);
 
-        return array(
+        return [
             'message' => $this->_parseMessage($message, $hideSmiles),
             'poster' => $this->_pun_user['username'],
             'posted' => $_SERVER['REQUEST_TIME'],
-        );
+        ];
     }
 
     /**
@@ -238,12 +238,12 @@ class Informer
 
         $data = $this->_db->fetch_assoc($r);
 
-        return array(
+        return [
             'message' => $this->_parseMessage($data['message'], $data['hide_smilies']),
             'poster' => $data['poster'],
             'posted' => $data['posted'],
             'topic_id' => $data['topic_id'],
-        );
+        ];
     }
 
     /**
@@ -283,12 +283,12 @@ class Informer
 
         $data = $this->_db->fetch_assoc($r);
 
-        return array(
+        return [
             'subject' => $data['subject'],
             'message' => $this->_parseMessage($data['message'], $data['smileys']),
             'poster' => $data['sender'],
             'posted' => $data['posted'],
-        );
+        ];
     }
 
     /**
@@ -324,17 +324,17 @@ class Informer
             throw new Exception($this->_db->error());
         }
         if (!$this->_db->num_rows($r)) {
-            return array();
+            return [];
         }
 
-        $out = array();
+        $out = [];
         while ($data = $this->_db->fetch_assoc($r)) {
-            $out[$data['id']] = array(
+            $out[$data['id']] = [
                 'subject' => $data['subject'],
                 'message' => $this->_parseMessage($data['message'], $data['smileys']),
                 'poster' => $data['sender'],
                 'posted' => $data['posted'],
-            );
+            ];
         }
 
         return $out;

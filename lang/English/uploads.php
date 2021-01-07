@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in uploads.php
-$lang_uploads = array(
+$lang_uploads = [
     'Uploader' => 'Uploader',
     'File' => 'File',
     'Size' => 'Size',
@@ -40,4 +40,4 @@ $lang_uploads = array(
 
     'File uploaded' => 'File uploaded: ',
     'File deleted' => ' - file deleted!',
-);
+];

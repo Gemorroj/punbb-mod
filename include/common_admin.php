@@ -81,14 +81,14 @@ function generate_admin_menu($page = '')
     <?php
 
     // See if there are any plugins
-    $plugins = array();
+    $plugins = [];
     $d = \dir(PUN_ROOT.'plugins');
     while (false !== ($entry = $d->read())) {
         $prefix = \substr($entry, 0, \strpos($entry, '_'));
         $suffix = \substr($entry, \strlen($entry) - 4);
 
         if ('.php' == $suffix && ((!$is_admin && 'AMP' == $prefix) || ($is_admin && ('AP' == $prefix || 'AMP' == $prefix)))) {
-            $plugins[] = array(\substr(\substr($entry, \strpos($entry, '_') + 1), 0, -4), $entry);
+            $plugins[] = [\substr(\substr($entry, \strpos($entry, '_') + 1), 0, -4), $entry];
         }
     }
     $d->close();

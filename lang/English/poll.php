@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in poll.php
-$lang_poll = array(
+$lang_poll = [
     'edit' => 'Edit',
     'delete' => 'Delete',
     'close' => 'Close',
@@ -26,4 +26,4 @@ $lang_poll = array(
     'create' => 'Create',
     'voted' => 'Voted',
     'guest' => 'Гости не могут голосовать',
-);
+];

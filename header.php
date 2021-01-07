@@ -64,11 +64,11 @@ if (isset($required_fields)) {
     JsHelper::getInstance()->add(PUN_ROOT.'js/required.js');
 }
 
-if (\in_array($basename, array('post.php', 'viewtopic.php', 'edit.php'))) {
+if (\in_array($basename, ['post.php', 'viewtopic.php', 'edit.php'])) {
     JsHelper::getInstance()->add(PUN_ROOT.'js/board.js');
 }
 
-if (\in_array($basename, array('message_list.php', 'moderate.php'))) {
+if (\in_array($basename, ['message_list.php', 'moderate.php'])) {
     JsHelper::getInstance()->add(PUN_ROOT.'js/check.js');
 }
 
@@ -141,7 +141,7 @@ if ($pun_user['is_guest']) {
     include PUN_ROOT.'include/pms/header_new_messages.php';
     // PMS MOD END
 
-    if (\in_array($basename, array('index.php', 'search.php'))) {
+    if (\in_array($basename, ['index.php', 'search.php'])) {
         $tpl_temp .= '</ul><ul class="conr"><li><a href="search.php?action=show_new">'.$lang_common['Show new posts'].'</a></li><li><a href="misc.php?action=markread">'.$lang_common['Mark all as read'].'</a></li></ul><div class="clearer"></div></div>';
     } elseif ('viewforum.php' == $basename) {
         // REAL MARK TOPICS AS READ MOD	BEGIN

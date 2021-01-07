@@ -129,8 +129,8 @@ if (isset($_POST['form_sent']) && 'in' == $_GET['action']) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_login['Request pass'];
-    $required_fields = array('req_email' => $lang_common['E-mail']);
-    $focus_element = array('request_pass', 'req_email');
+    $required_fields = ['req_email' => $lang_common['E-mail']];
+    $focus_element = ['request_pass', 'req_email'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -164,8 +164,8 @@ if (!$pun_user['is_guest']) {
 $redirect_url = (isset($_SERVER['HTTP_REFERER']) && \preg_match('#^'.\preg_quote($pun_config['o_base_url'], '#').'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? \htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Login'];
-$required_fields = array('req_username' => $lang_common['Username'], 'req_password' => $lang_common['Password']);
-$focus_element = array('login', 'req_username');
+$required_fields = ['req_username' => $lang_common['Username'], 'req_password' => $lang_common['Password']];
+$focus_element = ['login', 'req_username'];
 
 require_once PUN_ROOT.'header.php';
 

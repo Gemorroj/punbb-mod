@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in index.php
-$lang_index = array(
+$lang_index = [
     'Topics' => 'Темы',
     'Moderators' => 'Модераторы',
     'Link to' => 'Ссылка на',	// As in "Link to http://www.punbb.org/"
@@ -17,4 +17,4 @@ $lang_index = array(
     'Board stats' => 'Статистика форума',
     'User info' => 'Информация о пользователе',
     'Link separator_m' => '|',
-);
+];

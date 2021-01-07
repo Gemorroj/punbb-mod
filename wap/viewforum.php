@@ -82,7 +82,7 @@ if ($cur_forum['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = array();
+$mods_array = [];
 if ($cur_forum['moderators']) {
     $mods_array = \unserialize($cur_forum['moderators']);
 }
@@ -174,7 +174,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
 $result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 // If there are topics in this forum.
-$topics = array();
+$topics = [];
 if ($db->num_rows($result)) {
     while ($cur_topic = $db->fetch_assoc($result)) {
         // Pagination in topics on index page.

@@ -159,7 +159,7 @@ if (isset($_GET['cancel'])) {
     }
 
     // Check if someone else already has registered with that e-mail address
-    $dupe_list = array();
+    $dupe_list = [];
 
     $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
@@ -266,17 +266,17 @@ $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_reg
 // Original code:
 //$required_fields = array('req_username' => $lang_common['Username'], 'req_password1' => $lang_common['Password'], 'req_password2' => $lang_prof_reg['Confirm pass'], 'req_email1' => $lang_common['E-mail'], 'req_email2' => $lang_common['E-mail'].' 2');
 
-$required_fields = array(
+$required_fields = [
     'req_image_' => $lang_registration['Image text'],
     'req_username' => $lang_common['Username'],
     'req_password1' => $lang_common['Password'],
     'req_password2' => $lang_prof_reg['Confirm pass'],
     'req_email1' => $lang_common['E-mail'],
     'req_email2' => $lang_common['E-mail'].' 2',
-);
+];
 
 // Image Verification mod end
-$focus_element = array('registration', 'req_username');
+$focus_element = ['registration', 'req_username'];
 
 require_once PUN_ROOT.'header.php';
 
@@ -463,7 +463,7 @@ echo '</div></fieldset></div>
 <br/></label>
 <?php
 
-$languages = array();
+$languages = [];
 $d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
     if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {

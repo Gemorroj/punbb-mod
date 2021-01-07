@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in viewforum.php
-$lang_forum = array(
+$lang_forum = [
     'poll' => 'Опрос',
     'Post topic' => 'Начать новую тему',
     'Views' => 'Просмотров',
@@ -12,4 +12,4 @@ $lang_forum = array(
     'poll_m' => '?',
     'Moved_m' => '&#149;&#187;',
     'Sticky_m' => '!',
-);
+];

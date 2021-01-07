@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in profile.php
-$lang_profile = array(
+$lang_profile = [
     // Navigation and sections
     'Profile menu' => 'Профиль',
     'Section essentials' => 'Основной',
@@ -161,4 +161,4 @@ $lang_profile = array(
     'day' => 'День',
     'month' => 'Месяц',
     'year' => 'Год',
-);
+];

@@ -58,7 +58,7 @@ if (!\defined('PUN_DISABLE_BUFFERING')) {
 }
 
 // Check/update/set cookie and fetch user info
-$pun_user = array();
+$pun_user = [];
 check_cookie($pun_user);
 
 // Attempt to load the common language file

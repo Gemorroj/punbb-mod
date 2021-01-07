@@ -15,8 +15,8 @@ function split_words($text)
     static $noise_match, $noise_replace, $stopwords;
 
     if (!$noise_match) {
-        $noise_match = array('[quote', '[code', '[url', '[img', '[email', '[color', '[colour', 'quote]', 'code]', 'url]', 'img]', 'email]', 'color]', 'colour]', '^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '+', '[', ']', '{', '}', ':', '\\', '/', '=', '#', ';', '!', '*');
-        $noise_replace = array('', '', '', '', '', '', '', '', '', '', '', '', '', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ');
+        $noise_match = ['[quote', '[code', '[url', '[img', '[email', '[color', '[colour', 'quote]', 'code]', 'url]', 'img]', 'email]', 'color]', 'colour]', '^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '+', '[', ']', '{', '}', ':', '\\', '/', '=', '#', ';', '!', '*'];
+        $noise_replace = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' '];
 
         $stopwords = (array) @\file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
         $stopwords = \array_map('trim', $stopwords);
@@ -60,14 +60,14 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 
     // Split old and new post/subject to obtain array of 'words'
     $words_message = split_words($message);
-    $words_subject = ($subject) ? split_words($subject) : array();
+    $words_subject = ($subject) ? split_words($subject) : [];
 
     if ('edit' == $mode) {
         $result = $db->query('SELECT w.id, w.word, m.subject_match FROM '.$db->prefix.'search_words AS w INNER JOIN '.$db->prefix.'search_matches AS m ON w.id=m.word_id WHERE m.post_id='.$post_id) or error('Unable to fetch search index words', __FILE__, __LINE__, $db->error());
 
         // Declare here to stop array_keys() and array_diff() from complaining if not set
-        $cur_words['post'] = array();
-        $cur_words['subject'] = array();
+        $cur_words['post'] = [];
+        $cur_words['subject'] = [];
 
         while ($row = $db->fetch_row($result)) {
             $match_in = ($row[2]) ? 'subject' : 'post';
@@ -83,8 +83,8 @@ function update_search_index($mode, $post_id, $message, $subject = null)
     } else {
         $words['add']['post'] = $words_message;
         $words['add']['subject'] = $words_subject;
-        $words['del']['post'] = array();
-        $words['del']['subject'] = array();
+        $words['del']['post'] = [];
+        $words['del']['subject'] = [];
     }
 
     unset($words_message, $words_subject);
@@ -95,7 +95,7 @@ function update_search_index($mode, $post_id, $message, $subject = null)
     if ($unique_words) {
         $result = $db->query('SELECT id, word FROM '.$db->prefix.'search_words WHERE word IN('.\implode(',', \preg_replace('#^(.*)$#u', '\'\1\'', $unique_words)).')') or error('Unable to fetch search index words', __FILE__, __LINE__, $db->error());
 
-        $word_ids = array();
+        $word_ids = [];
         while ($row = $db->fetch_row($result)) {
             $word_ids[$row[1]] = $row[0];
         }

@@ -46,7 +46,7 @@ if ($cur_posting['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : array();
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // have we permission to attachments?
@@ -94,7 +94,7 @@ if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) |
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 // Start with a clean slate
-$errors = array();
+$errors = [];
 
 // Did someone just hit "Submit" or "Preview"?
 if (isset($_POST['form_sent'])) {
@@ -303,7 +303,7 @@ if (isset($_POST['form_sent'])) {
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
-                    $notification_emails = array();
+                    $notification_emails = [];
 
                     // Loop through subscribed users and send e-mails
                     while ($cur_subscriber = $db->fetch_assoc($result)) {
@@ -501,12 +501,12 @@ elseif ($fid) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
-$required_fields = array(
+$required_fields = [
     'req_email' => $lang_common['E-mail'],
     'req_subject' => $lang_common['Subject'],
     'req_message' => $lang_common['Message'],
-);
-$focus_element = array('post');
+];
+$focus_element = ['post'];
 
 if (!$pun_user['is_guest']) {
     $focus_element[] = ($fid) ? 'req_subject' : 'req_message';
@@ -514,13 +514,13 @@ if (!$pun_user['is_guest']) {
     // BEGIN FIX UNDEFINED REQUIRED FIELDS FOR GUEST
     //ORIGINAL:
     //$required_fields['req_username'] = $lang_post['Guest name'];
-    $required_fields = array(
+    $required_fields = [
         'req_email' => $lang_common['E-mail'],
         'req_subject' => $lang_common['Subject'],
         'req_message' => $lang_common['Message'],
         'req_username' => $lang_post['Guest name'],
         'req_image_' => $lang_post['Image text'],
-    );
+    ];
     //END FIX
     $focus_element[] = 'req_username';
 }
@@ -609,7 +609,7 @@ if ($can_upload && $num_to_upload > 0) {
     echo '</fieldset>';
 }
 
-$checkboxes = array();
+$checkboxes = [];
 if (!$pun_user['is_guest']) {
     if (1 == $pun_config['o_smilies']) {
         $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" '.(isset($_POST['hide_smilies']) ? 'checked="checked"' : '').' />'.$lang_post['Hide smilies'];

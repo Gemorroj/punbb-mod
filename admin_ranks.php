@@ -90,7 +90,7 @@ elseif (isset($_POST['remove'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Ranks';
-$focus_element = array('ranks', 'new_rank');
+$focus_element = ['ranks', 'new_rank'];
 
 require_once PUN_ROOT.'header.php';
 

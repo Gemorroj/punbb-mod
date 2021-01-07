@@ -97,7 +97,7 @@ function pun_mail($to, $subject, $message, $reply = '')
         'X-Mailer: PunBB Mod v'.$pun_config['o_show_version'];
 
     // Make sure all linebreaks are CRLF in message (and strip out any NULL bytes)
-    $message = \str_replace(array("\n", "\0"), array("\r\n", ''), pun_linebreaks($message));
+    $message = \str_replace(["\n", "\0"], ["\r\n", ''], pun_linebreaks($message));
 
     if ($pun_config['o_smtp_host']) {
         return smtp_mail($to, $subject, $message, $headers);

@@ -60,7 +60,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         wap_redirect('message_list.php?box='.\intval($_POST['box']));
     } else {
         $page_title = $pun_config['o_board_title'].' / '.$lang_pms['Multidelete'];
-        $idlist = \is_array($_POST['delete_messages']) ? \array_map('intval', $_POST['delete_messages']) : array();
+        $idlist = \is_array($_POST['delete_messages']) ? \array_map('intval', $_POST['delete_messages']) : [];
 
         $smarty->assign('page_title', $page_title);
         $smarty->assign('lang_pms', $lang_pms);
@@ -154,7 +154,7 @@ if ($box < 2) {
 
     // If there are messages in this folder.
     if ($all = $db->num_rows($result)) {
-        $messages = array();
+        $messages = [];
         while ($cur_mess = $db->fetch_assoc($result)) {
             $cur_mess['message'] = parse_message($cur_mess['message'], !$cur_mess['smileys'], $cur_mess['id']);
             $cur_mess['user_avatar'] = pun_show_avatar();

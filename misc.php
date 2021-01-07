@@ -126,8 +126,8 @@ if ('rules' == $_GET['action']) {
     $redirect_url = (isset($_SERVER['HTTP_REFERER']) && \preg_match('#^'.\preg_quote($pun_config['o_base_url'], '#').'/(.*?)\.php#i', $_SERVER['HTTP_REFERER'])) ? \htmlspecialchars($_SERVER['HTTP_REFERER']) : 'index.php';
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Send e-mail to'].' '.pun_htmlspecialchars($recipient);
-    $required_fields = array('req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']);
-    $focus_element = array('email', 'req_subject');
+    $required_fields = ['req_subject' => $lang_misc['E-mail subject'], 'req_message' => $lang_misc['E-mail message']];
+    $focus_element = ['email', 'req_subject'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -210,8 +210,8 @@ if ('rules' == $_GET['action']) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_misc['Report post'];
-    $required_fields = array('req_reason' => $lang_misc['Reason']);
-    $focus_element = array('report', 'req_reason');
+    $required_fields = ['req_reason' => $lang_misc['Reason']];
+    $focus_element = ['report', 'req_reason'];
 
     require_once PUN_ROOT.'header.php';
 

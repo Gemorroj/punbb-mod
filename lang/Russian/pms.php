@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used by the Private Message System-mod
-$lang_pms = array(
+$lang_pms = [
     // Common
     'Messages' => 'Личные сообщения',
     'Message' => 'Сообщение',
@@ -73,4 +73,4 @@ $lang_pms = array(
     'Popup go in' => 'Перейти в папку Входящие',
     'Popup close' => 'Закрыть это окно',
     'Popup open this' => 'Открыть в этом окне',
-);
+];

@@ -82,7 +82,7 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-    $message_stack = array();
+    $message_stack = [];
 
     if (null == $cur_topic['log_time']) {
         $db->query('INSERT INTO '.$db->prefix.'log_topics (user_id, forum_id, topic_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$_SERVER['REQUEST_TIME'].')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
@@ -118,7 +118,7 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not download attachments?
@@ -197,7 +197,7 @@ $result = $db->query(
 
 require_once PUN_ROOT.'include/parser.php';
 
-$posts = $pids = array();
+$posts = $pids = [];
 while ($cur_post = $db->fetch_assoc($result)) {
     $posts[] = $cur_post;
     $pids[] = $cur_post['id'];
@@ -221,7 +221,7 @@ foreach ($posts as &$cur_post) {
     if ($cur_post['poster_id'] > 1) {
         $cur_post['user_avatar'] = pun_show_avatar();
 
-        $karma = array();
+        $karma = [];
         if (1 == $pun_config['o_show_post_karma'] || $pun_user['g_id'] < PUN_GUEST) {
             $karmaCount = $db->query(
                 'SELECT COUNT(1), '
@@ -243,7 +243,7 @@ foreach ($posts as &$cur_post) {
         }
     } else {
         $cur_post['user_avatar'] = '';
-        $cur_post['karma'] = array('val' => 0, 'used' => false);
+        $cur_post['karma'] = ['val' => 0, 'used' => false];
     }
 }
 

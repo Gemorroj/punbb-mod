@@ -101,8 +101,8 @@ if ('change_pass' == $action) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Profile'];
-    $required_fields = array('req_old_password' => $lang_profile['Old pass'], 'req_new_password1' => $lang_profile['New pass'], 'req_new_password2' => $lang_profile['Confirm new pass']);
-    $focus_element = array('change_pass', (($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1'));
+    $required_fields = ['req_old_password' => $lang_profile['Old pass'], 'req_new_password1' => $lang_profile['New pass'], 'req_new_password2' => $lang_profile['Confirm new pass']];
+    $focus_element = ['change_pass', (($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1')];
 
     require_once PUN_ROOT.'header.php';
 
@@ -239,9 +239,9 @@ if ('change_pass' == $action) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Profile'];
-    $required_fields = array('req_new_email' => $lang_profile['New e-mail'],
-        'req_password' => $lang_common['Password'], );
-    $focus_element = array('change_email', 'req_new_email');
+    $required_fields = ['req_new_email' => $lang_profile['New e-mail'],
+        'req_password' => $lang_common['Password'], ];
+    $focus_element = ['change_email', 'req_new_email'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -321,8 +321,8 @@ if ('change_pass' == $action) {
         }
 
         if (\is_uploaded_file($uploaded_file['tmp_name'])) {
-            $allowed_types = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png',
-                'image/x-png', );
+            $allowed_types = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png',
+                'image/x-png', ];
             if (!\in_array($uploaded_file['type'], $allowed_types)) {
                 message($lang_profile['Bad type']);
             }
@@ -336,11 +336,11 @@ if ('change_pass' == $action) {
             // Determine type
             $extensions = null;
             if ('image/gif' == $uploaded_file['type']) {
-                $extensions = array('.gif', '.jpg', '.png');
+                $extensions = ['.gif', '.jpg', '.png'];
             } elseif ('image/jpeg' == $uploaded_file['type'] || 'image/pjpeg' == $uploaded_file['type']) {
-                $extensions = array('.jpg', '.gif', '.png');
+                $extensions = ['.jpg', '.gif', '.png'];
             } else {
-                $extensions = array('.png', '.gif', '.jpg');
+                $extensions = ['.png', '.gif', '.jpg'];
             }
 
             // Move the file to the avatar directory. We do this before checking the width/height to circumvent open_basedir restrictions.
@@ -385,8 +385,8 @@ if ('change_pass' == $action) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Profile'];
-    $required_fields = array('req_file' => $lang_profile['File']);
-    $focus_element = array('upload_avatar', 'req_file');
+    $required_fields = ['req_file' => $lang_profile['File']];
+    $focus_element = ['upload_avatar', 'req_file'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -458,7 +458,7 @@ if ('change_pass' == $action) {
 
         while ($cur_forum = $db->fetch_assoc($result)) {
             $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
-                array();
+                [];
 
             if (\in_array($id, $cur_moderators)) {
                 $username = \array_search($id, $cur_moderators);
@@ -484,14 +484,14 @@ if ('change_pass' == $action) {
     $username = $db->result($result);
 
     $moderator_in = (isset($_POST['moderator_in'])) ? \array_keys($_POST['moderator_in']) :
-        array();
+        [];
 
     // Loop through all forums
     $result = $db->query('SELECT id, moderators FROM '.$db->prefix.'forums')
         or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
     while ($cur_forum = $db->fetch_assoc($result)) {
-        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
         // If the user should have moderator access (and he/she doesn't already have it)
         if (\in_array($cur_forum['id'], $moderator_in) && !\in_array($id, $cur_moderators)) {
             $cur_moderators[$username] = $id;
@@ -548,7 +548,7 @@ if ('change_pass' == $action) {
 
             while ($cur_forum = $db->fetch_assoc($result)) {
                 $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
-                    array();
+                    [];
 
                 if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$username]);
@@ -697,7 +697,7 @@ if ('change_pass' == $action) {
     // Extract allowed elements from $_POST['form']
     function extract_elements($allowed_elements)
     {
-        $form = array();
+        $form = [];
 
         foreach ($_POST['form'] as $key => $value) {
             if (\in_array($key, $allowed_elements)) {
@@ -713,7 +713,7 @@ if ('change_pass' == $action) {
     // Validate input depending on section
     switch ($_GET['section']) {
         case 'essentials':
-            $form = extract_elements(array('timezone', 'language'));
+            $form = extract_elements(['timezone', 'language']);
 
             if ($pun_user['g_id'] < PUN_GUEST) {
                 $form['admin_note'] = \trim($_POST['admin_note']);
@@ -784,7 +784,7 @@ if ('change_pass' == $action) {
                 $_POST['form']['birthday'] = '';
             }
 
-            $form = extract_elements(array('realname', 'url', 'location', 'sex', 'birthday'));
+            $form = extract_elements(['realname', 'url', 'location', 'sex', 'birthday']);
 
             if (PUN_ADMIN == $pun_user['g_id']) {
                 $form['title'] = \trim($_POST['title']);
@@ -794,9 +794,9 @@ if ('change_pass' == $action) {
                 if ($form['title']) {
                     // A list of words that the title may not contain
                     // If the language is English, there will be some duplicates, but it's not the end of the world
-                    $forbidden = array('Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
+                    $forbidden = ['Member', 'Moderator', 'Administrator', 'Banned', 'Guest', $lang_common['Member'],
                         $lang_common['Moderator'], $lang_common['Administrator'], $lang_common['Banned'],
-                        $lang_common['Guest'], );
+                        $lang_common['Guest'], ];
 
                     if (\in_array($form['title'], $forbidden)) {
                         message($lang_profile['Forbidden title']);
@@ -812,7 +812,7 @@ if ('change_pass' == $action) {
             break;
 
         case 'messaging':
-            $form = extract_elements(array('jabber', 'icq', 'msn', 'aim', 'yahoo'));
+            $form = extract_elements(['jabber', 'icq', 'msn', 'aim', 'yahoo']);
 
             // If the ICQ UIN contains anything other than digits it's invalid
             if ($form['icq'] && !\intval($form['icq'])) {
@@ -822,7 +822,7 @@ if ('change_pass' == $action) {
             break;
 
         case 'personality':
-            $form = extract_elements(array('use_avatar'));
+            $form = extract_elements(['use_avatar']);
 
             // Clean up signature from POST
             $form['signature'] = pun_linebreaks(\trim($_POST['signature']));
@@ -853,9 +853,9 @@ if ('change_pass' == $action) {
             //
             // ORIGINAL
             // $form = extract_elements(array('disp_topics', 'disp_posts', 'show_smilies', 'show_img', 'show_img_sig', 'show_avatars', 'show_sig', 'style'));
-            $form = extract_elements(array('disp_topics', 'disp_posts', 'show_smilies',
+            $form = extract_elements(['disp_topics', 'disp_posts', 'show_smilies',
                 'show_img', 'show_img_sig', 'show_avatars', 'show_sig', 'style', 'mark_after',
-                'show_bbpanel_qpost', ));
+                'show_bbpanel_qpost', ]);
             // REAL MARK TOPIC AS READ MOD END
             if (!$form['disp_topics']) {
                 $form['disp_topics'] = null;
@@ -906,7 +906,7 @@ if ('change_pass' == $action) {
             break;
 
         case 'privacy':
-            $form = extract_elements(array('email_setting', 'save_pass', 'notify_with_post'));
+            $form = extract_elements(['email_setting', 'save_pass', 'notify_with_post']);
 
             $form['email_setting'] = \intval($form['email_setting']);
             if ($form['email_setting'] < 0 && $form['email_setting'] > 2) {
@@ -943,7 +943,7 @@ if ('change_pass' == $action) {
     }
 
     // Singlequotes around non-empty values and NULL for empty values
-    $temp = array();
+    $temp = [];
     foreach ($form as $key => $input) {
         $value = (null !== $input) ? '\''.$db->escape($input).'\'' : 'NULL';
         $temp[] = $key.'='.$value;
@@ -971,7 +971,7 @@ if ('change_pass' == $action) {
             $result = $db->query('SELECT `id`, `moderators` FROM `'.$db->prefix.'forums`') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
 
                 if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$old_username]);
@@ -1257,7 +1257,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         }
 
         $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Profile'];
-        $required_fields = array('req_username' => $lang_common['Username'], 'req_email' => $lang_common['E-mail']);
+        $required_fields = ['req_username' => $lang_common['Username'], 'req_email' => $lang_common['E-mail']];
 
         require_once PUN_ROOT.'header.php';
 
@@ -1446,7 +1446,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
     </select>
     <br/></label>
     <?php
-        $languages = array();
+        $languages = [];
         $d = \opendir(PUN_ROOT.'lang');
         while (false !== ($entry = \readdir($d))) {
             if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
@@ -1687,7 +1687,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <form id="profile5" method="post" action="profile.php?section=display&amp;id='.$id.'">
 <div><input type="hidden" name="form_sent" value="1" /></div>';
 
-        $styles = array();
+        $styles = [];
         $d = \opendir(PUN_ROOT.'style');
         while (false !== ($entry = \readdir($d))) {
             $info = \pathinfo($entry);
@@ -1916,7 +1916,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                         $cur_category = $cur_forum['cid'];
                     }
 
-                    $moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+                    $moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
 
                     echo '<label><input type="checkbox" name="moderator_in['.$cur_forum['fid'].']" value="1"'.((\in_array($id, $moderators)) ? ' checked="checked"' : '').' />'.pun_htmlspecialchars($cur_forum['forum_name']).'<br /></label>';
                 }

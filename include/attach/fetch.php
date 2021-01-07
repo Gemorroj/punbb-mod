@@ -39,7 +39,7 @@ switch (\basename($_SERVER['PHP_SELF'])) {
 }
 
 // prepare attachments cache data
-$attachments = array();
+$attachments = [];
 if ($att_sql) {
     $result = $db->query($att_sql); // or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
     while ($attachment = $db->fetch_assoc($result)) {

@@ -121,7 +121,7 @@ if (isset($_POST['save'])) {
     redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
 } else { // If not, we show the "Show text" form
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Files';
-    $focus_element = array('files', 'form[upload_path]');
+    $focus_element = ['files', 'form[upload_path]'];
 
     require_once PUN_ROOT.'header.php';
 

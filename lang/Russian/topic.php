@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in viewtopic.php
-$lang_topic = array(
+$lang_topic = [
     'Hide' => 'Показать/Скрыть',
     'Show' => 'Показать скрытый текст',
     'Post reply' => 'Ответить',
@@ -35,4 +35,4 @@ $lang_topic = array(
     'Link separator' => ' | ',	// The text that separates links in posts (website, e-mail, report, edit etc.)
     'Mod controls' => 'Контролируется модератором',
     'Quote Hint' => 'Выделите нужный текст в сообщении и нажмите на ссылку <em>Цитировать</em>. Выделенный текст будет помещён в форму быстрого ответа как цитата.', // MOD Quick Quote Line
-);
+];

@@ -95,7 +95,7 @@ if (isset($_GET['file'])) {
     // an author of Attachment mod).
     // lets download a file
     $file_name = $_GET['file'];
-    $file_name = \str_replace(array('/', '\\'), '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $file_name = \str_replace(['/', '\\'], '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if (!$upl_conf['p_view']) {
         message($lang_common['No permission']);
@@ -129,7 +129,7 @@ echo '</strong><br /><br /><div class="block"><h2><span>'.$lang_uploads['Uploade
 //////////////////////////////////////////////////////
 $result = $db->query('SELECT id,type,exts FROM '.$db->prefix.'uploads_types') or error('Unable to get types', __FILE__, __LINE__, $db->error());
 $exts = '';
-$cats = $ids = array();
+$cats = $ids = [];
 while ($ar = $db->fetch_assoc($result)) {
     $exts .= $ar['exts'].' ';
     $cats[] .= $ar['type'];
@@ -196,7 +196,7 @@ if (!$upl_conf['p_view']) {
     }
 } elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
-    $delfile = \str_replace(array('/', '\\'), '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $delfile = \str_replace(['/', '\\'], '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if ((1 != $upl_conf['p_delete']) && (1 != $upl_conf['p_globaldelete'])) {
         error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
@@ -231,7 +231,7 @@ if (!$upl_conf['p_view']) {
     $cat = \intval($s_cat);
     if ($cat > 0) {
         $result = $db->query('SELECT exts FROM '.$db->prefix.'uploads_types WHERE id = '.$cat) or error('Unable to get types', __FILE__, __LINE__, $db->error());
-        $extens = array();
+        $extens = [];
         if ($ar = $db->fetch_assoc($result)) {
             $extens = \explode(' ', $ar['exts']);
         }
@@ -248,7 +248,7 @@ if (!$upl_conf['p_view']) {
     // try to sort on specified column
     $s = \intval($s_sort);
     $sorto = ' ORDER BY ';
-    $sorters = array('id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr');
+    $sorters = ['id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr'];
     if ($s < 1 || $s >= \count($sorters)) {
         $s = 1;
     }
@@ -259,7 +259,7 @@ if (!$upl_conf['p_view']) {
     if (5 != $s) {
         $sorto .= ', data DESC';
     }
-    $pages = array(10, 20, 30, 50, 100);
+    $pages = [10, 20, 30, 50, 100];
 
     echo '<div class="inform"><fieldset><legend>'.$lang_uploads['Filter'].'</legend><div class="infldset"><form method="post" action="'.$_SERVER['PHP_SELF'].'?" enctype="multipart/form-data"><table><tr><td>'.$lang_uploads['Pages'].'</td><td>'.$lang_uploads['Categ'].'</td><td>'.$lang_uploads['Part'].'</td><td>'.$lang_uploads['Posted by'].'</td><td>'.$lang_uploads['Desc'].'</td></tr><tr><td><select id="nump" name="nump">';
 

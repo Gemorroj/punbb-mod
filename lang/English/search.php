@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in search.php
-$lang_search = array(
+$lang_search = [
     // The search form
     'User search' => 'User search',
     'No search permission' => 'You do not have permission to use the search feature.',
@@ -43,4 +43,4 @@ $lang_search = array(
     'No unanswered' => 'There are no unanswered posts in this forum.',
     'Go to post' => 'Go to post',
     'Replies' => 'Replies',
-);
+];

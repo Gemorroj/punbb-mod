@@ -20,7 +20,7 @@ if (@$attachments) {
     $pview_height = $pun_config['file_preview_height'];
     $pview_width = $pun_config['file_preview_width'];
 
-    $tmp = array();
+    $tmp = [];
     foreach ($attachments as $post_attachments) {
         foreach ($post_attachments as $attachment) {
             // generate preview images just-in-time

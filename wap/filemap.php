@@ -36,7 +36,7 @@ if ($user_id) {
     $user = $db->fetch_assoc($result);
 }
 
-$fid_list = $categories = $forums = array();
+$fid_list = $categories = $forums = [];
 
 // get available forum list
 $result = $db->query('
@@ -50,14 +50,14 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
 
     // we have to calculate download rights for every forum
-    $mods_array = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : array();
+    $mods_array = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
     $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
     $can_download = $is_admmod || (!$cur_forum['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_forum['file_download'];
 
-    $forums[$cur_forum['fid']] = array(
+    $forums[$cur_forum['fid']] = [
         'forum_name' => $cur_forum['forum_name'],
         'can_download' => $can_download,
-    );
+    ];
 }
 $fid_list = \implode(',', $fid_list);
 unset($can_download);
@@ -93,7 +93,7 @@ $start_from = ATTACHMENTS_PER_PAGE * ($p - 1);
 $user_cond = $user_id ? 'user_id='.$user_id : '';
 $paging_links = paginate($num_pages, $p, 'filemap.php?'.$user_cond);
 
-$attachments = array();
+$attachments = [];
 if ($fid_list) {
     // loop through topics
     $result = $db->query(

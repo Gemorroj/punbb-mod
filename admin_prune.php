@@ -47,7 +47,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
-            $orphans = array();
+            $orphans = [];
             for ($i = 0; $i < $num_orphans; ++$i) {
                 $orphans[] = $db->result($result, $i);
             }
@@ -125,8 +125,8 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
     require_once PUN_ROOT.'footer.php';
 } else {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
-    $required_fields = array('req_prune_days' => 'Days old');
-    $focus_element = array('prune', 'req_prune_days');
+    $required_fields = ['req_prune_days' => 'Days old'];
+    $focus_element = ['prune', 'req_prune_days'];
 
     require_once PUN_ROOT.'header.php';
 

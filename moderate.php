@@ -64,7 +64,7 @@ if ($fid < 1) {
 $result = $db->query('SELECT moderators FROM '.$db->prefix.'forums WHERE id='.$fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 $moderators = $db->result($result);
-$mods_array = ($moderators) ? \unserialize($moderators) : array();
+$mods_array = ($moderators) ? \unserialize($moderators) : [];
 
 if (PUN_ADMIN != $pun_user['g_id'] && (PUN_MOD != $pun_user['g_id'] || !\array_key_exists($pun_user['username'], $mods_array))) {
     message($lang_common['No permission']);
@@ -322,7 +322,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     }
 
     if (isset($_POST['move_topics'])) {
-        $topics = $_POST['topics'] ?? array();
+        $topics = $_POST['topics'] ?? [];
         if (!$topics) {
             message($lang_misc['No topics selected']);
         }
@@ -396,7 +396,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
 // Delete one or more topics
 if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) {
-    $topics = $_POST['topics'] ?? array();
+    $topics = $_POST['topics'] ?? [];
     if (!$topics) {
         message($lang_misc['No topics selected']);
     }
@@ -488,7 +488,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     if (isset($_POST['open']) || isset($_POST['close'])) {
         //confirm_referrer('moderate.php');
 
-        $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : array();
+        $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : [];
         if (!$topics) {
             message($lang_misc['No topics selected']);
         }

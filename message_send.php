@@ -193,7 +193,7 @@ if (isset($_POST['form_sent'])) {
     if (1 != $pun_user['messages_enable']) {
         message($lang_pms['PM disabled'].' <a href="message_list.php?&amp;box=2">'.$lang_pms['Options PM'].'</a>');
     }
-    $required_fields = array('req_message' => $lang_common['Message'], 'req_subject' => $lang_common['Subject'], 'req_username' => $lang_pms['Send to']);
+    $required_fields = ['req_message' => $lang_common['Message'], 'req_subject' => $lang_common['Subject'], 'req_username' => $lang_pms['Send to']];
 
     require_once PUN_ROOT.'header.php'; ?>
 <div id="profile" class="block2col">
@@ -253,7 +253,7 @@ if (isset($_POST['form_sent'])) {
                     </div>
                 </fieldset>
 <?php
-$checkboxes = array();
+$checkboxes = [];
 
     if (1 == $pun_config['o_smilies']) {
         $checkboxes[] = '<label><input type="checkbox" name="hide_smilies" value="1" '.(isset($_POST['hide_smilies']) ? 'checked="checked"' : '').' />'.$lang_post['Hide smilies'];

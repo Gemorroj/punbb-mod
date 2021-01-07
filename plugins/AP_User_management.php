@@ -95,7 +95,7 @@ if (isset($_POST['prune'])) {
     }
 
     // Check if someone else already has registered with that e-mail address
-    $dupe_list = array();
+    $dupe_list = [];
     $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         while ($cur_dupe = $db->fetch_assoc($result)) {

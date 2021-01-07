@@ -48,11 +48,11 @@ if ($cur_posting['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : array();
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : array();
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // have we permission to attachments?
@@ -93,7 +93,7 @@ if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) |
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 // Start with a clean slate
-$errors = array();
+$errors = [];
 
 // Did someone just hit "Submit" or "Preview"?
 if (isset($_POST['form_sent'])) {
@@ -302,7 +302,7 @@ if (isset($_POST['form_sent'])) {
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
-                    $notification_emails = array();
+                    $notification_emails = [];
 
                     // Loop through subscribed users and send e-mails
                     while ($cur_subscriber = $db->fetch_assoc($result)) {
@@ -444,7 +444,7 @@ if ($tid) {
         [$q_poster, $q_message] = $db->fetch_row($result);
 
         //$q_message = pun_htmlspecialchars(str_replace('[/img]', '[/url]', str_replace('[img]', '[url]', $q_message)));
-        $q_message = \str_replace(array('[img]', '[/img]'), array('[url]', '[/url]'), $q_message);
+        $q_message = \str_replace(['[img]', '[/img]'], ['[url]', '[/url]'], $q_message);
         // pun_htmlspecialchars => {$quote|escape} in post.tpl
 
         if (1 == $pun_config['p_message_bbcode']) {

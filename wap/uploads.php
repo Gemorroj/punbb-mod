@@ -100,7 +100,7 @@ if (isset($_GET['file'])) {
     // an author of Attachment mod).
     // lets download a file
     $file_name = $_GET['file'];
-    $file_name = \str_replace(array('/', '\\'), '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $file_name = \str_replace(['/', '\\'], '_', $file_name); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if (!$upl_conf['p_view']) {
         wap_message($lang_common['No permission']);
@@ -126,7 +126,7 @@ if (isset($_GET['file'])) {
 //////////////////////////////////////////////////////
 $result = $db->query('SELECT id,type,exts FROM '.$db->prefix.'uploads_types') or error('Unable to get types', __FILE__, __LINE__, $db->error());
 $exts = '';
-$cats = $ids = array();
+$cats = $ids = [];
 while ($ar = $db->fetch_assoc($result)) {
     $exts .= $ar['exts'].' ';
     $cats[] .= $ar['type'];
@@ -186,7 +186,7 @@ if (isset($_GET['uploadit'])) {
     }
 } elseif (isset($_GET['del'])) {
     $delfile = $_GET['del'];
-    $delfile = \str_replace(array('/', '\\'), '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
+    $delfile = \str_replace(['/', '\\'], '_', $delfile); // убираем слэши и бэкслэши, которые могут использоваться в Lin-Win в качестве пути
 
     if ((1 != $upl_conf['p_delete']) && (1 != $upl_conf['p_globaldelete'])) {
         error($lang_uploads['Not allowed'], __FILE__, __LINE__, $db->error());
@@ -219,7 +219,7 @@ if (isset($_GET['uploadit'])) {
     $cat = \intval($s_cat);
     if ($cat > 0) {
         $result = $db->query('SELECT exts FROM '.$db->prefix.'uploads_types WHERE id = '.$cat) or error('Unable to get types', __FILE__, __LINE__, $db->error());
-        $extens = array();
+        $extens = [];
         if ($ar = $db->fetch_assoc($result)) {
             $extens = \explode(' ', $ar['exts']);
         }
@@ -236,7 +236,7 @@ if (isset($_GET['uploadit'])) {
     // try to sort on specified column
     $s = \intval($s_sort);
     $sorto = ' ORDER BY ';
-    $sorters = array('id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr');
+    $sorters = ['id', 'file', 'size', 'user', 'user_stat', 'data', 'downs', 'descr'];
     if ($s < 1 || $s >= \count($sorters)) {
         $s = 1;
     }
@@ -248,7 +248,7 @@ if (isset($_GET['uploadit'])) {
         $sorto .= ', data DESC';
     }
 
-    $pages = array(5, 10, 20, 30, 50, 100);
+    $pages = [5, 10, 20, 30, 50, 100];
 
     if ($upl_conf['p_globalview']) {
         $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'uploaded WHERE '.$sql.$sorto) or error('Error getting file list', __FILE__, __LINE__, $db->error());

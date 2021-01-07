@@ -58,7 +58,7 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
-            $orphans = array();
+            $orphans = [];
             for ($i = 0; $i < $num_orphans; ++$i) {
                 $orphans[] = $db->result($result, $i);
             }

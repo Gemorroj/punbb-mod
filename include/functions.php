@@ -33,7 +33,7 @@ function check_cookie(&$pun_user)
     $expire = \time() + 31536000; // The cookie expires after a year
 
     // We assume it's a guest
-    $cookie = array('user_id' => 1, 'password_hash' => 'Guest');
+    $cookie = ['user_id' => 1, 'password_hash' => 'Guest'];
 
     // If a cookie is set, we get the user_id and password hash from it
     // @see http://php-security.org/2010/06/25/mops-2010-061-php-splobjectstorage-deserialization-use-after-free-vulnerability/index.html
@@ -160,7 +160,7 @@ function pun_setcookie($user_id, $password_hash, $expire)
 {
     global $cookie_name, $cookie_path, $cookie_domain, $cookie_secure, $cookie_seed;
 
-    return \setcookie($cookie_name, \serialize(array($user_id, \md5($cookie_seed.$password_hash))), $expire, $cookie_path, $cookie_domain, $cookie_secure, true);
+    return \setcookie($cookie_name, \serialize([$user_id, \md5($cookie_seed.$password_hash)]), $expire, $cookie_path, $cookie_domain, $cookie_secure, true);
 }
 
 //
@@ -305,7 +305,7 @@ function generate_navlinks()
         if (\preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
             // Insert any additional links into the $links array (at the correct index)
             for ($i = 0, $all = \count($extra_links[1]); $i < $all; ++$i) {
-                \array_splice($links, $extra_links[1][$i], 0, array('<li id="navextra'.($i + 1).'">'.$extra_links[2][$i]));
+                \array_splice($links, $extra_links[1][$i], 0, ['<li id="navextra'.($i + 1).'">'.$extra_links[2][$i]]);
             }
         }
     }
@@ -353,7 +353,7 @@ function generate_wap_navlinks()
         // PMS MOD END
     }
 
-    $out = array();
+    $out = [];
     foreach ($links as $k => $link) {
         $out[] = '<option value="'.$k.'">'.$link.'</option>';
     }
@@ -364,7 +364,7 @@ function generate_wap_navlinks()
             // Insert any additional links into the $links array (at the correct index)
             for ($i = 0, $all = \count($extra_links[1]); $i < $all; ++$i) {
                 if (\preg_match('!<a[^>]+href="?\'?([^ "\'>]+)"?\'?[^>]*>([^<>]*?)</a>!is', $extra_links[2][$i], $row)) {
-                    \array_splice($out, $extra_links[1][$i], 0, array('<option value="'.$row[1].'">'.$row[2].'</option>'));
+                    \array_splice($out, $extra_links[1][$i], 0, ['<option value="'.$row[1].'">'.$row[2].'</option>']);
                 }
             }
         }
@@ -411,7 +411,7 @@ function generate_wap_1_navlinks()
         if (\preg_match_all('#([0-9]+)\s*=\s*(.*?)\n#s', $pun_config['o_additional_navlinks'], $extra_links)) {
             // Insert any additional links into the $links array (at the correct index)
             for ($i = 0, $all = \count($extra_links[1]); $i < $all; ++$i) {
-                \array_splice($links, $extra_links[1][$i], 0, array(''.($i + 1).'">'.$extra_links[2][$i]));
+                \array_splice($links, $extra_links[1][$i], 0, [''.($i + 1).'">'.$extra_links[2][$i]]);
             }
         }
     }
@@ -585,7 +585,7 @@ function censor_words($text)
         $result = $db->query('SELECT search_for, replace_with FROM '.$db->prefix.'censoring') or error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
         $num_words = $db->num_rows($result);
 
-        $search_for = array();
+        $search_for = [];
         for ($i = 0; $i < $num_words; ++$i) {
             [$search_for[$i], $replace_with[$i]] = $db->fetch_row($result);
             // FIX UTF REGULAR EXPRESSIONS BUG BEGIN
@@ -612,7 +612,7 @@ function get_title($user)
 
     // If not already built in a previous call, build an array of lowercase banned usernames
     if (!$ban_list) {
-        $ban_list = array();
+        $ban_list = [];
 
         foreach ($pun_bans as $cur_ban) {
             $ban_list[] = \mb_strtolower($cur_ban['username']);
@@ -682,7 +682,7 @@ function paginate($num_pages, $cur_page, $link_to)
     }
     /// MOD VIEW ALL PAGES IN ONE END
 
-    $pages = array();
+    $pages = [];
     $link_to_all = false;
 
     // If $cur_page == -1, we link to all pages (used in viewforum.php)
@@ -692,7 +692,7 @@ function paginate($num_pages, $cur_page, $link_to)
     }
 
     if ($num_pages <= 1) {
-        $pages = array('<strong>1</strong>');
+        $pages = ['<strong>1</strong>'];
     } else {
         if ($cur_page > 3) {
             $pages[] = '<a href="'.$link_to.'&amp;p=1">1</a>';
@@ -867,7 +867,7 @@ function get_remote_address()
 //
 function pun_htmlspecialchars($str)
 {
-    return \str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), \preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $str));
+    return \str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], \preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $str));
 }
 
 //
@@ -912,7 +912,7 @@ function maintenance_message()
     global $db, $pun_config, $lang_common, $pun_user;
 
     // Deal with newlines, tabs and multiple spaces
-    $message = \str_replace(array("\t", ' ', ' '), array('&#160; &#160; ', '&#160; ', ' &#160;'), $pun_config['o_maintenance_message']);
+    $message = \str_replace(["\t", ' ', ' '], ['&#160; &#160; ', '&#160; ', ' &#160;'], $pun_config['o_maintenance_message']);
 
     // Load the maintenance template
     $tpl_maint = \trim(\file_get_contents(PUN_ROOT.'include/template/maintenance.tpl'));
@@ -999,7 +999,7 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
     // START SUBST - <pun_head>
     \ob_start();
 
-    echo '<meta http-equiv="refresh" content="'.$pun_config['o_redirect_delay'].'; url='.\str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $destination_url).'" />
+    echo '<meta http-equiv="refresh" content="'.$pun_config['o_redirect_delay'].'; url='.\str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], $destination_url).'" />
 <title>'.pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Redirecting'].'</title>
 <link rel="stylesheet" type="text/css" href="style/'.$pun_user['style'].'.css" />';
 
@@ -1059,7 +1059,7 @@ function wap_redirect($destination_url, $redirect_code = 301)
  * @param int    $line
  * @param array  $db_error
  */
-function error($message, $file, $line, $db_error = array())
+function error($message, $file, $line, $db_error = [])
 {
     global $pun_config, $db;
 

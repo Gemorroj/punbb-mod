@@ -50,7 +50,7 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : array();
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
@@ -100,7 +100,7 @@ if ((!$pun_user['g_edit_posts'] || $cur_post['poster_id'] != $pun_user['id'] || 
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 // Start with a clean slate
-$errors = array();
+$errors = [];
 
 $hide_smilies = @$_POST['hide_smilies'];
 if (1 != $hide_smilies) {

@@ -27,7 +27,7 @@ class _Poll
         global $db;
 
         if (isset($_POST['polldata'])) {
-            $poll = array();
+            $poll = [];
             $data = \explode('&', $_POST['polldata']);
             foreach ($data as $val) {
                 $current = \explode('=', $val);
@@ -110,12 +110,12 @@ class _Poll
 
     public function convertQustions($value)
     {
-        $questions = array();
+        $questions = [];
 
         foreach (\explode("\n", $value) as $val) {
             $val = \trim($val);
             if ($val && "\n" != $val && "\t" != $val) {
-                $questions[] = array($val, 0);
+                $questions[] = [$val, 0];
             }
         }
 
@@ -124,7 +124,7 @@ class _Poll
 
     public function convertAnswers($value)
     {
-        $answers = array();
+        $answers = [];
 
         if (\is_int($value)) {
             $answers[] = $value;

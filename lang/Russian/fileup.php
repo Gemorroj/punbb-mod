@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions for File Upload mod
-$lang_fu = array(
+$lang_fu = [
     'Attachments' => 'Вложения',
     'Uploaded Files' => 'Загруженные файлы',
     'File Upload show' => 'Просмотр',
@@ -47,4 +47,4 @@ $lang_fu = array(
     'JS no url' => 'Вы не ввели адрес!',
     'JS no title' => 'Вы не ввели Заголовок!',
     'JS no email' => 'Вы не ввели адрес email!',
-);
+];

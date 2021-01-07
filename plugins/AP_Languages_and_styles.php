@@ -70,7 +70,7 @@ if (isset($_POST['lang'])) {
 
     echo '</td></tr><tr><th scope="row">Язык</th><td>';
 
-    $languages = array();
+    $languages = [];
     $d = \dir(PUN_ROOT.'lang');
     while (false !== ($entry = $d->read())) {
         if ('.' != $entry && '..' != $entry && \is_dir(PUN_ROOT.'lang/'.$entry)) {
@@ -118,7 +118,7 @@ if (isset($_POST['lang'])) {
 
     echo '</td></tr><tr><th scope="row">WEB Стиль</th><td>';
 
-    $styles = array();
+    $styles = [];
     $d = \dir(PUN_ROOT.'style');
     while (false !== ($entry = $d->read())) {
         if ('css' == \pathinfo($entry, \PATHINFO_EXTENSION)) {
@@ -165,7 +165,7 @@ if (isset($_POST['lang'])) {
 
     echo '</td></tr><tr><th scope="row">WAP Стиль</th><td>';
 
-    $stylesWap = array();
+    $stylesWap = [];
     $d = \dir(PUN_ROOT.'include/template/wap');
     while (false !== ($entry = $d->read())) {
         if ('.' != $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {

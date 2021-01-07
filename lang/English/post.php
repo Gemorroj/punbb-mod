@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in post.php and edit.php
-$lang_post = array(
+$lang_post = [
     // Post validation stuff (many are similiar to those in edit.php)
     'No subject' => 'Topics must contain a subject.',
     'Too long subject' => 'Subjects cannot be longer than 70 characters.',
@@ -39,7 +39,7 @@ $lang_post = array(
     'Image text' => 'Image Text',
     'Image info' => 'Please copy the text in the image to the text box above',
     'Text mismatch' => 'Please make sure the text and the image match',
-);
+];
 
 function seconds_st($nm)
 {

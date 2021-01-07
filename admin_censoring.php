@@ -57,7 +57,7 @@ elseif (isset($_POST['remove'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Censoring';
-$focus_element = array('censoring', 'new_search_for');
+$focus_element = ['censoring', 'new_search_for'];
 
 require_once PUN_ROOT.'header.php';
 

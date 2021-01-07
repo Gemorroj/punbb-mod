@@ -24,7 +24,7 @@ $sort_dir = (!isset($_GET['sort_dir']) || 'ASC' != $_GET['sort_dir'] && 'DESC' !
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['User list'];
 if (1 == $pun_user['g_search_users']) {
-    $focus_element = array('userlist', 'username');
+    $focus_element = ['userlist', 'username'];
 }
 
 \define('PUN_ALLOW_INDEX', 1);
@@ -95,7 +95,7 @@ echo '>'.$lang_search['Descending'].'</option></select><br /></label>
 </div>';
 
 // Create any SQL for the WHERE clause
-$where_sql = array();
+$where_sql = [];
 $like_command = 'LIKE';
 
 if (1 == $pun_user['g_search_users'] && $username) {

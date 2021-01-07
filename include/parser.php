@@ -6,7 +6,7 @@ if (!\defined('PUN')) {
 }
 
 // Here you can add additional smilies if you like (please note that you must escape singlequote and backslash)
-$smiley_text = array(
+$smiley_text = [
     ':))',
     ':)',
     '=)',
@@ -26,8 +26,8 @@ $smiley_text = array(
     ':rolleyes:',
     ':cool:',
     ':confused:',
-);
-$smiley_img = array(
+];
+$smiley_img = [
     'roll.png',
     'smile.png',
     'smile.png',
@@ -47,7 +47,7 @@ $smiley_img = array(
     'roll.png',
     'cool.png',
     'confused.png',
-);
+];
 
 // Uncomment the next row if you add smilies that contain any of the characters &"'<>
 //$smiley_text = array_map('pun_htmlspecialchars', $smiley_text);
@@ -62,30 +62,30 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
     // Change all simple BBCodes to lower case
     // MODERN BBCODE BEGIN
     $text = \str_replace(
-        array('[B]', '[I]', '[U]', '[/B]', '[/I]', '[/U]', '[S]', '[/S]'),
-        array('[b]', '[i]', '[u]', '[/b]', '[/i]', '[/u]', '[s]', '[/s]'),
+        ['[B]', '[I]', '[U]', '[/B]', '[/I]', '[/U]', '[S]', '[/S]'],
+        ['[b]', '[i]', '[u]', '[/b]', '[/i]', '[/u]', '[s]', '[/s]'],
         $text
     );
     // MODERN BBCODE END
 
     // Do the more complex BBCodes (also strip excessive whitespace and useless quotes)
-    $a = array(
+    $a = [
         '#\[url=("|\'|)(.*?)$1\]\s*#i', '#\[url\]\s*#i', '#\s*\[/url\]#i',
         '#\[search=("|\'|)(.*?)$1\]\s*#i', '#\[search\]\s*#i', '#\s*\[/search\]#i',
         '#\[email=("|\'|)(.*?)$1\]\s*#i', '#\[email\]\s*#i', '#\s*\[/email\]#i',
         '#\[img\]\s*(.*?)\s*\[/img\]#is',
         '#\[color=("|\'|)(.*?)$1\](.*?)\[/color\]#is',
         '#\[font=("|\'|)(.*?)$1\](.*?)\[/font\]#is',
-    );
+    ];
 
-    $b = array(
+    $b = [
         '[url=$2]', '[url]', '[/url]',
         '[search=$2]', '[search]', '[/search]',
         '[email=$2]', '[email]', '[/email]',
         '[img]$1[/img]',
         '[color=$2]$3[/color]',
         '[font=$2]$3[/font]',
-    );
+    ];
 
     if (!$is_signature) {
         // For non-signatures, we have to do the quote and code tags as well
@@ -312,7 +312,7 @@ function check_tag_order($text, &$error)
     // If the quote depth level was higher than $max_depth we return the index for the
     // beginning and end of the part we should strip out
     if (@$overflow_begin) {
-        return array($overflow_begin, $overflow_end);
+        return [$overflow_begin, $overflow_end];
     }
 
     return null;
@@ -328,7 +328,7 @@ function split_text($text, $start, $end)
     $tokens = \explode($start, $text);
 
     $outside[] = $tokens[0];
-    $inside = array();
+    $inside = [];
 
     $num_tokens = \count($tokens);
     for ($i = 1; $i < $num_tokens; ++$i) {
@@ -342,7 +342,7 @@ function split_text($text, $start, $end)
         $inside = \str_replace("\t", $spaces, $inside);
     }
 
-    return array($inside, $outside);
+    return [$inside, $outside];
 }
 
 //
@@ -351,8 +351,8 @@ function split_text($text, $start, $end)
 function handle_url_tag($url, $link = '')
 {
     $full_url = \str_replace(
-        array(' ', "'", '`', '"'),
-        array('%20', '%27', '%60', '%22'),
+        [' ', "'", '`', '"'],
+        ['%20', '%27', '%60', '%22'],
         $url
     );
     if (0 === \strpos($url, 'www.')) { // If it starts with www, we add http://
@@ -465,13 +465,13 @@ function _replace_quote(array $matches)
 {
     global $lang_common;
 
-    return '</p><blockquote><div class="incqbox"><h4>'.\str_replace(array('[', '\"'), array('&#91;', '"'), $matches[2]).' '.$lang_common['wrote'].':</h4><p>';
+    return '</p><blockquote><div class="incqbox"><h4>'.\str_replace(['[', '\"'], ['&#91;', '"'], $matches[2]).' '.$lang_common['wrote'].':</h4><p>';
 }
 function _replace_quote_wap(array $matches)
 {
     global $lang_common;
 
-    return '<div class="quote"><strong>'.\str_replace(array('[', '\"'), array('&#91;', '"'), $matches[2]).' '.$lang_common['wrote'].':</strong><br />';
+    return '<div class="quote"><strong>'.\str_replace(['[', '\"'], ['&#91;', '"'], $matches[2]).' '.$lang_common['wrote'].':</strong><br />';
 }
 
 function do_bbcode($text)
@@ -509,7 +509,7 @@ function do_bbcode($text)
     }
 
     if ($wap) {
-        $reArr = array(
+        $reArr = [
             '<strong>$1</strong>',
             '<em>$1</em>',
             '<span class="bbu">$1</span>',
@@ -521,9 +521,9 @@ function do_bbcode($text)
             '<span style="text-align:right;">$1</span>',
             '<span style="font-size: $1px">$2</span>',
             '<span style="font-family: $1">$2</span>',
-        );
+        ];
     } else {
-        $reArr = array(
+        $reArr = [
             '<strong>$1</strong>',
             '<em>$1</em>',
             '<span class="bbu">$1</span>',
@@ -535,11 +535,11 @@ function do_bbcode($text)
             '</p><p class="right">$1</p><p>',
             '<span style="font-size: $1px">$2</span>',
             '<span style="font-family: $1">$2</span>',
-        );
+        ];
     }
 
     $text = \preg_replace(
-        array(
+        [
             '#\[b\](.*?)\[/b\]#s',
             '#\[i\](.*?)\[/i\]#s',
             '#\[u\](.*?)\[/u\]#s',
@@ -551,7 +551,7 @@ function do_bbcode($text)
             '#\[right\](.*?)\[/right\]#s',
             '#\[size=([0-9]*)](.*?)\[/size\]#s',
             '#\[font=([a-zA-Z ]*)](.*?)\[/font\]#s',
-        ),
+        ],
         $reArr,
         $text
     );
@@ -668,7 +668,7 @@ function do_hide($text, $post = 0, $matches)
      * по кол-ву написанных читателем сообщений в форум.
     */
     if ($pun_user['num_posts'] < $matches[3]) {
-        return \str_replace($matches[0], \str_replace(array('%num_posts%', '%posts%'), array($pun_user['num_posts'], $matches[3]), $lang_common['BBCode posts']), $text);
+        return \str_replace($matches[0], \str_replace(['%num_posts%', '%posts%'], [$pun_user['num_posts'], $matches[3]], $lang_common['BBCode posts']), $text);
     }
 
     $basename = \basename($_SERVER['PHP_SELF']);
@@ -708,13 +708,13 @@ function parse_message($text, $hide_smilies, $post = 0)
     // hide
     if (\preg_match_all('#\[hide(=(&quot;|"|\'|)+(\d+)){0,1}\](.*)\[/hide\]#sU', $text, $matches)) {
         foreach ($matches[0] as $key => $value) {
-            $match = array($value, $matches[1][$key], $matches[2][$key], $matches[3][$key], $matches[4][$key]);
+            $match = [$value, $matches[1][$key], $matches[2][$key], $matches[3][$key], $matches[4][$key]];
             $text = do_hide($text, $post, $match);
         }
     }
 
     // If the message contains a code tag we have to split it up (text within [code][/code] shouldn't be touched)
-    $inside = array();
+    $inside = [];
     if (false !== \strpos($text, '[code]') && false !== \strpos($text, '[/code]')) {
         [$inside, $outside] = split_text($text, '[code]', '[/code]');
         $outside = \array_map('ltrim', $outside);
@@ -740,7 +740,7 @@ function parse_message($text, $hide_smilies, $post = 0)
     }
 
     // Deal with newlines, tabs and multiple spaces
-    $text = \str_replace(array("\n", "\t", '  ', '  ', "\r"), array('<br />', '&#160; &#160; ', '&#160; ', ' &#160;', ''), $text);
+    $text = \str_replace(["\n", "\t", '  ', '  ', "\r"], ['<br />', '&#160; &#160; ', '&#160; ', ' &#160;', ''], $text);
 
     // AJAX POLL MOD BEGIN
     $text = \preg_replace_callback('#\[poll\]([0-9]*?)\[/poll\]#', '_replace_poll', $text);
@@ -777,7 +777,7 @@ function _replace_poll(array $matches)
     return handle_poll_tag($matches[1]);
 }
 
-function do_code($text, $inside = array())
+function do_code($text, $inside = [])
 {
     global $pun_config, $lang_common, $pun_user;
     $wap = 'wap' === \pathinfo(\dirname($_SERVER['PHP_SELF']), \PATHINFO_FILENAME);
@@ -797,25 +797,25 @@ function do_code($text, $inside = array())
 
                 if ('&lt;?' === $inside[$i][0].$inside[$i][1].$inside[$i][2].$inside[$i][3].$inside[$i][4]) {
                     $code = \str_replace(
-                        array(
+                        [
                             '<code>',
                             '</code>',
                             "\r",
                             "\n",
                             "\t",
-                        ),
-                        array(
+                        ],
+                        [
                             '',
                             '',
                             '',
                             '',
                             '',
-                        ),
+                        ],
                         // delete the first <span style="color:#000000;"> and the corresponding </span>
                         $str = \substr(\highlight_string(\htmlspecialchars_decode($inside[$i]), true), 35, -8)
                     );
                 } else {
-                    $code = \str_replace(array("\r", "\n", "\t"), '', \nl2br($inside[$i]));
+                    $code = \str_replace(["\r", "\n", "\t"], '', \nl2br($inside[$i]));
                 }
 
                 $c = \explode('<br />', $code);
@@ -901,7 +901,7 @@ function parse_signature($text)
 
     // Deal with newlines, tabs and multiple spaces
 
-    return \str_replace(array("\n", "\t", '  ', '  '), array('<br />', '&#160; &#160; ', '&#160; ', ' &#160;'), $text);
+    return \str_replace(["\n", "\t", '  ', '  '], ['<br />', '&#160; &#160; ', '&#160; ', ' &#160;'], $text);
 }
 
 function _replace_signature_img(array $matches)

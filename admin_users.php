@@ -170,7 +170,7 @@ if (isset($_GET['show_users'])) {
 
     // trim() all elements in $form
     $form = \array_map('trim', $form);
-    $conditions = array();
+    $conditions = [];
 
     $posts_greater = \trim($_POST['posts_greater']);
     $posts_less = \trim($_POST['posts_less']);
@@ -219,7 +219,7 @@ if (isset($_GET['show_users'])) {
 
     $like_command = 'LIKE';
     foreach ($form as $key => $input) {
-        if ($input && \in_array($key, array('username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note'))) {
+        if ($input && \in_array($key, ['username', 'email', 'title', 'realname', 'url', 'jabber', 'icq', 'msn', 'aim', 'yahoo', 'location', 'signature', 'admin_note'])) {
             $conditions[] = 'u.'.$db->escape($key).' '.$like_command.' \''.$db->escape(\str_replace('*', '%', $input)).'\'';
         }
     }
@@ -305,7 +305,7 @@ if (isset($_GET['show_users'])) {
     require_once PUN_ROOT.'footer.php';
 } else {
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
-    $focus_element = array('find_user', 'username');
+    $focus_element = ['find_user', 'username'];
 
     require_once PUN_ROOT.'header.php';
 

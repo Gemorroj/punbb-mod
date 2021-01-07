@@ -38,8 +38,8 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
     }
 
     $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
-    $required_fields = array('req_title' => 'Group title');
-    $focus_element = array('groups2', 'req_title');
+    $required_fields = ['req_title' => 'Group title'];
+    $focus_element = ['groups2', 'req_title'];
 
     require_once PUN_ROOT.'header.php';
 

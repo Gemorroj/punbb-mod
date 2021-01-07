@@ -24,7 +24,7 @@ $sort_dir = (!isset($_GET['sort_dir']) || 'ASC' != $_GET['sort_dir'] && 'DESC' !
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_common['User list'];
 if (1 == $pun_user['g_search_users']) {
-    $focus_element = array('userlist', 'username');
+    $focus_element = ['userlist', 'username'];
 }
 
 \define('PUN_ALLOW_INDEX', 1);
@@ -38,7 +38,7 @@ if ($db->num_rows($result)) {
 }
 
 // Create any SQL for the WHERE clause
-$where_sql = array();
+$where_sql = [];
 $like_command = 'LIKE';
 
 if (1 == $pun_user['g_search_users'] && $username) {
@@ -75,7 +75,7 @@ $paging_links = paginate(
 
 // Grab the users
 $result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1'.(!empty($where_sql) ? ' AND '.\implode(' AND ', $where_sql) : '').' ORDER BY '.$sort_by.' '.$sort_dir.', u.id ASC '.(-1 != $start_from ? 'LIMIT '.$start_from.', 50' : '')) or error('Unable to fetch user list', __FILE__, __LINE__, $db->error());
-$users = array();
+$users = [];
 if ($db->num_rows($result)) {
     while ($user_data = $db->fetch_assoc($result)) {
         $users[] = $user_data;

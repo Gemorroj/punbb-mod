@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in both profile.php and registration.php
-$lang_prof_reg = array(
+$lang_prof_reg = [
     'E-mail legend' => 'Введите правильный e-mail адрес',
     'E-mail legend 2' => 'Введите и подтвердите правильный e-mail адрес',
     'Localisation legend' => 'Выберите свои региональные настройки',
@@ -34,4 +34,4 @@ $lang_prof_reg = array(
     'lines' => 'строк',
     'Signature quote/code' => 'В подписи не разрешены BBCodе теги quite, code, hide. Пожалуйста, вернитесь и исправьте.',
     'Bad ICQ' => 'Вы ввели неправильный ICQ UIN. Пожалуйста, вернитесь и исправьте.',
-);
+];

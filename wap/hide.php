@@ -91,7 +91,7 @@ $cur_topic = $db->fetch_assoc($result);
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
     $cur_time = \time();
-    $message_stack = array();
+    $message_stack = [];
     if (null == $cur_topic['log_time']) {
         $result = $db->query('
             INSERT INTO '.$db->prefix.'log_topics (
@@ -155,7 +155,7 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 /*
@@ -254,7 +254,7 @@ $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smili
 $cur_post['user_avatar'] = pun_show_avatar();
 $db->free_result($result);
 
-$karma = array();
+$karma = [];
 if (1 == $pun_config['o_show_post_karma'] || $pun_user['g_id'] < PUN_GUEST) {
     $karmaCount = $db->query(
         'SELECT COUNT(1), '

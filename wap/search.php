@@ -38,11 +38,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $keywords = (isset($_GET['keywords'])) ? \mb_strtolower(\trim($_GET['keywords'])) : null;
         $author = (isset($_GET['author'])) ? \mb_strtolower(\trim($_GET['author'])) : null;
 
-        if (\preg_match('#^[\*%]+$#', $keywords) || \mb_strlen(\str_replace(array('*', '%'), '', $keywords)) < 3) {
+        if (\preg_match('#^[\*%]+$#', $keywords) || \mb_strlen(\str_replace(['*', '%'], '', $keywords)) < 3) {
             $keywords = null;
         }
 
-        if (\preg_match('#^[\*%]+$#', $author) || \mb_strlen(\str_replace(array('*', '%'), '', $author)) < 3) {
+        if (\preg_match('#^[\*%]+$#', $author) || \mb_strlen(\str_replace(['*', '%'], '', $author)) < 3) {
             $author = null;
         }
         // UTF FIX END
@@ -95,7 +95,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             wap_message($lang_search['No hits']);
         }
     } else {
-        $keyword_results = $author_results = array();
+        $keyword_results = $author_results = [];
 
         // Search a specific forum?
         $forum_sql = (-1 != $forum || (-1 == $forum && !$pun_config['o_search_all_forums'] && $pun_user['g_id'] >= PUN_GUEST)) ? ' AND t.forum_id = '.$forum : '';
@@ -108,8 +108,8 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 // Filter out non-alphabetical chars
                 $keywords = \str_replace(
-                    array('^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '[', ']', '{', '}', ':', '\\', '/', '=', '#', "'", ';', '!', \chr(239)),
-                    array(' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' '),
+                    ['^', '$', '&', '(', ')', '<', '>', '`', "'", '"', '|', ',', '@', '_', '?', '%', '~', '[', ']', '{', '}', ':', '\\', '/', '=', '#', "'", ';', '!', \chr(239)],
+                    [' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                     $keywords
                 );
 
@@ -136,7 +136,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                 $word_count = 0;
                 $match_type = 'and';
-                $result_list = array();
+                $result_list = [];
                 \reset($keywords_array);
                 foreach ($keywords_array as $cur_word) {
                     switch ($cur_word) {
@@ -157,7 +157,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                             $result = $db->query($sql) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
 
-                            $row = array();
+                            $row = [];
                             while ($temp = $db->fetch_row($result)) {
                                 $row[$temp[0]] = 1;
 
@@ -216,7 +216,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                         WHERE poster_id IN('.$user_ids.')
                     ') or error('Unable to fetch matched posts list', __FILE__, __LINE__, $db->error());
 
-                    $search_ids = array();
+                    $search_ids = [];
                     while ($row = $db->fetch_row($result)) {
                         $author_results[] = $row[0];
                     }
@@ -252,7 +252,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     GROUP BY t.id
                 ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
-                $search_ids = array();
+                $search_ids = [];
                 while ($row = $db->fetch_row($result)) {
                     $search_ids[] = $row[0];
                 }
@@ -273,7 +273,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     '.$forum_sql
                 ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
-                $search_ids = array();
+                $search_ids = [];
                 while ($row = $db->fetch_row($result)) {
                     $search_ids[] = $row[0];
                 }
@@ -376,7 +376,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             // We want to sort things after last post
             $sort_by = 4;
 
-            $search_ids = array();
+            $search_ids = [];
             while ($row = $db->fetch_row($result)) {
                 $search_ids[] = $row[0];
             }
@@ -389,7 +389,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }
 
         // Prune "old" search results
-        $old_searches = array();
+        $old_searches = [];
         $result = $db->query('SELECT ident FROM '.$db->prefix.'online') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
         if ($db->num_rows($result)) {
@@ -489,7 +489,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         $result = $db->query($sql) or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
-        $search_set = array();
+        $search_set = [];
         while ($row = $db->fetch_assoc($result)) {
             if ('posts' == $show_as) {
                 if (1 == $pun_config['o_censoring']) {
@@ -517,7 +517,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // Fetch the list of forums
         $result = $db->query('SELECT `id`, `forum_name` FROM `'.$db->prefix.'forums`') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
-        $forum_list = array();
+        $forum_list = [];
         while ($row = $db->fetch_row($result)) {
             $forum_list[] = $row;
         }
@@ -548,7 +548,7 @@ $result = $db->query('
     ORDER BY c.disp_position, c.id, f.disp_position
 ') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
-$forums = array();
+$forums = [];
 while ($cur_forum = $db->fetch_assoc($result)) {
     $forums[] = $cur_forum;
 }

@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in delete.php
-$lang_login = array(
+$lang_login = [
     // Miscellaneous
     'Wrong user/pass' => 'Неправильное имя и/или пароль.',
     'Forgotten pass' => 'Забыли пароль?',
@@ -17,4 +17,4 @@ $lang_login = array(
 
     // Forget password mail stuff
     'Forget mail' => 'Сообщение выслано на указанный адрес вместе и инструкцией по изменению пароля. В случае каких-либо проблем Вы можете обратиться к администратору',
-);
+];

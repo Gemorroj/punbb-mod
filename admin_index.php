@@ -50,7 +50,7 @@ if ('check_upgrade' == $action) {
 
     exit;
 } elseif ('optimize' == $action) {
-    $errors = array();
+    $errors = [];
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
         if ('online' != $row['Name']) {
@@ -76,7 +76,7 @@ if (@\file_exists('/proc/loadavg') && \is_readable('/proc/loadavg')) {
 
     $load_averages = @\explode(' ', $load_averages);
     $server_load = isset($load_averages[2]) ? $load_averages[0].' '.$load_averages[1].' '.$load_averages[2] : 'Not available';
-} elseif (!\in_array(\PHP_OS, array('WINNT', 'WIN32')) && \preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @\exec('uptime'), $load_averages)) {
+} elseif (!\in_array(\PHP_OS, ['WINNT', 'WIN32']) && \preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @\exec('uptime'), $load_averages)) {
     $server_load = $load_averages[1].' '.$load_averages[2].' '.$load_averages[3];
 } else {
     $server_load = 'Not available';
@@ -111,7 +111,7 @@ if ($total_size > 1024) {
 }
 
 // See if php accelerator is loaded
-$php_accelerators = array();
+$php_accelerators = [];
 if (\extension_loaded('ionCube Loader')) {
     $php_accelerators[] = '<a href="http://www.ioncube.com/php_encoder.php">ionCube PHP Encoder</a>';
 }

@@ -112,7 +112,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
 
     if ($cur_forum['moderators'] && $pun_config['o_show_moderators']) {
         $mods_array = \unserialize($cur_forum['moderators']);
-        $moderators = array();
+        $moderators = [];
 
         foreach ($mods_array as $mod_username => $mod_id) {
             $moderators[] = '<a href="profile.php?id='.$mod_id.'">'.pun_htmlspecialchars($mod_username).'</a>';
@@ -146,7 +146,7 @@ echo '<div id="brdstats" class="block"><h2><span>'.$lang_index['Board info'].'</
 if (1 == $pun_config['o_users_online']) {
     // Fetch users online info and generate strings for output
     $num_guests = 0;
-    $users = array();
+    $users = [];
     $result = $db->query('SELECT user_id, ident FROM '.$db->prefix.'online WHERE idle=0 ORDER BY ident') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
     while ($pun_user_online = $db->fetch_assoc($result)) {

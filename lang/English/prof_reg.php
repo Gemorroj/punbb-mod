@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in both profile.php and registration.php
-$lang_prof_reg = array(
+$lang_prof_reg = [
     'E-mail legend' => 'Enter a valid e-mail address',
     'E-mail legend 2' => 'Enter and confirm a valid e-mail address',
     'Localisation legend' => 'Set your localisation options',
@@ -34,4 +34,4 @@ $lang_prof_reg = array(
     'lines' => 'lines',
     'Signature quote/code' => 'The quote and code BBCodes are not allowed in signatures. Please go back and correct.',
     'Bad ICQ' => 'You entered an invalid ICQ UIN. Please go back and correct.',
-);
+];

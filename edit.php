@@ -25,7 +25,7 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : array();
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
@@ -74,7 +74,7 @@ if ((!$pun_user['g_edit_posts'] || $cur_post['poster_id'] != $pun_user['id'] || 
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 // Start with a clean slate
-$errors = array();
+$errors = [];
 
 if (isset($_POST['form_sent'])) {
     /*
@@ -149,8 +149,8 @@ if (isset($_POST['form_sent'])) {
 }
 
 $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_post['Edit post'];
-$required_fields = array('req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message']);
-$focus_element = array('edit', 'req_message');
+$required_fields = ['req_subject' => $lang_common['Subject'], 'req_message' => $lang_common['Message']];
+$focus_element = ['edit', 'req_message'];
 
 require_once PUN_ROOT.'header.php';
 
@@ -256,7 +256,7 @@ if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
     echo '</fieldset>';
 }
 
-$checkboxes = array();
+$checkboxes = [];
 if (1 == $pun_config['o_smilies']) {
     if (isset($_POST['hide_smilies']) || 1 == $cur_post['hide_smilies']) {
         $checkboxes[] = '<label for="hide_smilies"><input type="checkbox" id="hide_smilies" name="hide_smilies" value="1" checked="checked" /> '.$lang_post['Hide smilies'];

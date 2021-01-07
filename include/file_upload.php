@@ -46,7 +46,7 @@ function is_image_filename($filename)
 // Returns the contents of a directory (including files and subdirectories.
 function get_dir_contents($dir)
 {
-    $contents = array();
+    $contents = [];
 
     if (!\is_dir($dir)) {
         return $contents;
@@ -77,7 +77,7 @@ function show_problems()
 {
     global $pun_config;
 
-    $log = array();
+    $log = [];
 
     $files_dir = PUN_ROOT.$pun_config['file_upload_path'];
     $thumb_dir = PUN_ROOT.$pun_config['file_thumb_path'];
@@ -111,7 +111,7 @@ function delete_orphans()
 {
     global $pun_config, $db;
 
-    $log = array();
+    $log = [];
 
     if (!check_mod_config()) {
         $log[] = 'File Upload is not configured correctly!';
@@ -175,7 +175,7 @@ function delete_all_thumbnails()
 {
     global $pun_config;
 
-    $log = array();
+    $log = [];
 
     if (!check_mod_config()) {
         $log[] = 'File Upload is not configured correctly!';
@@ -215,7 +215,7 @@ function fix_user_counters()
 {
     global $pun_config, $db;
 
-    $counters = array();
+    $counters = [];
     $result = $db->query('SELECT poster_id, count(*) FROM '.$db->prefix.'attachments GROUP BY poster_id') or error('Unable to count attachments.', __FILE__, __LINE__, $db->error());
     while ($row = $db->fetch_row($result)) {
         $counters[] = $row;
@@ -227,7 +227,7 @@ function fix_user_counters()
 
     $updated = 0;
     $sizeof = \count($counters);
-    $log = array();
+    $log = [];
     $log[] = $sizeof.' users has attachments';
 
     if ($sizeof) {
@@ -272,7 +272,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
 
     // Upload all files
     $i = 0;
-    $thumb_from = $thumb_to = array();
+    $thumb_from = $thumb_to = [];
 
     foreach ($_FILES['attach']['error'] as $key => $error) {
         ++$i;
@@ -400,7 +400,7 @@ function process_deleted_files($pid, &$total_deleted)
 
     // check post_id to prevent hack
     $result_attach = $db->query('SELECT af.id, af.location FROM '.$db->prefix.'attachments AS af WHERE af.post_id='.$pid.' AND af.id IN ('.$aid_list_str.')') or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
-    $aid_list = array();
+    $aid_list = [];
 
     $total_deleted = 0;
     while ([$aid, $location] = $db->fetch_row($result_attach)) {
@@ -472,7 +472,7 @@ function delete_post_attachments($post_ids)
 
     if ($db->num_rows($result)) {
         $att_ids = '';
-        $poster_ids = array();
+        $poster_ids = [];
         $thumb_dir = PUN_ROOT.$GLOBALS['pun_config']['file_thumb_path'];
         $thumb_files = get_dir_contents($thumb_dir);
 

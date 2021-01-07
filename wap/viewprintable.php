@@ -36,7 +36,7 @@ include_once PUN_ROOT.'include/parser.php';
 
 // Retrieve the posts (and their respective poster)
 $result = $db->query('SELECT p.poster AS username, p.id, p.message, p.posted FROM '.$db->prefix.'posts AS p WHERE p.topic_id='.$id.' ORDER BY p.id') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
-$posts = array();
+$posts = [];
 while ($cur_post = $db->fetch_assoc($result)) {
     if (1 == $pun_config['o_censoring']) {
         $cur_post['message'] = censor_words($cur_post['message']);

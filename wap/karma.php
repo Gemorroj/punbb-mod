@@ -104,7 +104,7 @@ if ($num_hits) {
         $db->error()
     );
 
-    $votes = array();
+    $votes = [];
     while ($result = $db->fetch_assoc($q)) {
         $votes[] = $result;
     }

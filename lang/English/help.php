@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in help.php
-$lang_help = array(
+$lang_help = [
     'Help' => 'Help',
     'produces' => 'produces',
     'Hide text' => 'Hidden text',
@@ -39,4 +39,4 @@ $lang_help = array(
     'Bold, underlined text' => 'Bold, underlined text',
 
     'Smilies info' => 'If you like (and if it is enabled), the forum can convert a series of smilies to images representations of that smiley. This forum recognizes the following smilies and replaces them with images:',
-);
+];

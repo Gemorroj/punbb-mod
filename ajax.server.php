@@ -62,8 +62,8 @@ if (isset($_GET['poll'])) {
                 break;
         }
 
-        echo \json_encode(array('status' => true, 'data' => $result));
+        echo \json_encode(['status' => true, 'data' => $result]);
     } catch (Exception $e) {
-        echo \json_encode(array('status' => false, 'data' => $e->getMessage()));
+        echo \json_encode(['status' => false, 'data' => $e->getMessage()]);
     }
 }

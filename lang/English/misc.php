@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in various scripts
-$lang_misc = array(
+$lang_misc = [
     'Mark read redirect' => 'All topics and forums have been marked as read. Redirecting &#x2026;',
 
     // Send e-mail
@@ -62,4 +62,4 @@ $lang_misc = array(
     'Delete posts comply' => 'Are you sure you want to delete the selected posts?',
     'Delete posts redirect' => 'Posts deleted. Redirecting &#x2026;',
     'No posts selected' => 'You must select at least one post to be deleted.',
-);
+];

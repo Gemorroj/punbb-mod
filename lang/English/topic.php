@@ -1,7 +1,7 @@
 <?php
 
 // Language definitions used in viewtopic.php
-$lang_topic = array(
+$lang_topic = [
     'Hide' => 'Show/Hide',
     'Show' => 'Show hidden text',
     'Post reply' => 'Post reply',
@@ -35,4 +35,4 @@ $lang_topic = array(
     'Link separator' => ' | ',	// The text that separates links in posts (website, e-mail, report, edit etc.)
     'Mod controls' => 'Moderator controls',
     'Quote Hint' => 'Select text in the message and click on <em>Quote</em> link. Selected text will be quoted and placed in the quick post form with the name of its author.', // MOD Quick Quote Line
-);
+];

@@ -85,7 +85,7 @@ $cur_topic = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-    $message_stack = array();
+    $message_stack = [];
     if (null == $cur_topic['log_time']) {
         $db->query('INSERT INTO '.$db->prefix.'log_topics (user_id, forum_id, topic_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$_SERVER['REQUEST_TIME'].')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
@@ -117,7 +117,7 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : array();
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not post replies?
@@ -169,7 +169,7 @@ if (1 == $pun_config['o_quickpost']
     && (1 == $cur_topic['post_replies'] || (!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies']))
     && (!$cur_topic['closed'] || $is_admmod)
 ) {
-    $required_fields = array('req_message' => $lang_common['Message']);
+    $required_fields = ['req_message' => $lang_common['Message']];
     $quickpost = true;
 }
 
@@ -226,7 +226,7 @@ $result = $db->query(
     LIMIT '.$start_from.','.$pun_user['disp_posts']
 ) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
-$posts = $pids = array();
+$posts = $pids = [];
 while ($cur_post = $db->fetch_assoc($result)) {
     $posts[] = $cur_post;
     $pids[] = $cur_post['id'];
@@ -244,7 +244,7 @@ if (1 == $pun_config['file_popup_info']) {
 foreach ($posts as $cur_post) {
     ++$post_count;
     $user_avatar = $is_online = $signature = '';
-    $user_info = $user_contacts = $post_actions = array();
+    $user_info = $user_contacts = $post_actions = [];
 
     // If the poster is a registered user.
     if ($cur_post['poster_id'] > 1) {
