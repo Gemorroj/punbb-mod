@@ -38,7 +38,7 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
     }
 
     if (isset($_POST['del_cat_comply'])) { // Delete a category with all forums and posts
-        @\set_time_limit(0);
+        @\set_time_limit(3600);
 
         $result = $db->query('SELECT id FROM '.$db->prefix.'forums WHERE cat_id='.$cat_to_delete) or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
         $num_forums = $db->num_rows($result);

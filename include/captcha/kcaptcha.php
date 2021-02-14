@@ -24,9 +24,9 @@ class KCAPTCHA
     //function KCAPTCHA(){ // old PHP declaration
     public function __construct()
     { // new PHP declaration
-        require \dirname(__FILE__).'/kcaptcha_config.php';
+        require __DIR__.'/kcaptcha_config.php';
         $fonts = [];
-        $fontsdir_absolute = \dirname(__FILE__).'/'.$fontsdir;
+        $fontsdir_absolute = __DIR__.'/'.$fontsdir;
         if ($handle = \opendir($fontsdir_absolute)) {
             while (false !== ($file = \readdir($handle))) {
                 if (\preg_match('/\.png$/i', $file)) {

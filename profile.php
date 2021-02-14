@@ -570,7 +570,7 @@ if ('change_pass' == $action) {
         // Should we delete all posts made by this user?
         if (isset($_POST['delete_posts'])) {
             include PUN_ROOT.'include/search_idx.php';
-            @\set_time_limit(0);
+            @\set_time_limit(600);
 
             // Find all posts made by this user
             $result = $db->query('SELECT p.id, p.topic_id, t.forum_id FROM '.$db->prefix.

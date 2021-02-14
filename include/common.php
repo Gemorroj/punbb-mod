@@ -14,6 +14,9 @@ if (!\defined('PUN_ROOT')) {
     exit('The constant PUN_ROOT must be defined and point to a valid PunBB installation root directory.');
 }
 
+// Composer
+require PUN_ROOT.'vendor/autoload.php';
+
 // Load the functions script
 require_once PUN_ROOT.'include/functions.php';
 

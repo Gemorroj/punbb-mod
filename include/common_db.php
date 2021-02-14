@@ -9,7 +9,7 @@ if (!\defined('PUN')) {
 class DBLayer
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     public $prefix;
     /**
@@ -17,7 +17,7 @@ class DBLayer
      */
     protected $link_id;
     /**
-     * @var null|bool|mysqli_result
+     * @var bool|mysqli_result|null
      */
     protected $query_result;
 

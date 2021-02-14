@@ -58,7 +58,6 @@ if (isset($_GET['poll'])) {
 
             default:
                 throw new Exception($lang_common['Bad request']);
-
                 break;
         }
 

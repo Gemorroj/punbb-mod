@@ -350,7 +350,7 @@ class Informer
      */
     private function _parseMessage($message, $hide_smilies = false)
     {
-        require_once \dirname(__FILE__).'/../parser.php';
+        require_once __DIR__.'/../parser.php';
 
         return parse_message($message, $hide_smilies);
     }

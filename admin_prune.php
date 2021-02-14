@@ -24,9 +24,9 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $prune_days = \intval($_POST['prune_days']);
         $prune_date = ($prune_days) ? \time() - ($prune_days * 86400) : -1;
 
-        @\set_time_limit(0);
+        @\set_time_limit(3600);
 
-        if ('all' == $prune_from) {
+        if ('all' === $prune_from) {
             $result = $db->query('SELECT id FROM '.$db->prefix.'forums') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
             $num_forums = $db->num_rows($result);
 

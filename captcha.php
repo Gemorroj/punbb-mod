@@ -4,7 +4,7 @@
 
 \session_start();
 
-require \dirname(__FILE__).'/include/captcha/kcaptcha.php';
+require __DIR__.'/include/captcha/kcaptcha.php';
 
 $captcha = new KCAPTCHA();
 

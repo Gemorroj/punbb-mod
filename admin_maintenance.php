@@ -25,7 +25,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
         message($lang_common['Bad request']);
     }
 
-    @\set_time_limit(0);
+    @\set_time_limit(3600);
 
     // If this is the first cycle of posts we empty the search index before we proceed
     if (isset($_GET['i_empty_index'])) {

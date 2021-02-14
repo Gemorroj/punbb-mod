@@ -61,7 +61,7 @@ elseif (isset($_GET['del_forum'])) {
     }
 
     if (isset($_POST['del_forum_comply'])) { // Delete a forum with all posts
-        @\set_time_limit(0);
+        @\set_time_limit(3600);
 
         // Prune all posts and topics
         prune($forum_id, 1, -1);
