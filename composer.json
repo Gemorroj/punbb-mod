@@ -1,6 +1,8 @@
 {
     "type": "project",
     "license": "GPL-2.0-only",
+    "description": "PunBB Forum Mod",
+    "name": "gemorroj/punbb-mod",
     "require": {
         "php": "^7.1.3",
         "ext-mysqli": "*",
