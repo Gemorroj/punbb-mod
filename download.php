@@ -33,7 +33,7 @@ if (!$db->num_rows($result_attach)) {
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = [];
 if ($moderators) {
-    $mods_array = \unserialize($moderators);
+    $mods_array = \unserialize($moderators, ['allowed_classes' => false]);
 }
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 $can_download = (!$file_download && 1 == $pun_user['g_file_download']) || 1 == $file_download || $is_admmod;

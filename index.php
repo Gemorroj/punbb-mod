@@ -111,7 +111,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     }
 
     if ($cur_forum['moderators'] && $pun_config['o_show_moderators']) {
-        $mods_array = \unserialize($cur_forum['moderators']);
+        $mods_array = \unserialize($cur_forum['moderators'], ['allowed_classes' => false]);
         $moderators = [];
 
         foreach ($mods_array as $mod_username => $mod_id) {

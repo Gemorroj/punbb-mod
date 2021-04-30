@@ -1,5 +1,4 @@
 <?php
-\session_start();
 
 \define('PUN_ROOT', './');
 
@@ -21,6 +20,12 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/profile.php';
 
 if (!$pun_config['o_regs_allow']) {
     message($lang_registration['No new regs']);
+}
+
+if (1 == $pun_config['o_regs_verify_image']) {
+    \header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
+    \header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    \header('Cache-Control: post-check=0, pre-check=0', false);
 }
 
 // User pressed the cancel button
@@ -59,13 +64,16 @@ if (isset($_GET['cancel'])) {
     // IMAGE VERIFICATION MOD BEGIN
     // Image verifcation
     if (1 == $pun_config['o_regs_verify_image']) {
+        \session_name('bunbb_captcha');
+        \session_start();
+
         // Make sure what they submitted is not empty
         if (!\trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
             message($lang_registration['Text mismatch']);
         }
 
-        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
+        if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
             message($lang_registration['Text mismatch']);
         }
@@ -283,7 +291,7 @@ require_once PUN_ROOT.'header.php';
 echo '<div class="blockform">
 <h2><span>'.$lang_registration['Register'].'</span></h2>
 <div class="box">
-<form id="registration" method="post" action="registration.php?action=register" onsubmit="this.registration.disabled=true;if(process_form(this)){return true;}else{this.registration.disabled=false;return false;}">
+<form id="registration" method="post" action="registration.php?action=register" onsubmit="return process_form(this);">
 <div class="inform">
 <div class="forminfo">
 <h3>'.$lang_common['Important information'].'</h3>
@@ -319,8 +327,8 @@ if (1 == $pun_config['o_regs_verify_image']) {
 <fieldset>
 <legend>'.$lang_registration['Image verification'].'</legend>
 <div class="infldset">
-<img src="'.$pun_config['o_base_url'].'/captcha.php?'.\session_name().'='.\session_id().'" alt=""/><br />
-<label class="conl"><strong>'.$lang_registration['Image text'].'</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" /><br /></label>
+<img src="'.$pun_config['o_base_url'].'/captcha.php?'.\uniqid('captcha', true).'" alt=""/><br />
+<label class="conl"><strong>'.$lang_registration['Image text'].'</strong><br /><input type="text" name="req_image_" size="16" maxlength="4" autocomplete="off" required="required" /><br /></label>
 <p class="clearb">'.$lang_registration['Image info'].'</p>
 </div>
 </fieldset>
@@ -338,9 +346,9 @@ echo '</legend><div class="infldset">';
 if (1 == $pun_config['o_regs_verify']) {
     echo '<p>'.$lang_registration['E-mail info'].'</p>';
 }
-echo '<label><strong>'.$lang_common['E-mail'].'</strong><br /><input type="text" name="req_email1" size="50" maxlength="50" /><br /></label>';
+echo '<label><strong>'.$lang_common['E-mail'].'</strong><br /><input type="email" name="req_email1" size="50" maxlength="50" /><br /></label>';
 if (1 == $pun_config['o_regs_verify']) {
-    echo '<label><strong>'.$lang_registration['Confirm e-mail'].'</strong><br /><input type="text" name="req_email2" size="50" maxlength="50" /><br /></label>';
+    echo '<label><strong>'.$lang_registration['Confirm e-mail'].'</strong><br /><input type="email" name="req_email2" size="50" maxlength="50" /><br /></label>';
 }
 echo '</div></fieldset></div>
 <div class="inform"><fieldset><legend>'.$lang_prof_reg['Localisation legend'].'</legend>
@@ -466,7 +474,7 @@ echo '</div></fieldset></div>
 $languages = [];
 $d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
-    if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+    if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
         $languages[] = $entry;
     }
 }

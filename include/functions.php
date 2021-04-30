@@ -10,7 +10,7 @@ function is_ip_not_spammer($ip)
     if (!$data) {
         return true;
     }
-    $json = @\json_decode($data);
+    $json = @\json_decode($data, false);
     if (!$json) {
         return true;
     }
@@ -197,9 +197,9 @@ function check_bans()
             $cur_ban_ips = \explode(' ', $cur_ban['ip']);
 
             for ($i = 0, $all = \count($cur_ban_ips); $i < $all; ++$i) {
-                $cur_ban_ips[$i] = $cur_ban_ips[$i].'.';
+                $cur_ban_ips[$i] .= '.';
 
-                if (\substr($user_ip, 0, \strlen($cur_ban_ips[$i])) == $cur_ban_ips[$i]) {
+                if (0 === \strpos($user_ip, $cur_ban_ips[$i])) {
                     $db->query('DELETE FROM '.$db->prefix.'online WHERE ident=\''.$db->escape($pun_user['username']).'\'') or error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
                     message($lang_common['Ban message'].' '.(($cur_ban['expire']) ? $lang_common['Ban message 2'].' '.\mb_strtolower(format_time($cur_ban['expire'], true)).'. ' : '').(($cur_ban['message']) ? $lang_common['Ban message 3'].'<br /><br /><strong>'.pun_htmlspecialchars($cur_ban['message']).'</strong><br /><br />' : '<br /><br />').$lang_common['Ban message 4'].' <a href="mailto:'.$pun_config['o_admin_email'].'">'.$pun_config['o_admin_email'].'</a>.', true);
                 }
@@ -434,33 +434,33 @@ function generate_profile_menu($page = '')
 <div class="inbox">
 <ul>
 <li';
-    if ('essentials' == $page) {
+    if ('essentials' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=essentials&amp;id='.$id.'">'.$lang_profile['Section essentials'].'</a></li><li';
-    if ('personal' == $page) {
+    if ('personal' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=personal&amp;id='.$id.'">'.$lang_profile['Section personal'].'</a></li><li';
-    if ('messaging' == $page) {
+    if ('messaging' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=messaging&amp;id='.$id.'">'.$lang_profile['Section messaging'].'</a></li><li';
-    if ('personality' == $page) {
+    if ('personality' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=personality&amp;id='.$id.'">'.$lang_profile['Section personality'].'</a></li><li';
-    if ('display' == $page) {
+    if ('display' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=display&amp;id='.$id.'">'.$lang_profile['Section display'].'</a></li><li';
-    if ('privacy' == $page) {
+    if ('privacy' === $page) {
         echo ' class="isactive"';
     }
     echo '><a href="profile.php?section=privacy&amp;id='.$id.'">'.$lang_profile['Section privacy'].'</a></li>';
     if (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && 1 == $pun_config['p_mod_ban_users'])) {
         echo '<li';
-        if ('admin' == $page) {
+        if ('admin' === $page) {
             echo ' class="isactive"';
         }
         echo '><a href="profile.php?section=admin&amp;id='.$id.'">'.$lang_profile['Section admin'].'</a></li>';
@@ -480,7 +480,7 @@ function update_forum($forum_id)
     $result = $db->query('SELECT COUNT(1), SUM(num_replies) FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id) or error('Unable to fetch forum topic count', __FILE__, __LINE__, $db->error());
     [$num_topics, $num_posts] = $db->fetch_row($result);
 
-    $num_posts = $num_posts + $num_topics; // $num_posts is only the sum of all replies (we have to add the topic posts)
+    $num_posts += $num_topics; // $num_posts is only the sum of all replies (we have to add the topic posts)
 
     $result = $db->query('SELECT last_post, last_post_id, last_poster FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id.' AND moved_to IS NULL ORDER BY last_post DESC LIMIT 1') or error('Unable to fetch last_post/last_post_id/last_poster', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
@@ -635,7 +635,7 @@ function get_title($user)
     if ($user['title']) {
         // If the user has a custom title
         $user_title = pun_htmlspecialchars($user['title']);
-    } elseif (\in_array(\mb_strtolower(@$user['username']), $ban_list)) {
+    } elseif (\in_array(\mb_strtolower(@$user['username']), $ban_list, true)) {
         // If the user is banned
         $user_title = $lang_common['Banned'];
     } elseif ($user['g_user_title']) {
@@ -834,7 +834,7 @@ function random_pass($len)
 
     $password = null;
     for ($i = 0; $i < $len; ++$i) {
-        $password .= \substr($chars, (\mt_rand() % \strlen($chars)), 1);
+        $password .= $chars[(\mt_rand() % \strlen($chars))];
     }
 
     return $password;
@@ -1078,7 +1078,7 @@ function error($message, $file, $line, $db_error = [])
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>'.pun_htmlspecialchars($pun_config['o_board_title']).' / Error</title>
-<style type="text/css">
+<style>
 body {margin: 10% 20% auto 20%; font: 10px Verdana, Arial, Helvetica, sans-serif}
 #errorbox {border: 1px solid #B84623}
 h2 {margin: 0; color: #FFFFFF; background-color: #B84623; font-size: 1.1em; padding: 5px 4px}
@@ -1145,7 +1145,7 @@ function display_saved_queries()
     $query_time_total = 0.0;
     foreach ($saved_queries as $cur_query) {
         $query_time_total += $cur_query[1];
-        echo '<tr><td class="tcl">'.(($cur_query[1]) ? $cur_query[1] : ' ').'</td><td class="tcr">'.pun_htmlspecialchars($cur_query[0]).'</td></tr>';
+        echo '<tr><td class="tcl">'.($cur_query[1] ?: ' ').'</td><td class="tcr">'.pun_htmlspecialchars($cur_query[0]).'</td></tr>';
     }
     echo '<tr>
 <td class="tcl" colspan="2">Total query time: '.$query_time_total.' s</td>
@@ -1222,6 +1222,8 @@ function vote($to = 0, $vote = 1)
  */
 function mime($file, $default = 'application/octet-stream')
 {
+    $mime = null;
+
     // если есть Fileinfo
     if (\function_exists('finfo_open') && \is_file($file)) {
         $finfo = \finfo_open(\FILEINFO_MIME_TYPE);

@@ -345,7 +345,9 @@ if ($box < 2) {
                 $icon_type = 'icon inew';
             }
 
-            (false == $new_messages && '0' == $cur_mess['showed']) ? $new_messages = true : null;
+            if (false == $new_messages && '0' == $cur_mess['showed']) {
+                $new_messages = true;
+            }
 
             $subject = '<a href="message_list.php?id='.$cur_mess['id'].'&amp;p='.$p.'&amp;box='.$box.'">'.pun_htmlspecialchars($cur_mess['subject']).'</a>';
             if (isset($_GET['id'])) {

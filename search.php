@@ -78,7 +78,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         ') or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
         if ($row = $db->fetch_assoc($result)) {
-            $temp = \unserialize($row['search_data']);
+            $temp = \unserialize($row['search_data'], ['allowed_classes' => false]);
 
             $search_results = $temp['search_results'];
             $num_hits = $temp['num_hits'];
@@ -96,9 +96,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // Search a specific forum?
         $forum_sql = (-1 != $forum || (-1 == $forum && !$pun_config['o_search_all_forums'] && $pun_user['g_id'] >= PUN_GUEST)) ? ' AND t.forum_id = '.$forum : '';
 
-        if (isset($author) && null != $author || isset($keywords) && null != $keywords) {
+        if (isset($author) || isset($keywords)) {
             // If it's a search for keywords
-            if (isset($keywords) && null != $keywords) {
+            if (isset($keywords)) {
                 $stopwords = \file(PUN_ROOT.'lang/'.$pun_user['language'].'/stopwords.txt');
                 $stopwords = \array_map('trim', $stopwords);
 
@@ -122,7 +122,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 foreach ($keywords_array as $i => $word) {
                     $num_chars = \mb_strlen($word);
 
-                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || \in_array($word, $stopwords))) {
+                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || \in_array($word, $stopwords, true))) {
                         unset($keywords_array[$i]);
                     }
                 }
@@ -159,14 +159,14 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
                                 if (!$word_count) {
                                     $result_list[$temp[0]] = 1;
-                                } elseif ('or' == $match_type) {
+                                } elseif ('or' === $match_type) {
                                     $result_list[$temp[0]] = 1;
-                                } elseif ('not' == $match_type) {
+                                } elseif ('not' === $match_type) {
                                     $result_list[$temp[0]] = 0;
                                 }
                             }
 
-                            if ('and' == $match_type && $word_count) {
+                            if ('and' === $match_type && $word_count) {
                                 \reset($result_list);
                                 foreach ($result_list as $post_id => $post) {
                                     if (!isset($row[$post_id])) {

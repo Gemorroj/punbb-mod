@@ -5,11 +5,6 @@ if (!(\defined('PUN') && \defined('PUN_ROOT'))) {
 }
 \define('PUN_HEADER', 1);
 
-// Send no-cache headers
-//header('Expires: Thu, 21 Jul 1977 07:30:00 GMT'); // When yours truly first set eyes on this world! :)
-//header('Last-Modified: ' . gmdate('r') . ' GMT');
-//header('Cache-Control: post-check=0, pre-check=0', false);
-//header('Pragma: no-cache'); // For HTTP/1.0 compability
 \header('Content-Type: text/html; charset=UTF-8');
 
 require_once PUN_ROOT.'include/PunTemplate.php';

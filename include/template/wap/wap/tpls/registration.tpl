@@ -57,9 +57,9 @@
 {if $pun_config.o_regs_verify_image == 1}
     <div class="input2">
         <strong>{$lang_registration.$Image_verification}</strong><br/>
-        <img src="{$pun_config.o_base_url}/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
+        <img src="{$pun_config.o_base_url}/captcha.php?{uniqid('captcha', true)}" alt=""/><br/>
         <strong>{$lang_registration.$Image_text}</strong><br/>
-        <input type="text" name="req_image_" maxlength="4"/><br/>
+        <input type="text" name="req_image_" maxlength="4" autocomplete="off" required="required" /><br/>
         {$lang_registration.$Image_info}
     </div>
 {/if}
@@ -76,11 +76,11 @@
         {$lang_registration.$Email_info}<br/>
     {/if}
         <strong>{$lang_common.$Email}</strong><br/>
-        <input type="text" name="req_email1" maxlength="50"/><br/>
+        <input type="email" name="req_email1" maxlength="50"/><br/>
 
     {if $pun_config.o_regs_verify == 1}
         <strong>{$lang_registration.$Confirm_email}</strong><br/>
-        <input type="text" name="req_email2" maxlength="50"/>
+        <input type="email" name="req_email2" maxlength="50"/>
     {/if}
     </div>
     <div class="input2">

@@ -13,7 +13,7 @@ if ($attachments[$cur_post['id']]) {
         $location = $attachment['location'];
 
         // in edit.php attachments has checkboxes to delete
-        if ('edit.php' == $basename) {
+        if ('edit.php' === $basename) {
             $check = '<br /><label><input type="checkbox" name="delete_image[]" value="'.$aid.'" />'.$lang_fu['Mark to Delete'].'</label>';
         } else {
             $check = null;

@@ -126,7 +126,7 @@ class Informer
         if (\mb_strlen($message) > 65535) {
             throw new Exception($this->_lang['Bad request']);
         }
-        if (!$this->_pun_config['p_message_all_caps'] && \mb_strtoupper($message) == $message && $this->_pun_user['g_id'] > PUN_MOD) {
+        if (!$this->_pun_config['p_message_all_caps'] && \mb_strtoupper($message) === $message && $this->_pun_user['g_id'] > PUN_MOD) {
             $message = \ucwords(\mb_strtolower($message));
         }
         convert_forum_url($message);

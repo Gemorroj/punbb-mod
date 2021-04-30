@@ -19,14 +19,12 @@ class JsHelper
     }
 
     /**
-     * getInstance.
-     *
-     * @return JsHelper
+     * @return self
      */
     public static function getInstance()
     {
         if (null === self::$instance) {
-            self::$instance = new JsHelper();
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -37,7 +35,7 @@ class JsHelper
      */
     public function add($path)
     {
-        if (!\in_array($path, $this->js)) {
+        if (!\in_array($path, $this->js, true)) {
             $this->js[] = $path;
         }
     }
@@ -47,7 +45,7 @@ class JsHelper
      */
     public function addFirst($path)
     {
-        if (!\in_array($path, $this->js)) {
+        if (!\in_array($path, $this->js, true)) {
             \array_unshift($this->js, $path);
         }
     }
@@ -57,7 +55,7 @@ class JsHelper
      */
     public function addInternal($script)
     {
-        if (!\in_array($script, $this->js)) {
+        if (!\in_array($script, $this->js, true)) {
             $this->jsInternal[] = $script;
         }
     }

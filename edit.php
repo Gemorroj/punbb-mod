@@ -25,7 +25,7 @@ if (!$db->num_rows($result)) {
 $cur_post = $db->fetch_assoc($result);
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators']) : [];
+$mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
@@ -90,7 +90,7 @@ if (isset($_POST['form_sent'])) {
             $errors[] = $lang_post['No subject'];
         } elseif (\mb_strlen($subject) > 70) {
             $errors[] = $lang_post['Too long subject'];
-        } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) == $subject && $pun_user['g_id'] > PUN_MOD) {
+        } elseif (!$pun_config['p_subject_all_caps'] && \mb_strtoupper($subject) === $subject && $pun_user['g_id'] > PUN_MOD) {
             $subject = \ucwords(\mb_strtolower($subject));
         }
     }
@@ -197,7 +197,7 @@ if ($errors) {
     <h2><span><?php echo $lang_post['Edit post']; ?></span></h2>
 
     <div class="box">
-        <form onkeypress="ctrlSend(event);" id="edit" name="post" method="post"
+        <form id="edit" name="post" method="post"
               action="edit.php?id=<?php echo $id; ?>&amp;action=edit" onsubmit="return process_form(this)"
               enctype="multipart/form-data">
             <div class="inform">

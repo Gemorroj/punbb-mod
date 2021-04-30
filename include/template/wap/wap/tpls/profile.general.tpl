@@ -50,7 +50,7 @@
     {* + $email_field *}
     {if $pun_user.g_id < $smarty.const.PUN_GUEST}
         <strong>{$lang_common.$Email}</strong><br/>
-        <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/><br/>
+        <input type="email" name="req_email" value="{$user.email|escape}" maxlength="50"/><br/>
 
         {if ($pun_user.g_id == $smarty.const.PUN_ADMIN)}
             <p><a target="_blank" href="//www.stopforumspam.com/search?q={$user.email|rawurlencode}">{$lang_common.$Find_email_in_stop_forum_spam}</a></p>
@@ -63,7 +63,7 @@
             {$lang_common.$Email}: {$user.email|escape} - <a href="profile.php?action=change_email&amp;id={$id}">{$lang_profile.$Change_email}</a>
         {else}
             <strong>{$lang_common.$Email}</strong><br/>
-            <input type="text" name="req_email" value="{$user.email|escape}" maxlength="50"/>
+            <input type="email" name="req_email" value="{$user.email|escape}" maxlength="50"/>
         {/if}
     {/if}
     {* - $email_field *}

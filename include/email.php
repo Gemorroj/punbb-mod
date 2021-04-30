@@ -51,7 +51,7 @@ function is_banned_email($email)
     global $db, $pun_bans;
 
     foreach ($pun_bans as $cur_ban) {
-        if ($cur_ban['email'] && ($email == $cur_ban['email'] || (false === \strpos($cur_ban['email'], '@') && \stristr($email, '@'.$cur_ban['email'])))) {
+        if ($cur_ban['email'] && ($email == $cur_ban['email'] || (false === \strpos($cur_ban['email'], '@') && false !== \stripos($email, '@'.$cur_ban['email'])))) {
             return true;
         }
     }
@@ -103,9 +103,9 @@ function pun_mail($to, $subject, $message, $reply = '')
         return smtp_mail($to, $subject, $message, $headers);
     }
     // Change the linebreaks used in the headers according to OS
-    if ('MAC' == \strtoupper(\substr(\PHP_OS, 0, 3))) {
+    if (0 === \stripos(\PHP_OS, 'MAC')) {
         $headers = \str_replace("\r\n", "\r", $headers);
-    } elseif ('WIN' != \strtoupper(\substr(\PHP_OS, 0, 3))) {
+    } elseif (0 !== \stripos(\PHP_OS, 'WIN')) {
         $headers = \str_replace("\r\n", "\n", $headers);
     }
 
@@ -122,13 +122,13 @@ function pun_mail($to, $subject, $message, $reply = '')
 function server_parse($socket, $expected_response)
 {
     $server_response = '';
-    while (' ' != \substr($server_response, 3, 1)) {
+    while (' ' !== $server_response[3]) {
         if (!($server_response = \fgets($socket, 256))) {
             error('Could not get mail server response codes. Please contact the forum administrator.', __FILE__, __LINE__);
         }
     }
 
-    if (!(\substr($server_response, 0, 3) == $expected_response)) {
+    if (0 !== \strpos($server_response, $expected_response)) {
         error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
     }
 }

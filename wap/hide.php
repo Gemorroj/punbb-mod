@@ -155,7 +155,7 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : [];
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 /*

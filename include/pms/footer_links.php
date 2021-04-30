@@ -1,6 +1,6 @@
 <?php
 
-if ('message_list' == $footer_style) {
+if ('message_list' === $footer_style) {
     echo '<dl id="searchlinks" class="conl"><dt><strong>PM links</strong></dt>';
 
     if ($new_messages) {

@@ -114,7 +114,7 @@ class _Poll
 
         foreach (\explode("\n", $value) as $val) {
             $val = \trim($val);
-            if ($val && "\n" != $val && "\t" != $val) {
+            if ($val && "\n" !== $val && "\t" !== $val) {
                 $questions[] = [$val, 0];
             }
         }
@@ -217,7 +217,7 @@ class _Poll
         if (!$poll['error']) {
             $total = 0;
             foreach ($poll['data'] as $quest) {
-                $total = $total + $quest[1];
+                $total += $quest[1];
             }
             if (!$total) {
                 $q = 100;
@@ -389,7 +389,7 @@ class _Poll
             $poll['error'] = 1; // no result
         } else {
             $poll = $db->fetch_assoc($result);
-            $poll['data'] = \unserialize($poll['data']);
+            $poll['data'] = \unserialize($poll['data'], ['allowed_classes' => false]);
             $poll['error'] = 0;
         }
 

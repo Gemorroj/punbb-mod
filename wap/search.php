@@ -82,7 +82,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         ') or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
         if ($row = $db->fetch_assoc($result)) {
-            $temp = \unserialize($row['search_data']);
+            $temp = \unserialize($row['search_data'], ['allowed_classes' => false]);
 
             $search_results = $temp['search_results'];
             $num_hits = $temp['num_hits'];
@@ -126,7 +126,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 foreach ($keywords_array as $i => $word) {
                     $num_chars = \mb_strlen($word);
 
-                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || \in_array($word, $stopwords))) {
+                    if ('or' !== $word && ($num_chars < 3 || $num_chars > 20 || \in_array($word, $stopwords, true))) {
                         unset($keywords_array[$i]);
                     }
                 }

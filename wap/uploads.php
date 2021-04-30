@@ -163,7 +163,7 @@ if (isset($_GET['uploadit'])) {
         error($lang_uploads['Err file exists'], __FILE__, __LINE__, $db->error());
     } elseif ($file_size > $upl_conf['u_fsize']) {
         error($lang_uploads['Err file big'], __FILE__, __LINE__, $db->error());
-    } elseif (!\in_array('.'.\strtolower(\pathinfo($file_name, \PATHINFO_EXTENSION)), \explode(' ', $exts))) {
+    } elseif (!\in_array('.'.\strtolower(\pathinfo($file_name, \PATHINFO_EXTENSION)), \explode(' ', $exts), true)) {
         error($lang_uploads['Err file type'], __FILE__, __LINE__, $db->error());
     } elseif (\mb_strlen($file_name) > 255) {
         error($lang_uploads['Err file name big'], __FILE__, __LINE__, $db->error());

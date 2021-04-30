@@ -35,7 +35,7 @@ if (@$attachments) {
             $tmp[] = "'".$attachment['id']."': ["."'".format_time($attachment['uploaded']).
                 "',"."'".pun_htmlspecialchars($attachment['filename'])."',"."'".$lang_fu['Size'].
                 ': '.\round($attachment['size'] / 1024, 1).'kb '.$img_size.' '.$lang_fu['Downloads'].
-                ': '.$attachment['downloads']."','".$thumb_fname."',".\intval($attachment['can_download'] ?? $can_download).']';
+                ': '.$attachment['downloads']."','".$thumb_fname."',".(int) ($attachment['can_download'] ?? $can_download).']';
         }
     }
 

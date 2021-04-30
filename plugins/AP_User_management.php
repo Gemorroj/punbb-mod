@@ -241,7 +241,7 @@ if (isset($_POST['prune'])) {
                             <tr>
                                 <th scope="row">Email</th>
                                 <td>
-                                    <input type="text" name="email" size="50" />
+                                    <input type="email" name="email" size="50" />
                                 </td>
                             </tr>
                             <tr>

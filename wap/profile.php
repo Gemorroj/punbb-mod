@@ -305,7 +305,7 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
         if (\is_uploaded_file($uploaded_file['tmp_name'])) {
             $allowed_types = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png',
                 'image/x-png', ];
-            if (!\in_array($uploaded_file['type'], $allowed_types)) {
+            if (!\in_array($uploaded_file['type'], $allowed_types, true)) {
                 wap_message($lang_profile['Bad type']);
             }
 
@@ -420,10 +420,10 @@ if ('delete_avatar' == $action) {
             or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
         while ($cur_forum = $db->fetch_assoc($result)) {
-            $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
+            $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
 
-            if (\in_array($id, $cur_moderators)) {
-                $username = \array_search($id, $cur_moderators);
+            if (\in_array($id, $cur_moderators, true)) {
+                $username = \array_search($id, $cur_moderators, true);
                 unset($cur_moderators[$username]);
                 $cur_moderators = ($cur_moderators) ? '\''.$db->escape(\serialize($cur_moderators)).'\'' : 'NULL';
 
@@ -453,7 +453,7 @@ if ('delete_avatar' == $action) {
         or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
     while ($cur_forum = $db->fetch_assoc($result)) {
-        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
+        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) :
             [];
         // If the user should have moderator access (and he/she doesn't already have it)
         if (\in_array($cur_forum['id'], $moderator_in) && !\in_array($id, $cur_moderators)) {
@@ -510,7 +510,7 @@ if ('delete_avatar' == $action) {
                 or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
 
                 if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$username]);
@@ -943,7 +943,7 @@ if ('delete_avatar' == $action) {
                 or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) :
                     [];
 
                 if (\in_array($id, $cur_moderators)) {
@@ -1183,7 +1183,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
                 $forums = [];
                 while ($cur_forum = $db->fetch_assoc($result)) {
                     if ($cur_forum['moderators']) {
-                        $cur_forum['is_moderator'] = \in_array($id, \unserialize($cur_forum['moderators']));
+                        $cur_forum['is_moderator'] = \in_array($id, \unserialize($cur_forum['moderators'], ['allowed_classes' => false]));
                     }
 
                     $forums[] = $cur_forum;

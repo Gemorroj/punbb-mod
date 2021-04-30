@@ -84,7 +84,7 @@ if ($cur_forum['redirect_url']) {
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
 $mods_array = [];
 if ($cur_forum['moderators']) {
-    $mods_array = \unserialize($cur_forum['moderators']);
+    $mods_array = \unserialize($cur_forum['moderators'], ['allowed_classes' => false]);
 }
 
 $is_admmod = false;

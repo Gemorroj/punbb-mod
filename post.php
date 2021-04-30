@@ -8,9 +8,11 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
 
 require PUN_ROOT.'include/file_upload.php';
 
-// если проверка каптчей
+// если проверка капчей
 if (2 == $pun_user['g_post_replies']) {
-    \session_start();
+    \header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
+    \header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    \header('Cache-Control: post-check=0, pre-check=0', false);
 }
 
 if (!$pun_user['g_read_board']) {
@@ -21,7 +23,7 @@ $tid = isset($_GET['tid']) ? \intval($_GET['tid']) : 0;
 $fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
 $rid = isset($_GET['rid']) ? \intval($_GET['rid']) : 0;
 
-if ($tid < 1 && $fid < 1 || $tid > 0 && $fid > 0) {
+if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
     message($lang_common['Bad request']);
 }
 
@@ -46,7 +48,7 @@ if ($cur_posting['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // have we permission to attachments?
@@ -99,24 +101,27 @@ $errors = [];
 // Did someone just hit "Submit" or "Preview"?
 if (isset($_POST['form_sent'])) {
     // Make sure form_user is correct
-    if (($pun_user['is_guest'] && 'Guest' != $_POST['form_user']) || (!$pun_user['is_guest'] && $_POST['form_user'] != $pun_user['username'])) {
+    if (($pun_user['is_guest'] && 'Guest' !== $_POST['form_user']) || (!$pun_user['is_guest'] && $_POST['form_user'] !== $pun_user['username'])) {
         message($lang_common['Bad request']);
     }
 
     // Image verifcation
     if (2 == $pun_user['g_post_replies']) {
+        \session_name('bunbb_captcha');
+        \session_start();
+
         // Make sure what they submitted is not empty
         if (!\trim($_POST['req_image_'])) {
-            //unset($_SESSION['captcha_keystring']);
+            unset($_SESSION['captcha_keystring']);
             message($lang_post['Text mismatch']);
         }
 
         if (!isset($_SESSION['captcha_keystring'])) {
-            //unset($_SESSION['captcha_keystring']);
+            unset($_SESSION['captcha_keystring']);
             message($lang_common['Bad request']);
         }
-        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
-            //unset($_SESSION['captcha_keystring']);
+        if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
+            unset($_SESSION['captcha_keystring']);
             message($lang_post['Text mismatch']);
         }
 
@@ -427,7 +432,7 @@ if (isset($_POST['form_sent'])) {
 // If a topic id was specified in the url (it's a reply).
 if ($tid) {
     $action = $lang_post['Post a reply'];
-    $form = '<form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?action=post&amp;tid='.$tid.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"'.($file_limit ? ' enctype="multipart/form-data"' : '').'>';
+    $form = '<form id="post" method="post" action="post.php?action=post&amp;tid='.$tid.'" onsubmit="return process_form(this);"'.($file_limit ? ' enctype="multipart/form-data"' : '').'>';
 
     // If a quote-id was specified in the url.
     if (isset($_GET['qid'])) {
@@ -493,7 +498,7 @@ if ($tid) {
 } // If a forum_id was specified in the url (new topic).
 elseif ($fid) {
     $action = $lang_post['Post new topic'];
-    $form = '<form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?action=post&amp;fid='.$fid.'" onsubmit="return process_form(this)" enctype="multipart/form-data">';
+    $form = '<form id="post" method="post" action="post.php?action=post&amp;fid='.$fid.'" onsubmit="return process_form(this)" enctype="multipart/form-data">';
 
     $forum_name = pun_htmlspecialchars($cur_posting['forum_name']);
 } else {
@@ -583,7 +588,7 @@ require PUN_ROOT.'include/attach/post_buttons.php';
 <?php
 // если есть проверка капчей
 if (2 == $pun_user['g_post_replies']) {
-    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/captcha.php?'.\session_name().'='.\session_id().'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="4" /></td></tr></table>';
+    echo '<table style="width:25%;"><tr><td><img src="'.$pun_config['o_base_url'].'/captcha.php?'.\uniqid('captcha', true).'" alt=""/></td><td>'.$lang_post['Image text'].'<br /><input type="text" name="req_image_" size="16" maxlength="4" autocomplete="off" required="required" /></td></tr></table>';
 }
 ?>
 <ul class="bblinks">

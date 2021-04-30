@@ -122,7 +122,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
         }
     } else {
         if (\preg_match('#\[quote=(&quot;|"|\'|)(.*)\\1\]|\[quote\]|\[/quote\]|\[code\]|\[/code\]|\[hide=(&quot;|"|\'|)(.*)\\1\]|\[hide\]|\[/hide\]#i', $text)) {
-            if ('wap' == \basename(\dirname($_SERVER['PHP_SELF']))) {
+            if ('wap' === \basename(\dirname($_SERVER['PHP_SELF']))) {
                 wap_message($lang_prof_reg['Signature quote/code']);
             } else {
                 message($lang_prof_reg['Signature quote/code']);
@@ -189,7 +189,7 @@ function check_tag_order($text, &$error)
         }
 
         // If none of the strings were found
-        if (65536 == \min($c_start, $c_end, $q_start, $q_end, $q2_start, $h_start, $h_end, $h2_start)) {
+        if (65536 === \min($c_start, $c_end, $q_start, $q_end, $q2_start, $h_start, $h_end, $h2_start)) {
             break;
         }
 
@@ -216,7 +216,7 @@ function check_tag_order($text, &$error)
             if (!$q_depth) {
                 $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 1'];
 
-                return;
+                return null;
             }
 
             --$q_depth;
@@ -240,7 +240,7 @@ function check_tag_order($text, &$error)
             if (false === $tmp || (false !== $tmp2 && $tmp2 < $tmp)) {
                 $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 2'];
 
-                return;
+                return null;
             }
             $text = \substr($text, $tmp + 7);
 
@@ -249,7 +249,7 @@ function check_tag_order($text, &$error)
             // We found a [/code] (this shouldn't happen since we handle both start and end tag in the if clause above)
             $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 3'];
 
-            return;
+            return null;
         }
 
         // We found a [hide] or a [hide=number]
@@ -270,7 +270,7 @@ function check_tag_order($text, &$error)
             if (!$h_depth) {
                 $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 7'];
 
-                return;
+                return null;
             }
 
             --$h_depth;
@@ -289,24 +289,24 @@ function check_tag_order($text, &$error)
     if ($q_depth) {
         $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 4'];
 
-        return;
+        return null;
     }
     if ($q_depth < 0) {
         $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 5'];
 
-        return;
+        return null;
     }
 
     // If $h_depth <> 0 something is wrong with the quote syntax
     if ($h_depth) {
         $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 7'];
 
-        return;
+        return null;
     }
     if ($h_depth < 0) {
         $error = $lang_common['BBCode error'].' '.$lang_common['BBCode error 8'];
 
-        return;
+        return null;
     }
 
     // If the quote depth level was higher than $max_depth we return the index for the
@@ -337,7 +337,7 @@ function split_text($text, $start, $end)
         $outside[] = $temp[1];
     }
 
-    if (8 != $pun_config['o_indent_num_spaces'] && '[code]' == $start) {
+    if (8 != $pun_config['o_indent_num_spaces'] && '[code]' === $start) {
         $spaces = \str_repeat(' ', $pun_config['o_indent_num_spaces']);
         $inside = \str_replace("\t", $spaces, $inside);
     }
@@ -454,7 +454,7 @@ function handle_poll_tag($pid)
     }
 
     $poll_tag = '';
-    if ('/post.php' != $_SERVER['SCRIPT_NAME']) {
+    if ('/post.php' !== $_SERVER['SCRIPT_NAME']) {
         $poll_tag = $Poll->showPoll($pid);
     }
 
@@ -674,14 +674,14 @@ function do_hide($text, $post = 0, $matches)
     $basename = \basename($_SERVER['PHP_SELF']);
 
     if ('wap' === \pathinfo(\dirname($_SERVER['PHP_SELF']), \PATHINFO_FILENAME)) {
-        if ('hide.php' == $basename) {
+        if ('hide.php' === $basename) {
             return \str_replace($matches[0], '<div class="attach_list">'.$matches[4].'</div>', $text);
         }
 
         return \str_replace($matches[0], '<div class="attach_list"><a onclick="window.open(\'hide.php?id='.$post.'\', \'\', \'width=420,height=230,resizable=yes,scrollbars=yes,status=yes,location=no\'); return false;" target="_blank" href="hide.php?id='.$post.'">'.$lang_topic['Show'].'</a></div>', $text);
     }
 
-    if ('viewprintable.php' == $basename) {
+    if ('viewprintable.php' === $basename) {
         return \str_replace($matches[0], '<div class="spoiler" style="display: block;"><strong>'.$lang_topic['Hide'].'</strong><br/>'.$matches[4].'</div>', $text);
     }
 
@@ -828,7 +828,7 @@ function do_code($text, $inside = [])
                         if ('' === $c[$i2]) {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
-                            if ('</span>' === \substr($c[$i2], 0, 7)) {
+                            if (0 === \strpos($c[$i2], '</span>')) {
                                 $c[$i2] = \substr($c[$i2], 7);
                             }
 

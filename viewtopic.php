@@ -117,7 +117,7 @@ if (!$pun_user['is_guest']) {
 // REAL MARK TOPIC AS READ MOD END
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators']) : [];
+$mods_array = ($cur_topic['moderators']) ? \unserialize($cur_topic['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Can we or can we not post replies?
@@ -466,7 +466,7 @@ echo '<div class="postlinksb"><div class="inbox"><p class="postlink conr">'.$pos
 
 // QUICK QUOTE MOD HTML ORIGINAL:
 // <form method="post" action="post.php?tid=<?php echo $id
-//>" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}">
+//>" onsubmit="return process_form(this);">
 
 if ($quickpost) {
     if (!$pun_user['is_guest']) {
@@ -475,7 +475,7 @@ if ($quickpost) {
         $form_user = 'Guest';
     }
 
-    echo '<div class="blockform"><h2><span>'.$lang_topic['Quick post'].'</span></h2><div class="box"><form onkeypress="ctrlSend(event);" id="post" method="post" action="post.php?tid='.$id.'" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}"><div class="inform"><fieldset><legend>'.$lang_common['Write message legend'].'</legend><div class="infldset txtarea">';
+    echo '<div class="blockform"><h2><span>'.$lang_topic['Quick post'].'</span></h2><div class="box"><form id="post" method="post" action="post.php?tid='.$id.'" onsubmit="return process_form(this);"><div class="inform"><fieldset><legend>'.$lang_common['Write message legend'].'</legend><div class="infldset txtarea">';
 
     if ($pun_config['o_antiflood']) {
         echo '<input type="hidden" name="form_t" value="'.$_SERVER['REQUEST_TIME'].'" />';
@@ -485,7 +485,7 @@ if ($quickpost) {
 
     // Ввод имени для гостей
     if ($pun_user['is_guest']) {
-        echo '<label class="conl"><strong>Имя</strong><br /><input type="text" name="req_username" value="" size="25" maxlength="25" /><br /></label><label class="conl">E-mail<br /><input type="text" name="email" value="" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
+        echo '<label class="conl"><strong>Имя</strong><br /><input type="text" name="req_username" value="" size="25" maxlength="25" /><br /></label><label class="conl">E-mail<br /><input type="email" name="email" value="" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
     }
 
     echo '<label><textarea name="req_message" id="req_message" rows="6" cols="64"></textarea></label><ul id="buttonmenu"><li><a id="dectxt" href="javascript:resizeTextarea(-80)">-</a></li><li><a id="inctxt" href="javascript:resizeTextarea(80)">+</a></li></ul><ul class="bblinks"><li><a href="help.php#bbcode" onclick="window.open(this.href); return false;">'.$lang_common['BBCode'].'</a>: '.((1 == $pun_config['p_message_bbcode']) ? $lang_common['on'] : $lang_common['off']).'</li><li><a href="help.php#img" onclick="window.open(this.href); return false;">'.$lang_common['img tag'].'</a>: '.((1 == $pun_config['p_message_img_tag']) ? $lang_common['on'] : $lang_common['off']).'</li><li><a href="help.php#smilies" onclick="window.open(this.href); return false;">'.$lang_common['Smilies'].'</a>: '.((1 == $pun_config['o_smilies']) ? $lang_common['on'] : $lang_common['off']).'</li></ul>';

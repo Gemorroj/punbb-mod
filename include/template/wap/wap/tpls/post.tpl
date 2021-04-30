@@ -90,9 +90,9 @@
 <div class="input2">
 
     {if $pun_user.g_post_replies == 2}
-        <img src="{$pun_config.o_base_url}/captcha.php?{session_name()}={session_id()}" alt=""/><br/>
+        <img src="{$pun_config.o_base_url}/captcha.php?{uniqid('captcha', true)}" alt=""/><br/>
         {$lang_post.$Image_text}<br/>
-        <input type="text" name="req_image_" size="16" maxlength="16"/><br/>
+        <input type="text" name="req_image_" size="16" maxlength="16" autocomplete="off" required="required" /><br/>
     {/if}
 
     {* Attachmenst *}

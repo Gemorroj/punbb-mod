@@ -11,7 +11,7 @@
     <div class="input">
         <strong>{$lang_login.$Request_pass_legend}</strong><br/>
         <input type="hidden" name="form_sent" value="1"/>
-        <input type="text" name="req_email" maxlength="50"/><br/>
+        <input type="email" name="req_email" maxlength="50"/><br/>
     {$lang_login.$Request_pass_info}
     </div>
     <div class="go_to">

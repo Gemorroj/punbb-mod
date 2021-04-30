@@ -1,7 +1,5 @@
 <?php
 
-\session_start();
-
 \define('PUN_ROOT', '../');
 
 require PUN_ROOT.'include/common.php';
@@ -24,6 +22,12 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/profile.php';
 
 if (!$pun_config['o_regs_allow']) {
     wap_message($lang_registration['No new regs']);
+}
+
+if (1 == $pun_config['o_regs_verify_image']) {
+    \header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
+    \header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    \header('Cache-Control: post-check=0, pre-check=0', false);
 }
 
 // User pressed the cancel button
@@ -49,13 +53,16 @@ if (@$_GET['cancel']) {
     // IMAGE VERIFICATION MOD BEGIN
     // Image verifcation
     if (1 == $pun_config['o_regs_verify_image']) {
+        \session_name('bunbb_captcha');
+        \session_start();
+
         // Make sure what they submitted is not empty
         if (!\trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
             wap_message($lang_registration['Text mismatch']);
         }
 
-        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
+        if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
             wap_message($lang_registration['Text mismatch']);
         }
@@ -253,7 +260,7 @@ if (@$_GET['cancel']) {
 $languages = [];
 $d = \dir(PUN_ROOT.'lang');
 while (false !== ($entry = $d->read())) {
-    if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+    if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
         $languages[] = $entry;
     }
 }

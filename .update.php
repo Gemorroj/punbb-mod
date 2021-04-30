@@ -1,13 +1,13 @@
 <?php
 // После установки УДАЛИТЬ !!!
-define('PUN_ROOT', './');
+\define('PUN_ROOT', './');
 require PUN_ROOT . 'config.php';
 require PUN_ROOT . 'include/common_db.php';
 
 
 $q = $db->query('SELECT * FROM `config`');
 while ($arr = $q->fetch_assoc()) {
-    if ($arr['conf_name'] == 'o_show_version') {
+    if ($arr['conf_name'] === 'o_show_version') {
         break;
     }
 }
@@ -265,12 +265,26 @@ if ($version == '0.6.0') {
     $version = '0.6.1';
 }
 
+if ($version == '0.6.1') {
+    $query = $db->query('UPDATE `config` SET `conf_value` = "0.6.2" WHERE `config`.`conf_name` = "o_show_version" LIMIT 1 ;');
+    if (!$query) {
+        $error[] = var_export($db->error(), true);
+    }
 
-header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
-header('Last-Modified: ' . gmdate('r') . ' GMT');
-header('Cache-Control: post-check=0, pre-check=0', false);
-header('Pragma: no-cache');
-header('Content-Type: text/html; charset=utf-8');
+    $result = $db->query('SHOW TABLE STATUS');
+    while ($row = $db->fetch_assoc($result)) {
+        if ('online' !== $row['Name']) {
+            if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` CONVERT TO CHARACTER SET utf8mb4;')) {
+                $error[] = \var_export($db->error(), true);
+            }
+        }
+    }
+}
+
+\header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
+\header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+\header('Cache-Control: post-check=0, pre-check=0', false);
+\header('Content-Type: text/html; charset=utf-8');
 
 if (@$error) {
     echo '<!DOCTYPE html>

@@ -457,7 +457,7 @@ if ('change_pass' == $action) {
             or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
         while ($cur_forum = $db->fetch_assoc($result)) {
-            $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
+            $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) :
                 [];
 
             if (\in_array($id, $cur_moderators)) {
@@ -491,7 +491,7 @@ if ('change_pass' == $action) {
         or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
     while ($cur_forum = $db->fetch_assoc($result)) {
-        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
+        $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
         // If the user should have moderator access (and he/she doesn't already have it)
         if (\in_array($cur_forum['id'], $moderator_in) && !\in_array($id, $cur_moderators)) {
             $cur_moderators[$username] = $id;
@@ -547,7 +547,7 @@ if ('change_pass' == $action) {
                 or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) :
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) :
                     [];
 
                 if (\in_array($id, $cur_moderators)) {
@@ -971,7 +971,7 @@ if ('change_pass' == $action) {
             $result = $db->query('SELECT `id`, `moderators` FROM `'.$db->prefix.'forums`') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
 
                 if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$old_username]);
@@ -1200,7 +1200,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             }
 
             $email_field = '<label><strong>'.$lang_common['E-mail'].
-                '</strong><br /><input type="text" name="req_email" value="'.pun_htmlspecialchars($user['email']).
+                '</strong><br /><input type="email" name="req_email" value="'.pun_htmlspecialchars($user['email']).
                 '" size="40" maxlength="50" /><br /></label>';
 
             if (PUN_ADMIN == $pun_user['g_id']) {
@@ -1223,7 +1223,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                     '</a></p>';
             } else {
                 $email_field = '<label><strong>'.$lang_common['E-mail'].
-                    '</strong><br /><input type="text" name="req_email" value="'.pun_htmlspecialchars($user['email']).
+                    '</strong><br /><input type="email" name="req_email" value="'.pun_htmlspecialchars($user['email']).
                     '" size="40" maxlength="50" /><br /></label>';
             }
         }
@@ -1916,7 +1916,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
                         $cur_category = $cur_forum['cid'];
                     }
 
-                    $moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators']) : [];
+                    $moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
 
                     echo '<label><input type="checkbox" name="moderator_in['.$cur_forum['fid'].']" value="1"'.((\in_array($id, $moderators)) ? ' checked="checked"' : '').' />'.pun_htmlspecialchars($cur_forum['forum_name']).'<br /></label>';
                 }

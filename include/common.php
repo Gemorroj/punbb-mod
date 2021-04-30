@@ -4,7 +4,7 @@
 $pun_start = \microtime(true);
 
 // Enable DEBUG mode by removing // from the following line
-//define('PUN_DEBUG', 1);
+\define('PUN_DEBUG', 1);
 
 // This displays all executed queries in the page footer.
 // DO NOT enable this in a production environment!

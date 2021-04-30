@@ -40,7 +40,7 @@ function is_image_filename($filename)
 {
     global $pun_config;
 
-    return \in_array(\strtolower(get_file_extension($filename)), \explode(',', $pun_config['file_image_ext']));
+    return \in_array(\strtolower(get_file_extension($filename)), \explode(',', $pun_config['file_image_ext']), true);
 }
 
 // Returns the contents of a directory (including files and subdirectories.
@@ -54,7 +54,7 @@ function get_dir_contents($dir)
 
     $dh = \opendir($dir);
     while (false !== ($file = \readdir($dh))) {
-        if ('.' == $file[0]) {
+        if ('.' === $file[0]) {
             continue;
         }
         $contents[] = $file;
@@ -135,7 +135,7 @@ function delete_orphans()
             $log[] = 'Attachment #'.$attachment['id'].': No related post - Deleted';
             $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id='.$attachment['id']) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         } else {
-            $idx = \array_search($attachment['location'], $files);
+            $idx = \array_search($attachment['location'], $files, true);
 
             // file not exists but record in 'attachments' is
             if (false === $idx) {
@@ -151,7 +151,7 @@ function delete_orphans()
     // delete all orhpaned files in upload folder
     while (\count($files) > 0) {
         $file = $files[0];
-        if ('index.html' != $file && '.htaccess' != $file) {
+        if ('index.html' !== $file && '.htaccess' !== $file) {
             $log[] = 'File "'.$file.'": No related record - Deleted';
             \unlink($file);
         }
@@ -188,7 +188,7 @@ function delete_all_thumbnails()
 
     while (\count($thumbs) > 0) {
         $file = $thumbs[0];
-        if ('index.html' != $file && '.htaccess' != $file && $file[0].$file[1].$file[2].$file[3] != 'err_') {
+        if ('index.html' !== $file && '.htaccess' !== $file && $file[0].$file[1].$file[2].$file[3] !== 'err_') {
             $log[] = $file.' - Deleted';
             \unlink(PUN_ROOT.$thumbs_dir.$file);
         }
@@ -244,7 +244,7 @@ function fix_user_counters()
 function generate_unique_filename($dir, $postfix)
 {
     while (true) {
-        $newname = \md5(\time().'Salt').$postfix;
+        $newname = \md5(\uniqid('', true)).$postfix;
         if (!\is_file($dir.$newname)) {
             return $newname;
         }
@@ -257,7 +257,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
     global $pun_config, $lang_common, $lang_fu, $db, $file_limit, $message;
 
     $result = null;
-    if (!isset($_FILES['attach']['error']) or !check_mod_config()) {
+    if (!isset($_FILES['attach']['error']) || !check_mod_config()) {
         return $result;
     }
 
@@ -294,7 +294,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             $file_ext = \strtolower(get_file_extension($orig_name));
 
             // Skip files with banned extensions
-            if (!\in_array($file_ext, $allowed_ext) || !$file_ext) {
+            if (!$file_ext || !\in_array($file_ext, $allowed_ext, true)) {
                 $result .= $orig_name.' '.$lang_fu['Extension Banned'].'.<br />';
 
                 continue;
@@ -307,7 +307,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
                 continue;
             }
 
-            if (\in_array($file_ext, $image_ext)) {
+            if (\in_array($file_ext, $image_ext, true)) {
                 // Skip files that have larger then allowed dimensions
                 [$width, $height, $type, $attr] = \getimagesize($tmp_name);
                 if (!$width || !$height) {

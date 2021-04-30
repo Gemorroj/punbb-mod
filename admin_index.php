@@ -19,7 +19,7 @@ if ($pun_user['g_id'] > PUN_MOD) {
 $action = $_GET['action'] ?? null;
 
 // Check for upgrade
-if ('check_upgrade' == $action) {
+if ('check_upgrade' === $action) {
     if (!\ini_get('allow_url_fopen')) {
         message($lang_admin['index_allow_url_fopen']);
     }
@@ -40,7 +40,7 @@ if ('check_upgrade' == $action) {
     } else {
         message($lang_admin['index_update_yes']);
     }
-} elseif ('phpinfo' == $action && PUN_ADMIN == $pun_user['g_id']) {
+} elseif ('phpinfo' === $action && PUN_ADMIN == $pun_user['g_id']) {
     // Is phpinfo() a disabled function?
     if (false !== \strpos(\strtolower((string) @\ini_get('disable_functions')), 'phpinfo')) {
         message($lang_admin['phpinfo']);
@@ -49,11 +49,11 @@ if ('check_upgrade' == $action) {
     \phpinfo();
 
     exit;
-} elseif ('optimize' == $action) {
+} elseif ('optimize' === $action) {
     $errors = [];
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
-        if ('online' != $row['Name']) {
+        if ('online' !== $row['Name']) {
             if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
                 $errors[] = $db->error();
             }

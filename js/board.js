@@ -70,24 +70,6 @@ function pasteN(t) {
 }
 
 
-function ctrlSend(e) {
-    e = e || window.event;
-
-    if (e.ctrlKey === true && (e.keyCode === 10 || e.keyCode === 13)) {
-        e.cancelBubble = true;
-        e.returnValue = false;
-
-        if (e.stopPropagation) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
-
-        e.target.form.submit.click();
-    }
-    //return true;
-}
-
-
 function resizeTextarea(dpixels) {
     var box = document.forms.post.req_message;
     var cur_height = parseInt(box.style.height, 10) ? parseInt(box.style.height, 10) : 180;

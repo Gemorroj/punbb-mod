@@ -313,10 +313,10 @@ elseif (isset($_POST['add_edit_group'])) {
     $read_board = isset($_POST['read_board']) ? \intval($_POST['read_board']) : 1;
     $post_replies = isset($_POST['post_replies']) ? \intval($_POST['post_replies']) : 1;
     $post_topics = isset($_POST['post_topics']) ? \intval($_POST['post_topics']) : 1;
-    $edit_posts = isset($_POST['edit_posts']) ? \intval($_POST['edit_posts']) : ($is_admin_group) ? 1 : '0';
-    $delete_posts = isset($_POST['delete_posts']) ? \intval($_POST['delete_posts']) : ($is_admin_group) ? 1 : '0';
-    $delete_topics = isset($_POST['delete_topics']) ? \intval($_POST['delete_topics']) : ($is_admin_group) ? 1 : '0';
-    $set_title = isset($_POST['set_title']) ? \intval($_POST['set_title']) : ($is_admin_group) ? 1 : '0';
+    $edit_posts = isset($_POST['edit_posts']) ? \intval($_POST['edit_posts']) : ($is_admin_group ? 1 : '0');
+    $delete_posts = isset($_POST['delete_posts']) ? \intval($_POST['delete_posts']) : ($is_admin_group ? 1 : '0');
+    $delete_topics = isset($_POST['delete_topics']) ? \intval($_POST['delete_topics']) : ($is_admin_group ? 1 : '0');
+    $set_title = isset($_POST['set_title']) ? \intval($_POST['set_title']) : ($is_admin_group ? 1 : '0');
     $search = isset($_POST['search']) ? \intval($_POST['search']) : 1;
     $search_users = isset($_POST['search_users']) ? \intval($_POST['search_users']) : 1;
     $file_download = isset($_POST['file_download']) ? \intval($_POST['file_download']) : '0';
@@ -360,7 +360,7 @@ elseif (isset($_POST['add_edit_group'])) {
     generate_quickjump_cache();
     generate_wap_quickjump_cache();
 
-    redirect('admin_groups.php', 'Группа '.(('edit' == $_POST['mode']) ? 'отредактирована' : 'добавлена').'. Перенаправление &#x2026;');
+    redirect('admin_groups.php', 'Группа '.(('edit' === $_POST['mode']) ? 'отредактирована' : 'добавлена').'. Перенаправление &#x2026;');
 } // Set default group
 elseif (isset($_POST['set_default_group'])) {
     //confirm_referrer('admin_groups.php');

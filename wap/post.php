@@ -10,9 +10,11 @@ require PUN_ROOT.'include/file_upload.php';
 
 require_once PUN_ROOT.'include/parser.php';
 
-// если проверка каптчей
+// если проверка капчей
 if (2 == $pun_user['g_post_replies']) {
-    \session_start();
+    \header('Expires: Thu, 21 Jul 1977 07:30:00 GMT');
+    \header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    \header('Cache-Control: post-check=0, pre-check=0', false);
 }
 
 if (!$pun_user['g_read_board']) {
@@ -23,7 +25,7 @@ $tid = isset($_GET['tid']) ? \intval($_GET['tid']) : 0;
 $fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
 $rid = isset($_GET['rid']) ? \intval($_GET['rid']) : 0;
 
-if ($tid < 1 && $fid < 1 || $tid > 0 && $fid > 0) {
+if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
     wap_message($lang_common['Bad request']);
 }
 
@@ -48,11 +50,11 @@ if ($cur_posting['redirect_url']) {
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
-$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators']) : [];
+$mods_array = ($cur_posting['moderators']) ? \unserialize($cur_posting['moderators'], ['allowed_classes' => false]) : [];
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // have we permission to attachments?
@@ -98,24 +100,27 @@ $errors = [];
 // Did someone just hit "Submit" or "Preview"?
 if (isset($_POST['form_sent'])) {
     // Make sure form_user is correct
-    if (($pun_user['is_guest'] && 'Guest' != $_POST['form_user']) || (!$pun_user['is_guest'] && $_POST['form_user'] != $pun_user['username'])) {
+    if (($pun_user['is_guest'] && 'Guest' !== $_POST['form_user']) || (!$pun_user['is_guest'] && $_POST['form_user'] !== $pun_user['username'])) {
         wap_message($lang_common['Bad request']);
     }
 
     // Image verifcation
     if (2 == $pun_user['g_post_replies']) {
+        \session_name('bunbb_captcha');
+        \session_start();
+
         // Make sure what they submitted is not empty
         if (!\trim($_POST['req_image_'])) {
-            //unset($_SESSION['captcha_keystring']);
+            unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
 
         if (!isset($_SESSION['captcha_keystring'])) {
-            //unset($_SESSION['captcha_keystring']);
+            unset($_SESSION['captcha_keystring']);
             wap_message($lang_common['Bad request']);
         }
-        if ($_SESSION['captcha_keystring'] != \strtolower(\trim($_POST['req_image_']))) {
-            //unset($_SESSION['captcha_keystring']);
+        if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
+            unset($_SESSION['captcha_keystring']);
             wap_message($lang_post['Text mismatch']);
         }
 

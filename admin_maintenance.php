@@ -48,7 +48,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>'.pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_admin['maintenance'].'&#8230;</title>
-    <style type="text/css">body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style>
+    <style>body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style>
 </head>
 <body><div>'.$lang_admin['maintenance_go'].'<br /><br />';
 
