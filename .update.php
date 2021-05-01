@@ -273,10 +273,8 @@ if ($version == '0.6.1') {
 
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
-        if ('online' !== $row['Name']) {
-            if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` CONVERT TO CHARACTER SET utf8mb4;')) {
-                $error[] = \var_export($db->error(), true);
-            }
+        if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` CONVERT TO CHARACTER SET utf8mb4;')) {
+            $error[] = \var_export($db->error(), true);
         }
     }
 }
