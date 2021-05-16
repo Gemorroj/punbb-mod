@@ -6,7 +6,7 @@ require PUN_ROOT.'include/common.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-    $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) or error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 
 function is_reading($log_time, $last_post)
@@ -17,36 +17,36 @@ function is_reading($log_time, $last_post)
 // REAL MARK TOPIC AS READ MOD END
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 $id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 // Load the viewforum.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/forum.php';
 
 // Fetch some info about the forum
-$result = $db->query('SELECT f.forum_name, f.redirect_url, f.moderators, f.num_topics, f.sort_by, fp.post_topics, lf.log_time, f.id as forum_id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_forums AS lf ON (lf.user_id='.$pun_user['id'].' AND lf.forum_id=f.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$id) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT f.forum_name, f.redirect_url, f.moderators, f.num_topics, f.sort_by, fp.post_topics, lf.log_time, f.id as forum_id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_forums AS lf ON (lf.user_id='.$pun_user['id'].' AND lf.forum_id=f.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$id) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result)) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 $cur_forum = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest'] && null == $cur_forum['log_time']) {
-    $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_forum['forum_id'].', '.$_SERVER['REQUEST_TIME'].')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_forum['forum_id'].', '.$_SERVER['REQUEST_TIME'].')') or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
 } else {
-    $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'].' WHERE forum_id='.$cur_forum['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'].' WHERE forum_id='.$cur_forum['forum_id'].' AND user_id='.$pun_user['id']) or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 }
 // REAL MARK TOPIC AS READ MOD END
 
 // Is this a redirect forum? In that case, redirect!
 if ($cur_forum['redirect_url']) {
-    redirect($cur_forum['redirect_url']);
+    \redirect($cur_forum['redirect_url']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
@@ -75,14 +75,14 @@ if (isset($_GET['action']) && 'all' == $_GET['action']) {
     $p = ($num_pages + 1);
     $pun_user['disp_topics'] = $cur_forum['num_topics'];
 }
-$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewforum.php?id='.$id);
+$paging_links = $lang_common['Pages'].': '.\paginate($num_pages, $p, 'viewforum.php?id='.$id);
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_forum['forum_name']);
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_forum['forum_name']);
 \define('PUN_ALLOW_INDEX', 1);
 
 require_once PUN_ROOT.'header.php';
 
-echo '<div class="linkst"><div class="inbox"><p class="pagelink conl">'.$paging_links.'</p>'.$post_link.'<ul><li><a href="index.php">'.$lang_common['Index'].'</a> </li><li>&#187; '.pun_htmlspecialchars($cur_forum['forum_name']).'</li></ul><div class="clearer"></div></div></div><div id="vf" class="blocktable"><h2><span>'.pun_htmlspecialchars($cur_forum['forum_name']).'</span></h2><div class="box"><div class="inbox"><table cellspacing="0"><thead><tr><th class="tcl" scope="col">'.$lang_common['Topic'].'</th><th class="tc2" scope="col">'.$lang_common['Replies'].'</th><th class="tc3" scope="col">'.$lang_forum['Views'].'</th><th class="tcr" scope="col">'.$lang_common['Last post'].'</th></tr></thead><tbody>';
+echo '<div class="linkst"><div class="inbox"><p class="pagelink conl">'.$paging_links.'</p>'.$post_link.'<ul><li><a href="index.php">'.$lang_common['Index'].'</a> </li><li>&#187; '.\pun_htmlspecialchars($cur_forum['forum_name']).'</li></ul><div class="clearer"></div></div></div><div id="vf" class="blocktable"><h2><span>'.\pun_htmlspecialchars($cur_forum['forum_name']).'</span></h2><div class="box"><div class="inbox"><table cellspacing="0"><thead><tr><th class="tcl" scope="col">'.$lang_common['Topic'].'</th><th class="tc2" scope="col">'.$lang_common['Replies'].'</th><th class="tc3" scope="col">'.$lang_forum['Views'].'</th><th class="tcr" scope="col">'.$lang_common['Last post'].'</th></tr></thead><tbody>';
 
 // Fetch list of topics to display on this page
 if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
@@ -114,7 +114,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
     // REAL MARK TOPIC AS READ MOD END
 }
 
-$result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+$result = $db->query($sql) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 // If there are topics in this forum.
 if ($db->num_rows($result)) {
@@ -126,25 +126,25 @@ if ($db->num_rows($result)) {
         if ($cur_topic['moved_to']) {
             $last_post = '&#160;';
         } else {
-            $last_post = '<a href="viewtopic.php?pid='.$cur_topic['last_post_id'].'#p'.$cur_topic['last_post_id'].'">'.format_time($cur_topic['last_post']).'</a> <span class="byuser">'.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['last_poster']).'</span>';
+            $last_post = '<a href="viewtopic.php?pid='.$cur_topic['last_post_id'].'#p'.$cur_topic['last_post_id'].'">'.\format_time($cur_topic['last_post']).'</a> <span class="byuser">'.$lang_common['by'].' '.\pun_htmlspecialchars($cur_topic['last_poster']).'</span>';
         }
 
         if (1 == $pun_config['o_censoring']) {
-            $cur_topic['subject'] = censor_words($cur_topic['subject']);
+            $cur_topic['subject'] = \censor_words($cur_topic['subject']);
         }
 
         if ($cur_topic['moved_to']) {
-            $subject = $lang_forum['Moved'].': <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']).'</span>';
+            $subject = $lang_forum['Moved'].': <a href="viewtopic.php?id='.$cur_topic['moved_to'].'">'.\pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.\pun_htmlspecialchars($cur_topic['poster']).'</span>';
         } elseif (!$cur_topic['closed']) {
-            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']).'</span>';
+            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.\pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.\pun_htmlspecialchars($cur_topic['poster']).'</span>';
         } else {
-            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.pun_htmlspecialchars($cur_topic['poster']).'</span>';
+            $subject = '<a href="viewtopic.php?id='.$cur_topic['id'].'">'.\pun_htmlspecialchars($cur_topic['subject']).'</a> <span class="byuser">'.$lang_common['by'].' '.\pun_htmlspecialchars($cur_topic['poster']).'</span>';
             $icon_text = $lang_common['Closed icon'];
             $item_status = 'iclosed';
         }
 
         // REAL MARK TOPIC AS READ MOD BEGIN
-        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && $cur_topic['last_poster'] != $pun_user['username'] && !is_reading($cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
+        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && $cur_topic['last_poster'] != $pun_user['username'] && !\is_reading($cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
             // REAL MARK TOPIC AS READ MOD END
             $icon_text .= ' '.$lang_common['New icon'];
             $item_status .= ' inew';
@@ -181,7 +181,7 @@ if ($db->num_rows($result)) {
         $num_pages_topic = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
         if ($num_pages_topic > 1) {
-            $subject_multipage = '[ '.paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']).' ]';
+            $subject_multipage = '[ '.\paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']).' ]';
         } else {
             $subject_multipage = null;
         }
@@ -198,7 +198,7 @@ if ($db->num_rows($result)) {
     echo '<tr><td class="tcl" colspan="4">'.$lang_forum['Empty forum'].'</td></tr>';
 }
 
-echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><p class="pagelink conl">'.$paging_links.'</p>'.$post_link.'<ul><li><a href="index.php">'.$lang_common['Index'].'</a> </li><li>&#187; '.pun_htmlspecialchars($cur_forum['forum_name']).'</li></ul><div class="clearer"></div></div></div>';
+echo '</tbody></table></div></div></div><div class="linksb"><div class="inbox"><p class="pagelink conl">'.$paging_links.'</p>'.$post_link.'<ul><li><a href="index.php">'.$lang_common['Index'].'</a> </li><li>&#187; '.\pun_htmlspecialchars($cur_forum['forum_name']).'</li></ul><div class="clearer"></div></div></div>';
 
 $forum_id = $id;
 $footer_style = 'viewforum';

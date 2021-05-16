@@ -6,13 +6,13 @@
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 // Load the help.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/help.php';
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_help['Help'];
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_help['Help'];
 
 require_once PUN_ROOT.'header.php';
 
@@ -43,7 +43,7 @@ require_once PUN_ROOT.'header.php';
     <p><?php echo $lang_help['Links info']; ?></p><br/>
 
     <div style="padding-left: 4px">
-        [url=<?php echo $pun_config['o_base_url'].'/'; ?>]<?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url'].'/'; ?>"><?php echo pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
+        [url=<?php echo $pun_config['o_base_url'].'/'; ?>]<?php echo \pun_htmlspecialchars($pun_config['o_board_title']); ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url'].'/'; ?>"><?php echo \pun_htmlspecialchars($pun_config['o_board_title']); ?></a><br/>
         [url]<?php echo $pun_config['o_base_url'].'/'; ?>[/url] <?php echo $lang_help['produces']; ?> <a href="<?php echo $pun_config['o_base_url']; ?>"><?php echo $pun_config['o_base_url'].'/'; ?></a><br/>
         [email]myname@mydomain.com[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com">myname@mydomain.com</a><br/>
         [email=myname@mydomain.com]<?php echo $lang_help['My e-mail address']; ?>[/email] <?php echo $lang_help['produces']; ?> <a href="mailto:myname@mydomain.com"><?php echo $lang_help['My e-mail address']; ?></a><br/><br/>

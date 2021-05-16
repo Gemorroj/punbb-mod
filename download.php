@@ -5,11 +5,11 @@
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 if (!isset($_GET['aid'])) {
-    error('Invalid image parameters', __FILE__, __LINE__);
+    \error('Invalid image parameters', __FILE__, __LINE__);
 }
 $aid = \intval($_GET['aid']);
 
@@ -23,9 +23,9 @@ $result_attach = $db->query(
     INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
     LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].')
     WHERE a.id='.$aid
-) or error('Unable to fetch if there were any attachments to the post', __FILE__, __LINE__, $db->error());
+) or \error('Unable to fetch if there were any attachments to the post', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result_attach)) {
-    error('There are no attachment or access denied', __FILE__, __LINE__);
+    \error('There are no attachment or access denied', __FILE__, __LINE__);
 }
 
 [$file, $location, $mime, $poster_id, $moderators, $file_download] = $db->fetch_row($result_attach);
@@ -46,16 +46,16 @@ $is_image = \preg_match('/^image\/(?:.*)$/i', $mime);
 if (!$can_download && !($poster_id == $pun_user['id'])) {
     if ($is_image) {
         // show noaccess icon instead of image
-        download(PUN_ROOT.$pun_config['file_thumb_path'].'err_access.gif', 'err_access.gif', 'image/gif');
+        \download(PUN_ROOT.$pun_config['file_thumb_path'].'err_access.gif', 'err_access.gif', 'image/gif');
     } else {
-        message('Access denied');
+        \message('Access denied');
     }
 }
 
 if (!\is_file($location)) {
-    error($location.' - this file does not exist', __FILE__, __LINE__);
+    \error($location.' - this file does not exist', __FILE__, __LINE__);
 }
 
-$db->query('UPDATE `'.$db->prefix.'attachments` SET `downloads` = `downloads` + 1 WHERE `id`='.$aid) or error('Unable to update download counter', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `'.$db->prefix.'attachments` SET `downloads` = `downloads` + 1 WHERE `id`='.$aid) or \error('Unable to update download counter', __FILE__, __LINE__, $db->error());
 
-download($location, $file, $mime);
+\download($location, $file, $mime);

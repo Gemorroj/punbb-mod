@@ -7,7 +7,7 @@ if ($attachments[$cur_post['id']]) {
     $basename = \basename($_SERVER['PHP_SELF']);
 
     foreach ($attachments[$cur_post['id']] as $attachment) {
-        $title = pun_htmlspecialchars($attachment['filename']);
+        $title = \pun_htmlspecialchars($attachment['filename']);
         $aid = $attachment['id'];
         $downloads = $attachment['downloads'];
         $location = $attachment['location'];
@@ -29,7 +29,7 @@ if ($attachments[$cur_post['id']]) {
 
                 if (\preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
                     $att_info .= ','.$regs[1].' '.$attachment['image_dim'].'<br />'.$lang_fu['Downloads'].': '.$attachment['downloads'];
-                    $thumbnail = '<img src="'.PUN_ROOT.require_thumb($attachment['id'], $attachment['location'], $pun_config['file_thumb_width'], $pun_config['file_thumb_height'], true).'">';
+                    $thumbnail = '<img src="'.PUN_ROOT.\require_thumb($attachment['id'], $attachment['location'], $pun_config['file_thumb_width'], $pun_config['file_thumb_height'], true).'">';
                     if ($can_download) {
                         //$thumbnail = '<a href="'.$pun_config['o_base_url'].'/download.php?aid='.$aid.'">'.$thumbnail.'</a>';
                         $thumbnail = '<a href="javascript:void(0);" onclick="{a=\'::thumb'.$aid.'::\';window.prompt(\'BBcode\',a);}">'.$thumbnail.'</a>';

@@ -13,7 +13,7 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 $action = $_GET['action'] ?? null;
@@ -21,7 +21,7 @@ $action = $_GET['action'] ?? null;
 // Check for upgrade
 if ('check_upgrade' === $action) {
     if (!\ini_get('allow_url_fopen')) {
-        message($lang_admin['index_allow_url_fopen']);
+        \message($lang_admin['index_allow_url_fopen']);
     }
 
     $fp = @\fopen('http://punbb.informer.com/latest_version', 'r');
@@ -29,21 +29,21 @@ if ('check_upgrade' === $action) {
     @\fclose($fp);
 
     if ('' == $latest_version) {
-        message($lang_admin['index_fail_update']);
+        \message($lang_admin['index_fail_update']);
     }
 
     $latest_version = \preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $latest_version);
     $cur_version = \preg_replace('/(\.0)+(?!\.)|(\.0+$)/', '$2', $cur_version);
 
     if (\version_compare($cur_version, $latest_version, '>=')) {
-        message($lang_admin['index_update_no']);
+        \message($lang_admin['index_update_no']);
     } else {
-        message($lang_admin['index_update_yes']);
+        \message($lang_admin['index_update_yes']);
     }
 } elseif ('phpinfo' === $action && PUN_ADMIN == $pun_user['g_id']) {
     // Is phpinfo() a disabled function?
     if (false !== \strpos(\strtolower((string) @\ini_get('disable_functions')), 'phpinfo')) {
-        message($lang_admin['phpinfo']);
+        \message($lang_admin['phpinfo']);
     }
 
     \phpinfo();
@@ -61,9 +61,9 @@ if ('check_upgrade' === $action) {
     }
 
     if (!$errors) {
-        message('Tables Optimized');
+        \message('Tables Optimized');
     } else {
-        message('Tables NOT Optimized');
+        \message('Tables NOT Optimized');
     }
 }
 
@@ -83,18 +83,18 @@ if (@\file_exists('/proc/loadavg') && \is_readable('/proc/loadavg')) {
 }
 
 // Get number of current visitors
-$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') or error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') or \error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
 $num_online = $db->result($result);
 
 // Get the database system version
-$result = $db->query('SELECT VERSION()') or error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT VERSION()') or \error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
 $db_version = $db->result($result);
 
 // Collect some additional info about MySQL
 $db_version = 'MySQL '.$db_version;
 
 // Calculate total db size/row count
-$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') or error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
+$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') or \error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
 
 $total_records = $total_size = 0;
 while ($status = $db->fetch_assoc($result)) {
@@ -142,17 +142,17 @@ if (\extension_loaded('wincache')) {
 
 $server_info = '';
 if (\function_exists('apache_get_version')) {
-    $server_info = apache_get_version();
+    $server_info = \apache_get_version();
 } else {
     $server_info = \php_sapi_name();
 }
 $server_info = \htmlspecialchars($server_info);
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin';
 
 require_once PUN_ROOT.'header.php';
 
-generate_admin_menu('index');
+\generate_admin_menu('index');
 
 echo '<div class="block">
 <h2>'.$lang_admin['index'].'</h2>

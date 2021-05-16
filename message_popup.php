@@ -7,22 +7,22 @@ require_once PUN_ROOT.'include/common.php';
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if ($pun_user['is_guest']) {
-    message($lang_common['Login required']);
+    \message($lang_common['Login required']);
 }
 
 if (isset($_GET['id'])) {
     $id = \intval($_GET['id']);
-    $result_messages = $db->query('SELECT owner, sender, posted, subject FROM '.$db->prefix.'messages WHERE status=0 AND id='.$id) or error('Unable check owner popup', __FILE__, __LINE__, $db->error());
+    $result_messages = $db->query('SELECT owner, sender, posted, subject FROM '.$db->prefix.'messages WHERE status=0 AND id='.$id) or \error('Unable check owner popup', __FILE__, __LINE__, $db->error());
     $return = $db->fetch_assoc($result_messages);
     if ($return['owner'] != $pun_user['id']) {
-        message($lang_common['No permission']);
+        \message($lang_common['No permission']);
     }
 } else {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 //require PUN_ROOT.'lang/'.$pun_user['language'].'/common.php';
@@ -48,7 +48,7 @@ echo '<!DOCTYPE html>
 <div class="blockform">
 <h2><span>'.$lang_pms['New messages'].'</span></h2>
 <div class="box" style="text-align:center">
-<p>'.$lang_pms['Popup new'].pun_htmlspecialchars($return['sender']).$lang_pms['Popup subj'].'<strong>'.pun_htmlspecialchars($return['subject']).'</strong><br />'.$lang_pms['Popup send'].format_time($return['posted']).'</p>
+<p>'.$lang_pms['Popup new'].\pun_htmlspecialchars($return['sender']).$lang_pms['Popup subj'].'<strong>'.\pun_htmlspecialchars($return['subject']).'</strong><br />'.$lang_pms['Popup send'].\format_time($return['posted']).'</p>
 <ul>
 <li><a href="javascript:go_read_msg('.$id.');">'.$lang_pms['Popup open msg'].'</a></li>
 <li><a href="javascript:goto_inbox();">'.$lang_pms['Popup go in'].'</a></li>

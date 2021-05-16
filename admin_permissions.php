@@ -12,7 +12,7 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if (isset($_POST['form_sent'])) {
@@ -23,21 +23,21 @@ if (isset($_POST['form_sent'])) {
     foreach ($form as $key => $input) {
         // Only update values that have changed
         if (\array_key_exists('p_'.$key, $pun_config) && $pun_config['p_'.$key] != $input) {
-            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$input.' WHERE conf_name=\'p_'.$db->escape($key).'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$input.' WHERE conf_name=\'p_'.$db->escape($key).'\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 
     // Regenerate the config cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_config_cache();
+    \generate_config_cache();
 
-    redirect('admin_permissions.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
+    \redirect('admin_permissions.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Permissions';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Permissions';
 
 require_once PUN_ROOT.'header.php';
-generate_admin_menu('permissions');
+\generate_admin_menu('permissions');
 
 ?>
 <div class="blockform">

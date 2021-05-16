@@ -25,15 +25,15 @@ if (@$attachments) {
         foreach ($post_attachments as $attachment) {
             // generate preview images just-in-time
             if (\preg_match('/^image\/(.*)$/i', $attachment['mime'], $regs)) {
-                $pview_fname = require_thumb($attachment['id'], $attachment['location'], $pview_width, $pview_height, false);
-                $thumb_fname = require_thumb($attachment['id'], $attachment['location'], $thumb_width, $thumb_height, true);
+                $pview_fname = \require_thumb($attachment['id'], $attachment['location'], $pview_width, $pview_height, false);
+                $thumb_fname = \require_thumb($attachment['id'], $attachment['location'], $thumb_width, $thumb_height, true);
                 $img_size = ' ('.$regs[1].' '.$attachment['image_dim'].')';
             } else {
                 $thumb_fname = $img_size = null;
             }
 
-            $tmp[] = "'".$attachment['id']."': ["."'".format_time($attachment['uploaded']).
-                "',"."'".pun_htmlspecialchars($attachment['filename'])."',"."'".$lang_fu['Size'].
+            $tmp[] = "'".$attachment['id']."': ["."'".\format_time($attachment['uploaded']).
+                "',"."'".\pun_htmlspecialchars($attachment['filename'])."',"."'".$lang_fu['Size'].
                 ': '.\round($attachment['size'] / 1024, 1).'kb '.$img_size.' '.$lang_fu['Downloads'].
                 ': '.$attachment['downloads']."','".$thumb_fname."',".(int) ($attachment['can_download'] ?? $can_download).']';
         }

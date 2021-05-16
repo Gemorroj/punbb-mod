@@ -12,7 +12,7 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if (@$_POST['form_sent']) {
@@ -25,7 +25,7 @@ if (@$_POST['form_sent']) {
     $form = \array_map('trim', $_POST['form']);
 
     if (!$form['board_title']) {
-        message($lang_admin['options_fail_board_title']);
+        \message($lang_admin['options_fail_board_title']);
     }
 
     // Clean default_lang
@@ -34,13 +34,13 @@ if (@$_POST['form_sent']) {
     require PUN_ROOT.'include/email.php';
 
     $form['admin_email'] = \strtolower($form['admin_email']);
-    if (!is_valid_email($form['admin_email'])) {
-        message($lang_admin['options_fail_email']);
+    if (!\is_valid_email($form['admin_email'])) {
+        \message($lang_admin['options_fail_email']);
     }
 
     $form['webmaster_email'] = \strtolower($form['webmaster_email']);
-    if (!is_valid_email($form['webmaster_email'])) {
-        message($lang_admin['options_fail_webm_email']);
+    if (!\is_valid_email($form['webmaster_email'])) {
+        \message($lang_admin['options_fail_webm_email']);
     }
 
     if ($form['mailing_list']) {
@@ -61,14 +61,14 @@ if (@$_POST['form_sent']) {
     }
 
     if ($form['additional_navlinks']) {
-        $form['additional_navlinks'] = \trim(pun_linebreaks($form['additional_navlinks']));
+        $form['additional_navlinks'] = \trim(\pun_linebreaks($form['additional_navlinks']));
         if ($form['additional_navlinks']) {
             $form['additional_navlinks'] .= "\n";
         }
     }
 
     if ($form['announcement_message']) {
-        $form['announcement_message'] = pun_linebreaks($form['announcement_message']);
+        $form['announcement_message'] = \pun_linebreaks($form['announcement_message']);
     } else {
         $form['announcement_message'] = $lang_admin['options_announcement_message'];
 
@@ -78,7 +78,7 @@ if (@$_POST['form_sent']) {
     }
 
     if ($form['rules_message']) {
-        $form['rules_message'] = pun_linebreaks($form['rules_message']);
+        $form['rules_message'] = \pun_linebreaks($form['rules_message']);
     } else {
         $form['rules_message'] = $lang_admin['options_rules'];
 
@@ -88,7 +88,7 @@ if (@$_POST['form_sent']) {
     }
 
     if ($form['maintenance_message']) {
-        $form['maintenance_message'] = pun_linebreaks($form['maintenance_message']);
+        $form['maintenance_message'] = \pun_linebreaks($form['maintenance_message']);
     } else {
         $form['maintenance_message'] = $lang_admin['options_maintenance'];
 
@@ -112,11 +112,11 @@ if (@$_POST['form_sent']) {
     $form['show_moderators'] = \intval($form['show_moderators']);
 
     // голосования
-    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.\intval($form['poll']).'" WHERE conf_name="poll_enabled"') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.\intval($form['poll']).'" WHERE conf_name="poll_enabled"') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
     unset($form['poll']);
 
     if ($form['timeout_online'] >= $form['timeout_visit']) {
-        message($lang_admin['options_timeout_online']);
+        \message($lang_admin['options_timeout_online']);
     }
 
     foreach ($form as $key => $input) {
@@ -128,25 +128,25 @@ if (@$_POST['form_sent']) {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`='.$value.' WHERE `conf_name`="o_'.$db->escape($key).'"') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`='.$value.' WHERE `conf_name`="o_'.$db->escape($key).'"') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 
     // Regenerate the config cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_config_cache();
-    generate_quickjump_cache();
-    generate_wap_quickjump_cache();
+    \generate_config_cache();
+    \generate_quickjump_cache();
+    \generate_wap_quickjump_cache();
 
-    redirect('admin_options.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
+    \redirect('admin_options.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Options';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Options';
 $form_name = 'update_options';
 
 require_once PUN_ROOT.'header.php';
 
-generate_admin_menu('options');
+\generate_admin_menu('options');
 
 echo '<div class="blockform">
 <h2><span>'.$lang_admin['options'].'</span></h2>
@@ -162,14 +162,14 @@ echo '<div class="blockform">
 <tr>
 <th scope="row">'.$lang_admin['options_title'].'</th>
 <td>
-<input type="text" name="form[board_title]" size="50" maxlength="255" value="'.pun_htmlspecialchars($pun_config['o_board_title']).'" />
+<input type="text" name="form[board_title]" size="50" maxlength="255" value="'.\pun_htmlspecialchars($pun_config['o_board_title']).'" />
 <span>'.$lang_admin['options_title_about'].'</span>
 </td>
 </tr>
 <tr>
 <th scope="row">'.$lang_admin['options_about'].'</th>
 <td>
-<input type="text" name="form[board_desc]" size="50" maxlength="255" value="'.pun_htmlspecialchars($pun_config['o_board_desc']).'" />
+<input type="text" name="form[board_desc]" size="50" maxlength="255" value="'.\pun_htmlspecialchars($pun_config['o_board_desc']).'" />
 <span>'.$lang_admin['options_full_about'].'</span>
 </td>
 </tr>
@@ -400,14 +400,14 @@ echo '</select>
 <tr>
 <th scope="row">Формат времени</th>
 <td>
-<input type="text" name="form[time_format]" size="25" maxlength="25" value="'.pun_htmlspecialchars($pun_config['o_time_format']).'" />
+<input type="text" name="form[time_format]" size="25" maxlength="25" value="'.\pun_htmlspecialchars($pun_config['o_time_format']).'" />
 <span>[Нынешний формат: '.\date($pun_config['o_time_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
 </td>
 </tr>
 <tr>
 <th scope="row">Формат даты</th>
 <td>
-<input type="text" name="form[date_format]" size="25" maxlength="25" value="'.pun_htmlspecialchars($pun_config['o_date_format']).'" />
+<input type="text" name="form[date_format]" size="25" maxlength="25" value="'.\pun_htmlspecialchars($pun_config['o_date_format']).'" />
 <span>[Нынешний формат: '.\date($pun_config['o_date_format']).'] Смотрите <a href="http://php.net/date">здесь</a> более подробно.</span>
 </td>
 </tr>
@@ -761,7 +761,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Дополнительные пункты меню</th>
                     <td>
                         <textarea name="form[additional_navlinks]" rows="3"
-                                  cols="55"><?php echo pun_htmlspecialchars($pun_config['o_additional_navlinks']); ?></textarea>
+                                  cols="55"><?php echo \pun_htmlspecialchars($pun_config['o_additional_navlinks']); ?></textarea>
                         <span>Вводом HTML гиперссылок в эту форму можно добавить к навигационному меню вначале всех страницы любое количество пунктов. Формат добавления ссылок X = &lt;a href="URL"&gt;ССЫЛКА&lt;/a&gt; где X - позиция куда ссылка будет вставлена (т.е. 0 - вставить в начало и 2 - вставить после "Пользователи"). Разделитель - перенос строки.</span>
                     </td>
                 </tr>
@@ -812,7 +812,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Список рассылки</th>
                     <td>
                         <textarea name="form[mailing_list]" rows="5"
-                                  cols="55"><?php echo pun_htmlspecialchars($pun_config['o_mailing_list']); ?></textarea>
+                                  cols="55"><?php echo \pun_htmlspecialchars($pun_config['o_mailing_list']); ?></textarea>
                         <span>Запятые разделяют список подписчиков. Люди из этого списка - получатели отчетов.</span>
                     </td>
                 </tr>
@@ -844,7 +844,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Директория загрузок</th>
                     <td>
                         <input type="text" name="form[avatars_dir]" size="35" maxlength="50"
-                               value="<?php echo pun_htmlspecialchars($pun_config['o_avatars_dir']); ?>"/>
+                               value="<?php echo \pun_htmlspecialchars($pun_config['o_avatars_dir']); ?>"/>
                         <span>Директория загрузок для аватар (относительно корневой директории PunBB). PHP должен иметь разрешения на запись в эту директорию.</span>
                     </td>
                 </tr>
@@ -916,7 +916,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Адрес SMTP сервера</th>
                     <td>
                         <input type="text" name="form[smtp_host]" size="30" maxlength="100"
-                               value="<?php echo pun_htmlspecialchars($pun_config['o_smtp_host']); ?>"/>
+                               value="<?php echo \pun_htmlspecialchars($pun_config['o_smtp_host']); ?>"/>
                         <span>Адрес внешнего SMTP сервера для отправки e-mail писем через него. Вы можете указать любой порт если SMTP сервер не использует по умолчанию порт 25 (прим.: mail.myhost.com:3580). Оставьте пустым чтобы использовать локальную почтовую программу.</span>
                     </td>
                 </tr>
@@ -924,7 +924,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Имя пользователя SMTP</th>
                     <td>
                         <input type="text" name="form[smtp_user]" size="25" maxlength="50"
-                               value="<?php echo pun_htmlspecialchars($pun_config['o_smtp_user']); ?>"/>
+                               value="<?php echo \pun_htmlspecialchars($pun_config['o_smtp_user']); ?>"/>
                         <span>Имя пользователя для SMTP сервера. Введите имя пользователя только если SMTP сервер требует его (большинство серверов <strong>не
                             требуют</strong> аутентификации).</span>
                     </td>
@@ -933,7 +933,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Пароль SMTP</th>
                     <td>
                         <input type="text" name="form[smtp_pass]" size="25" maxlength="50"
-                               value="<?php echo pun_htmlspecialchars($pun_config['o_smtp_pass']); ?>"/>
+                               value="<?php echo \pun_htmlspecialchars($pun_config['o_smtp_pass']); ?>"/>
                         <span>Пароль для SMTP сервера. Введите пароль только если SMTP сервер требует его (большинство серверов <strong>не
                             требуют</strong> аутентификации).</span>
                     </td>
@@ -1011,7 +1011,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Правила</th>
                     <td>
                         <textarea name="form[rules_message]" rows="10"
-                                  cols="55"><?php echo pun_htmlspecialchars($pun_config['o_rules_message']); ?></textarea>
+                                  cols="55"><?php echo \pun_htmlspecialchars($pun_config['o_rules_message']); ?></textarea>
                         <span>Здесь вы можете ввести любые правила или другую информацию с которой пользователи должны ознакомиться и согласиться при регистрации. Если вы включили правила выше, введите что либо здесь, иначе они будут отключены. Этот текст не пре-обрабатывается как обычные сообщения и может содержать HTML.</span>
                     </td>
                 </tr>
@@ -1043,7 +1043,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Текст объявления</th>
                     <td>
                         <textarea name="form[announcement_message]" rows="5"
-                                  cols="55"><?php echo pun_htmlspecialchars($pun_config['o_announcement_message']); ?></textarea>
+                                  cols="55"><?php echo \pun_htmlspecialchars($pun_config['o_announcement_message']); ?></textarea>
                         <span>Этот текст не пре-обрабатывается как обычные сообщения и может содержать HTML.</span>
                     </td>
                 </tr>
@@ -1075,7 +1075,7 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Ремонтное сообщение</th>
                     <td>
                         <textarea name="form[maintenance_message]" rows="5"
-                                  cols="55"><?php echo pun_htmlspecialchars($pun_config['o_maintenance_message']); ?></textarea>
+                                  cols="55"><?php echo \pun_htmlspecialchars($pun_config['o_maintenance_message']); ?></textarea>
                         <span>Сообщение показывается пользователям форумов в режиме ремонта. Если оставить пустым - используется сообщение по умолчанию. Этот текст не пре-обрабатывается как обычные сообщения и может содержать XHTML.</span>
                     </td>
                 </tr>

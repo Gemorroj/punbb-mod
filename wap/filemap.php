@@ -9,7 +9,7 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
 require PUN_ROOT.'include/file_upload.php';
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_common['Attachments'];
@@ -29,9 +29,9 @@ if ($user_id) {
         FROM `'.$db->prefix.'users` AS u
         JOIN `'.$db->prefix.'groups` AS g ON (u.group_id=g.g_id)
         WHERE u.id='.$user_id
-    ) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
-        message('No user by that ID registered.');
+        \message('No user by that ID registered.');
     }
     $user = $db->fetch_assoc($result);
 }
@@ -45,7 +45,7 @@ $result = $db->query('
     LEFT JOIN `'.$db->prefix.'forum_perms` AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
     WHERE fp.read_forum IS NULL OR fp.read_forum=1
     ORDER BY f.id
-') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+') or \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
 
@@ -63,7 +63,7 @@ $fid_list = \implode(',', $fid_list);
 unset($can_download);
 
 // get category list for cache
-$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories') or error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories') or \error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
 while ($cur_category = $db->fetch_assoc($result)) {
     $categories[$cur_category['id']] = $cur_category['cat_name'];
 }
@@ -79,7 +79,7 @@ if (!$fid_list) {
         INNER JOIN '.$db->prefix.'topics AS t ON a.topic_id=t.id
         INNER JOIN '.$db->prefix.'forums AS f ON f.id = t.forum_id
         WHERE f.id in ('.$fid_list.') '.($user_id ? (' AND (a.poster_id='.$user_id.')') : '')
-    ) or error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
     $num_rows = $db->fetch_row($result);
     $num_rows = $num_rows[0];
 }
@@ -91,7 +91,7 @@ $start_from = ATTACHMENTS_PER_PAGE * ($p - 1);
 
 // Generate paging links
 $user_cond = $user_id ? 'user_id='.$user_id : '';
-$paging_links = paginate($num_pages, $p, 'filemap.php?'.$user_cond);
+$paging_links = \paginate($num_pages, $p, 'filemap.php?'.$user_cond);
 
 $attachments = [];
 if ($fid_list) {
@@ -108,7 +108,7 @@ if ($fid_list) {
         WHERE f.id in ('.$fid_list.') '.($user_id ? (' AND (a.poster_id='.$user_id.')') : '').'
         ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc, a.filename'.
             ((!isset($_GET['action']) || 'all' != $_GET['action']) ? ' LIMIT '.$start_from.','.ATTACHMENTS_PER_PAGE : '')
-    ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions

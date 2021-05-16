@@ -44,7 +44,7 @@ class _Poll
                 $poll['pexpire'] = 365;
             }
 
-            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.\time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(\serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') or error('Unable to create poll.', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.\time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(\serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') or \error('Unable to create poll.', __FILE__, __LINE__, $db->error());
 
             return $db->insert_id();
         }
@@ -56,7 +56,7 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')') or error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')') or \error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
         $polls_ids = '';
         while ($row = $db->fetch_row($result)) {
             if ($row[0]) {
@@ -64,8 +64,8 @@ class _Poll
             }
         }
         if ($polls_ids) {
-            $db->query('DELETE FROM '.$db->prefix.'polls WHERE id IN('.$polls_ids.')') or error('Unable to delete polls', __FILE__, __LINE__, $db->error());
-            $db->query('DELETE FROM '.$db->prefix.'log_polls WHERE pid IN('.$polls_ids.')') or error('Unable to delete info for log_polls', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'polls WHERE id IN('.$polls_ids.')') or \error('Unable to delete polls', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'log_polls WHERE pid IN('.$polls_ids.')') or \error('Unable to delete info for log_polls', __FILE__, __LINE__, $db->error());
         }
     }
 
@@ -97,9 +97,9 @@ class _Poll
                 ++$poll['data'][$value][1];
             }
 
-            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(\serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) or error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(\serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) or \error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
 
-            $db->query('INSERT INTO '.$db->prefix.'log_polls (pid, uid) VALUES('.$pid.','.$pun_user['id'].')') or error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'log_polls (pid, uid) VALUES('.$pid.','.$pun_user['id'].')') or \error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
             $this->setPolled($pid, $pun_user['id']);
 
             return 0;
@@ -245,10 +245,10 @@ class _Poll
     {
         global $lang_poll, $pun_user, $lang_common;
 
-        $out = '<div class="in"><strong>'.$lang_poll['poll'].'</strong>: '.pun_htmlspecialchars($poll['description']).'</div><div class="msg2"><span class="sub">';
+        $out = '<div class="in"><strong>'.$lang_poll['poll'].'</strong>: '.\pun_htmlspecialchars($poll['description']).'</div><div class="msg2"><span class="sub">';
 
         foreach ($poll['data'] as $quest) {
-            $out .= '<strong>'.pun_htmlspecialchars($quest[0]).'</strong> ['.$quest[1].'] '.\round($quest[1] * $q, 1).'%<br />';
+            $out .= '<strong>'.\pun_htmlspecialchars($quest[0]).'</strong> ['.$quest[1].'] '.\round($quest[1] * $q, 1).'%<br />';
         }
 
         $out .= $lang_poll['total voters'].': '.$poll['vcount'].' | '.$lang_poll['votes'].': '.$total.' '.$pieces.'</span></div>';
@@ -268,9 +268,9 @@ class _Poll
             $warning = null;
         }
 
-        $out = '<div class="in"><strong>'.$lang_poll['poll'].'</strong>: '.pun_htmlspecialchars($poll['description']).'</div>
-<div id="warning">'.pun_htmlspecialchars($warning).'</div>
-<form action="viewtopic.php?'.pun_htmlspecialchars($_SERVER['QUERY_STRING']).'" method="post">
+        $out = '<div class="in"><strong>'.$lang_poll['poll'].'</strong>: '.\pun_htmlspecialchars($poll['description']).'</div>
+<div id="warning">'.\pun_htmlspecialchars($warning).'</div>
+<form action="viewtopic.php?'.\pun_htmlspecialchars($_SERVER['QUERY_STRING']).'" method="post">
 <div class="input2">
 <input type="hidden" name="pollid" value="'.$pollid.'"/>';
 
@@ -284,7 +284,7 @@ class _Poll
             } else {
                 $out .= '<input id="poll_'.$i.'" type="checkbox" name="poll_vote['.$i.']" value="'.$i.'" />';
             }
-            $out .= ' '.pun_htmlspecialchars($quest[0]).'<br /></label>';
+            $out .= ' '.\pun_htmlspecialchars($quest[0]).'<br /></label>';
         }
         $out .= '</div><div class="go_to"><input type="submit" value="'.$lang_poll['vote'].'"/></div></form>'.$pieces;
 
@@ -295,14 +295,14 @@ class _Poll
     {
         global $lang_poll, $pun_user, $lang_common;
 
-        $out = '<div class="p_cnt p_cnt_'.$pollid.'"><fieldset><legend>'.$lang_poll['poll'].'</legend><div class="cnt_'.$pollid.'"><table><tr><td colspan="3" style="text-align:center;">'.pun_htmlspecialchars($poll['description']).'</td></tr>';
+        $out = '<div class="p_cnt p_cnt_'.$pollid.'"><fieldset><legend>'.$lang_poll['poll'].'</legend><div class="cnt_'.$pollid.'"><table><tr><td colspan="3" style="text-align:center;">'.\pun_htmlspecialchars($poll['description']).'</td></tr>';
 
         $bg_switch = false;
         foreach ($poll['data'] as $quest) {
             $bg_switch = ($bg_switch) ? $bg_switch = false : $bg_switch = true;
             $vtbg = ($bg_switch) ? 'roweven' : 'rowodd';
 
-            $out .= '<tr><td class="col1 '.$vtbg.'">'.pun_htmlspecialchars($quest[0]).' ['.$quest[1].']</td><td class="col2 '.$vtbg.'"><div style="width:'.\ceil($quest[1] * $q).'%;"></div></td><td class="col3 '.$vtbg.'"> '.\round($quest[1] * $q, 1).'% </td></tr>';
+            $out .= '<tr><td class="col1 '.$vtbg.'">'.\pun_htmlspecialchars($quest[0]).' ['.$quest[1].']</td><td class="col2 '.$vtbg.'"><div style="width:'.\ceil($quest[1] * $q).'%;"></div></td><td class="col3 '.$vtbg.'"> '.\round($quest[1] * $q, 1).'% </td></tr>';
         }
 
         $out .= '<tr><td class="'.((!$bg_switch) ? 'roweven' : 'rowodd').'" colspan="3" style="text-align:center;">'.$lang_poll['total voters'].': '.$poll['vcount'].' / '.$lang_poll['votes'].': '.$total.'</td></tr></table></div>'.$pieces.'</fieldset></div><br class="clearb" />';
@@ -324,7 +324,7 @@ class _Poll
             JsHelper::getInstance()->add(PUN_ROOT.'js/apoll.js');
         }
 
-        $out = '<div class="p_cnt p_cnt_'.$pollid.'"><fieldset><legend>'.$lang_poll['poll'].'</legend><div id="warning" style="display:none;"></div><table><tr><td colspan="2"><center>'.pun_htmlspecialchars($poll['description']).'</center></td></tr>';
+        $out = '<div class="p_cnt p_cnt_'.$pollid.'"><fieldset><legend>'.$lang_poll['poll'].'</legend><div id="warning" style="display:none;"></div><table><tr><td colspan="2"><center>'.\pun_htmlspecialchars($poll['description']).'</center></td></tr>';
 
         $i = -1;
         $bg_switch = false;
@@ -341,7 +341,7 @@ class _Poll
                 $out .= '<input type="checkbox" name="poll_vote['.$i.']" value="'.$i.'" id="poll_vote_'.$i.'"/>';
             }
 
-            $out .= '</td><td class="col3'.$vtbg.'"><label for="poll_vote_'.$i.'"> '.pun_htmlspecialchars($quest[0]).'</label></td></tr>';
+            $out .= '</td><td class="col3'.$vtbg.'"><label for="poll_vote_'.$i.'"> '.\pun_htmlspecialchars($quest[0]).'</label></td></tr>';
         }
 
         $out .= '<tr><td class="submit '.((!$bg_switch) ? 'roweven' : 'rowodd').'" colspan="2"><center class="pl"><input type="submit" name="submit" onclick="poll.vote('.$pollid.'); return false;" value="'.$lang_poll['vote'].'"/></center></td></tr></table>'.$pieces;
@@ -358,7 +358,7 @@ class _Poll
         global $db;
 
         if ($this->cachePID != $pid || $this->cacheUID != $uid) {
-            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid) or error('Unable to check polled user', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid) or \error('Unable to check polled user', __FILE__, __LINE__, $db->error());
             if (!$db->num_rows($result)) {
                 $this->polled = false;
             } else {
@@ -382,7 +382,7 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId) or error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId) or \error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
 
         if (!$db->num_rows($result)) {
             $poll = $db->fetch_assoc($result);

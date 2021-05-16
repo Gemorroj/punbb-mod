@@ -35,7 +35,7 @@ class DBLayer
         $this->link_id = \mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
         if (!$this->link_id) {
-            error('Unable to connect to MySQL server. MySQL reported: '.\mysqli_connect_error(), __FILE__, __LINE__);
+            \error('Unable to connect to MySQL server. MySQL reported: '.\mysqli_connect_error(), __FILE__, __LINE__);
         }
     }
 

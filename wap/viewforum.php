@@ -16,17 +16,17 @@ if (!$pun_user['is_guest']) {
         .'FROM `'.$db->prefix.'log_topics` '
         .'WHERE `log_time` < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' '
         .'AND `user_id`='.$pun_user['id']
-    ) or error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 //- REAL MARK TOPIC AS READ MOD
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if (1 > $id) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 // Fetch some info about the forum
@@ -47,10 +47,10 @@ $result = $db->query(
 .'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
 .'AND `f`.`id`='.$id
 )
-or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 if (!$db->num_rows($result)) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $cur_forum = $db->fetch_assoc($result);
@@ -64,7 +64,7 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     .$cur_forum['forum_id'].', '
     .$_SERVER['REQUEST_TIME'].')'
     )
-    or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+    or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
 } else {
     $result = $db->query(
         'UPDATE `'.$db->prefix.'log_forums` '
@@ -72,13 +72,13 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     .'WHERE `forum_id`='.$cur_forum['forum_id'].' '
     .'AND `user_id`='.$pun_user['id']
     )
-    or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+    or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 }
 //- REAL MARK TOPIC AS READ MOD
 
 // Is this a redirect forum? In that case, redirect!
 if ($cur_forum['redirect_url']) {
-    wap_redirect($cur_forum['redirect_url']);
+    \wap_redirect($cur_forum['redirect_url']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
@@ -110,7 +110,7 @@ if ('all' == @$_GET['action']) {
     $start_from = 0;
 }
 
-$paging_links = paginate($num_pages, $p, 'viewforum.php?id='.$id);
+$paging_links = \paginate($num_pages, $p, 'viewforum.php?id='.$id);
 //- Pagination
 
 // Fetch list of topics to display on this page
@@ -171,7 +171,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
 }
 //- REAL MARK TOPIC AS READ
 
-$result = $db->query($sql) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+$result = $db->query($sql) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 // If there are topics in this forum.
 $topics = [];
@@ -180,10 +180,10 @@ if ($db->num_rows($result)) {
         // Pagination in topics on index page.
         $num_pages_topic = \ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
         if (1 < $num_pages_topic) {
-            $cur_topic['paging_links'] = paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']);
+            $cur_topic['paging_links'] = \paginate($num_pages_topic, -1, 'viewtopic.php?id='.$cur_topic['id']);
         }
         if (1 == $pun_config['o_censoring']) {
-            $cur_topic['subject'] = censor_words($cur_topic['subject']);
+            $cur_topic['subject'] = \censor_words($cur_topic['subject']);
         }
         $topics[] = $cur_topic;
     }

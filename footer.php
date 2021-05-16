@@ -74,11 +74,11 @@ if ('index' == $footer_style || 'search' == $footer_style) {
 }
 
 // $db->get_num_queries() - show sql queries
-echo '<p class="conr"><strong><a href="/">'.\parse_url($pun_config['o_base_url'], \PHP_URL_HOST).'</a></strong></p><p class="conr">PunBB Mod v'.pun_htmlspecialchars($pun_config['o_show_version']).'<br />'.\sprintf('%.3f', \microtime(true) - $pun_start).' s</p><div class="clearer"></div></div></div></div>';
+echo '<p class="conr"><strong><a href="/">'.\parse_url($pun_config['o_base_url'], \PHP_URL_HOST).'</a></strong></p><p class="conr">PunBB Mod v'.\pun_htmlspecialchars($pun_config['o_show_version']).'<br />'.\sprintf('%.3f', \microtime(true) - $pun_start).' s</p><div class="clearer"></div></div></div></div>';
 
 // Display executed queries (if enabled)
 if (\defined('PUN_SHOW_QUERIES')) {
-    display_saved_queries();
+    \display_saved_queries();
 }
 
 $tpl_temp = \trim(\ob_get_contents());

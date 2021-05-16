@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 require PUN_ROOT.'include/common_admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 // Add/edit a group (stage 1)
@@ -17,19 +17,19 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
     if (isset($_POST['add_group'])) {
         $base_group = \intval($_POST['base_group']);
 
-        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$base_group) or error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$base_group) or \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
         $group = $db->fetch_assoc($result);
 
         $mode = 'add';
     } else { // We are editing a group
         $group_id = \intval($_GET['edit_group']);
         if ($group_id < 1) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$group_id) or error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$group_id) or \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
         $group = $db->fetch_assoc($result);
@@ -37,13 +37,13 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
         $mode = 'edit';
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
     $required_fields = ['req_title' => 'Group title'];
     $focus_element = ['groups2', 'req_title'];
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('groups'); ?>
+    \generate_admin_menu('groups'); ?>
 <div class="blockform">
     <h2><span>Настройки группы</span></h2>
 
@@ -69,7 +69,7 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <td>
                                     <input type="text" name="req_title" size="25" maxlength="50"
                                            value="<?php if ('edit' == $mode) {
-        echo pun_htmlspecialchars($group['g_title']);
+        echo \pun_htmlspecialchars($group['g_title']);
     } ?>"/>
                                 </td>
                             </tr>
@@ -77,7 +77,7 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
                                 <th scope="row">Название пользователя</th>
                                 <td>
                                     <input type="text" name="user_title" size="25" maxlength="50"
-                                           value="<?php echo pun_htmlspecialchars($group['g_user_title']); ?>"/>
+                                           value="<?php echo \pun_htmlspecialchars($group['g_user_title']); ?>"/>
                                     <span>Это название заменяет любой ранг пользователя. Оставьте пустым для использования названия по умолчанию или ранга.</span>
                                 </td>
                             </tr>
@@ -327,99 +327,99 @@ elseif (isset($_POST['add_edit_group'])) {
     $search_flood = isset($_POST['search_flood']) ? \intval($_POST['search_flood']) : '0';
 
     if (!$title) {
-        message('You must enter a group title.');
+        \message('You must enter a group title.');
     }
 
     $user_title = ($user_title) ? '\''.$db->escape($user_title).'\'' : 'NULL';
 
     if ('add' == $_POST['mode']) {
-        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE `g_title`=\''.$db->escape($title).'\'') or error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE `g_title`=\''.$db->escape($title).'\'') or \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
-            message('There is already a group with the title "'.pun_htmlspecialchars($title).'".');
+            \message('There is already a group with the title "'.\pun_htmlspecialchars($title).'".');
         }
 
-        $db->query('INSERT INTO `'.$db->prefix.'groups` (g_title, g_user_title, g_read_board, g_post_replies, g_post_topics, g_edit_posts, g_delete_posts, g_delete_topics, g_set_title, g_search, g_search_users, g_file_download, g_file_upload, g_file_limit, g_edit_subjects_interval, g_post_flood, g_search_flood) VALUES(\''.$db->escape($title).'\', '.$user_title.', '.$read_board.', '.$post_replies.', '.$post_topics.', '.$edit_posts.', '.$delete_posts.', '.$delete_topics.', '.$set_title.', '.$search.', '.$search_users.', '.$file_download.', '.$file_upload.', '.$file_limit.', '.$edit_subjects_interval.', '.$post_flood.', '.$search_flood.')') or error('Unable to add group', __FILE__, __LINE__, $db->error());
+        $db->query('INSERT INTO `'.$db->prefix.'groups` (g_title, g_user_title, g_read_board, g_post_replies, g_post_topics, g_edit_posts, g_delete_posts, g_delete_topics, g_set_title, g_search, g_search_users, g_file_download, g_file_upload, g_file_limit, g_edit_subjects_interval, g_post_flood, g_search_flood) VALUES(\''.$db->escape($title).'\', '.$user_title.', '.$read_board.', '.$post_replies.', '.$post_topics.', '.$edit_posts.', '.$delete_posts.', '.$delete_topics.', '.$set_title.', '.$search.', '.$search_users.', '.$file_download.', '.$file_upload.', '.$file_limit.', '.$edit_subjects_interval.', '.$post_flood.', '.$search_flood.')') or \error('Unable to add group', __FILE__, __LINE__, $db->error());
         $new_group_id = $db->insert_id();
 
         // Now lets copy the forum specific permissions from the group which this group is based on
-        $result = $db->query('SELECT forum_id, read_forum, post_replies, post_topics FROM '.$db->prefix.'forum_perms WHERE group_id='.\intval($_POST['base_group'])) or error('Unable to fetch group forum permission list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT forum_id, read_forum, post_replies, post_topics FROM '.$db->prefix.'forum_perms WHERE group_id='.\intval($_POST['base_group'])) or \error('Unable to fetch group forum permission list', __FILE__, __LINE__, $db->error());
         while ($cur_forum_perm = $db->fetch_assoc($result)) {
-            $db->query('INSERT INTO '.$db->prefix.'forum_perms (group_id, forum_id, read_forum, post_replies, post_topics) VALUES('.$new_group_id.', '.$cur_forum_perm['forum_id'].', '.$cur_forum_perm['read_forum'].', '.$cur_forum_perm['post_replies'].', '.$cur_forum_perm['post_topics'].')') or error('Unable to insert group forum permissions', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'forum_perms (group_id, forum_id, read_forum, post_replies, post_topics) VALUES('.$new_group_id.', '.$cur_forum_perm['forum_id'].', '.$cur_forum_perm['read_forum'].', '.$cur_forum_perm['post_replies'].', '.$cur_forum_perm['post_topics'].')') or \error('Unable to insert group forum permissions', __FILE__, __LINE__, $db->error());
         }
     } else {
-        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE g_title=\''.$db->escape($title).'\' AND g_id!='.\intval($_POST['group_id'])) or error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE g_title=\''.$db->escape($title).'\' AND g_id!='.\intval($_POST['group_id'])) or \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
-            message('There is already a group with the title "'.pun_htmlspecialchars($title).'".');
+            \message('There is already a group with the title "'.\pun_htmlspecialchars($title).'".');
         }
 
-        $db->query('UPDATE `'.$db->prefix.'groups` SET g_title=\''.$db->escape($title).'\', g_user_title='.$user_title.', g_read_board='.$read_board.', g_post_replies='.$post_replies.', g_post_topics='.$post_topics.', g_edit_posts='.$edit_posts.', g_delete_posts='.$delete_posts.', g_delete_topics='.$delete_topics.', g_set_title='.$set_title.', g_search='.$search.', g_search_users='.$search_users.', g_file_download='.$file_download.', g_file_upload='.$file_upload.', g_file_limit='.$file_limit.', g_edit_subjects_interval='.$edit_subjects_interval.', g_post_flood='.$post_flood.', g_search_flood='.$search_flood.' WHERE g_id='.\intval($_POST['group_id'])) or error('Unable to update group', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_title=\''.$db->escape($title).'\', g_user_title='.$user_title.', g_read_board='.$read_board.', g_post_replies='.$post_replies.', g_post_topics='.$post_topics.', g_edit_posts='.$edit_posts.', g_delete_posts='.$delete_posts.', g_delete_topics='.$delete_topics.', g_set_title='.$set_title.', g_search='.$search.', g_search_users='.$search_users.', g_file_download='.$file_download.', g_file_upload='.$file_upload.', g_file_limit='.$file_limit.', g_edit_subjects_interval='.$edit_subjects_interval.', g_post_flood='.$post_flood.', g_search_flood='.$search_flood.' WHERE g_id='.\intval($_POST['group_id'])) or \error('Unable to update group', __FILE__, __LINE__, $db->error());
     }
 
     // Regenerate the quickjump cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_quickjump_cache();
-    generate_wap_quickjump_cache();
+    \generate_quickjump_cache();
+    \generate_wap_quickjump_cache();
 
-    redirect('admin_groups.php', 'Группа '.(('edit' === $_POST['mode']) ? 'отредактирована' : 'добавлена').'. Перенаправление &#x2026;');
+    \redirect('admin_groups.php', 'Группа '.(('edit' === $_POST['mode']) ? 'отредактирована' : 'добавлена').'. Перенаправление &#x2026;');
 } // Set default group
 elseif (isset($_POST['set_default_group'])) {
     //confirm_referrer('admin_groups.php');
 
     $group_id = \intval($_POST['default_group']);
     if ($group_id < 4) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
-    $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$group_id.' WHERE conf_name=\'o_default_user_group\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$group_id.' WHERE conf_name=\'o_default_user_group\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
 
     // Regenerate the config cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_config_cache();
+    \generate_config_cache();
 
-    redirect('admin_groups.php', 'Группа по умолчанию задана. Перенаправление &#x2026;');
+    \redirect('admin_groups.php', 'Группа по умолчанию задана. Перенаправление &#x2026;');
 } // Remove a group
 elseif (isset($_GET['del_group'])) {
     //confirm_referrer('admin_groups.php');
 
     $group_id = \intval($_GET['del_group']);
     if ($group_id < 5) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
     // Make sure we don't remove the default group
     if ($group_id == $pun_config['o_default_user_group']) {
-        message('The default group cannot be removed. In order to delete this group, you must first setup a different group as the default.');
+        \message('The default group cannot be removed. In order to delete this group, you must first setup a different group as the default.');
     }
 
     // Check if this group has any members
-    $result = $db->query('SELECT g.g_title, COUNT(u.id) FROM `'.$db->prefix.'groups` AS g INNER JOIN `'.$db->prefix.'users` AS u ON g.g_id=u.group_id WHERE g.g_id='.$group_id.' GROUP BY g.g_id, g_title') or error('Unable to fetch group info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT g.g_title, COUNT(u.id) FROM `'.$db->prefix.'groups` AS g INNER JOIN `'.$db->prefix.'users` AS u ON g.g_id=u.group_id WHERE g.g_id='.$group_id.' GROUP BY g.g_id, g_title') or \error('Unable to fetch group info', __FILE__, __LINE__, $db->error());
 
     // If the group doesn't have any members or if we've already selected a group to move the members to
     if (!$db->num_rows($result) || isset($_POST['del_group'])) {
         if (isset($_POST['del_group'])) {
             $move_to_group = \intval($_POST['move_to_group']);
-            $db->query('UPDATE '.$db->prefix.'users SET group_id='.$move_to_group.' WHERE group_id='.$group_id) or error('Unable to move users into group', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'users SET group_id='.$move_to_group.' WHERE group_id='.$group_id) or \error('Unable to move users into group', __FILE__, __LINE__, $db->error());
         }
 
         // Delete the group and any forum specific permissions
-        $db->query('DELETE FROM `'.$db->prefix.'groups` WHERE g_id='.$group_id) or error('Unable to delete group', __FILE__, __LINE__, $db->error());
-        $db->query('DELETE FROM '.$db->prefix.'forum_perms WHERE group_id='.$group_id) or error('Unable to delete group forum permissions', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM `'.$db->prefix.'groups` WHERE g_id='.$group_id) or \error('Unable to delete group', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'forum_perms WHERE group_id='.$group_id) or \error('Unable to delete group forum permissions', __FILE__, __LINE__, $db->error());
 
         // Regenerate the quickjump cache
         include_once PUN_ROOT.'include/cache.php';
-        generate_quickjump_cache();
-        generate_wap_quickjump_cache();
+        \generate_quickjump_cache();
+        \generate_wap_quickjump_cache();
 
-        redirect('admin_groups.php', 'Группа удалена. Перенаправление &#x2026;');
+        \redirect('admin_groups.php', 'Группа удалена. Перенаправление &#x2026;');
     }
 
     [$group_title, $group_members] = $db->fetch_row($result);
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('groups');
+    \generate_admin_menu('groups');
 
     echo '<div class="blockform">
 <h2><span>Удаление группы</span></h2>
@@ -429,17 +429,17 @@ elseif (isset($_GET['del_group'])) {
 <fieldset>
 <legend>Перемещение пользователей группы</legend>
 <div class="infldset">
-<p>Группа "'.pun_htmlspecialchars($group_title).'" содержит '.$group_members.' членов. Пожалуйста выберите группу, в которую будут перемещены пользователи после ее удаления</p>
+<p>Группа "'.\pun_htmlspecialchars($group_title).'" содержит '.$group_members.' членов. Пожалуйста выберите группу, в которую будут перемещены пользователи после ее удаления</p>
 <label>Переместить пользователей в
 <select name="move_to_group">';
 
-    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' AND g_id!='.$group_id.' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' AND g_id!='.$group_id.' ORDER BY g_title') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
     while ($cur_group = $db->fetch_assoc($result)) {
         if (PUN_MEMBER == $cur_group['g_id']) { // Pre-select the pre-defined Members group
-            echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+            echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
         } else {
-            echo '<option value="'.$cur_group['g_id'].'">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+            echo '<option value="'.$cur_group['g_id'].'">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
         }
     }
 
@@ -458,11 +458,11 @@ elseif (isset($_GET['del_group'])) {
     require_once PUN_ROOT.'footer.php';
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / User groups';
 
 require_once PUN_ROOT.'header.php';
 
-generate_admin_menu('groups');
+\generate_admin_menu('groups');
 
 echo '<div class="blockform">
 <h2><span>Добавление/установки групп</span></h2>
@@ -478,13 +478,13 @@ echo '<div class="blockform">
 <td>
 <select id="base_group" name="base_group">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
 while ($cur_group = $db->fetch_assoc($result)) {
     if ($cur_group['g_id'] == $pun_config['o_default_user_group']) {
-        echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
     } else {
-        echo '<option value="'.$cur_group['g_id'].'">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="'.$cur_group['g_id'].'">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
     }
 }
 
@@ -506,13 +506,13 @@ echo '</select>
 <td>
 <select id="default_group" name="default_group">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
 while ($cur_group = $db->fetch_assoc($result)) {
     if ($cur_group['g_id'] == $pun_config['o_default_user_group']) {
-        echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="'.$cur_group['g_id'].'" selected="selected">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
     } else {
-        echo '<option value="'.$cur_group['g_id'].'">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="'.$cur_group['g_id'].'">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
     }
 }
 
@@ -536,10 +536,10 @@ echo '</select>
 <p>Пред-установленные группы Гости, Администраторы, Модераторы и Пользователи не могут быть удалены. Хотя их можно редактировать, учтите что в некоторых группах иные настройки недоступны (напр.: разрешение <em>редактировать свои сообщения</em> для группы Гости). Администраторы всегда имеют все разрешения.</p>
 <table cellspacing="0">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` ORDER BY g_id') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
 while ($cur_group = $db->fetch_assoc($result)) {
-    echo '<tr><th scope="row"><a href="admin_groups.php?edit_group='.$cur_group['g_id'].'">Edit</a>'.(($cur_group['g_id'] > PUN_MEMBER) ? ' - <a href="admin_groups.php?del_group='.$cur_group['g_id'].'">Remove</a>' : '').'</th><td>'.pun_htmlspecialchars($cur_group['g_title']).'</td></tr>';
+    echo '<tr><th scope="row"><a href="admin_groups.php?edit_group='.$cur_group['g_id'].'">Edit</a>'.(($cur_group['g_id'] > PUN_MEMBER) ? ' - <a href="admin_groups.php?del_group='.$cur_group['g_id'].'">Remove</a>' : '').'</th><td>'.\pun_htmlspecialchars($cur_group['g_title']).'</td></tr>';
 }
 
 echo '</table></div></fieldset></div></div></div></div><div class="clearer"></div></div>';

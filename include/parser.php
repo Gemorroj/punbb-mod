@@ -111,7 +111,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
 
     if (!$is_signature) {
         $error = '';
-        $overflow = check_tag_order($text, $error);
+        $overflow = \check_tag_order($text, $error);
 
         if ($error) {
             // A BBCode error was spotted in check_tag_order()
@@ -123,9 +123,9 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
     } else {
         if (\preg_match('#\[quote=(&quot;|"|\'|)(.*)\\1\]|\[quote\]|\[/quote\]|\[code\]|\[/code\]|\[hide=(&quot;|"|\'|)(.*)\\1\]|\[hide\]|\[/hide\]#i', $text)) {
             if ('wap' === \basename(\dirname($_SERVER['PHP_SELF']))) {
-                wap_message($lang_prof_reg['Signature quote/code']);
+                \wap_message($lang_prof_reg['Signature quote/code']);
             } else {
-                message($lang_prof_reg['Signature quote/code']);
+                \message($lang_prof_reg['Signature quote/code']);
             }
         }
     }
@@ -584,28 +584,28 @@ function do_bbcode($text)
 function _replace_url_bb(array $matches)
 {
     if (isset($matches[2])) {
-        return handle_url_tag($matches[1], $matches[2]);
+        return \handle_url_tag($matches[1], $matches[2]);
     }
 
-    return handle_url_tag($matches[1]);
+    return \handle_url_tag($matches[1]);
 }
 
 function _replace_search_bb(array $matches)
 {
     if (isset($matches[2])) {
-        return handle_search_tag($matches[1], $matches[2]);
+        return \handle_search_tag($matches[1], $matches[2]);
     }
 
-    return handle_search_tag('forum', $matches[1]);
+    return \handle_search_tag('forum', $matches[1]);
 }
 
 function _replace_url_scheme(array $matches)
 {
-    return $matches[1].handle_url_tag($matches[2].'://'.$matches[3]);
+    return $matches[1].\handle_url_tag($matches[2].'://'.$matches[3]);
 }
 function _replace_url(array $matches)
 {
-    return $matches[1].handle_url_tag($matches[2].'.'.$matches[3], $matches[2].'.'.$matches[3]);
+    return $matches[1].\handle_url_tag($matches[2].'.'.$matches[3], $matches[2].'.'.$matches[3]);
 }
 //
 // Make hyperlinks clickable
@@ -699,38 +699,38 @@ function parse_message($text, $hide_smilies, $post = 0)
     $wap = 'wap' === \pathinfo(\dirname($_SERVER['PHP_SELF']), \PATHINFO_FILENAME);
 
     if (1 == $pun_config['o_censoring']) {
-        $text = censor_words($text);
+        $text = \censor_words($text);
     }
 
     // Convert applicable characters to HTML entities
-    $text = pun_htmlspecialchars($text);
+    $text = \pun_htmlspecialchars($text);
 
     // hide
     if (\preg_match_all('#\[hide(=(&quot;|"|\'|)+(\d+)){0,1}\](.*)\[/hide\]#sU', $text, $matches)) {
         foreach ($matches[0] as $key => $value) {
             $match = [$value, $matches[1][$key], $matches[2][$key], $matches[3][$key], $matches[4][$key]];
-            $text = do_hide($text, $post, $match);
+            $text = \do_hide($text, $post, $match);
         }
     }
 
     // If the message contains a code tag we have to split it up (text within [code][/code] shouldn't be touched)
     $inside = [];
     if (false !== \strpos($text, '[code]') && false !== \strpos($text, '[/code]')) {
-        [$inside, $outside] = split_text($text, '[code]', '[/code]');
+        [$inside, $outside] = \split_text($text, '[code]', '[/code]');
         $outside = \array_map('ltrim', $outside);
         $text = \implode('<">', $outside);
     }
 
     if (1 == $pun_config['o_make_links']) {
-        $text = do_clickable($text);
+        $text = \do_clickable($text);
     }
 
     if (1 == $pun_config['o_smilies'] && 1 == $pun_user['show_smilies'] && !$hide_smilies) {
-        $text = do_smilies($text);
+        $text = \do_smilies($text);
     }
 
     if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($text, '[') && false !== \strpos($text, ']')) {
-        $text = do_bbcode($text);
+        $text = \do_bbcode($text);
 
         if (1 == $pun_config['p_message_img_tag']) {
             $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', '_replace_img', $text);
@@ -747,7 +747,7 @@ function parse_message($text, $hide_smilies, $post = 0)
     // AJAX POLL MOD END
 
     // If we split up the message before we have to concatenate it together again (code tags)
-    $text = do_code($text, $inside);
+    $text = \do_code($text, $inside);
 
     // Add paragraph tag around post, but make sure there are no empty paragraphs
     if ($wap) {
@@ -761,20 +761,20 @@ function parse_message($text, $hide_smilies, $post = 0)
 
 function _replace_img_left(array $matches)
 {
-    return handle_img_tag_modern('left', $matches[1].$matches[3]);
+    return \handle_img_tag_modern('left', $matches[1].$matches[3]);
 }
 function _replace_img_right(array $matches)
 {
-    return handle_img_tag_modern('right', $matches[1].$matches[3]);
+    return \handle_img_tag_modern('right', $matches[1].$matches[3]);
 }
 function _replace_img(array $matches)
 {
-    return handle_img_tag($matches[1].$matches[3]);
+    return \handle_img_tag($matches[1].$matches[3]);
 }
 
 function _replace_poll(array $matches)
 {
-    return handle_poll_tag($matches[1]);
+    return \handle_poll_tag($matches[1]);
 }
 
 function do_code($text, $inside = [])
@@ -878,21 +878,21 @@ function parse_signature($text)
     global $pun_config, $lang_common, $pun_user;
 
     if (1 == $pun_config['o_censoring']) {
-        $text = censor_words($text);
+        $text = \censor_words($text);
     }
 
-    $text = pun_htmlspecialchars($text);
+    $text = \pun_htmlspecialchars($text);
 
     if (1 == $pun_config['o_make_links']) {
-        $text = do_clickable($text);
+        $text = \do_clickable($text);
     }
 
     if (1 == $pun_config['o_smilies_sig'] && $pun_user['show_smilies']) {
-        $text = do_smilies($text);
+        $text = \do_smilies($text);
     }
 
     if ($pun_config['p_sig_bbcode'] && false !== \strpos($text, '[') && false !== \strpos($text, ']')) {
-        $text = do_bbcode($text);
+        $text = \do_bbcode($text);
 
         if ($pun_config['p_sig_img_tag']) {
             $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', '_replace_signature_img', $text);
@@ -906,5 +906,5 @@ function parse_signature($text)
 
 function _replace_signature_img(array $matches)
 {
-    return handle_img_tag($matches[1].$matches[3], true);
+    return \handle_img_tag($matches[1].$matches[3], true);
 }

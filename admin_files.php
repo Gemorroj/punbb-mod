@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 require PUN_ROOT.'include/common_admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_POST['delete_thumbnails']) || isset($_POST['fix_counters'])) {
@@ -26,77 +26,77 @@ if (isset($_POST['save'])) {
 
     // Error checking
     if (!$form['upload_path']) {
-        message('You must enter an upload path.', true);
+        \message('You must enter an upload path.', true);
     }
 
     if (false === \realpath($form['upload_path'])) {
-        message('Upload path you entered is not a valid directory.', true);
+        \message('Upload path you entered is not a valid directory.', true);
     }
 
     if (!$form['thumb_path']) {
-        message('You must enter a thumbnail path.', true);
+        \message('You must enter a thumbnail path.', true);
     }
 
     if (!\is_writable($form['upload_path'])) {
-        message('Upload path is not writable.', true);
+        \message('Upload path is not writable.', true);
     }
 
     if (!\is_dir($form['upload_path'])) {
-        message('Upload path you entered is not a valid directory.', true);
+        \message('Upload path you entered is not a valid directory.', true);
     }
 
     if (false === \realpath($form['thumb_path'])) {
-        message('Thumbnail path you entered is not a valid directory.', true);
+        \message('Thumbnail path you entered is not a valid directory.', true);
     }
 
     if (!\is_writable($form['thumb_path'])) {
-        message('Thumbnail path is not writable.', true);
+        \message('Thumbnail path is not writable.', true);
     }
 
     if (!\is_dir($form['thumb_path'])) {
-        message('Thumbnail path you entered is not a valid directory.', true);
+        \message('Thumbnail path you entered is not a valid directory.', true);
     }
 
     $form['max_width'] = \intval($form['max_width']);
     if ($form['max_width'] < 1) {
-        message('Invalid maximum image width.', true);
+        \message('Invalid maximum image width.', true);
     }
 
     $form['max_height'] = \intval($form['max_height']);
     if ($form['max_height'] < 1) {
-        message('Invalid maximum image height.', true);
+        \message('Invalid maximum image height.', true);
     }
 
     $form['max_size'] = \intval($form['max_size']);
     if ($form['max_size'] < 1) {
-        message('Invalid maximum image size.', true);
+        \message('Invalid maximum image size.', true);
     }
 
     $form['thumb_width'] = \intval($form['thumb_width']);
     if ($form['thumb_width'] < 1) {
-        message('Invalid thumbnail width.', true);
+        \message('Invalid thumbnail width.', true);
     }
 
     $form['thumb_height'] = \intval($form['thumb_height']);
     if ($form['thumb_height'] < 1) {
-        message('Invalid thumbnail height.', true);
+        \message('Invalid thumbnail height.', true);
     }
 
     $form['preview_width'] = \intval($form['preview_width']);
     if ($form['preview_width'] < 1) {
-        message('Invalid preview width.', true);
+        \message('Invalid preview width.', true);
     }
 
     $form['preview_height'] = \intval($form['preview_height']);
     if ($form['preview_height'] < 1) {
-        message('Invalid preview height.', true);
+        \message('Invalid preview height.', true);
     }
 
     $form['first_only'] = (isset($form['first_only']) && 1 == $form['first_only']) ? 1 : 0;
 
     $form['max_post_files'] = \intval($form['max_post_files']);
     if ($form['max_post_files'] < 1) {
-        message('Invalid maximum files per post.', true);
+        \message('Invalid maximum files per post.', true);
     }
 
     $form['allowed_ext'] = \strtolower($form['allowed_ext']);
@@ -110,28 +110,28 @@ if (isset($_POST['save'])) {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 
     // Regenerate the config cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_config_cache();
+    \generate_config_cache();
 
-    redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
+    \redirect('admin_files.php', 'Options updated. Redirecting &#x2026;');
 } else { // If not, we show the "Show text" form
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Files';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Files';
     $focus_element = ['files', 'form[upload_path]'];
 
     require_once PUN_ROOT.'header.php';
 
     // Display the admin navigation menu
-    generate_admin_menu('files');
+    \generate_admin_menu('files');
 
     if (isset($_POST['show_errors'])) {
         //confirm_referrer('admin_files.php');
 
-        $log = show_problems();
+        $log = \show_problems();
 
         echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об ошибках</span></h2>
@@ -155,7 +155,7 @@ if (isset($_POST['save'])) {
     if (isset($_POST['delete_orphans'])) {
         //confirm_referrer('admin_files.php');
 
-        $log = delete_orphans();
+        $log = \delete_orphans();
 
         echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет о "сиротах"</span></h2>
@@ -179,7 +179,7 @@ if (isset($_POST['save'])) {
     if (isset($_POST['delete_thumbnails'])) {
         //confirm_referrer('admin_files.php');
 
-        $log = delete_all_thumbnails();
+        $log = \delete_all_thumbnails();
 
         echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об очистке кеша</span></h2>
@@ -203,7 +203,7 @@ if (isset($_POST['save'])) {
     if (isset($_POST['fix_counters'])) {
         //confirm_referrer('admin_files.php');
 
-        $log = fix_user_counters();
+        $log = \fix_user_counters();
 
         echo '<div id="imageupload" class="blockform">
 <h2><span>Отчет об исправлении счетчиков пользователей</span></h2>

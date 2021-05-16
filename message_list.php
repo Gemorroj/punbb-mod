@@ -6,11 +6,11 @@ require_once PUN_ROOT.'include/common.php';
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_config['o_pms_enabled'] || !$pun_user['g_pm']) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if ($pun_user['is_guest']) {
-    message($lang_common['Login required']);
+    \message($lang_common['Login required']);
 }
 
 // Load the message.php language file
@@ -44,14 +44,14 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         // confirm_referrer('message_list.php');
 
         if (\preg_match('/[^0-9,]/', $_POST['messages']) || !\trim($_POST['messages'])) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
         // Delete messages
-        $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN('.$_POST['messages'].') AND owner='.$pun_user['id']) or error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
-        redirect('message_list.php?box='.\intval($_POST['box']), $lang_pms['Deleted redirect']);
+        $db->query('DELETE FROM '.$db->prefix.'messages WHERE id IN('.$_POST['messages'].') AND owner='.$pun_user['id']) or \error('Unable to delete messages.', __FILE__, __LINE__, $db->error());
+        \redirect('message_list.php?box='.\intval($_POST['box']), $lang_pms['Deleted redirect']);
     } else {
-        $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Multidelete'];
+        $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Multidelete'];
         $idlist = \is_array($_POST['delete_messages']) ? \array_map('intval', $_POST['delete_messages']) : [];
 
         require_once PUN_ROOT.'header.php';
@@ -62,15 +62,15 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
     }
 } elseif ('markall' === $_GET['action']) {
     // Mark all messages as read
-    $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE owner='.$pun_user['id']) or error('Unable to update message status', __FILE__, __LINE__, $db->error());
-    redirect('message_list.php?box='.$box.'&p='.$p, $lang_pms['Read redirect']);
+    $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE owner='.$pun_user['id']) or \error('Unable to update message status', __FILE__, __LINE__, $db->error());
+    \redirect('message_list.php?box='.$box.'&p='.$p, $lang_pms['Read redirect']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Private Messages'].' - '.$name;
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pms['Private Messages'].' - '.$name;
 
 if ($box < 2) {
     // Get message count
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) or error('Unable to count messages', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) or \error('Unable to count messages', __FILE__, __LINE__, $db->error());
     $num_messages = $db->result($result);
 
     //What page are we on?
@@ -116,7 +116,7 @@ if ($box < 2) {
         $id = \intval($_GET['id']);
 
         // Set user
-        $result = $db->query('SELECT status, owner FROM '.$db->prefix.'messages WHERE id='.$id) or error('Unable to get message status', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT status, owner FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to get message status', __FILE__, __LINE__, $db->error());
         [$status, $owner] = $db->fetch_row($result);
         0 == $status ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
@@ -152,38 +152,38 @@ if ($box < 2) {
     LEFT JOIN `'.$db->prefix.'online` AS o ON (o.user_id=u.id AND o.idle=0)
     LEFT JOIN `'.$db->prefix.'groups` AS g ON u.group_id = g.g_id
     WHERE '.$where.' AND m.id='.$id
-        ) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+        ) or \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
         $cur_post = $db->fetch_assoc($result);
 
         if ($owner != $pun_user['id']) {
-            message($lang_common['No permission']);
+            \message($lang_common['No permission']);
         }
 
         if (!$cur_post['showed']) {
-            $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE id='.$id) or error('Unable to update message info', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE id='.$id) or \error('Unable to update message info', __FILE__, __LINE__, $db->error());
         }
 
         if ($cur_post['id'] > 0) {
-            $username = '<a href="profile.php?id='.$cur_post['id'].'">'.pun_htmlspecialchars($cur_post['username']).'</a>';
-            $user_title = get_title($cur_post);
+            $username = '<a href="profile.php?id='.$cur_post['id'].'">'.\pun_htmlspecialchars($cur_post['username']).'</a>';
+            $user_title = \get_title($cur_post);
 
             if (1 == $pun_config['o_censoring']) {
-                $user_title = censor_words($user_title);
+                $user_title = \censor_words($user_title);
             }
 
             // Format the online indicator
             $is_online = ($cur_post['is_online'] == $cur_post['id']) ? '<strong>'.$lang_topic['Online'].'</strong>' : $lang_topic['Offline'];
 
-            $user_avatar = pun_show_avatar();
+            $user_avatar = \pun_show_avatar();
 
             // We only show location, register date, post count and the contact links if "Show user info" is enabled
             if (1 == $pun_config['o_show_user_info']) {
                 if ($cur_post['location']) {
                     if (1 == $pun_config['o_censoring']) {
-                        $cur_post['location'] = censor_words($cur_post['location']);
+                        $cur_post['location'] = \censor_words($cur_post['location']);
                     }
 
-                    $user_info[] = '<dd>'.$lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);
+                    $user_info[] = '<dd>'.$lang_topic['From'].': '.\pun_htmlspecialchars($cur_post['location']);
                 }
 
                 $user_info[] = '<dd>'.$lang_common['Registered'].': '.\date($pun_config['o_date_format'], $cur_post['registered']);
@@ -201,7 +201,7 @@ if ($box < 2) {
 
                 include PUN_ROOT.'include/pms/viewtopic_PM-link.php';
                 if ($cur_post['url']) {
-                    $user_contacts[] = '<a href="'.pun_htmlspecialchars($cur_post['url']).'">'.$lang_topic['Website'].'</a>';
+                    $user_contacts[] = '<a href="'.\pun_htmlspecialchars($cur_post['url']).'">'.$lang_topic['Website'].'</a>';
                 }
             }
 
@@ -210,7 +210,7 @@ if ($box < 2) {
                 $user_info[] = '<dd>IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['sender_ip'].'</a>';
 
                 if ($cur_post['admin_note']) {
-                    $user_info[] = '<dd>'.$lang_topic['Note'].': <strong>'.pun_htmlspecialchars($cur_post['admin_note']).'</strong>';
+                    $user_info[] = '<dd>'.$lang_topic['Note'].': <strong>'.\pun_htmlspecialchars($cur_post['admin_note']).'</strong>';
                 }
             }
             // Generation post action array (reply, delete etc.)
@@ -225,10 +225,10 @@ if ($box < 2) {
             }
         } // If the sender has been deleted
         else {
-            $result = $db->query('SELECT id,sender,message,posted FROM '.$db->prefix.'messages WHERE id='.$id) or error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id,sender,message,posted FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
             $cur_post = $db->fetch_assoc($result);
 
-            $username = pun_htmlspecialchars($cur_post['sender']);
+            $username = \pun_htmlspecialchars($cur_post['sender']);
             $user_title = 'Deleted User';
 
             $post_actions[] = '<li><a href="message_delete.php?id='.$cur_post['id'].'&amp;box='.$box.'&amp;p='.$p.'">'.$lang_pms['Delete'].'</a>';
@@ -238,14 +238,14 @@ if ($box < 2) {
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
         $cur_post['smileys'] = $cur_post['smileys'] ?? $pun_user['show_smilies'];
-        $cur_post['message'] = parse_message($cur_post['message'], !$cur_post['smileys']);
+        $cur_post['message'] = \parse_message($cur_post['message'], !$cur_post['smileys']);
 
         // Do signature parsing/caching
         if (isset($cur_post['signature']) && $pun_user['show_sig']) {
-            $signature = parse_signature($cur_post['signature']);
+            $signature = \parse_signature($cur_post['signature']);
         } ?>
 <div id="p<?php echo $cur_post['id']; ?>" class="blockpost row_odd firstpost" style="margin-left: 14em;">
-    <h2><span><?php echo format_time($cur_post['posted']); ?></span></h2>
+    <h2><span><?php echo \format_time($cur_post['posted']); ?></span></h2>
 
     <div class="box">
         <div class="inbox">
@@ -296,8 +296,8 @@ if ($box < 2) {
     echo '<form method="post" action="message_list.php?" id="delet">
 <div class="postlinksb">
 <div class="inbox">
-<p class="pagelink conl" style="margin-left: 1em;">'.$lang_common['Pages'].': '.paginate($num_pages, $p, 'message_list.php?box='.$box).'</p>
-<ul><li><a href="index.php">'.pun_htmlspecialchars($pun_config['o_board_title']).'</a> </li><li>&#187; '.$lang_pms['Private Messages'].' </li><li>&#187; '.$page_name.'</li></ul>
+<p class="pagelink conl" style="margin-left: 1em;">'.$lang_common['Pages'].': '.\paginate($num_pages, $p, 'message_list.php?box='.$box).'</p>
+<ul><li><a href="index.php">'.\pun_htmlspecialchars($pun_config['o_board_title']).'</a> </li><li>&#187; '.$lang_pms['Private Messages'].' </li><li>&#187; '.$page_name.'</li></ul>
 </div>
 </div>
 <div class="blockform">
@@ -310,7 +310,7 @@ if ($box < 2) {
 
     if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST) {
         // Get total message count
-        $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) or error('Unable to count messages', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) or \error('Unable to count messages', __FILE__, __LINE__, $db->error());
         [$tot_messages] = $db->fetch_row($result);
         $proc = \ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
         $status = ' - '.$lang_pms['Status'].' '.$proc.'%';
@@ -331,7 +331,7 @@ if ($box < 2) {
 <tbody>';
 
     // Fetch messages
-    $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id'].' AND status='.$box.' ORDER BY posted DESC '.$limit) or error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id'].' AND status='.$box.' ORDER BY posted DESC '.$limit) or \error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
     $new_messages = $messages_exist = false;
 
     // If there are messages in this folder.
@@ -349,7 +349,7 @@ if ($box < 2) {
                 $new_messages = true;
             }
 
-            $subject = '<a href="message_list.php?id='.$cur_mess['id'].'&amp;p='.$p.'&amp;box='.$box.'">'.pun_htmlspecialchars($cur_mess['subject']).'</a>';
+            $subject = '<a href="message_list.php?id='.$cur_mess['id'].'&amp;p='.$p.'&amp;box='.$box.'">'.\pun_htmlspecialchars($cur_mess['subject']).'</a>';
             if (isset($_GET['id'])) {
                 if ($cur_mess['id'] == $_GET['id']) {
                     $subject = '<strong>'.$subject.'</strong>';
@@ -364,7 +364,7 @@ if ($box < 2) {
 </div>
 </td>
 <td class="tc2" style="white-space:nowrap; overflow:hidden;"><a href="profile.php?id='.$cur_mess['sender_id'].'">'.$cur_mess['sender'].'</a></td>
-<td style="white-space:nowrap;">'.format_time($cur_mess['posted']).'</td>
+<td style="white-space:nowrap;">'.\format_time($cur_mess['posted']).'</td>
 <td style="text-align:center;"><input type="checkbox" name="delete_messages[]" value="'.$cur_mess['id'].'"/></td>
 </tr>';
         }
@@ -389,12 +389,12 @@ if ($box < 2) {
     if (isset($_POST['update'])) {
         isset($_POST['popup_enable']) ? $popup = 1 : $popup = 0;
         isset($_POST['messages_enable']) ? $msg_enable = 1 : $msg_enable = 0;
-        $db->query('UPDATE '.$db->prefix.'users SET popup_enable='.$popup.', messages_enable='.$msg_enable.' WHERE id='.$pun_user['id']) or error('Unable to update Private Messsage options', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'users SET popup_enable='.$popup.', messages_enable='.$msg_enable.' WHERE id='.$pun_user['id']) or \error('Unable to update Private Messsage options', __FILE__, __LINE__, $db->error());
     }
 
-    $result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']) or error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']) or \error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
     $user = $db->fetch_assoc($result);
 

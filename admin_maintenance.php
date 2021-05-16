@@ -15,14 +15,14 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     $per_page = \intval($_GET['i_per_page']);
     $start_at = \intval($_GET['i_start_at']);
     if ($per_page < 1 || $start_at < 1) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
     @\set_time_limit(3600);
@@ -32,11 +32,11 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
         // This is the only potentially "dangerous" thing we can do here, so we check the referer
         //confirm_referrer('admin_maintenance.php');
 
-        $db->query('TRUNCATE TABLE '.$db->prefix.'search_matches') or error('Unable to empty search index match table', __FILE__, __LINE__, $db->error());
-        $db->query('TRUNCATE TABLE '.$db->prefix.'search_words') or error('Unable to empty search index words table', __FILE__, __LINE__, $db->error());
+        $db->query('TRUNCATE TABLE '.$db->prefix.'search_matches') or \error('Unable to empty search index match table', __FILE__, __LINE__, $db->error());
+        $db->query('TRUNCATE TABLE '.$db->prefix.'search_words') or \error('Unable to empty search index words table', __FILE__, __LINE__, $db->error());
 
         // Reset the sequence for the search words (not needed for SQLite)
-        $result = $db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
+        $result = $db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or \error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
     }
 
     $end_at = $start_at + $per_page;
@@ -47,7 +47,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>'.pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_admin['maintenance'].'&#8230;</title>
+    <title>'.\pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_admin['maintenance'].'&#8230;</title>
     <style>body{font:10px Verdana, Arial, Helvetica, sans-serif;color:#333;background-color:#fff;}</style>
 </head>
 <body><div>'.$lang_admin['maintenance_go'].'<br /><br />';
@@ -55,12 +55,12 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     include PUN_ROOT.'include/search_idx.php';
 
     // Fetch posts to process
-    $result = $db->query('SELECT DISTINCT t.id, p.id, p.message FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id WHERE t.id >= '.$start_at.' AND t.id < '.$end_at.' ORDER BY t.id') or error('Unable to fetch topic/post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT DISTINCT t.id, p.id, p.message FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id WHERE t.id >= '.$start_at.' AND t.id < '.$end_at.' ORDER BY t.id') or \error('Unable to fetch topic/post info', __FILE__, __LINE__, $db->error());
     $cur_topic = 0;
     while ($cur_post = $db->fetch_row($result)) {
         if ($cur_post[0] != $cur_topic) {
             // Fetch subject and ID of first post in topic
-            $result2 = $db->query('SELECT p.id, t.subject, MIN(p.posted) AS first FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id WHERE t.id='.$cur_post[0].' GROUP BY p.id, t.subject ORDER BY first LIMIT 1') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+            $result2 = $db->query('SELECT p.id, t.subject, MIN(p.posted) AS first FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id WHERE t.id='.$cur_post[0].' GROUP BY p.id, t.subject ORDER BY first LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
             [$first_post, $subject] = $db->fetch_row($result2);
 
             $cur_topic = $cur_post[0];
@@ -70,35 +70,35 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
 
         if ($cur_post[1] == $first_post) {
             // This is the "topic post" so we have to index the subject as well
-            update_search_index('post', $cur_post[1], $cur_post[2], $subject);
+            \update_search_index('post', $cur_post[1], $cur_post[2], $subject);
         } else {
-            update_search_index('post', $cur_post[1], $cur_post[2]);
+            \update_search_index('post', $cur_post[1], $cur_post[2]);
         }
     }
 
     // Check if there is more work to do
-    $result = $db->query('SELECT id FROM '.$db->prefix.'topics WHERE id > '.$cur_topic.' ORDER BY id ASC LIMIT 1') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id FROM '.$db->prefix.'topics WHERE id > '.$cur_topic.' ORDER BY id ASC LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 
     $query_str = ($db->num_rows($result)) ? '?i_per_page='.$per_page.'&i_start_at='.$db->result($result) : '';
 
     $db->close();
 
-    exit('<script>window.location.assign("admin_maintenance.php'.$query_str.'");</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php'.pun_htmlspecialchars($query_str).'">here</a> to continue.</div></body></html>');
+    exit('<script>window.location.assign("admin_maintenance.php'.$query_str.'");</script><br />JavaScript redirect unsuccessful. Click <a href="admin_maintenance.php'.\pun_htmlspecialchars($query_str).'">here</a> to continue.</div></body></html>');
 }
 
 // Get the first post ID from the db
-$result = $db->query('SELECT id FROM '.$db->prefix.'topics ORDER BY id LIMIT 1') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id FROM '.$db->prefix.'topics ORDER BY id LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     $first_id = $db->result($result);
 } else {
     $first_id = 1;
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Maintenance';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Maintenance';
 
 require_once PUN_ROOT.'header.php';
 
-generate_admin_menu('maintenance');
+\generate_admin_menu('maintenance');
 
 echo '<div class="blockform">
 <h2><span>'.$lang_admin['maintenance_about'].'</span></h2>

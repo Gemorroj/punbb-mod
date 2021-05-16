@@ -50,7 +50,7 @@ require PUN_ROOT.'include/common_db.php';
 @include PUN_ROOT.'cache/cache_config.php';
 if (!\defined('PUN_CONFIG_LOADED')) {
     include PUN_ROOT.'include/cache.php';
-    generate_config_cache();
+    \generate_config_cache();
 
     include PUN_ROOT.'cache/cache_config.php';
 }
@@ -62,34 +62,34 @@ if (!\defined('PUN_DISABLE_BUFFERING')) {
 
 // Check/update/set cookie and fetch user info
 $pun_user = [];
-check_cookie($pun_user);
+\check_cookie($pun_user);
 
 // Attempt to load the common language file
 @include PUN_ROOT.'lang/'.$pun_user['language'].'/common.php';
 if (!isset($lang_common)) {
-    exit('There is no valid language pack "'.pun_htmlspecialchars($pun_user['language']).'" installed. Please reinstall a language of that name.');
+    exit('There is no valid language pack "'.\pun_htmlspecialchars($pun_user['language']).'" installed. Please reinstall a language of that name.');
 }
 
 @\mb_internal_encoding('UTF-8');
 
 // Check if we are to display a maintenance message
 if ($pun_config['o_maintenance'] && $pun_user['g_id'] > PUN_ADMIN && !\defined('PUN_TURN_OFF_MAINT')) {
-    maintenance_message();
+    \maintenance_message();
 }
 
 // Load cached bans
 @include PUN_ROOT.'cache/cache_bans.php';
 if (!\defined('PUN_BANS_LOADED')) {
     include_once PUN_ROOT.'include/cache.php';
-    generate_bans_cache();
+    \generate_bans_cache();
 
     include PUN_ROOT.'cache/cache_bans.php';
 }
 
 // Check if current user is banned
-check_bans();
+\check_bans();
 
 // Update online list
-update_users_online();
+\update_users_online();
 
 require PUN_ROOT.'include/JsHelper.php';

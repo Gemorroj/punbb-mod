@@ -7,7 +7,7 @@
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 }
 
 // Load the help.php language file

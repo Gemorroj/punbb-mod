@@ -124,7 +124,7 @@ function prune($forum_id, $prune_sticky, $prune_date)
     }
 
     // Fetch topics to prune
-    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'topics` WHERE `forum_id`='.$forum_id.$extra_sql) or error('Unable to fetch topics', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'topics` WHERE `forum_id`='.$forum_id.$extra_sql) or \error('Unable to fetch topics', __FILE__, __LINE__, $db->error());
 
     $topic_ids = null;
     while ($row = $db->fetch_row($result)) {
@@ -133,7 +133,7 @@ function prune($forum_id, $prune_sticky, $prune_date)
 
     if ($topic_ids) {
         // Fetch posts to prune
-        $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id` IN('.$topic_ids.')') or error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id` IN('.$topic_ids.')') or \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
 
         $post_ids = null;
         while ($row = $db->fetch_row($result)) {
@@ -147,21 +147,21 @@ function prune($forum_id, $prune_sticky, $prune_date)
             // hcs AJAX POLL MOD END
 
             // Delete topics
-            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.$topic_ids.')') or error('Unable to prune topics', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.$topic_ids.')') or \error('Unable to prune topics', __FILE__, __LINE__, $db->error());
             // Delete subscriptions
-            $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE topic_id IN('.$topic_ids.')') or error('Unable to prune subscriptions', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE topic_id IN('.$topic_ids.')') or \error('Unable to prune subscriptions', __FILE__, __LINE__, $db->error());
             // Delete posts
-            $db->query('DELETE FROM '.$db->prefix.'posts WHERE id IN('.$post_ids.')') or error('Unable to prune posts', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'posts WHERE id IN('.$post_ids.')') or \error('Unable to prune posts', __FILE__, __LINE__, $db->error());
 
             // We removed a bunch of posts, so now we have to update the search index
             include_once PUN_ROOT.'include/search_idx.php';
-            strip_search_index($post_ids);
+            \strip_search_index($post_ids);
 
             // Delete attachments
             include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
 
             include_once PUN_ROOT.'include/file_upload.php';
-            delete_post_attachments($post_ids);
+            \delete_post_attachments($post_ids);
         }
     }
 }

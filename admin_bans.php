@@ -13,7 +13,7 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD || (PUN_MOD == $pun_user['g_id'] && !$pun_config['p_mod_ban_users'])) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 // Add/edit a ban (stage 1)
@@ -23,39 +23,39 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
         if (isset($_GET['add_ban'])) {
             $add_ban = \intval($_GET['add_ban']);
             if ($add_ban < 2) {
-                message($lang_common['Bad request']);
+                \message($lang_common['Bad request']);
             }
 
             $user_id = $add_ban;
 
-            $result = $db->query('SELECT group_id, username, email FROM '.$db->prefix.'users WHERE id='.$user_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT group_id, username, email FROM '.$db->prefix.'users WHERE id='.$user_id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
             if ($db->num_rows($result)) {
                 [$group_id, $ban_user, $ban_email] = $db->fetch_row($result);
             } else {
-                message($lang_admin['bans_id_no']);
+                \message($lang_admin['bans_id_no']);
             }
         } else {
             // Otherwise the username is in POST
             $ban_user = \trim($_POST['new_ban_user']);
 
             if ($ban_user) {
-                $result = $db->query('SELECT id, group_id, username, email FROM '.$db->prefix.'users WHERE username=\''.$db->escape($ban_user).'\' AND id>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT id, group_id, username, email FROM '.$db->prefix.'users WHERE username=\''.$db->escape($ban_user).'\' AND id>1') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
                     [$user_id, $group_id, $ban_user, $ban_email] = $db->fetch_row($result);
                 } else {
-                    message($lang_admin['bans_name_no']);
+                    \message($lang_admin['bans_name_no']);
                 }
             }
         }
 
         // Make sure we're not banning an admin
         if (isset($group_id) && PUN_ADMIN == $group_id) {
-            message(pun_htmlspecialchars($ban_user).' - '.$lang_admin['bans_admin']);
+            \message(\pun_htmlspecialchars($ban_user).' - '.$lang_admin['bans_admin']);
         }
 
         // If we have a $user_id, we can try to find the last known IP of that user
         if (isset($user_id)) {
-            $result = $db->query('SELECT poster_ip FROM '.$db->prefix.'posts WHERE poster_id='.$user_id.' ORDER BY posted DESC LIMIT 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT poster_ip FROM '.$db->prefix.'posts WHERE poster_id='.$user_id.' ORDER BY posted DESC LIMIT 1') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
             $ban_ip = ($db->num_rows($result)) ? $db->result($result) : '';
         }
 
@@ -64,26 +64,26 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
         // We are editing a ban
         $ban_id = \intval($_GET['edit_ban']);
         if ($ban_id < 1) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT username, ip, email, message, expire FROM '.$db->prefix.'bans WHERE id='.$ban_id) or error('Unable to fetch ban info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT username, ip, email, message, expire FROM '.$db->prefix.'bans WHERE id='.$ban_id) or \error('Unable to fetch ban info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             [$ban_user, $ban_ip, $ban_email, $ban_message, $ban_expire] = $db->fetch_row($result);
         } else {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
         $ban_expire = ($ban_expire) ? \date('Y-m-d', $ban_expire) : '';
         $mode = 'edit';
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
     $focus_element = ['bans2', 'ban_user'];
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('bans');
+    \generate_admin_menu('bans');
 
     echo '<div class="blockform">
 <h2><span>'.$lang_admin['bans_more'].'</span></h2>
@@ -103,7 +103,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">'.$lang_admin['Username'].'</th>
 <td>
-<input type="text" name="ban_user" size="25" maxlength="25" value="'.pun_htmlspecialchars($ban_user).'" />
+<input type="text" name="ban_user" size="25" maxlength="25" value="'.\pun_htmlspecialchars($ban_user).'" />
 <span>'.$lang_admin['bans_username'].'</span>
 </td>
 </tr>
@@ -140,7 +140,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <tr>
 <th scope="row">'.$lang_admin['bans_mess_ban'].'</th>
 <td>
-<input type="text" name="ban_message" size="50" maxlength="255" value="'.pun_htmlspecialchars($ban_message).'" />
+<input type="text" name="ban_message" size="50" maxlength="255" value="'.\pun_htmlspecialchars($ban_message).'" />
 <span>'.$lang_admin['bans_mess_ban_about'].'</span>
 </td>
 </tr>
@@ -174,9 +174,9 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     $ban_expire = \trim($_POST['ban_expire']);
 
     if (!$ban_user && !$ban_ip && !$ban_email) {
-        message($lang_admin['bans_no']);
+        \message($lang_admin['bans_no']);
     } elseif ('guest' == \strtolower($ban_user)) {
-        message($lang_admin['bans_guest']);
+        \message($lang_admin['bans_guest']);
     }
 
     // Validate IP/IP range (it's overkill, I know)
@@ -192,7 +192,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
                 $octets[$c] = (\strlen($octets[$c]) > 1) ? \ltrim($octets[$c], '0') : $octets[$c];
 
                 if ($c > 3 || \preg_match('/[^0-9]/', $octets[$c]) || \intval($octets[$c]) > 255) {
-                    message($lang_admin['bans_fail_ip']);
+                    \message($lang_admin['bans_fail_ip']);
                 }
             }
 
@@ -204,9 +204,9 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     }
 
     include PUN_ROOT.'include/email.php';
-    if ($ban_email && !is_valid_email($ban_email)) {
+    if ($ban_email && !\is_valid_email($ban_email)) {
         if (!\preg_match('/^[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $ban_email)) {
-            message($lang_admin['bans_fail_mail_domain']);
+            \message($lang_admin['bans_fail_mail_domain']);
         }
     }
 
@@ -214,7 +214,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
         $ban_expire = \strtotime($ban_expire);
 
         if (-1 == $ban_expire || $ban_expire <= $_SERVER['REQUEST_TIME']) {
-            message($lang_admin['bans_fail_date']);
+            \message($lang_admin['bans_fail_date']);
         }
     } else {
         $ban_expire = 'NULL';
@@ -226,40 +226,40 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     $ban_message = ($ban_message) ? '\''.$db->escape($ban_message).'\'' : 'NULL';
 
     if ('add' == $_POST['mode']) {
-        $db->query('INSERT INTO '.$db->prefix.'bans (username, ip, email, message, expire) VALUES('.$ban_user.', '.$ban_ip.', '.$ban_email.', '.$ban_message.', '.$ban_expire.')') or error('Unable to add ban', __FILE__, __LINE__, $db->error());
+        $db->query('INSERT INTO '.$db->prefix.'bans (username, ip, email, message, expire) VALUES('.$ban_user.', '.$ban_ip.', '.$ban_email.', '.$ban_message.', '.$ban_expire.')') or \error('Unable to add ban', __FILE__, __LINE__, $db->error());
     } else {
-        $db->query('UPDATE '.$db->prefix.'bans SET username='.$ban_user.', ip='.$ban_ip.', email='.$ban_email.', message='.$ban_message.', expire='.$ban_expire.' WHERE id='.\intval($_POST['ban_id'])) or error('Unable to update ban', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'bans SET username='.$ban_user.', ip='.$ban_ip.', email='.$ban_email.', message='.$ban_message.', expire='.$ban_expire.' WHERE id='.\intval($_POST['ban_id'])) or \error('Unable to update ban', __FILE__, __LINE__, $db->error());
     }
 
     // Regenerate the bans cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_bans_cache();
+    \generate_bans_cache();
 
-    redirect('admin_bans.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
+    \redirect('admin_bans.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 } elseif (isset($_GET['del_ban'])) {
     // Remove a ban
     //confirm_referrer('admin_bans.php');
 
     $ban_id = \intval($_GET['del_ban']);
     if ($ban_id < 1) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
-    $db->query('DELETE FROM '.$db->prefix.'bans WHERE id='.$ban_id) or error('Unable to delete ban', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'bans WHERE id='.$ban_id) or \error('Unable to delete ban', __FILE__, __LINE__, $db->error());
 
     // Regenerate the bans cache
     include_once PUN_ROOT.'include/cache.php';
-    generate_bans_cache();
+    \generate_bans_cache();
 
-    redirect('admin_bans.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
+    \redirect('admin_bans.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Bans';
 $focus_element = ['bans', 'new_ban_user'];
 
 require_once PUN_ROOT.'header.php';
 
-generate_admin_menu('bans');
+\generate_admin_menu('bans');
 
 echo '<div class="blockform">
 <h2><span>'.$lang_admin['bans_new'].'</span></h2>
@@ -287,15 +287,15 @@ echo '<div class="blockform">
 <div class="box">
 <div class="fakeform">';
 
-$result = $db->query('SELECT id, username, ip, email, message, expire FROM '.$db->prefix.'bans ORDER BY id') or error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, username, ip, email, message, expire FROM '.$db->prefix.'bans ORDER BY id') or \error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     while ($cur_ban = $db->fetch_assoc($result)) {
-        $expire = format_time($cur_ban['expire'], true);
+        $expire = \format_time($cur_ban['expire'], true);
 
         echo '<div class="inform"><fieldset><legend>'.$lang_admin['bans_date_finish'].' '.$expire.'</legend><div class="infldset"><table cellspacing="0">';
 
         if ($cur_ban['username']) {
-            echo '<tr><th>'.$lang_admin['Username'].'</th><td>'.pun_htmlspecialchars($cur_ban['username']).'</td></tr>';
+            echo '<tr><th>'.$lang_admin['Username'].'</th><td>'.\pun_htmlspecialchars($cur_ban['username']).'</td></tr>';
         }
 
         if ($cur_ban['email']) {
@@ -307,7 +307,7 @@ if ($db->num_rows($result)) {
         }
 
         if ($cur_ban['message']) {
-            echo '<tr><th>'.$lang_admin['bans_a'].'</th><td>'.pun_htmlspecialchars($cur_ban['message']).'</td></tr>';
+            echo '<tr><th>'.$lang_admin['bans_a'].'</th><td>'.\pun_htmlspecialchars($cur_ban['message']).'</td></tr>';
         }
 
         echo '</table><p class="linkactions"><a href="admin_bans.php?edit_ban='.$cur_ban['id'].'">'.$lang_admin['Modif'].'</a> - <a href="admin_bans.php?del_ban='.$cur_ban['id'].'">'.$lang_admin['Del'].'</a></p></div></fieldset></div>';

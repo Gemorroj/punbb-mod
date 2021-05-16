@@ -5,12 +5,12 @@
 require_once PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 }
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 if (1 > $id) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 // Fetch some info about the post, the topic and the forum
@@ -40,14 +40,14 @@ $result = $db->query(
         .'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
         .'AND `p`.`id`='.$id
 )
-        or error(
+        or \error(
             'Unable to fetch post info',
             __FILE__,
             __LINE__,
             $db->error()
         );
 if (!$db->num_rows($result)) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $cur_post = $db->fetch_assoc($result);
@@ -64,7 +64,7 @@ $result = $db->query(
         .'ORDER BY `posted` '
         .'LIMIT 1;'
 )
-        or error(
+        or \error(
             'Unable to fetch post info',
             __FILE__,
             __LINE__,
@@ -82,7 +82,7 @@ if ((!$pun_user['g_delete_posts']
      || 1 == $cur_post['closed'])
     && !$is_admmod
 ) {
-    wap_message($lang_common['No permission']);
+    \wap_message($lang_common['No permission']);
 }
 
 if (isset($_POST['delete'])) {
@@ -90,16 +90,16 @@ if (isset($_POST['delete'])) {
 
     if ($is_topic_post) {
         // Delete the topic and all of it's posts
-        delete_topic($cur_post['tid']);
-        update_forum($cur_post['fid']);
+        \delete_topic($cur_post['tid']);
+        \update_forum($cur_post['fid']);
 
-        wap_redirect('viewforum.php?id='.$cur_post['fid']);
+        \wap_redirect('viewforum.php?id='.$cur_post['fid']);
     } else {
         // Delete just this one post
-        delete_post($id, $cur_post['tid']);
-        update_forum($cur_post['fid']);
+        \delete_post($id, $cur_post['tid']);
+        \update_forum($cur_post['fid']);
 
-        wap_redirect('viewtopic.php?id='.$cur_post['tid']);
+        \wap_redirect('viewtopic.php?id='.$cur_post['tid']);
     }
 }
 
@@ -111,7 +111,7 @@ require_once PUN_ROOT.'wap/header.php';
 require_once PUN_ROOT.'include/parser.php'; //parser.php будет использоваться в шаблоне.
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_delete['Delete post'];
-$cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $id);
+$cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies'], $id);
 
 $smarty->assign('page_title', $page_title);
 $smarty->assign('cur_post', $cur_post);

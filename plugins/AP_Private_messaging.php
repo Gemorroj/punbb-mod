@@ -23,25 +23,25 @@ if (isset($_POST['form_sent'])) {
                     $value = 'NULL';
                 }
 
-                $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'o_'.$key.'\'') or error('Unable to update board config', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'o_'.$key.'\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
             }
         }
     }
 
     foreach ($allow as $id => $set) {
-        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm='.$set.' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm='.$set.' WHERE g_id='.$id) or \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     foreach ($limit as $id => $set) {
-        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm_limit='.\intval($set).' WHERE g_id='.$id) or error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm_limit='.\intval($set).' WHERE g_id='.$id) or \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     // Regenerate the config cache
     require_once PUN_ROOT.'include/cache.php';
-    generate_config_cache();
+    \generate_config_cache();
 
-    redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &#x2026;');
+    \redirect('admin_loader.php?plugin=AP_Private_messaging.php', 'Опции обновлены. Перенаправление &#x2026;');
 } else {
     // Display the admin navigation menu
-    generate_admin_menu($plugin); ?>
+    \generate_admin_menu($plugin); ?>
 <div class="block">
     <h2><span>Личные сообщения - v<?php echo PLUGIN_VERSION; ?></span></h2>
 
@@ -98,11 +98,11 @@ if (isset($_POST['form_sent'])) {
                         <table class="aligntop" cellspacing="0">
                             <?php
 // g_id>'.PUN_ADMIN.' AND
-                            $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                            $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
     while ($cur_group = $db->fetch_assoc($result)) {
         ?>
                                 <tr>
-                                    <th scope="row"><?php echo pun_htmlspecialchars($cur_group['g_title']); ?></th>
+                                    <th scope="row"><?php echo \pun_htmlspecialchars($cur_group['g_title']); ?></th>
                                     <td>
                                         <input type="radio" name="allow[<?php echo $cur_group['g_id']; ?>]"
                                                value="1"<?php if (1 == $cur_group['g_pm']) {

@@ -40,7 +40,7 @@ function is_image_filename($filename)
 {
     global $pun_config;
 
-    return \in_array(\strtolower(get_file_extension($filename)), \explode(',', $pun_config['file_image_ext']), true);
+    return \in_array(\strtolower(\get_file_extension($filename)), \explode(',', $pun_config['file_image_ext']), true);
 }
 
 // Returns the contents of a directory (including files and subdirectories.
@@ -69,7 +69,7 @@ function get_dir_contents($dir)
 // Returns number of files there are in a directory.
 function get_dir_file_count($dir)
 {
-    return \count(get_dir_contents($dir));
+    return \count(\get_dir_contents($dir));
 }
 
 // Used to check the upload directory for any problems.
@@ -113,7 +113,7 @@ function delete_orphans()
 
     $log = [];
 
-    if (!check_mod_config()) {
+    if (!\check_mod_config()) {
         $log[] = 'File Upload is not configured correctly!';
 
         return $log;
@@ -121,26 +121,26 @@ function delete_orphans()
 
     // collect files
     $files_dir = $pun_config['file_upload_path'];
-    $files = get_dir_contents(PUN_ROOT.$files_dir);
+    $files = \get_dir_contents(PUN_ROOT.$files_dir);
     for ($i = 0, $l = \count($files); $i < $l; ++$i) {
         $files[$i] = $files_dir.$files[$i];
     }
 
-    $result = $db->query('SELECT a.id, a.post_id, a.location, p.id AS pid FROM '.$db->prefix.'attachments AS a LEFT JOIN '.$db->prefix.'posts AS p ON a.post_id=p.id') or error('Unable to execute query', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT a.id, a.post_id, a.location, p.id AS pid FROM '.$db->prefix.'attachments AS a LEFT JOIN '.$db->prefix.'posts AS p ON a.post_id=p.id') or \error('Unable to execute query', __FILE__, __LINE__, $db->error());
 
     // check every record
     while ($attachment = $db->fetch_assoc($result)) {
         // missing post for attachment
         if (!$attachment['pid']) {
             $log[] = 'Attachment #'.$attachment['id'].': No related post - Deleted';
-            $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id='.$attachment['id']) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id='.$attachment['id']) or \error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         } else {
             $idx = \array_search($attachment['location'], $files, true);
 
             // file not exists but record in 'attachments' is
             if (false === $idx) {
                 $log[] = 'File "'.$attachment['location'].'" not found. Attathment #'.$attachment['id'].' from post #'.$attachment['post_id'].' will removed';
-                $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id='.$attachment['id']) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
+                $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id='.$attachment['id']) or \error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
             } else {
                 // allright, this file attached well. remove them from list
                 \array_splice($files, $idx, 1);
@@ -177,14 +177,14 @@ function delete_all_thumbnails()
 
     $log = [];
 
-    if (!check_mod_config()) {
+    if (!\check_mod_config()) {
         $log[] = 'File Upload is not configured correctly!';
 
         return $log;
     }
 
     $thumbs_dir = $pun_config['file_thumb_path'];
-    $thumbs = get_dir_contents(PUN_ROOT.$thumbs_dir);
+    $thumbs = \get_dir_contents(PUN_ROOT.$thumbs_dir);
 
     while (\count($thumbs) > 0) {
         $file = $thumbs[0];
@@ -216,14 +216,14 @@ function fix_user_counters()
     global $pun_config, $db;
 
     $counters = [];
-    $result = $db->query('SELECT poster_id, count(*) FROM '.$db->prefix.'attachments GROUP BY poster_id') or error('Unable to count attachments.', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT poster_id, count(*) FROM '.$db->prefix.'attachments GROUP BY poster_id') or \error('Unable to count attachments.', __FILE__, __LINE__, $db->error());
     while ($row = $db->fetch_row($result)) {
         $counters[] = $row;
     }
     $db->free_result($result);
 
     // erase counters for all users
-    $db->query('UPDATE '.$db->prefix.'users SET num_files=0') or error('Unable to clear user counters', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET num_files=0') or \error('Unable to clear user counters', __FILE__, __LINE__, $db->error());
 
     $updated = 0;
     $sizeof = \count($counters);
@@ -233,7 +233,7 @@ function fix_user_counters()
     if ($sizeof) {
         for ($i = 0; $i < $sizeof; ++$i) {
             // update
-            $db->query('UPDATE '.$db->prefix.'users SET num_files='.$counters[$i][1].' WHERE id='.$counters[$i][0]) or error('Unable to update users', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'users SET num_files='.$counters[$i][1].' WHERE id='.$counters[$i][0]) or \error('Unable to update users', __FILE__, __LINE__, $db->error());
         }
     }
 
@@ -257,7 +257,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
     global $pun_config, $lang_common, $lang_fu, $db, $file_limit, $message;
 
     $result = null;
-    if (!isset($_FILES['attach']['error']) || !check_mod_config()) {
+    if (!isset($_FILES['attach']['error']) || !\check_mod_config()) {
         return $result;
     }
 
@@ -291,7 +291,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             }
             $orig_name = $_FILES['attach']['name'][$key];
             $size = $_FILES['attach']['size'][$key];
-            $file_ext = \strtolower(get_file_extension($orig_name));
+            $file_ext = \strtolower(\get_file_extension($orig_name));
 
             // Skip files with banned extensions
             if (!$file_ext || !\in_array($file_ext, $allowed_ext, true)) {
@@ -326,14 +326,14 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             }
 
             // save file to upload directory
-            $store_name = generate_unique_filename(PUN_ROOT.$dest, '.ext');
+            $store_name = \generate_unique_filename(PUN_ROOT.$dest, '.ext');
             \move_uploaded_file($tmp_name, PUN_ROOT.$dest.$store_name);
             \chmod($dest.$store_name, 0666);
 
             // NOTE: post author and attachment author may differ (if attach in edit)
             $attach_poster = $GLOBALS['pun_user']['id'];
             $now = \time();
-            $db->query('INSERT INTO '.$db->prefix.'attachments (poster_id, topic_id, post_id, uploaded, filename, mime, location, size, image_dim) VALUES (\''.$attach_poster.'\', \''.$tid.'\', \''.$pid.'\', '.$now.', \''.$db->escape($orig_name).'\', \''.$db->escape($mime).'\', \''.$db->escape($dest.$store_name).'\', \''.$size.'\', \''.$dim.'\')') or error('Unable to insert attachment record into database.', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'attachments (poster_id, topic_id, post_id, uploaded, filename, mime, location, size, image_dim) VALUES (\''.$attach_poster.'\', \''.$tid.'\', \''.$pid.'\', '.$now.', \''.$db->escape($orig_name).'\', \''.$db->escape($mime).'\', \''.$db->escape($dest.$store_name).'\', \''.$size.'\', \''.$dim.'\')') or \error('Unable to insert attachment record into database.', __FILE__, __LINE__, $db->error());
             $aid = $db->insert_id();
 
             $thumb_from[] = '::thumb$'.$i.'::';
@@ -377,7 +377,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
     // translate #i to ::thumbNN::
     if (false !== \strpos($message, '::thumb$')) {
         $message = \str_replace($thumb_from, $thumb_to, $message);
-        $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$pid) or error('Unable to update post', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$pid) or \error('Unable to update post', __FILE__, __LINE__, $db->error());
     }
 
     return $result;
@@ -390,16 +390,16 @@ function process_deleted_files($pid, &$total_deleted)
 
     $result = '';
 
-    if (!isset($_POST['delete_image']) || !check_mod_config()) {
+    if (!isset($_POST['delete_image']) || !\check_mod_config()) {
         return $result;
     }
 
     $aid_list_str = \implode(',', \array_map('intval', $_POST['delete_image']));
     $thumb_dir = PUN_ROOT.$pun_config['file_thumb_path'];
-    $thumb_files = get_dir_contents($thumb_dir);
+    $thumb_files = \get_dir_contents($thumb_dir);
 
     // check post_id to prevent hack
-    $result_attach = $db->query('SELECT af.id, af.location FROM '.$db->prefix.'attachments AS af WHERE af.post_id='.$pid.' AND af.id IN ('.$aid_list_str.')') or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
+    $result_attach = $db->query('SELECT af.id, af.location FROM '.$db->prefix.'attachments AS af WHERE af.post_id='.$pid.' AND af.id IN ('.$aid_list_str.')') or \error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
     $aid_list = [];
 
     $total_deleted = 0;
@@ -418,7 +418,7 @@ function process_deleted_files($pid, &$total_deleted)
     if ($aid_list) {
         $total_deleted = \count($aid_list);
         $aid_list = \implode(',', $aid_list);
-        $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id IN ('.$aid_list.')') or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id IN ('.$aid_list.')') or \error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
         ++$file_limit;
     }
 
@@ -434,14 +434,14 @@ function delete_files($pid)
 {
     global $pun_config, $db;
 
-    if (!check_mod_config()) {
+    if (!\check_mod_config()) {
         return;
     }
 
     $thumb_dir = PUN_ROOT.$pun_config['file_thumb_path'];
-    $thumb_files = get_dir_contents($thumb_dir);
+    $thumb_files = \get_dir_contents($thumb_dir);
 
-    $result_attach = $db->query('SELECT af.id, af.location FROM '.$db->prefix.'attachments AS af WHERE af.post_id='.$pid) or error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
+    $result_attach = $db->query('SELECT af.id, af.location FROM '.$db->prefix.'attachments AS af WHERE af.post_id='.$pid) or \error('Unable to fetch attachments to delete', __FILE__, __LINE__, $db->error());
 
     while ([$aid, $location] = $db->fetch_row($result_attach)) {
         // Remove attachment
@@ -453,7 +453,7 @@ function delete_files($pid)
             }
         }
     }
-    $db->query('DELETE FROM '.$db->prefix.'attachments WHERE post_id='.$pid) or error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'attachments WHERE post_id='.$pid) or \error('Unable delete attachment(s)', __FILE__, __LINE__, $db->error());
 }
 
 //
@@ -465,16 +465,16 @@ function delete_post_attachments($post_ids)
     global $db;
 
     if (false === \strpos($post_ids, ',')) {
-        $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id='.$post_ids) or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id='.$post_ids) or \error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
     } else {
-        $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id IN('.$post_ids.')') or error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id IN('.$post_ids.')') or \error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
     }
 
     if ($db->num_rows($result)) {
         $att_ids = '';
         $poster_ids = [];
         $thumb_dir = PUN_ROOT.$GLOBALS['pun_config']['file_thumb_path'];
-        $thumb_files = get_dir_contents($thumb_dir);
+        $thumb_files = \get_dir_contents($thumb_dir);
 
         while ($row = $db->fetch_assoc($result)) {
             $att_ids .= ($att_ids) ? ','.$row['id'] : $row['id'];
@@ -496,10 +496,10 @@ function delete_post_attachments($post_ids)
 
         if ($att_ids) {
             // Delete attachment records
-            $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id IN('.$att_ids.')') or error('Unable to delete attachments', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'attachments WHERE id IN('.$att_ids.')') or \error('Unable to delete attachments', __FILE__, __LINE__, $db->error());
             foreach ($poster_ids as $poster_id => $num_files) {
                 // Fix user file counter
-                $db->query('UPDATE '.$db->prefix.'users SET num_files=IF((num_files-'.$num_files.')>0, num_files-'.$num_files.', 0) WHERE id='.$poster_id) or error('Unable to update users file counter', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET num_files=IF((num_files-'.$num_files.')>0, num_files-'.$num_files.', 0) WHERE id='.$poster_id) or \error('Unable to update users file counter', __FILE__, __LINE__, $db->error());
             }
         }
     }
@@ -596,13 +596,13 @@ function require_thumb($aid, $location, $width = 100, $height = 100, $do_cut = f
     global $pun_config;
 
     if ($aid && \is_file($location)) {
-        $thum_fname = require_thumb_name($aid, $width, $height, $do_cut);
+        $thum_fname = \require_thumb_name($aid, $width, $height, $do_cut);
         if (!\is_file($thum_fname)) {
             @\set_time_limit(10);
             // if any error, create_thumbnail() will not call again, but
             // thumbnail will be copy of err_thumb.gif
             \copy(PUN_ROOT.$pun_config['file_thumb_path'].'err_thumb.gif', $thum_fname);
-            create_thumbnail($location, $thum_fname, $width, $height, $do_cut);
+            \create_thumbnail($location, $thum_fname, $width, $height, $do_cut);
         }
 
         return $thum_fname;
@@ -615,12 +615,12 @@ function handle_thumb_tag($aid)
 {
     global $db;
 
-    $result = $db->query('SELECT location FROM '.$db->prefix.'attachments WHERE id='.$aid) or error('Unable to fetch attachment', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT location FROM '.$db->prefix.'attachments WHERE id='.$aid) or \error('Unable to fetch attachment', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         $width = $GLOBALS['pun_config']['file_preview_width'];
         $height = $GLOBALS['pun_config']['file_preview_height'];
         [$location] = $db->fetch_row($result);
-        require_thumb($aid, $location, $width, $height);
+        \require_thumb($aid, $location, $width, $height);
     }
 
     return '::thumb'.$aid.'::'; // really tag not translated :)

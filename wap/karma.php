@@ -5,20 +5,20 @@
 require_once PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 }
 
 $to = isset($_GET['to']) ? (int) $_GET['to'] : null;
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
 if (null !== $to) {
-    vote($to, (int) @$_GET['vote']);
+    \vote($to, (int) @$_GET['vote']);
     $pid = isset($_GET['pid']) ? (int) $_GET['pid'] : null;
 
     if (null === $pid) {
         $id = $to;
     } else {
-        wap_redirect('viewtopic.php?pid='.$pid.'#p'.$pid);
+        \wap_redirect('viewtopic.php?pid='.$pid.'#p'.$pid);
 
         exit();
     }
@@ -26,14 +26,14 @@ if (null !== $to) {
 
 // Наличие необходимых данных для работы скрипта
 if (null === $id) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $q = 'SELECT `group_id`, `username` '
    .'FROM `'.$db->prefix.'users` '
    .'WHERE `id` = '.$id;
 $q = $db->query($q)
-or error(
+or \error(
     'Unable to fetch username',
     __FILE__,
     __LINE__,
@@ -45,7 +45,7 @@ or error(
 if (!($user = $db->fetch_assoc($q))
     || PUN_GUEST == $user['group_id']
 ) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $subQ = '(SELECT COUNT(1) '
@@ -61,7 +61,7 @@ $q = '
     WHERE `vote` = "1" AND `to` = '.$id;
 
 $q = $db->query($q)
-or error(
+or \error(
     'Unable to count votes',
     __FILE__,
     __LINE__,
@@ -97,7 +97,7 @@ if ($num_hits) {
        .'LIMIT '.$start.','.$pun_user['disp_posts'];
 
     $q = $db->query($q)
-    or error(
+    or \error(
         'Unable to fetch votes',
         __FILE__,
         __LINE__,
@@ -109,7 +109,7 @@ if ($num_hits) {
         $votes[] = $result;
     }
 
-    $page_links = paginate($num_pages, $p, 'karma.php?id='.$id);
+    $page_links = \paginate($num_pages, $p, 'karma.php?id='.$id);
 }
 
 require_once PUN_ROOT.'wap/header.php';

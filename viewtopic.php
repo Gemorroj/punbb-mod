@@ -11,7 +11,7 @@ require PUN_ROOT.'include/file_upload.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 $id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
@@ -19,7 +19,7 @@ $pid = isset($_GET['pid']) ? \intval($_GET['pid']) : 0;
 $action = $_GET['action'] ?? null;
 
 if ($id < 1 && $pid < 1) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 // Load the viewtopic.php language file
@@ -27,15 +27,15 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
 // If a post ID is specified we determine topic ID and page number so we can redirect to the correct message
 if ($pid) {
-    $result = $db->query('SELECT `topic_id` FROM `'.$db->prefix.'posts` WHERE `id`='.$pid) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `topic_id` FROM `'.$db->prefix.'posts` WHERE `id`='.$pid) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
     $id = $db->result($result);
 
     // Determine on what page the post is located (depending on $pun_user['disp_posts'])
-    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$id.' ORDER BY `posted`') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$id.' ORDER BY `posted`') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $num_posts = $db->num_rows($result);
 
     for ($i = 0; $i < $num_posts; ++$i) {
@@ -50,35 +50,35 @@ if ($pid) {
     $_GET['p'] = \ceil($i / $pun_user['disp_posts']);
 } // If action=new, we redirect to the first new post (if any)
 elseif ('new' == $action && !$pun_user['is_guest']) {
-    $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $first_new_post_id = $db->result($result);
 
     if ($first_new_post_id) {
-        redirect('viewtopic.php?pid='.$first_new_post_id.'#p'.$first_new_post_id, '');
+        \redirect('viewtopic.php?pid='.$first_new_post_id.'#p'.$first_new_post_id, '');
     } else {
         // If there is no new post, we go to the last post
-        redirect('viewtopic.php?id='.$id.'&action=last', '');
+        \redirect('viewtopic.php?id='.$id.'&action=last', '');
     }
 } elseif ('last' == $action) {
     // If action=last, we redirect to the last post
 
-    $result = $db->query('SELECT MAX(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT MAX(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $last_post_id = $db->result($result);
 
     if ($last_post_id) {
-        redirect('viewtopic.php?pid='.$last_post_id.'#p'.$last_post_id, '');
+        \redirect('viewtopic.php?pid='.$last_post_id.'#p'.$last_post_id, '');
     }
 }
 
 // Fetch some info about the topic
 if (!$pun_user['is_guest']) {
-    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 } else {
-    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 }
 
 if (!$db->num_rows($result)) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 $cur_topic = $db->fetch_assoc($result);
@@ -87,12 +87,12 @@ $cur_topic = $db->fetch_assoc($result);
 if (!$pun_user['is_guest']) {
     $message_stack = [];
     if (null == $cur_topic['log_time']) {
-        $db->query('INSERT INTO '.$db->prefix.'log_topics (user_id, forum_id, topic_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$_SERVER['REQUEST_TIME'].')') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+        $db->query('INSERT INTO '.$db->prefix.'log_topics (user_id, forum_id, topic_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$_SERVER['REQUEST_TIME'].')') or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
-        $db->query('UPDATE '.$db->prefix.'log_topics SET forum_id='.$cur_topic['forum_id'].', log_time='.$_SERVER['REQUEST_TIME'].' WHERE topic_id='.$id.' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'log_topics SET forum_id='.$cur_topic['forum_id'].', log_time='.$_SERVER['REQUEST_TIME'].' WHERE topic_id='.$id.' AND user_id='.$pun_user['id']) or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
-    $result = $db->query('SELECT t.id, t.last_post, lt.log_time FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].' WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$_SERVER['REQUEST_TIME'].'-'.$pun_user['mark_after'].' ') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.id, t.last_post, lt.log_time FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].' WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$_SERVER['REQUEST_TIME'].'-'.$pun_user['mark_after'].' ') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 
     $find_new = false;
     while ($topic = $db->fetch_assoc($result)) {
@@ -104,12 +104,12 @@ if (!$pun_user['is_guest']) {
     }
     if (!$find_new) {
         $requestTime = $_SERVER['REQUEST_TIME'] + 10;
-        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime.' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime.' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
         if ($db->affected_rows() < 1) {
             $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$requestTime.')');
             $dberror = $db->error();
             if ($dberror['error_no'] && 1062 != $dberror['error_no']) {
-                error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());
+                \error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());
             }
         }
     }
@@ -152,14 +152,14 @@ if ('all' == $action) {
     $p = ($num_pages + 1);
 }
 
-$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
+$paging_links = $lang_common['Pages'].': '.\paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ('all' == $action && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
 /// MOD VIEW ALL PAGES IN ONE END
 
 if (1 == $pun_config['o_censoring']) {
-    $cur_topic['subject'] = censor_words($cur_topic['subject']);
+    $cur_topic['subject'] = \censor_words($cur_topic['subject']);
 }
 
 // !$pun_user['is_guest'] && - Это поебень
@@ -184,7 +184,7 @@ if (!$pun_user['is_guest'] && 1 == $pun_config['o_subscriptions']) {
     $subscraction = '<div class="clearer"></div>';
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_topic['subject']);
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title'].' / '.$cur_topic['subject']);
 
 \define('PUN_ALLOW_INDEX', 1);
 
@@ -196,7 +196,7 @@ if (1 == $pun_config['o_show_post_karma'] || $pun_user['g_id'] < PUN_GUEST) {
 echo '<div class="linkst"><div class="inbox">
 <p class="pagelink conl">'.$paging_links.'</p>
 <p class="postlink conr">'.$post_link.'</p>
-<ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a></li><li> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</li></ul>
+<ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.\pun_htmlspecialchars($cur_topic['forum_name']).'</a></li><li> &#187; '.\pun_htmlspecialchars($cur_topic['subject']).'</li></ul>
 <div class="clearer"></div></div></div>';
 
 include_once PUN_ROOT.'include/parser.php';
@@ -224,7 +224,7 @@ $result = $db->query(
     WHERE p.topic_id='.$id.'
     ORDER BY p.id
     LIMIT '.$start_from.','.$pun_user['disp_posts']
-) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
 $posts = $pids = [];
 while ($cur_post = $db->fetch_assoc($result)) {
@@ -255,31 +255,31 @@ foreach ($posts as $cur_post) {
         // $username = '<a class="profile" href="profile.php?id='.$cur_post['poster_id'].'">'.pun_htmlspecialchars($cur_post['username']).'</a>';
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE MODIFIED, 3 NEW LINES ADDED
         if (!$pun_user['is_guest']) {
-            $username = '<a href="javascript:pasteN(\''.pun_htmlspecialchars($cur_post['username']).'\');">'.pun_htmlspecialchars($cur_post['username']).'</a>';
+            $username = '<a href="javascript:pasteN(\''.\pun_htmlspecialchars($cur_post['username']).'\');">'.\pun_htmlspecialchars($cur_post['username']).'</a>';
         } else {
-            $username = '<a href="profile.php?id='.$cur_post['poster_id'].'">'.pun_htmlspecialchars($cur_post['username']).'</a>';
+            $username = '<a href="profile.php?id='.$cur_post['poster_id'].'">'.\pun_htmlspecialchars($cur_post['username']).'</a>';
         }
         // QUICK QUOTE MOD END
 
-        $user_title = get_title($cur_post);
+        $user_title = \get_title($cur_post);
 
         if (1 == $pun_config['o_censoring']) {
-            $user_title = censor_words($user_title);
+            $user_title = \censor_words($user_title);
         }
 
         // Format the online indicator
         $is_online = ($cur_post['is_online'] == $cur_post['poster_id']) ? '<strong>'.$lang_topic['Online'].'</strong>' : $lang_topic['Offline'];
 
-        $user_avatar = pun_show_avatar();
+        $user_avatar = \pun_show_avatar();
 
         // We only show location, register date, post count and the contact links if "Show user info" is enabled
         if (1 == $pun_config['o_show_user_info']) {
             if ($cur_post['location']) {
                 if (1 == $pun_config['o_censoring']) {
-                    $cur_post['location'] = censor_words($cur_post['location']);
+                    $cur_post['location'] = \censor_words($cur_post['location']);
                 }
 
-                $user_info[] = '<dd>'.$lang_topic['From'].': '.pun_htmlspecialchars($cur_post['location']);
+                $user_info[] = '<dd>'.$lang_topic['From'].': '.\pun_htmlspecialchars($cur_post['location']);
             }
 
             $user_info[] = '<dd>'.$lang_common['Registered'].': '.\date($pun_config['o_date_format'], $cur_post['registered']);
@@ -327,7 +327,7 @@ foreach ($posts as $cur_post) {
             // PMS MOD END
 
             if ($cur_post['url']) {
-                $user_contacts[] = '<a href="'.pun_htmlspecialchars($cur_post['url']).'">'.$lang_topic['Website'].'</a>';
+                $user_contacts[] = '<a href="'.\pun_htmlspecialchars($cur_post['url']).'">'.$lang_topic['Website'].'</a>';
             }
         }
 
@@ -335,13 +335,13 @@ foreach ($posts as $cur_post) {
             $user_info[] = '<dd>IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['poster_ip'].'</a>';
 
             if ($cur_post['admin_note']) {
-                $user_info[] = '<dd>'.$lang_topic['Note'].': <strong>'.pun_htmlspecialchars($cur_post['admin_note']).'</strong>';
+                $user_info[] = '<dd>'.$lang_topic['Note'].': <strong>'.\pun_htmlspecialchars($cur_post['admin_note']).'</strong>';
             }
         }
     } else {
         // If the poster is a guest (or a user that has been deleted)
-        $username = pun_htmlspecialchars($cur_post['username']);
-        $user_title = get_title($cur_post);
+        $username = \pun_htmlspecialchars($cur_post['username']);
+        $user_title = \get_title($cur_post);
 
         if ($pun_user['g_id'] < PUN_GUEST) {
             $user_info[] = '<dd>IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['poster_ip'].'</a>';
@@ -377,7 +377,7 @@ foreach ($posts as $cur_post) {
                 $post_actions[] = '<li class="postquote"><a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>';
                 if (!$pun_user['is_guest']) {
                     //$post_actions[] = '<li class="postquote"><a onclick="copyPID(\''.$cur_post['id'].'\');" onmouseover="copyQ(\''.pun_htmlspecialchars($cur_post['username']).'\');" href="javascript:pasteQ();">'.$lang_topic['Quote'].'</a>';
-                    $post_actions[] = '<li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\', \''.pun_htmlspecialchars($cur_post['username']).'\');">'.$lang_topic['Quote'].'</a>';
+                    $post_actions[] = '<li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\', \''.\pun_htmlspecialchars($cur_post['username']).'\');">'.$lang_topic['Quote'].'</a>';
                 }
             }
 
@@ -385,7 +385,7 @@ foreach ($posts as $cur_post) {
         }
     } else {
         // QUICK QUOTE MOD BEGIN
-        $post_actions[] = '<li class="postdelete"><a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete'].'</a>'.$lang_topic['Link separator'].'</li><li class="postedit"><a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit'].'</a>'.$lang_topic['Link separator'].'</li><li class="postquote"><a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>'.$lang_topic['Link separator'].'</li><li class="postquote"><a id="pid'.$cur_post['id'].'" href="javascript:pasteQ(\''.$cur_post['id'].'\', \''.pun_htmlspecialchars($cur_post['username']).'\');">'.$lang_topic['Quote'].'</a>';
+        $post_actions[] = '<li class="postdelete"><a href="delete.php?id='.$cur_post['id'].'">'.$lang_topic['Delete'].'</a>'.$lang_topic['Link separator'].'</li><li class="postedit"><a href="edit.php?id='.$cur_post['id'].'">'.$lang_topic['Edit'].'</a>'.$lang_topic['Link separator'].'</li><li class="postquote"><a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>'.$lang_topic['Link separator'].'</li><li class="postquote"><a id="pid'.$cur_post['id'].'" href="javascript:pasteQ(\''.$cur_post['id'].'\', \''.\pun_htmlspecialchars($cur_post['username']).'\');">'.$lang_topic['Quote'].'</a>';
         // QUICK QUOTE MOD END
     }
 
@@ -394,14 +394,14 @@ foreach ($posts as $cur_post) {
     $vtbg = ($bg_switch) ? ' roweven' : ' rowodd';
 
     // Perform the main parsing of the message (BBCode, smilies, censor words etc)
-    $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+    $cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies']);
 
     // Do signature parsing/caching
     if ($cur_post['signature'] && $pun_user['show_sig']) {
         if (isset($signature_cache[$cur_post['poster_id']])) {
             $signature = $signature_cache[$cur_post['poster_id']];
         } else {
-            $signature = parse_signature($cur_post['signature']);
+            $signature = \parse_signature($cur_post['signature']);
             $signature_cache[$cur_post['poster_id']] = $signature;
         }
     }
@@ -410,7 +410,7 @@ foreach ($posts as $cur_post) {
     if (1 == ($post_count + $start_from)) {
         echo ' firstpost';
     }
-    echo '"><h2><span><span class="conr">#'.($start_from + $post_count).' </span><a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">'.format_time($cur_post['posted']).'</a></span></h2><div class="box"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd class="usertitle"><strong>'.$user_title.'</strong></dd><dd class="postavatar">'.$user_avatar.'</dd>';
+    echo '"><h2><span><span class="conr">#'.($start_from + $post_count).' </span><a href="viewtopic.php?pid='.$cur_post['id'].'#p'.$cur_post['id'].'">'.\format_time($cur_post['posted']).'</a></span></h2><div class="box"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd class="usertitle"><strong>'.$user_title.'</strong></dd><dd class="postavatar">'.$user_avatar.'</dd>';
 
     if ($user_info) {
         echo \implode('</dd>', $user_info).'</dd>';
@@ -424,7 +424,7 @@ foreach ($posts as $cur_post) {
     if (($post_count + $start_from) > 1) {
         echo ' Re: ';
     }
-    echo pun_htmlspecialchars($cur_topic['subject']).'</h3><div class="postmsg">'.$cur_post['message'];
+    echo \pun_htmlspecialchars($cur_topic['subject']).'</h3><div class="postmsg">'.$cur_post['message'];
 
     //$save_attachments = $attachments;
     //$attachments = array_filter($attachments, 'filter_attachments_of_post');
@@ -438,7 +438,7 @@ foreach ($posts as $cur_post) {
     //$attachments = $save_attachments;
 
     if ($cur_post['edited']) {
-        echo '<p class="postedit"><em>'.$lang_topic['Last edit'].' '.pun_htmlspecialchars($cur_post['edited_by']).' ('.format_time($cur_post['edited']).')</em></p>';
+        echo '<p class="postedit"><em>'.$lang_topic['Last edit'].' '.\pun_htmlspecialchars($cur_post['edited_by']).' ('.\format_time($cur_post['edited']).')</em></p>';
     }
 
     echo '</div>';
@@ -460,7 +460,7 @@ foreach ($posts as $cur_post) {
     echo '</div></div></div>';
 }
 
-echo '<div class="postlinksb"><div class="inbox"><p class="postlink conr">'.$post_link.'</p><p class="pagelink conl">'.$paging_links.'</p><ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.pun_htmlspecialchars($cur_topic['forum_name']).'</a></li><li> &#187; '.pun_htmlspecialchars($cur_topic['subject']).'</li></ul>'.$subscraction.'</div></div>';
+echo '<div class="postlinksb"><div class="inbox"><p class="postlink conr">'.$post_link.'</p><p class="pagelink conl">'.$paging_links.'</p><ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &#187; <a href="viewforum.php?id='.$cur_topic['forum_id'].'">'.\pun_htmlspecialchars($cur_topic['forum_name']).'</a></li><li> &#187; '.\pun_htmlspecialchars($cur_topic['subject']).'</li></ul>'.$subscraction.'</div></div>';
 
 // Display quick post if enabled
 
@@ -470,7 +470,7 @@ echo '<div class="postlinksb"><div class="inbox"><p class="postlink conr">'.$pos
 
 if ($quickpost) {
     if (!$pun_user['is_guest']) {
-        $form_user = pun_htmlspecialchars($pun_user['username']);
+        $form_user = \pun_htmlspecialchars($pun_user['username']);
     } else {
         $form_user = 'Guest';
     }
@@ -498,7 +498,7 @@ if ($quickpost) {
 }
 
 // Increment "num_views" for topic
-$db->query('UPDATE `'.$db->prefix.'topics` SET `num_views`=`num_views`+1 WHERE id='.$id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `'.$db->prefix.'topics` SET `num_views`=`num_views`+1 WHERE id='.$id) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $forum_id = $cur_topic['forum_id'];
 $footer_style = 'viewtopic';

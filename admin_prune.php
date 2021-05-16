@@ -12,7 +12,7 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply'])) {
@@ -27,23 +27,23 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         @\set_time_limit(3600);
 
         if ('all' === $prune_from) {
-            $result = $db->query('SELECT id FROM '.$db->prefix.'forums') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id FROM '.$db->prefix.'forums') or \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
             $num_forums = $db->num_rows($result);
 
             for ($i = 0; $i < $num_forums; ++$i) {
                 $fid = $db->result($result, $i);
 
-                prune($fid, $prune_sticky, $prune_date);
-                update_forum($fid);
+                \prune($fid, $prune_sticky, $prune_date);
+                \update_forum($fid);
             }
         } else {
             $prune_from = \intval($prune_from);
-            prune($prune_from, $prune_sticky, $prune_date);
-            update_forum($prune_from);
+            \prune($prune_from, $prune_sticky, $prune_date);
+            \update_forum($prune_from);
         }
 
         // Locate any "orphaned redirect topics" and delete them
-        $result = $db->query('SELECT t1.id FROM '.$db->prefix.'topics AS t1 LEFT JOIN '.$db->prefix.'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL') or error('Unable to fetch redirect topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT t1.id FROM '.$db->prefix.'topics AS t1 LEFT JOIN '.$db->prefix.'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL') or \error('Unable to fetch redirect topics', __FILE__, __LINE__, $db->error());
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
@@ -52,15 +52,15 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                 $orphans[] = $db->result($result, $i);
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $orphans).')') or \error('Unable to delete redirect topics', __FILE__, __LINE__, $db->error());
         }
 
-        redirect('admin_prune.php', $lang_admin['Cleared'].' '.$lang_admin['Redirect']);
+        \redirect('admin_prune.php', $lang_admin['Cleared'].' '.$lang_admin['Redirect']);
     }
 
     $prune_days = $_POST['req_prune_days'];
     if (!@\preg_match('#^\d+$#', $prune_days)) {
-        message($lang_admin['Prune days not numeric']);
+        \message($lang_admin['Prune days not numeric']);
     }
 
     $prune_date = \time() - ($prune_days * 86400);
@@ -78,24 +78,24 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $sql .= ' AND forum_id='.$prune_from;
 
         // Fetch the forum name (just for cosmetic reasons)
-        $result = $db->query('SELECT forum_name FROM '.$db->prefix.'forums WHERE id='.$prune_from) or error('Unable to fetch forum name', __FILE__, __LINE__, $db->error());
-        $forum = '"'.pun_htmlspecialchars($db->result($result)).'"';
+        $result = $db->query('SELECT forum_name FROM '.$db->prefix.'forums WHERE id='.$prune_from) or \error('Unable to fetch forum name', __FILE__, __LINE__, $db->error());
+        $forum = '"'.\pun_htmlspecialchars($db->result($result)).'"';
     } else {
         $forum = 'all forums';
     }
 
-    $result = $db->query($sql) or error('Unable to fetch topic prune count', __FILE__, __LINE__, $db->error());
+    $result = $db->query($sql) or \error('Unable to fetch topic prune count', __FILE__, __LINE__, $db->error());
     $num_topics = $db->result($result);
 
     if (!$num_topics) {
-        message($lang_admin['Prune not found']);
+        \message($lang_admin['Prune not found']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('prune'); ?>
+    \generate_admin_menu('prune'); ?>
 <div class="blockform">
     <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
@@ -124,13 +124,13 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 <?php
     require_once PUN_ROOT.'footer.php';
 } else {
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Prune';
     $required_fields = ['req_prune_days' => 'Days old'];
     $focus_element = ['prune', 'req_prune_days'];
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('prune'); ?>
+    \generate_admin_menu('prune'); ?>
 <div class="blockform">
     <h2><span><?php echo $lang_admin['Prune']; ?></span></h2>
 
@@ -169,7 +169,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                                 <select name="prune_from">
                                     <option value="all"><?php echo $lang_admin['All forums']; ?></option>
 <?php
-$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
     $cur_category = 0;
     while ($forum = $db->fetch_assoc($result)) {
@@ -177,11 +177,11 @@ $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name 
             if ($cur_category) {
                 echo '</optgroup>';
             }
-            echo '<optgroup label="'.pun_htmlspecialchars($forum['cat_name']).'">';
+            echo '<optgroup label="'.\pun_htmlspecialchars($forum['cat_name']).'">';
             $cur_category = $forum['cid'];
         }
 
-        echo '<option value="'.$forum['fid'].'">'.pun_htmlspecialchars($forum['forum_name']).'</option>';
+        echo '<option value="'.$forum['fid'].'">'.\pun_htmlspecialchars($forum['forum_name']).'</option>';
     }
 
     echo '</optgroup>

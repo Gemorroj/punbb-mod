@@ -19,7 +19,7 @@ if (\defined('PUN_ADMIN_CONSOLE')) {
 // START SUBST - <pun_include "*">
 while (\preg_match('#<pun_include "([^/\\\\]*?)\.(php[45]?|inc|html?|txt)">#', $tpl_main, $cur_include)) {
     if (!\file_exists(PUN_ROOT.'include/user/'.$cur_include[1].'.'.$cur_include[2])) {
-        error('Unable to process user include '.\htmlspecialchars($cur_include[0]).' from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
+        \error('Unable to process user include '.\htmlspecialchars($cur_include[0]).' from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
     }
 
     \ob_start();
@@ -95,7 +95,7 @@ $tpl_main = \str_replace('<pun_logo>', '<img src="'.PUN_ROOT.'style/img/punbb.gi
 // END SUBST - <pun_logo>
 
 // START SUBST - <pun_title>
-$tpl_main = \str_replace('<pun_title>', '<h1><span>'.pun_htmlspecialchars($pun_config['o_board_title']).'</span></h1>', $tpl_main);
+$tpl_main = \str_replace('<pun_title>', '<h1><span>'.\pun_htmlspecialchars($pun_config['o_board_title']).'</span></h1>', $tpl_main);
 // END SUBST - <pun_title>
 
 // START SUBST - <pun_desc>
@@ -103,7 +103,7 @@ $tpl_main = \str_replace('<pun_desc>', '<p><span>'.$pun_config['o_board_desc'].'
 // END SUBST - <pun_desc>
 
 // START SUBST - <pun_navlinks>
-$tpl_main = \str_replace('<pun_navlinks>', '<div id="brdmenu" class="inbox">'.generate_navlinks().'</div>', $tpl_main);
+$tpl_main = \str_replace('<pun_navlinks>', '<div id="brdmenu" class="inbox">'.\generate_navlinks().'</div>', $tpl_main);
 // END SUBST - <pun_navlinks>
 
 // START SUBST - <pun_status>
@@ -119,10 +119,10 @@ if ($pun_user['is_guest']) {
     }
     /// MOD PRINTABLE TOPIC END
 } else {
-    $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>'.$lang_common['Logged in as'].' <strong>'.pun_htmlspecialchars($pun_user['username']).'</strong></li><li>'.$lang_common['Last visit'].': '.format_time($pun_user['last_visit']).'</li>';
+    $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>'.$lang_common['Logged in as'].' <strong>'.\pun_htmlspecialchars($pun_user['username']).'</strong></li><li>'.$lang_common['Last visit'].': '.\format_time($pun_user['last_visit']).'</li>';
 
     if ($pun_user['g_id'] < PUN_GUEST) {
-        $result_header = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'reports WHERE zapped IS NULL') or error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
+        $result_header = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'reports WHERE zapped IS NULL') or \error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
         if ($db->result($result_header)) {
             $tpl_temp .= '<li class="reportlink"><strong><a href="'.PUN_ROOT.'admin_reports.php">'.$lang_admin['New reports'].'</a></strong></li>';

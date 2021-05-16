@@ -17,12 +17,12 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 }
 
 $pid = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($pid < 1) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 // Load the viewtopic.php language file
@@ -34,9 +34,9 @@ $result = $db->query(
     SELECT `topic_id`
     FROM `'.$db->prefix.'posts`
     WHERE `id`='.$pid
-) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result)) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $id = $db->result($result);
@@ -47,7 +47,7 @@ $result = $db->query('
     FROM `'.$db->prefix.'posts`
     WHERE `topic_id`='.$id.'
     ORDER BY `posted`
-') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 $num_posts = $db->num_rows($result);
 
 for ($i = 0; $i < $num_posts; ++$i) {
@@ -71,7 +71,7 @@ if (!$pun_user['is_guest']) {
         LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
         LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id)
         WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL
-    ') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    ') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 } else {
     $result = $db->query('
         SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0
@@ -79,11 +79,11 @@ if (!$pun_user['is_guest']) {
         INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
         LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
         WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL
-    ') or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    ') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 }
 
 if (!$db->num_rows($result)) {
-    wap_message($lang_common['Bad request']);
+    \wap_message($lang_common['Bad request']);
 }
 
 $cur_topic = $db->fetch_assoc($result);
@@ -99,7 +99,7 @@ if (!$pun_user['is_guest']) {
             ) VALUES (
                 '.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$cur_time.'
             )
-        ') or error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+        ') or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
     } else {
         $result = $db->query(
             '
@@ -108,7 +108,7 @@ if (!$pun_user['is_guest']) {
             log_time='.$cur_time.'
             WHERE topic_id='.$id.'
             AND user_id='.$pun_user['id']
-        ) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        ) or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
     $result = $db->query(
@@ -117,7 +117,7 @@ if (!$pun_user['is_guest']) {
         FROM '.$db->prefix.'topics AS t
         LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].'
         WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$cur_time.'-'.$pun_user['mark_after']
-    ) or error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 
     $find_new = false;
     while ($topic = $db->fetch_assoc($result)) {
@@ -136,7 +136,7 @@ if (!$pun_user['is_guest']) {
             SET log_time='.$cur_time.'
             WHERE forum_id='.$cur_topic['forum_id'].'
             AND user_id='.$pun_user['id']
-        ) or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        ) or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
         if ($db->affected_rows() < 1) {
             $result = $db->query('
                 INSERT INTO '.$db->prefix.'log_forums (
@@ -147,7 +147,7 @@ if (!$pun_user['is_guest']) {
             ');
             $dberror = $db->error();
             if ($dberror['error_no'] && 1062 != $dberror['error_no']) {
-                error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());
+                \error('Unable to insert reading_mark info.', __FILE__, __LINE__, $db->error());
             }
         }
     }
@@ -198,7 +198,7 @@ $can_download = (!$cur_topic['file_download'] && 1 == $pun_user['g_file_download
 /// MOD VIEW ALL PAGES IN ONE END
 
 if (1 == $pun_config['o_censoring']) {
-    $cur_topic['subject'] = censor_words($cur_topic['subject']);
+    $cur_topic['subject'] = \censor_words($cur_topic['subject']);
 }
 
 $page_title = $pun_config['o_board_title'].' / '.$cur_topic['subject'];
@@ -247,11 +247,11 @@ $result = $db->query(
     INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id
     LEFT JOIN `'.$db->prefix.'online` AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
     WHERE p.id='.$pid
-) or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 
 $cur_post = $db->fetch_assoc($result);
-$cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
-$cur_post['user_avatar'] = pun_show_avatar();
+$cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);
+$cur_post['user_avatar'] = \pun_show_avatar();
 $db->free_result($result);
 
 $karma = [];
@@ -279,7 +279,7 @@ if (1 == $pun_config['o_show_post_karma'] || $pun_user['g_id'] < PUN_GUEST) {
 require PUN_ROOT.'include/attach/fetch.php';
 
 // Increment "num_views" for topic
-$db->query('UPDATE '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE '.$db->prefix.'topics SET num_views=num_views+1 WHERE id='.$id) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
 $smarty->assign('show_poll', $show_poll);
 $smarty->assign('pun_start', $pun_start);

@@ -97,10 +97,10 @@ function pun_mail($to, $subject, $message, $reply = '')
         'X-Mailer: PunBB Mod v'.$pun_config['o_show_version'];
 
     // Make sure all linebreaks are CRLF in message (and strip out any NULL bytes)
-    $message = \str_replace(["\n", "\0"], ["\r\n", ''], pun_linebreaks($message));
+    $message = \str_replace(["\n", "\0"], ["\r\n", ''], \pun_linebreaks($message));
 
     if ($pun_config['o_smtp_host']) {
-        return smtp_mail($to, $subject, $message, $headers);
+        return \smtp_mail($to, $subject, $message, $headers);
     }
     // Change the linebreaks used in the headers according to OS
     if (0 === \stripos(\PHP_OS, 'MAC')) {
@@ -124,12 +124,12 @@ function server_parse($socket, $expected_response)
     $server_response = '';
     while (' ' !== $server_response[3]) {
         if (!($server_response = \fgets($socket, 256))) {
-            error('Could not get mail server response codes. Please contact the forum administrator.', __FILE__, __LINE__);
+            \error('Could not get mail server response codes. Please contact the forum administrator.', __FILE__, __LINE__);
         }
     }
 
     if (0 !== \strpos($server_response, $expected_response)) {
-        error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
+        \error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
     }
 }
 
@@ -173,48 +173,48 @@ function smtp_mail($to, $subject, $message, $headers = '')
     }
 
     if (!($socket = \fsockopen($smtp_host, $smtp_port, $errno, $errstr, 15))) {
-        error('Could not connect to smtp host "'.$pun_config['o_smtp_host'].'" ('.$errno.') ('.$errstr.')', __FILE__, __LINE__);
+        \error('Could not connect to smtp host "'.$pun_config['o_smtp_host'].'" ('.$errno.') ('.$errstr.')', __FILE__, __LINE__);
     }
 
-    server_parse($socket, '220');
+    \server_parse($socket, '220');
 
     if ($pun_config['o_smtp_user'] && $pun_config['o_smtp_pass']) {
         \fwrite($socket, 'EHLO '.$_SERVER['SERVER_NAME']."\r\n");
-        server_parse($socket, '250');
+        \server_parse($socket, '250');
 
         \fwrite($socket, 'AUTH LOGIN'."\r\n");
-        server_parse($socket, '334');
+        \server_parse($socket, '334');
 
         \fwrite($socket, \base64_encode($pun_config['o_smtp_user'])."\r\n");
-        server_parse($socket, '334');
+        \server_parse($socket, '334');
 
         \fwrite($socket, \base64_encode($pun_config['o_smtp_pass'])."\r\n");
-        server_parse($socket, '235');
+        \server_parse($socket, '235');
     } else {
         \fwrite($socket, 'HELO '.$smtp_host."\r\n");
-        server_parse($socket, '250');
+        \server_parse($socket, '250');
     }
 
     \fwrite($socket, 'MAIL FROM: <'.$pun_config['o_webmaster_email'].'>'."\r\n");
-    server_parse($socket, '250');
+    \server_parse($socket, '250');
 
     $to_header = 'To: ';
 
     @\reset($recipients);
     foreach ($recipients as $email) {
         \fwrite($socket, 'RCPT TO: <'.$email.'>'."\r\n");
-        server_parse($socket, '250');
+        \server_parse($socket, '250');
 
         $to_header .= '<'.$email.'>, ';
     }
 
     \fwrite($socket, 'DATA'."\r\n");
-    server_parse($socket, '354');
+    \server_parse($socket, '354');
 
     \fwrite($socket, 'Subject: '.$subject."\r\n".$to_header."\r\n".$headers."\r\n\r\n".$message."\r\n");
 
     \fwrite($socket, '.'."\r\n");
-    server_parse($socket, '250');
+    \server_parse($socket, '250');
 
     \fwrite($socket, 'QUIT'."\r\n");
     \fclose($socket);

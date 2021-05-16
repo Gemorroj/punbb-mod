@@ -118,7 +118,7 @@ class Informer
         }
 
         // Clean up message
-        $message = pun_linebreaks(pun_trim($message));
+        $message = \pun_linebreaks(\pun_trim($message));
 
         if (!$message) {
             throw new Exception($this->_lang['Bad request']);
@@ -129,7 +129,7 @@ class Informer
         if (!$this->_pun_config['p_message_all_caps'] && \mb_strtoupper($message) === $message && $this->_pun_user['g_id'] > PUN_MOD) {
             $message = \ucwords(\mb_strtolower($message));
         }
-        convert_forum_url($message);
+        \convert_forum_url($message);
 
         // Insert the new post
         $r = $this->_db->query('
@@ -138,7 +138,7 @@ class Informer
             ) VALUES (
                 \''.$this->_db->escape($this->_pun_user['username']).'\',
                 '.$this->_pun_user['id'].',
-                \''.get_remote_address().'\',
+                \''.\get_remote_address().'\',
                 \''.$this->_db->escape($message).'\',
                 \''.\intval($hideSmiles).'\',
                 '.$_SERVER['REQUEST_TIME'].',
@@ -187,7 +187,7 @@ class Informer
         );
         $forumId = $this->_db->result($result, 0);
 
-        update_forum($forumId);
+        \update_forum($forumId);
 
         return [
             'message' => $this->_parseMessage($message, $hideSmiles),
@@ -352,6 +352,6 @@ class Informer
     {
         require_once __DIR__.'/../parser.php';
 
-        return parse_message($message, $hide_smilies);
+        return \parse_message($message, $hide_smilies);
     }
 }

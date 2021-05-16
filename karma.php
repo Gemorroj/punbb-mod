@@ -5,19 +5,19 @@
 require PUN_ROOT.'include/common.php';
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 $to = isset($_GET['to']) ? \intval($_GET['to']) : 0;
 if ($to > 0) {
-    vote($to, \intval($_GET['vote']));
+    \vote($to, \intval($_GET['vote']));
 
     exit;
 }
 
 $id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
 if ($id < 1) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 $q = $db->fetch_row($db->query(
@@ -43,7 +43,7 @@ if (isset($_GET['action']) && 'all' == $_GET['action']) {
     $start = 0;
 }
 
-$username = pun_htmlspecialchars($db->result($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE `id`='.$id), 0));
+$username = \pun_htmlspecialchars($db->result($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE `id`='.$id), 0));
 $str = '';
 
 if ($num_hits) {
@@ -61,17 +61,17 @@ if ($num_hits) {
 
     while ($result = $db->fetch_assoc($q)) {
         if ($result['from']) {
-            $user = '<a href="profile.php?id='.$result['id'].'">'.pun_htmlspecialchars($result['from']).'</a>';
+            $user = '<a href="profile.php?id='.$result['id'].'">'.\pun_htmlspecialchars($result['from']).'</a>';
         } else {
             $user = $lang_common['Deleted'];
         }
-        $str .= '<tr><td class="tcl">'.$user.'</td><td class="tc2">'.($result['vote'] > 0 ? '<strong style="color: green;">+</strong>' : '<strong style="color: red;">-</strong>').'</td><td class="tc3">'.format_time($result['time']).'</td></tr>';
+        $str .= '<tr><td class="tcl">'.$user.'</td><td class="tc2">'.($result['vote'] > 0 ? '<strong style="color: green;">+</strong>' : '<strong style="color: red;">-</strong>').'</td><td class="tc3">'.\format_time($result['time']).'</td></tr>';
     }
 
-    $str .= '</tbody></table></div></div></div><div class="topics"><p class="pagelink">'.$lang_common['Pages'].': '.paginate($num_pages, $p, 'karma.php?id='.$id).'</p></div>';
+    $str .= '</tbody></table></div></div></div><div class="topics"><p class="pagelink">'.$lang_common['Pages'].': '.\paginate($num_pages, $p, 'karma.php?id='.$id).'</p></div>';
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Karma'].' - '.$username.' ('.$karma['karma'].')';
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Karma'].' - '.$username.' ('.$karma['karma'].')';
 
 require_once PUN_ROOT.'header.php';
 

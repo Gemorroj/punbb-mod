@@ -12,9 +12,9 @@ require_once PUN_ROOT.'lang/'.$pun_user['language'].'/search.php';
 require_once PUN_ROOT.'include/parser.php';
 
 if (!$pun_user['g_read_board']) {
-    wap_message($lang_common['No view']);
+    \wap_message($lang_common['No view']);
 } elseif (!$pun_user['g_search']) {
-    wap_message($lang_search['No search permission']);
+    \wap_message($lang_search['No search permission']);
 }
 
 // Figure out what to do :-)
@@ -29,7 +29,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
     if (isset($_GET['search_id'])) {
         $search_id = \intval($_GET['search_id']);
         if ($search_id < 1) {
-            wap_message($lang_common['Bad request']);
+            \wap_message($lang_common['Bad request']);
         }
     } elseif ('search' == $_GET['action']) {
         // If it's a regular search (keywords and/or author)
@@ -48,7 +48,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // UTF FIX END
 
         if (!$keywords && !$author) {
-            wap_message($lang_search['No terms']);
+            \wap_message($lang_search['No terms']);
         }
 
         if ($author) {
@@ -62,24 +62,24 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         // If it's a user search (by id)
         $user_id = \intval($_GET['user_id']);
         if ($user_id < 2) {
-            wap_message($lang_common['Bad request']);
+            \wap_message($lang_common['Bad request']);
         }
     } else {
         if ('show_new' != $_GET['action'] && 'show_24h' != $_GET['action'] && 'show_unanswered' != $_GET['action'] && 'show_subscriptions' != $_GET['action']) {
-            wap_message($lang_common['Bad request']);
+            \wap_message($lang_common['Bad request']);
         }
     }
 
     // If a valid search_id was supplied we attempt to fetch the search results from the db
     if (@$search_id) {
-        $ident = ($pun_user['is_guest']) ? get_remote_address() : $pun_user['username'];
+        $ident = ($pun_user['is_guest']) ? \get_remote_address() : $pun_user['username'];
 
         $result = $db->query('
             SELECT search_data
             FROM '.$db->prefix.'search_cache
             WHERE id='.$search_id.'
             AND ident=\''.$db->escape($ident).'\'
-        ') or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
+        ') or \error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
         if ($row = $db->fetch_assoc($result)) {
             $temp = \unserialize($row['search_data'], ['allowed_classes' => false]);
@@ -92,7 +92,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
             unset($temp);
         } else {
-            wap_message($lang_search['No hits']);
+            \wap_message($lang_search['No hits']);
         }
     } else {
         $keyword_results = $author_results = [];
@@ -120,7 +120,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 $keywords_array = \explode(' ', $keywords);
 
                 if (!$keywords_array) {
-                    wap_message($lang_search['No hits']);
+                    \wap_message($lang_search['No hits']);
                 }
 
                 foreach ($keywords_array as $i => $word) {
@@ -155,7 +155,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                                 INNER JOIN '.$db->prefix.'search_matches AS m ON m.word_id = w.id
                                 WHERE w.word LIKE \''.$cur_word.'\''.$search_in_cond;
 
-                            $result = $db->query($sql) or error('Unable to search for posts', __FILE__, __LINE__, $db->error());
+                            $result = $db->query($sql) or \error('Unable to search for posts', __FILE__, __LINE__, $db->error());
 
                             $row = [];
                             while ($temp = $db->fetch_row($result)) {
@@ -202,7 +202,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     SELECT id
                     FROM '.$db->prefix.'users
                     WHERE username LIKE \''.$db->escape($author).'\'
-                ') or error('Unable to fetch users', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch users', __FILE__, __LINE__, $db->error());
 
                 if ($db->num_rows($result)) {
                     $user_ids = '';
@@ -214,7 +214,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                         SELECT id
                         FROM '.$db->prefix.'posts
                         WHERE poster_id IN('.$user_ids.')
-                    ') or error('Unable to fetch matched posts list', __FILE__, __LINE__, $db->error());
+                    ') or \error('Unable to fetch matched posts list', __FILE__, __LINE__, $db->error());
 
                     $search_ids = [];
                     while ($row = $db->fetch_row($result)) {
@@ -236,7 +236,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             }
 
             if (!$search_ids) {
-                wap_message($lang_search['No hits']);
+                \wap_message($lang_search['No hits']);
             }
 
             if ('topics' == $show_as) {
@@ -250,7 +250,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     AND p.id IN('.\implode(',', $search_ids).')
                     '.$forum_sql.'
                     GROUP BY t.id
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = [];
                 while ($row = $db->fetch_row($result)) {
@@ -271,7 +271,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND p.id IN('.\implode(',', $search_ids).')
                     '.$forum_sql
-                ) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
                 $search_ids = [];
                 while ($row = $db->fetch_row($result)) {
@@ -286,7 +286,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             // If it's a search for new posts
             if ('show_new' == $_GET['action']) {
                 if ($pun_user['is_guest']) {
-                    wap_message($lang_common['No permission']);
+                    \wap_message($lang_common['No permission']);
                 }
 
                 $result = $db->query('
@@ -297,11 +297,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND t.last_post>'.$pun_user['last_visit'].'
                     AND t.moved_to IS NULL
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
                 $num_hits = $db->num_rows($result);
 
                 if (!$num_hits) {
-                    wap_message($lang_search['No new posts']);
+                    \wap_message($lang_search['No new posts']);
                 }
             } elseif ('show_24h' == $_GET['action']) {
                 // If it's a search for todays posts
@@ -313,11 +313,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND t.last_post>'.($_SERVER['REQUEST_TIME'] - 86400).'
                     AND t.moved_to IS NULL
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
                 $num_hits = $db->num_rows($result);
 
                 if (!$num_hits) {
-                    wap_message($lang_search['No recent posts']);
+                    \wap_message($lang_search['No recent posts']);
                 }
             } elseif ('show_user' == $_GET['action']) {
                 // If it's a search for posts by a specific user ID
@@ -330,16 +330,16 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND p.poster_id='.$user_id.'
                     GROUP BY t.id
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
                 $num_hits = $db->num_rows($result);
 
                 if (!$num_hits) {
-                    wap_message($lang_search['No user posts']);
+                    \wap_message($lang_search['No user posts']);
                 }
             } elseif ('show_subscriptions' == $_GET['action']) {
                 // If it's a search for subscribed topics
                 if ($pun_user['is_guest']) {
-                    wap_message($lang_common['Bad request']);
+                    \wap_message($lang_common['Bad request']);
                 }
 
                 $result = $db->query('
@@ -349,11 +349,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
                     LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
                 $num_hits = $db->num_rows($result);
 
                 if (!$num_hits) {
-                    wap_message($lang_search['No subscriptions']);
+                    \wap_message($lang_search['No subscriptions']);
                 }
             } else {
                 // If it's a search for unanswered posts
@@ -365,11 +365,11 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
                     AND t.num_replies=0
                     AND t.moved_to IS NULL
-                ') or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+                ') or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
                 $num_hits = $db->num_rows($result);
 
                 if (!$num_hits) {
-                    wap_message($lang_search['No unanswered']);
+                    \wap_message($lang_search['No unanswered']);
                 }
             }
 
@@ -385,19 +385,19 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
             $show_as = 'topics';
         } else {
-            wap_message($lang_common['Bad request']);
+            \wap_message($lang_common['Bad request']);
         }
 
         // Prune "old" search results
         $old_searches = [];
-        $result = $db->query('SELECT ident FROM '.$db->prefix.'online') or error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT ident FROM '.$db->prefix.'online') or \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
         if ($db->num_rows($result)) {
             while ($row = $db->fetch_row($result)) {
                 $old_searches[] = '\''.$db->escape($row[0]).'\'';
             }
 
-            $db->query('DELETE FROM '.$db->prefix.'search_cache WHERE ident NOT IN('.\implode(',', $old_searches).')') or error('Unable to delete search results', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'search_cache WHERE ident NOT IN('.\implode(',', $old_searches).')') or \error('Unable to delete search results', __FILE__, __LINE__, $db->error());
         }
 
         // Final search results
@@ -412,15 +412,15 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $temp = \serialize($temp);
         $search_id = \mt_rand(1, \mt_getrandmax());
 
-        $ident = ($pun_user['is_guest']) ? get_remote_address() : $pun_user['username'];
+        $ident = ($pun_user['is_guest']) ? \get_remote_address() : $pun_user['username'];
 
-        $db->query('INSERT INTO '.$db->prefix.'search_cache (id, ident, search_data) VALUES('.$search_id.', \''.$db->escape($ident).'\', \''.$db->escape($temp).'\')') or error('Unable to insert search results', __FILE__, __LINE__, $db->error());
+        $db->query('INSERT INTO '.$db->prefix.'search_cache (id, ident, search_data) VALUES('.$search_id.', \''.$db->escape($ident).'\', \''.$db->escape($temp).'\')') or \error('Unable to insert search results', __FILE__, __LINE__, $db->error());
 
         if ('show_new' != $_GET['action'] && 'show_24h' != $_GET['action']) {
             $db->close();
 
             // Redirect the user to the cached result page
-            wap_redirect('search.php?search_id='.$search_id);
+            \wap_redirect('search.php?search_id='.$search_id);
         }
     }
 
@@ -482,23 +482,23 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
             $start_from = 0;
         }
 
-        $paging_links = paginate($num_pages, $p, 'search.php?search_id='.$search_id);
+        $paging_links = \paginate($num_pages, $p, 'search.php?search_id='.$search_id);
         //- Pagination
 
         $sql .= ' '.$sort_dir.' LIMIT '.$start_from.', '.$per_page;
 
-        $result = $db->query($sql) or error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
+        $result = $db->query($sql) or \error('Unable to fetch search results', __FILE__, __LINE__, $db->error());
 
         $search_set = [];
         while ($row = $db->fetch_assoc($result)) {
             if ('posts' == $show_as) {
                 if (1 == $pun_config['o_censoring']) {
-                    $row['message'] = censor_words($row['message']);
+                    $row['message'] = \censor_words($row['message']);
                 }
-                $row['message'] = parse_message($row['message'], 0, $row['pid']);
+                $row['message'] = \parse_message($row['message'], 0, $row['pid']);
             }
             if (1 == $pun_config['o_censoring']) {
-                $row['subject'] = censor_words($row['subject']);
+                $row['subject'] = \censor_words($row['subject']);
             }
             $search_set[] = $row;
         }
@@ -515,7 +515,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }*/
 
         // Fetch the list of forums
-        $result = $db->query('SELECT `id`, `forum_name` FROM `'.$db->prefix.'forums`') or error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `id`, `forum_name` FROM `'.$db->prefix.'forums`') or \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 
         $forum_list = [];
         while ($row = $db->fetch_row($result)) {
@@ -535,7 +535,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         exit();
     }
-    wap_message($lang_search['No hits']);
+    \wap_message($lang_search['No hits']);
 }
 
 $result = $db->query('
@@ -546,7 +546,7 @@ $result = $db->query('
     WHERE (fp.read_forum IS NULL OR fp.read_forum=1)
     AND f.redirect_url IS NULL
     ORDER BY c.disp_position, c.id, f.disp_position
-') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+') or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
 $forums = [];
 while ($cur_forum = $db->fetch_assoc($result)) {

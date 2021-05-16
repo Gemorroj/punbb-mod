@@ -16,7 +16,7 @@ if (2 == $pun_user['g_post_replies']) {
 }
 
 if (!$pun_user['g_read_board']) {
-    message($lang_common['No view']);
+    \message($lang_common['No view']);
 }
 
 $tid = isset($_GET['tid']) ? \intval($_GET['tid']) : 0;
@@ -24,27 +24,27 @@ $fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
 $rid = isset($_GET['rid']) ? \intval($_GET['rid']) : 0;
 
 if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 // Fetch some info about the topic and/or the forum
 if ($tid) {
     // MERGE POSTS MOD BEGIN
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 // MERGE POSTS END
 } else {
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) or error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 }
 
 if (!$db->num_rows($result)) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 $cur_posting = $db->fetch_assoc($result);
 
 // Is someone trying to post into a redirect forum?
 if ($cur_posting['redirect_url']) {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
 // Sort out who the moderators are and if we are currently a moderator (or an admin)
@@ -65,7 +65,7 @@ if ($pun_user['is_guest']) {
       INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id
       WHERE t.forum_id='.$cur_posting['id'].'
       AND a.poster_id='.$pun_user['id']
-    ) or error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    ) or \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
@@ -89,7 +89,7 @@ if (!$is_admmod && ($tid && 1 == $pun_config['file_first_only'])) {
 
 // Do we have permission to post?
 if ((($tid && ((!$cur_posting['post_replies'] && !$pun_user['g_post_replies']) || '0' == $cur_posting['post_replies'])) || ($fid && ((!$cur_posting['post_topics'] && !$pun_user['g_post_topics']) || '0' == $cur_posting['post_topics'])) || 1 == @$cur_posting['closed']) && !$is_admmod) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 // Load the post.php language file
@@ -102,7 +102,7 @@ $errors = [];
 if (isset($_POST['form_sent'])) {
     // Make sure form_user is correct
     if (($pun_user['is_guest'] && 'Guest' !== $_POST['form_user']) || (!$pun_user['is_guest'] && $_POST['form_user'] !== $pun_user['username'])) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
     // Image verifcation
@@ -113,23 +113,23 @@ if (isset($_POST['form_sent'])) {
         // Make sure what they submitted is not empty
         if (!\trim($_POST['req_image_'])) {
             unset($_SESSION['captcha_keystring']);
-            message($lang_post['Text mismatch']);
+            \message($lang_post['Text mismatch']);
         }
 
         if (!isset($_SESSION['captcha_keystring'])) {
             unset($_SESSION['captcha_keystring']);
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
         if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
-            message($lang_post['Text mismatch']);
+            \message($lang_post['Text mismatch']);
         }
 
         unset($_SESSION['captcha_keystring']);
     }
 
     if ($pun_config['o_antiflood'] && (!$_POST['form_t'] || $_POST['form_t'] > $_SERVER['REQUEST_TIME'] - $pun_config['o_antiflood_a'] || $_POST['form_t'] < $_SERVER['REQUEST_TIME'] - $pun_config['o_antiflood_b'])) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
     // Flood protection
@@ -139,7 +139,7 @@ if (isset($_POST['form_sent'])) {
 
     // If it's a new topic
     if ($fid) {
-        $subject = pun_trim($_POST['req_subject']);
+        $subject = \pun_trim($_POST['req_subject']);
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
@@ -181,28 +181,28 @@ if (isset($_POST['form_sent'])) {
         }
 
         // Check username for any censored words
-        $temp = censor_words($username);
+        $temp = \censor_words($username);
         if ($temp != $username) {
             $errors[] = $lang_registration['Username censor'];
         }
 
         // Check that the username (or a too similar username) is not already registered
-        $result = $db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE (`username`=\''.$db->escape($username).'\' OR `username`=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND `id`>1') or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE (`username`=\''.$db->escape($username).'\' OR `username`=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND `id`>1') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
-            $errors[] = $lang_registration['Username dupe 1'].' '.pun_htmlspecialchars($busy).'. '.$lang_registration['Username dupe 2'];
+            $errors[] = $lang_registration['Username dupe 1'].' '.\pun_htmlspecialchars($busy).'. '.$lang_registration['Username dupe 2'];
         }
 
         if (1 == $pun_config['p_force_guest_email'] || $email) {
             include_once PUN_ROOT.'include/email.php';
-            if (!is_valid_email($email)) {
+            if (!\is_valid_email($email)) {
                 $errors[] = $lang_common['Invalid e-mail'];
             }
         }
     }
 
     // Clean up message from POST
-    $message = pun_linebreaks(pun_trim($_POST['req_message']));
+    $message = \pun_linebreaks(\pun_trim($_POST['req_message']));
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
@@ -214,13 +214,13 @@ if (isset($_POST['form_sent'])) {
 
     // MOD CONVENIENT FORUM URL BEGIN
     //if ($pun_config['o_convenient_url_enable'] == 1)
-    convert_forum_url($message);
+    \convert_forum_url($message);
     // MOD CONVENIENT FORUM URL END
 
     // Validate BBCode syntax
     if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
         include_once PUN_ROOT.'include/parser.php';
-        $message = preparse_bbcode($message, $errors);
+        $message = \preparse_bbcode($message, $errors);
     }
 
     include PUN_ROOT.'include/search_idx.php';
@@ -245,11 +245,11 @@ if (isset($_POST['form_sent'])) {
             $merged_min = ($merged_after / 60) % 60;
             $merged_hours = ($merged_after / 3600) % 24;
             $merged_days = ($merged_after / 86400) % 31;
-            $s_st = ($merged_sec) ? seconds_st($merged_sec) : '';
-            $m_st = ($merged_min) ? minutes_st($merged_min) : '';
-            $h_st = ($merged_hours) ? hours_st($merged_hours) : '';
-            $d_st = ($merged_days) ? days_st($merged_days) : '';
-            $message = pun_linebreaks(pun_trim('[color=#bbb][i]'.$lang_post['Added'].$d_st.' '.$h_st.' '.$m_st.' '.$s_st.': [/i][/color]'))."\n".$message;
+            $s_st = ($merged_sec) ? \seconds_st($merged_sec) : '';
+            $m_st = ($merged_min) ? \minutes_st($merged_min) : '';
+            $h_st = ($merged_hours) ? \hours_st($merged_hours) : '';
+            $d_st = ($merged_days) ? \days_st($merged_days) : '';
+            $message = \pun_linebreaks(\pun_trim('[color=#bbb][i]'.$lang_post['Added'].$d_st.' '.$h_st.' '.$m_st.' '.$s_st.': [/i][/color]'))."\n".$message;
             $merged = true;
         }
         // MERGE POSTS END
@@ -261,38 +261,38 @@ if (isset($_POST['form_sent'])) {
 
                 if ($merged) {
                     $message = $cur_posting['message']."\n".$message;
-                    $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$cur_posting['post_id']) or error('Unable to merge post', __FILE__, __LINE__, $db->error());
+                    $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$cur_posting['post_id']) or \error('Unable to merge post', __FILE__, __LINE__, $db->error());
                     $new_pid = $cur_posting['post_id'];
                 } else {
                     // Insert the new post
-                    $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or error('Unable to create post', __FILE__, __LINE__, $db->error());
+                    $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
                     $new_pid = $db->insert_id();
                 }
                 // MERGE POSTS END
                 // To subscribe or not to subscribe, that ...
                 if (1 == $pun_config['o_subscriptions'] && $subscribe) {
-                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid) or error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
                     if (!$db->num_rows($result)) {
-                        $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$tid.')') or error('Unable to add subscription', __FILE__, __LINE__, $db->error());
+                        $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$tid.')') or \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
                     }
                 }
             } else {
                 // It's a guest. Insert the new post
                 $email_sql = (1 == $pun_config['p_force_guest_email'] || $email) ? '\''.$db->escape($email).'\'' : 'NULL';
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
                 $new_pid = $db->insert_id();
             }
 
             // Count number of replies in the topic
-            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid) or error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid) or \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
             $num_replies = $db->result($result, 0) - 1;
 
             // Update topic
-            $db->query('UPDATE '.$db->prefix.'topics SET num_replies='.$num_replies.', last_post='.$_SERVER['REQUEST_TIME'].', last_post_id='.$new_pid.', last_poster=\''.$db->escape($username).'\' WHERE id='.$tid) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'topics SET num_replies='.$num_replies.', last_post='.$_SERVER['REQUEST_TIME'].', last_post_id='.$new_pid.', last_poster=\''.$db->escape($username).'\' WHERE id='.$tid) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
-            update_search_index('post', $new_pid, $message);
+            \update_search_index('post', $new_pid, $message);
 
-            update_forum($cur_posting['id']);
+            \update_forum($cur_posting['id']);
 
             // Should we send out notifications?
             // MERGE POSTS BEGIN
@@ -300,11 +300,11 @@ if (isset($_POST['form_sent'])) {
             if (1 == $pun_config['o_subscriptions'] && !$merged) {
                 // MERGE POSTS END
                 // Get the post time for the previous post in this topic
-                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
                 $previous_post_time = $db->result($result);
 
                 // Get any subscribed users that should be notified (banned users are excluded)
-                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.\intval($pun_user['id'])) or error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.\intval($pun_user['id'])) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
@@ -355,9 +355,9 @@ if (isset($_POST['form_sent'])) {
                         // We have to double check here because the templates could be missing
                         if ($notification_emails[$cur_subscriber['language']]) {
                             if (!$cur_subscriber['notify_with_post']) {
-                                pun_mail($cur_subscriber['email'], $notification_emails[$cur_subscriber['language']][0], $notification_emails[$cur_subscriber['language']][1]);
+                                \pun_mail($cur_subscriber['email'], $notification_emails[$cur_subscriber['language']][0], $notification_emails[$cur_subscriber['language']][1]);
                             } else {
-                                pun_mail($cur_subscriber['email'], $notification_emails[$cur_subscriber['language']][2], $notification_emails[$cur_subscriber['language']][3]);
+                                \pun_mail($cur_subscriber['email'], $notification_emails[$cur_subscriber['language']][2], $notification_emails[$cur_subscriber['language']][3]);
                             }
                         }
                     }
@@ -366,7 +366,7 @@ if (isset($_POST['form_sent'])) {
         } // If it's a new topic
         elseif ($fid) {
             // Create the topic
-            $db->query('INSERT INTO '.$db->prefix.'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\''.$db->escape($username).'\', \''.$db->escape($subject).'\', '.$_SERVER['REQUEST_TIME'].', '.$_SERVER['REQUEST_TIME'].', \''.$db->escape($username).'\', '.$fid.')') or error('Unable to create topic', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\''.$db->escape($username).'\', \''.$db->escape($subject).'\', '.$_SERVER['REQUEST_TIME'].', '.$_SERVER['REQUEST_TIME'].', \''.$db->escape($username).'\', '.$fid.')') or \error('Unable to create topic', __FILE__, __LINE__, $db->error());
             $new_tid = $db->insert_id();
 
             // hcs AJAX POLL MOD BEGIN
@@ -375,7 +375,7 @@ if (isset($_POST['form_sent'])) {
                     include_once PUN_ROOT.'include/poll/poll.inc.php';
                     $poll_id = $Poll->create($pun_user['id']);
                     if ($poll_id) {
-                        $db->query('UPDATE '.$db->prefix.'topics SET has_poll='.$poll_id.' WHERE id='.$new_tid) or error('Unable to update topic for poll', __FILE__, __LINE__, $db->error());
+                        $db->query('UPDATE '.$db->prefix.'topics SET has_poll='.$poll_id.' WHERE id='.$new_tid) or \error('Unable to update topic for poll', __FILE__, __LINE__, $db->error());
                     }
                 }
             }
@@ -384,28 +384,28 @@ if (isset($_POST['form_sent'])) {
             if (!$pun_user['is_guest']) {
                 // To subscribe or not to subscribe, that ...
                 if (1 == $pun_config['o_subscriptions'] && 1 == $_POST['subscribe']) {
-                    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$new_tid.')') or error('Unable to add subscription', __FILE__, __LINE__, $db->error());
+                    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$new_tid.')') or \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
                 }
 
                 // Create the post ("topic post")
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
             } else {
                 // Create the post ("topic post")
                 $email_sql = (1 == $pun_config['p_force_guest_email'] || $email) ? '\''.$db->escape($email).'\'' : 'NULL';
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
             }
             $new_pid = $db->insert_id();
 
             // Update the topic with last_post_id
-            $db->query('UPDATE '.$db->prefix.'topics SET last_post_id='.$new_pid.' WHERE id='.$new_tid) or error('Unable to update topic', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'topics SET last_post_id='.$new_pid.' WHERE id='.$new_tid) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
-            update_search_index('post', $new_pid, $message, $subject);
+            \update_search_index('post', $new_pid, $message, $subject);
 
-            update_forum($fid);
+            \update_forum($fid);
         }
 
         $uploaded = 0;
-        $upload_result = process_uploaded_files(($fid ? $new_tid : $tid), $new_pid, $uploaded);
+        $upload_result = \process_uploaded_files(($fid ? $new_tid : $tid), $new_pid, $uploaded);
 
         // If the posting user is logged in, increment his/her post count
 
@@ -418,14 +418,14 @@ if (isset($_POST['form_sent'])) {
             }
 
             if ($merged) {
-                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or \error('Unable to update user', __FILE__, __LINE__, $db->error());
             } else {
-                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'num_posts=num_posts+1, last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'num_posts=num_posts+1, last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or \error('Unable to update user', __FILE__, __LINE__, $db->error());
             }
         }
         // MERGE POSTS END
 
-        redirect('viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $upload_result.$lang_post['Post redirect']);
+        \redirect('viewtopic.php?pid='.$new_pid.'#p'.$new_pid, $upload_result.$lang_post['Post redirect']);
     }
 }
 
@@ -438,19 +438,19 @@ if ($tid) {
     if (isset($_GET['qid'])) {
         $qid = \intval($_GET['qid']);
         if ($qid < 1) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) or error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) or \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
         [$q_poster, $q_message] = $db->fetch_row($result);
 
         $q_message = \str_replace('[img]', '[url]', $q_message);
         $q_message = \str_replace('[/img]', '[/url]', $q_message);
-        $q_message = pun_htmlspecialchars($q_message);
+        $q_message = \pun_htmlspecialchars($q_message);
 
         if (1 == $pun_config['p_message_bbcode']) {
             // If username contains a square bracket, we add "" or '' around it (so we know when it starts and ends)
@@ -479,12 +479,12 @@ if ($tid) {
     } elseif (isset($_GET['rid'])) {
         $rid = \intval($_GET['rid']);
         if ($rid < 1) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) or error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) or \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
-            message($lang_common['Bad request']);
+            \message($lang_common['Bad request']);
         }
         [$q_poster] = $db->fetch_row($result);
         if (1 == $pun_config['p_message_bbcode']) {
@@ -494,18 +494,18 @@ if ($tid) {
         }
     }
 
-    $forum_name = '<a href="viewforum.php?id='.$cur_posting['id'].'">'.pun_htmlspecialchars($cur_posting['forum_name']).'</a>';
+    $forum_name = '<a href="viewforum.php?id='.$cur_posting['id'].'">'.\pun_htmlspecialchars($cur_posting['forum_name']).'</a>';
 } // If a forum_id was specified in the url (new topic).
 elseif ($fid) {
     $action = $lang_post['Post new topic'];
     $form = '<form id="post" method="post" action="post.php?action=post&amp;fid='.$fid.'" onsubmit="return process_form(this)" enctype="multipart/form-data">';
 
-    $forum_name = pun_htmlspecialchars($cur_posting['forum_name']);
+    $forum_name = \pun_htmlspecialchars($cur_posting['forum_name']);
 } else {
-    message($lang_common['Bad request']);
+    \message($lang_common['Bad request']);
 }
 
-$page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
+$page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$action;
 $required_fields = [
     'req_email' => $lang_common['E-mail'],
     'req_subject' => $lang_common['Subject'],
@@ -535,7 +535,7 @@ require_once PUN_ROOT.'header.php';
 echo '<div class="linkst"><div class="inbox"><ul><li><a href="index.php">'.$lang_common['Index'].'</a></li><li> &#187; '.$forum_name;
 
 if (@$cur_posting['subject']) {
-    echo '</li><li> &#187; '.pun_htmlspecialchars($cur_posting['subject']);
+    echo '</li><li> &#187; '.\pun_htmlspecialchars($cur_posting['subject']);
 }
 
 echo '</li></ul></div></div>';
@@ -551,7 +551,7 @@ if ($errors) {
     echo '</ul></div></div></div>';
 } elseif (isset($_POST['preview'])) {
     include_once PUN_ROOT.'include/parser.php';
-    $preview_message = parse_message($message, $hide_smilies);
+    $preview_message = \parse_message($message, $hide_smilies);
 
     echo '<div id="postpreview" class="blockpost"><h2><span>'.$lang_post['Post preview'].'</span></h2><div class="box"><div class="inbox"><div class="postright"><div class="postmsg">'.$preview_message.'</div></div></div></div></div>';
 }
@@ -569,22 +569,22 @@ if (1 == $pun_config['poll_enabled'] && $fid) {
     <legend><?php echo $lang_common['Write message legend']; ?></legend>
     <div class="infldset txtarea">
         <input type="hidden" name="form_sent" value="1" />
-        <input type="hidden" name="form_user" value="<?php echo ($pun_user['is_guest']) ? 'Guest' : pun_htmlspecialchars($pun_user['username']); ?>" />
+        <input type="hidden" name="form_user" value="<?php echo ($pun_user['is_guest']) ? 'Guest' : \pun_htmlspecialchars($pun_user['username']); ?>" />
 <?php
 if ($pun_user['is_guest']) {
     $email_label = (1 == $pun_config['p_force_guest_email']) ? '<strong>'.$lang_common['E-mail'].'</strong>' : $lang_common['E-mail'];
     $email_form_name = (1 == $pun_config['p_force_guest_email']) ? 'req_email' : 'email';
 
-    echo '<label class="conl"><strong>'.$lang_post['Guest name'].'</strong><br /><input type="text" name="req_username" value="'.pun_htmlspecialchars(@$username).'" size="25" maxlength="25" /><br /></label><label class="conl">'.$email_label.'<br /><input type="text" name="'.$email_form_name.'" value="'.pun_htmlspecialchars(@$email).'" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
+    echo '<label class="conl"><strong>'.$lang_post['Guest name'].'</strong><br /><input type="text" name="req_username" value="'.\pun_htmlspecialchars(@$username).'" size="25" maxlength="25" /><br /></label><label class="conl">'.$email_label.'<br /><input type="text" name="'.$email_form_name.'" value="'.\pun_htmlspecialchars(@$email).'" size="50" maxlength="50" /><br /></label><div class="clearer"></div>';
 }
 
 if ($fid) {
-    echo '<label><strong>'.$lang_common['Subject'].'</strong><br /><input class="longinput" type="text" name="req_subject" value="'.pun_htmlspecialchars(@$subject).'" size="80" maxlength="70" /><br /></label>';
+    echo '<label><strong>'.$lang_common['Subject'].'</strong><br /><input class="longinput" type="text" name="req_subject" value="'.\pun_htmlspecialchars(@$subject).'" size="80" maxlength="70" /><br /></label>';
 }
 
 require PUN_ROOT.'include/attach/post_buttons.php';
 ?>
-<label><textarea name="req_message" rows="12" cols="98"><?php echo isset($_POST['req_message']) ? pun_htmlspecialchars($message) : ($quote ?? ''); ?></textarea><br/></label>
+<label><textarea name="req_message" rows="12" cols="98"><?php echo isset($_POST['req_message']) ? \pun_htmlspecialchars($message) : ($quote ?? ''); ?></textarea><br/></label>
 <?php
 // если есть проверка капчей
 if (2 == $pun_user['g_post_replies']) {
@@ -641,7 +641,7 @@ echo '</div><p><input type="submit" name="submit" value="'.$lang_common['Submit'
 if ($tid && $pun_config['o_topic_review']) {
     include_once PUN_ROOT.'include/parser.php';
 
-    $result = $db->query('SELECT id, poster, message, hide_smilies, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT '.$pun_config['o_topic_review']) or error('Unable to fetch topic review', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id, poster, message, hide_smilies, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT '.$pun_config['o_topic_review']) or \error('Unable to fetch topic review', __FILE__, __LINE__, $db->error());
 
     echo '<div id="postreview" class="blockpost"><h2><span>'.$lang_post['Topic review'].'</span></h2>';
 
@@ -657,13 +657,13 @@ if ($tid && $pun_config['o_topic_review']) {
 
         // QUICK QUOTE MOD BEGIN
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE ADDED
-        $username = '<a href="javascript:pasteN(\''.pun_htmlspecialchars($cur_post['poster']).'\');">'.pun_htmlspecialchars($cur_post['poster']).'</a>';
+        $username = '<a href="javascript:pasteN(\''.\pun_htmlspecialchars($cur_post['poster']).'\');">'.\pun_htmlspecialchars($cur_post['poster']).'</a>';
         // QUICK QUOTE MOD END
 
-        $cur_post['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+        $cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies']);
 
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE MODIFIED
-        echo '<div class="box'.$vtbg.'"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd>'.format_time($cur_post['posted']).'</dd></dl></div><div class="postright"><div class="postmsg">'.$cur_post['message'].'</div></div><div class="clearer"></div><div class="postfootright"><ul><li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\',\''.pun_htmlspecialchars($cur_post['poster']).'\');">'.$lang_post['Quote'].'</a></li></ul></div></div></div>';
+        echo '<div class="box'.$vtbg.'"><div class="inbox"><div class="postleft"><dl><dt><strong>'.$username.'</strong></dt><dd>'.\format_time($cur_post['posted']).'</dd></dl></div><div class="postright"><div class="postmsg">'.$cur_post['message'].'</div></div><div class="clearer"></div><div class="postfootright"><ul><li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\',\''.\pun_htmlspecialchars($cur_post['poster']).'\');">'.$lang_post['Quote'].'</a></li></ul></div></div></div>';
         // MOD: QUICK QUOTE - 1 LINE FOLLOWING CODE ADDED
     }
 

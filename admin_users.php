@@ -12,17 +12,17 @@ require PUN_ROOT.'include/common_admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
-    message($lang_common['No permission']);
+    \message($lang_common['No permission']);
 }
 
 // Show IP statistics for a certain user ID
 if (isset($_GET['ip_stats'])) {
     $ip_stats = \intval($_GET['ip_stats']);
     if ($ip_stats < 1) {
-        message($lang_common['Bad request']);
+        \message($lang_common['Bad request']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
 
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
@@ -47,7 +47,7 @@ if (isset($_GET['ip_stats'])) {
                 <tbody>
                     <?php
 
-                    $result = $db->query('SELECT poster_ip, MAX(posted) AS last_used, COUNT(id) AS used_times FROM '.$db->prefix.'posts WHERE poster_id='.$ip_stats.' GROUP BY poster_ip ORDER BY last_used DESC') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT poster_ip, MAX(posted) AS last_used, COUNT(id) AS used_times FROM '.$db->prefix.'posts WHERE poster_id='.$ip_stats.' GROUP BY poster_ip ORDER BY last_used DESC') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         while ($cur_ip = $db->fetch_assoc($result)) {
             ?>
@@ -55,7 +55,7 @@ if (isset($_GET['ip_stats'])) {
                             <td class="tcl"><a
                                 href="moderate.php?get_host=<?php echo $cur_ip['poster_ip']; ?>"><?php echo $cur_ip['poster_ip']; ?></a>
                             </td>
-                            <td class="tc2"><?php echo format_time($cur_ip['last_used']); ?></td>
+                            <td class="tc2"><?php echo \format_time($cur_ip['last_used']); ?></td>
                             <td class="tc3"><?php echo $cur_ip['used_times']; ?></td>
                             <td class="tcr"><a
                                 href="admin_users.php?show_users=<?php echo $cur_ip['poster_ip']; ?>"><?php echo $lang_admin['All IP']; ?></a>
@@ -85,10 +85,10 @@ if (isset($_GET['show_users'])) {
     $ip = $_GET['show_users'];
 
     if (!@\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $ip)) {
-        message($lang_admin['Bad IP']);
+        \message($lang_admin['Bad IP']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
 
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
@@ -114,7 +114,7 @@ if (isset($_GET['show_users'])) {
 <tbody>
 <?php
 
-    $result = $db->query('SELECT DISTINCT poster_id, poster FROM '.$db->prefix.'posts WHERE poster_ip=\''.$db->escape($ip).'\' ORDER BY poster DESC') or error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT DISTINCT poster_id, poster FROM '.$db->prefix.'posts WHERE poster_ip=\''.$db->escape($ip).'\' ORDER BY poster DESC') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     $num_posts = $db->num_rows($result);
 
     if ($num_posts) {
@@ -122,13 +122,13 @@ if (isset($_GET['show_users'])) {
         for ($i = 0; $i < $num_posts; ++$i) {
             [$poster_id, $poster] = $db->fetch_row($result);
 
-            $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM '.$db->prefix.'users AS u INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id='.$poster_id) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+            $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM '.$db->prefix.'users AS u INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id='.$poster_id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
             if (($user_data = $db->fetch_assoc($result2))) {
-                $user_title = get_title($user_data);
+                $user_title = \get_title($user_data);
                 $actions = '<a href="admin_users.php?ip_stats='.$user_data['id'].'">'.$lang_admin['IP stats'].'</a> - <a href="search.php?action=show_user&amp;user_id='.$user_data['id'].'">'.$lang_admin['Num posts'].'</a>'; ?>
             <tr>
-                <td class="tcl"><?php echo '<a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a>'; ?></td>
+                <td class="tcl"><?php echo '<a href="profile.php?id='.$user_data['id'].'">'.\pun_htmlspecialchars($user_data['username']).'</a>'; ?></td>
                 <td class="tc2"><a
                     href="mailto:<?php echo $user_data['email']; ?>"><?php echo $user_data['email']; ?></a></td>
                 <td class="tc3"><?php echo $user_title; ?></td>
@@ -139,7 +139,7 @@ if (isset($_GET['show_users'])) {
                 <?php
             } else {
                 echo '<tr>
-<td class="tcl">'.pun_htmlspecialchars($poster).'</td>
+<td class="tcl">'.\pun_htmlspecialchars($poster).'</td>
 <td class="tc2"> </td>
 <td class="tc3">Guest</td>
 <td class="tc4"> </td>
@@ -183,7 +183,7 @@ if (isset($_GET['show_users'])) {
     $user_group = $_POST['user_group'];
 
     if (\preg_match('/[^0-9]/', $posts_greater.$posts_less)) {
-        message($lang_admin['Not numeric']);
+        \message($lang_admin['Not numeric']);
     }
 
     // Try to convert date/time to timestamps
@@ -201,7 +201,7 @@ if (isset($_GET['show_users'])) {
     }
 
     if (-1 == $last_post_after || -1 == $last_post_before || -1 == $registered_after || -1 == $registered_before) {
-        message($lang_admin['Bad time']);
+        \message($lang_admin['Bad time']);
     }
 
     if ($last_post_after) {
@@ -235,10 +235,10 @@ if (isset($_GET['show_users'])) {
     }
 
     if (empty($conditions)) {
-        message($lang_admin['Bad search']);
+        \message($lang_admin['Bad search']);
     }
 
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
 
     require_once PUN_ROOT.'header.php'; ?>
 <div class="linkst">
@@ -264,10 +264,10 @@ if (isset($_GET['show_users'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND '.\implode(' AND ', $conditions).' ORDER BY '.$db->escape($order_by).' '.$db->escape($direction)) or error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND '.\implode(' AND ', $conditions).' ORDER BY '.$db->escape($order_by).' '.$db->escape($direction)) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         while ($user_data = $db->fetch_assoc($result)) {
-            $user_title = get_title($user_data);
+            $user_title = \get_title($user_data);
 
             // This script is a special case in that we want to display "Not verified" for non-verified users
             if ((!$user_data['g_id'] || PUN_UNVERIFIED == $user_data['g_id']) && $user_title != $lang_common['Banned']) {
@@ -276,7 +276,7 @@ if (isset($_GET['show_users'])) {
 
             $actions = '<a href="admin_users.php?ip_stats='.$user_data['id'].'">'.$lang_admin['IP stats'].'</a> - <a href="search.php?action=show_user&amp;user_id='.$user_data['id'].'">'.$lang_admin['Num posts'].'</a>'; ?>
                         <tr>
-                            <td class="tcl"><?php echo '<a href="profile.php?id='.$user_data['id'].'">'.pun_htmlspecialchars($user_data['username']).'</a>'; ?></td>
+                            <td class="tcl"><?php echo '<a href="profile.php?id='.$user_data['id'].'">'.\pun_htmlspecialchars($user_data['username']).'</a>'; ?></td>
                             <td class="tc2"><a
                                 href="mailto:<?php echo $user_data['email']; ?>"><?php echo $user_data['email']; ?></a>
                             </td>
@@ -304,12 +304,12 @@ if (isset($_GET['show_users'])) {
 
     require_once PUN_ROOT.'footer.php';
 } else {
-    $page_title = pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
+    $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / Admin / Users';
     $focus_element = ['find_user', 'username'];
 
     require_once PUN_ROOT.'header.php';
 
-    generate_admin_menu('users'); ?>
+    \generate_admin_menu('users'); ?>
 <div class="blockform">
     <h2><span><?php echo $lang_admin['Search users']; ?></span></h2>
 
@@ -426,10 +426,10 @@ if (isset($_GET['show_users'])) {
                                         <option value="all"
                                                 selected="selected"><?php echo $lang_admin['All groups']; ?></option>
                                         <?php
-                                        $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' ORDER BY g_title') or error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                                        $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' ORDER BY g_title') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
 
     while ($cur_group = $db->fetch_assoc($result)) {
-        echo '<option value="'.$cur_group['g_id'].'">'.pun_htmlspecialchars($cur_group['g_title']).'</option>';
+        echo '<option value="'.$cur_group['g_id'].'">'.\pun_htmlspecialchars($cur_group['g_title']).'</option>';
     } ?>
                                     </select>
                                 </td>
