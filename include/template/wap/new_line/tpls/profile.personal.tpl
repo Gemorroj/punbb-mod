@@ -23,7 +23,7 @@
 
         </select><br/>
         {$lang_profile.birthday}<br/>
-        <input type="text" value="{$birthday[0]|default}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input type="text" value="{$birthday[1]|default}" name="month" title="{$lang_profile.month}" size="2" maxlength="2"/>.<input type="text" value="{$birthday[2]|default}" name="year" title="{$lang_profile.year}" size="4" maxlength="4"/><br/>
+        <input type="number" value="{$birthday[0]|default}" name="day" title="{$lang_profile.day}" size="2" maxlength="2"/>.<input type="number" value="{$birthday[1]|default}" name="month" title="{$lang_profile.month}" size="2" maxlength="2"/>.<input type="number" value="{$birthday[2]|default}" name="year" title="{$lang_profile.year}" size="4" maxlength="4"/><br/>
         {$lang_profile.Realname}<br/>
         <input type="text" name="form[realname]" value="{$user.realname|escape}" maxlength="40"/><br/>{$title_field|default:''}{$lang_profile.Location}<br/>
         <input type="text" name="form[location]" value="{$user.location|escape}" maxlength="30"/><br/>
