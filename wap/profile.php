@@ -738,9 +738,9 @@ if ('delete_avatar' == $action) {
             $form = \extract_elements(['realname', 'url', 'location', 'sex', 'birthday']);
 
             if (PUN_ADMIN == $pun_user['g_id']) {
-                $form['title'] = \trim($_POST['title']);
+                $form['title'] = isset($_POST['title']) ? \trim($_POST['title']) : '';
             } elseif (1 == $pun_user['g_set_title']) {
-                $form['title'] = \trim($_POST['title']);
+                $form['title'] = isset($_POST['title']) ? \trim($_POST['title']) : '';
 
                 if ($form['title']) {
                     // A list of words that the title may not contain
