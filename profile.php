@@ -1229,15 +1229,15 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 
         if (PUN_ADMIN == $pun_user['g_id']) {
             $posts_field = '<label>'.$lang_common['Posts'].
-                '<br /><input type="text" name="num_posts" value="'.$user['num_posts'].
+                '<br /><input type="number" name="num_posts" value="'.$user['num_posts'].
                 '" size="8" maxlength="8" /><br /></label>
 <p><a href="search.php?action=show_user&amp;user_id='.$id.'">'.$lang_profile['Show posts'].
                 '</a></p>';
             $files_field = '<label>'.$lang_common['Files'].
-                '<br /><input type="text" name="num_files"  value="'.$user['num_files'].
+                '<br /><input type="number" name="num_files"  value="'.$user['num_files'].
                 '" size="8" maxlength="8" /><br /></label>
 <label>'.$lang_common['Bonus'].
-                '<br /><input type="text" name="file_bonus" value="'.$user['file_bonus'].
+                '<br /><input type="number" name="file_bonus" value="'.$user['file_bonus'].
                 '" size="8" maxlength="8" /><br /></label>
 <p><a href="filemap.php?user_id='.$id.'">'.$lang_profile['Show files'].
                 '</a></p>';

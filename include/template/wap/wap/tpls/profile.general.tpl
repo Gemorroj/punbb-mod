@@ -135,9 +135,9 @@
 
 {* + posts and files *}
 {if $pun_user.g_id == $smarty.const.PUN_ADMIN}
-    {$lang_common.Posts}: <input type="text" name="num_posts" value="{$user.num_posts}" size="3" maxlength="8"/> - <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
-    {$lang_common.Files}: <input type="text" name="num_files" value="{$user.num_files}" size="3" maxlength="8"/> - <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
-    {$lang_common.Bonus}: <input type="text" name="file_bonus" value="{$user.file_bonus}" size="3" maxlength="8"/><br/>
+    {$lang_common.Posts}: <input type="number" name="num_posts" value="{$user.num_posts}" size="3" maxlength="8"/> - <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
+    {$lang_common.Files}: <input type="number" name="num_files" value="{$user.num_files}" size="3" maxlength="8"/> - <a href="filemap.php?user_id={$id}">{$lang_profile.$Show_files}</a><br/>
+    {$lang_common.Bonus}: <input type="number" name="file_bonus" value="{$user.file_bonus}" size="3" maxlength="8"/><br/>
 {else}
     {if $pun_config.o_show_post_count == 1 || $pun_user.g_id < $smarty.const.PUN_GUEST}
         {$lang_common.Posts}: {$user.num_posts} - <a href="search.php?action=show_user&amp;user_id={$id}">{$lang_profile.$Show_posts}</a><br/>
