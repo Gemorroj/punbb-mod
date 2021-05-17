@@ -640,8 +640,8 @@ function do_smilies($text)
 
     $text = ' '.$text.' ';
 
-    $num_smilies = \count($smiley_text);
-    for ($i = 0; $i < $num_smilies; ++$i) {
+    $num_smiles = \count($smiley_text);
+    for ($i = 0; $i < $num_smiles; ++$i) {
         $text = \preg_replace(
             '#(?<=.\\W|\\W.|^\\W)'.\preg_quote($smiley_text[$i], '#').'(?=.\\W|\\W.|\\W$)#m',
             '$1<img src="'.PUN_ROOT.'img/smilies/'.$smiley_img[$i].'" alt="'.\substr($smiley_img[$i], 0, \strrpos($smiley_img[$i], '.')).'" />$2',
@@ -795,7 +795,7 @@ function do_code($text, $inside = [])
                 $num_lines = ((\substr_count($inside[$i], "\n")) + 3) * 1.5;
                 $height_str = ($num_lines > 35) ? '35em' : $num_lines.'em';
 
-                if ('&lt;?' === $inside[$i][0].$inside[$i][1].$inside[$i][2].$inside[$i][3].$inside[$i][4]) {
+                if (0 === \strpos($inside[$i], '&lt;?')) {
                     $code = \str_replace(
                         [
                             '<code>',
@@ -861,7 +861,7 @@ function do_code($text, $inside = [])
                 if ($wap) {
                     $text .= '<div class="code">'.$lang_common['Code'].':<br/><table class="p_cnt" style="white-space: pre;font-family:Courier New;font-size:8pt;">'.\str_replace('&nbsp;', '&#160;', $code).'</table></div>';
                 } else {
-                    $text .= '</p><div class="codebox"><div class="incqbox"><h4>'.$lang_common['Code'].':</h4><div class="scrollbox"'.('viewprintable.php' != \basename($_SERVER['PHP_SELF']) ? ' style="height: '.$height_str.'"' : '').'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>'.$num_line.'</table></td><td><table>'.\str_replace('&nbsp;', '&#160;', $code).'</table></td></tr></table></div></div></div><p>';
+                    $text .= '</p><div class="codebox"><div class="incqbox"><h4>'.$lang_common['Code'].':</h4><div class="scrollbox"'.('viewprintable.php' !== \basename($_SERVER['PHP_SELF']) ? ' style="height: '.$height_str.'"' : '').'><table class="p_cnt" style="font-family:Courier New;"><tr><td style="width:1pt;"><table>'.$num_line.'</table></td><td><table>'.\str_replace('&nbsp;', '&#160;', $code).'</table></td></tr></table></div></div></div><p>';
                 }
             }
         }

@@ -21,11 +21,11 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 // Inbox or Sent?
-$box = \intval($_GET['box']);
+$box = isset($_GET['box']) ? (int) $_GET['box'] : 0;
 
-if (1 == $box) {
+if (1 === $box) {
     $name = $lang_pms['Outbox'];
-} elseif (2 == $box) {
+} elseif (2 === $box) {
     $name = $lang_pms['Options'];
 } else {
     $box = 0;
@@ -60,7 +60,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
 
         require_once PUN_ROOT.'footer.php';
     }
-} elseif ('markall' === $_GET['action']) {
+} elseif (isset($_GET['action']) && 'markall' === $_GET['action']) {
     // Mark all messages as read
     $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE owner='.$pun_user['id']) or \error('Unable to update message status', __FILE__, __LINE__, $db->error());
     \redirect('message_list.php?box='.$box.'&p='.$p, $lang_pms['Read redirect']);
@@ -77,7 +77,7 @@ if ($box < 2) {
     $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
-    if ('all' != $_GET['action']) {
+    if (!isset($_GET['action']) || 'all' !== $_GET['action']) {
         $limit = 'LIMIT '.$start_from.','.$pun_config['o_pms_mess_per_page'];
     }
 }
@@ -289,7 +289,7 @@ if ($box < 2) {
 <?php
     }
 
-    if ('all' == $_GET['action']) {
+    if (isset($_GET['action']) && 'all' === $_GET['action']) {
         $p = $num_pages + 1;
     }
 

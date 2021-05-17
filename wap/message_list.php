@@ -72,7 +72,7 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         exit();
     }
 } // Mark all messages as read
-elseif (isset($_GET['action']) && 'markall' == $_GET['action']) {
+elseif (isset($_GET['action']) && 'markall' === $_GET['action']) {
     $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE owner='.$pun_user['id']) or \error('Unable to update message status', __FILE__, __LINE__, $db->error());
     //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int)$_GET['p'];
     \wap_redirect('message_list.php?box='.$box.'&p='.$p);
@@ -90,7 +90,7 @@ if ($box < 2) {
     $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
-    if ('all' != @$_GET['action']) {
+    if (!isset($_GET['action']) || 'all' !== $_GET['action']) {
         $limit = 'LIMIT '.$start_from.','.$pun_config['o_pms_mess_per_page'];
     }
 
@@ -163,7 +163,7 @@ if ($box < 2) {
         }
     }
 
-    if ('all' == @$_GET['action']) {
+    if (isset($_GET['action']) && 'all' === $_GET['action']) {
         $p = $num_pages + 1;
     }
 

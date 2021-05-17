@@ -1690,7 +1690,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
         $d = \opendir(PUN_ROOT.'style');
         while (false !== ($entry = \readdir($d))) {
             $info = \pathinfo($entry);
-            if ('css' == $info['extension']) {
+            if (isset($info['extension']) && 'css' === $info['extension']) {
                 $styles[] = $info['filename'];
             }
         }

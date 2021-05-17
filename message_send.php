@@ -227,17 +227,22 @@ if (isset($_POST['form_sent'])) {
                                value="<?php echo isset($_POST['from_profile']) ? $from_profile : ''; ?>"/>
                         <input type="hidden" name="form_user"
                                value="<?php echo (!$pun_user['is_guest']) ? \pun_htmlspecialchars($pun_user['username']) : 'Guest'; ?>"/>
-                        <label><strong><?php echo $lang_pms['Send to']; ?></strong><br/><?php echo '<input type="text" name="req_username" size="25" maxlength="25" value="'.\pun_htmlspecialchars($username).'" />'; ?>
+                        <label>
+                            <strong><?php echo $lang_pms['Send to']; ?></strong><br/>
+                            <input type="text" name="req_username" size="25" maxlength="25" value="<?php echo isset($username) ? \pun_htmlspecialchars($username) : ''; ?>" />
                         <br/></label>
-                        <label><strong><?php echo $lang_common['Subject']; ?></strong><br/><input class="longinput"
-                                                                                                 type="text"
-                                                                                                 name="req_subject"
-                                                                                                 value="<?php echo \pun_htmlspecialchars($subject); ?>"
-                                                                                                 size="80"
-                                                                                                 maxlength="70"
-                                                                                                 /><br/></label>
+                        <label>
+                            <strong><?php echo $lang_common['Subject']; ?></strong><br/>
+                            <input class="longinput"
+                                    type="text"
+                                    name="req_subject"
+                                    value="<?php echo isset($subject) ? \pun_htmlspecialchars($subject) : ''; ?>"
+                                    size="80"
+                                    maxlength="70"
+                                    /><br/>
+                        </label>
                         <label><strong><?php echo $lang_common['Message']; ?></strong><br/>
-                            <textarea name="req_message" rows="12" cols="92"><?php echo \pun_htmlspecialchars($quote); ?></textarea><br/>
+                            <textarea name="req_message" rows="12" cols="92"><?php echo isset($quote) ? \pun_htmlspecialchars($quote) : ''; ?></textarea><br/>
                         </label>
                         <ul class="bblinks">
                             <li>
