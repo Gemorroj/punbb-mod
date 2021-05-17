@@ -639,13 +639,15 @@ if ('delete_avatar' == $action) {
     */
 
     // Extract allowed elements from $_POST['form']
-    function extract_elements($allowed_elements)
+    function extract_elements(array $allowed_elements): array
     {
         $form = [];
 
-        foreach ($_POST['form'] as $key => $value) {
-            if (\in_array($key, $allowed_elements)) {
-                $form[$key] = $value;
+        if (isset($_POST['form']) && \is_array($_POST['form'])) {
+            foreach ($_POST['form'] as $key => $value) {
+                if (\in_array($key, $allowed_elements, true)) {
+                    $form[$key] = $value;
+                }
             }
         }
 
@@ -728,9 +730,8 @@ if ('delete_avatar' == $action) {
             break;
 
         case 'personal':
-            $_POST['form']['birthday'] = \intval($_POST['day']).'.'.\intval($_POST['month']).
-                '.'.\intval($_POST['year']);
-            if ('0.0.0' == $_POST['form']['birthday']) {
+            $_POST['form']['birthday'] = \intval($_POST['day']).'.'.\intval($_POST['month']).'.'.\intval($_POST['year']);
+            if ('0.0.0' === $_POST['form']['birthday']) {
                 $_POST['form']['birthday'] = '';
             }
 
@@ -755,7 +756,7 @@ if ('delete_avatar' == $action) {
             }
 
             // Add http:// if the URL doesn't contain it already
-            if ($form['url'] && 0 !== \strpos(\strtolower($form['url']), 'http://')) {
+            if ($form['url'] && 0 !== \stripos($form['url'], 'http://') && 0 !== \stripos($form['url'], 'https://')) {
                 $form['url'] = 'http://'.$form['url'];
             }
 
@@ -1053,11 +1054,11 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
     include_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 
-    if ('essentials' == $section) {
+    if ('essentials' === $section) {
         $languages = [];
         $d = \opendir(PUN_ROOT.'lang');
         while (false !== ($entry = \readdir($d))) {
-            if ('.' != $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+            if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
                 $languages[] = $entry;
             }
         }
@@ -1076,7 +1077,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
         exit();
     }
-    if ('personal' == $section) {
+    if ('personal' === $section) {
         if ($user['birthday']) {
             $birthday = \explode('.', $user['birthday']);
             $smarty->assign('birthday', $birthday);
@@ -1086,12 +1087,12 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
         exit();
     }
-    if ('messaging' == $section) {
+    if ('messaging' === $section) {
         $smarty->display('profile.messaging.tpl');
 
         exit();
     }
-    if ('personality' == $section) {
+    if ('personality' === $section) {
         $smarty->assign('parsed_signature', @$parsed_signature);
 
         $pun_config['o_avatars'] = 1;
@@ -1105,7 +1106,7 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
         exit();
     }
-    if ('display' == $section) {
+    if ('display' === $section) {
         $styles = [];
         $d = \opendir(PUN_ROOT.'include/template/wap');
         while (false !== ($entry = \readdir($d))) {
@@ -1121,14 +1122,14 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
         exit();
     }
-    if ('privacy' == $section) {
+    if ('privacy' === $section) {
         $smarty->assign('lang_prof_reg', $lang_prof_reg);
 
         $smarty->display('profile.privacy.tpl');
 
         exit();
     }
-    if ('admin' == $section) {
+    if ('admin' === $section) {
         if ($pun_user['g_id'] > PUN_MOD
             || (PUN_MOD == $pun_user['g_id']
             && !$pun_config['p_mod_ban_users'])

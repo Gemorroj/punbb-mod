@@ -695,13 +695,15 @@ if ('change_pass' == $action) {
     */
 
     // Extract allowed elements from $_POST['form']
-    function extract_elements($allowed_elements)
+    function extract_elements(array $allowed_elements): array
     {
         $form = [];
 
-        foreach ($_POST['form'] as $key => $value) {
-            if (\in_array($key, $allowed_elements)) {
-                $form[$key] = $value;
+        if (isset($_POST['form']) && \is_array($_POST['form'])) {
+            foreach ($_POST['form'] as $key => $value) {
+                if (\in_array($key, $allowed_elements, true)) {
+                    $form[$key] = $value;
+                }
             }
         }
 
@@ -736,9 +738,7 @@ if ('change_pass' == $action) {
                     }
 
                     // Check that the username is not already registered
-                    $result = $db->query('SELECT 1 FROM `'.$db->prefix.
-                        'users` WHERE `username`="'.$db->escape($form['username']).'" AND `id`<>'.
-                        $id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT 1 FROM `'.$db->prefix.'users` WHERE `username`="'.$db->escape($form['username']).'" AND `id`<>'.$id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
                     if ($db->num_rows($result)) {
                         \message($lang_profile['Dupe username']);
@@ -778,9 +778,8 @@ if ('change_pass' == $action) {
             break;
 
         case 'personal':
-            $_POST['form']['birthday'] = \intval($_POST['day']).'.'.\intval($_POST['month']).
-                '.'.\intval($_POST['year']);
-            if ('0.0.0' == $_POST['form']['birthday']) {
+            $_POST['form']['birthday'] = \intval($_POST['day']).'.'.\intval($_POST['month']).'.'.\intval($_POST['year']);
+            if ('0.0.0' === $_POST['form']['birthday']) {
                 $_POST['form']['birthday'] = '';
             }
 
@@ -805,7 +804,7 @@ if ('change_pass' == $action) {
             }
 
             // Add http:// if the URL doesn't contain it already
-            if ($form['url'] && 0 !== \strpos(\strtolower($form['url']), 'http://')) {
+            if ($form['url'] && 0 !== \stripos($form['url'], 'http://') && 0 !== \stripos($form['url'], 'https://')) {
                 $form['url'] = 'http://'.$form['url'];
             }
 
@@ -1187,7 +1186,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 
     require_once PUN_ROOT.'footer.php';
 } else {
-    if (!$_GET['section'] || 'essentials' == $_GET['section']) {
+    if (!isset($_GET['section']) || !$_GET['section'] || 'essentials' === $_GET['section']) {
         if ($pun_user['g_id'] < PUN_GUEST) {
             if (PUN_ADMIN == $pun_user['g_id'] || 1 == $pun_config['p_mod_rename_users']) {
                 $username_field = '<input type="hidden" name="old_username" value="'.
@@ -1496,7 +1495,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 </form>
 </div>
 </div>';
-    } elseif ('personal' == $_GET['section']) {
+    } elseif ('personal' === $_GET['section']) {
         if (1 == $pun_user['g_set_title']) {
             $title_field = '<label>'.$lang_common['Title'].' (<em>'.$lang_profile['Leave blank'].'</em>)<br /><input type="text" name="title" value="'.\pun_htmlspecialchars($user['title']).'" size="30" maxlength="50" /><br /></label>';
         }
@@ -1528,10 +1527,10 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 
         echo '</select><br/></label>
 <label>'.$lang_profile['birthday'].'<br/>
-<input type="text" value="'.$birthday[0].'" name="day" title="'.$lang_profile['day'].
-            '" size="2" maxlength="2"/>.<input type="text" value="'.$birthday[1].
+<input type="number" value="'.@$birthday[0].'" name="day" title="'.$lang_profile['day'].
+            '" size="2" maxlength="2"/>.<input type="number" value="'.@$birthday[1].
             '" name="month" title="'.$lang_profile['month'].
-            '" size="2" maxlength="2"/>.<input type="text" value="'.$birthday[2].
+            '" size="2" maxlength="2"/>.<input type="number" value="'.@@$birthday[2].
             '" name="year" title="'.$lang_profile['year'].
             '" size="4" maxlength="4"/><br/></label>
 
@@ -1541,7 +1540,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             '<br /><input type="text" name="form[location]" value="'.\pun_htmlspecialchars($user['location']).
             '" size="30" maxlength="30" /><br /></label>
 <label>'.$lang_profile['Website'].
-            '<br /><input type="text" name="form[url]" value="'.\pun_htmlspecialchars($user['url']).
+            '<br /><input type="url" name="form[url]" value="'.\pun_htmlspecialchars($user['url']).
             '" size="50" maxlength="80" /><br /></label>
 </div>
 </fieldset>

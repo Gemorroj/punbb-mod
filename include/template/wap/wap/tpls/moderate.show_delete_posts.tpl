@@ -13,7 +13,7 @@
 {foreach from=$posts item=cur_post}
 
     {assign var='post_count' value=$post_count+1}
-
+    {assign var=j value=false}
     <div class="{if $j = !$j}msg{else}msg2{/if}">
         <div class="zag_in">
             <a href="viewtopic.php?pid={$cur_post.id}#p{$cur_post.id}">#{($start_from + $post_count)}</a>

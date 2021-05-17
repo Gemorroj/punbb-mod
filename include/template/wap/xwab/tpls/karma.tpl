@@ -16,6 +16,7 @@
 </div>
 
 {foreach from=$votes item=cur_karma}
+    {assign var=j value=false}
     <div class="{if $j = !$j}msg{else}msg2{/if}">
         {if $cur_karma.from}
             <a href="profile.php?id={$cur_karma.id}">{$cur_karma.from|escape}</a>

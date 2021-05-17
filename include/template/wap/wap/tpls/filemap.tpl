@@ -41,6 +41,7 @@
             {assign var='cur_topic' value=$attachment.tid}
         {/if}
 
+        {assign var=j value=false}
         <div class="{if $j = !$j}msg{else}msg2{/if}">
             {if $attachment.can_download}
                 <a href="{$smarty.const.PUN_ROOT}download.php?aid={$attachment.id}">{$attachment.filename|escape}</a>
