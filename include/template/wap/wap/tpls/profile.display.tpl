@@ -53,15 +53,16 @@
     <div class="input">
         <strong>{$lang_profile.$Pagination_legend}</strong><br/>
         {$lang_profile.$Topics_per_page}<br/>
-        <input type="text" name="form[disp_topics]" value="{$user.disp_topics}" maxlength="3"/><br/>
+        <input type="number" name="form[disp_topics]" value="{$user.disp_topics}" maxlength="3"/><br/>
         {$lang_profile.$Posts_per_page}<br/>
-        <input type="text" name="form[disp_posts]" value="{$user.disp_posts}" maxlength="3"/><br/>
+        <input type="number" name="form[disp_posts]" value="{$user.disp_posts}" maxlength="3"/><br/>
     {$lang_profile.$Paginate_info} {$lang_profile.$Leave_blank}
     </div>
     <div class="input2">
         <strong>{$lang_profile.$Mark_as_read_legend}</strong><br/>
         {$lang_profile.$Mark_as_read_after}<br/>
-        <input type="text" name="form[mark_after]" value="{($user.mark_after / 86400)}" maxlength="3"/></div>
+        <input type="number" name="form[mark_after]" value="{($user.mark_after / 86400)}" maxlength="3"/>
+    </div>
     <div class="go_to">
         <input type="submit" name="update" value="{$lang_common.Submit}"/>
     </div>

@@ -1768,10 +1768,10 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <legend>'.$lang_profile['Pagination legend'].'</legend>
 <div class="infldset">
 <label class="conl">'.$lang_profile['Topics per page'].
-            '<br /><input type="text" name="form[disp_topics]" value="'.$user['disp_topics'].
+            '<br /><input type="number" name="form[disp_topics]" value="'.$user['disp_topics'].
             '" size="6" maxlength="3" /><br /></label>
 <label class="conl">'.$lang_profile['Posts per page'].
-            '<br /><input type="text" name="form[disp_posts]" value="'.$user['disp_posts'].
+            '<br /><input type="number" name="form[disp_posts]" value="'.$user['disp_posts'].
             '" size="6" maxlength="3" /><br /></label>
 <p class="clearb">'.$lang_profile['Paginate info'].' '.$lang_profile['Leave blank'].
             '</p>
@@ -1783,7 +1783,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
 <legend>'.$lang_profile['Mark as read legend'].'</legend>
 <div class="infldset">
 <label class="conl">'.$lang_profile['Mark as read after'].
-            '<br /><input type="text" name="form[mark_after]" value="'.($user['mark_after'] /
+            '<br /><input type="number" name="form[mark_after]" value="'.($user['mark_after'] /
             86400).'" size="6" maxlength="3" /><br /></label>
 <p class="clearb"></p>
 </div>
