@@ -11,6 +11,7 @@
 {assign var='Sort_order' value='Sort order'}
 {assign var='User_search_info' value='User search info'}
 {assign var='No_hits' value='No hits'}
+{assign var='j' value=false}
 
 {* Навигация: Главная / Пользователи *}
 <div class="inbox">

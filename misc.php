@@ -12,11 +12,13 @@ require PUN_ROOT.'include/common.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/misc.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
-$mark_forum_id = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
+$mark_forum_id = isset($_GET['fid']) ? (int) $_GET['fid'] : 0;
 // message($lang_common['Bad request']);
 // REAL MARK TOPIC AS READ MOD END
 
-if ('rules' == $_GET['action']) {
+$action = $_GET['action'] ?? null;
+
+if ('rules' === $action) {
     // Load the registration.php language file
     include PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
 
@@ -34,7 +36,7 @@ if ('rules' == $_GET['action']) {
     </div>';
 
     require_once PUN_ROOT.'footer.php';
-} elseif ('markread' == $_GET['action']) {
+} elseif ('markread' === $action) {
     if ($pun_user['is_guest']) {
         \message($lang_common['No permission']);
     }

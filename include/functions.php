@@ -1065,7 +1065,7 @@ function error($message, $file, $line, $db_error = [])
 
     // Set a default title if the script failed before $pun_config could be populated
     if (!$pun_config) {
-        $pun_config['o_board_title'] = 'PunBB mod v'.$pun_config['o_show_version'];
+        $pun_config['o_board_title'] = 'PunBB mod';
     }
 
     // Empty output buffer and stop buffering

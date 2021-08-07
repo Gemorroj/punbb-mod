@@ -19,7 +19,7 @@ $action = $_GET['action'] ?? null;
 $mark_forum_id = isset($_GET['fid']) ? \intval($_GET['fid']) : 0; // wap_message($lang_common['Bad request']);
 // REAL MARK TOPIC AS READ MOD END
 
-if ('rules' == $action) {
+if ('rules' === $action) {
     // Load the registration.php language file
     require PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
 
@@ -32,7 +32,7 @@ if ('rules' == $action) {
 
     exit();
 }
-if ('markread' == $action) {
+if ('markread' === $action) {
     if ($pun_user['is_guest']) {
         \wap_message($lang_common['No permission']);
     }

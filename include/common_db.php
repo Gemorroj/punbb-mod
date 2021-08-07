@@ -15,14 +15,19 @@ class DBLayer
     /**
      * @var mysqli
      */
-    protected $link_id;
+    private $link_id;
     /**
      * @var bool|mysqli_result|null
      */
-    protected $query_result;
-
-    protected $saved_queries = [];
-    protected $num_queries = 0;
+    private $query_result;
+    /**
+     * @var array
+     */
+    private $saved_queries = [];
+    /**
+     * @var int
+     */
+    private $num_queries = 0;
 
     /**
      * @param string $db_host
@@ -174,8 +179,15 @@ class DBLayer
      */
     public function error()
     {
+        $saved_queries = $this->get_saved_queries();
+        /** @var array|false $lastQuery */
+        $last_query = \end($saved_queries);
+        if ($last_query) {
+            $last_query = \current($last_query);
+        }
+
         return [
-            'error_sql' => @\current(@\end($this->saved_queries)),
+            'error_sql' => $last_query ?: '',
             'error_no' => $this->link_id ? $this->link_id->errno : '',
             'error_msg' => $this->link_id ? $this->link_id->error : '',
         ];

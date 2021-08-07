@@ -121,12 +121,11 @@ function pun_mail($to, $subject, $message, $reply = '')
  */
 function server_parse($socket, $expected_response)
 {
-    $server_response = '';
-    while (' ' !== $server_response[3]) {
+    do {
         if (!($server_response = \fgets($socket, 256))) {
             \error('Could not get mail server response codes. Please contact the forum administrator.', __FILE__, __LINE__);
         }
-    }
+    } while (' ' !== $server_response[3]);
 
     if (0 !== \strpos($server_response, $expected_response)) {
         \error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
