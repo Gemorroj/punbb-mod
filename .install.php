@@ -6,6 +6,9 @@
 \header('Cache-Control: post-check=0, pre-check=0', false);
 \header('Content-Type: text/html; charset=utf-8');
 
+\error_reporting(-1);
+\ini_set('display_errors', 'On');
+
 if (!\function_exists('mb_internal_encoding')) {
     echo '<!DOCTYPE html>
 <html>
