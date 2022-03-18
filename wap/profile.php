@@ -795,7 +795,7 @@ if ('delete_avatar' == $action) {
                 $form['signature'] = \preparse_bbcode($form['signature'], $foo, true);
             }
 
-            if (1 != $form['use_avatar']) {
+            if (!isset($form['use_avatar']) || 1 != $form['use_avatar']) {
                 $form['use_avatar'] = 0;
             }
 
