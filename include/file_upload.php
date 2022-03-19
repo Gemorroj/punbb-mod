@@ -256,12 +256,12 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
 {
     global $pun_config, $lang_common, $lang_fu, $db, $file_limit, $message;
 
-    $result = null;
     if (!isset($_FILES['attach']['error']) || !\check_mod_config()) {
-        return $result;
+        return null;
     }
 
     $total_uploaded = 0;
+    $result = null;
 
     $dest = $pun_config['file_upload_path'];
     $thmb = $pun_config['file_thumb_path'];
@@ -276,7 +276,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
 
     foreach ($_FILES['attach']['error'] as $key => $error) {
         ++$i;
-        if (\UPLOAD_ERR_OK == $error) {
+        if (\UPLOAD_ERR_OK === $error) {
             if ($file_limit <= 0) {
                 break;
             }
@@ -328,7 +328,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             // save file to upload directory
             $store_name = \generate_unique_filename(PUN_ROOT.$dest, '.ext');
             \move_uploaded_file($tmp_name, PUN_ROOT.$dest.$store_name);
-            \chmod($dest.$store_name, 0666);
+            \chmod($dest.$store_name, 0644);
 
             // NOTE: post author and attachment author may differ (if attach in edit)
             $attach_poster = $GLOBALS['pun_user']['id'];
