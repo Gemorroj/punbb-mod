@@ -63,7 +63,7 @@ SET f.last_post_id = p.id,
     f.last_poster = p.poster
 WHERE f.id = t.forum_id AND t.id = p.topic_id
 ORDER BY p.id DESC
-LIMIT 10000') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+LIMIT 1000') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения форума синхронизированы');
 } elseif (isset($_POST['topic_last_post'])) {
     // synchronise topic last posts
