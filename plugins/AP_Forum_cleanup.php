@@ -54,15 +54,24 @@ if (isset($_POST['forum_post_sync'])) {
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Количество сообщений пользователей синхронизированы');
 } elseif (isset($_POST['forum_last_post'])) {
     // synchronise forum last posts
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_last SELECT p.posted AS n_last_post, p.id AS n_last_post_id, p.poster AS n_last_poster, t.forum_id FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY p.id ORDER BY p.posted DESC') or \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_lastb SELECT * FROM '.$db->prefix.'forum_last WHERE forum_id > 0 GROUP BY forum_id') or \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=forum_id') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums AS f
+    INNER JOIN '.$db->prefix.'topics AS t ON t.forum_id = f.id
+    INNER JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id
+SET f.last_post_id = p.id,
+    f.last_post = p.posted,
+    f.last_poster = p.poster
+WHERE f.id = t.forum_id AND t.id = p.topic_id
+ORDER BY p.id DESC') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения форума синхронизированы');
 } elseif (isset($_POST['topic_last_post'])) {
     // synchronise topic last posts
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_last SELECT posted AS n_last_post, id AS n_last_post_id, poster AS n_last_poster, topic_id FROM '.$db->prefix.'posts ORDER BY posted DESC') or \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_lastb SELECT * FROM '.$db->prefix.'topic_last WHERE topic_id > 0 GROUP BY topic_id') or \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=topic_id') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'topics AS t
+    INNER JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id
+SET t.last_post_id = p.id,
+    t.last_post = p.posted,
+    t.last_poster = p.poster
+WHERE t.id = p.topic_id
+ORDER BY p.id DESC') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения тем синхронизированы');
 } elseif (isset($_POST['delete_orphans'])) {
     // Clear orphans
