@@ -54,6 +54,7 @@ if (isset($_POST['forum_post_sync'])) {
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Количество сообщений пользователей синхронизированы');
 } elseif (isset($_POST['forum_last_post'])) {
     // synchronise forum last posts
+    // fixme: there is LIMIT to avoid mysql crash "[MY-013183] [InnoDB] Assertion failure: row0mysql.cc:2332:node->pcur->m_rel_pos == BTR_PCUR_ON"
     $db->query('UPDATE '.$db->prefix.'forums AS f
     INNER JOIN '.$db->prefix.'topics AS t ON t.forum_id = f.id
     INNER JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id
@@ -61,7 +62,8 @@ SET f.last_post_id = p.id,
     f.last_post = p.posted,
     f.last_poster = p.poster
 WHERE f.id = t.forum_id AND t.id = p.topic_id
-ORDER BY p.id DESC') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+ORDER BY p.id DESC
+LIMIT 10000') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения форума синхронизированы');
 } elseif (isset($_POST['topic_last_post'])) {
     // synchronise topic last posts
