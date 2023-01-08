@@ -68,18 +68,17 @@ if (isset($_GET['cancel'])) {
         \session_start();
 
         // Make sure what they submitted is not empty
-        if (!\trim($_POST['req_image_'])) {
+        if (!isset($_POST['req_image_']) || !$_POST['req_image_']) {
             unset($_SESSION['captcha_keystring']);
             \message($lang_registration['Text mismatch']);
         }
-
+        if (!isset($_SESSION['captcha_keystring']) || !$_SESSION['captcha_keystring']) {
+            unset($_SESSION['captcha_keystring']);
+            \message($lang_common['Bad request']);
+        }
         if ($_SESSION['captcha_keystring'] !== \strtolower(\trim($_POST['req_image_']))) {
             unset($_SESSION['captcha_keystring']);
             \message($lang_registration['Text mismatch']);
-        }
-        if (!isset($_SESSION['captcha_keystring'])) {
-            unset($_SESSION['captcha_keystring']);
-            \message($lang_common['Bad request']);
         }
         unset($_SESSION['captcha_keystring']);
     }

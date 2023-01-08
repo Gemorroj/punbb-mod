@@ -1,18 +1,20 @@
+/**
+ * @param {HTMLElement} o
+ * @param {String} s
+ */
 function insAtCaret(o, s) {
-    var r;
     o.focus();
 
     if ("selection" in document) {
-        r = document.selection.createRange();
-        if (r.parentElement() !== o) {
+        var range = document.selection.createRange();
+        if (range.parentElement() !== o) {
             return;
         }
-        r.text = s;
-        r.select();
+        range.text = s;
+        range.select();
     } else if ("selectionStart" in o) {
-        r = o.selectionStart;
-        o.value = o.value.substr(0, r) + s + o.value.substr(o.selectionEnd, o.value.length);
-        r += s.length;
+        o.value = o.value.substring(0, o.selectionStart) + s + o.value.substring(o.selectionEnd, o.value.length);
+        var r = o.selectionStart + s.length;
         o.setSelectionRange(r, r);
     } else {
         o.value += s;

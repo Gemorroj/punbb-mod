@@ -1,6 +1,6 @@
 <?php
 
-if ($attachments[$cur_post['id']]) {
+if (isset($attachments[$cur_post['id']])) {
     echo '<ul class="attach_list">';
 
     $is_inplace = (2 == $pun_config['file_popup_info']);

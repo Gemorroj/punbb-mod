@@ -74,6 +74,7 @@ $lang_profile = [
     'Private' => '(Private)',	// This is displayed when a user does not want to receive e-mails
     'No avatar' => '(No avatar)',
     'Show posts' => 'Show all posts',
+    'Show files' => 'Show all files',
     'Realname' => 'Real name',
     'Location' => 'Location',
     'Website' => 'Website',
