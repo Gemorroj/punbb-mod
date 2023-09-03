@@ -116,7 +116,7 @@ if (isset($_POST['form_sent'])) {
 
     // If it is a topic it must contain a subject
     if ($can_edit_subject) {
-        $subject = \pun_trim($_POST['req_subject']);
+        $subject = \trim($_POST['req_subject']);
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
@@ -128,7 +128,7 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Clean up message from POST
-    $message = \pun_linebreaks(\pun_trim($_POST['req_message']));
+    $message = \pun_linebreaks(\trim($_POST['req_message']));
 
     if (!$message) {
         $errors[] = $lang_post['No message'];

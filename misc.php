@@ -92,8 +92,8 @@ if ('rules' === $action) {
 
     if (isset($_POST['form_sent'])) {
         // Clean up message and subject from POST
-        $subject = \pun_trim($_POST['req_subject']);
-        $message = \pun_trim($_POST['req_message']);
+        $subject = \trim($_POST['req_subject']);
+        $message = \trim($_POST['req_message']);
 
         if (!$subject) {
             \message($lang_misc['No e-mail subject']);
@@ -169,7 +169,7 @@ if ('rules' === $action) {
 
     if (isset($_POST['form_sent'])) {
         // Clean up reason from POST
-        $reason = \pun_linebreaks(\pun_trim($_POST['req_reason']));
+        $reason = \pun_linebreaks(\trim($_POST['req_reason']));
         if (!$reason) {
             \message($lang_misc['No reason']);
         }

@@ -44,7 +44,7 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Check subject
-    $subject = \pun_trim($_POST['req_subject']);
+    $subject = \trim($_POST['req_subject']);
     if (!$subject) {
         \message($lang_post['No subject']);
     } elseif (\mb_strlen($subject) > 70) {
@@ -54,7 +54,7 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Clean up message from POST
-    $message = \pun_linebreaks(\pun_trim($_POST['req_message']));
+    $message = \pun_linebreaks(\trim($_POST['req_message']));
 
     // Check message
     if (!$message) {

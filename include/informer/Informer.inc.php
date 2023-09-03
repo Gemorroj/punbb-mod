@@ -118,7 +118,7 @@ class Informer
         }
 
         // Clean up message
-        $message = \pun_linebreaks(\pun_trim($message));
+        $message = \pun_linebreaks(\trim($message));
 
         if (!$message) {
             throw new Exception($this->_lang['Bad request']);

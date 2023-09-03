@@ -1,7 +1,7 @@
 <?php
 
 \define('MAX_DIR_UPLOAD', 100); // here is constant for maximum size of all uploaded files in the dir uploaded/ (in Mbytes)
-\session_name('bunbb_upload');
+\session_name('punbb_upload');
 \session_start();
 
 // is it first time we run uploader?

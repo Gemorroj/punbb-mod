@@ -107,7 +107,7 @@ if (isset($_POST['form_sent'])) {
 
     // Image verifcation
     if (2 == $pun_user['g_post_replies']) {
-        \session_name('bunbb_captcha');
+        \session_name('punbb_captcha');
         \session_start();
 
         // Make sure what they submitted is not empty
@@ -139,7 +139,7 @@ if (isset($_POST['form_sent'])) {
 
     // If it's a new topic
     if ($fid) {
-        $subject = \pun_trim($_POST['req_subject']);
+        $subject = \trim($_POST['req_subject']);
 
         if (!$subject) {
             $errors[] = $lang_post['No subject'];
@@ -202,7 +202,7 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Clean up message from POST
-    $message = \pun_linebreaks(\pun_trim($_POST['req_message']));
+    $message = \pun_linebreaks(\trim($_POST['req_message']));
 
     if (!$message) {
         $errors[] = $lang_post['No message'];
@@ -249,7 +249,7 @@ if (isset($_POST['form_sent'])) {
             $m_st = ($merged_min) ? \minutes_st($merged_min) : '';
             $h_st = ($merged_hours) ? \hours_st($merged_hours) : '';
             $d_st = ($merged_days) ? \days_st($merged_days) : '';
-            $message = \pun_linebreaks(\pun_trim('[color=#bbb][i]'.$lang_post['Added'].$d_st.' '.$h_st.' '.$m_st.' '.$s_st.': [/i][/color]'))."\n".$message;
+            $message = \pun_linebreaks(\trim('[color=#bbb][i]'.$lang_post['Added'].$d_st.' '.$h_st.' '.$m_st.' '.$s_st.': [/i][/color]'))."\n".$message;
             $merged = true;
         }
         // MERGE POSTS END

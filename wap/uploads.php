@@ -13,7 +13,7 @@ require_once PUN_ROOT.'include/common.php';
 */
 \define('MAX_DIR_UPLOAD', 100);
 
-\session_name('bunbb_upload');
+\session_name('punbb_upload');
 \session_start();
 
 // is it first time we run uploader?

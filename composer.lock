@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6fb3ab5650f806a29581162eb32853a",
+    "content-hash": "362fd43ce2e3e0c7f3daa502f8576ac9",
     "packages": [
         {
             "name": "gregwar/captcha",
-            "version": "v1.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/Captcha.git",
-                "reference": "6e5b61b66ac89885b505153f4ef9a74ffa5b3074"
+                "reference": "5b8323637b502d3dbcbe28a74633dad8aed63452"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/6e5b61b66ac89885b505153f4ef9a74ffa5b3074",
-                "reference": "6e5b61b66ac89885b505153f4ef9a74ffa5b3074",
+                "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/5b8323637b502d3dbcbe28a74633dad8aed63452",
+                "reference": "5b8323637b502d3dbcbe28a74633dad8aed63452",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^6.4"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -57,7 +58,7 @@
                 "captcha",
                 "spam"
             ],
-            "time": "2023-03-24T22:12:41+00:00"
+            "time": "2023-05-08T15:17:31+00:00"
         },
         {
             "name": "smarty/smarty",
@@ -2171,7 +2172,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "gregwar/captcha": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

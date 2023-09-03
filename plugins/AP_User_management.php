@@ -37,7 +37,7 @@ if (isset($_POST['prune'])) {
     require PUN_ROOT.'lang/'.$pun_user['language'].'/prof_reg.php';
 
     require PUN_ROOT.'lang/'.$pun_user['language'].'/registration.php';
-    $username = \pun_trim($_POST['username']);
+    $username = \trim($_POST['username']);
     $email1 = \mb_strtolower(\trim($_POST['email']));
     $email2 = \mb_strtolower(\trim($_POST['email']));
 

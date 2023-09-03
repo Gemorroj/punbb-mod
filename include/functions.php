@@ -877,26 +877,17 @@ function pun_linebreaks($str)
     return \str_replace("\r", "\n", \str_replace("\r\n", "\n", $str));
 }
 
-//
-// A more aggressive version of trim()
-function pun_trim($str)
-{
-    // UTF-8
-    //return preg_replace('/(^\s+)|(\s+$)/us', '', $str);
-    return \trim($str);
-}
-
 function pun_show_avatar()
 {
     global $pun_config, $pun_user, $cur_post;
 
     $user_avatar = '';
     if (1 == $pun_config['o_avatars'] && 1 == $cur_post['use_avatar'] && $pun_user['show_avatars']) {
-        if ($img_size = @\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif')) {
+        if (@\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif')) {
             $user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.gif" alt="" />';
-        } elseif ($img_size = @\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg')) {
+        } elseif (@\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg')) {
             $user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.jpg" alt="" />';
-        } elseif ($img_size = @\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png')) {
+        } elseif (@\getimagesize(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png')) {
             $user_avatar = '<img src="'.PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$cur_post['poster_id'].'.png" alt="" />';
         }
     }

@@ -17,7 +17,7 @@ require_once PUN_ROOT.'lang/'.$pun_user['language'].'/search.php';
 // Determine if we are allowed to view post counts
 $show_post_count = (1 == $pun_config['o_show_post_count'] || $pun_user['g_id'] < PUN_GUEST) ? true : false;
 
-$username = (isset($_GET['username']) && 1 == $pun_user['g_search_users']) ? \pun_trim($_GET['username']) : '';
+$username = (isset($_GET['username']) && 1 == $pun_user['g_search_users']) ? \trim($_GET['username']) : '';
 $show_group = (!isset($_GET['show_group']) || (\intval($_GET['show_group']) < -1 && \intval($_GET['show_group']) > 2)) ? -1 : \intval($_GET['show_group']);
 $sort_by = (!isset($_GET['sort_by']) || ('username' !== $_GET['sort_by'] && 'registered' !== $_GET['sort_by'] && ('num_posts' !== $_GET['sort_by'] || !$show_post_count))) ? 'username' : $_GET['sort_by'];
 $sort_dir = (!isset($_GET['sort_dir']) || ('ASC' !== $_GET['sort_dir'] && 'DESC' !== $_GET['sort_dir'])) ? 'ASC' : \mb_strtoupper($_GET['sort_dir']);

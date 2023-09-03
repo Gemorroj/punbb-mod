@@ -53,7 +53,7 @@ if (@$_GET['cancel']) {
     // IMAGE VERIFICATION MOD BEGIN
     // Image verifcation
     if (1 == $pun_config['o_regs_verify_image']) {
-        \session_name('bunbb_captcha');
+        \session_name('punbb_captcha');
         \session_start();
 
         // Make sure what they submitted is not empty
@@ -74,7 +74,7 @@ if (@$_GET['cancel']) {
     }
     // IMAGE VERIFICATION MOD END
 
-    $username = \pun_trim($_POST['req_username']);
+    $username = \trim($_POST['req_username']);
     $email1 = \strtolower(\trim($_POST['req_email1']));
 
     if (1 == $pun_config['o_regs_verify']) {
