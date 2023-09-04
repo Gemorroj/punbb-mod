@@ -37,7 +37,7 @@ if (isset($_POST['add_rank'])) {
         \message($lang_admin['Double rank']);
     }
 
-    $db->query('INSERT INTO '.$db->prefix.'ranks (rank, min_posts) VALUES(\''.$db->escape($rank).'\', '.$min_posts.')') or \error('Unable to add rank', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO '.$db->prefix.'ranks (`rank`, min_posts) VALUES(\''.$db->escape($rank).'\', '.$min_posts.')') or \error('Unable to add rank', __FILE__, __LINE__, $db->error());
 
     // Regenerate the ranks cache
     include_once PUN_ROOT.'include/cache.php';
@@ -129,7 +129,7 @@ echo '<div class="blockform">
 <legend>'.$lang_admin['Edit ranks'].'</legend>
 <div class="infldset">';
 
-$result = $db->query('SELECT id, rank, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts') or \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, `rank`, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts') or \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     echo '<table cellspacing="0">
 <thead>
