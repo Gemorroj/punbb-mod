@@ -77,7 +77,7 @@ if (isset($_POST['form_sent'])) {
     // Get userid
     $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') or \error('Unable to get user id', __FILE__, __LINE__, $db->error());
 
-    //$result = $db->query('SELECT id, username, group_id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    // $result = $db->query('SELECT id, username, group_id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
     $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') or \error('Unable to get user id', __FILE__, __LINE__, $db->error());
 
     // Send message
@@ -86,14 +86,14 @@ if (isset($_POST['form_sent'])) {
             \message($lang_pms['Receiver'].' '.$_POST['req_username'].' '.$lang_pms['Disable options']);
         }
 
-        //if(list($id,$user,$status) = $db->fetch_row($result)){
-        //if(list($id,$user,$status,$group_pm_limit) = $db->fetch_row($result)){
+        // if(list($id,$user,$status) = $db->fetch_row($result)){
+        // if(list($id,$user,$status,$group_pm_limit) = $db->fetch_row($result)){
         // Check inbox status
         if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST && $status > PUN_GUEST) {
             $result = $db->query('SELECT count(*) FROM '.$db->prefix.'messages WHERE owner='.$id) or \error('Unable to get message count for the receiver', __FILE__, __LINE__, $db->error());
             [$count] = $db->fetch_row($result);
 
-            //if($count >= $pun_user['g_pm_limit'])
+            // if($count >= $pun_user['g_pm_limit'])
             if ($count >= $group_pm_limit) {
                 \message($lang_pms['Inbox full']);
             }

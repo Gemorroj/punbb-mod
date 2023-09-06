@@ -55,14 +55,14 @@ $s_sort = $_SESSION['sort'];
 $s_u = $_SESSION['u'];
 $s_page = $_SESSION['page'];
 
-////////////// lets do some checks - you never know what there will be...
+// //////////// lets do some checks - you never know what there will be...
 if ($s_page < 0) {
     $s_page = 0;
 }
 if ($s_nump < 5 || $s_nump > 200) {
     $nump = 10;
 }
-/////////////////////////////////////////
+// ///////////////////////////////////////
 \define('PUN_ROOT', './');
 
 require PUN_ROOT.'include/common.php';
@@ -126,7 +126,7 @@ if (!isset($_GET['uploadit']) && 1 == $upl_conf['p_upload']) {
 }
 echo '</strong><br /><br /><div class="block"><h2><span>'.$lang_uploads['Uploader'].'</span></h2><div class="box"><div class="inbox">';
 
-//////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////
 $result = $db->query('SELECT id,type,exts FROM '.$db->prefix.'uploads_types') or \error('Unable to get types', __FILE__, __LINE__, $db->error());
 $exts = '';
 $cats = $ids = [];
@@ -135,7 +135,7 @@ while ($ar = $db->fetch_assoc($result)) {
     $cats[] .= $ar['type'];
     $ids[] .= $ar['id'];
 }
-/////////////////////////////////
+// ///////////////////////////////
 
 $exts = \trim($exts); // now we have all file types in one string
 if (!$upl_conf['p_view']) {
@@ -155,7 +155,7 @@ if (!$upl_conf['p_view']) {
     $temp_name = $_FILES['file']['tmp_name'];
     $file_name = $_FILES['file']['name'];
     $file_type = $_FILES['file']['type'];
-    $file_size = @\round(($_FILES['file']['size']) / 1024);
+    $file_size = @\round($_FILES['file']['size'] / 1024);
 
     $result = $_FILES['file']['error'];
     if (1 != $upl_conf['p_upload']) {
@@ -291,7 +291,7 @@ if (!$upl_conf['p_view']) {
     $allrec = $db->result($result); // amount of all records satisfying our query
     $currec = $s_page * $s_nump;
     $kolvop = \ceil($allrec / $s_nump); // number of pages
-    $cp = (0 == $kolvop ? 1 : $kolvop); //real
+    $cp = (0 == $kolvop ? 1 : $kolvop); // real
     $temppage = $s_page + 1;
     $flist = \str_replace('%NUM%', $allrec, $lang_uploads['File list']);
     $flist = \str_replace('%CUR%', $temppage, $flist);

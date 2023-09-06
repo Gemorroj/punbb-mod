@@ -25,8 +25,8 @@ if (isset($_GET['id'])) {
     \message($lang_common['No permission']);
 }
 
-//require PUN_ROOT.'lang/'.$pun_user['language'].'/common.php';
-//require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
+// require PUN_ROOT.'lang/'.$pun_user['language'].'/common.php';
+// require PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
 // Load the message.php language file
 require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';

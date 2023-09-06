@@ -8,7 +8,7 @@ require_once PUN_ROOT.'wap/header.php';
 
 $getPageNumber = isset($_GET['p']) ? (int) $_GET['p'] : 1;
 
-//require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
+// require_once PUN_ROOT . 'wap/footer.php'; //cache quickjump
 
 // This particular function doesn't require forum-based moderator access. It can be used
 // by all moderators and admins.
@@ -46,7 +46,7 @@ if (isset($_GET['get_host'])) {
     $smarty->assign('whois', $whois);
     $smarty->display('moderate.get_host.tpl');
 
-    exit();
+    exit;
 }
 
 // All other functions require moderator/admin access
@@ -90,7 +90,7 @@ if (isset($_GET['tid'])) {
         }
 
         if (isset($_POST['delete_posts_comply'])) {
-            //confirm_referrer('moderate.php');
+            // confirm_referrer('moderate.php');
             if (\preg_match('/[^0-9,]/', $posts)) {
                 \wap_message($lang_common['Bad request']);
             }
@@ -139,7 +139,7 @@ if (isset($_GET['tid'])) {
 
         $smarty->display('moderate.delete_posts.tpl');
 
-        exit();
+        exit;
     }
 
     // Show the delete multiple posts view
@@ -166,13 +166,13 @@ if (isset($_GET['tid'])) {
 
     $page_title = $pun_config['o_board_title'].' / '.$cur_topic['subject'];
 
-    //moderate delete topic
+    // moderate delete topic
 
     include_once PUN_ROOT.'include/parser.php';
 
-    //$bg_switch = true; // Used for switching background color in posts
-    //$post_count = 0; // Keep track of post numbers
-    //$j = false;
+    // $bg_switch = true; // Used for switching background color in posts
+    // $post_count = 0; // Keep track of post numbers
+    // $j = false;
 
     if ('all' != @$_GET['action']) {
         $act_all = ' LIMIT '.$start_from.', '.$pun_user['disp_posts'];
@@ -201,13 +201,13 @@ if (isset($_GET['tid'])) {
 
     $smarty->display('moderate.show_delete_posts.tpl');
 
-    exit();
+    exit;
 }
 
 // Move one or more topics
 if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     if (isset($_POST['move_topics_to'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         if (\preg_match('/[^0-9,]/', $_POST['topics'])) {
             \wap_message($lang_common['Bad request']);
@@ -290,7 +290,7 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 
     $smarty->display('moderate.move_topic.tpl');
 
-    exit();
+    exit;
 }
 
 // Delete one or more topics
@@ -302,7 +302,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     }
 
     if (isset($_POST['delete_topics_comply'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         if (\preg_match('/[^0-9,]/', $topics)) {
             \wap_message($lang_common['Bad request']);
@@ -370,7 +370,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
     $smarty->display('moderate.delete_topics.tpl');
 
-    exit();
+    exit;
 }
 if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
     // Open or close one or more topics
@@ -378,7 +378,7 @@ if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
 
     // There could be an array of topic ID's in $_POST
     if (isset($_POST['open']) || isset($_POST['close'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : [];
 
@@ -394,7 +394,7 @@ if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
     } else {
         // Or just one in $_GET
 
-        //confirm_referrer('viewtopic.php');
+        // confirm_referrer('viewtopic.php');
 
         $topic_id = ($action) ? \intval($_GET['close']) : \intval($_GET['open']);
 
@@ -411,7 +411,7 @@ if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
 } elseif (isset($_GET['stick'])) {
     // Stick a topic
 
-    //confirm_referrer('viewtopic.php');
+    // confirm_referrer('viewtopic.php');
 
     $stick = \intval($_GET['stick']);
 
@@ -425,7 +425,7 @@ if (isset($_REQUEST['open']) || isset($_REQUEST['close'])) {
 } elseif (isset($_GET['unstick'])) {
     // Unstick a topic
 
-    //confirm_referrer('viewtopic.php');
+    // confirm_referrer('viewtopic.php');
 
     $unstick = \intval($_GET['unstick']);
 

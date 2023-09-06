@@ -41,7 +41,7 @@ if (@$_GET['cancel']) {
 
     $smarty->display('registration.agree.tpl');
 
-    exit();
+    exit;
 } elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
     $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.\get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg'])) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());

@@ -97,7 +97,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
         WHERE t.forum_id='.$id.'
         ORDER BY sticky DESC, '.((1 == $cur_forum['sort_by']) ? 'posted' : 'last_post').' DESC
         LIMIT '.$start_from.', '.$pun_user['disp_topics'];
-// REAL MARK TOPIC AS READ MOD END
+    // REAL MARK TOPIC AS READ MOD END
 } else {
     // With "the dot"
     // REAL MARK TOPIC AS READ MOD BEGIN

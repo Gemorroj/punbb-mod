@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -18,7 +18,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 // Add a rank
 if (isset($_POST['add_rank'])) {
-    //confirm_referrer('admin_ranks.php');
+    // confirm_referrer('admin_ranks.php');
 
     $rank = \trim($_POST['new_rank']);
     $min_posts = $_POST['new_min_posts'];
@@ -46,7 +46,7 @@ if (isset($_POST['add_rank'])) {
     \redirect('admin_ranks.php', $lang_admin['Added'].' '.$lang_admin['Redirect']);
 } // Update a rank
 elseif (isset($_POST['update'])) {
-    //confirm_referrer('admin_ranks.php');
+    // confirm_referrer('admin_ranks.php');
 
     $id = \intval(\key($_POST['update']));
 
@@ -76,7 +76,7 @@ elseif (isset($_POST['update'])) {
     \redirect('admin_ranks.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 } // Remove a rank
 elseif (isset($_POST['remove'])) {
-    //confirm_referrer('admin_ranks.php');
+    // confirm_referrer('admin_ranks.php');
 
     $id = \intval(\key($_POST['remove']));
 

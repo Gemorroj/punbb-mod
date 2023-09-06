@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD || (PUN_MOD == $pun_user['g_id'] && !$pun_config['p_mod_ban_users'])) {
@@ -165,7 +165,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     require_once PUN_ROOT.'footer.php';
 } elseif (isset($_POST['add_edit_ban'])) {
     // Add/edit a ban (stage 2)
-    //confirm_referrer('admin_bans.php');
+    // confirm_referrer('admin_bans.php');
 
     $ban_user = \trim($_POST['ban_user']);
     $ban_ip = \trim($_POST['ban_ip']);
@@ -238,7 +238,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     \redirect('admin_bans.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 } elseif (isset($_GET['del_ban'])) {
     // Remove a ban
-    //confirm_referrer('admin_bans.php');
+    // confirm_referrer('admin_bans.php');
 
     $ban_id = \intval($_GET['del_ban']);
     if ($ban_id < 1) {

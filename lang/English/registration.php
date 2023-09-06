@@ -23,7 +23,7 @@ $lang_registration = [
     'Reg e-mail' => 'Thank you for registering. Your password has been sent to the specified address. If it does not arrive you can contact the forum administrator at',
     'Reg complete' => 'Registration complete. Logging in and redirecting &#x2026;',
 
-    //Image Verification stuff
+    // Image Verification stuff
     'Image verification' => 'Image Verification',
     'Image text' => 'Image Text',
     'Image info' => 'Please copy the text in the image to the text box above',

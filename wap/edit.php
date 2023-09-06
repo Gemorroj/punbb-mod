@@ -183,7 +183,7 @@ if (@$_POST['preview']) {
     $preview_message = \parse_message($message, $hide_smilies, $id);
 }
 
-//+ Attachments//
+// + Attachments//
 $num_to_upload = \min($file_limit, 20);
 $smarty->assign('num_to_upload', $num_to_upload);
 $smarty->assign('can_download', $can_download);
@@ -197,7 +197,7 @@ if ($uploaded_to_post) {
     include_once PUN_ROOT.'include/attach/fetch.php';
     $smarty->assign('attachments', $attachments);
 }
-//- Attachments//
+// - Attachments//
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_post['Edit post'];
 $smarty->assign('page_title', $page_title);

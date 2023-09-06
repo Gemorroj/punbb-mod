@@ -105,9 +105,9 @@ elseif (isset($_POST['regen_jump_cache'])) {
 </div>
 <?php
 } else {
-        // If not, we show the form
-        // Display the admin navigation menu
-        \generate_admin_menu($plugin); ?>
+    // If not, we show the form
+    // Display the admin navigation menu
+    \generate_admin_menu($plugin); ?>
 <div id="exampleplugin" class="blockform">
     <h2><span>Переоздание кэша</span></h2>
 
@@ -131,4 +131,4 @@ elseif (isset($_POST['regen_jump_cache'])) {
     </div>
 </div>
 <?php
-    }
+}

@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {

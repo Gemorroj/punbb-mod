@@ -61,7 +61,7 @@ if ('change_pass' == $action) {
 
             if (!$pun_config['p_mod_edit_users'] || !$pun_config['p_mod_change_passwords']
                     || $db->result($result) < PUN_GUEST
-                ) {
+            ) {
                 \wap_message($lang_common['No permission']);
             }
         }
@@ -118,15 +118,15 @@ if ('change_pass' == $action) {
 
     $page_title = $pun_config['o_board_title'].' / '.$lang_common['Profile'].' - '.$lang_profile['Change pass'];
     $required_fields = ['req_old_password' => $lang_profile['Old pass'], 'req_new_password1' => $lang_profile['New pass'], 'req_new_password2' => $lang_profile['Confirm new pass']];
-    $focus_element = ['change_pass', (($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1')];
+    $focus_element = ['change_pass', ($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1'];
 
-    //change_pass
+    // change_pass
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.password.tpl');
 
-    exit();
+    exit;
 }
 if ('change_email' == $action) {
     // Make sure we are allowed to change this users e-mail
@@ -244,13 +244,13 @@ if ('change_email' == $action) {
     $required_fields = ['req_new_email' => $lang_profile['New e-mail'], 'req_password' => $lang_common['Password']];
     $focus_element = ['change_email', 'req_new_email'];
 
-    //change_email
+    // change_email
     $smarty->assign('page_title', $page_title);
     $smarty->assign('id', $id);
     $smarty->assign('lang_profile', $lang_profile);
     $smarty->display('profile.email.tpl');
 
-    exit();
+    exit;
 }
 if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
     if (!$pun_config['o_avatars']) {
@@ -368,7 +368,7 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
     $avatarSize = \ceil($pun_config['o_avatars_size'] / 1024); // kb
     $avatarSize .= '&#160;kb';
 
-    //upload_avatar
+    // upload_avatar
     $page_title = $pun_config['o_board_title']
                 .' / '.$lang_common['Profile']
                 .' - '.$lang_profile['Upload avatar'];
@@ -379,14 +379,14 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
 
     $smarty->display('profile.avatar.tpl');
 
-    exit();
+    exit;
 }
 if ('delete_avatar' == $action) {
     if ($pun_user['id'] != $id && $pun_user['g_id'] > PUN_MOD) {
         \wap_message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.jpg');
     @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.png');
@@ -402,7 +402,7 @@ if ('delete_avatar' == $action) {
         \wap_message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     $new_group_id = \intval($_POST['group_id']);
 
@@ -438,7 +438,7 @@ if ('delete_avatar' == $action) {
         \wap_message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     // Get the username of the user we are processing
     $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE id='.
@@ -487,7 +487,7 @@ if ('delete_avatar' == $action) {
         \wap_message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     // Get the username and group of the user we are deleting
     $result = $db->query('SELECT group_id, username FROM '.$db->prefix.
@@ -605,7 +605,7 @@ if ('delete_avatar' == $action) {
         \wap_redirect('index.php');
     }
 
-    //Delete user
+    // Delete user
     $page_title = $pun_config['o_board_title'].' / '.$lang_common['Profile'].' - '.$lang_profile['Delete user'].' '.$username;
 
     $smarty->assign('page_title', $page_title);
@@ -614,7 +614,7 @@ if ('delete_avatar' == $action) {
     $smarty->assign('username', $username);
     $smarty->display('profile.delete.tpl');
 
-    exit();
+    exit;
 } elseif (isset($_POST['form_sent']) and $_POST['form_sent']) {
     // Fetch the user group of the user we are editing
     $result = $db->query('SELECT group_id FROM '.$db->prefix.'users WHERE id='.
@@ -984,8 +984,8 @@ if ($user['signature']) {
     $parsed_signature = \parse_signature($user['signature']);
 }
 
-//if($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST)
-//{
+// if($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST)
+// {
 $q = $db->fetch_row($db->query(
     '
     SELECT COUNT(1), (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$id
@@ -995,7 +995,7 @@ $karma['plus'] = \intval($q[0]);
 $karma['minus'] = \intval($q[1]);
 $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
-//}
+// }
 
 $smarty->assign('id', $id);
 
@@ -1026,7 +1026,7 @@ $smarty->assign('section', $section);
 
 // View or edit?
 if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_MOD == $pun_user['g_id'] && !$pun_config['p_mod_edit_users']) || (PUN_MOD == $pun_user['g_id'] && $user['g_id'] < PUN_GUEST)))) {
-    //view Profile
+    // view Profile
     $page_title = $pun_config['o_board_title'].' / '.$lang_common['Profile'].' - '.$lang_profile['Preview'];
 
     $smarty->assign('page_title', $page_title);
@@ -1048,158 +1048,158 @@ if ($preview or ($pun_user['id'] != $id && ($pun_user['g_id'] > PUN_MOD || (PUN_
 
     $smarty->display('profile.view.tpl');
 
-    exit();
+    exit;
 }
-    //profile general
+// profile general
 
-    include_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
+include_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 
-    if ('essentials' === $section) {
-        $languages = [];
-        $d = \opendir(PUN_ROOT.'lang');
-        while (false !== ($entry = \readdir($d))) {
-            if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
-                $languages[] = $entry;
+if ('essentials' === $section) {
+    $languages = [];
+    $d = \opendir(PUN_ROOT.'lang');
+    while (false !== ($entry = \readdir($d))) {
+        if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'lang/'.$entry) && \file_exists(PUN_ROOT.'lang/'.$entry.'/common.php')) {
+            $languages[] = $entry;
+        }
+    }
+    \closedir($d);
+
+    // Only display the language selection box if there's more than one language available
+    if (\count($languages) > 1) {
+        \natsort($languages);
+    }
+
+    $smarty->assign('lang_prof_reg', $lang_prof_reg);
+    $smarty->assign('languages', $languages);
+    $smarty->assign('karma', $karma);
+
+    $smarty->display('profile.general.tpl');
+
+    exit;
+}
+if ('personal' === $section) {
+    if ($user['birthday']) {
+        $birthday = \explode('.', $user['birthday']);
+        $smarty->assign('birthday', $birthday);
+    }
+
+    $smarty->display('profile.personal.tpl');
+
+    exit;
+}
+if ('messaging' === $section) {
+    $smarty->display('profile.messaging.tpl');
+
+    exit;
+}
+if ('personality' === $section) {
+    $smarty->assign('parsed_signature', @$parsed_signature);
+
+    $pun_config['o_avatars'] = 1;
+    $cur_post['use_avatar'] = 1;
+    $pun_user['show_avatars'] = 1;
+    $cur_post['poster_id'] = $id;
+
+    $smarty->assign('user_avatar', \pun_show_avatar());
+
+    $smarty->display('profile.personality.tpl');
+
+    exit;
+}
+if ('display' === $section) {
+    $styles = [];
+    $d = \opendir(PUN_ROOT.'include/template/wap');
+    while (false !== ($entry = \readdir($d))) {
+        if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
+            $styles[] = $entry;
+        }
+    }
+    \closedir($d);
+
+    $smarty->assign('styles', $styles);
+
+    $smarty->display('profile.display.tpl');
+
+    exit;
+}
+if ('privacy' === $section) {
+    $smarty->assign('lang_prof_reg', $lang_prof_reg);
+
+    $smarty->display('profile.privacy.tpl');
+
+    exit;
+}
+if ('admin' === $section) {
+    if ($pun_user['g_id'] > PUN_MOD
+        || (PUN_MOD == $pun_user['g_id']
+        && !$pun_config['p_mod_ban_users'])
+    ) {
+        \wap_message($lang_common['Bad request']);
+    }
+
+    // wap_generate_profile_menu('admin');
+
+    if (PUN_MOD != $pun_user['g_id']) {
+        if ($pun_user['id'] != $id) {
+            $q = 'SELECT `g_id`, `g_title` '
+               .'FROM `'.$db->prefix.'groups` '
+               .'WHERE `g_id`!='.PUN_GUEST.' '
+               .'ORDER BY `g_title`;';
+
+            $result = $db->query($q)
+            or \error(
+                'Unable to fetch user group list',
+                __FILE__,
+                __LINE__,
+                $db->error()
+            );
+
+            $groups = [];
+            while ($cur_group = $db->fetch_assoc($result)) {
+                $groups[] = $cur_group;
             }
         }
-        \closedir($d);
 
-        // Only display the language selection box if there's more than one language available
-        if (\count($languages) > 1) {
-            \natsort($languages);
-        }
+        if (PUN_MOD == $user['g_id'] || PUN_ADMIN == $user['g_id']) {
+            $q = 'SELECT `c`.`id` AS `cid`, '
+               .'`c`.`cat_name`, '
+               .'`f`.`id` AS `fid`, '
+               .'`f`.`forum_name`, `f`.`moderators` '
+               .'FROM `'.$db->prefix.'categories` AS `c` '
+               .'INNER JOIN `'.$db->prefix.'forums` AS `f` '
+               .'ON `c`.`id`=`f`.`cat_id` '
+               .'WHERE `f`.`redirect_url` IS NULL '
+               .'ORDER BY `c`.`disp_position`, '
+               .'`c`.`id`, '
+               .'`f`.`disp_position`;';
 
-        $smarty->assign('lang_prof_reg', $lang_prof_reg);
-        $smarty->assign('languages', $languages);
-        $smarty->assign('karma', $karma);
+            $result = $db->query($q)
+            or \error(
+                'Unable to fetch category/forum list',
+                __FILE__,
+                __LINE__,
+                $db->error()
+            );
 
-        $smarty->display('profile.general.tpl');
-
-        exit();
-    }
-    if ('personal' === $section) {
-        if ($user['birthday']) {
-            $birthday = \explode('.', $user['birthday']);
-            $smarty->assign('birthday', $birthday);
-        }
-
-        $smarty->display('profile.personal.tpl');
-
-        exit();
-    }
-    if ('messaging' === $section) {
-        $smarty->display('profile.messaging.tpl');
-
-        exit();
-    }
-    if ('personality' === $section) {
-        $smarty->assign('parsed_signature', @$parsed_signature);
-
-        $pun_config['o_avatars'] = 1;
-        $cur_post['use_avatar'] = 1;
-        $pun_user['show_avatars'] = 1;
-        $cur_post['poster_id'] = $id;
-
-        $smarty->assign('user_avatar', \pun_show_avatar());
-
-        $smarty->display('profile.personality.tpl');
-
-        exit();
-    }
-    if ('display' === $section) {
-        $styles = [];
-        $d = \opendir(PUN_ROOT.'include/template/wap');
-        while (false !== ($entry = \readdir($d))) {
-            if ('.' !== $entry[0] && \is_dir(PUN_ROOT.'include/template/wap/'.$entry)) {
-                $styles[] = $entry;
-            }
-        }
-        \closedir($d);
-
-        $smarty->assign('styles', $styles);
-
-        $smarty->display('profile.display.tpl');
-
-        exit();
-    }
-    if ('privacy' === $section) {
-        $smarty->assign('lang_prof_reg', $lang_prof_reg);
-
-        $smarty->display('profile.privacy.tpl');
-
-        exit();
-    }
-    if ('admin' === $section) {
-        if ($pun_user['g_id'] > PUN_MOD
-            || (PUN_MOD == $pun_user['g_id']
-            && !$pun_config['p_mod_ban_users'])
-        ) {
-            \wap_message($lang_common['Bad request']);
-        }
-
-        //wap_generate_profile_menu('admin');
-
-        if (PUN_MOD != $pun_user['g_id']) {
-            if ($pun_user['id'] != $id) {
-                $q = 'SELECT `g_id`, `g_title` '
-                   .'FROM `'.$db->prefix.'groups` '
-                   .'WHERE `g_id`!='.PUN_GUEST.' '
-                   .'ORDER BY `g_title`;';
-
-                $result = $db->query($q)
-                or \error(
-                    'Unable to fetch user group list',
-                    __FILE__,
-                    __LINE__,
-                    $db->error()
-                );
-
-                $groups = [];
-                while ($cur_group = $db->fetch_assoc($result)) {
-                    $groups[] = $cur_group;
+            $forums = [];
+            while ($cur_forum = $db->fetch_assoc($result)) {
+                if ($cur_forum['moderators']) {
+                    $cur_forum['is_moderator'] = \in_array($id, \unserialize($cur_forum['moderators'], ['allowed_classes' => false]));
                 }
-            }
 
-            if (PUN_MOD == $user['g_id'] || PUN_ADMIN == $user['g_id']) {
-                $q = 'SELECT `c`.`id` AS `cid`, '
-                   .'`c`.`cat_name`, '
-                   .'`f`.`id` AS `fid`, '
-                   .'`f`.`forum_name`, `f`.`moderators` '
-                   .'FROM `'.$db->prefix.'categories` AS `c` '
-                   .'INNER JOIN `'.$db->prefix.'forums` AS `f` '
-                   .'ON `c`.`id`=`f`.`cat_id` '
-                   .'WHERE `f`.`redirect_url` IS NULL '
-                   .'ORDER BY `c`.`disp_position`, '
-                   .'`c`.`id`, '
-                   .'`f`.`disp_position`;';
-
-                $result = $db->query($q)
-                or \error(
-                    'Unable to fetch category/forum list',
-                    __FILE__,
-                    __LINE__,
-                    $db->error()
-                );
-
-                $forums = [];
-                while ($cur_forum = $db->fetch_assoc($result)) {
-                    if ($cur_forum['moderators']) {
-                        $cur_forum['is_moderator'] = \in_array($id, \unserialize($cur_forum['moderators'], ['allowed_classes' => false]));
-                    }
-
-                    $forums[] = $cur_forum;
-                }
+                $forums[] = $cur_forum;
             }
         }
-
-        $page_title = $pun_config['o_board_title']
-                    .' / '.$lang_common['Profile']
-                    .' - '.$lang_profile['Section admin'];
-        $smarty->assign('page_title', $page_title);
-        $smarty->assign('groups', @$groups);
-        $smarty->assign('forums', @$forums);
-
-        $smarty->display('profile.admin.tpl');
-
-        exit();
     }
+
+    $page_title = $pun_config['o_board_title']
+                .' / '.$lang_common['Profile']
+                .' - '.$lang_profile['Section admin'];
+    $smarty->assign('page_title', $page_title);
+    $smarty->assign('groups', @$groups);
+    $smarty->assign('forums', @$forums);
+
+    $smarty->display('profile.admin.tpl');
+
+    exit;
+}

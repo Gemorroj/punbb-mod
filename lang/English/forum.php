@@ -7,7 +7,7 @@ $lang_forum = [
     'Moved' => 'Moved',
     'Sticky' => 'Sticky',
     'Empty forum' => 'Forum is empty.',
-    //For the mobile version
+    // For the mobile version
     'poll_m' => '?',
     'Moved_m' => '&#149;&#187;',
     'Sticky_m' => '!',

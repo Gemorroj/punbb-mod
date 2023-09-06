@@ -468,7 +468,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
                 ORDER BY '.$sort_by_sql;
         }
 
-        //+ Pagination
+        // + Pagination
         // Determine the topic or post offset (based on $_GET['p'])
         $per_page = ('posts' == $show_as) ? $pun_user['disp_posts'] : $pun_user['disp_topics'];
         $num_pages = \ceil($num_hits / $per_page);
@@ -483,7 +483,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         }
 
         $paging_links = \paginate($num_pages, $p, 'search.php?search_id='.$search_id);
-        //- Pagination
+        // - Pagination
 
         $sql .= ' '.$sort_dir.' LIMIT '.$start_from.', '.$per_page;
 
@@ -505,9 +505,9 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $db->free_result($result);
 
         $page_title = $pun_config['o_board_title'].' / '.$lang_search['Search results'];
-//        require_once PUN_ROOT . 'wap/header.php';
+        //        require_once PUN_ROOT . 'wap/header.php';
 
-        //Set background switching on for show as posts
+        // Set background switching on for show as posts
         $bg_switch = true;
 
         /*if ($show_as == 'topics') {
@@ -533,7 +533,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         $smarty->display('search.result.tpl');
 
-        exit();
+        exit;
     }
     \wap_message($lang_search['No hits']);
 }

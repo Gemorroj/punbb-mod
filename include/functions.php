@@ -255,7 +255,7 @@ function generate_navlinks()
     if (1 == $pun_config['o_rules']) {
         $links[] = '<li id="navrules"><a href="misc.php?action=rules">'.$lang_common['Rules'].'</a>';
     }
-    //-для гостя
+    // -для гостя
     if ($pun_user['is_guest']) {
         if (1 == $pun_user['g_search']) {
             $links[] = '<li id="navsearch"><a href="search.php">'.$lang_common['Search'].'</a>';
@@ -287,7 +287,7 @@ function generate_navlinks()
             $links[] = '<li id="navfilemap"><a href="filemap.php">'.$lang_common['Attachments'].'</a>';
             $links[] = '<li id="navwap"><a href="wap/">'.$lang_common['WAP'].'</a>';
             $links[] = '<li id="navlogout"><a href="login.php?action=out&amp;id='.$pun_user['id'].'&amp;csrf_token='.\sha1($pun_user['id'].\sha1(\get_remote_address())).'">'.$lang_common['Logout'].'</a>';
-        } else { //для админов
+        } else { // для админов
             $links[] = '<li id="navsearch"><a href="search.php">'.$lang_common['Search'].'</a>';
             $links[] = '<li id="navprofile"><a href="profile.php?id='.$pun_user['id'].'">'.$lang_common['Profile'].'</a>';
             $links[] = '<li id="navadmin"><a href="admin_index.php">'.$lang_common['Admin'].'</a>';
@@ -373,21 +373,21 @@ function generate_wap_navlinks()
     return '<form id="qjump" action="redirect.php" method="get"><div><select name="r" onchange="window.location.assign(\''.$pun_config['o_base_url'].'/wap/redirect.php?r=\'+this.options[this.selectedIndex].value)">'.\implode('', $out).'</select> <input type="submit" value="'.$lang_common['Go'].'" accesskey="g" /></div></form>';
 }
 
-//верхняя Wap-навигация//редактировать в индексе
+// верхняя Wap-навигация//редактировать в индексе
 function generate_wap_1_navlinks()
 {
     global $pun_config, $lang_common, $pun_user, $lang_pms;
 
     // Index and Userlist should always be displayed
     if ($pun_user['is_guest']) {
-        //для гостя
+        // для гостя
         $links[] = '<a href="login.php">'.$lang_common['Login'].'</a> ';
         $links[] = ' <a href="registration.php">'.$lang_common['Register'].'</a>';
 
         $info = $lang_common['Not logged in'];
     } else {
         if ($pun_user['g_id'] > PUN_MOD) {
-            //для юзеров
+            // для юзеров
 
             $links[] = '<a href="profile.php?id='.$pun_user['id'].'">'.$lang_common['Profile'].' (<span style="font-weight: bold">'.\pun_htmlspecialchars($pun_user['username']).'</span>)</a>';
             // PMS MOD BEGIN
@@ -395,7 +395,7 @@ function generate_wap_1_navlinks()
             // PMS MOD END
             $links[] = '<a href="login.php?action=out&amp;id='.$pun_user['id'].'&amp;csrf_token='.\sha1($pun_user['id'].\sha1(\get_remote_address())).'">'.$lang_common['Logout'].'</a>';
         } else {
-            //для админов
+            // для админов
 
             $links[] = '<a href="profile.php?id='.$pun_user['id'].'">'.$lang_common['Profile'].' (<span style="font-weight: bold">'.\pun_htmlspecialchars($pun_user['username']).'</span>)</a>';
             // PMS MOD BEGIN
@@ -416,7 +416,7 @@ function generate_wap_1_navlinks()
         }
     }
 
-    //сборка верхнего меню
+    // сборка верхнего меню
     return \implode($lang_common['Link separator'].'|', $links);
 }
 
@@ -669,7 +669,7 @@ function get_title($user)
 //
 function paginate($num_pages, $cur_page, $link_to)
 {
-    /// MOD VIEW ALL PAGES IN ONE BEGIN
+    // / MOD VIEW ALL PAGES IN ONE BEGIN
     global $lang_common;
 
     $active_all = true;
@@ -680,7 +680,7 @@ function paginate($num_pages, $cur_page, $link_to)
         $link_to_all = true;
         --$cur_page;
     }
-    /// MOD VIEW ALL PAGES IN ONE END
+    // / MOD VIEW ALL PAGES IN ONE END
 
     $pages = [];
     $link_to_all = false;
@@ -721,13 +721,13 @@ function paginate($num_pages, $cur_page, $link_to)
             $pages[] = '<a href="'.$link_to.'&amp;p='.$num_pages.'">'.$num_pages.'</a>';
         }
 
-        /// MOD VIEW ALL PAGES IN ONE BEGIN
+        // / MOD VIEW ALL PAGES IN ONE BEGIN
         if (!$active_all) {
             $pages[] = $lang_common['All'];
         } else {
             $pages[] = '<a href="'.$link_to.'&amp;action=all">'.$lang_common['All'].'</a>';
         }
-        /// MOD VIEW ALL PAGES IN ONE END
+        // / MOD VIEW ALL PAGES IN ONE END
     }
 
     return \implode(' ', $pages);
@@ -820,7 +820,7 @@ function confirm_referrer($script)
 {
     global $pun_config, $lang_common, $_SERVER;
 
-    if (!\preg_match('#^'.\preg_quote(\str_ireplace('www.', '', $pun_config['o_base_url']).'/'.$script, '#').'#i', \str_ireplace('www.', '', ($_SERVER['HTTP_REFERER'] ?? '')))) {
+    if (!\preg_match('#^'.\preg_quote(\str_ireplace('www.', '', $pun_config['o_base_url']).'/'.$script, '#').'#i', \str_ireplace('www.', '', $_SERVER['HTTP_REFERER'] ?? ''))) {
         \message($lang_common['Bad referrer']);
     }
 }
@@ -834,7 +834,7 @@ function random_pass($len)
 
     $password = null;
     for ($i = 0; $i < $len; ++$i) {
-        $password .= $chars[(\mt_rand() % \strlen($chars))];
+        $password .= $chars[\mt_rand() % \strlen($chars)];
     }
 
     return $password;
@@ -870,6 +870,7 @@ function pun_htmlspecialchars($str)
     if (null === $str) {
         return null;
     }
+
     return \str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], \preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $str));
 }
 
@@ -1007,7 +1008,7 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
     // END SUBST - <pun_redir_heading>
 
     // START SUBST - <pun_redir_text>
-    $tpl_temp = $message.'<br /><br />'.'<a href="'.$destination_url.'">'.$lang_common['Click redirect'].'</a>';
+    $tpl_temp = $message.'<br /><br /><a href="'.$destination_url.'">'.$lang_common['Click redirect'].'</a>';
     $tpl_redir = \str_replace('<pun_redir_text>', $tpl_temp, $tpl_redir);
     // END SUBST - <pun_redir_text>
 
@@ -1035,9 +1036,9 @@ function wap_redirect($destination_url, $redirect_code = 301)
 {
     // Prefix with o_base_url (unless there's already a valid URI)
     if (0 !== \strpos($destination_url, 'http://') && 0 !== \strpos($destination_url, 'https://') && 0 !== \strpos($destination_url, 'ftp://') && 0 !== \strpos($destination_url, 'ftps://') && 0 !== \strpos($destination_url, '/')) {
-        //echo $destination_url . "\n";
+        // echo $destination_url . "\n";
         $destination_url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].\dirname($_SERVER['PHP_SELF']).'/'.$destination_url;
-        //echo $destination_url;
+        // echo $destination_url;
     }
 
     \header('Location: '.$destination_url, true, $redirect_code);

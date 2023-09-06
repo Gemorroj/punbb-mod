@@ -1,7 +1,7 @@
 <?php
 
 echo '<div class="infldset txtarea"><div id="divAttachRules" style="display:none;"><em>';
-\printf($lang_fu['File Upload limits'], $file_limit, $pun_config['file_max_size'] / 1024, ($pun_config['file_max_width'].'x'.$pun_config['file_max_height']), $pun_config['file_allowed_ext']);
+\printf($lang_fu['File Upload limits'], $file_limit, $pun_config['file_max_size'] / 1024, $pun_config['file_max_width'].'x'.$pun_config['file_max_height'], $pun_config['file_allowed_ext']);
 echo '</em>';
 
 if (\defined('PUN_DEBUG')) {
@@ -30,15 +30,15 @@ if ($num_to_upload >= 2) {
     } ?>
 <div id="addMoreFiles2" class="fine_print">
 <?php if ($num_to_upload > 5) {
-        ?>
+    ?>
         <a href="javascript:void(0);" onclick="toggle('lblFileFive', 'lblFileTwenty', 'addMoreFiles2', 'divImage3');"><?php echo $lang_fu['Add even more here']; ?></a>
         (<?php echo $lang_fu['or just']; ?> <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['one slot']; ?></a>)
         <?php
-    } else {
-        ?>
+} else {
+    ?>
         <a href="javascript:void(0);" onclick="toggle('lblFileOne', 'lblFileFive', 'addMoreFiles1', 'divImage2');"><?php echo $lang_fu['Upload just one']; ?></a>
         <?php
-    }
+}
 
     echo '</div></div>';
 

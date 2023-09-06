@@ -136,7 +136,7 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
 
     $smarty->display('login.forget.tpl');
 
-    exit();
+    exit;
 }
 
 if (!$pun_user['is_guest']) {

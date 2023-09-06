@@ -271,7 +271,7 @@ $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_re
 // Image Verification mod BEGIN
 //
 // Original code:
-//$required_fields = array('req_username' => $lang_common['Username'], 'req_password1' => $lang_common['Password'], 'req_password2' => $lang_prof_reg['Confirm pass'], 'req_email1' => $lang_common['E-mail'], 'req_email2' => $lang_common['E-mail'].' 2');
+// $required_fields = array('req_username' => $lang_common['Username'], 'req_password1' => $lang_common['Password'], 'req_password2' => $lang_prof_reg['Confirm pass'], 'req_email1' => $lang_common['E-mail'], 'req_email2' => $lang_common['E-mail'].' 2');
 
 $required_fields = [
     'req_image_' => $lang_registration['Image text'],

@@ -30,7 +30,7 @@ if ('rules' === $action) {
 
     $smarty->display('misc.rules.tpl');
 
-    exit();
+    exit;
 }
 if ('markread' === $action) {
     if ($pun_user['is_guest']) {
@@ -134,7 +134,7 @@ if ('markread' === $action) {
 
     $smarty->display('misc.email.tpl');
 
-    exit();
+    exit;
 } elseif (isset($_GET['report'])) {
     if ($pun_user['is_guest']) {
         \wap_message($lang_common['No permission']);
@@ -199,7 +199,7 @@ if ('markread' === $action) {
 
     $smarty->display('misc.report.tpl');
 
-    exit();
+    exit;
 } elseif (isset($_GET['subscribe'])) {
     if ($pun_user['is_guest'] || 1 != $pun_config['o_subscriptions']) {
         \wap_message($lang_common['No permission']);

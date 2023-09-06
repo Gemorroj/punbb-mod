@@ -9,7 +9,7 @@ if (!\defined('PUN')) {
 \define('PLUGIN_VERSION', 1.0);
 
 if (isset($_POST['cleanup'])) {
-    //delete all users and posts from specified ips, then perform all other cleanup tasks except resetting post counts since that might not be needed or wanted.
+    // delete all users and posts from specified ips, then perform all other cleanup tasks except resetting post counts since that might not be needed or wanted.
     @\set_time_limit(3600);
     $ip = "'".\implode("','", \array_values(\explode(' ', $_POST['ip_addys'])))."'";
     $db->query('DELETE FROM '.$db->prefix.'posts WHERE poster_ip IN('.$ip.')') or \error('Could not delete posts', __FILE__, __LINE__, $db->error());

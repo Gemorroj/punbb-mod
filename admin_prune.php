@@ -8,7 +8,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -17,7 +17,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply'])) {
     if (isset($_POST['prune_comply'])) {
-        //confirm_referrer('admin_prune.php');
+        // confirm_referrer('admin_prune.php');
 
         $prune_from = $_POST['prune_from'];
         $prune_sticky = isset($_POST['prune_sticky']) ? 1 : 0;

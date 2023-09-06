@@ -14,7 +14,7 @@ require_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/post.php';
 
 if (isset($_POST['form_sent'])) {
-    //confirm_referrer('message_send.php');
+    // confirm_referrer('message_send.php');
     // Flood protection
     if ($pun_user['g_id'] > PUN_GUEST) {
         $result = $db->query('SELECT posted FROM '.$db->prefix.'messages WHERE sender_id='.$pun_user['id'].' ORDER BY id DESC LIMIT 1') or \error('Unable to fetch message time for flood protection', __FILE__, __LINE__, $db->error());
@@ -78,7 +78,7 @@ if (isset($_POST['form_sent'])) {
     // Get userid
     $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') or \error('Unable to get user id', __FILE__, __LINE__, $db->error());
 
-    //$result = $db->query('SELECT id, username, group_id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    // $result = $db->query('SELECT id, username, group_id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
     $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') or \error('Unable to get user id', __FILE__, __LINE__, $db->error());
 
     // Send message
@@ -87,14 +87,14 @@ if (isset($_POST['form_sent'])) {
             \wap_message($lang_pms['Receiver'].' '.$_POST['req_username'].' '.$lang_pms['Disable options']);
         }
 
-        //if(list($id,$user,$status) = $db->fetch_row($result)){
-        //if(list($id,$user,$status,$group_pm_limit) = $db->fetch_row($result)){
+        // if(list($id,$user,$status) = $db->fetch_row($result)){
+        // if(list($id,$user,$status,$group_pm_limit) = $db->fetch_row($result)){
         // Check inbox status
         if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST && $status > PUN_GUEST) {
             $result = $db->query('SELECT COUNT(*) FROM '.$db->prefix.'messages WHERE owner='.$id) or \error('Unable to get message count for the receiver', __FILE__, __LINE__, $db->error());
             [$count] = $db->fetch_row($result);
 
-            //if($count >= $pun_user['g_pm_limit'])
+            // if($count >= $pun_user['g_pm_limit'])
             if ($count >= $group_pm_limit) {
                 \wap_message($lang_pms['Inbox full']);
             }

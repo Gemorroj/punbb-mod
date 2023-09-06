@@ -17,7 +17,7 @@ $lang_pms = [
     'Reply' => 'Reply',
     'Delete' => 'Delete',
     'Quote' => 'Quote',
-    //Mobile
+    // Mobile
     'Reply_m' => 'Reply',
     'Delete_m' => 'Del',
     'Quote_m' => 'Quote',

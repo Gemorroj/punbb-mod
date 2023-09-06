@@ -11,7 +11,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -30,7 +30,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     // If this is the first cycle of posts we empty the search index before we proceed
     if (isset($_GET['i_empty_index'])) {
         // This is the only potentially "dangerous" thing we can do here, so we check the referer
-        //confirm_referrer('admin_maintenance.php');
+        // confirm_referrer('admin_maintenance.php');
 
         $db->query('TRUNCATE TABLE '.$db->prefix.'search_matches') or \error('Unable to empty search index match table', __FILE__, __LINE__, $db->error());
         $db->query('TRUNCATE TABLE '.$db->prefix.'search_words') or \error('Unable to empty search index words table', __FILE__, __LINE__, $db->error());

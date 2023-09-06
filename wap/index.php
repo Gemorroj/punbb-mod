@@ -1,7 +1,7 @@
 <?php
 
 \define('PUN_ROOT', '../');
-\define('PUN_ALLOW_INDEX', 1); //?
+\define('PUN_ALLOW_INDEX', 1); // ?
 
 require_once PUN_ROOT.'include/common.php';
 
@@ -9,7 +9,7 @@ if (!$pun_user['g_read_board']) {
     \wap_message($lang_common['No view']);
 }
 
-//+ Real mark topic as read mod
+// + Real mark topic as read mod
 // под вопросом!
 if (!$pun_user['is_guest']) {
     $db->query(
@@ -19,9 +19,9 @@ if (!$pun_user['is_guest']) {
     )
     or \error('Unable to delete marked as read forum info', __FILE__, __LINE__, $db->error());
 }
-//- Real mark topic as read mod
+// - Real mark topic as read mod
 
-//+ Add topic title info to last post column mod
+// + Add topic title info to last post column mod
 $result = $db->query(
     'SELECT `c`.`id` AS `cid`, '
 .'`c`.`cat_name`, '
@@ -53,7 +53,7 @@ $result = $db->query(
 .'WHERE `fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1 '
 .'ORDER BY `c`.`disp_position`, `c`.`id`, `f`.`disp_position`;'
 ) or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
-//- Add topic title info to last post column mod
+// - Add topic title info to last post column mod
 
 $forums = [];
 while ($cur_forum = $db->fetch_assoc($result)) {
@@ -113,13 +113,13 @@ if (1 == $pun_config['o_users_online']) {
     }
 }
 
-//+ Language
+// + Language
 include_once PUN_ROOT.'lang/'.$pun_user['language'].'/index.php';
 
 if ($pun_config['o_pms_enabled'] && 1 == $pun_user['g_pm']) {
     include_once PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 }
-//- Language
+// - Language
 
 // Template Manager aka Smarty
 // Механизм проверки ящика сообщений, отчетов...
@@ -140,4 +140,4 @@ $smarty->assign('num_guests', $num_guests);
 
 $smarty->display('index.tpl');
 
-exit();
+exit;

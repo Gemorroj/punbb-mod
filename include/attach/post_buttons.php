@@ -207,9 +207,9 @@ var error_no_email = \''.$lang_fu['JS no email'].'\';
         <?php
         include_once PUN_ROOT.'include/parser.php';
 
-        foreach (\array_combine($smiley_img, $smiley_text) as $k => $v) {
-            echo '<img src="'.PUN_ROOT.'img/smilies/'.$k.'" alt="'.$v.'" style="cursor: pointer" onclick="return insert_text(\' '.$v.' \', \'\');"/> ';
-        }
-        ?>
+foreach (\array_combine($smiley_img, $smiley_text) as $k => $v) {
+    echo '<img src="'.PUN_ROOT.'img/smilies/'.$k.'" alt="'.$v.'" style="cursor: pointer" onclick="return insert_text(\' '.$v.' \', \'\');"/> ';
+}
+?>
     </div>
 </div><br class="clearb"/>

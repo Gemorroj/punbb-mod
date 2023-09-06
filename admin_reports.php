@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
@@ -18,7 +18,7 @@ if ($pun_user['g_id'] > PUN_MOD) {
 
 // Zap a report
 if (isset($_POST['zap_id'])) {
-    //confirm_referrer('admin_reports.php');
+    // confirm_referrer('admin_reports.php');
 
     $zap_id = \intval(\key($_POST['zap_id']));
 

@@ -207,21 +207,21 @@ if ($errors) {
 
                     <div class="infldset txtarea">
                         <?php if ($can_edit_subject) {
-    ?>
+                            ?>
                         <label><?php echo $lang_common['Subject']; ?><br/>
                             <input class="longinput" type="text" name="req_subject" size="80" maxlength="70"
                                    value="<?php echo \pun_htmlspecialchars($_POST['req_subject'] ?? $cur_post['subject']); ?>"/><br/></label>
                         <?php
-}
+                        }
 
                         require PUN_ROOT.'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
-                        if (1 == $pun_config['file_popup_info']) {
-                            include PUN_ROOT.'include/attach/popup_data.php';
-                        }
+if (1 == $pun_config['file_popup_info']) {
+    include PUN_ROOT.'include/attach/popup_data.php';
+}
 
-                        require PUN_ROOT.'include/attach/post_buttons.php';
-                        ?>
+require PUN_ROOT.'include/attach/post_buttons.php';
+?>
                         <label>
                             <textarea name="req_message" rows="20" cols="95"><?php echo \pun_htmlspecialchars(isset($_POST['req_message']) ? $message : $cur_post['message']); ?></textarea><br/>
                         </label>
@@ -243,7 +243,7 @@ if ($errors) {
 // increase numer of rows to number of already attached files
 // $file_limit will grow up when user delete files and become lower on each upload
 // but numer of rows is less or equal 20
-$num_to_upload = $file_limit /* + $uploaded_to_post*/;
+$num_to_upload = $file_limit /* + $uploaded_to_post */;
 $num_to_upload = \min($num_to_upload, 20);
 if ($uploaded_to_post || ($can_upload && $num_to_upload > 0)) {
     include PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';

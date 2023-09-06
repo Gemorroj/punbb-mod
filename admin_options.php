@@ -8,7 +8,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -186,122 +186,122 @@ echo '<div class="blockform">
 ?>
 <select name="form[server_timezone]">
     <option value="-12"<?php if (-12 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-12</option>
+        echo ' selected="selected"';
+    } ?>>-12</option>
     <option value="-11"<?php if (-11 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-11</option>
+        echo ' selected="selected"';
+    } ?>>-11</option>
     <option value="-10"<?php if (-10 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-10</option>
+        echo ' selected="selected"';
+    } ?>>-10</option>
     <option value="-9.5"<?php if (-9.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-09.5
+        echo ' selected="selected"';
+    } ?>>-09.5
     </option>
     <option value="-9"<?php if (-9 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-09</option>
+        echo ' selected="selected"';
+    } ?>>-09</option>
     <option value="-8.5"<?php if (-8.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-08.5
+        echo ' selected="selected"';
+    } ?>>-08.5
     </option>
     <option value="-8"<?php if (-8 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-08 PST</option>
+        echo ' selected="selected"';
+    } ?>>-08 PST</option>
     <option value="-7"<?php if (-7 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-07 MST</option>
+        echo ' selected="selected"';
+    } ?>>-07 MST</option>
     <option value="-6"<?php if (-6 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-06 CST</option>
+        echo ' selected="selected"';
+    } ?>>-06 CST</option>
     <option value="-5"<?php if (-5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-05 EST</option>
+        echo ' selected="selected"';
+    } ?>>-05 EST</option>
     <option value="-4"<?php if (-4 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-04 AST</option>
+        echo ' selected="selected"';
+    } ?>>-04 AST</option>
     <option value="-3.5"<?php if (-3.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-03.5
+        echo ' selected="selected"';
+    } ?>>-03.5
     </option>
     <option value="-3"<?php if (-3 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-03 ADT</option>
+        echo ' selected="selected"';
+    } ?>>-03 ADT</option>
     <option value="-2"<?php if (-2 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-02</option>
+        echo ' selected="selected"';
+    } ?>>-02</option>
     <option value="-1"<?php if (-1 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>-01</option>
+        echo ' selected="selected"';
+    } ?>>-01</option>
     <option value="0"<?php if (0 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>00 GMT</option>
+        echo ' selected="selected"';
+    } ?>>00 GMT</option>
     <option value="1"<?php if (1 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+01 CET</option>
+        echo ' selected="selected"';
+    } ?>>+01 CET</option>
     <option value="2"<?php if (2 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+02</option>
+        echo ' selected="selected"';
+    } ?>>+02</option>
     <option value="3"<?php if (3 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+03</option>
+        echo ' selected="selected"';
+    } ?>>+03</option>
     <option value="3.5"<?php if (3.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+03.5</option>
+        echo ' selected="selected"';
+    } ?>>+03.5</option>
     <option value="4"<?php if (4 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+04</option>
+        echo ' selected="selected"';
+    } ?>>+04</option>
     <option value="4.5"<?php if (4.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+04.5</option>
+        echo ' selected="selected"';
+    } ?>>+04.5</option>
     <option value="5"<?php if (5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+05</option>
+        echo ' selected="selected"';
+    } ?>>+05</option>
     <option value="5.5"<?php if (5.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+05.5</option>
+        echo ' selected="selected"';
+    } ?>>+05.5</option>
     <option value="6"<?php if (6 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+06</option>
+        echo ' selected="selected"';
+    } ?>>+06</option>
     <option value="6.5"<?php if (6.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+06.5</option>
+        echo ' selected="selected"';
+    } ?>>+06.5</option>
     <option value="7"<?php if (7 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+07</option>
+        echo ' selected="selected"';
+    } ?>>+07</option>
     <option value="8"<?php if (8 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+08</option>
+        echo ' selected="selected"';
+    } ?>>+08</option>
     <option value="9"<?php if (9 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+09</option>
+        echo ' selected="selected"';
+    } ?>>+09</option>
     <option value="9.5"<?php if (9.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+09.5</option>
+        echo ' selected="selected"';
+    } ?>>+09.5</option>
     <option value="10"<?php if (10 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+10</option>
+        echo ' selected="selected"';
+    } ?>>+10</option>
     <option value="10.5"<?php if (10.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+10.5
+        echo ' selected="selected"';
+    } ?>>+10.5
     </option>
     <option value="11"<?php if (11 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+11</option>
+        echo ' selected="selected"';
+    } ?>>+11</option>
     <option value="11.5"<?php if (11.5 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+11.5
+        echo ' selected="selected"';
+    } ?>>+11.5
     </option>
     <option value="12"<?php if (12 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+12</option>
+        echo ' selected="selected"';
+    } ?>>+12</option>
     <option value="13"<?php if (13 == $pun_config['o_server_timezone']) {
-    echo ' selected="selected"';
-} ?>>+13</option>
+        echo ' selected="selected"';
+    } ?>>+13</option>
 </select>
 <?php
 
-echo '<span>'.$lang_admin['options_timezone_about'].'</span>
+    echo '<span>'.$lang_admin['options_timezone_about'].'</span>
 </td>
 </tr>
 <tr>
@@ -501,11 +501,11 @@ echo '/> <strong>Нет</strong>
         <th scope="row">Отображение модераторов</th>
         <td>
             <input type="radio" name="form[show_moderators]" value="1"<?php if (1 == $pun_config['o_show_moderators']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_moderators]"
+                echo ' checked="checked"';
+            } ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_moderators]"
                                                            value="0"<?php if (!$pun_config['o_show_moderators']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Нет</strong>
+                                                               echo ' checked="checked"';
+                                                           } ?> /> <strong>Нет</strong>
             <span>Показать модераторов форумов. Только WEB версия.</span>
         </td>
     </tr>
@@ -514,12 +514,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[show_user_info]"
                    value="1"<?php if (1 == $pun_config['o_show_user_info']) {
-    echo ' checked="checked"';
-} ?> />
+                       echo ' checked="checked"';
+                   } ?> />
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_user_info]"
                                                    value="0"<?php if (!$pun_config['o_show_user_info']) {
-    echo ' checked="checked"';
-} ?> />
+                                                       echo ' checked="checked"';
+                                                   } ?> />
             <strong>Нет</strong>
             <span>Показать информацию под именем пользователя в теме. Информация включает расположение, дату регистрации,количество постов и контактные ссылки (e-mail и URL).</span>
         </td>
@@ -529,12 +529,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[show_post_karma]"
                    value="1"<?php if (1 == $pun_config['o_show_post_karma']) {
-    echo ' checked="checked"';
-} ?> />
+                       echo ' checked="checked"';
+                   } ?> />
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_post_karma]"
                                                    value="0"<?php if (!$pun_config['o_show_post_karma']) {
-    echo ' checked="checked"';
-} ?> />
+                                                       echo ' checked="checked"';
+                                                   } ?> />
             <strong>Нет</strong>
             <span>Показать карму пользователя в теме, профиле и списке пользователей.</span>
         </td>
@@ -544,12 +544,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[show_post_count]"
                    value="1"<?php if (1 == $pun_config['o_show_post_count']) {
-    echo ' checked="checked"';
-} ?> />
+                       echo ' checked="checked"';
+                   } ?> />
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_post_count]"
                                                    value="0"<?php if (!$pun_config['o_show_post_count']) {
-    echo ' checked="checked"';
-} ?> />
+                                                       echo ' checked="checked"';
+                                                   } ?> />
             <strong>Нет</strong>
             <span>Показать количество сообщений пользователя в теме, профиле и списке пользователей.</span>
         </td>
@@ -559,12 +559,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[smilies]"
                    value="1"<?php if (1 == $pun_config['o_smilies']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Да</strong>&#160;
+                       echo ' checked="checked"';
+                   } ?> /> <strong>Да</strong>&#160;
             &#160;<input type="radio" name="form[smilies]"
                          value="0"<?php if (!$pun_config['o_smilies']) {
-    echo ' checked="checked"';
-} ?> />
+                             echo ' checked="checked"';
+                         } ?> />
             <strong>Нет</strong>
             <span>Заменять смайлы маленькими иконками.</span>
         </td>
@@ -574,12 +574,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[smilies_sig]"
                    value="1"<?php if (1 == $pun_config['o_smilies_sig']) {
-    echo ' checked="checked"';
-} ?> />
+                       echo ' checked="checked"';
+                   } ?> />
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[smilies_sig]"
                                                    value="0"<?php if (!$pun_config['o_smilies_sig']) {
-    echo ' checked="checked"';
-} ?> />
+                                                       echo ' checked="checked"';
+                                                   } ?> />
             <strong>Нет</strong>
             <span>Заменять смайлы в подписях маленькими иконками.</span>
         </td>
@@ -589,12 +589,12 @@ echo '/> <strong>Нет</strong>
         <td>
             <input type="radio" name="form[make_links]"
                    value="1"<?php if (1 == $pun_config['o_make_links']) {
-    echo ' checked="checked"';
-} ?> />
+                       echo ' checked="checked"';
+                   } ?> />
             <strong>Да</strong>&#160; &#160;<input type="radio" name="form[make_links]"
                                                    value="0"<?php if (!$pun_config['o_make_links']) {
-    echo ' checked="checked"';
-} ?> />
+                                                       echo ' checked="checked"';
+                                                   } ?> />
             <strong>Нет</strong>
             <span>Если включено, PunBB автоматически определяет любые URL в сообщениях и делает из нее активную гиперссылку</span>
         </td>
@@ -644,11 +644,11 @@ echo '/> <strong>Нет</strong>
                     <th scope="row">Голосования</th>
                     <td>
                         <input type="radio" name="form[poll]" value="1"<?php if (1 == $pun_config['poll_enabled']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="form[poll]"
+                            echo ' checked="checked"';
+                        } ?> /> <strong>Да</strong>&#160; &#160;<input type="radio" name="form[poll]"
                                                                        value="0"<?php if (!$pun_config['poll_enabled']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Нет</strong>
+                                                                           echo ' checked="checked"';
+                                                                       } ?> /> <strong>Нет</strong>
                         <span>Включить / Отключить голосования</span>
                     </td>
                 </tr>
@@ -657,12 +657,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[quickpost]"
                                value="1"<?php if (1 == $pun_config['o_quickpost']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[quickpost]"
                                                                value="0"<?php if (!$pun_config['o_quickpost']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Если включено, PunBB добавит форму быстрого ответа внизу тем. Это позволит пользователям отвечать прямо в теме.</span>
                     </td>
@@ -672,12 +672,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[users_online]"
                                value="1"<?php if (1 == $pun_config['o_users_online']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[users_online]"
                                                                value="0"<?php if (!$pun_config['o_users_online']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Показать информацию на главной странице о присутствующих в данное время на форуме гостях и зарегистрированных пользователях.</span>
                     </td>
@@ -687,12 +687,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[censoring]"
                                value="1"<?php if (1 == $pun_config['o_censoring']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[censoring]"
                                                                value="0"<?php if (!$pun_config['o_censoring']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Включить цензуру определенных слов на форуме. Смотрите <a href="admin_censoring.php">Цензура</a> для более подробной информации.</span>
                     </td>
@@ -702,12 +702,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[ranks]"
                                value="1"<?php if (1 == $pun_config['o_ranks']) {
-    echo ' checked="checked"';
-} ?> /> <strong>Да</strong>&#160;
+                                   echo ' checked="checked"';
+                               } ?> /> <strong>Да</strong>&#160;
                         &#160;<input type="radio" name="form[ranks]"
                                      value="0"<?php if (!$pun_config['o_ranks']) {
-    echo ' checked="checked"';
-} ?> />
+                                         echo ' checked="checked"';
+                                     } ?> />
                         <strong>Нет</strong>
                         <span>Включить использование ранга пользователей. Смотрите <a href="admin_ranks.php">Ранги</a> для более подробной информации.</span>
                     </td>
@@ -717,12 +717,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[show_dot]"
                                value="1"<?php if (1 == $pun_config['o_show_dot']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[show_dot]"
                                                                value="0"<?php if (!$pun_config['o_show_dot']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Это свойство ставит точку в начале тем в viewforum.php в случае если вошедший пользователь отвечал в этой теме ранее. Отключите если сервер испытывает большую нагрузку</span>
                     </td>
@@ -732,12 +732,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[quickjump]"
                                value="1"<?php if (1 == $pun_config['o_quickjump']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[quickjump]"
                                                                value="0"<?php if (!$pun_config['o_quickjump']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Включить быстрый переход (переход к форуму) выпадающий список.</span>
                     </td>
@@ -747,12 +747,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[search_all_forums]"
                                value="1"<?php if (1 == $pun_config['o_search_all_forums']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[search_all_forums]"
                                                                value="0"<?php if (!$pun_config['o_search_all_forums']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Если отключено, поиск возможен только в одном форуме одновременно. Отключите, если загрузка сервера черезмерно перегружена поиском.</span>
                     </td>
@@ -779,16 +779,16 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[report_method]"
                                value="0"<?php if (!$pun_config['o_report_method']) {
-    echo ' checked="checked"';
-} ?> />&#160;Внутренний&#160;
+                                   echo ' checked="checked"';
+                               } ?> />&#160;Внутренний&#160;
                         &#160;<input type="radio" name="form[report_method]"
                                      value="1"<?php if (1 == $pun_config['o_report_method']) {
-    echo ' checked="checked"';
-} ?> />
+                                         echo ' checked="checked"';
+                                     } ?> />
                         E-mail&#160; &#160;<input type="radio" name="form[report_method]"
                                                   value="2"<?php if ('2' == $pun_config['o_report_method']) {
-    echo ' checked="checked"';
-} ?> />
+                                                      echo ' checked="checked"';
+                                                  } ?> />
                         Оба
                         <span>Выберите метод получения отчетов. Вы можете выбрать сообщать ли вам о теме/сообщении используя внутреннюю систему отчетов, посылать ли e-mail адресам в списке рассылки (смотрите далее) или оба варианта.</span>
                     </td>
@@ -798,12 +798,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[regs_report]"
                                value="1"<?php if (1 == $pun_config['o_regs_report']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_report]"
                                                                value="0"<?php if (!$pun_config['o_regs_report']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Если включено, PunBB будет уведомлять пользователей из списка рассылки (смотрите ниже) когда новый пользователь регистрируется на форуме.</span>
                     </td>
@@ -830,12 +830,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[avatars]"
                                value="1"<?php if (1 == $pun_config['o_avatars']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[avatars]"
                                                                value="0"<?php if (!$pun_config['o_avatars']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, пользователи могут загрузить аватар который будет показываться под их названием/рангом.</span>
                     </td>
@@ -902,12 +902,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[subscriptions]"
                                value="1"<?php if (1 == $pun_config['o_subscriptions']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[subscriptions]"
                                                                value="0"<?php if (!$pun_config['o_subscriptions']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Позволить пользователям подписываться на темы (получать e-mail когда кто-то ответил).</span>
                     </td>
@@ -952,12 +952,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[regs_allow]"
                                value="1"<?php if (1 == $pun_config['o_regs_allow']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_allow]"
                                                                value="0"<?php if (!$pun_config['o_regs_allow']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Может ли форум принимать новые регистрации. Отключать только в экстренных ситуациях.</span>
                     </td>
@@ -967,12 +967,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[regs_verify]"
                                value="1"<?php if (1 == $pun_config['o_regs_verify']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_verify]"
                                                                value="0"<?php if (!$pun_config['o_regs_verify']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, пользователям посылается случайный пароль при регистрации. Они могут войти и изменить его в своем профиле на более удобный. Кроме того пользователь вынужден проверять новый e-mail адрес введенный при регистрации. Это эффективный способ избежать авто-регистраций и проверить корректность e-mail адреса всех пользователей в их профилях.</span>
                     </td>
@@ -982,12 +982,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[regs_verify_image]"
                                value="1"<?php if (1 == $pun_config['o_regs_verify_image']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[regs_verify_image]"
                                                                value="0"<?php if (!$pun_config['o_regs_verify_image']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, пользователи должны ввести текст с картинки для подтверждения регистрации и в форме ответа. Это лучший способ избавиться от авто-регистраций ботов и не заставлять каждого пользователя подтверждать подлинность через e-mail, экономя его время.</span>
                     </td>
@@ -997,12 +997,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[rules]"
                                value="1"<?php if (1 == $pun_config['o_rules']) {
-    echo ' checked="checked"';
-} ?> />&#160;<strong>Да</strong>&#160;
+                                   echo ' checked="checked"';
+                               } ?> />&#160;<strong>Да</strong>&#160;
                         &#160;<input type="radio" name="form[rules]"
                                      value="0"<?php if (!$pun_config['o_rules']) {
-    echo ' checked="checked"';
-} ?> />
+                                         echo ' checked="checked"';
+                                     } ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, пользователи должны согласиться выполнять правила при регистрации (введите текст ниже). Правила всегда доступны по ссылке в навигационной таблице вначале каждой страницы.</span>
                     </td>
@@ -1029,12 +1029,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[announcement]"
                                value="1"<?php if (1 == $pun_config['o_announcement']) {
-    echo ' checked="checked"';
-} ?> />
+                                   echo ' checked="checked"';
+                               } ?> />
                         <strong>Да</strong>&#160; &#160;<input type="radio" name="form[announcement]"
                                                                value="0"<?php if (!$pun_config['o_announcement']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                   echo ' checked="checked"';
+                                                               } ?> />
                         <strong>Нет</strong>
                         <span>Включите для отображения перед сообщениями в форумах.</span>
                     </td>
@@ -1061,12 +1061,12 @@ echo '/> <strong>Нет</strong>
                     <td>
                         <input type="radio" name="form[maintenance]"
                                value="1"<?php if (1 == $pun_config['o_maintenance']) {
-    echo ' checked="checked"';
-} ?> />&#160;<strong>Да</strong>&#160;
+                                   echo ' checked="checked"';
+                               } ?> />&#160;<strong>Да</strong>&#160;
                         &#160;<input type="radio" name="form[maintenance]"
                                      value="0"<?php if (!$pun_config['o_maintenance']) {
-    echo ' checked="checked"';
-} ?> />
+                                         echo ' checked="checked"';
+                                     } ?> />
                         <strong>Нет</strong>
                         <span>Когда включено, форумы доступны только администраторам. Используется когда форумы требуется временно отключить для ремонта. ВНИМАНИЕ! Не выходите когда форумы в режиме ремонта. Вы не сможете войти снова.</span>
                     </td>
@@ -1090,4 +1090,4 @@ echo '/> <strong>Нет</strong>
 <div class="clearer"></div>
 </div>
 <?php
-require_once PUN_ROOT.'footer.php';
+                                     require_once PUN_ROOT.'footer.php';

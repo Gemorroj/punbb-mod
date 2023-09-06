@@ -96,7 +96,7 @@ if (isset($_GET['tid'])) {
         }
 
         if (isset($_POST['delete_posts_comply'])) {
-            //confirm_referrer('moderate.php');
+            // confirm_referrer('moderate.php');
 
             if (\preg_match('/[^0-9,]/', $posts)) {
                 \message($lang_common['Bad request']);
@@ -277,7 +277,7 @@ if (isset($_GET['tid'])) {
 // Move one or more topics
 if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
     if (isset($_POST['move_topics_to'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         if (\preg_match('/[^0-9,]/', $_POST['topics'])) {
             \message($lang_common['Bad request']);
@@ -402,7 +402,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     }
 
     if (isset($_POST['delete_topics_comply'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         if (\preg_match('/[^0-9,]/', $topics)) {
             \message($lang_common['Bad request']);
@@ -486,7 +486,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
     // There could be an array of topic ID's in $_POST
     if (isset($_POST['open']) || isset($_POST['close'])) {
-        //confirm_referrer('moderate.php');
+        // confirm_referrer('moderate.php');
 
         $topics = isset($_POST['topics']) ? @\array_map('intval', @\array_keys($_POST['topics'])) : [];
         if (!$topics) {
@@ -499,7 +499,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         \redirect('moderate.php?fid='.$fid, $redirect_msg);
     } else {
         // Or just one in $_GET
-        //confirm_referrer('viewtopic.php');
+        // confirm_referrer('viewtopic.php');
 
         $topic_id = ($action) ? \intval($_GET['close']) : \intval($_GET['open']);
         if ($topic_id < 1) {
@@ -513,7 +513,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     }
 } elseif (isset($_GET['stick'])) {
     // Stick a topic
-    //confirm_referrer('viewtopic.php');
+    // confirm_referrer('viewtopic.php');
 
     $stick = \intval($_GET['stick']);
     if ($stick < 1) {
@@ -525,7 +525,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
     \redirect('viewtopic.php?id='.$stick, $lang_misc['Stick topic redirect']);
 } elseif (isset($_GET['unstick'])) {
     // Unstick a topic
-    //confirm_referrer('viewtopic.php');
+    // confirm_referrer('viewtopic.php');
 
     $unstick = \intval($_GET['unstick']);
     if ($unstick < 1) {
@@ -677,8 +677,8 @@ if ($db->num_rows($result)) {
             $subject .= !empty($subject_multipage) ? ' '.$subject_multipage : '';
         } ?>
     <tr<?php if ($item_status) {
-            echo ' class="'.\trim($item_status).'"';
-        } ?>>
+        echo ' class="'.\trim($item_status).'"';
+    } ?>>
         <td class="tcl">
             <div class="<?php echo $icon_type; ?>">
                 <div class="nosize"><?php echo \trim($icon_text); ?></div>

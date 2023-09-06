@@ -34,13 +34,13 @@ if (1 === $box) {
 
 $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
 
-//$name plus the link to the other box
+// $name plus the link to the other box
 $page_name = $name;
 
 // Delete multiple posts
 if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply'])) {
     if (isset($_POST['delete_messages_comply'])) {
-        //Check this is legit
+        // Check this is legit
         // confirm_referrer('message_list.php');
 
         if (\preg_match('/[^0-9,]/', $_POST['messages']) || !\trim($_POST['messages'])) {
@@ -73,7 +73,7 @@ if ($box < 2) {
     $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) or \error('Unable to count messages', __FILE__, __LINE__, $db->error());
     $num_messages = $db->result($result);
 
-    //What page are we on?
+    // What page are we on?
     $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
@@ -92,16 +92,16 @@ require_once PUN_ROOT.'header.php';
         <div class="inbox">
             <ul>
                 <li <?php if (0 == $box) {
-    echo 'class="isactive"';
-} ?>><a
+                    echo 'class="isactive"';
+                } ?>><a
                     href="message_list.php?box=0"><?php echo $lang_pms['Inbox']; ?></a></li>
                 <li <?php if (1 == $box) {
-    echo 'class="isactive"';
-} ?>><a
+                    echo 'class="isactive"';
+                } ?>><a
                     href="message_list.php?box=1"><?php echo $lang_pms['Outbox']; ?></a></li>
                 <li <?php if (2 == $box) {
-    echo 'class="isactive"';
-} ?>><a
+                    echo 'class="isactive"';
+                } ?>><a
                     href="message_list.php?box=2"><?php echo $lang_pms['Options']; ?></a></li>
                 <li><a href="message_send.php"><?php echo $lang_pms['New message']; ?></a></li>
             </ul>
@@ -110,9 +110,9 @@ require_once PUN_ROOT.'header.php';
 </div>
 <?php
 if ($box < 2) {
-    //Are we viewing a PM?
+    // Are we viewing a PM?
     if (isset($_GET['id'])) {
-        //Yes! Lets get the details
+        // Yes! Lets get the details
         $id = \intval($_GET['id']);
 
         // Set user
@@ -205,7 +205,7 @@ if ($box < 2) {
                 }
             }
 
-            //Moderator and Admin stuff
+            // Moderator and Admin stuff
             if ($pun_user['g_id'] < PUN_GUEST) {
                 $user_info[] = '<dd>IP: <a href="moderate.php?get_host='.$cur_post['id'].'">'.$cur_post['sender_ip'].'</a>';
 
@@ -237,7 +237,7 @@ if ($box < 2) {
         }
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
-        $cur_post['smileys'] = $cur_post['smileys'] ?? $pun_user['show_smilies'];
+        $cur_post['smileys'] ??= $pun_user['show_smilies'];
         $cur_post['message'] = \parse_message($cur_post['message'], !$cur_post['smileys']);
 
         // Do signature parsing/caching
@@ -254,18 +254,18 @@ if ($box < 2) {
                     <dt><strong><?php echo $username; ?></strong></dt>
                     <dd class="usertitle"><strong><?php echo $user_title; ?></strong></dd>
                     <dd class="postavatar"><?php if (isset($user_avatar)) {
-            echo $user_avatar;
-        } ?></dd>
+                        echo $user_avatar;
+                    } ?></dd>
                     <?php if (isset($user_info)) {
-            if ($user_info) {
-                echo \implode('</dd>', $user_info).'</dd>';
-            }
-        } ?>
+                        if ($user_info) {
+                            echo \implode('</dd>', $user_info).'</dd>';
+                        }
+                    } ?>
                     <?php if (isset($user_contacts)) {
-            if ($user_contacts) {
-                echo '<dd class="usercontacts">'.\implode(' ', $user_contacts).'</dd>';
-            }
-        } ?>
+                        if ($user_contacts) {
+                            echo '<dd class="usercontacts">'.\implode(' ', $user_contacts).'</dd>';
+                        }
+                    } ?>
                 </dl>
             </div>
             <div class="postright">
@@ -273,13 +273,13 @@ if ($box < 2) {
                     <?php echo $cur_post['message']; ?>
                 </div>
                 <?php if (isset($signature)) {
-            echo '<div class="postsignature"><hr />'.$signature.'</div>';
-        } ?>
+                    echo '<div class="postsignature"><hr />'.$signature.'</div>';
+                } ?>
             </div>
             <div class="clearer"></div>
             <div class="postfootleft"><?php if ($cur_post['id'] > 1) {
-            echo '<p>'.$is_online.'</p>';
-        } ?></div>
+                echo '<p>'.$is_online.'</p>';
+            } ?></div>
             <div
                 class="postfootright"><?php echo ($post_actions) ? '<ul>'.\implode($lang_topic['Link separator'].'</li>', $post_actions).'</li></ul></div>' : '<div> </div></div>'; ?>
             </div>
@@ -428,6 +428,6 @@ if ($box < 2) {
 <div class="clearer"></div>
 </div>';
 }
-$footer_style = 'message_list';
+                $footer_style = 'message_list';
 
 require_once PUN_ROOT.'footer.php';

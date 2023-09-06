@@ -108,16 +108,16 @@ $tpl_main = \str_replace('<pun_navlinks>', '<div id="brdmenu" class="inbox">'.\g
 
 // START SUBST - <pun_status>
 if ($pun_user['is_guest']) {
-    /// MOD PRINTABLE TOPIC BEGIN
+    // / MOD PRINTABLE TOPIC BEGIN
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>'.$lang_common['Not logged in'].'</li></ul>';
 
-    /// MOD PRINTABLE TOPIC BEGIN
+    // / MOD PRINTABLE TOPIC BEGIN
     if ('viewtopic.php' == $basename && $id > 0) {
         $tpl_temp .= '<ul class="conr"><li><span class="printable"><a href="viewprintable.php?id='.$id.'">'.$lang_common['Print version'].'</a></span></li></ul><div class="clearer"></div></div>';
     } else {
         $tpl_temp .= '<div class="clearer"></div></div>';
     }
-    /// MOD PRINTABLE TOPIC END
+    // / MOD PRINTABLE TOPIC END
 } else {
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>'.$lang_common['Logged in as'].' <strong>'.\pun_htmlspecialchars($pun_user['username']).'</strong></li><li>'.$lang_common['Last visit'].': '.\format_time($pun_user['last_visit']).'</li>';
 
@@ -141,12 +141,12 @@ if ($pun_user['is_guest']) {
     } elseif ('viewforum.php' == $basename) {
         // REAL MARK TOPICS AS READ MOD	BEGIN
         $tpl_temp .= '</ul><ul class="conr"><li><a href="misc.php?action=markread&amp;fid='.$id.'">'.$lang_common['Mark all as read'].'</a></li></ul><div class="clearer"></div></div>';
-    // REAL MARK TOPICS AS READ MOD	END
+        // REAL MARK TOPICS AS READ MOD	END
     } else {
-        /// MOD PRINTABLE TOPIC BEGIN
+        // / MOD PRINTABLE TOPIC BEGIN
         if ('viewtopic.php' == $basename) {
             $tpl_temp .= '</ul><ul class="conr"><li><span class="printable"><a href="viewprintable.php?id='.$id.'">'.$lang_common['Print version'].'</a></span></li></ul><div class="clearer"></div></div>';
-        /// MOD PRINTABLE TOPIC END
+            // / MOD PRINTABLE TOPIC END
         } else {
             $tpl_temp .= '</ul><div class="clearer"></div></div>';
         }

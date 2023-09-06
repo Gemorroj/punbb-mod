@@ -8,7 +8,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
@@ -17,7 +17,7 @@ if ($pun_user['g_id'] > PUN_MOD) {
 
 // Add a censor word
 if (isset($_POST['add_word'])) {
-    //confirm_referrer('admin_censoring.php');
+    // confirm_referrer('admin_censoring.php');
 
     $search_for = \trim($_POST['new_search_for']);
     $replace_with = \trim($_POST['new_replace_with']);
@@ -31,7 +31,7 @@ if (isset($_POST['add_word'])) {
     \redirect('admin_censoring.php', $lang_admin['Added'].' '.$lang_admin['Redirect']);
 } // Update a censor word
 elseif (isset($_POST['update'])) {
-    //confirm_referrer('admin_censoring.php');
+    // confirm_referrer('admin_censoring.php');
 
     $id = \intval(\key($_POST['update']));
 
@@ -47,7 +47,7 @@ elseif (isset($_POST['update'])) {
     \redirect('admin_censoring.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 } // Remove a censor word
 elseif (isset($_POST['remove'])) {
-    //confirm_referrer('admin_censoring.php');
+    // confirm_referrer('admin_censoring.php');
 
     $id = \intval(\key($_POST['remove']));
 

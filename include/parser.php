@@ -50,7 +50,7 @@ $smiley_img = [
 ];
 
 // Uncomment the next row if you add smilies that contain any of the characters &"'<>
-//$smiley_text = array_map('pun_htmlspecialchars', $smiley_text);
+// $smiley_text = array_map('pun_htmlspecialchars', $smiley_text);
 
 //
 // Make sure all BBCodes are lower case and do a little cleanup
@@ -118,7 +118,7 @@ function preparse_bbcode($text, &$errors, $is_signature = false)
             $errors[] = $error;
         } elseif ($overflow) {
             // The quote depth level was too high, so we strip out the inner most quote(s)
-            $text = \substr($text, 0, $overflow[0]).\substr($text, $overflow[1], (\strlen($text) - $overflow[0]));
+            $text = \substr($text, 0, $overflow[0]).\substr($text, $overflow[1], \strlen($text) - $overflow[0]);
         }
     } else {
         if (\preg_match('#\[quote=(&quot;|"|\'|)(.*)\\1\]|\[quote\]|\[/quote\]|\[code\]|\[/code\]|\[hide=(&quot;|"|\'|)(.*)\\1\]|\[hide\]|\[/hide\]#i', $text)) {
@@ -792,7 +792,7 @@ function do_code($text, $inside = [])
             $text .= $outside[$i];
 
             if (isset($inside[$i])) {
-                $num_lines = ((\substr_count($inside[$i], "\n")) + 3) * 1.5;
+                $num_lines = (\substr_count($inside[$i], "\n") + 3) * 1.5;
                 $height_str = ($num_lines > 35) ? '35em' : $num_lines.'em';
 
                 if (0 === \strpos($inside[$i], '&lt;?')) {

@@ -102,7 +102,7 @@ if ('change_pass' == $action) {
 
     $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_common['Profile'];
     $required_fields = ['req_old_password' => $lang_profile['Old pass'], 'req_new_password1' => $lang_profile['New pass'], 'req_new_password2' => $lang_profile['Confirm new pass']];
-    $focus_element = ['change_pass', (($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1')];
+    $focus_element = ['change_pass', ($pun_user['g_id'] > PUN_MOD) ? 'req_old_password' : 'req_new_password1'];
 
     require_once PUN_ROOT.'header.php';
 
@@ -439,7 +439,7 @@ if ('change_pass' == $action) {
         \message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     $new_group_id = \intval($_POST['group_id']);
 
@@ -476,7 +476,7 @@ if ('change_pass' == $action) {
         \message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     // Get the username of the user we are processing
     $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE id='.
@@ -524,7 +524,7 @@ if ('change_pass' == $action) {
         \message($lang_common['No permission']);
     }
 
-    //confirm_referrer('profile.php');
+    // confirm_referrer('profile.php');
 
     // Get the username and group of the user we are deleting
     $result = $db->query('SELECT group_id, username FROM '.$db->prefix.
@@ -1003,8 +1003,8 @@ if ($user['signature']) {
     $parsed_signature = \parse_signature($user['signature']);
 }
 
-//if($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST)
-//{
+// if($pun_config['o_show_post_karma'] == 1 || $pun_user['g_id'] < PUN_GUEST)
+// {
 $q = $db->fetch_row($db->query(
     '
     SELECT COUNT(1), (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$id
@@ -1014,7 +1014,7 @@ $karma['plus'] = \intval($q[0]);
 $karma['minus'] = \intval($q[1]);
 $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
-//}
+// }
 
 $karma = $karma['karma'].' (+'.$karma['plus'].'/-'.$karma['minus'].') - <a href="karma.php?id='.$id.'">'.$lang_common['Show karma'].'</a>';
 
@@ -1211,7 +1211,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             // PMS MOD BEGIN
             include PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
             $email_field .= '<p><a href="message_send.php?id='.$id.'">'.$lang_pms['Quick message'].'</a></p>';
-        // PMS MOD END
+            // PMS MOD END
         } else {
             $username_field = '<p>'.$lang_common['Username'].': '.\pun_htmlspecialchars($user['username']).
                 '</p>';
@@ -1295,152 +1295,152 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             '<br />'; ?>
     <select name="form[timezone]">
     <option value="-12"<?php if (-12 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-12
+        echo ' selected="selected"';
+    } ?>>-12
     </option>
     <option value="-11"<?php if (-11 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-11
+        echo ' selected="selected"';
+    } ?>>-11
     </option>
     <option value="-10"<?php if (-10 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-10
+        echo ' selected="selected"';
+    } ?>>-10
     </option>
     <option value="-9.5"<?php if (-9.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-09.5
+        echo ' selected="selected"';
+    } ?>>-09.5
     </option>
     <option value="-9"<?php if (-9 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-09
+        echo ' selected="selected"';
+    } ?>>-09
     </option>
     <option value="-8.5"<?php if (-8.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-08.5
+        echo ' selected="selected"';
+    } ?>>-08.5
     </option>
     <option value="-8"<?php if (-8 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-08 PST
+        echo ' selected="selected"';
+    } ?>>-08 PST
     </option>
     <option value="-7"<?php if (-7 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-07 MST
+        echo ' selected="selected"';
+    } ?>>-07 MST
     </option>
     <option value="-6"<?php if (-6 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-06 CST
+        echo ' selected="selected"';
+    } ?>>-06 CST
     </option>
     <option value="-5"<?php if (-5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-05 EST
+        echo ' selected="selected"';
+    } ?>>-05 EST
     </option>
     <option value="-4"<?php if (-4 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-04 AST
+        echo ' selected="selected"';
+    } ?>>-04 AST
     </option>
     <option value="-3.5"<?php if (-3.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-03.5
+        echo ' selected="selected"';
+    } ?>>-03.5
     </option>
     <option value="-3"<?php if (-3 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-03 ADT
+        echo ' selected="selected"';
+    } ?>>-03 ADT
     </option>
     <option value="-2"<?php if (-2 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-02
+        echo ' selected="selected"';
+    } ?>>-02
     </option>
     <option value="-1"<?php if (-1 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>-01
+        echo ' selected="selected"';
+    } ?>>-01
     </option>
     <option value="0"<?php if (0 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>00 GMT
+        echo ' selected="selected"';
+    } ?>>00 GMT
     </option>
     <option value="1"<?php if (1 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+01 CET
+        echo ' selected="selected"';
+    } ?>>+01 CET
     </option>
     <option value="2"<?php if (2 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+02
+        echo ' selected="selected"';
+    } ?>>+02
     </option>
     <option value="3"<?php if (3 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+03
+        echo ' selected="selected"';
+    } ?>>+03
     </option>
     <option value="3.5"<?php if (3.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+03.5
+        echo ' selected="selected"';
+    } ?>>+03.5
     </option>
     <option value="4"<?php if (4 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+04
+        echo ' selected="selected"';
+    } ?>>+04
     </option>
     <option value="4.5"<?php if (4.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+04.5
+        echo ' selected="selected"';
+    } ?>>+04.5
     </option>
     <option value="5"<?php if (5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+05
+        echo ' selected="selected"';
+    } ?>>+05
     </option>
     <option value="5.5"<?php if (5.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+05.5
+        echo ' selected="selected"';
+    } ?>>+05.5
     </option>
     <option value="6"<?php if (6 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+06
+        echo ' selected="selected"';
+    } ?>>+06
     </option>
     <option value="6.5"<?php if (6.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+06.5
+        echo ' selected="selected"';
+    } ?>>+06.5
     </option>
     <option value="7"<?php if (7 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+07
+        echo ' selected="selected"';
+    } ?>>+07
     </option>
     <option value="8"<?php if (8 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+08
+        echo ' selected="selected"';
+    } ?>>+08
     </option>
     <option value="9"<?php if (9 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+09
+        echo ' selected="selected"';
+    } ?>>+09
     </option>
     <option value="9.5"<?php if (9.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+09.5
+        echo ' selected="selected"';
+    } ?>>+09.5
     </option>
     <option value="10"<?php if (10 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+10
+        echo ' selected="selected"';
+    } ?>>+10
     </option>
     <option value="10.5"<?php if (10.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+10.5
+        echo ' selected="selected"';
+    } ?>>+10.5
     </option>
     <option value="11"<?php if (11 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+11
+        echo ' selected="selected"';
+    } ?>>+11
     </option>
     <option value="11.5"<?php if (11.5 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+11.5
+        echo ' selected="selected"';
+    } ?>>+11.5
     </option>
     <option value="12"<?php if (12 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+12
+        echo ' selected="selected"';
+    } ?>>+12
     </option>
     <option value="13"<?php if (13 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+13
+        echo ' selected="selected"';
+    } ?>>+13
     </option>
     <option value="14"<?php if (14 == $user['timezone']) {
-                echo ' selected="selected"';
-            } ?>>+14
+        echo ' selected="selected"';
+    } ?>>+14
     </option>
     </select>
     <br/></label>

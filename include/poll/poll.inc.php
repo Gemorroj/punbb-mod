@@ -9,7 +9,7 @@ poll script
 PLEASE, DO NOT REMOVE LINK TO punbb.ru FROM CODE! THANKS!
  */
 
-//define('PUN_ROOT', '../../');
+// define('PUN_ROOT', '../../');
 
 // TODO : перенести названия в константы:
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/poll.php';

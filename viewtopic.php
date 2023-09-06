@@ -145,9 +145,9 @@ $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (i
 $start_from = $pun_user['disp_posts'] * ($p - 1);
 
 // Generate paging links
-/// MOD VIEW ALL PAGES IN ONE BEGIN
+// / MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
-//$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
+// $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ('all' == $action) {
     $p = ($num_pages + 1);
 }
@@ -156,7 +156,7 @@ $paging_links = $lang_common['Pages'].': '.\paginate($num_pages, $p, 'viewtopic.
 if ('all' == $action && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
-/// MOD VIEW ALL PAGES IN ONE END
+// / MOD VIEW ALL PAGES IN ONE END
 
 if (1 == $pun_config['o_censoring']) {
     $cur_topic['subject'] = \censor_words($cur_topic['subject']);
@@ -376,7 +376,7 @@ foreach ($posts as $cur_post) {
             if ((!$cur_topic['post_replies'] && 1 == $pun_user['g_post_replies']) || 1 == $cur_topic['post_replies']) {
                 $post_actions[] = '<li class="postquote"><a href="post.php?tid='.$id.'&amp;qid='.$cur_post['id'].'">'.$lang_topic['Post reply'].'</a>';
                 if (!$pun_user['is_guest']) {
-                    //$post_actions[] = '<li class="postquote"><a onclick="copyPID(\''.$cur_post['id'].'\');" onmouseover="copyQ(\''.pun_htmlspecialchars($cur_post['username']).'\');" href="javascript:pasteQ();">'.$lang_topic['Quote'].'</a>';
+                    // $post_actions[] = '<li class="postquote"><a onclick="copyPID(\''.$cur_post['id'].'\');" onmouseover="copyQ(\''.pun_htmlspecialchars($cur_post['username']).'\');" href="javascript:pasteQ();">'.$lang_topic['Quote'].'</a>';
                     $post_actions[] = '<li class="postquote"><a href="javascript:pasteQ(\''.$cur_post['id'].'\', \''.\pun_htmlspecialchars($cur_post['username']).'\');">'.$lang_topic['Quote'].'</a>';
                 }
             }
@@ -426,8 +426,8 @@ foreach ($posts as $cur_post) {
     }
     echo \pun_htmlspecialchars($cur_topic['subject']).'</h3><div class="postmsg">'.$cur_post['message'];
 
-    //$save_attachments = $attachments;
-    //$attachments = array_filter($attachments, 'filter_attachments_of_post');
+    // $save_attachments = $attachments;
+    // $attachments = array_filter($attachments, 'filter_attachments_of_post');
     if (isset($attachments[$cur_post['id']])) {
         include_once PUN_ROOT.'lang/'.$pun_user['language'].'/fileup.php';
         echo '<br /><fieldset><legend>'.$lang_fu['Attachments'].'</legend>';
@@ -435,7 +435,7 @@ foreach ($posts as $cur_post) {
         include PUN_ROOT.'include/attach/view_attachments.php';
         echo '</fieldset>';
     }
-    //$attachments = $save_attachments;
+    // $attachments = $save_attachments;
 
     if ($cur_post['edited']) {
         echo '<p class="postedit"><em>'.$lang_topic['Last edit'].' '.\pun_htmlspecialchars($cur_post['edited_by']).' ('.\format_time($cur_post['edited']).')</em></p>';
@@ -466,7 +466,7 @@ echo '<div class="postlinksb"><div class="inbox"><p class="postlink conr">'.$pos
 
 // QUICK QUOTE MOD HTML ORIGINAL:
 // <form method="post" action="post.php?tid=<?php echo $id
-//>" onsubmit="return process_form(this);">
+// >" onsubmit="return process_form(this);">
 
 if ($quickpost) {
     if (!$pun_user['is_guest']) {

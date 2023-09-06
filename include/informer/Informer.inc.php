@@ -175,7 +175,7 @@ class Informer
             WHERE id='.$topicId
         );
 
-        //update_search_index('post', $id, $message);
+        // update_search_index('post', $id, $message);
 
         $result = $this->_db->query(
             '

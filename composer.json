@@ -4,7 +4,7 @@
     "description": "PunBB Forum Mod",
     "name": "gemorroj/punbb-mod",
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.4",
         "ext-mysqli": "*",
         "ext-json": "*",
         "ext-gd": "*",
@@ -13,11 +13,11 @@
         "smarty/smarty": "^4.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.4"
+        "friendsofphp/php-cs-fixer": "^3.25"
     },
     "config": {
         "platform": {
-            "php": "7.2.5"
+            "php": "7.4.33"
         }
     }
 }

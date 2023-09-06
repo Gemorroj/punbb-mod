@@ -130,9 +130,9 @@ $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $
 $start_from = $pun_user['disp_posts'] * ($p - 1);
 
 // Generate paging links
-/// MOD VIEW ALL PAGES IN ONE BEGIN
+// / MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
-//$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
+// $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ('all' == $action) {
     $p = ($num_pages + 1);
     $start_from = 0;
@@ -143,7 +143,7 @@ $paging_links = \paginate($num_pages, $p, 'viewtopic.php?id='.$id);
 if ('all' == $action && !$pid) {
     $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
 }
-/// MOD VIEW ALL PAGES IN ONE END
+// / MOD VIEW ALL PAGES IN ONE END
 
 if (1 == $pun_config['o_censoring']) {
     $cur_topic['subject'] = \censor_words($cur_topic['subject']);

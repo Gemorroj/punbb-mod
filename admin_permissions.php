@@ -8,7 +8,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -16,7 +16,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 }
 
 if (isset($_POST['form_sent'])) {
-    //confirm_referrer('admin_permissions.php');
+    // confirm_referrer('admin_permissions.php');
 
     $form = \array_map('intval', $_POST['form']);
 
@@ -58,13 +58,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[message_bbcode]"
                                            value="1"<?php if (1 == $pun_config['p_message_bbcode']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[message_bbcode]"
                                                                                                value="0"<?php if (!$pun_config['p_message_bbcode']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions bbcode about']; ?></span>
                                 </td>
@@ -74,13 +74,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[message_img_tag]"
                                            value="1"<?php if (1 == $pun_config['p_message_img_tag']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[message_img_tag]"
                                                                                                value="0"<?php if (!$pun_config['p_message_img_tag']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions img about']; ?></span>
                                 </td>
@@ -90,13 +90,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[message_all_caps]"
                                            value="1"<?php if (1 == $pun_config['p_message_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[message_all_caps]"
                                                                                                value="0"<?php if (!$pun_config['p_message_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions mess caps about']; ?></span>
                                 </td>
@@ -106,13 +106,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[subject_all_caps]"
                                            value="1"<?php if (1 == $pun_config['p_subject_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[subject_all_caps]"
                                                                                                value="0"<?php if (!$pun_config['p_subject_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions theme caps about']; ?></span>
                                 </td>
@@ -122,13 +122,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[force_guest_email]"
                                            value="1"<?php if (1 == $pun_config['p_force_guest_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[force_guest_email]"
                                                                                                value="0"<?php if (!$pun_config['p_force_guest_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions guest email about']; ?></span>
                                 </td>
@@ -147,13 +147,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[sig_bbcode]"
                                            value="1"<?php if (1 == $pun_config['p_sig_bbcode']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[sig_bbcode]"
                                                                                                value="0"<?php if (!$pun_config['p_sig_bbcode']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions sig bbcode about']; ?></span>
                                 </td>
@@ -163,13 +163,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[sig_img_tag]"
                                            value="1"<?php if (1 == $pun_config['p_sig_img_tag']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[sig_img_tag]"
                                                                                                value="0"<?php if (!$pun_config['p_sig_img_tag']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions sig img about']; ?></span>
                                 </td>
@@ -179,13 +179,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[sig_all_caps]"
                                            value="1"<?php if (1 == $pun_config['p_sig_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[sig_all_caps]"
                                                                                                value="0"<?php if (!$pun_config['p_sig_all_caps']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions sig caps about']; ?></span>
                                 </td>
@@ -220,13 +220,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[mod_edit_users]"
                                            value="1"<?php if (1 == $pun_config['p_mod_edit_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[mod_edit_users]"
                                                                                                value="0"<?php if (!$pun_config['p_mod_edit_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions mod edit about']; ?></span>
                                 </td>
@@ -236,13 +236,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[mod_rename_users]"
                                            value="1"<?php if (1 == $pun_config['p_mod_rename_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[mod_rename_users]"
                                                                                                value="0"<?php if (!$pun_config['p_mod_rename_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions mod rename about']; ?></span>
                                 </td>
@@ -252,13 +252,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[mod_change_passwords]"
                                            value="1"<?php if (1 == $pun_config['p_mod_change_passwords']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[mod_change_passwords]"
                                                                                                value="0"<?php if (!$pun_config['p_mod_change_passwords']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions mod repass about']; ?></span>
                                 </td>
@@ -268,13 +268,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[mod_ban_users]"
                                            value="1"<?php if (1 == $pun_config['p_mod_ban_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[mod_ban_users]"
                                                                                                value="0"<?php if (!$pun_config['p_mod_ban_users']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions mod ban about']; ?></span>
                                 </td>
@@ -293,13 +293,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[allow_banned_email]"
                                            value="1"<?php if (1 == $pun_config['p_allow_banned_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[allow_banned_email]"
                                                                                                value="0"<?php if (!$pun_config['p_allow_banned_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions email ban about']; ?></span>
                                 </td>
@@ -309,13 +309,13 @@ require_once PUN_ROOT.'header.php';
                                 <td>
                                     <input type="radio" name="form[allow_dupe_email]"
                                            value="1"<?php if (1 == $pun_config['p_allow_dupe_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     <strong><?php echo $lang_admin['Yes']; ?></strong> <input type="radio"
                                                                                                name="form[allow_dupe_email]"
                                                                                                value="0"<?php if (!$pun_config['p_allow_dupe_email']) {
-    echo ' checked="checked"';
-} ?> />
+                                                                                                   echo ' checked="checked"';
+                                                                                               } ?> />
                                     <strong><?php echo $lang_admin['No']; ?></strong>
                                     <span><?php echo $lang_admin['Permissions email double about']; ?></span>
                                 </td>
@@ -331,4 +331,4 @@ require_once PUN_ROOT.'header.php';
 <div class="clearer"></div>
 </div>
 <?php
-require_once PUN_ROOT.'footer.php';
+                                                                                               require_once PUN_ROOT.'footer.php';

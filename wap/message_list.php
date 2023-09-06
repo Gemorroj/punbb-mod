@@ -48,8 +48,8 @@ $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $
 // Delete multiple posts
 if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply'])) {
     if (isset($_POST['delete_messages_comply'])) {
-        //Check this is legit
-        //confirm_referrer('message_list.php');
+        // Check this is legit
+        // confirm_referrer('message_list.php');
 
         if (\preg_match('/[^0-9,]/', $_POST['messages']) || !\trim($_POST['messages'])) {
             \wap_message($lang_common['Bad request']);
@@ -65,16 +65,16 @@ if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply']))
         $smarty->assign('page_title', $page_title);
         $smarty->assign('lang_pms', $lang_pms);
         $smarty->assign('idlist_str', \implode(',', \array_values($idlist)));
-        //$smarty->assign('', $);
+        // $smarty->assign('', $);
 
         $smarty->display('message_list.delete_messages.tpl');
 
-        exit();
+        exit;
     }
 } // Mark all messages as read
 elseif (isset($_GET['action']) && 'markall' === $_GET['action']) {
     $db->query('UPDATE '.$db->prefix.'messages SET showed=1 WHERE owner='.$pun_user['id']) or \error('Unable to update message status', __FILE__, __LINE__, $db->error());
-    //$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int)$_GET['p'];
+    // $p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int)$_GET['p'];
     \wap_redirect('message_list.php?box='.$box.'&p='.$p);
 }
 
@@ -86,7 +86,7 @@ if ($box < 2) {
     $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) or \error('Unable to count messages', __FILE__, __LINE__, $db->error());
     [$num_messages] = $db->fetch_row($result);
 
-    //What page are we on?
+    // What page are we on?
     $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
     $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start_from = $pun_config['o_pms_mess_per_page'] * ($p - 1);
@@ -97,10 +97,10 @@ if ($box < 2) {
     require_once PUN_ROOT.'include/parser.php';
 
     $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
-    //Are we viewing a PM?
+    // Are we viewing a PM?
     if ($id) {
         $forum_id = $id;
-        //Yes! Lets get the details
+        // Yes! Lets get the details
         // Set user
         $result = $db->query('SELECT status,owner FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to get message status', __FILE__, __LINE__, $db->error());
         [$status, $owner] = $db->fetch_row($result);
@@ -137,7 +137,7 @@ if ($box < 2) {
         }
 
         // Perform the main parsing of the message (BBCode, smilies, censor words etc)
-        $cur_post['smileys'] = $cur_post['smileys'] ?? $pun_user['show_smilies'];
+        $cur_post['smileys'] ??= $pun_user['show_smilies'];
         $cur_post['message'] = \parse_message($cur_post['message'], !$cur_post['smileys'], $cur_post['id']);
         $cur_post['user_avatar'] = \pun_show_avatar();
     }
@@ -169,7 +169,7 @@ if ($box < 2) {
 
     $page_links = \paginate($num_pages, $p, 'message_list.php?box='.$box);
 
-    ////////
+    // //////
     $smarty->assign('cur_post', @$cur_post);
     $smarty->assign('pun_user', $pun_user);
     $smarty->assign('lang_topic', $lang_topic);
@@ -183,26 +183,26 @@ if ($box < 2) {
 
     $smarty->display('message_list.tpl');
 
-    exit();
+    exit;
 }
-    if (isset($_POST['update'])) {
-        $popup = isset($_POST['popup_enable']) ? 1 : 0;
-        $msg_enable = isset($_POST['messages_enable']) ? 1 : 0;
-        $db->query('UPDATE '.$db->prefix.'users SET popup_enable='.$popup.', messages_enable='.$msg_enable.' WHERE id='.$pun_user['id']) or \error('Unable to update Private Messsage options', __FILE__, __LINE__, $db->error());
-    }
+if (isset($_POST['update'])) {
+    $popup = isset($_POST['popup_enable']) ? 1 : 0;
+    $msg_enable = isset($_POST['messages_enable']) ? 1 : 0;
+    $db->query('UPDATE '.$db->prefix.'users SET popup_enable='.$popup.', messages_enable='.$msg_enable.' WHERE id='.$pun_user['id']) or \error('Unable to update Private Messsage options', __FILE__, __LINE__, $db->error());
+}
 
-    $result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']) or \error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
-    if (!$db->num_rows($result)) {
-        \wap_message($lang_common['Bad request']);
-    }
+$result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']) or \error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
+if (!$db->num_rows($result)) {
+    \wap_message($lang_common['Bad request']);
+}
 
-    $user = $db->fetch_assoc($result);
+$user = $db->fetch_assoc($result);
 
-    //Messsage options
+// Messsage options
 
-    $smarty->assign('lang_pms', $lang_pms);
-    $smarty->assign('user', $user);
-    //$smarty->assign('', $);
-    $smarty->display('message_list.options.tpl');
+$smarty->assign('lang_pms', $lang_pms);
+$smarty->assign('user', $user);
+// $smarty->assign('', $);
+$smarty->display('message_list.options.tpl');
 
-    exit();
+exit;

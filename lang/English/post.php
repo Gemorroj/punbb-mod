@@ -51,7 +51,7 @@ function seconds_st($nm)
         case 51:
             $st = 'seconds';
 
-        break;
+            break;
 
         case 2:
         case 3:
@@ -70,12 +70,12 @@ function seconds_st($nm)
         case 54:
             $st = 'seconds';
 
-        break;
+            break;
 
         default:
             $st = 'seconds';
 
-        break;
+            break;
     }
 
     return ' '.$nm.' '.$st;
@@ -91,7 +91,7 @@ function minutes_st($nm)
         case 51:
             $st = 'minuts';
 
-        break;
+            break;
 
         case 2:
         case 3:
@@ -110,12 +110,12 @@ function minutes_st($nm)
         case 54:
             $st = 'minuts';
 
-        break;
+            break;
 
         default:
             $st = 'minuts';
 
-        break;
+            break;
     }
 
     return ' '.$nm.' '.$st;
@@ -128,7 +128,7 @@ function hours_st($nm)
         case 21:
             $st = 'hours';
 
-        break;
+            break;
 
         case 2:
         case 3:
@@ -137,12 +137,12 @@ function hours_st($nm)
         case 23:
             $st = 'hours';
 
-        break;
+            break;
 
         default:
             $st = 'hours';
 
-        break;
+            break;
     }
 
     return ' '.$nm.' '.$st;
@@ -155,7 +155,7 @@ function days_st($nm)
         case 21:
             $st = 'days';
 
-        break;
+            break;
 
         case 2:
         case 3:
@@ -164,12 +164,12 @@ function days_st($nm)
         case 23:
             $st = 'days';
 
-        break;
+            break;
 
         default:
             $st = 'days';
 
-        break;
+            break;
     }
 
     return ' '.$nm.' '.$st;

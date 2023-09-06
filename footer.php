@@ -5,7 +5,7 @@ if (!\defined('PUN')) {
     exit;
 }
 
-$footer_style = $footer_style ?? '';
+$footer_style ??= '';
 $tpl_temp = \trim(\ob_get_contents());
 $tpl_main = \str_replace('<pun_main>', $tpl_temp, $tpl_main);
 \ob_end_clean();
@@ -25,9 +25,9 @@ if (JsHelper::getInstance()->count() > 0 || JsHelper::getInstance()->countIntern
 
 echo '<div id="brdfooter" class="block"><h2><span>'.$lang_common['Board footer'].'</span></h2><div class="box"><div class="inbox">';
 
-//PMS MOD BEGIN
+// PMS MOD BEGIN
 require PUN_ROOT.'include/pms/footer_links.php';
-//PMS MOD END
+// PMS MOD END
 
 if ('index' == $footer_style || 'search' == $footer_style) {
     if (!$pun_user['is_guest']) {

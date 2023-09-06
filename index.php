@@ -105,7 +105,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
     if ($cur_forum['last_post']) {
         // MOD:
         $last_post = '<a href="viewtopic.php?pid='.$cur_forum['last_post_id'].'#p'.$cur_forum['last_post_id'].'">'.\pun_htmlspecialchars($cur_forum['subject']).'</a> <span class="byuser">'.\format_time($cur_forum['last_post']).' '.$lang_common['by'].' '.\pun_htmlspecialchars($cur_forum['last_poster']).'</span>';
-    // END MOD
+        // END MOD
     } else {
         $last_post = '&#160;';
     }

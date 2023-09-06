@@ -359,7 +359,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
                     break;
 
                 case \UPLOAD_ERR_NO_FILE:
-// no file specified in input field
+                    // no file specified in input field
                     break;
 
                 default:

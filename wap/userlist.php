@@ -71,7 +71,7 @@ $paging_links = \paginate(
     'userlist.php?username='.\urlencode($username).'&amp;show_group='.$show_group.'&amp;sort_by='.$sort_by.'&amp;sort_dir='.\mb_strtoupper($sort_dir)
 );
 
-//$smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0));
+// $smarty->assign('paging_links', $lang_common['Pages'] . ': ' . paginate($num_pages, $p, 'userlist.php?username=' . urlencode($username) . '&amp;show_group=' . $show_group . '&amp;sort_by=' . $sort_by . '&amp;sort_dir=' . mb_strtoupper($sort_dir), 0));
 
 // Grab the users
 $result = $db->query('SELECT u.id, u.username, u.title, u.num_posts, u.registered, g.g_id, g.g_user_title FROM `'.$db->prefix.'users` AS u LEFT JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1'.(!empty($where_sql) ? ' AND '.\implode(' AND ', $where_sql) : '').' ORDER BY '.$sort_by.' '.$sort_dir.', u.id ASC '.(-1 != $start_from ? 'LIMIT '.$start_from.', 50' : '')) or \error('Unable to fetch user list', __FILE__, __LINE__, $db->error());

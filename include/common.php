@@ -8,7 +8,7 @@ $pun_start = \microtime(true);
 
 // This displays all executed queries in the page footer.
 // DO NOT enable this in a production environment!
-//define('PUN_SHOW_QUERIES', 1);
+// define('PUN_SHOW_QUERIES', 1);
 
 if (!\defined('PUN_ROOT')) {
     exit('The constant PUN_ROOT must be defined and point to a valid PunBB installation root directory.');
@@ -28,8 +28,8 @@ if (!\defined('PUN')) {
 }
 
 // Make sure PHP reports all errors except E_NOTICE. PunBB supports E_ALL, but a lot of scripts it may interact with, do not.
-//error_reporting(E_ALL ^ E_NOTICE);
-//error_reporting(0);
+// error_reporting(E_ALL ^ E_NOTICE);
+// error_reporting(0);
 
 // If a cookie name is not specified in config.php, we use the default (punbb_cookie)
 if (!$cookie_name) {

@@ -26,7 +26,7 @@ switch (\PHP_OS) {
 \setlocale(\LC_TIME, $locale);
 
 // FIX UTF REGULAR EXPRESSIONS BUG BEGIN
-\define('ALPHANUM', '[:punct:]а-яА-ЯёЁ\w'); //[:alnum:]
+\define('ALPHANUM', '[:punct:]а-яА-ЯёЁ\w'); // [:alnum:]
 // FIX UTF REGULAR EXPRESSIONS BUG END
 
 // Language definitions for frequently used strings
@@ -180,7 +180,7 @@ $lang_common = [
     // MOD Printable topic version string
     'Print version' => 'Версия для печати',
 
-    //wap moderate IP
+    // wap moderate IP
     'Show IP' => 'Показать еще пользователем с этим IP',
     'Find email in stop forum spam' => 'Искать e-mail в StopForumSpam',
 ];

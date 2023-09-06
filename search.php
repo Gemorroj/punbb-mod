@@ -496,7 +496,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
 
         echo '<div class="linkst"><div class="inbox"><p class="pagelink">'.$paging_links.'</p></div></div>';
 
-        //Set background switching on for show as posts
+        // Set background switching on for show as posts
         $bg_switch = true;
 
         if ('topics' == $show_as) {

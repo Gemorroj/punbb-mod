@@ -33,7 +33,7 @@ if ($cur_post['owner'] != $pun_user['id']) {
 }
 
 if (isset($_POST['delete'])) {
-    //confirm_referrer('message_delete.php');
+    // confirm_referrer('message_delete.php');
 
     // Delete message
     $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
@@ -54,7 +54,7 @@ if (isset($_POST['delete'])) {
     $smarty->assign('id', $id);
     $smarty->assign('cur_post', $cur_post);
     $smarty->assign('lang_delete', $lang_delete);
-    //$smarty->assign('', $);
+    // $smarty->assign('', $);
 
     $smarty->display('message_delete.tpl');
 }

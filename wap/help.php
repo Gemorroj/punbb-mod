@@ -1,6 +1,6 @@
 <?php
 
-//define('PUN_HELP', 1);
+// define('PUN_HELP', 1);
 
 \define('PUN_ROOT', '../');
 
@@ -18,7 +18,7 @@ require_once PUN_ROOT.'wap/header.php';
 $smarty->assign('lang_help', $lang_help);
 
 switch (@$_GET['id']) {
-    //BBCode
+    // BBCode
     case 1:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_common['BBCode'];
         $smarty->assign('page_title', $page_title);
@@ -26,7 +26,7 @@ switch (@$_GET['id']) {
         $smarty->display('help.1.tpl');
 
         break;
-    //url/images
+        // url/images
     case 2:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_help['Links and images'];
 
@@ -35,7 +35,7 @@ switch (@$_GET['id']) {
         $smarty->display('help.2.tpl');
 
         break;
-    //smilies
+        // smilies
     case 3:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_common['Smilies'];
         // Display the smiley set
@@ -48,7 +48,7 @@ switch (@$_GET['id']) {
         $smarty->display('help.3.tpl');
 
         break;
-    //url tag
+        // url tag
     case 4:
         $page_title = $pun_config['o_board_title'].' / '.$lang_help['Help'].' / '.$lang_common['img tag'];
 

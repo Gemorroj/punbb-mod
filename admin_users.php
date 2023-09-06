@@ -8,7 +8,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_MOD) {
@@ -124,7 +124,7 @@ if (isset($_GET['show_users'])) {
 
             $result2 = $db->query('SELECT u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title FROM '.$db->prefix.'users AS u INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE u.id>1 AND u.id='.$poster_id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
-            if (($user_data = $db->fetch_assoc($result2))) {
+            if ($user_data = $db->fetch_assoc($result2)) {
                 $user_title = \get_title($user_data);
                 $actions = '<a href="admin_users.php?ip_stats='.$user_data['id'].'">'.$lang_admin['IP stats'].'</a> - <a href="search.php?action=show_user&amp;user_id='.$user_data['id'].'">'.$lang_admin['Num posts'].'</a>'; ?>
             <tr>

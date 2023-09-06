@@ -20,68 +20,68 @@ function generate_admin_menu($page = '')
             <div class="inbox">
                 <ul>
                     <li<?php if ('index' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_index.php">Index</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_index.php">Index</a></li>
                     <?php if ($is_admin) { ?>
                     <li<?php if ('categories' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_categories.php">Categories</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_categories.php">Categories</a></li>
                     <?php } ?><?php if ($is_admin) { ?>
                     <li<?php if ('forums' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_forums.php">Forums</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_forums.php">Forums</a></li>
                     <?php } ?>
                     <?php if ($is_admin) { ?>
                     <li<?php if ('files' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_files.php">Files</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_files.php">Files</a></li>
                     <?php } ?>
                     <li<?php if ('users' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_users.php">Users</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_users.php">Users</a></li>
                     <?php if ($is_admin) { ?>
                     <li<?php if ('groups' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_groups.php">User groups</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_groups.php">User groups</a></li>
                     <?php } ?><?php if ($is_admin) { ?>
                     <li<?php if ('options' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_options.php">Options</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_options.php">Options</a></li>
                     <?php } ?><?php if ($is_admin) { ?>
                     <li<?php if ('permissions' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_permissions.php">Permissions</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_permissions.php">Permissions</a></li>
                     <?php } ?>
                     <li<?php if ('censoring' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_censoring.php">Censoring</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_censoring.php">Censoring</a></li>
                     <?php if ($is_admin) { ?>
                     <li<?php if ('ranks' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_ranks.php">Ranks</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_ranks.php">Ranks</a></li>
                     <?php } ?><?php if ($is_admin || 1 == $pun_config['p_mod_ban_users']) { ?>
                     <li<?php if ('bans' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_bans.php">Bans</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_bans.php">Bans</a></li>
                     <?php } ?><?php if ($is_admin) { ?>
                     <li<?php if ('prune' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_prune.php">Prune</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_prune.php">Prune</a></li>
                     <?php } ?><?php if ($is_admin) { ?>
                     <li<?php if ('maintenance' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_maintenance.php">Maintenance</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_maintenance.php">Maintenance</a></li>
                     <?php } ?>
                     <li<?php if ('reports' === $page) {
-        echo ' class="isactive"';
-    } ?>><a href="admin_reports.php">Reports</a></li>
+                        echo ' class="isactive"';
+                    } ?>><a href="admin_reports.php">Reports</a></li>
                 </ul>
             </div>
         </div>
     <?php
 
-    // See if there are any plugins
-    $plugins = [];
+                    // See if there are any plugins
+                    $plugins = [];
     $d = \dir(PUN_ROOT.'plugins');
     while (false !== ($entry = $d->read())) {
         $prefix = \substr($entry, 0, \strpos($entry, '_'));

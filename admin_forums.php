@@ -14,7 +14,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 // Add a "default" forum
 if (isset($_POST['add_forum'])) {
-    //confirm_referrer('admin_forums.php');
+    // confirm_referrer('admin_forums.php');
 
     $forum_name = (!\trim($_POST['forum_name'])) ? 'New forum' : \trim($_POST['forum_name']);
     $add_to_cat = \intval($_POST['add_to_cat']);
@@ -37,7 +37,7 @@ elseif (isset($_GET['clone_forum'])) {
         \message($lang_common['Bad request']);
     }
 
-    //confirm_referrer('admin_forums.php');
+    // confirm_referrer('admin_forums.php');
 
     // Make copy of forum and its permissions
     $db->query('INSERT INTO '.$db->prefix.'forums (cat_id, forum_name, redirect_url, moderators, sort_by) (SELECT cat_id, concat( \'Копия \', forum_name), redirect_url, moderators, sort_by FROM '.$db->prefix.'forums WHERE id='.$forum_id.')') or \error('Unable to clone forum', __FILE__, __LINE__, $db->error());
@@ -53,7 +53,7 @@ elseif (isset($_GET['clone_forum'])) {
     \redirect('admin_forums.php?edit_forum='.$new_forum_id, 'Форум клонирован. Перенаправление &#x2026;');
 } // Delete a forum
 elseif (isset($_GET['del_forum'])) {
-    //confirm_referrer('admin_forums.php');
+    // confirm_referrer('admin_forums.php');
 
     $forum_id = \intval($_GET['del_forum']);
     if ($forum_id < 1) {
@@ -123,7 +123,7 @@ elseif (isset($_GET['del_forum'])) {
     }
 } // Update forum positions
 elseif (isset($_POST['update_positions'])) {
-    //confirm_referrer('admin_forums.php');
+    // confirm_referrer('admin_forums.php');
 
     foreach ($_POST['position'] as $forum_id => $disp_position) {
         if (!@\preg_match('#^\d+$#', $disp_position)) {
@@ -147,7 +147,7 @@ elseif (isset($_POST['update_positions'])) {
 
     // Update group permissions for $forum_id
     if (isset($_POST['save'])) {
-        //confirm_referrer('admin_forums.php');
+        // confirm_referrer('admin_forums.php');
 
         // Start with the forum details
         $forum_name = \trim($_POST['forum_name']);
@@ -210,7 +210,7 @@ elseif (isset($_POST['update_positions'])) {
 
         \redirect('admin_forums.php', 'Форум обновлен. Перенаправление &#x2026;');
     } elseif (isset($_POST['revert_perms'])) {
-        //confirm_referrer('admin_forums.php');
+        // confirm_referrer('admin_forums.php');
 
         $db->query('DELETE FROM '.$db->prefix.'forum_perms WHERE forum_id='.$forum_id) or \error('Unable to delete group forum permissions', __FILE__, __LINE__, $db->error());
 
@@ -460,7 +460,7 @@ if ($db->num_rows($result)) {
 <p class="submittop"><input type="submit" name="update_positions" value="Обновить позиции" /></p>';
 
     // Display all the categories and forums
-    //$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.disp_position FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+    // $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.disp_position FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id ORDER BY c.disp_position, c.id, f.disp_position') or error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
     $cur_category = 0;
     while ($cur_forum = $db->fetch_assoc($result)) {

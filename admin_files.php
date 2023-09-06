@@ -20,7 +20,7 @@ if (isset($_POST['show_errors']) || isset($_POST['delete_orphans']) || isset($_P
 
 // If the "Show text" button was clicked
 if (isset($_POST['save'])) {
-    //confirm_referrer('admin_files.php');
+    // confirm_referrer('admin_files.php');
 
     $form = \array_map('trim', $_POST['form']);
 
@@ -129,7 +129,7 @@ if (isset($_POST['save'])) {
     \generate_admin_menu('files');
 
     if (isset($_POST['show_errors'])) {
-        //confirm_referrer('admin_files.php');
+        // confirm_referrer('admin_files.php');
 
         $log = \show_problems();
 
@@ -153,7 +153,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['delete_orphans'])) {
-        //confirm_referrer('admin_files.php');
+        // confirm_referrer('admin_files.php');
 
         $log = \delete_orphans();
 
@@ -177,7 +177,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['delete_thumbnails'])) {
-        //confirm_referrer('admin_files.php');
+        // confirm_referrer('admin_files.php');
 
         $log = \delete_all_thumbnails();
 
@@ -201,7 +201,7 @@ if (isset($_POST['save'])) {
     }
 
     if (isset($_POST['fix_counters'])) {
-        //confirm_referrer('admin_files.php');
+        // confirm_referrer('admin_files.php');
 
         $log = \fix_user_counters();
 
@@ -341,16 +341,16 @@ if (isset($_POST['save'])) {
                                 <td>
                                     <input type="radio" name="form[popup_info]"
                                            value="0"<?php if (!$pun_config['file_popup_info']) {
-        echo ' checked="checked"';
-    } ?> />
+                                               echo ' checked="checked"';
+                                           } ?> />
                                     Нет <input type="radio" name="form[popup_info]"
                                                value="1"<?php if (1 == $pun_config['file_popup_info']) {
-        echo ' checked="checked"';
-    } ?> />
+                                                   echo ' checked="checked"';
+                                               } ?> />
                                     Поп-ап <input type="radio" name="form[popup_info]"
                                                   value="2"<?php if ('2' == $pun_config['file_popup_info']) {
-        echo ' checked="checked"';
-    } ?> />
+                                                      echo ' checked="checked"';
+                                                  } ?> />
                                     На месте
                                     <span>Выберите метод отображения дополнительной информации. Вы можете выбрать варианты "не выводить совсем", "во всплывающем окне" или "статичная информация в сообщении".</span>
                                 </td>

@@ -108,7 +108,7 @@ require_once PUN_ROOT.'lang/'.$pun_user['language'].'/delete.php';
 
 require_once PUN_ROOT.'wap/header.php';
 
-require_once PUN_ROOT.'include/parser.php'; //parser.php будет использоваться в шаблоне.
+require_once PUN_ROOT.'include/parser.php'; // parser.php будет использоваться в шаблоне.
 
 $page_title = $pun_config['o_board_title'].' / '.$lang_delete['Delete post'];
 $cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies'], $id);

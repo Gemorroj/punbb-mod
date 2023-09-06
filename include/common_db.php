@@ -199,9 +199,9 @@ class DBLayer
     public function close()
     {
         if ($this->link_id) {
-            //if ($this->query_result) {
+            // if ($this->query_result) {
             //    $this->query_result->free_result();
-            //}
+            // }
 
             return $this->link_id->close();
         }

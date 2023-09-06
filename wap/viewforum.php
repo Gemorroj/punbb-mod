@@ -9,7 +9,7 @@ function is_reading($log_time, $last_post)
     return $log_time > $last_post;
 }
 
-//+ REAL MARK TOPIC AS READ MOD
+// + REAL MARK TOPIC AS READ MOD
 if (!$pun_user['is_guest']) {
     $result = $db->query(
         'DELETE '
@@ -18,7 +18,7 @@ if (!$pun_user['is_guest']) {
         .'AND `user_id`='.$pun_user['id']
     ) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
-//- REAL MARK TOPIC AS READ MOD
+// - REAL MARK TOPIC AS READ MOD
 
 if (!$pun_user['g_read_board']) {
     \wap_message($lang_common['No view']);
@@ -55,7 +55,7 @@ if (!$db->num_rows($result)) {
 
 $cur_forum = $db->fetch_assoc($result);
 
-//+ REAL MARK TOPIC AS READ MOD
+// + REAL MARK TOPIC AS READ MOD
 if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     $result = $db->query(
         'INSERT INTO `'.$db->prefix.'log_forums` '
@@ -74,7 +74,7 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     )
     or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 }
-//- REAL MARK TOPIC AS READ MOD
+// - REAL MARK TOPIC AS READ MOD
 
 // Is this a redirect forum? In that case, redirect!
 if ($cur_forum['redirect_url']) {
@@ -94,11 +94,11 @@ if (PUN_ADMIN == $pun_user['g_id']
             $pun_user['username'],
             $mods_array
         ))
-    ) {
+) {
     $is_admmod = true;
 }
 
-//+ Pagination
+// + Pagination
 // Determine the topic offset (based on $_GET['p'])
 $num_pages = \ceil($cur_forum['num_topics'] / $pun_user['disp_topics']);
 $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
@@ -111,10 +111,10 @@ if ('all' == @$_GET['action']) {
 }
 
 $paging_links = \paginate($num_pages, $p, 'viewforum.php?id='.$id);
-//- Pagination
+// - Pagination
 
 // Fetch list of topics to display on this page
-//+ REAL MARK TOPIC AS READ MOD
+// + REAL MARK TOPIC AS READ MOD
 // ......................... Without "the dot"
 if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
     $sql = 'SELECT `t`.`id`, '
@@ -169,7 +169,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
          .'ORDER BY `sticky` DESC, '.(1 == $cur_forum['sort_by'] ? 'posted' : 'last_post').' DESC '
          .'LIMIT '.$start_from.', '.$pun_user['disp_topics'];
 }
-//- REAL MARK TOPIC AS READ
+// - REAL MARK TOPIC AS READ
 
 $result = $db->query($sql) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
@@ -189,9 +189,9 @@ if ($db->num_rows($result)) {
     }
 }
 
-//+ Language
+// + Language
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/forum.php';
-//- Language
+// - Language
 
 // Template Manager aka Smarty
 // Механизм проверки ящика сообщений, отчетов...

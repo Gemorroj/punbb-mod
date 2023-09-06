@@ -22,7 +22,7 @@ $lang_topic = [
     'Subscribe' => 'Подписаться и отслеживать тему',
     'Quick post' => 'Быстрый ответ',
 
-    //mobile
+    // mobile
     'Online_m' => 'On',
     'Offline_m' => 'Off',
     'Delete_m' => 'Уд.',
@@ -30,7 +30,7 @@ $lang_topic = [
     'Quote_m' => 'Цит.',
     'Post reply_m' => 'Отв.',
     'Link separator_m' => '|',
-    //mobile end
+    // mobile end
 
     'Link separator' => ' | ',	// The text that separates links in posts (website, e-mail, report, edit etc.)
     'Mod controls' => 'Контролируется модератором',

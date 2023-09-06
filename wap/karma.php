@@ -20,7 +20,7 @@ if (null !== $to) {
     } else {
         \wap_redirect('viewtopic.php?pid='.$pid.'#p'.$pid);
 
-        exit();
+        exit;
     }
 }
 
@@ -76,7 +76,7 @@ $karma['total'] = $karma['plus'] - $karma['minus'];
 $num_hits = $karma['plus'] + $karma['minus'];
 
 if ($num_hits) {
-    //+ Pagination
+    // + Pagination
     $num_pages = \ceil($num_hits / $pun_user['disp_posts']);
     $p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
     $start = ($p - 1) * $pun_user['disp_posts'];
@@ -85,7 +85,7 @@ if ($num_hits) {
         $pun_user['disp_posts'] = $num_hits;
         $start = 0;
     }
-    //- Pagination
+    // - Pagination
 
     $q = 'SELECT `karma`.*, '
        .'`users`.`username` AS `from`'
@@ -123,9 +123,9 @@ $smarty->assign('karma', $karma);
 $smarty->assign('votes', @$votes);
 $smarty->assign('page_links', @$page_links);
 
-//*/ + nanoMod / (un)comment in tpl too
+// */ + nanoMod / (un)comment in tpl too
 $smarty->assign('id', $id);
 $smarty->assign('username', $user['username']);
-//*/ - nanoMod
+// */ - nanoMod
 
 $smarty->display('karma.tpl');

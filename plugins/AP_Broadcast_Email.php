@@ -99,32 +99,32 @@ if (isset($_POST['confirm'])) {
 </div>
 <?php
 } elseif (isset($_POST['send_message'])) {
-        // Send the Message
-        require_once PUN_ROOT.'include/email.php';
+    // Send the Message
+    require_once PUN_ROOT.'include/email.php';
 
-        // Display the admin navigation menu
-        \generate_admin_menu($plugin);
+    // Display the admin navigation menu
+    \generate_admin_menu($plugin);
 
-        if (0 != $_POST['g_id']) {
-            $gid = 'and group_id = '.$_POST['g_id'];
-        } else {
-            $gid = '';
-        }
+    if (0 != $_POST['g_id']) {
+        $gid = 'and group_id = '.$_POST['g_id'];
+    } else {
+        $gid = '';
+    }
 
-        $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') or \error('Could not get users from the database', __FILE__, __LINE__, $db->error());
-        while ($row = $db->fetch_assoc($result)) {
-            $addresses[$row['username']] = $row['email'];
-        }
+    $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') or \error('Could not get users from the database', __FILE__, __LINE__, $db->error());
+    while ($row = $db->fetch_assoc($result)) {
+        $addresses[$row['username']] = $row['email'];
+    }
 
-        $usercount = \count($addresses);
+    $usercount = \count($addresses);
 
-        foreach ($addresses as $recipientname => $recipientemail) {
-            $mail_to = $recipientname.' <'.$recipientemail.'>';
-            $mail_subject = $_POST['message_subject'];
-            $mail_message = $_POST['message_body'];
+    foreach ($addresses as $recipientname => $recipientemail) {
+        $mail_to = $recipientname.' <'.$recipientemail.'>';
+        $mail_subject = $_POST['message_subject'];
+        $mail_message = $_POST['message_body'];
 
-            \pun_mail($mail_to, $mail_subject, $mail_message);
-        } ?>
+        \pun_mail($mail_to, $mail_subject, $mail_message);
+    } ?>
 <div class="block">
     <h2><span>Массовая рассылка - Сообщение отослано</span></h2>
 
@@ -140,11 +140,11 @@ if (isset($_POST['confirm'])) {
     </div>
 </div>
 <?php
-    } else {
-        // Display the Main Page
+} else {
+    // Display the Main Page
 
-        // Display the admin navigation menu
-        \generate_admin_menu($plugin); ?>
+    // Display the admin navigation menu
+    \generate_admin_menu($plugin); ?>
 <div id="exampleplugin" class="blockform">
     <h2><span>Массовая рассылка e-mail</span></h2>
 
@@ -185,10 +185,10 @@ if (isset($_POST['confirm'])) {
                                         <option></option>
                                         <option value="0">Все группы</option>
                                         <?php
-                                        $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_title != "Guest" ORDER BY g_id');
-        while ($groups = $db->fetch_assoc($result)) {
-            echo '<option value="'.$groups['g_id'].'">'.\pun_htmlspecialchars($groups['g_title']).'</option>';
-        } ?>
+                                    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_title != "Guest" ORDER BY g_id');
+    while ($groups = $db->fetch_assoc($result)) {
+        echo '<option value="'.$groups['g_id'].'">'.\pun_htmlspecialchars($groups['g_title']).'</option>';
+    } ?>
                                     </select>
                                 </td>
                             </tr>
@@ -201,4 +201,4 @@ if (isset($_POST['confirm'])) {
     </div>
 </div>
 <?php
-    }
+}

@@ -9,7 +9,7 @@ require PUN_ROOT.'include/common.php';
 
 require PUN_ROOT.'include/common_admin.php';
 // Язык
-//include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
+// include PUN_ROOT.'lang/'.$pun_user['language'].'/admin.php';
 include PUN_ROOT.'lang/Russian/admin.php';
 
 if ($pun_user['g_id'] > PUN_ADMIN) {
@@ -18,7 +18,7 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 
 // Add a new category
 if (isset($_POST['add_cat'])) {
-    //confirm_referrer('admin_categories.php');
+    // confirm_referrer('admin_categories.php');
 
     $new_cat_name = \trim($_POST['new_cat_name']);
     if (!$new_cat_name) {
@@ -30,7 +30,7 @@ if (isset($_POST['add_cat'])) {
     \redirect('admin_categories.php', $lang_admin['categories_yes']);
 } // Delete a category
 elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
-    //confirm_referrer('admin_categories.php');
+    // confirm_referrer('admin_categories.php');
 
     $cat_to_delete = \intval($_POST['cat_to_delete']);
     if ($cat_to_delete < 1) {
@@ -109,7 +109,7 @@ elseif (isset($_POST['del_cat']) || isset($_POST['del_cat_comply'])) {
         require_once PUN_ROOT.'footer.php';
     }
 } elseif (isset($_POST['update'])) { // Change position and name of the categories
-    //confirm_referrer('admin_categories.php');
+    // confirm_referrer('admin_categories.php');
 
     $cat_order = $_POST['cat_order'];
     $cat_name = $_POST['cat_name'];

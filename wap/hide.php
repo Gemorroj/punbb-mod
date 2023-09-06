@@ -179,23 +179,23 @@ if (!$cur_topic['closed']) {
 $can_download = (!$cur_topic['file_download'] && 1 == $pun_user['g_file_download']) || 1 == $cur_topic['file_download'] || $is_admmod;
 
 // Determine the post offset (based on $_GET['p'])
-//$num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
+// $num_pages = ceil(($cur_topic['num_replies'] + 1) / $pun_user['disp_posts']);
 
-//$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
-//$start_from = $pun_user['disp_posts'] * ($p - 1);
+// $p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int)$_GET['p'];
+// $start_from = $pun_user['disp_posts'] * ($p - 1);
 
 // Generate paging links
-/// MOD VIEW ALL PAGES IN ONE BEGIN
+// / MOD VIEW ALL PAGES IN ONE BEGIN
 // ORIGINAL
-//$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
-//if ($_GET['action'] == 'all') {
+// $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
+// if ($_GET['action'] == 'all') {
 //    $p = ($num_pages + 1);
-//}
-//$paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
-//if ($_GET['action'] == 'all' && !$pid) {
+// }
+// $paging_links = $lang_common['Pages'].': '.paginate($num_pages, $p, 'viewtopic.php?id='.$id);
+// if ($_GET['action'] == 'all' && !$pid) {
 //    $pun_user['disp_posts'] = $cur_topic['num_replies'] + 1;
-//}
-/// MOD VIEW ALL PAGES IN ONE END
+// }
+// / MOD VIEW ALL PAGES IN ONE END
 
 if (1 == $pun_config['o_censoring']) {
     $cur_topic['subject'] = \censor_words($cur_topic['subject']);

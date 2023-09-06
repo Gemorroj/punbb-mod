@@ -133,52 +133,52 @@ if (!$upl_conf['p_setop']) {
         <td>
         <input type="checkbox" name="p_view_<?php echo $group['g_id']; ?>"
                value="1" <?php if (1 == $perms[$k]['p_view']) {
-            echo 'checked="checked"';
-        } ?> />
+                   echo 'checked="checked"';
+               } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_upload_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_upload']) {
-            echo 'checked="checked"';
-        } ?> />
+                       echo 'checked="checked"';
+                   } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_globalview_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_globalview']) {
-            echo 'checked="checked"';
-        } ?> />
+                       echo 'checked="checked"';
+                   } ?> />
         </td>
         <td>
             <input type="checkbox" name="p_delete_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_delete']) {
-            echo 'checked="checked"';
-        } ?> />
+                       echo 'checked="checked"';
+                   } ?> />
         </td>
         <td>
             <?php if (3 != $group['g_id']) {
-            ?>
+                ?>
             <input type="checkbox" name="p_globaldelete_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_globaldelete']) {
-                echo 'checked="checked"';
-            } ?> />
+                       echo 'checked="checked"';
+                   } ?> />
             <?php
-        } else {
-            echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
+            } else {
+                echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
                                                   value="0"/><?php
-        } ?>
+            } ?>
         </td>
         <td>
             <?php if (1 == $group['g_id'] || 2 == $group['g_id']) {
-            ?>
+                ?>
             <input type="checkbox" name="p_setop_<?php echo $group['g_id']; ?>"
                    value="1" <?php if (1 == $perms[$k]['p_setop']) {
-                echo 'checked="checked"';
-            } ?> />
+                       echo 'checked="checked"';
+                   } ?> />
             <?php
-        } else {
-            echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
+            } else {
+                echo '<strong>N/A</strong>'; ?><input type="hidden" name="p_setop_<?php echo $group['g_id']; ?>"
                                                   value="0"/><?php
-        } ?>
+            } ?>
         </td>
         <td>
             <input type="text" size="7" name="u_fsize_<?php echo $group['g_id']; ?>"
@@ -187,7 +187,7 @@ if (!$upl_conf['p_setop']) {
         </tr>
 
         <?php
-        ++$k;
+            ++$k;
     } ?>
 
     </tbody>
@@ -233,4 +233,4 @@ $result = $db->query('SELECT * FROM '.$db->prefix.'uploads_types') or \error('Un
 </div>
 </div>';
 }
-//$upl_conf['p_setop']
+// $upl_conf['p_setop']

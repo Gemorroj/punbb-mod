@@ -1,7 +1,7 @@
 <?php
 
 if (!\defined('PUN') || !\defined('PUN_ROOT')) {
-    exit();
+    exit;
 }
 
 $quickjump = @include PUN_ROOT.'cache/cache_wap_quickjump_'.$forum_id.'.php';
