@@ -830,7 +830,7 @@ if ('delete_avatar' == $action) {
             if (\intval(@$form['mark_after']) > 100) {
                 $form['mark_after'] = 1296000;
             } else {
-                $form['mark_after'] = $form['mark_after'] * 86400;
+                $form['mark_after'] *= 86400;
             }
             // REAL MARK TOPIC AS READ MOD END
 

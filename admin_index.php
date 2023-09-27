@@ -102,7 +102,7 @@ while ($status = $db->fetch_assoc($result)) {
     $total_size += $status['Data_length'] + $status['Index_length'];
 }
 
-$total_size = $total_size / 1024;
+$total_size /= 1024;
 
 if ($total_size > 1024) {
     $total_size = \round($total_size / 1024, 2).' mb';

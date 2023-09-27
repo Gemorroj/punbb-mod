@@ -28,15 +28,15 @@ function is_email_not_spammer($email)
     if (!$data) {
         return true;
     }
-    $json = @\json_decode($data);
+    $json = @\json_decode($data, true);
     if (!$json) {
         return true;
     }
 
-    if (1 !== $json->success) {
+    if (1 !== $json['success']) {
         return true;
     }
-    if ($json->email->appears > 0) {
+    if ($json['email']['appears'] > 0) {
         return false;
     }
 
@@ -48,7 +48,7 @@ function is_email_not_spammer($email)
 //
 function is_banned_email($email)
 {
-    global $db, $pun_bans;
+    global $pun_bans;
 
     foreach ($pun_bans as $cur_ban) {
         if ($cur_ban['email'] && ($email == $cur_ban['email'] || (false === \strpos($cur_ban['email'], '@') && false !== \stripos($email, '@'.$cur_ban['email'])))) {

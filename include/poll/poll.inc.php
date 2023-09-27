@@ -184,7 +184,7 @@ class _Poll
         if (!$poll['error']) {
             $total = 0;
             foreach ($poll['data'] as $quest) {
-                $total = $total + $quest[1];
+                $total += $quest[1];
             }
 
             if (!$total) {

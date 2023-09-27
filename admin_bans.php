@@ -92,7 +92,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 <div class="inform">
 <input type="hidden" name="mode" value="'.$mode.'" />';
 
-    if ('edit' == $mode) {
+    if ('edit' === $mode) {
         echo '<input type="hidden" name="ban_id" value="'.$ban_id.'" />';
     }
 
@@ -175,7 +175,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 
     if (!$ban_user && !$ban_ip && !$ban_email) {
         \message($lang_admin['bans_no']);
-    } elseif ('guest' == \strtolower($ban_user)) {
+    } elseif ('guest' === \strtolower($ban_user)) {
         \message($lang_admin['bans_guest']);
     }
 
@@ -191,7 +191,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
             for ($c = 0, $all2 = \count($octets); $c < $all2; ++$c) {
                 $octets[$c] = (\strlen($octets[$c]) > 1) ? \ltrim($octets[$c], '0') : $octets[$c];
 
-                if ($c > 3 || \preg_match('/[^0-9]/', $octets[$c]) || \intval($octets[$c]) > 255) {
+                if ($c > 3 || \preg_match('/[^0-9]/', $octets[$c]) || (int) $octets[$c] > 255) {
                     \message($lang_admin['bans_fail_ip']);
                 }
             }
@@ -205,12 +205,12 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
 
     include PUN_ROOT.'include/email.php';
     if ($ban_email && !\is_valid_email($ban_email)) {
-        if (!\preg_match('/^[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $ban_email)) {
+        if (!\filter_var($ban_email, \FILTER_VALIDATE_DOMAIN, \FILTER_FLAG_HOSTNAME)) {
             \message($lang_admin['bans_fail_mail_domain']);
         }
     }
 
-    if ($ban_expire && 'Never' != $ban_expire) {
+    if ($ban_expire && 'Never' !== $ban_expire) {
         $ban_expire = \strtotime($ban_expire);
 
         if (-1 == $ban_expire || $ban_expire <= $_SERVER['REQUEST_TIME']) {
@@ -225,7 +225,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     $ban_email = ($ban_email) ? '\''.$db->escape($ban_email).'\'' : 'NULL';
     $ban_message = ($ban_message) ? '\''.$db->escape($ban_message).'\'' : 'NULL';
 
-    if ('add' == $_POST['mode']) {
+    if ('add' === $_POST['mode']) {
         $db->query('INSERT INTO '.$db->prefix.'bans (username, ip, email, message, expire) VALUES('.$ban_user.', '.$ban_ip.', '.$ban_email.', '.$ban_message.', '.$ban_expire.')') or \error('Unable to add ban', __FILE__, __LINE__, $db->error());
     } else {
         $db->query('UPDATE '.$db->prefix.'bans SET username='.$ban_user.', ip='.$ban_ip.', email='.$ban_email.', message='.$ban_message.', expire='.$ban_expire.' WHERE id='.\intval($_POST['ban_id'])) or \error('Unable to update ban', __FILE__, __LINE__, $db->error());
@@ -240,7 +240,7 @@ if (isset($_REQUEST['add_ban']) || isset($_GET['edit_ban'])) {
     // Remove a ban
     // confirm_referrer('admin_bans.php');
 
-    $ban_id = \intval($_GET['del_ban']);
+    $ban_id = (int) $_GET['del_ban'];
     if ($ban_id < 1) {
         \message($lang_common['Bad request']);
     }

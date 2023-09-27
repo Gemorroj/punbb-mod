@@ -129,7 +129,7 @@ if (!$pun_user['is_guest']) {
     }
 
     if (!$find_new) {
-        $cur_time = $cur_time + 10;
+        $cur_time += 10;
         $result = $db->query(
             '
             UPDATE '.$db->prefix.'log_forums
