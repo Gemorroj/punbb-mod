@@ -1,4 +1,4 @@
-body {background: url(../img/Sadness/back.png) #000000}
+body {background: url(../img/Sadness/back.gif) #000000}
 .pun {color: #DADADA}
 div.box, #adminconsole fieldset th, .rowodd, .roweven {background-color: #323232}
 #adminconsole td, #adminconsole th {border-color: #323232}
@@ -8,7 +8,7 @@ td.tc3, td.tc4, td.tcmod, #brdfooter div.box {background-color: #333333}
 .pun h2, #brdmenu {
 background:url(../img/Sadness/cellpic2.gif) #CCCCCC;
 border: 1px solid #111111;
-border-bottom: 0px solid #111111;
+border-bottom: 0 solid #111111;
 vertical-align: middle;
 font-weight: bold;
 font-size:11px;
