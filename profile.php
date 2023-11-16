@@ -1211,7 +1211,7 @@ if (isset($_GET['preview']) or ($pun_user['id'] != $id && ($pun_user['g_id'] >
             // PMS MOD BEGIN
             include PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
             $email_field .= '<p><a href="message_send.php?id='.$id.'">'.$lang_pms['Quick message'].'</a></p>';
-            // PMS MOD END
+        // PMS MOD END
         } else {
             $username_field = '<p>'.$lang_common['Username'].': '.\pun_htmlspecialchars($user['username']).
                 '</p>';

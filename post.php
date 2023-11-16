@@ -31,7 +31,7 @@ if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
 if ($tid) {
     // MERGE POSTS MOD BEGIN
     $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
-    // MERGE POSTS END
+// MERGE POSTS END
 } else {
     $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 }
