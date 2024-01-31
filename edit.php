@@ -214,7 +214,7 @@ if ($errors) {
                         <?php
                         }
 
-                        require PUN_ROOT.'include/attach/fetch.php';
+require PUN_ROOT.'include/attach/fetch.php';
 // insert popup info panel & its data (javascript)
 if (1 == $pun_config['file_popup_info']) {
     include PUN_ROOT.'include/attach/popup_data.php';

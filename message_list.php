@@ -428,6 +428,6 @@ if ($box < 2) {
 <div class="clearer"></div>
 </div>';
 }
-                $footer_style = 'message_list';
+$footer_style = 'message_list';
 
 require_once PUN_ROOT.'footer.php';
