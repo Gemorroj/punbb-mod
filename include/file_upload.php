@@ -328,7 +328,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
             // save file to upload directory
             $store_name = \generate_unique_filename(PUN_ROOT.$dest, '.ext');
             \move_uploaded_file($tmp_name, PUN_ROOT.$dest.$store_name);
-            \chmod($dest.$store_name, 0644);
+            \chmod($dest.$store_name, 0o644);
 
             // NOTE: post author and attachment author may differ (if attach in edit)
             $attach_poster = $GLOBALS['pun_user']['id'];

@@ -371,7 +371,7 @@ if ('change_pass' == $action) {
                 $pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
             @\chmod(
                 PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0],
-                0644
+                0o644
             );
         } else {
             \message($lang_profile['Unknown failure']);

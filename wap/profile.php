@@ -353,7 +353,7 @@ if ('upload_avatar' == $action || 'upload_avatar2' == $action) {
             @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[1]);
             @\unlink(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[2]);
             @\rename(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.'.tmp', PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0]);
-            @\chmod(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0], 0644);
+            @\chmod(PUN_ROOT.$pun_config['o_avatars_dir'].'/'.$id.$extensions[0], 0o644);
         } else {
             \wap_message($lang_profile['Unknown failure']);
         }
