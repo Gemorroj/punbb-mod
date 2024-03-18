@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63c3d93b9413a17f4b6a00135226f80b",
+    "content-hash": "5aa06f1f513fb6399ba81f6fc10dff02",
     "packages": [
         {
             "name": "gregwar/captcha",
@@ -61,16 +61,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.4.1",
+            "version": "v4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "f4152e9b814ae2369b6e4935c05e1e0c3654318d"
+                "reference": "42b869e3a098b1c8ee07922ccded0e5a5dceadcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/f4152e9b814ae2369b6e4935c05e1e0c3654318d",
-                "reference": "f4152e9b814ae2369b6e4935c05e1e0c3654318d",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/42b869e3a098b1c8ee07922ccded0e5a5dceadcd",
+                "reference": "42b869e3a098b1c8ee07922ccded0e5a5dceadcd",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2024-02-26T13:58:37+00:00"
+            "time": "2024-03-18T14:19:07+00:00"
         },
         {
             "name": "symfony/finder",

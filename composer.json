@@ -10,7 +10,7 @@
         "ext-gd": "*",
         "ext-mbstring": "*",
         "gregwar/captcha": "^1.2.1",
-        "smarty/smarty": "^4.4"
+        "smarty/smarty": "^4.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.51"
