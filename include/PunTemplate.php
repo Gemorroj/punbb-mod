@@ -29,6 +29,7 @@ class PunTemplate extends Smarty\Smarty
             ->registerPlugin('modifier', 'sprintf', 'sprintf')
             ->registerPlugin('modifier', 'file_exists', 'file_exists')
             ->registerPlugin('modifier', 'range', 'range')
+            ->registerPlugin('modifier', 'uniqid', 'uniqid')
             ->registerPlugin('modifier', 'get_title', 'get_title') // functions.php
         ;
 
