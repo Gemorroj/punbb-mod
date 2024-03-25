@@ -199,7 +199,7 @@ function check_bans()
             for ($i = 0, $all = \count($cur_ban_ips); $i < $all; ++$i) {
                 $cur_ban_ips[$i] .= '.';
 
-                if (0 === \strpos($user_ip, $cur_ban_ips[$i])) {
+                if (\str_starts_with($user_ip, $cur_ban_ips[$i])) {
                     $db->query('DELETE FROM '.$db->prefix.'online WHERE ident=\''.$db->escape($pun_user['username']).'\'') or \error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
                     \message($lang_common['Ban message'].' '.(($cur_ban['expire']) ? $lang_common['Ban message 2'].' '.\mb_strtolower(\format_time($cur_ban['expire'], true)).'. ' : '').(($cur_ban['message']) ? $lang_common['Ban message 3'].'<br /><br /><strong>'.\pun_htmlspecialchars($cur_ban['message']).'</strong><br /><br />' : '<br /><br />').$lang_common['Ban message 4'].' <a href="mailto:'.$pun_config['o_admin_email'].'">'.$pun_config['o_admin_email'].'</a>.', true);
                 }
@@ -959,7 +959,7 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
     global $db, $pun_config, $lang_common, $pun_user;
 
     // Prefix with o_base_url (unless there's already a valid URI)
-    if (0 !== \strpos($destination_url, 'http://') && 0 !== \strpos($destination_url, 'https://') && 0 !== \strpos($destination_url, 'ftp://') && 0 !== \strpos($destination_url, 'ftps://') && 0 !== \strpos($destination_url, '/')) {
+    if (!\str_starts_with($destination_url, 'http://') && !\str_starts_with($destination_url, 'https://') && !\str_starts_with($destination_url, 'ftp://') && !\str_starts_with($destination_url, 'ftps://') && !\str_starts_with($destination_url, '/')) {
         $destination_url = $pun_config['o_base_url'].'/'.$destination_url;
     }
 
@@ -1035,7 +1035,7 @@ function redirect($destination_url, $message = '', $redirect_code = 302)
 function wap_redirect($destination_url, $redirect_code = 301)
 {
     // Prefix with o_base_url (unless there's already a valid URI)
-    if (0 !== \strpos($destination_url, 'http://') && 0 !== \strpos($destination_url, 'https://') && 0 !== \strpos($destination_url, 'ftp://') && 0 !== \strpos($destination_url, 'ftps://') && 0 !== \strpos($destination_url, '/')) {
+    if (!\str_starts_with($destination_url, 'http://') && !\str_starts_with($destination_url, 'https://') && !\str_starts_with($destination_url, 'ftp://') && !\str_starts_with($destination_url, 'ftps://') && !\str_starts_with($destination_url, '/')) {
         // echo $destination_url . "\n";
         $destination_url = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].\dirname($_SERVER['PHP_SELF']).'/'.$destination_url;
         // echo $destination_url;
@@ -1471,7 +1471,7 @@ function download($path, $name, $mime = null)
     }
 
     $disposition = 'attachment';
-    if (0 === \strpos($mime, 'image/') || 0 === \strpos($mime, 'video/') || 0 === \strpos($mime, 'audio/')) {
+    if (\str_starts_with($mime, 'image/') || \str_starts_with($mime, 'video/') || \str_starts_with($mime, 'audio/')) {
         $disposition = 'inline';
     }
 

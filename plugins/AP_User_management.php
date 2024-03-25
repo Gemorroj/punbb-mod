@@ -65,7 +65,7 @@ if (isset($_POST['prune'])) {
         \message($lang_prof_reg['Username guest']);
     } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         \message($lang_prof_reg['Username IP']);
-    } elseif ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
+    } elseif ((\str_contains($username, '[') || \str_contains($username, ']')) && \str_contains($username, "'") && \str_contains($username, '"')) {
         \message($lang_prof_reg['Username reserved chars']);
     } elseif (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]|\[hide|\[/hide\]#i', $username)) {
         \message($lang_prof_reg['Username BBCode']);

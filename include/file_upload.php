@@ -375,7 +375,7 @@ function process_uploaded_files($tid, $pid, &$total_uploaded)
     }
 
     // translate #i to ::thumbNN::
-    if (false !== \strpos($message, '::thumb$')) {
+    if (\str_contains($message, '::thumb$')) {
         $message = \str_replace($thumb_from, $thumb_to, $message);
         $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$pid) or \error('Unable to update post', __FILE__, __LINE__, $db->error());
     }
@@ -464,7 +464,7 @@ function delete_post_attachments($post_ids)
 {
     global $db;
 
-    if (false === \strpos($post_ids, ',')) {
+    if (!\str_contains($post_ids, ',')) {
         $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id='.$post_ids) or \error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());
     } else {
         $result = $db->query('SELECT id, poster_id, location FROM '.$db->prefix.'attachments WHERE post_id IN('.$post_ids.')') or \error('Unable to fetch attachments', __FILE__, __LINE__, $db->error());

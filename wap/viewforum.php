@@ -4,7 +4,6 @@
 
 require_once PUN_ROOT.'include/common.php';
 
-
 // + REAL MARK TOPIC AS READ MOD
 if (!$pun_user['is_guest']) {
     $result = $db->query(

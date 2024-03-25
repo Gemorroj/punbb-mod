@@ -51,7 +51,7 @@ function is_banned_email($email)
     global $pun_bans;
 
     foreach ($pun_bans as $cur_ban) {
-        if ($cur_ban['email'] && ($email == $cur_ban['email'] || (false === \strpos($cur_ban['email'], '@') && false !== \stripos($email, '@'.$cur_ban['email'])))) {
+        if ($cur_ban['email'] && ($email == $cur_ban['email'] || (!\str_contains($cur_ban['email'], '@') && false !== \stripos($email, '@'.$cur_ban['email'])))) {
             return true;
         }
     }
@@ -127,7 +127,7 @@ function server_parse($socket, $expected_response)
         }
     } while (' ' !== $server_response[3]);
 
-    if (0 !== \strpos($server_response, $expected_response)) {
+    if (!\str_starts_with($server_response, $expected_response)) {
         \error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
     }
 }

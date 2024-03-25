@@ -9,7 +9,6 @@ if (!$pun_user['is_guest']) {
     $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 
-
 // REAL MARK TOPIC AS READ MOD END
 
 if (!$pun_user['g_read_board']) {

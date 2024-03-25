@@ -355,9 +355,9 @@ function handle_url_tag($url, $link = '')
         ['%20', '%27', '%60', '%22'],
         $url
     );
-    if (0 === \strpos($url, 'www.')) { // If it starts with www, we add http://
+    if (\str_starts_with($url, 'www.')) { // If it starts with www, we add http://
         $full_url = 'http://'.$full_url;
-    } elseif (0 === \strpos($url, 'ftp.')) { // Else if it starts with ftp, we add ftp://
+    } elseif (\str_starts_with($url, 'ftp.')) { // Else if it starts with ftp, we add ftp://
         $full_url = 'ftp://'.$full_url;
     } elseif (!\preg_match('#^([a-z0-9]{3,6})://#', $url, $bah)) { // Else if it doesn't start with abcdef://, we add http://
         $full_url = 'http://'.$full_url;
@@ -479,7 +479,7 @@ function do_bbcode($text)
     global $lang_common, $pun_user;
     $wap = 'wap' === \pathinfo(\dirname($_SERVER['PHP_SELF']), \PATHINFO_FILENAME);
 
-    if (false !== \strpos($text, 'quote')) {
+    if (\str_contains($text, 'quote')) {
         if ($wap) {
             $text = \str_replace('[quote]', '<div class="quote">', $text);
             $text = \preg_replace_callback(
@@ -499,7 +499,7 @@ function do_bbcode($text)
         }
     }
 
-    if (false !== \strpos($text, 'list')) {
+    if (\str_contains($text, 'list')) {
         $text = \str_replace('[listo]', '</p><ol>', $text);
         $text = \str_replace('[list]', '</p><ul>', $text);
         $text = \str_replace('[li]', '<li>', $text);
@@ -715,7 +715,7 @@ function parse_message($text, $hide_smilies, $post = 0)
 
     // If the message contains a code tag we have to split it up (text within [code][/code] shouldn't be touched)
     $inside = [];
-    if (false !== \strpos($text, '[code]') && false !== \strpos($text, '[/code]')) {
+    if (\str_contains($text, '[code]') && \str_contains($text, '[/code]')) {
         [$inside, $outside] = \split_text($text, '[code]', '[/code]');
         $outside = \array_map('ltrim', $outside);
         $text = \implode('<">', $outside);
@@ -729,7 +729,7 @@ function parse_message($text, $hide_smilies, $post = 0)
         $text = \do_smilies($text);
     }
 
-    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($text, '[') && false !== \strpos($text, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && \str_contains($text, '[') && \str_contains($text, ']')) {
         $text = \do_bbcode($text);
 
         if (1 == $pun_config['p_message_img_tag']) {
@@ -795,7 +795,7 @@ function do_code($text, $inside = [])
                 $num_lines = (\substr_count($inside[$i], "\n") + 3) * 1.5;
                 $height_str = ($num_lines > 35) ? '35em' : $num_lines.'em';
 
-                if (0 === \strpos($inside[$i], '&lt;?')) {
+                if (\str_starts_with($inside[$i], '&lt;?')) {
                     $code = \str_replace(
                         [
                             '<code>',
@@ -828,7 +828,7 @@ function do_code($text, $inside = [])
                         if ('' === $c[$i2]) {
                             $code .= '<tr><td>&#160;</td></tr>';
                         } else {
-                            if (0 === \strpos($c[$i2], '</span>')) {
+                            if (\str_starts_with($c[$i2], '</span>')) {
                                 $c[$i2] = \substr($c[$i2], 7);
                             }
 
@@ -891,20 +891,17 @@ function parse_signature($text)
         $text = \do_smilies($text);
     }
 
-    if ($pun_config['p_sig_bbcode'] && false !== \strpos($text, '[') && false !== \strpos($text, ']')) {
+    if ($pun_config['p_sig_bbcode'] && \str_contains($text, '[') && \str_contains($text, ']')) {
         $text = \do_bbcode($text);
 
         if ($pun_config['p_sig_img_tag']) {
-            $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', '_replace_signature_img', $text);
+            $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', static function (array $matches) {
+                \handle_img_tag($matches[1].$matches[3], true);
+            }, $text);
         }
     }
 
     // Deal with newlines, tabs and multiple spaces
 
     return \str_replace(["\n", "\t", '  ', '  '], ['<br />', '&#160; &#160; ', '&#160; ', ' &#160;'], $text);
-}
-
-function _replace_signature_img(array $matches)
-{
-    return \handle_img_tag($matches[1].$matches[3], true);
 }
