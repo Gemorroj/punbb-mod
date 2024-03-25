@@ -52,7 +52,7 @@
         {*  ! $cur_topic.moved_to &&*}
             {if ! $pun_user.is_guest
             && $cur_topic.last_poster != $pun_user.username
-            && ! is_reading($cur_topic.log_time, $cur_topic.last_post)
+            && !($cur_topic.log_time > $cur_topic.last_post)
             && $cur_topic.last_post > $cur_topic.mark_read
             && ($cur_topic.last_post > $pun_user.last_visit
             || ($smarty.server.REQUEST_TIME - $cur_topic.last_post < $pun_user.mark_after))

@@ -9,10 +9,6 @@ if (!$pun_user['is_guest']) {
     $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 
-function is_reading($log_time, $last_post)
-{
-    return $log_time > $last_post;
-}
 
 // REAL MARK TOPIC AS READ MOD END
 
@@ -144,7 +140,7 @@ if ($db->num_rows($result)) {
         }
 
         // REAL MARK TOPIC AS READ MOD BEGIN
-        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && $cur_topic['last_poster'] != $pun_user['username'] && !\is_reading($cur_topic['log_time'], $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
+        if (!$pun_user['is_guest'] && !$cur_topic['moved_to'] && $cur_topic['last_poster'] != $pun_user['username'] && !($cur_topic['log_time'] > $cur_topic['last_post']) && $cur_topic['last_post'] > $cur_topic['mark_read'] && ($cur_topic['last_post'] > $pun_user['last_visit'] || ($_SERVER['REQUEST_TIME'] - $cur_topic['last_post'] < $pun_user['mark_after']))) {
             // REAL MARK TOPIC AS READ MOD END
             $icon_text .= ' '.$lang_common['New icon'];
             $item_status .= ' inew';

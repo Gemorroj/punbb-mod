@@ -4,10 +4,6 @@
 
 require_once PUN_ROOT.'include/common.php';
 
-function is_reading($log_time, $last_post)
-{
-    return $log_time > $last_post;
-}
 
 // + REAL MARK TOPIC AS READ MOD
 if (!$pun_user['is_guest']) {
