@@ -27,6 +27,7 @@ class PunTemplate extends Smarty\Smarty
             ->registerPlugin('modifier', 'rawurlencode', 'rawurlencode')
             ->registerPlugin('modifier', 'microtime', 'microtime')
             ->registerPlugin('modifier', 'sprintf', 'sprintf')
+            ->registerPlugin('modifier', 'strtok', 'strtok')
             ->registerPlugin('modifier', 'file_exists', 'file_exists')
             ->registerPlugin('modifier', 'range', 'range')
             ->registerPlugin('modifier', 'ceil', 'ceil')
