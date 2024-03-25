@@ -27,7 +27,8 @@ class PunTemplate extends Smarty\Smarty
             ->registerPlugin('modifier', 'rawurlencode', 'rawurlencode')
             ->registerPlugin('modifier', 'microtime', 'microtime')
             ->registerPlugin('modifier', 'sprintf', 'sprintf')
-            ->registerPlugin('modifier', 'get_title', 'get_title')
+            ->registerPlugin('modifier', 'file_exists', 'file_exists')
+            ->registerPlugin('modifier', 'get_title', 'get_title') // functions.php
         ;
 
         // $this->compile_check = true; // dev mode
