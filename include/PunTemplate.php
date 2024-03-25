@@ -34,7 +34,6 @@ class PunTemplate extends Smarty\Smarty
             ->registerPlugin('modifier', 'uniqid', 'uniqid')
             ->registerPlugin('modifier', 'get_title', 'get_title') // functions.php
             ->registerPlugin('modifier', 'paginate', 'paginate') // functions.php
-            ->registerPlugin('modifier', 'parse_signature', 'parse_signature') // parser.php
         ;
 
         // $this->compile_check = true; // dev mode
