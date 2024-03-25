@@ -17,52 +17,56 @@
 </div>
 
 {if ! $upl_conf.p_view}
-<div class="in">
-    <strong>{$lang_uploads.$Not_allowed}</strong>
-</div>
-<div class="msg">{$lang_uploads.$Not_allowed_mes}</div>
-    {elseif isset($smarty.get.uploadit)}
+    <div class="in">
+        <strong>{$lang_uploads.$Not_allowed}</strong>
+    </div>
+    <div class="msg">{$lang_uploads.$Not_allowed_mes}</div>
+{elseif isset($smarty.get.uploadit)}
     {if $upl_conf.p_upload == 1}
+        <div class="con">{$lang_uploads.$Upload_file}</div>
+        <form method="post" action="{$smarty.server.PHP_SELF}?" enctype="multipart/form-data">
+            <div class="input">
+                <strong>{$lang_uploads.$Upload_rules}</strong><br/>
+                {$rules}
+            </div>
+            <div class="input2">
+                {$lang_uploads.File}:<br/>
+                <input type="file" name="file" maxlength="200"/><br/>
+                {$lang_uploads.Descr}<br/>
+                <input type="text" name="descr" maxlength="100"/>
+            </div>
+            <div class="go_to">
+                <input type="submit" name="act" value="{$lang_uploads.$Upload_file}"/>
+            </div>
+        </form>
+    {else}
+        <div class="red">{$lang_uploads.$Not_allowed}</div>
+        <div class="msg">{$lang_uploads.$Not_allowed_mes}</div>
+    {/if}
+{elseif isset($smarty.post.act)}
     <div class="con">
-        {$lang_uploads.$Upload_file}</div>
+        <strong>{$lang_uploads.$File_uploaded}</strong>
+    </div>
+    <div class="msg">
+        <a href="{$smarty.server.PHP_SELF}?file={rawurlencode($file_name)}">{$pun_config.o_base_url}/uploads.php?file={$file_name|escape}</a>
+    </div>
+    <div class="go_to">
+        {if ! isset($smarty.get.uploadit) && $upl_conf.p_upload == 1}
+            <a class="but" href="{$smarty.server.PHP_SELF}?uploadit=1">{$lang_uploads.$Upload_file}</a>
+        {/if}
+    </div>
+{*/if*}
+{elseif isset($smarty.get.del)}
+    {assign var='file_path' value=$smarty.const.PUN_ROOT|cat:'/uploaded/'|cat:$delfile}
+    {if file_exists($file_path)}
+        <div class="con"><strong>{$lang_uploads.Delete}</strong></div>
+        <div class="msg">{$delfile|escape}{$lang_uploads.$File_deleted}</div>
+    {/if}
+{else}
+    {if $upl_conf.p_upload == 1}
     <form method="post" action="{$smarty.server.PHP_SELF}?" enctype="multipart/form-data">
         <div class="input">
-            <strong>{$lang_uploads.$Upload_rules}</strong><br/>
-            {$rules}</div>
-        <div class="input2">
-            {$lang_uploads.File}:<br/>
-            <input type="file" name="file" maxlength="200"/><br/>
-                {$lang_uploads.Descr}<br/>
-            <input type="text" name="descr" maxlength="100"/>
-        </div>
-        <div class="go_to">
-            <input type="submit" name="act" value="{$lang_uploads.$Upload_file}"/></div>
-    </form>
-    {else}
-    <div class="red">{$lang_uploads.$Not_allowed}</div>
-    <div class="msg">{$lang_uploads.$Not_allowed_mes}</div>
-    {/if}
-    {elseif isset($smarty.post.act)}
-<div class="con">
-    <strong>{$lang_uploads.$File_uploaded}</strong>
-</div>
-<div class="msg">
-    <a href="{$smarty.server.PHP_SELF}?file={rawurlencode($file_name)}">{$pun_config.o_base_url}/uploads.php?file={$file_name|escape}</a></div>
-<div class="go_to">
-    {if ! isset($smarty.get.uploadit) && $upl_conf.p_upload == 1}
-        <a class="but" href="{$smarty.server.PHP_SELF}?uploadit=1">{$lang_uploads.$Upload_file}</a>
-    {/if}
-</div>
-{*/if*}
-    {elseif isset($smarty.get.del)}
-    {if file_exists('`$smarty.const.PUN_ROOT`/uploaded/`$delfile`')}
-    <div class="con"><strong>{$lang_uploads.Delete}</strong></div>
-    <div class="msg">{$delfile|escape}{$lang_uploads.$File_deleted}</div>
-    {/if}
-    {else}
-    {if $upl_conf.p_upload == 1}
-    <form method="post" action="{$smarty.server.PHP_SELF}?" enctype="multipart/form-data">
-        <div class="input">{$lang_uploads.Pages}
+            {$lang_uploads.Pages}
             <select id="nump" name="nump">
                 {foreach from=$pages item=i}
                     <option value="{$i}"{if $s_nump == $i} selected="selected"{/if}>{$i}</option>
@@ -71,15 +75,14 @@
             <input type="submit" name="filter" value="{$lang_uploads.$Enable_filter}"/>
         </div>
     </form>
-
-        {if ! isset($smarty.get.uploadit) && $upl_conf.p_upload == 1}
-        <div class="go_to">
-            <a class="but" href="{$smarty.server.PHP_SELF}?uploadit=1">{$lang_uploads.$Upload_file}</a>
-        </div>
-        {/if}
+    {if ! isset($smarty.get.uploadit) && $upl_conf.p_upload == 1}
+    <div class="go_to">
+        <a class="but" href="{$smarty.server.PHP_SELF}?uploadit=1">{$lang_uploads.$Upload_file}</a>
+    </div>
     {/if}
+{/if}
 
-    {if $upl_conf.p_upload == 1}
+{if $upl_conf.p_upload == 1}
     <div class="con"><strong>{$flist}</strong></div>
     <div class="msg">{$lang_uploads.$Upload_warn}</div>
     <div class="in">
@@ -90,9 +93,9 @@
         <a href="{$smarty.server.PHP_SELF}?u={$s_u}&amp;sort=6">{$lang_uploads.Downloaded}</a>|
         <a href="{$smarty.server.PHP_SELF}?u={$s_u}&amp;sort=7">{$lang_uploads.Desc}</a>
     </div>
-    {/if}
+{/if}
 
-    {foreach from=$files item=info}
+{foreach from=$files item=info}
     <div class="{if $j = ! $j}msg{else}msg2{/if}">
         &#8226; <strong><a href="{$smarty.server.PHP_SELF}?file={rawurlencode($info.file)}">{$info.file|truncate:30:'..':true:true|escape}</a></strong>
         <span class="small">({$info.size|cat:$info.sizeValue},
@@ -101,7 +104,7 @@
 
             {if $upl_conf.p_globaldelete}
                 <a class="but" href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
-                {elseif $upl_conf.p_delete}
+            {elseif $upl_conf.p_delete}
                 {if $info.uid == $pun_user.id}
                     <a class="but" href="{$smarty.server.PHP_SELF}?del={rawurlencode($info.file)}">{$lang_uploads.Delete}</a>
                 {/if}
@@ -111,11 +114,11 @@
     {/foreach}
 
     {if $cp > 1}
-    <div class="con">{$lang_uploads.$Go_to_page}
-        {foreach from=range(1, $cp) item=i}
-            {if ($i - 1) == $s_page}&#160;{$i}&#160;{else}<a href="{$smarty.server.PHP_SELF}?page={($i - 1)}">{$i}</a>{/if}
-        {/foreach}
-    </div>
+        <div class="con">{$lang_uploads.$Go_to_page}
+            {foreach from=range(1, $cp) item=i}
+                {if ($i - 1) == $s_page}&#160;{$i}&#160;{else}<a href="{$smarty.server.PHP_SELF}?page={($i - 1)}">{$i}</a>{/if}
+            {/foreach}
+        </div>
     {/if}
 {/if}
 

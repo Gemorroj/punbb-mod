@@ -5,7 +5,7 @@ if (!\defined('PUN')) {
 }
 \define('PUN_TEMPLATE', 1);
 
-class PunTemplate extends Smarty
+class PunTemplate extends Smarty\Smarty
 {
     /**
      * Конструктор
@@ -26,8 +26,7 @@ class PunTemplate extends Smarty
             ->setCacheDir($punDesignDir.'/cache/')
         ;
 
-        $this->compile_check = true; // dev mode
-
+        // $this->compile_check = true; // dev mode
         // $this->assign('punDesignDir', $root);
     }
 }
