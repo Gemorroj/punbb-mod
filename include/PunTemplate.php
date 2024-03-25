@@ -24,6 +24,7 @@ class PunTemplate extends Smarty\Smarty
             ->setCompileDir($punDesignDir.'/compiled/')
             ->setConfigDir($punDesignDir.'/configs/')
             ->setCacheDir($punDesignDir.'/cache/')
+            ->registerPlugin('modifier', 'rawurlencode', 'rawurlencode')
         ;
 
         // $this->compile_check = true; // dev mode
