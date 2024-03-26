@@ -24,16 +24,16 @@ class PunTemplate extends Smarty\Smarty
             ->setCompileDir($punDesignDir.'/compiled/')
             ->setConfigDir($punDesignDir.'/configs/')
             ->setCacheDir($punDesignDir.'/cache/')
-            ->registerPlugin('modifier', 'rawurlencode', 'rawurlencode')
-            ->registerPlugin('modifier', 'microtime', 'microtime')
-            ->registerPlugin('modifier', 'sprintf', 'sprintf')
-            ->registerPlugin('modifier', 'strtok', 'strtok')
-            ->registerPlugin('modifier', 'file_exists', 'file_exists')
-            ->registerPlugin('modifier', 'range', 'range')
-            ->registerPlugin('modifier', 'ceil', 'ceil')
-            ->registerPlugin('modifier', 'uniqid', 'uniqid')
-            ->registerPlugin('modifier', 'get_title', 'get_title') // functions.php
-            ->registerPlugin('modifier', 'paginate', 'paginate') // functions.php
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'rawurlencode', 'rawurlencode')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'microtime', 'microtime')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'sprintf', 'sprintf')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'strtok', 'strtok')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'file_exists', 'file_exists')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'range', 'range')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'ceil', 'ceil')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'uniqid', 'uniqid')
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'get_title', 'get_title') // functions.php
+            ->registerPlugin(self::PLUGIN_MODIFIER, 'paginate', 'paginate') // functions.php
         ;
 
         // $this->compile_check = true; // dev mode
