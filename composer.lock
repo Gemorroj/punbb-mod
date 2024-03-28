@@ -61,16 +61,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "beafa5ec31f2ca241a67ba9d04d868ba8596f62f"
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/beafa5ec31f2ca241a67ba9d04d868ba8596f62f",
-                "reference": "beafa5ec31f2ca241a67ba9d04d868ba8596f62f",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
+                "reference": "bbd09c7bfaa6c2c091adc4568a944f765bb4f1d9",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2024-03-27T21:57:07+00:00"
+            "time": "2024-03-28T10:23:18+00:00"
         },
         {
             "name": "symfony/finder",
