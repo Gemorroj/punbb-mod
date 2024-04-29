@@ -10,10 +10,10 @@
         "ext-gd": "*",
         "ext-mbstring": "*",
         "gregwar/captcha": "^1.2.1",
-        "smarty/smarty": "^5.0"
+        "smarty/smarty": "^5.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.51"
+        "friendsofphp/php-cs-fixer": "^3.54"
     },
     "config": {
         "platform": {
