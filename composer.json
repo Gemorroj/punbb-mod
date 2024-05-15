@@ -13,11 +13,11 @@
         "smarty/smarty": "^5.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.54"
+        "friendsofphp/php-cs-fixer": "^3.57"
     },
     "config": {
         "platform": {
-            "php": "8.3.4"
+            "php": "8.3.7"
         }
     }
 }
