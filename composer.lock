@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6167af27cdc41f80d193ae1e8195d07c",
+    "content-hash": "6ae76c789c31613d986b168c8dda11c6",
     "packages": [
         {
             "name": "gregwar/captcha",
@@ -61,16 +61,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v5.3.1",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "3cb35854326a94120cd415b81db28c53d95d0d5d"
+                "reference": "fd90f7eac969d998736edbf12dadf04c64471b0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/3cb35854326a94120cd415b81db28c53d95d0d5d",
-                "reference": "3cb35854326a94120cd415b81db28c53d95d0d5d",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/fd90f7eac969d998736edbf12dadf04c64471b0a",
+                "reference": "fd90f7eac969d998736edbf12dadf04c64471b0a",
                 "shasum": ""
             },
             "require": {
@@ -122,7 +122,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2024-06-16T19:51:13+00:00"
+            "time": "2024-08-14T20:00:44+00:00"
         },
         {
             "name": "symfony/finder",
@@ -638,16 +638,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.60.0",
+            "version": "v3.62.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "e595e4e070d17c5d42ed8c4206f630fcc5f401a4"
+                "reference": "627692f794d35c43483f34b01d94740df2a73507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/e595e4e070d17c5d42ed8c4206f630fcc5f401a4",
-                "reference": "e595e4e070d17c5d42ed8c4206f630fcc5f401a4",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/627692f794d35c43483f34b01d94740df2a73507",
+                "reference": "627692f794d35c43483f34b01d94740df2a73507",
                 "shasum": ""
             },
             "require": {
@@ -733,7 +733,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-25T09:26:51+00:00"
+            "time": "2024-08-07T17:03:09+00:00"
         },
         {
             "name": "psr/container",
@@ -2547,7 +2547,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "8.3.8"
+        "php": "8.3.9"
     },
     "plugin-api-version": "2.6.0"
 }
