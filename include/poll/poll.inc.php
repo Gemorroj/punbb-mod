@@ -1,4 +1,5 @@
 <?php
+
 /*
 
 (C) hcs (hcs@mail.ru) http://punbb.ru 2007

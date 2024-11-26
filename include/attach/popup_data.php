@@ -1,4 +1,5 @@
 <?php
+
 /*
 
 Build necessary data for Javascript popup.
