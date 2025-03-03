@@ -32,12 +32,12 @@ if (isset($_POST['add_rank'])) {
     }
 
     // Make sure there isn't already a rank with the same min_posts value
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE min_posts='.$min_posts) or \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE min_posts='.$min_posts) || \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         \message($lang_admin['Double rank']);
     }
 
-    $db->query('INSERT INTO '.$db->prefix.'ranks (`rank`, min_posts) VALUES(\''.$db->escape($rank).'\', '.$min_posts.')') or \error('Unable to add rank', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO '.$db->prefix.'ranks (`rank`, min_posts) VALUES(\''.$db->escape($rank).'\', '.$min_posts.')') || \error('Unable to add rank', __FILE__, __LINE__, $db->error());
 
     // Regenerate the ranks cache
     include_once PUN_ROOT.'include/cache.php';
@@ -48,7 +48,7 @@ if (isset($_POST['add_rank'])) {
 elseif (isset($_POST['update'])) {
     // confirm_referrer('admin_ranks.php');
 
-    $id = \intval(\key($_POST['update']));
+    $id = (int) \key($_POST['update']);
 
     $rank = \trim($_POST['rank'][$id]);
     $min_posts = \trim($_POST['min_posts'][$id]);
@@ -62,12 +62,12 @@ elseif (isset($_POST['update'])) {
     }
 
     // Make sure there isn't already a rank with the same min_posts value
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE id!='.$id.' AND min_posts='.$min_posts) or \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE id!='.$id.' AND min_posts='.$min_posts) || \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         \message($lang_admin['Double rank']);
     }
 
-    $db->query('UPDATE '.$db->prefix.'ranks SET rank=\''.$db->escape($rank).'\', min_posts='.$min_posts.' WHERE id='.$id) or \error('Unable to update rank', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'ranks SET rank=\''.$db->escape($rank).'\', min_posts='.$min_posts.' WHERE id='.$id) || \error('Unable to update rank', __FILE__, __LINE__, $db->error());
 
     // Regenerate the ranks cache
     include_once PUN_ROOT.'include/cache.php';
@@ -78,9 +78,9 @@ elseif (isset($_POST['update'])) {
 elseif (isset($_POST['remove'])) {
     // confirm_referrer('admin_ranks.php');
 
-    $id = \intval(\key($_POST['remove']));
+    $id = (int) \key($_POST['remove']);
 
-    $db->query('DELETE FROM '.$db->prefix.'ranks WHERE id='.$id) or \error('Unable to delete rank', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'ranks WHERE id='.$id) || \error('Unable to delete rank', __FILE__, __LINE__, $db->error());
 
     // Regenerate the ranks cache
     include_once PUN_ROOT.'include/cache.php';
@@ -129,7 +129,7 @@ echo '<div class="blockform">
 <legend>'.$lang_admin['Edit ranks'].'</legend>
 <div class="infldset">';
 
-$result = $db->query('SELECT id, `rank`, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts') or \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, `rank`, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts') || \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     echo '<table cellspacing="0">
 <thead>

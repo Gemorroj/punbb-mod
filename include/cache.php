@@ -8,26 +8,26 @@ if (!\defined('PUN')) {
 //
 // Generate the config cache PHP script
 //
-function generate_config_cache()
+function generate_config_cache(): void
 {
     global $db;
 
     $output = [];
 
     // Get the forum config from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'config') or \error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'config') || \error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
     while ($item = $db->fetch_row($result)) {
         $output[$item[0]] = $item[1];
     }
 
     // Права на загрузчик
-    $result = $db->query('SELECT `g_id`, `p_view` FROM `'.$db->prefix.'uploads_conf`') or \error('Unable to select opions', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `g_id`, `p_view` FROM `'.$db->prefix.'uploads_conf`') || \error('Unable to select opions', __FILE__, __LINE__, $db->error());
     while ($q = $db->fetch_assoc($result)) {
         $output['uploads_conf'][$q['g_id']] = $q['p_view'];
     }
 
     // Output config as PHP code
-    $fh = @\fopen(PUN_ROOT.'cache/cache_config.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_config.php', 'w');
     if (!$fh) {
         \error('Unable to write configuration cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
@@ -39,12 +39,12 @@ function generate_config_cache()
 //
 // Generate the bans cache PHP script
 //
-function generate_bans_cache()
+function generate_bans_cache(): void
 {
     global $db;
 
     // Get the ban list from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'bans') or \error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'bans') || \error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
 
     $output = [];
     while ($cur_ban = $db->fetch_assoc($result)) {
@@ -52,7 +52,7 @@ function generate_bans_cache()
     }
 
     // Output ban list as PHP code
-    $fh = @\fopen(PUN_ROOT.'cache/cache_bans.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_bans.php', 'w');
     if (!$fh) {
         \error('Unable to write bans cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
@@ -64,12 +64,12 @@ function generate_bans_cache()
 //
 // Generate the ranks cache PHP script
 //
-function generate_ranks_cache()
+function generate_ranks_cache(): void
 {
     global $db;
 
     // Get the rank list from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'ranks ORDER BY min_posts') or \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'ranks ORDER BY min_posts') || \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
 
     $output = [];
     while ($cur_rank = $db->fetch_assoc($result)) {
@@ -77,7 +77,7 @@ function generate_ranks_cache()
     }
 
     // Output ranks list as PHP code
-    $fh = @\fopen(PUN_ROOT.'cache/cache_ranks.php', 'wb');
+    $fh = @\fopen(PUN_ROOT.'cache/cache_ranks.php', 'w');
     if (!$fh) {
         \error('Unable to write ranks cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
     }
@@ -89,7 +89,7 @@ function generate_ranks_cache()
 //
 // Generate quickjump cache PHP scripts
 //
-function generate_quickjump_cache($group_id = false)
+function generate_quickjump_cache($group_id = false): void
 {
     global $db, $lang_common, $pun_config;
 
@@ -99,7 +99,7 @@ function generate_quickjump_cache($group_id = false)
         $groups[0] = $group_id;
     } else {
         // A group_id was now supplied, so we generate the quickjump cache for all groups
-        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
         $num_groups = $db->num_rows($result);
 
         for ($i = 0; $i < $num_groups; ++$i) {
@@ -110,7 +110,7 @@ function generate_quickjump_cache($group_id = false)
     // Loop through the groups in $groups and output the cache for each of them
     foreach ($groups as $group_id) {
         // Output quickjump as PHP code
-        $fh = @\fopen(PUN_ROOT.'cache/cache_quickjump_'.$group_id.'.php', 'wb');
+        $fh = @\fopen(PUN_ROOT.'cache/cache_quickjump_'.$group_id.'.php', 'w');
         if (!$fh) {
             \error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
@@ -127,7 +127,7 @@ function generate_quickjump_cache($group_id = false)
           WHERE fp.read_forum IS NULL
           OR fp.read_forum=1
           ORDER BY c.disp_position, c.id, f.disp_position
-        ') or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        ') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {
@@ -160,7 +160,7 @@ function generate_quickjump_cache($group_id = false)
 //
 // Generate WAP quickjump cache PHP scripts
 //
-function generate_wap_quickjump_cache($group_id = false)
+function generate_wap_quickjump_cache($group_id = false): void
 {
     global $db, $lang_common, $pun_config;
 
@@ -169,7 +169,7 @@ function generate_wap_quickjump_cache($group_id = false)
         $groups[0] = $group_id;
     } else {
         // A group_id was now supplied, so we generate the quickjump cache for all groups
-        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
         $num_groups = $db->num_rows($result);
 
         for ($i = 0; $i < $num_groups; ++$i) {
@@ -180,7 +180,7 @@ function generate_wap_quickjump_cache($group_id = false)
     // Loop through the groups in $groups and output the cache for each of them
     foreach ($groups as $group_id) {
         // Output wap quickjump as PHP code
-        $fh = \fopen(PUN_ROOT.'cache/cache_wap_quickjump_'.$group_id.'.php', 'wb');
+        $fh = \fopen(PUN_ROOT.'cache/cache_wap_quickjump_'.$group_id.'.php', 'w');
         if (!$fh) {
             \error('Unable to write quickjump cache file to cache directory. Please make sure PHP has write access to the directory "cache"', __FILE__, __LINE__);
         }
@@ -189,7 +189,7 @@ function generate_wap_quickjump_cache($group_id = false)
 <div class="inbox"><label>\' . $lang_common[\'Jump to\'] . \'<br />
 <select name="id" onchange="window.location.assign(\\\'\' . $pun_config[\'o_base_url\'] . \'/wap/viewforum.php?id=\\\'+this.options[this.selectedIndex].value);">';
 
-        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$group_id.') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position') or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$group_id.') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {

@@ -8,14 +8,14 @@ if (!$pun_user['g_read_board']) {
     \message($lang_common['No view']);
 }
 
-$to = isset($_GET['to']) ? \intval($_GET['to']) : 0;
+$to = isset($_GET['to']) ? (int) ($_GET['to']) : 0;
 if ($to > 0) {
-    \vote($to, \intval($_GET['vote']));
+    \vote($to, (int) $_GET['vote']);
 
     exit;
 }
 
-$id = isset($_GET['id']) ? \intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? (int) ($_GET['id']) : 0;
 if ($id < 1) {
     \message($lang_common['Bad request']);
 }
@@ -25,8 +25,8 @@ $q = $db->fetch_row($db->query(
     SELECT COUNT(1), (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') FROM `'.$db->prefix.'karma` WHERE `vote` = "1" AND `to` = '.$id
 ));
 
-$karma['plus'] = \intval($q[0]);
-$karma['minus'] = \intval($q[1]);
+$karma['plus'] = (int) $q[0];
+$karma['minus'] = (int) $q[1];
 $karma['karma'] = $karma['plus'] - $karma['minus'];
 unset($q);
 

@@ -17,7 +17,7 @@ $smarty->assign('lang_common', $lang_common);
 $smarty->assign('basename', \basename($_SERVER['PHP_SELF']));
 
 if ($pun_user['g_id'] < PUN_GUEST) {
-    $result = $db->query('SELECT COUNT(1) FROM `'.$db->prefix.'reports` WHERE `zapped` IS NULL') or \error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM `'.$db->prefix.'reports` WHERE `zapped` IS NULL') || \error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
     if ($count = $db->result($result, 0)) {
         $smarty->assign('reports', $count);

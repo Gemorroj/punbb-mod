@@ -10,7 +10,7 @@ $symbols = \str_split('23456789abcdegikpqsvxyz', 1);
 \array_push($symbols, ...$symbols);
 \shuffle($symbols);
 $_SESSION['captcha_keystring'] = $symbols[0].$symbols[1].$symbols[2].$symbols[3].$symbols[4];
-$addExtraSymbol = (bool) \mt_rand(0, 1);
+$addExtraSymbol = (bool) \random_int(0, 1);
 $width = 110;
 if ($addExtraSymbol) {
     $width = 130;

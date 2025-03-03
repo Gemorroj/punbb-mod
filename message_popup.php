@@ -15,8 +15,8 @@ if ($pun_user['is_guest']) {
 }
 
 if (isset($_GET['id'])) {
-    $id = \intval($_GET['id']);
-    $result_messages = $db->query('SELECT owner, sender, posted, subject FROM '.$db->prefix.'messages WHERE status=0 AND id='.$id) or \error('Unable check owner popup', __FILE__, __LINE__, $db->error());
+    $id = (int) $_GET['id'];
+    $result_messages = $db->query('SELECT owner, sender, posted, subject FROM '.$db->prefix.'messages WHERE status=0 AND id='.$id) || \error('Unable check owner popup', __FILE__, __LINE__, $db->error());
     $return = $db->fetch_assoc($result_messages);
     if ($return['owner'] != $pun_user['id']) {
         \message($lang_common['No permission']);

@@ -48,7 +48,7 @@ if ('rules' === $action) {
     }
     // end fix
 
-    $db->query('UPDATE '.$db->prefix.'users SET last_visit='.$pun_user['logged'].' WHERE id='.$pun_user['id']) or \error('Unable to update user last visit data', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET last_visit='.$pun_user['logged'].' WHERE id='.$pun_user['id']) || \error('Unable to update user last visit data', __FILE__, __LINE__, $db->error());
 
     // REAL MARK TOPIC AS READ MOD BEGIN
     if ($mark_forum_id > 0) {
@@ -56,15 +56,15 @@ if ('rules' === $action) {
 
         $result = $db->query('UPDATE '.$db->prefix.'log_forums SET mark_read='.$now.' WHERE forum_id='.$mark_forum_id.' AND user_id='.$pun_user['id']); // or error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
         if (!$db->affected_rows()) {
-            $db->query('INSERT INTO '.$db->prefix."log_forums (user_id, forum_id, log_time, mark_read) VALUES ('".$pun_user['id']."', '".$cur_forum['forum_id']."', '".$now."', '".$now."' )") or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix."log_forums (user_id, forum_id, log_time, mark_read) VALUES ('".$pun_user['id']."', '".$cur_forum['forum_id']."', '".$now."', '".$now."' )") || \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
         }
-        $db->query('DELETE FROM '.$db->prefix.'log_topics WHERE forum_id='.$mark_forum_id.' AND user_id='.$pun_user['id']) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'log_topics WHERE forum_id='.$mark_forum_id.' AND user_id='.$pun_user['id']) || \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
     } else {
         // mark all forums
-        $db->query('DELETE FROM '.$db->prefix.'log_topics WHERE user_id='.$pun_user['id']) or \error('Unable to delete marked topics info', __FILE__, __LINE__, $db->error());
-        $db->query('DELETE FROM '.$db->prefix.'log_forums WHERE user_id='.$pun_user['id']) or \error('Unable to delete marked forums info', __FILE__, __LINE__, $db->error());
-        $db->query('INSERT INTO '.$db->prefix.'log_forums (forum_id) SELECT f.id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1') or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
-        $db->query('UPDATE '.$db->prefix.'log_forums SET mark_read='.$now.' , log_time='.$now.', user_id='.$pun_user['id'].' WHERE user_id = 0') or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'log_topics WHERE user_id='.$pun_user['id']) || \error('Unable to delete marked topics info', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'log_forums WHERE user_id='.$pun_user['id']) || \error('Unable to delete marked forums info', __FILE__, __LINE__, $db->error());
+        $db->query('INSERT INTO '.$db->prefix.'log_forums (forum_id) SELECT f.id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1') || \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'log_forums SET mark_read='.$now.' , log_time='.$now.', user_id='.$pun_user['id'].' WHERE user_id = 0') || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
     // REAL MARK TOPIC AS READ MOD END
 
@@ -74,12 +74,12 @@ if ('rules' === $action) {
         \message($lang_common['No permission']);
     }
 
-    $recipient_id = \intval($_GET['email']);
+    $recipient_id = (int) $_GET['email'];
     if ($recipient_id < 2) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT username, email, email_setting FROM '.$db->prefix.'users WHERE id='.$recipient_id) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username, email, email_setting FROM '.$db->prefix.'users WHERE id='.$recipient_id) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }
@@ -162,7 +162,7 @@ if ('rules' === $action) {
         \message($lang_common['No permission']);
     }
 
-    $post_id = \intval($_GET['report']);
+    $post_id = (int) $_GET['report'];
     if ($post_id < 1) {
         \message($lang_common['Bad request']);
     }
@@ -175,7 +175,7 @@ if ('rules' === $action) {
         }
 
         // Get the topic ID
-        $result = $db->query('SELECT topic_id FROM '.$db->prefix.'posts WHERE id='.$post_id) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT topic_id FROM '.$db->prefix.'posts WHERE id='.$post_id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -183,7 +183,7 @@ if ('rules' === $action) {
         $topic_id = $db->result($result);
 
         // Get the subject and forum ID
-        $result = $db->query('SELECT subject, forum_id FROM '.$db->prefix.'topics WHERE id='.$topic_id) or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT subject, forum_id FROM '.$db->prefix.'topics WHERE id='.$topic_id) || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -192,7 +192,7 @@ if ('rules' === $action) {
 
         // Should we use the internal report handling?
         if (!$pun_config['o_report_method'] || 2 == $pun_config['o_report_method']) {
-            $db->query('INSERT INTO '.$db->prefix.'reports (post_id, topic_id, forum_id, reported_by, created, message) VALUES('.$post_id.', '.$topic_id.', '.$forum_id.', '.$pun_user['id'].', '.\time().', \''.$db->escape($reason).'\')') or \error('Unable to create report', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'reports (post_id, topic_id, forum_id, reported_by, created, message) VALUES('.$post_id.', '.$topic_id.', '.$forum_id.', '.$pun_user['id'].', '.\time().', \''.$db->escape($reason).'\')') || \error('Unable to create report', __FILE__, __LINE__, $db->error());
         }
 
         // Should we e-mail the report?
@@ -241,23 +241,23 @@ if ('rules' === $action) {
         \message($lang_common['No permission']);
     }
 
-    $topic_id = \intval($_GET['subscribe']);
+    $topic_id = (int) $_GET['subscribe'];
     if ($topic_id < 1) {
         \message($lang_common['Bad request']);
     }
 
     // Make sure the user can view the topic
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$topic_id.' AND t.moved_to IS NULL') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$topic_id.' AND t.moved_to IS NULL') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         \message($lang_misc['Already subscribed']);
     }
 
-    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$topic_id.')') or \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$topic_id.')') || \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
 
     \redirect('viewtopic.php?id='.$topic_id, $lang_misc['Subscribe redirect']);
 } elseif (isset($_GET['unsubscribe'])) {
@@ -265,17 +265,17 @@ if ('rules' === $action) {
         \message($lang_common['No permission']);
     }
 
-    $topic_id = \intval($_GET['unsubscribe']);
+    $topic_id = (int) $_GET['unsubscribe'];
     if ($topic_id < 1) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
     if (!$db->num_rows($result)) {
         \message($lang_misc['Not subscribed']);
     }
 
-    $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) or \error('Unable to remove subscription', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) || \error('Unable to remove subscription', __FILE__, __LINE__, $db->error());
     \redirect('viewtopic.php?id='.$topic_id, $lang_misc['Unsubscribe redirect']);
 } else {
     \message($lang_common['Bad request']);

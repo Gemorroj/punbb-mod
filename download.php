@@ -11,7 +11,7 @@ if (!$pun_user['g_read_board']) {
 if (!isset($_GET['aid'])) {
     \error('Invalid image parameters', __FILE__, __LINE__);
 }
-$aid = \intval($_GET['aid']);
+$aid = (int) $_GET['aid'];
 
 // Retrieve attachment info and permissions
 $result_attach = $db->query(
@@ -23,7 +23,7 @@ $result_attach = $db->query(
     INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
     LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].')
     WHERE a.id='.$aid
-) or \error('Unable to fetch if there were any attachments to the post', __FILE__, __LINE__, $db->error());
+) || \error('Unable to fetch if there were any attachments to the post', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result_attach)) {
     \error('There are no attachment or access denied', __FILE__, __LINE__);
 }
@@ -56,6 +56,6 @@ if (!\is_file($location)) {
     \error($location.' - this file does not exist', __FILE__, __LINE__);
 }
 
-$db->query('UPDATE `'.$db->prefix.'attachments` SET `downloads` = `downloads` + 1 WHERE `id`='.$aid) or \error('Unable to update download counter', __FILE__, __LINE__, $db->error());
+$db->query('UPDATE `'.$db->prefix.'attachments` SET `downloads` = `downloads` + 1 WHERE `id`='.$aid) || \error('Unable to update download counter', __FILE__, __LINE__, $db->error());
 
 \download($location, $file, $mime);

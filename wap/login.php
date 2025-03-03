@@ -24,7 +24,7 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
 
     $username_sql = 'username="'.$db->escape($form_username).'"';
 
-    $result = $db->query('SELECT id, group_id, password, save_pass FROM '.$db->prefix.'users WHERE '.$username_sql) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id, group_id, password, save_pass FROM '.$db->prefix.'users WHERE '.$username_sql) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     [$user_id, $group_id, $db_password_hash, $save_pass] = $db->fetch_row($result);
 
     $authorized = false;
@@ -41,7 +41,7 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
             $authorized = true;
 
             if ($sha1_available) { // There's an MD5 hash in the database, but SHA1 hashing is available, so we update the DB
-                $db->query('UPDATE '.$db->prefix.'users SET password=\''.$form_password_hash.'\' WHERE id='.$user_id) or \error('Unable to update user password', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET password=\''.$form_password_hash.'\' WHERE id='.$user_id) || \error('Unable to update user password', __FILE__, __LINE__, $db->error());
             }
         }
     }
@@ -53,11 +53,11 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
 
     // Update the status if this is the first time the user logged in
     if (PUN_UNVERIFIED == $group_id) {
-        $db->query('UPDATE '.$db->prefix.'users SET group_id='.$pun_config['o_default_user_group'].' WHERE id='.$user_id) or \error('Unable to update user status', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'users SET group_id='.$pun_config['o_default_user_group'].' WHERE id='.$user_id) || \error('Unable to update user status', __FILE__, __LINE__, $db->error());
     }
 
     // Remove this users guest entry from the online list
-    $db->query('DELETE FROM '.$db->prefix.'online WHERE ident=\''.$db->escape(\get_remote_address()).'\'') or \error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'online WHERE ident=\''.$db->escape(\get_remote_address()).'\'') || \error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
 
     $expire = (1 == $save_pass) ? \time() + 31536000 : 0;
     \pun_setcookie($user_id, $form_password_hash, $expire);
@@ -69,11 +69,11 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
     }
 
     // Remove user from "users online" list.
-    $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$pun_user['id']) or \error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$pun_user['id']) || \error('Unable to delete from online list', __FILE__, __LINE__, $db->error());
 
     // Update last_visit (make sure there's something to update it with)
     if (isset($pun_user['logged'])) {
-        $db->query('UPDATE '.$db->prefix.'users SET last_visit='.$pun_user['logged'].' WHERE id='.$pun_user['id']) or \error('Unable to update user visit data', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'users SET last_visit='.$pun_user['logged'].' WHERE id='.$pun_user['id']) || \error('Unable to update user visit data', __FILE__, __LINE__, $db->error());
     }
 
     \pun_setcookie(1, \md5(\uniqid(\mt_rand(), true)), \time() + 31536000);
@@ -92,7 +92,7 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
             \wap_message($lang_common['Invalid e-mail']);
         }
 
-        $result = $db->query('SELECT id, username FROM '.$db->prefix.'users WHERE email=\''.$db->escape($email).'\'') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id, username FROM '.$db->prefix.'users WHERE email=\''.$db->escape($email).'\'') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
         if ($db->num_rows($result)) {
             // Load the "activate password" template
@@ -113,7 +113,7 @@ if (isset($_POST['form_sent']) && 'in' === @$_GET['action']) {
                 $new_password = \random_pass(8);
                 $new_password_key = \random_pass(8);
 
-                $db->query('UPDATE '.$db->prefix.'users SET activate_string=\''.\pun_hash($new_password).'\', activate_key=\''.$new_password_key.'\' WHERE id='.$cur_hit['id']) or \error('Unable to update activation data', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET activate_string=\''.\pun_hash($new_password).'\', activate_key=\''.$new_password_key.'\' WHERE id='.$cur_hit['id']) || \error('Unable to update activation data', __FILE__, __LINE__, $db->error());
 
                 // Do the user specific replacements to the template
                 $cur_mail_message = \str_replace('<username>', $cur_hit['username'], $mail_message);

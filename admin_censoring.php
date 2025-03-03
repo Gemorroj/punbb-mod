@@ -26,14 +26,14 @@ if (isset($_POST['add_word'])) {
         \message($lang_admin['Cens not found']);
     }
 
-    $db->query('INSERT INTO '.$db->prefix.'censoring (search_for, replace_with) VALUES (\''.$db->escape($search_for).'\', \''.$db->escape($replace_with).'\')') or \error('Unable to add censor word', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO '.$db->prefix.'censoring (search_for, replace_with) VALUES (\''.$db->escape($search_for).'\', \''.$db->escape($replace_with).'\')') || \error('Unable to add censor word', __FILE__, __LINE__, $db->error());
 
     \redirect('admin_censoring.php', $lang_admin['Added'].' '.$lang_admin['Redirect']);
 } // Update a censor word
 elseif (isset($_POST['update'])) {
     // confirm_referrer('admin_censoring.php');
 
-    $id = \intval(\key($_POST['update']));
+    $id = (int) \key($_POST['update']);
 
     $search_for = \trim($_POST['search_for'][$id]);
     $replace_with = \trim($_POST['replace_with'][$id]);
@@ -42,16 +42,16 @@ elseif (isset($_POST['update'])) {
         \message($lang_admin['Cens not found']);
     }
 
-    $db->query('UPDATE '.$db->prefix.'censoring SET search_for=\''.$db->escape($search_for).'\', replace_with=\''.$db->escape($replace_with).'\' WHERE id='.$id) or \error('Unable to update censor word', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'censoring SET search_for=\''.$db->escape($search_for).'\', replace_with=\''.$db->escape($replace_with).'\' WHERE id='.$id) || \error('Unable to update censor word', __FILE__, __LINE__, $db->error());
 
     \redirect('admin_censoring.php', $lang_admin['Updated'].' '.$lang_admin['Redirect']);
 } // Remove a censor word
 elseif (isset($_POST['remove'])) {
     // confirm_referrer('admin_censoring.php');
 
-    $id = \intval(\key($_POST['remove']));
+    $id = (int) \key($_POST['remove']);
 
-    $db->query('DELETE FROM '.$db->prefix.'censoring WHERE id='.$id) or \error('Unable to delete censor word', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'censoring WHERE id='.$id) || \error('Unable to delete censor word', __FILE__, __LINE__, $db->error());
 
     \redirect('admin_censoring.php', $lang_admin['Deleted'].' '.$lang_admin['Redirect']);
 }
@@ -101,7 +101,7 @@ require_once PUN_ROOT.'header.php';
                     <div class="infldset">
 <?php
 
-$result = $db->query('SELECT id, search_for, replace_with FROM '.$db->prefix.'censoring ORDER BY id') or \error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, search_for, replace_with FROM '.$db->prefix.'censoring ORDER BY id') || \error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     echo '<table cellspacing="0">
 <thead>

@@ -40,7 +40,7 @@ $result = $db->query(
         .'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
         .'AND `p`.`id`='.$id
 )
-        or \error(
+        || \error(
             'Unable to fetch post info',
             __FILE__,
             __LINE__,
@@ -64,7 +64,7 @@ $result = $db->query(
         .'ORDER BY `posted` '
         .'LIMIT 1;'
 )
-        or \error(
+        || \error(
             'Unable to fetch post info',
             __FILE__,
             __LINE__,

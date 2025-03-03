@@ -97,22 +97,22 @@ if (@$_POST['form_sent']) {
         }
     }
 
-    $form['timeout_visit'] = \intval($form['timeout_visit']);
-    $form['timeout_online'] = \intval($form['timeout_online']);
-    $form['redirect_delay'] = \intval($form['redirect_delay']);
-    $form['topic_review'] = \intval($form['topic_review']);
-    $form['disp_topics_default'] = \intval($form['disp_topics_default']);
-    $form['disp_posts_default'] = \intval($form['disp_posts_default']);
-    $form['indent_num_spaces'] = \intval($form['indent_num_spaces']);
-    $form['avatars_width'] = \intval($form['avatars_width']);
-    $form['avatars_height'] = \intval($form['avatars_height']);
-    $form['avatars_size'] = \intval($form['avatars_size']);
-    $form['timeout_reg'] = \intval($form['timeout_reg']);
-    $form['timeout_merge'] = \intval($form['timeout_merge']);
-    $form['show_moderators'] = \intval($form['show_moderators']);
+    $form['timeout_visit'] = (int) $form['timeout_visit'];
+    $form['timeout_online'] = (int) $form['timeout_online'];
+    $form['redirect_delay'] = (int) $form['redirect_delay'];
+    $form['topic_review'] = (int) $form['topic_review'];
+    $form['disp_topics_default'] = (int) $form['disp_topics_default'];
+    $form['disp_posts_default'] = (int) $form['disp_posts_default'];
+    $form['indent_num_spaces'] = (int) $form['indent_num_spaces'];
+    $form['avatars_width'] = (int) $form['avatars_width'];
+    $form['avatars_height'] = (int) $form['avatars_height'];
+    $form['avatars_size'] = (int) $form['avatars_size'];
+    $form['timeout_reg'] = (int) $form['timeout_reg'];
+    $form['timeout_merge'] = (int) $form['timeout_merge'];
+    $form['show_moderators'] = (int) $form['show_moderators'];
 
     // голосования
-    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.\intval($form['poll']).'" WHERE conf_name="poll_enabled"') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`="'.(int) $form['poll'].'" WHERE conf_name="poll_enabled"') || \error('Unable to update board config', __FILE__, __LINE__, $db->error());
     unset($form['poll']);
 
     if ($form['timeout_online'] >= $form['timeout_visit']) {
@@ -128,7 +128,7 @@ if (@$_POST['form_sent']) {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`='.$value.' WHERE `conf_name`="o_'.$db->escape($key).'"') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE `'.$db->prefix.'config` SET `conf_value`='.$value.' WHERE `conf_name`="o_'.$db->escape($key).'"') || \error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 

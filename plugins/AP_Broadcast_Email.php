@@ -36,7 +36,7 @@ if (isset($_POST['confirm'])) {
         $adv = '';
     }
 
-    $result = $db->query('SELECT COUNT(1) AS usercount FROM '.$db->prefix.'users WHERE username != "Guest" '.$adv.' ORDER BY username') or \error('Could not get user count from database', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) AS usercount FROM '.$db->prefix.'users WHERE username != "Guest" '.$adv.' ORDER BY username') || \error('Could not get user count from database', __FILE__, __LINE__, $db->error());
     $row = $db->fetch_assoc($result); ?>
 <div id="exampleplugin" class="blockform">
     <h2><span>Массовая рассылка - Подтверждение</span></h2>
@@ -111,7 +111,7 @@ if (isset($_POST['confirm'])) {
         $gid = '';
     }
 
-    $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') or \error('Could not get users from the database', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username, email FROM '.$db->prefix.'users WHERE username != "Guest" '.$gid.' ORDER BY username') || \error('Could not get users from the database', __FILE__, __LINE__, $db->error());
     while ($row = $db->fetch_assoc($result)) {
         $addresses[$row['username']] = $row['email'];
     }

@@ -33,7 +33,7 @@ $q = 'SELECT `group_id`, `username` '
    .'FROM `'.$db->prefix.'users` '
    .'WHERE `id` = '.$id;
 $q = $db->query($q)
-or \error(
+|| \error(
     'Unable to fetch username',
     __FILE__,
     __LINE__,
@@ -61,7 +61,7 @@ $q = '
     WHERE `vote` = "1" AND `to` = '.$id;
 
 $q = $db->query($q)
-or \error(
+|| \error(
     'Unable to count votes',
     __FILE__,
     __LINE__,
@@ -97,7 +97,7 @@ if ($num_hits) {
        .'LIMIT '.$start.','.$pun_user['disp_posts'];
 
     $q = $db->query($q)
-    or \error(
+    || \error(
         'Unable to fetch votes',
         __FILE__,
         __LINE__,

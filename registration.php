@@ -56,7 +56,7 @@ if (isset($_GET['cancel'])) {
     require_once PUN_ROOT.'footer.php';
 } elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.\get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg'])) or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.\get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg'])) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         \message($lang_registration['Timeout']);
@@ -90,7 +90,7 @@ if (isset($_GET['cancel'])) {
     if (1 == $pun_config['o_regs_verify']) {
         $email2 = \strtolower(\trim($_POST['req_email2']));
 
-        $password1 = \random_pass(\mt_rand(8, 9));
+        $password1 = \random_pass(\random_int(8, 9));
         $password2 = $password1;
     } else {
         $password1 = \trim($_POST['req_password1']);
@@ -113,7 +113,7 @@ if (isset($_GET['cancel'])) {
         \message($lang_prof_reg['Username guest']);
     } elseif (\preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username)) {
         \message($lang_prof_reg['Username IP']);
-    } elseif ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
+    } elseif ((\str_contains($username, '[') || \str_contains($username, ']')) && \str_contains($username, "'") && \str_contains($username, '"')) {
         \message($lang_prof_reg['Username reserved chars']);
     } elseif (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
         \message($lang_prof_reg['Username BBCode']);
@@ -128,7 +128,7 @@ if (isset($_GET['cancel'])) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\')') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\')') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
@@ -168,7 +168,7 @@ if (isset($_GET['cancel'])) {
     // Check if someone else already has registered with that e-mail address
     $dupe_list = [];
 
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         if (!$pun_config['p_allow_dupe_email']) {
             \message($lang_prof_reg['Dupe e-mail']);
@@ -192,7 +192,7 @@ if (isset($_GET['cancel'])) {
     $timezone = \round($_POST['timezone'], 1);
     $save_pass = (!isset($_POST['save_pass']) || 1 != $_POST['save_pass']) ? 0 : 1;
 
-    $email_setting = \intval($_POST['email_setting']);
+    $email_setting = (int) $_POST['email_setting'];
     if ($email_setting < 0 || $email_setting > 2) {
         $email_setting = 1;
     }
@@ -203,7 +203,7 @@ if (isset($_GET['cancel'])) {
     $initial_group_id = (!$pun_config['o_regs_verify']) ? $pun_config['o_default_user_group'] : PUN_UNVERIFIED;
     $password_hash = \pun_hash($password1);
 
-    $sex = \intval($_POST['req_sex']);
+    $sex = (int) $_POST['req_sex'];
 
     // Add the user
     $db->query('
@@ -212,7 +212,7 @@ if (isset($_GET['cancel'])) {
         ) VALUES(
             \''.$db->escape($username).'\', '.$initial_group_id.', \''.$password_hash.'\', \''.$sex.'\', \''.$email1.'\', '.$email_setting.', '.$save_pass.', '.$timezone.' , \''.$db->escape($language).'\', \''.$pun_config['o_default_style'].'\', '.$now.', \''.\get_remote_address().'\', '.$now.'
         )
-    ') or \error('Unable to create user', __FILE__, __LINE__, $db->error());
+    ') || \error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();
 
     // If we previously found out that the e-mail was banned

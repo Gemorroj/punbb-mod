@@ -12,45 +12,45 @@ if (isset($_POST['cleanup'])) {
     // delete all users and posts from specified ips, then perform all other cleanup tasks except resetting post counts since that might not be needed or wanted.
     @\set_time_limit(3600);
     $ip = "'".\implode("','", \array_values(\explode(' ', $_POST['ip_addys'])))."'";
-    $db->query('DELETE FROM '.$db->prefix.'posts WHERE poster_ip IN('.$ip.')') or \error('Could not delete posts', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE FROM '.$db->prefix.'users WHERE registration_ip IN('.$ip.')') or \error('Could not delete users', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_posts SELECT t.forum_id, COUNT(*) AS posts FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY t.forum_id') or \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_posts SET num_posts=posts WHERE id=forum_id') or \error('Could not update post counts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_topics SELECT forum_id, COUNT(*) AS topics FROM '.$db->prefix.'topics GROUP BY forum_id') or \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_topics SET num_topics=topics WHERE id=forum_id') or \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_posts SELECT topic_id, COUNT(*)-1 AS replies FROM '.$db->prefix.'posts GROUP BY topic_id') or \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_posts SET num_replies=replies WHERE id=topic_id') or \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_last SELECT p.posted AS n_last_post, p.id AS n_last_post_id, p.poster AS n_last_poster, t.forum_id FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY p.id ORDER BY p.posted DESC') or \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_lastb SELECT * FROM '.$db->prefix.'forum_last WHERE forum_id > 0 GROUP BY forum_id') or \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=forum_id') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_last SELECT posted AS n_last_post, id AS n_last_post_id, poster AS n_last_poster, topic_id FROM '.$db->prefix.'posts ORDER BY posted DESC') or \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_lastb SELECT * FROM '.$db->prefix.'topic_last WHERE topic_id > 0 GROUP BY topic_id') or \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=topic_id') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topic SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id WHERE p.id IS NULL GROUP BY t.id') or \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topic WHERE o_id=id') or \error('Could not delete topics', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_posts SELECT p.id AS o_id FROM '.$db->prefix.'posts p LEFT JOIN '.$db->prefix.'topics t ON p.topic_id = t.id WHERE t.id IS NULL GROUP BY p.id') or \error('Creating orphaned posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'posts FROM '.$db->prefix.'posts, '.$db->prefix.'orph_posts WHERE o_id=id') or \error('Could not delete posts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topics SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forums AS f ON t.forum_id = f.id WHERE f.id IS NULL GROUP BY t.id ') or \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topics WHERE o_id=id') or \error('Could not delete topics', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'posts WHERE poster_ip IN('.$ip.')') || \error('Could not delete posts', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'users WHERE registration_ip IN('.$ip.')') || \error('Could not delete users', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_posts SELECT t.forum_id, COUNT(*) AS posts FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY t.forum_id') || \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_posts SET num_posts=posts WHERE id=forum_id') || \error('Could not update post counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_topics SELECT forum_id, COUNT(*) AS topics FROM '.$db->prefix.'topics GROUP BY forum_id') || \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_topics SET num_topics=topics WHERE id=forum_id') || \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_posts SELECT topic_id, COUNT(*)-1 AS replies FROM '.$db->prefix.'posts GROUP BY topic_id') || \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_posts SET num_replies=replies WHERE id=topic_id') || \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_last SELECT p.posted AS n_last_post, p.id AS n_last_post_id, p.poster AS n_last_poster, t.forum_id FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY p.id ORDER BY p.posted DESC') || \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_lastb SELECT * FROM '.$db->prefix.'forum_last WHERE forum_id > 0 GROUP BY forum_id') || \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=forum_id') || \error('Could not update last post', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_last SELECT posted AS n_last_post, id AS n_last_post_id, poster AS n_last_poster, topic_id FROM '.$db->prefix.'posts ORDER BY posted DESC') || \error('Creating last posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_lastb SELECT * FROM '.$db->prefix.'topic_last WHERE topic_id > 0 GROUP BY topic_id') || \error('Creating last posts tableb failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_lastb SET last_post_id=n_last_post_id, last_post=n_last_post, last_poster=n_last_poster WHERE id=topic_id') || \error('Could not update last post', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topic SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id WHERE p.id IS NULL GROUP BY t.id') || \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topic WHERE o_id=id') || \error('Could not delete topics', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_posts SELECT p.id AS o_id FROM '.$db->prefix.'posts p LEFT JOIN '.$db->prefix.'topics t ON p.topic_id = t.id WHERE t.id IS NULL GROUP BY p.id') || \error('Creating orphaned posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'posts FROM '.$db->prefix.'posts, '.$db->prefix.'orph_posts WHERE o_id=id') || \error('Could not delete posts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topics SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forums AS f ON t.forum_id = f.id WHERE f.id IS NULL GROUP BY t.id ') || \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topics WHERE o_id=id') || \error('Could not delete topics', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Форумы очищены');
 }
 
 if (isset($_POST['forum_post_sync'])) {
     // synchronise forum posts
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_posts SELECT t.forum_id, COUNT(*) AS posts FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY t.forum_id') or \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_posts SET num_posts=posts WHERE id=forum_id') or \error('Could not update post counts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_topics SELECT forum_id, COUNT(*) AS topics FROM '.$db->prefix.'topics GROUP BY forum_id') or \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_topics SET num_topics=topics WHERE id=forum_id') or \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_posts SELECT t.forum_id, COUNT(*) AS posts FROM '.$db->prefix.'posts AS p LEFT JOIN '.$db->prefix.'topics AS t ON p.topic_id=t.id GROUP BY t.forum_id') || \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_posts SET num_posts=posts WHERE id=forum_id') || \error('Could not update post counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'forum_topics SELECT forum_id, COUNT(*) AS topics FROM '.$db->prefix.'topics GROUP BY forum_id') || \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'forums, '.$db->prefix.'forum_topics SET num_topics=topics WHERE id=forum_id') || \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Форумы синхронизированы');
 } elseif (isset($_POST['topic_post_sync'])) {
     // synchronise topic posts
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_posts SELECT topic_id, COUNT(*)-1 AS replies FROM '.$db->prefix.'posts GROUP BY topic_id') or \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_posts SET num_replies=replies WHERE id=topic_id') or \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'topic_posts SELECT topic_id, COUNT(*)-1 AS replies FROM '.$db->prefix.'posts GROUP BY topic_id') || \error('Creating topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'topics, '.$db->prefix.'topic_posts SET num_replies=replies WHERE id=topic_id') || \error('Could not update topic counts', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Темы синхронизированы');
 } elseif (isset($_POST['user_post_sync'])) {
     // synchronise user posts
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'user_posts SELECT poster_id, COUNT(*) AS posts FROM '.$db->prefix.'posts GROUP BY poster_id') or \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('UPDATE '.$db->prefix.'users, '.$db->prefix.'user_posts SET num_posts=posts WHERE id=poster_id') or \error('Could not update post counts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'user_posts SELECT poster_id, COUNT(*) AS posts FROM '.$db->prefix.'posts GROUP BY poster_id') || \error('Creating posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users, '.$db->prefix.'user_posts SET num_posts=posts WHERE id=poster_id') || \error('Could not update post counts', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Количество сообщений пользователей синхронизированы');
 } elseif (isset($_POST['forum_last_post'])) {
     // synchronise forum last posts
@@ -63,7 +63,7 @@ SET f.last_post_id = p.id,
     f.last_poster = p.poster
 WHERE f.id = t.forum_id AND t.id = p.topic_id
 ORDER BY p.id DESC
-LIMIT 1000') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+LIMIT 1000') || \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения форума синхронизированы');
 } elseif (isset($_POST['topic_last_post'])) {
     // synchronise topic last posts
@@ -74,16 +74,16 @@ SET t.last_post_id = p.id,
     t.last_post = p.posted,
     t.last_poster = p.poster
 WHERE t.id = p.topic_id
-ORDER BY p.id DESC') or \error('Could not update last post', __FILE__, __LINE__, $db->error());
+ORDER BY p.id DESC') || \error('Could not update last post', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Последние сообщения тем синхронизированы');
 } elseif (isset($_POST['delete_orphans'])) {
     // Clear orphans
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topic SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id WHERE p.id IS NULL GROUP BY t.id') or \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topic WHERE o_id=id') or \error('Could not delete topics', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_posts SELECT p.id AS o_id FROM '.$db->prefix.'posts p LEFT JOIN '.$db->prefix.'topics t ON p.topic_id=t.id WHERE t.id IS NULL GROUP BY p.id') or \error('Creating orphaned posts table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'posts FROM '.$db->prefix.'posts, '.$db->prefix.'orph_posts WHERE o_id=id') or \error('Could not delete posts', __FILE__, __LINE__, $db->error());
-    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topics SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forums AS f ON t.forum_id=f.id WHERE f.id IS NULL GROUP BY t.id') or \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
-    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topics WHERE o_id=id') or \error('Could not delete topics', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topic SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'posts AS p ON p.topic_id = t.id WHERE p.id IS NULL GROUP BY t.id') || \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topic WHERE o_id=id') || \error('Could not delete topics', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_posts SELECT p.id AS o_id FROM '.$db->prefix.'posts p LEFT JOIN '.$db->prefix.'topics t ON p.topic_id=t.id WHERE t.id IS NULL GROUP BY p.id') || \error('Creating orphaned posts table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'posts FROM '.$db->prefix.'posts, '.$db->prefix.'orph_posts WHERE o_id=id') || \error('Could not delete posts', __FILE__, __LINE__, $db->error());
+    $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topics SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forums AS f ON t.forum_id=f.id WHERE f.id IS NULL GROUP BY t.id') || \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topics WHERE o_id=id') || \error('Could not delete topics', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Предки удалены');
 } else {
     // Display the admin navigation menu

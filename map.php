@@ -19,7 +19,7 @@ require_once PUN_ROOT.'header.php';
 $fid_list = $categories = $forums = [];
 
 // get available forum list
-$result = $db->query('SELECT f.id AS fid, f.forum_name FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY f.id') or \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT f.id AS fid, f.forum_name FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY f.id') || \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
 while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
     $forums[$cur_forum['fid']] = $cur_forum['forum_name'];
@@ -27,7 +27,7 @@ while ($cur_forum = $db->fetch_assoc($result)) {
 $fid_list = \implode(',', $fid_list);
 
 // get category list for cache
-$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories') or \error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories') || \error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
 while ($cur_category = $db->fetch_assoc($result)) {
     $categories[$cur_category['id']] = $cur_category['cat_name'];
 }
@@ -39,7 +39,7 @@ $result = $db->query('SELECT f.cat_id, t.forum_id, t.id, t.subject, t.last_post,
 '.$db->prefix.'categories AS c ON f.cat_id = c.id
 WHERE f.id in ('.$fid_list.')
 ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc')
-    or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+    || \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 $cur_category = $cur_forum = 0;
 

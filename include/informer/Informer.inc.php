@@ -106,7 +106,7 @@ class Informer
         $topicId = $args['topicId'];
         $hideSmiles = $args['hideSmiles'];
 
-        $topicId = \intval($topicId);
+        $topicId = (int) $topicId;
         if ($topicId <= 0) {
             throw new Exception($this->_lang['Bad request']);
         }
@@ -140,7 +140,7 @@ class Informer
                 '.$this->_pun_user['id'].',
                 \''.\get_remote_address().'\',
                 \''.$this->_db->escape($message).'\',
-                \''.\intval($hideSmiles).'\',
+                \''.(int) $hideSmiles.'\',
                 '.$_SERVER['REQUEST_TIME'].',
                 '.$topicId.'
             )

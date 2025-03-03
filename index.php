@@ -19,7 +19,7 @@ require_once PUN_ROOT.'header.php';
 // REAL MARK TOPIC AS READ MOD BEGIN
 // под вопросом!
 if (!$pun_user['is_guest']) {
-    $db->query('DELETE FROM `'.$db->prefix.'log_forums` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) or \error('Unable to delete marked as read forum info', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM `'.$db->prefix.'log_forums` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) || \error('Unable to delete marked as read forum info', __FILE__, __LINE__, $db->error());
 }
 // REAL MARK TOPIC AS READ MOD END
 
@@ -51,7 +51,7 @@ LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=
 
 WHERE fp.read_forum IS NULL OR fp.read_forum=1
 
-ORDER BY c.disp_position, c.id, f.disp_position') or \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+ORDER BY c.disp_position, c.id, f.disp_position') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
 // REAL MARK TOPIC AS READ MOD END
 
 $cur_category = $cat_count = 0;
@@ -132,13 +132,13 @@ if ($cur_category > 0) {
 }
 
 // Collect some statistics from the database
-$result = $db->query('SELECT COUNT(1) - 1 FROM '.$db->prefix.'users') or \error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(1) - 1 FROM '.$db->prefix.'users') || \error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
 $stats['total_users'] = $db->result($result);
 
-$result = $db->query('SELECT id, username FROM '.$db->prefix.'users ORDER BY registered DESC LIMIT 1') or \error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, username FROM '.$db->prefix.'users ORDER BY registered DESC LIMIT 1') || \error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
 $stats['last_user'] = $db->fetch_assoc($result);
 
-$result = $db->query('SELECT SUM(num_topics), SUM(num_posts) FROM '.$db->prefix.'forums') or \error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT SUM(num_topics), SUM(num_posts) FROM '.$db->prefix.'forums') || \error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
 [$stats['total_topics'], $stats['total_posts']] = $db->fetch_row($result);
 
 echo '<div id="brdstats" class="block"><h2><span>'.$lang_index['Board info'].'</span></h2><div class="box"><div class="inbox"><dl class="conr"><dt><strong>'.$lang_index['Board stats'].'</strong></dt><dd>'.$lang_index['No of users'].': <strong>'.$stats['total_users'].'</strong></dd><dd>'.$lang_index['No of topics'].': <strong>'.$stats['total_topics'].'</strong></dd><dd>'.$lang_index['No of posts'].': <strong>'.$stats['total_posts'].'</strong></dd></dl><dl class="conl"><dt><strong>'.$lang_index['User info'].'</strong></dt><dd>'.$lang_index['Newest user'].': <a href="profile.php?id='.$stats['last_user']['id'].'">'.\pun_htmlspecialchars($stats['last_user']['username']).'</a></dd>';
@@ -147,7 +147,7 @@ if (1 == $pun_config['o_users_online']) {
     // Fetch users online info and generate strings for output
     $num_guests = 0;
     $users = [];
-    $result = $db->query('SELECT user_id, ident FROM '.$db->prefix.'online WHERE idle=0 ORDER BY ident') or \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT user_id, ident FROM '.$db->prefix.'online WHERE idle=0 ORDER BY ident') || \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {

@@ -20,13 +20,13 @@ if ($pun_user['g_id'] > PUN_MOD) {
 if (isset($_POST['zap_id'])) {
     // confirm_referrer('admin_reports.php');
 
-    $zap_id = \intval(\key($_POST['zap_id']));
+    $zap_id = (int) \key($_POST['zap_id']);
 
-    $result = $db->query('SELECT zapped FROM '.$db->prefix.'reports WHERE id='.$zap_id) or \error('Unable to fetch report info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT zapped FROM '.$db->prefix.'reports WHERE id='.$zap_id) || \error('Unable to fetch report info', __FILE__, __LINE__, $db->error());
     $zapped = $db->result($result);
 
     if (!$zapped) {
-        $db->query('UPDATE '.$db->prefix.'reports SET zapped='.\time().', zapped_by='.$pun_user['id'].' WHERE id='.$zap_id) or \error('Unable to zap report', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE '.$db->prefix.'reports SET zapped='.\time().', zapped_by='.$pun_user['id'].' WHERE id='.$zap_id) || \error('Unable to zap report', __FILE__, __LINE__, $db->error());
     }
 
     \redirect('admin_reports.php', $lng_anmin['Treated'].' '.$lng_anmin['Redirect']);
@@ -51,7 +51,7 @@ $result = $db->query('
     LEFT JOIN '.$db->prefix.'users AS u ON r.reported_by=u.id
     WHERE r.zapped IS NULL
     ORDER BY created DESC
-') or \error('Unable to fetch report list', __FILE__, __LINE__, $db->error());
+') || \error('Unable to fetch report list', __FILE__, __LINE__, $db->error());
 
 if ($db->num_rows($result)) {
     while ($cur_report = $db->fetch_assoc($result)) {
@@ -101,7 +101,7 @@ $result = $db->query('
     WHERE r.zapped IS NOT NULL
     ORDER BY zapped DESC
     LIMIT 10
-') or \error('Unable to fetch report list', __FILE__, __LINE__, $db->error());
+') || \error('Unable to fetch report list', __FILE__, __LINE__, $db->error());
 
 if ($db->num_rows($result)) {
     while ($cur_report = $db->fetch_assoc($result)) {

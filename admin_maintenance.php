@@ -19,8 +19,8 @@ if ($pun_user['g_id'] > PUN_ADMIN) {
 }
 
 if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
-    $per_page = \intval($_GET['i_per_page']);
-    $start_at = \intval($_GET['i_start_at']);
+    $per_page = (int) $_GET['i_per_page'];
+    $start_at = (int) $_GET['i_start_at'];
     if ($per_page < 1 || $start_at < 1) {
         \message($lang_common['Bad request']);
     }
@@ -32,11 +32,11 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
         // This is the only potentially "dangerous" thing we can do here, so we check the referer
         // confirm_referrer('admin_maintenance.php');
 
-        $db->query('TRUNCATE TABLE '.$db->prefix.'search_matches') or \error('Unable to empty search index match table', __FILE__, __LINE__, $db->error());
-        $db->query('TRUNCATE TABLE '.$db->prefix.'search_words') or \error('Unable to empty search index words table', __FILE__, __LINE__, $db->error());
+        $db->query('TRUNCATE TABLE '.$db->prefix.'search_matches') || \error('Unable to empty search index match table', __FILE__, __LINE__, $db->error());
+        $db->query('TRUNCATE TABLE '.$db->prefix.'search_words') || \error('Unable to empty search index words table', __FILE__, __LINE__, $db->error());
 
         // Reset the sequence for the search words (not needed for SQLite)
-        $result = $db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') or \error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
+        $result = $db->query('ALTER TABLE '.$db->prefix.'search_words auto_increment=1') || \error('Unable to update table auto_increment', __FILE__, __LINE__, $db->error());
     }
 
     $end_at = $start_at + $per_page;
@@ -55,12 +55,12 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     include PUN_ROOT.'include/search_idx.php';
 
     // Fetch posts to process
-    $result = $db->query('SELECT DISTINCT t.id, p.id, p.message FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id WHERE t.id >= '.$start_at.' AND t.id < '.$end_at.' ORDER BY t.id') or \error('Unable to fetch topic/post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT DISTINCT t.id, p.id, p.message FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'posts AS p ON t.id=p.topic_id WHERE t.id >= '.$start_at.' AND t.id < '.$end_at.' ORDER BY t.id') || \error('Unable to fetch topic/post info', __FILE__, __LINE__, $db->error());
     $cur_topic = 0;
     while ($cur_post = $db->fetch_row($result)) {
         if ($cur_post[0] != $cur_topic) {
             // Fetch subject and ID of first post in topic
-            $result2 = $db->query('SELECT p.id, t.subject, MIN(p.posted) AS first FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id WHERE t.id='.$cur_post[0].' GROUP BY p.id, t.subject ORDER BY first LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+            $result2 = $db->query('SELECT p.id, t.subject, MIN(p.posted) AS first FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id WHERE t.id='.$cur_post[0].' GROUP BY p.id, t.subject ORDER BY first LIMIT 1') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
             [$first_post, $subject] = $db->fetch_row($result2);
 
             $cur_topic = $cur_post[0];
@@ -77,7 +77,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
     }
 
     // Check if there is more work to do
-    $result = $db->query('SELECT id FROM '.$db->prefix.'topics WHERE id > '.$cur_topic.' ORDER BY id ASC LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id FROM '.$db->prefix.'topics WHERE id > '.$cur_topic.' ORDER BY id ASC LIMIT 1') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 
     $query_str = ($db->num_rows($result)) ? '?i_per_page='.$per_page.'&i_start_at='.$db->result($result) : '';
 
@@ -87,7 +87,7 @@ if (isset($_GET['i_per_page'], $_GET['i_start_at'])) {
 }
 
 // Get the first post ID from the db
-$result = $db->query('SELECT id FROM '.$db->prefix.'topics ORDER BY id LIMIT 1') or \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id FROM '.$db->prefix.'topics ORDER BY id LIMIT 1') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
 if ($db->num_rows($result)) {
     $first_id = $db->result($result);
 } else {

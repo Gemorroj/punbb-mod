@@ -19,9 +19,9 @@ if (!$pun_user['g_read_board']) {
     \message($lang_common['No view']);
 }
 
-$tid = isset($_GET['tid']) ? \intval($_GET['tid']) : 0;
-$fid = isset($_GET['fid']) ? \intval($_GET['fid']) : 0;
-$rid = isset($_GET['rid']) ? \intval($_GET['rid']) : 0;
+$tid = isset($_GET['tid']) ? (int) ($_GET['tid']) : 0;
+$fid = isset($_GET['fid']) ? (int) ($_GET['fid']) : 0;
+$rid = isset($_GET['rid']) ? (int) ($_GET['rid']) : 0;
 
 if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
     \message($lang_common['Bad request']);
@@ -30,10 +30,10 @@ if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
 // Fetch some info about the topic and/or the forum
 if ($tid) {
     // MERGE POSTS MOD BEGIN
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 // MERGE POSTS END
 } else {
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 }
 
 if (!$db->num_rows($result)) {
@@ -65,15 +65,15 @@ if ($pun_user['is_guest']) {
       INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id
       WHERE t.forum_id='.$cur_posting['id'].'
       AND a.poster_id='.$pun_user['id']
-    ) or \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    ) || \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
-    $forum_file_limit = ($cur_posting['file_limit']) ? \intval($cur_posting['file_limit']) : \intval($pun_user['g_file_limit']);
+    $forum_file_limit = ($cur_posting['file_limit']) ? (int) ($cur_posting['file_limit']) : (int) ($pun_user['g_file_limit']);
 
     $global_file_limit = $pun_user['g_file_limit'] + $pun_user['file_bonus'];
 
-    $topic_file_limit = \intval($pun_config['file_max_post_files']);
+    $topic_file_limit = (int) $pun_config['file_max_post_files'];
 
     if (PUN_ADMIN == $pun_user['g_id']) {
         $file_limit = 100;
@@ -173,7 +173,7 @@ if (isset($_POST['form_sent'])) {
             $errors[] = $lang_prof_reg['Username IP'];
         }
 
-        if ((false !== \strpos($username, '[') || false !== \strpos($username, ']')) && false !== \strpos($username, "'") && false !== \strpos($username, '"')) {
+        if ((\str_contains($username, '[') || \str_contains($username, ']')) && \str_contains($username, "'") && \str_contains($username, '"')) {
             $errors[] = $lang_prof_reg['Username reserved chars'];
         }
         if (\preg_match('#\[b\]|\[/b\]|\[u\]|\[/u\]|\[i\]|\[/i\]|\[color|\[/color\]|\[quote\]|\[quote=|\[/quote\]|\[hide\]|\[hide=|\[/hide\]|\[code\]|\[/code\]|\[img\]|\[/img\]|\[url|\[/url\]|\[email|\[/email\]#i', $username)) {
@@ -187,7 +187,7 @@ if (isset($_POST['form_sent'])) {
         }
 
         // Check that the username (or a too similar username) is not already registered
-        $result = $db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE (`username`=\''.$db->escape($username).'\' OR `username`=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND `id`>1') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE (`username`=\''.$db->escape($username).'\' OR `username`=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND `id`>1') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
             $errors[] = $lang_registration['Username dupe 1'].' '.\pun_htmlspecialchars($busy).'. '.$lang_registration['Username dupe 2'];
@@ -218,7 +218,7 @@ if (isset($_POST['form_sent'])) {
     // MOD CONVENIENT FORUM URL END
 
     // Validate BBCode syntax
-    if (1 == $pun_config['p_message_bbcode'] && false !== \strpos($message, '[') && false !== \strpos($message, ']')) {
+    if (1 == $pun_config['p_message_bbcode'] && \str_contains($message, '[') && \str_contains($message, ']')) {
         include_once PUN_ROOT.'include/parser.php';
         $message = \preparse_bbcode($message, $errors);
     }
@@ -261,34 +261,34 @@ if (isset($_POST['form_sent'])) {
 
                 if ($merged) {
                     $message = $cur_posting['message']."\n".$message;
-                    $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$cur_posting['post_id']) or \error('Unable to merge post', __FILE__, __LINE__, $db->error());
+                    $db->query('UPDATE '.$db->prefix.'posts SET message=\''.$db->escape($message).'\' WHERE id='.$cur_posting['post_id']) || \error('Unable to merge post', __FILE__, __LINE__, $db->error());
                     $new_pid = $cur_posting['post_id'];
                 } else {
                     // Insert the new post
-                    $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
+                    $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') || \error('Unable to create post', __FILE__, __LINE__, $db->error());
                     $new_pid = $db->insert_id();
                 }
                 // MERGE POSTS END
                 // To subscribe or not to subscribe, that ...
                 if (1 == $pun_config['o_subscriptions'] && $subscribe) {
-                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
                     if (!$db->num_rows($result)) {
-                        $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$tid.')') or \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
+                        $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$tid.')') || \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
                     }
                 }
             } else {
                 // It's a guest. Insert the new post
                 $email_sql = (1 == $pun_config['p_force_guest_email'] || $email) ? '\''.$db->escape($email).'\'' : 'NULL';
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$tid.')') || \error('Unable to create post', __FILE__, __LINE__, $db->error());
                 $new_pid = $db->insert_id();
             }
 
             // Count number of replies in the topic
-            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid) or \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid) || \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
             $num_replies = $db->result($result, 0) - 1;
 
             // Update topic
-            $db->query('UPDATE '.$db->prefix.'topics SET num_replies='.$num_replies.', last_post='.$_SERVER['REQUEST_TIME'].', last_post_id='.$new_pid.', last_poster=\''.$db->escape($username).'\' WHERE id='.$tid) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'topics SET num_replies='.$num_replies.', last_post='.$_SERVER['REQUEST_TIME'].', last_post_id='.$new_pid.', last_poster=\''.$db->escape($username).'\' WHERE id='.$tid) || \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
             \update_search_index('post', $new_pid, $message);
 
@@ -300,11 +300,11 @@ if (isset($_POST['form_sent'])) {
             if (1 == $pun_config['o_subscriptions'] && !$merged) {
                 // MERGE POSTS END
                 // Get the post time for the previous post in this topic
-                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1') or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
                 $previous_post_time = $db->result($result);
 
                 // Get any subscribed users that should be notified (banned users are excluded)
-                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.\intval($pun_user['id'])) or \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.(int) $pun_user['id']) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
@@ -366,7 +366,7 @@ if (isset($_POST['form_sent'])) {
         } // If it's a new topic
         elseif ($fid) {
             // Create the topic
-            $db->query('INSERT INTO '.$db->prefix.'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\''.$db->escape($username).'\', \''.$db->escape($subject).'\', '.$_SERVER['REQUEST_TIME'].', '.$_SERVER['REQUEST_TIME'].', \''.$db->escape($username).'\', '.$fid.')') or \error('Unable to create topic', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'topics (poster, subject, posted, last_post, last_poster, forum_id) VALUES(\''.$db->escape($username).'\', \''.$db->escape($subject).'\', '.$_SERVER['REQUEST_TIME'].', '.$_SERVER['REQUEST_TIME'].', \''.$db->escape($username).'\', '.$fid.')') || \error('Unable to create topic', __FILE__, __LINE__, $db->error());
             $new_tid = $db->insert_id();
 
             // hcs AJAX POLL MOD BEGIN
@@ -375,7 +375,7 @@ if (isset($_POST['form_sent'])) {
                     include_once PUN_ROOT.'include/poll/poll.inc.php';
                     $poll_id = $Poll->create($pun_user['id']);
                     if ($poll_id) {
-                        $db->query('UPDATE '.$db->prefix.'topics SET has_poll='.$poll_id.' WHERE id='.$new_tid) or \error('Unable to update topic for poll', __FILE__, __LINE__, $db->error());
+                        $db->query('UPDATE '.$db->prefix.'topics SET has_poll='.$poll_id.' WHERE id='.$new_tid) || \error('Unable to update topic for poll', __FILE__, __LINE__, $db->error());
                     }
                 }
             }
@@ -384,20 +384,20 @@ if (isset($_POST['form_sent'])) {
             if (!$pun_user['is_guest']) {
                 // To subscribe or not to subscribe, that ...
                 if (1 == $pun_config['o_subscriptions'] && 1 == $_POST['subscribe']) {
-                    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$new_tid.')') or \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
+                    $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$new_tid.')') || \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
                 }
 
                 // Create the post ("topic post")
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_id, poster_ip, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', '.$pun_user['id'].', \''.\get_remote_address().'\', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') || \error('Unable to create post', __FILE__, __LINE__, $db->error());
             } else {
                 // Create the post ("topic post")
                 $email_sql = (1 == $pun_config['p_force_guest_email'] || $email) ? '\''.$db->escape($email).'\'' : 'NULL';
-                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') or \error('Unable to create post', __FILE__, __LINE__, $db->error());
+                $db->query('INSERT INTO '.$db->prefix.'posts (poster, poster_ip, poster_email, message, hide_smilies, posted, topic_id) VALUES(\''.$db->escape($username).'\', \''.\get_remote_address().'\', '.$email_sql.', \''.$db->escape($message).'\', \''.$hide_smilies.'\', '.$_SERVER['REQUEST_TIME'].', '.$new_tid.')') || \error('Unable to create post', __FILE__, __LINE__, $db->error());
             }
             $new_pid = $db->insert_id();
 
             // Update the topic with last_post_id
-            $db->query('UPDATE '.$db->prefix.'topics SET last_post_id='.$new_pid.' WHERE id='.$new_tid) or \error('Unable to update topic', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'topics SET last_post_id='.$new_pid.' WHERE id='.$new_tid) || \error('Unable to update topic', __FILE__, __LINE__, $db->error());
 
             \update_search_index('post', $new_pid, $message, $subject);
 
@@ -418,9 +418,9 @@ if (isset($_POST['form_sent'])) {
             }
 
             if ($merged) {
-                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or \error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) || \error('Unable to update user', __FILE__, __LINE__, $db->error());
             } else {
-                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'num_posts=num_posts+1, last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) or \error('Unable to update user', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'users SET '.$add_files.'num_posts=num_posts+1, last_post='.$_SERVER['REQUEST_TIME'].' WHERE id='.$pun_user['id']) || \error('Unable to update user', __FILE__, __LINE__, $db->error());
             }
         }
         // MERGE POSTS END
@@ -436,12 +436,12 @@ if ($tid) {
 
     // If a quote-id was specified in the url.
     if (isset($_GET['qid'])) {
-        $qid = \intval($_GET['qid']);
+        $qid = (int) $_GET['qid'];
         if ($qid < 1) {
             \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) or \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) || \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -454,8 +454,8 @@ if ($tid) {
 
         if (1 == $pun_config['p_message_bbcode']) {
             // If username contains a square bracket, we add "" or '' around it (so we know when it starts and ends)
-            if (false !== \strpos($q_poster, '[') || false !== \strpos($q_poster, ']')) {
-                if (false !== \strpos($q_poster, "'")) {
+            if (\str_contains($q_poster, '[') || \str_contains($q_poster, ']')) {
+                if (\str_contains($q_poster, "'")) {
                     $q_poster = '"'.$q_poster.'"';
                 } else {
                     $q_poster = "'".$q_poster."'";
@@ -477,12 +477,12 @@ if ($tid) {
             $quote = '> '.$q_poster.' '.$lang_common['wrote'].':'."\n".'> '.$q_message."\n";
         }
     } elseif (isset($_GET['rid'])) {
-        $rid = \intval($_GET['rid']);
+        $rid = (int) $_GET['rid'];
         if ($rid < 1) {
             \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) or \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) || \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -641,7 +641,7 @@ echo '</div><p><input type="submit" name="submit" value="'.$lang_common['Submit'
 if ($tid && $pun_config['o_topic_review']) {
     include_once PUN_ROOT.'include/parser.php';
 
-    $result = $db->query('SELECT id, poster, message, hide_smilies, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT '.$pun_config['o_topic_review']) or \error('Unable to fetch topic review', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id, poster, message, hide_smilies, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT '.$pun_config['o_topic_review']) || \error('Unable to fetch topic review', __FILE__, __LINE__, $db->error());
 
     echo '<div id="postreview" class="blockpost"><h2><span>'.$lang_post['Topic review'].'</span></h2>';
 

@@ -33,7 +33,7 @@ class JsHelper
     /**
      * @param string $path
      */
-    public function add($path)
+    public function add($path): void
     {
         if (!\in_array($path, $this->js, true)) {
             $this->js[] = $path;
@@ -43,7 +43,7 @@ class JsHelper
     /**
      * @param string $path
      */
-    public function addFirst($path)
+    public function addFirst($path): void
     {
         if (!\in_array($path, $this->js, true)) {
             \array_unshift($this->js, $path);
@@ -53,7 +53,7 @@ class JsHelper
     /**
      * @param string $script
      */
-    public function addInternal($script)
+    public function addInternal($script): void
     {
         if (!\in_array($script, $this->js, true)) {
             $this->jsInternal[] = $script;

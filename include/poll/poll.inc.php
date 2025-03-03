@@ -45,7 +45,7 @@ class _Poll
                 $poll['pexpire'] = 365;
             }
 
-            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.\time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(\serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') or \error('Unable to create poll.', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'polls (description, time, multiselect, data, expire, owner) VALUES(\''.$db->escape($poll['pdescription']).'\', '.\time().', \''.$db->escape($poll['pmultiselect']).'\', \''.$db->escape(\serialize($this->convertQustions($poll['pquestions']))).'\', \''.$db->escape($poll['pexpire']).'\', '.$userid.')') || \error('Unable to create poll.', __FILE__, __LINE__, $db->error());
 
             return $db->insert_id();
         }
@@ -53,11 +53,11 @@ class _Poll
         return 0;
     }
 
-    public function deleteTopic($topics)
+    public function deleteTopic($topics): void
     {
         global $db;
 
-        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')') or \error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')') || \error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
         $polls_ids = '';
         while ($row = $db->fetch_row($result)) {
             if ($row[0]) {
@@ -65,8 +65,8 @@ class _Poll
             }
         }
         if ($polls_ids) {
-            $db->query('DELETE FROM '.$db->prefix.'polls WHERE id IN('.$polls_ids.')') or \error('Unable to delete polls', __FILE__, __LINE__, $db->error());
-            $db->query('DELETE FROM '.$db->prefix.'log_polls WHERE pid IN('.$polls_ids.')') or \error('Unable to delete info for log_polls', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'polls WHERE id IN('.$polls_ids.')') || \error('Unable to delete polls', __FILE__, __LINE__, $db->error());
+            $db->query('DELETE FROM '.$db->prefix.'log_polls WHERE pid IN('.$polls_ids.')') || \error('Unable to delete info for log_polls', __FILE__, __LINE__, $db->error());
         }
     }
 
@@ -98,9 +98,9 @@ class _Poll
                 ++$poll['data'][$value][1];
             }
 
-            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(\serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) or \error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'polls SET data = \''.$db->escape(\serialize($poll['data'])).'\', vcount=vcount+1 WHERE id='.$pid) || \error('Unable to update polls. ', __FILE__, __LINE__, $db->error());
 
-            $db->query('INSERT INTO '.$db->prefix.'log_polls (pid, uid) VALUES('.$pid.','.$pun_user['id'].')') or \error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
+            $db->query('INSERT INTO '.$db->prefix.'log_polls (pid, uid) VALUES('.$pid.','.$pun_user['id'].')') || \error('Unable to update voters. ', __FILE__, __LINE__, $db->error());
             $this->setPolled($pid, $pun_user['id']);
 
             return 0;
@@ -162,12 +162,12 @@ class _Poll
 
             return false;
         }
-        if (\strlen($description) < 1) {
+        if ('' === $description) {
             $this->errorDescr = 'Invalid description value';
 
             return false;
         }
-        if (\strlen($questions) < 1) {
+        if ('' === $questions) {
             $this->errorDescr = 'Invalid answer value';
 
             return false;
@@ -359,7 +359,7 @@ class _Poll
         global $db;
 
         if ($this->cachePID != $pid || $this->cacheUID != $uid) {
-            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid) or \error('Unable to check polled user', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid) || \error('Unable to check polled user', __FILE__, __LINE__, $db->error());
             if (!$db->num_rows($result)) {
                 $this->polled = false;
             } else {
@@ -372,7 +372,7 @@ class _Poll
         return $this->polled;
     }
 
-    public function setPolled($pid, $uid)
+    public function setPolled($pid, $uid): void
     {
         $this->polled = true;
         $this->cachePID = $pid;
@@ -383,7 +383,7 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId) or \error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId) || \error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
 
         if (!$db->num_rows($result)) {
             $poll = $db->fetch_assoc($result);

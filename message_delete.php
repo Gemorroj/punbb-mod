@@ -8,7 +8,7 @@ if ($pun_user['is_guest'] || !$pun_user['g_pm']) {
     \message($lang_common['No permission']);
 }
 
-$id = \intval($_GET['id']);
+$id = (int) $_GET['id'];
 if (!$id) {
     \message($lang_common['Bad request']);
 }
@@ -19,7 +19,7 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/delete.php';
 
 // Fetch some info from the message we are deleting
-$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
 if (!$db->num_rows($result)) {
     \message($lang_common['Bad request']);
 }
@@ -35,7 +35,7 @@ if (isset($_POST['delete'])) {
     // confirm_referrer('message_delete.php');
 
     // Delete message
-    $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id) or \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
 
     // Redirect
     \redirect('message_list.php?box='.$_POST['box'].'&p='.$_POST['p'], $lang_pms['Del redirect']);
@@ -46,14 +46,14 @@ if (isset($_POST['delete'])) {
 
     include_once PUN_ROOT.'include/parser.php';
 
-    $cur_post['message'] = \parse_message($cur_post['message'], \intval(!$cur_post['smileys']));
+    $cur_post['message'] = \parse_message($cur_post['message'], (int) (!$cur_post['smileys']));
 
     echo '<div class="blockform">
 <h2><span>'.$lang_pms['Delete message'].'</span></h2>
 <div class="box">
 <form method="post" action="message_delete.php?id='.$id.'">
-<input type="hidden" name="box" value="'.\intval($_GET['box']).'">
-<input type="hidden" name="p" value="'.\intval($_GET['p']).'">
+<input type="hidden" name="box" value="'.(int) $_GET['box'].'">
+<input type="hidden" name="p" value="'.(int) $_GET['p'].'">
 <div class="inform">
 <fieldset>
 <div class="infldset">

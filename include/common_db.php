@@ -6,7 +6,7 @@ if (!\defined('PUN')) {
 }
 
 // Коннект с MySQL
-class DBLayer
+class common_db
 {
     /**
      * @var string|null
@@ -157,7 +157,7 @@ class DBLayer
     /**
      * @param mysqli_result $query_id
      */
-    public function free_result($query_id)
+    public function free_result($query_id): void
     {
         if ($query_id) {
             $query_id->free_result();

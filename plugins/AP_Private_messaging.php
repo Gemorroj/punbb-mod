@@ -23,16 +23,16 @@ if (isset($_POST['form_sent'])) {
                     $value = 'NULL';
                 }
 
-                $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'o_'.$key.'\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+                $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'o_'.$key.'\'') || \error('Unable to update board config', __FILE__, __LINE__, $db->error());
             }
         }
     }
 
     foreach ($allow as $id => $set) {
-        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm='.$set.' WHERE g_id='.$id) or \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm='.$set.' WHERE g_id='.$id) || \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     foreach ($limit as $id => $set) {
-        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm_limit='.\intval($set).' WHERE g_id='.$id) or \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
+        $db->query('UPDATE `'.$db->prefix.'groups` SET g_pm_limit='.(int) $set.' WHERE g_id='.$id) || \error('Unable to change permissions.', __FILE__, __LINE__, $db->error());
     }
     // Regenerate the config cache
     require_once PUN_ROOT.'include/cache.php';
@@ -98,7 +98,7 @@ if (isset($_POST['form_sent'])) {
                         <table class="aligntop" cellspacing="0">
                             <?php
 // g_id>'.PUN_ADMIN.' AND
-                                                                                                   $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') or \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                                                                                                   $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
     while ($cur_group = $db->fetch_assoc($result)) {
         ?>
                                 <tr>

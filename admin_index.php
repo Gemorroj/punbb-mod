@@ -42,7 +42,7 @@ if ('check_upgrade' === $action) {
     }
 } elseif ('phpinfo' === $action && PUN_ADMIN == $pun_user['g_id']) {
     // Is phpinfo() a disabled function?
-    if (false !== \strpos(\strtolower((string) @\ini_get('disable_functions')), 'phpinfo')) {
+    if (\str_contains(\strtolower((string) @\ini_get('disable_functions')), 'phpinfo')) {
         \message($lang_admin['phpinfo']);
     }
 
@@ -83,18 +83,18 @@ if (@\file_exists('/proc/loadavg') && \is_readable('/proc/loadavg')) {
 }
 
 // Get number of current visitors
-$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') or \error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') || \error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
 $num_online = $db->result($result);
 
 // Get the database system version
-$result = $db->query('SELECT VERSION()') or \error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT VERSION()') || \error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
 $db_version = $db->result($result);
 
 // Collect some additional info about MySQL
 $db_version = 'MySQL '.$db_version;
 
 // Calculate total db size/row count
-$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') or \error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
+$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') || \error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
 
 $total_records = $total_size = 0;
 while ($status = $db->fetch_assoc($result)) {
@@ -144,7 +144,7 @@ $server_info = '';
 if (\function_exists('apache_get_version')) {
     $server_info = \apache_get_version();
 } else {
-    $server_info = \php_sapi_name();
+    $server_info = \PHP_SAPI;
 }
 $server_info = \htmlspecialchars($server_info);
 
@@ -185,7 +185,7 @@ PunBB Mod '.$pun_config['o_show_version'].'<br />
 <dd>
 OS: '.\PHP_OS.'<br />
 Server: '.$server_info.'<br />
-PHP: '.\phpversion().' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
+PHP: '.\PHP_VERSION.' - <a href="admin_index.php?action=phpinfo">PHPInfo</a><br />
 Accelerator: '.($php_accelerators ? \implode(', ', $php_accelerators) : 'N/A').'
 </dd>
 <dt>'.$lang_admin['index_bd'].'</dt>

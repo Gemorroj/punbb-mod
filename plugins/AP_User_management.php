@@ -30,7 +30,7 @@ if (isset($_POST['prune'])) {
     $prune = (1 == $_POST['prune_by']) ? 'registered' : 'last_visit';
 
     $user_time = $_SERVER['REQUEST_TIME'] - ($_POST['days'] * 86400);
-    $result = $db->query('DELETE FROM '.$db->prefix.'users WHERE (num_posts < '.\intval($_POST['posts']).') AND ('.$prune.' < '.\intval($user_time).') AND (id > 2) AND ('.$admod_delete.')'.$verified) or \error('Unable to delete users', __FILE__, __LINE__, $db->error());
+    $result = $db->query('DELETE FROM '.$db->prefix.'users WHERE (num_posts < '.(int) $_POST['posts'].') AND ('.$prune.' < '.(int) $user_time.') AND (id > 2) AND ('.$admod_delete.')'.$verified) || \error('Unable to delete users', __FILE__, __LINE__, $db->error());
     $users_pruned = $db->affected_rows();
     \message('Сокращение завершено. Удалены пользователи '.$users_pruned.'.');
 } elseif (isset($_POST['add_user'])) {
@@ -80,7 +80,7 @@ if (isset($_POST['prune'])) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\'') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\'') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
@@ -96,7 +96,7 @@ if (isset($_POST['prune'])) {
 
     // Check if someone else already has registered with that e-mail address
     $dupe_list = [];
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') or \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
     if ($db->num_rows($result)) {
         while ($cur_dupe = $db->fetch_assoc($result)) {
             $dupe_list[] = $cur_dupe['username'];
@@ -112,7 +112,7 @@ if (isset($_POST['prune'])) {
     $password_hash = \pun_hash($password1);
 
     // Add the user
-    $db->query('INSERT INTO '.$db->prefix.'users (username, group_id, password, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit) VALUES(\''.$db->escape($username).'\', '.$initial_group_id.', \''.$password_hash.'\', \''.$email1.'\', 1, '.$save_pass.', '.$timezone.' , \''.$language.'\', \''.$pun_config['o_default_style'].'\', '.$_SERVER['REQUEST_TIME'].', \''.\get_remote_address().'\', '.$_SERVER['REQUEST_TIME'].')') or \error('Unable to create user', __FILE__, __LINE__, $db->error());
+    $db->query('INSERT INTO '.$db->prefix.'users (username, group_id, password, email, email_setting, save_pass, timezone, language, style, registered, registration_ip, last_visit) VALUES(\''.$db->escape($username).'\', '.$initial_group_id.', \''.$password_hash.'\', \''.$email1.'\', 1, '.$save_pass.', '.$timezone.' , \''.$language.'\', \''.$pun_config['o_default_style'].'\', '.$_SERVER['REQUEST_TIME'].', \''.\get_remote_address().'\', '.$_SERVER['REQUEST_TIME'].')') || \error('Unable to create user', __FILE__, __LINE__, $db->error());
     $new_uid = $db->insert_id();
 
     // Should we alert people on the admin mailing list that a new user has registered?

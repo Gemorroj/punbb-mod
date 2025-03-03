@@ -11,7 +11,7 @@ if (!$pun_user['is_guest']) {
         .'FROM `'.$db->prefix.'log_topics` '
         .'WHERE `log_time` < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' '
         .'AND `user_id`='.$pun_user['id']
-    ) or \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+    ) || \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
 }
 // - REAL MARK TOPIC AS READ MOD
 
@@ -42,7 +42,7 @@ $result = $db->query(
 .'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
 .'AND `f`.`id`='.$id
 )
-or \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+|| \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
 
 if (!$db->num_rows($result)) {
     \wap_message($lang_common['Bad request']);
@@ -59,7 +59,7 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     .$cur_forum['forum_id'].', '
     .$_SERVER['REQUEST_TIME'].')'
     )
-    or \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+    || \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
 } else {
     $result = $db->query(
         'UPDATE `'.$db->prefix.'log_forums` '
@@ -67,7 +67,7 @@ if (!($pun_user['is_guest'] || $cur_forum['log_time'])) {
     .'WHERE `forum_id`='.$cur_forum['forum_id'].' '
     .'AND `user_id`='.$pun_user['id']
     )
-    or \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+    || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
 }
 // - REAL MARK TOPIC AS READ MOD
 
@@ -166,7 +166,7 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
 }
 // - REAL MARK TOPIC AS READ
 
-$result = $db->query($sql) or \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+$result = $db->query($sql) || \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
 
 // If there are topics in this forum.
 $topics = [];

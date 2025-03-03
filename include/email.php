@@ -119,7 +119,7 @@ function pun_mail($to, $subject, $message, $reply = '')
  * @param resource $socket
  * @param string   $expected_response
  */
-function server_parse($socket, $expected_response)
+function server_parse($socket, $expected_response): void
 {
     do {
         if (!($server_response = \fgets($socket, 256))) {

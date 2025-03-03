@@ -654,13 +654,13 @@ function do_smilies($text)
 }
 
 // hide
-function do_hide($text, $post = 0, $matches)
+function do_hide($text, $post, $matches)
 {
     global $pun_user, $lang_topic, $lang_common;
 
     include_once PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
-    $matches[3] = \intval($matches[3]);
+    $matches[3] = (int) $matches[3];
 
     /*
      * Если автор указал [hide=(\d+)][/hide] с параметром,
@@ -895,7 +895,7 @@ function parse_signature($text)
         $text = \do_bbcode($text);
 
         if ($pun_config['p_sig_img_tag']) {
-            $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', static function (array $matches) {
+            $text = \preg_replace_callback('#\[img\]((ht|f)tps?://)([^\s<"]*?)\[/img\]#', static function (array $matches): void {
                 \handle_img_tag($matches[1].$matches[3], true);
             }, $text);
         }

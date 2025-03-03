@@ -57,44 +57,44 @@ if (isset($_POST['save'])) {
         \message('Thumbnail path you entered is not a valid directory.', true);
     }
 
-    $form['max_width'] = \intval($form['max_width']);
+    $form['max_width'] = (int) $form['max_width'];
     if ($form['max_width'] < 1) {
         \message('Invalid maximum image width.', true);
     }
 
-    $form['max_height'] = \intval($form['max_height']);
+    $form['max_height'] = (int) $form['max_height'];
     if ($form['max_height'] < 1) {
         \message('Invalid maximum image height.', true);
     }
 
-    $form['max_size'] = \intval($form['max_size']);
+    $form['max_size'] = (int) $form['max_size'];
     if ($form['max_size'] < 1) {
         \message('Invalid maximum image size.', true);
     }
 
-    $form['thumb_width'] = \intval($form['thumb_width']);
+    $form['thumb_width'] = (int) $form['thumb_width'];
     if ($form['thumb_width'] < 1) {
         \message('Invalid thumbnail width.', true);
     }
 
-    $form['thumb_height'] = \intval($form['thumb_height']);
+    $form['thumb_height'] = (int) $form['thumb_height'];
     if ($form['thumb_height'] < 1) {
         \message('Invalid thumbnail height.', true);
     }
 
-    $form['preview_width'] = \intval($form['preview_width']);
+    $form['preview_width'] = (int) $form['preview_width'];
     if ($form['preview_width'] < 1) {
         \message('Invalid preview width.', true);
     }
 
-    $form['preview_height'] = \intval($form['preview_height']);
+    $form['preview_height'] = (int) $form['preview_height'];
     if ($form['preview_height'] < 1) {
         \message('Invalid preview height.', true);
     }
 
     $form['first_only'] = (isset($form['first_only']) && 1 == $form['first_only']) ? 1 : 0;
 
-    $form['max_post_files'] = \intval($form['max_post_files']);
+    $form['max_post_files'] = (int) $form['max_post_files'];
     if ($form['max_post_files'] < 1) {
         \message('Invalid maximum files per post.', true);
     }
@@ -110,7 +110,7 @@ if (isset($_POST['save'])) {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') or \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') || \error('Unable to update board config', __FILE__, __LINE__, $db->error());
         }
     }
 

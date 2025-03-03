@@ -26,15 +26,15 @@ function RoundSigDigs($number, $sigdigs)
 
 if (isset($_POST['lang'])) {
     // Do Post
-    $db->query('UPDATE '.$db->prefix.'users SET language=\''.$_POST['form']['language'].'\' WHERE id>1') or \error('Unable to set lang settings', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET language=\''.$_POST['form']['language'].'\' WHERE id>1') || \error('Unable to set lang settings', __FILE__, __LINE__, $db->error());
     \message('Языки установлены');
 } elseif (isset($_POST['style'])) {
     // Do Post
-    $db->query('UPDATE '.$db->prefix.'users SET style=\''.$_POST['form']['style'].'\' WHERE id>1') or \error('Unable to set style settings', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET style=\''.$_POST['form']['style'].'\' WHERE id>1') || \error('Unable to set style settings', __FILE__, __LINE__, $db->error());
     \message('WEB стили установлены');
 } elseif (isset($_POST['style_wap'])) {
     // Do Post
-    $db->query('UPDATE '.$db->prefix.'users SET style_wap=\''.$_POST['form']['style_wap'].'\' WHERE id>1') or \error('Unable to set style settings', __FILE__, __LINE__, $db->error());
+    $db->query('UPDATE '.$db->prefix.'users SET style_wap=\''.$_POST['form']['style_wap'].'\' WHERE id>1') || \error('Unable to set style settings', __FILE__, __LINE__, $db->error());
     \message('WAP стили установлены');
 } else {
     // If not, we show the form
@@ -62,7 +62,7 @@ if (isset($_POST['lang'])) {
 <th scope="row">Используются языки</th>
 <td>';
 
-    $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') or \error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') || \error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
     while ($cur_lang = $db->fetch_assoc($result)) {
         echo $cur_lang['number'].' - '.\RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.\str_replace('_', ' ', $cur_lang['language']).'</strong><br />';
@@ -109,7 +109,7 @@ if (isset($_POST['lang'])) {
 <tr>
 <th scope="row">Используемые WEB стили</th><td>';
 
-    $result = $db->query('SELECT style, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number') or \error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT style, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number') || \error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {
@@ -156,7 +156,7 @@ if (isset($_POST['lang'])) {
 <tr>
 <th scope="row">Используемые WAP стили</th><td>';
 
-    $result = $db->query('SELECT `style_wap`, COUNT(1) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`') or \error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `style_wap`, COUNT(1) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`') || \error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
     $number = $db->num_rows($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {

@@ -11,8 +11,8 @@ if (!\defined('PUN')) {
 // If the "Run Merge" button was clicked
 if (isset($_POST['run_merge'])) {
     // Get the variables
-    $forum1 = \intval($_POST['forum1']);
-    $forum2 = \intval($_POST['forum2']);
+    $forum1 = (int) $_POST['forum1'];
+    $forum2 = (int) $_POST['forum2'];
 
     // Make sure a forum was specified.
     if ('' == \trim($forum1)) {

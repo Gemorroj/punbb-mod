@@ -122,7 +122,7 @@ if ($pun_user['is_guest']) {
     $tpl_temp .= '<div id="brdwelcome" class="inbox"><ul class="conl"><li>'.$lang_common['Logged in as'].' <strong>'.\pun_htmlspecialchars($pun_user['username']).'</strong></li><li>'.$lang_common['Last visit'].': '.\format_time($pun_user['last_visit']).'</li>';
 
     if ($pun_user['g_id'] < PUN_GUEST) {
-        $result_header = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'reports WHERE zapped IS NULL') or \error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
+        $result_header = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'reports WHERE zapped IS NULL') || \error('Unable to fetch reports info', __FILE__, __LINE__, $db->error());
 
         if ($db->result($result_header)) {
             $tpl_temp .= '<li class="reportlink"><strong><a href="'.PUN_ROOT.'admin_reports.php">'.$lang_admin['New reports'].'</a></strong></li>';
