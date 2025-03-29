@@ -9,7 +9,7 @@ if (!\defined('PUN')) {
 class DBLayer
 {
     public ?string $prefix = null;
-    private ?\mysqli $link_id = null;
+    private ?mysqli $link_id = null;
     /**
      * @var bool|mysqli_result|null
      */
@@ -28,8 +28,6 @@ class DBLayer
     }
 
     /**
-     * @param string $sql
-     *
      * @return bool|mysqli_result
      */
     public function query(string $sql)

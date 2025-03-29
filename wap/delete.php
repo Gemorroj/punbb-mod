@@ -39,13 +39,15 @@ $result = $db->query(
         .'AND `fp`.`group_id`='.$pun_user['g_id'].') '
         .'WHERE (`fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1) '
         .'AND `p`.`id`='.$id
-)
-        || \error(
-            'Unable to fetch post info',
-            __FILE__,
-            __LINE__,
-            $db->error()
-        );
+);
+if (!$result) {
+    \error(
+        'Unable to fetch post info',
+        __FILE__,
+        __LINE__,
+        $db->error()
+    );
+}
 if (!$db->num_rows($result)) {
     \wap_message($lang_common['Bad request']);
 }
@@ -63,13 +65,15 @@ $result = $db->query(
         .'WHERE `topic_id`='.$cur_post['tid'].' '
         .'ORDER BY `posted` '
         .'LIMIT 1;'
-)
-        || \error(
-            'Unable to fetch post info',
-            __FILE__,
-            __LINE__,
-            $db->error()
-        );
+);
+if (!$result) {
+    \error(
+        'Unable to fetch post info',
+        __FILE__,
+        __LINE__,
+        $db->error()
+    );
+}
 $topic_post_id = $db->result($result);
 
 $is_topic_post = ($id == $topic_post_id);

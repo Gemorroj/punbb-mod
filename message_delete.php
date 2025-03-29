@@ -19,7 +19,10 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/delete.php';
 
 // Fetch some info from the message we are deleting
-$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \message($lang_common['Bad request']);
 }
@@ -35,7 +38,10 @@ if (isset($_POST['delete'])) {
     // confirm_referrer('message_delete.php');
 
     // Delete message
-    $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    $deleteResult = $db->query('DELETE FROM '.$db->prefix.'messages WHERE id='.$id);
+    if (!$deleteResult) {
+        \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    }
 
     // Redirect
     \redirect('message_list.php?box='.$_POST['box'].'&p='.$_POST['p'], $lang_pms['Del redirect']);

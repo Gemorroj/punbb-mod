@@ -27,7 +27,10 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         @\set_time_limit(3600);
 
         if ('all' === $prune_from) {
-            $result = $db->query('SELECT id FROM '.$db->prefix.'forums') || \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id FROM '.$db->prefix.'forums');
+            if (!$result) {
+                \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+            }
             $num_forums = $db->num_rows($result);
 
             for ($i = 0; $i < $num_forums; ++$i) {
@@ -43,7 +46,10 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         }
 
         // Locate any "orphaned redirect topics" and delete them
-        $result = $db->query('SELECT t1.id FROM '.$db->prefix.'topics AS t1 LEFT JOIN '.$db->prefix.'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL') || \error('Unable to fetch redirect topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT t1.id FROM '.$db->prefix.'topics AS t1 LEFT JOIN '.$db->prefix.'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL');
+        if (!$result) {
+            \error('Unable to fetch redirect topics', __FILE__, __LINE__, $db->error());
+        }
         $num_orphans = $db->num_rows($result);
 
         if ($num_orphans) {
@@ -78,13 +84,19 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $sql .= ' AND forum_id='.$prune_from;
 
         // Fetch the forum name (just for cosmetic reasons)
-        $result = $db->query('SELECT forum_name FROM '.$db->prefix.'forums WHERE id='.$prune_from) || \error('Unable to fetch forum name', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT forum_name FROM '.$db->prefix.'forums WHERE id='.$prune_from);
+        if (!$result) {
+            \error('Unable to fetch forum name', __FILE__, __LINE__, $db->error());
+        }
         $forum = '"'.\pun_htmlspecialchars($db->result($result)).'"';
     } else {
         $forum = 'all forums';
     }
 
-    $result = $db->query($sql) || \error('Unable to fetch topic prune count', __FILE__, __LINE__, $db->error());
+    $result = $db->query($sql);
+    if (!$result) {
+        \error('Unable to fetch topic prune count', __FILE__, __LINE__, $db->error());
+    }
     $num_topics = $db->result($result);
 
     if (!$num_topics) {
@@ -169,7 +181,10 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
                                 <select name="prune_from">
                                     <option value="all"><?php echo $lang_admin['All forums']; ?></option>
 <?php
-$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id WHERE f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position');
+    if (!$result) {
+        \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+    }
 
     $cur_category = 0;
     while ($forum = $db->fetch_assoc($result)) {

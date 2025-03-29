@@ -4,7 +4,7 @@
     "description": "PunBB Forum Mod",
     "name": "gemorroj/punbb-mod",
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.3",
         "ext-mysqli": "*",
         "ext-json": "*",
         "ext-gd": "*",

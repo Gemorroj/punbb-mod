@@ -32,10 +32,16 @@ if (($tid < 1 && $fid < 1) || ($tid > 0 && $fid > 0)) {
 // Fetch some info about the topic and/or the forum
 if ($tid) {
     // MERGE POSTS MOD BEGIN
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.subject, t.closed, p.id AS post_id, p.poster_id, p.message, p.posted FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'posts AS p ON (t.last_post_id=p.id AND p.poster_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$tid);
+    if (!$result) {
+        \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    }
 // MERGE POSTS END
 } else {
-    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT f.id, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid);
+    if (!$result) {
+        \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+    }
 }
 
 if (!$db->num_rows($result)) {
@@ -64,7 +70,10 @@ $can_upload = $is_admmod || (!$cur_posting['file_upload'] && 1 == $pun_user['g_f
 if ($pun_user['is_guest']) {
     $file_limit = 0;
 } else {
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_posting['id'].' AND a.poster_id='.$pun_user['id']) || \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_posting['id'].' AND a.poster_id='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    }
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
@@ -187,7 +196,10 @@ if (isset($_POST['form_sent'])) {
         }
 
         // Check that the username (or a too similar username) is not already registered
-        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE (username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND id>1') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE (username=\''.$db->escape($username).'\' OR username=\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\') AND id>1');
+        if (!$result) {
+            \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+        }
         if ($db->num_rows($result)) {
             $busy = $db->result($result);
             $errors[] = $lang_registration['Username dupe 1'].' '.\pun_htmlspecialchars($busy).'. '.$lang_registration['Username dupe 2'];
@@ -270,7 +282,10 @@ if (isset($_POST['form_sent'])) {
                 // MERGE POSTS END
                 // To subscribe or not to subscribe, that ...
                 if (1 == $pun_config['o_subscriptions'] && $subscribe) {
-                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$tid);
+                    if (!$result) {
+                        \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                    }
                     if (!$db->num_rows($result)) {
                         $db->query('INSERT INTO '.$db->prefix.'subscriptions (user_id, topic_id) VALUES('.$pun_user['id'].' ,'.$tid.')') || \error('Unable to add subscription', __FILE__, __LINE__, $db->error());
                     }
@@ -283,7 +298,10 @@ if (isset($_POST['form_sent'])) {
             }
 
             // Count number of replies in the topic
-            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid) || \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'posts WHERE topic_id='.$tid);
+            if (!$result) {
+                \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+            }
             $num_replies = $db->result($result, 0) - 1;
 
             // Update topic
@@ -299,11 +317,17 @@ if (isset($_POST['form_sent'])) {
             if (1 == $pun_config['o_subscriptions'] && !$merged) {
                 // MERGE POSTS END
                 // Get the post time for the previous post in this topic
-                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1, 1');
+                if (!$result) {
+                    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+                }
                 $previous_post_time = $db->result($result);
 
                 // Get any subscribed users that should be notified (banned users are excluded)
-                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.(int) $pun_user['id']) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT u.id, u.email, u.notify_with_post, u.language FROM '.$db->prefix.'users AS u INNER JOIN '.$db->prefix.'subscriptions AS s ON u.id=s.user_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id='.$cur_posting['id'].' AND fp.group_id=u.group_id) LEFT JOIN '.$db->prefix.'online AS o ON u.id=o.user_id LEFT JOIN '.$db->prefix.'bans AS b ON u.username=b.username WHERE b.username IS NULL AND COALESCE(o.logged, u.last_visit)>'.$previous_post_time.' AND (fp.read_forum IS NULL OR fp.read_forum=1) AND s.topic_id='.$tid.' AND u.id!='.(int) $pun_user['id']);
+                if (!$result) {
+                    \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+                }
                 if ($db->num_rows($result)) {
                     include_once PUN_ROOT.'include/email.php';
 
@@ -374,7 +398,7 @@ if (isset($_POST['form_sent'])) {
                     $_POST['polldata'] = 'pdescription='.$_POST['pdescription'].'&pmultiselect='.$_POST['pmultiselect'].'&pexpire='.$_POST['pexpire'].'&pquestions='.$_POST['pquestions'];
                     unset($_POST['pdescription'], $_POST['pmultiselect'], $_POST['pexpire'], $_POST['pquestions']);
 
-                    include_once PUN_ROOT.'include/poll/poll.inc.php';
+                    include_once PUN_ROOT.'include/poll/Poll.php';
                     $poll_id = $Poll->create($pun_user['id']);
                     if ($poll_id) {
                         $db->query('UPDATE '.$db->prefix.'topics SET has_poll='.$poll_id.' WHERE id='.$new_tid) || \error('Unable to update topic for poll', __FILE__, __LINE__, $db->error());
@@ -441,7 +465,10 @@ if ($tid) {
             \wap_message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid) || \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.$qid.' AND topic_id='.$tid);
+        if (!$result) {
+            \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \wap_message($lang_common['Bad request']);
         }
@@ -482,7 +509,10 @@ if ($tid) {
             \wap_message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid) || \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT poster FROM '.$db->prefix.'posts WHERE id='.$rid.' AND topic_id='.$tid);
+        if (!$result) {
+            \error('Unable to fetch quote info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \wap_message($lang_common['Bad request']);
         }
@@ -502,7 +532,7 @@ require_once PUN_ROOT.'wap/header.php';
 // hcs AJAX POLL MOD BEGIN
 $poll_container = '';
 if (1 == $pun_config['poll_enabled'] && $fid) {
-    include_once PUN_ROOT.'include/poll/poll.inc.php';
+    include_once PUN_ROOT.'include/poll/Poll.php';
     $poll_container = $Poll->wap_showContainer();
 }
 // hcs AJAX POLL MOD END

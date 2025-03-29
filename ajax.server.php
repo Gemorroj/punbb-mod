@@ -7,7 +7,7 @@ require PUN_ROOT.'include/common.php';
 if (isset($_GET['poll'])) {
     \header('Content-Type: text/html; charset=UTF-8');
 
-    include_once PUN_ROOT.'include/poll/poll.inc.php';
+    include_once PUN_ROOT.'include/poll/Poll.php';
 
     switch ($_GET['poll']) {
         case 'sres': // SEND RESULT
@@ -34,7 +34,10 @@ if (isset($_GET['poll'])) {
 } elseif (isset($_GET['quote'])) {
     \header('Content-Type: text/html; charset=UTF-8');
 
-    $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.(int) $_GET['quote']) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT poster, message FROM '.$db->prefix.'posts WHERE id='.(int) $_GET['quote']);
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     $cur_post = $db->fetch_assoc($result);
 
     echo '[quote='.$cur_post['poster'].']'.$cur_post['message'].'[/quote]'."\n";
@@ -49,7 +52,7 @@ if (isset($_GET['poll'])) {
             case 'getConfig':
             case 'setMessage':
             case 'getForums':
-                include PUN_ROOT.'include/informer/Informer.inc.php';
+                include PUN_ROOT.'include/informer/Informer.php';
                 $obj = new Informer($db, $pun_user, $lang_common, $pun_config);
 
                 $result = $obj->{$_GET['method']}($_GET);

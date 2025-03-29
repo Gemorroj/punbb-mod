@@ -15,7 +15,7 @@ PLEASE, DO NOT REMOVE LINK TO punbb.ru FROM CODE! THANKS!
 // TODO : перенести названия в константы:
 require_once PUN_ROOT.'lang/'.$pun_user['language'].'/poll.php';
 
-class _Poll
+class Poll
 {
     public $errorState = false;
     public $errorDescr;
@@ -57,7 +57,10 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')') || \error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT has_poll FROM '.$db->prefix.'topics WHERE id IN ('.$topics.')');
+        if (!$result) {
+            \error('Unable to get poll id from topics', __FILE__, __LINE__, $db->error());
+        }
         $polls_ids = '';
         while ($row = $db->fetch_row($result)) {
             if ($row[0]) {
@@ -359,7 +362,10 @@ class _Poll
         global $db;
 
         if ($this->cachePID != $pid || $this->cacheUID != $uid) {
-            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid) || \error('Unable to check polled user', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT * FROM '.$db->prefix.'log_polls WHERE pid='.$pid.' AND uid='.$uid);
+            if (!$result) {
+                \error('Unable to check polled user', __FILE__, __LINE__, $db->error());
+            }
             if (!$db->num_rows($result)) {
                 $this->polled = false;
             } else {
@@ -383,7 +389,10 @@ class _Poll
     {
         global $db;
 
-        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId) || \error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM '.$db->prefix.'polls WHERE id='.(int) $pollId);
+        if (!$result) {
+            \error('Unable to fetch poll', __FILE__, __LINE__, $db->error());
+        }
 
         if (!$db->num_rows($result)) {
             $poll = $db->fetch_assoc($result);
@@ -438,4 +447,4 @@ class _Poll
     }
 }
 
-$Poll = new _Poll();
+$Poll = new Poll();

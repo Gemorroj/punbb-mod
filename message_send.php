@@ -16,7 +16,10 @@ if (isset($_POST['form_sent'])) {
     // confirm_referrer('message_send.php');
     // Flood protection
     if ($pun_user['g_id'] > PUN_GUEST) {
-        $result = $db->query('SELECT posted FROM '.$db->prefix.'messages WHERE sender_id='.$pun_user['id'].' ORDER BY id DESC LIMIT 1') || \error('Unable to fetch message time for flood protection', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT posted FROM '.$db->prefix.'messages WHERE sender_id='.$pun_user['id'].' ORDER BY id DESC LIMIT 1');
+        if (!$result) {
+            \error('Unable to fetch message time for flood protection', __FILE__, __LINE__, $db->error());
+        }
         if ([$last] = $db->fetch_row($result)) {
             if (($_SERVER['REQUEST_TIME'] - $last) < $pun_user['g_post_flood']) {
                 \message($lang_pms['Flood start'].' '.$pun_user['g_post_flood'].' '.$lang_pms['Flood end']);
@@ -25,12 +28,18 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Get userid
-    $result = $db->query('SELECT id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') || \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'');
+    if (!$result) {
+        \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    }
     $user = $db->fetch_assoc($result);
     if (!$user) {
         \message($lang_pms['No user']);
     }
-    $result = $db->query('SELECT messages_enable FROM '.$db->prefix.'users WHERE id='.$user['id']) || \error('Unable to get message status for user'.$id, __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT messages_enable FROM '.$db->prefix.'users WHERE id='.$user['id']);
+    if (!$result) {
+        \error('Unable to get message status for user'.$id, __FILE__, __LINE__, $db->error());
+    }
     $result = $db->fetch_assoc($result);
     if (!$result['messages_enable']) {
         \message($lang_pms['Receiver'].' '.$_POST['req_username'].' '.$lang_pms['Disable options']);
@@ -75,10 +84,16 @@ if (isset($_POST['form_sent'])) {
     }
 
     // Get userid
-    $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') || \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'');
+    if (!$result) {
+        \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    }
 
     // $result = $db->query('SELECT id, username, group_id FROM '.$db->prefix.'users WHERE id!=1 AND username=\''.$db->escape($_POST['req_username']).'\'') or error('Unable to get user id', __FILE__, __LINE__, $db->error());
-    $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'') || \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT u.id, u.username, u.group_id, g.g_pm_limit, u.messages_enable FROM `'.$db->prefix.'users` AS u INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id WHERE u.id!=1 AND u.username=\''.$db->escape($_POST['req_username']).'\'');
+    if (!$result) {
+        \error('Unable to get user id', __FILE__, __LINE__, $db->error());
+    }
 
     // Send message
     if ([$id, $user, $status, $group_pm_limit, $messages_enable] = $db->fetch_row($result)) {
@@ -90,7 +105,10 @@ if (isset($_POST['form_sent'])) {
         // if(list($id,$user,$status,$group_pm_limit) = $db->fetch_row($result)){
         // Check inbox status
         if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST && $status > PUN_GUEST) {
-            $result = $db->query('SELECT count(*) FROM '.$db->prefix.'messages WHERE owner='.$id) || \error('Unable to get message count for the receiver', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT COUNT(*) FROM '.$db->prefix.'messages WHERE owner='.$id);
+            if (!$result) {
+                \error('Unable to get message count for the receiver', __FILE__, __LINE__, $db->error());
+            }
             [$count] = $db->fetch_row($result);
 
             // if($count >= $pun_user['g_pm_limit'])
@@ -100,7 +118,10 @@ if (isset($_POST['form_sent'])) {
 
             // Also check users own box
             if (isset($_POST['savemessage']) && 1 == (int) $_POST['savemessage']) {
-                $result = $db->query('SELECT COUNT(*) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) || \error('Unable to get message count the sender', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT COUNT(*) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']);
+                if (!$result) {
+                    \error('Unable to get message count the sender', __FILE__, __LINE__, $db->error());
+                }
                 [$count] = $db->fetch_row($result);
                 if ($count >= $pun_user['g_pm_limit']) {
                     \message($lang_pms['Sent full']);
@@ -156,7 +177,10 @@ if (isset($_POST['form_sent'])) {
     $id = isset($_GET['id']) ? (int) ($_GET['id']) : 0;
 
     if ($id > 0) {
-        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE id='.$id) || \error('Unable to fetch message info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE id='.$id);
+        if (!$result) {
+            \error('Unable to fetch message info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -169,7 +193,10 @@ if (isset($_POST['form_sent'])) {
 
         // Get message info
         empty($r) ? $id = $q : $id = $r;
-        $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id.' AND owner='.$pun_user['id']) || \error('Unable to fetch message info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id.' AND owner='.$pun_user['id']);
+        if (!$result) {
+            \error('Unable to fetch message info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }

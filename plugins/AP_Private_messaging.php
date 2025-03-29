@@ -98,7 +98,10 @@ if (isset($_POST['form_sent'])) {
                         <table class="aligntop" cellspacing="0">
                             <?php
 // g_id>'.PUN_ADMIN.' AND
-                                                                                                   $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+                                                                                                   $result = $db->query('SELECT g_id, g_title, g_pm, g_pm_limit FROM `'.$db->prefix.'groups` WHERE g_id != 3 ORDER BY g_id');
+    if (!$result) {
+        \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+    }
     while ($cur_group = $db->fetch_assoc($result)) {
         ?>
                                 <tr>

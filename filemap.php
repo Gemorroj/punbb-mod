@@ -21,7 +21,10 @@ require_once PUN_ROOT.'header.php';
 $user_id = (int) (@$_GET['user_id']);
 
 if (isset($_GET['user_id'])) {
-    $result = $db->query('SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title FROM `'.$db->prefix.'users` AS u JOIN `'.$db->prefix.'groups` AS g ON (u.group_id=g.g_id) WHERE u.id='.$user_id) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT u.username, u.group_id, u.num_files, u.file_bonus, g.g_id, g.g_file_limit, g.g_title FROM `'.$db->prefix.'users` AS u JOIN `'.$db->prefix.'groups` AS g ON (u.group_id=g.g_id) WHERE u.id='.$user_id);
+    if (!$result) {
+        \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message('No user by that ID registered.');
     }
@@ -38,7 +41,10 @@ if (isset($_GET['user_id'])) {
 $fid_list = $categories = $forums = [];
 
 // get available forum list
-$result = $db->query('SELECT f.id AS fid, f.forum_name, f.moderators, fp.file_download FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY f.id') || \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT f.id AS fid, f.forum_name, f.moderators, fp.file_download FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY f.id');
+if (!$result) {
+    \error('Unable to fetch forum list', __FILE__, __LINE__, $db->error());
+}
 while ($cur_forum = $db->fetch_assoc($result)) {
     $fid_list[] = $cur_forum['fid'];
 
@@ -56,7 +62,10 @@ $fid_list = \implode(',', $fid_list);
 unset($can_download);
 
 // get category list for cache
-$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories') || \error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, cat_name FROM '.$db->prefix.'categories');
+if (!$result) {
+    \error('Unable to fetch category list', __FILE__, __LINE__, $db->error());
+}
 while ($cur_category = $db->fetch_assoc($result)) {
     $categories[$cur_category['id']] = $cur_category['cat_name'];
 }
@@ -69,8 +78,10 @@ if (!$fid_list) {
     FROM '.$db->prefix.'attachments AS a
     INNER JOIN '.$db->prefix.'topics AS t ON a.topic_id=t.id
     INNER JOIN '.$db->prefix.'forums AS f ON f.id = t.forum_id
-    WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : ''))
-        || \error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
+    WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : ''));
+    if (!$result) {
+        \error('Unable to fetch topic count', __FILE__, __LINE__, $db->error());
+    }
     $num_rows = $db->fetch_row($result);
     $num_rows = $num_rows[0];
 }
@@ -96,8 +107,10 @@ if ($fid_list) {
     INNER JOIN '.$db->prefix.'categories AS c ON f.cat_id = c.id
     WHERE f.id in ('.$fid_list.') '.(isset($_GET['user_id']) ? (' AND (a.poster_id='.$user_id.')') : '').'
     ORDER BY c.disp_position, f.disp_position, f.cat_id, t.forum_id, t.last_post desc, a.filename'.
-        ((!isset($_GET['action']) || 'all' != $_GET['action']) ? ' LIMIT '.$start_from.','.ATTACHMENTS_PER_PAGE : ''))
-        || \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+        ((!isset($_GET['action']) || 'all' !== $_GET['action']) ? ' LIMIT '.$start_from.','.ATTACHMENTS_PER_PAGE : ''));
+    if (!$result) {
+        \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+    }
 
     while ($row = $db->fetch_assoc($result)) {
         // can user download this attachment? it depends on per-forum permissions

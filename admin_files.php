@@ -110,7 +110,10 @@ if (isset($_POST['save'])) {
                 $value = 'NULL';
             }
 
-            $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'') || \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            $updateResult = $db->query('UPDATE '.$db->prefix.'config SET conf_value='.$value.' WHERE conf_name=\'file_'.$db->escape($key).'\'');
+            if (!$updateResult) {
+                \error('Unable to update board config', __FILE__, __LINE__, $db->error());
+            }
         }
     }
 

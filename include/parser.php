@@ -450,7 +450,7 @@ function handle_poll_tag($pid)
     global $Poll, $lang_poll, $pun_user;
 
     if (!$Poll) {
-        include_once PUN_ROOT.'include/poll/poll.inc.php';
+        include_once PUN_ROOT.'include/poll/Poll.php';
     }
 
     $poll_tag = '';

@@ -34,7 +34,10 @@ $result = $db->query(
     SELECT `topic_id`
     FROM `'.$db->prefix.'posts`
     WHERE `id`='.$pid
-) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \wap_message($lang_common['Bad request']);
 }
@@ -47,7 +50,10 @@ $result = $db->query('
     FROM `'.$db->prefix.'posts`
     WHERE `topic_id`='.$id.'
     ORDER BY `posted`
-') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+');
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 $num_posts = $db->num_rows($result);
 
 for ($i = 0; $i < $num_posts; ++$i) {
@@ -71,7 +77,10 @@ if (!$pun_user['is_guest']) {
         LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
         LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id)
         WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL
-    ') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    ');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 } else {
     $result = $db->query('
         SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0
@@ -79,7 +88,10 @@ if (!$pun_user['is_guest']) {
         INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id
         LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].')
         WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL
-    ') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    ');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 }
 
 if (!$db->num_rows($result)) {
@@ -99,7 +111,10 @@ if (!$pun_user['is_guest']) {
             ) VALUES (
                 '.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$id.', '.$cur_time.'
             )
-        ') || \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+        ');
+        if (!$result) {
+            \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+        }
     } else {
         $result = $db->query(
             '
@@ -108,7 +123,10 @@ if (!$pun_user['is_guest']) {
             log_time='.$cur_time.'
             WHERE topic_id='.$id.'
             AND user_id='.$pun_user['id']
-        ) || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        );
+        if (!$result) {
+            \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        }
     }
 
     $result = $db->query(
@@ -117,7 +135,10 @@ if (!$pun_user['is_guest']) {
         FROM '.$db->prefix.'topics AS t
         LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].'
         WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$cur_time.'-'.$pun_user['mark_after']
-    ) || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    );
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 
     $find_new = false;
     while ($topic = $db->fetch_assoc($result)) {
@@ -136,7 +157,10 @@ if (!$pun_user['is_guest']) {
             SET log_time='.$cur_time.'
             WHERE forum_id='.$cur_topic['forum_id'].'
             AND user_id='.$pun_user['id']
-        ) || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        );
+        if (!$result) {
+            \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        }
         if ($db->affected_rows() < 1) {
             $result = $db->query('
                 INSERT INTO '.$db->prefix.'log_forums (
@@ -213,7 +237,7 @@ include_once PUN_ROOT.'include/parser.php';
 // hcs AJAX POLL MOD BEGIN
 $show_poll = '';
 if (1 == $pun_config['poll_enabled']) {
-    include_once PUN_ROOT.'include/poll/poll.inc.php';
+    include_once PUN_ROOT.'include/poll/Poll.php';
 
     if ($cur_topic['has_poll']) {
         if (isset($_POST['pollid']) && $_POST['pollid']) {
@@ -247,7 +271,10 @@ $result = $db->query(
     INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id
     LEFT JOIN `'.$db->prefix.'online` AS o ON (o.user_id=u.id AND o.user_id!=1 AND o.idle=0)
     WHERE p.id='.$pid
-) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 
 $cur_post = $db->fetch_assoc($result);
 $cur_post['message'] = \parse_message($cur_post['message'], $cur_post['hide_smilies'], $cur_post['id']);

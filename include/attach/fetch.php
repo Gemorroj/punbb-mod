@@ -20,22 +20,18 @@ $attachments: array - cache of attachments records
 switch (\basename($_SERVER['PHP_SELF'])) {
     case 'viewtopic.php':
         $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.(int) $id.' AND post_id IN ('.\implode(',', \array_map('intval', $pids)).')';
-
         break;
 
     case 'hide.php':
         $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE topic_id='.(int) $id.' AND post_id = '.(int) $cur_post['id'];
-
         break;
 
     case 'edit.php':
         $att_sql = 'SELECT * FROM '.$db->prefix.'attachments WHERE post_id='.(int) $id;
-
         break;
 
     default:
         $att_sql = null;
-
         break;
 }
 

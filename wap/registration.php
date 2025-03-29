@@ -44,7 +44,10 @@ if (@$_GET['cancel']) {
     exit;
 } elseif (isset($_POST['form_sent'])) {
     // Check that someone from this IP didn't register a user within the last hour (DoS prevention)
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.\get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg'])) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'users WHERE registration_ip=\''.\get_remote_address().'\' AND registered>'.(\time() - $pun_config['o_timeout_reg']));
+    if (!$result) {
+        \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    }
 
     if ($db->num_rows($result)) {
         \wap_message($lang_registration['Timeout']);
@@ -118,7 +121,10 @@ if (@$_GET['cancel']) {
     }
 
     // Check that the username (or a too similar username) is not already registered
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\')') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE UPPER(username)=UPPER(\''.$db->escape($username).'\') OR UPPER(username)=UPPER(\''.$db->escape(\preg_replace('/[^\w]/', '', $username)).'\')');
+    if (!$result) {
+        \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    }
 
     if ($db->num_rows($result)) {
         $busy = $db->result($result);
@@ -159,7 +165,10 @@ if (@$_GET['cancel']) {
     // Check if someone else already has registered with that e-mail address
     $dupe_list = [];
 
-    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'') || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username FROM '.$db->prefix.'users WHERE email=\''.$email1.'\'');
+    if (!$result) {
+        \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    }
     if ($db->num_rows($result)) {
         if (!$pun_config['p_allow_dupe_email']) {
             \wap_message($lang_prof_reg['Dupe e-mail']);

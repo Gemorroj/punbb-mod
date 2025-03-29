@@ -23,7 +23,10 @@ if ($id < 1 && $pid < 1) {
 
 // If a post ID is specified we determine topic ID and page number so we can redirect to the correct message
 if ($pid) {
-    $result = $db->query('SELECT `topic_id` FROM `'.$db->prefix.'posts` WHERE `id`='.$pid) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `topic_id` FROM `'.$db->prefix.'posts` WHERE `id`='.$pid);
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \wap_message($lang_common['Bad request']);
     }
@@ -31,7 +34,10 @@ if ($pid) {
     $id = $db->result($result);
 
     // Determine on what page the post is located (depending on $pun_user['disp_posts'])
-    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$id.' ORDER BY `posted`') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$id.' ORDER BY `posted`');
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     $num_posts = $db->num_rows($result);
 
     for ($i = 0; $i < $num_posts; ++$i) {
@@ -47,7 +53,10 @@ if ($pid) {
 } elseif ('new' == $action && !$pun_user['is_guest']) {
     // If action=new, we redirect to the first new post (if any)
 
-    $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT MIN(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id.' AND posted>'.$pun_user['last_visit']);
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     $first_new_post_id = $db->result($result);
 
     if ($first_new_post_id) {
@@ -59,7 +68,10 @@ if ($pid) {
 } elseif ('last' == $action) {
     // If action=last, we redirect to the last post
 
-    $result = $db->query('SELECT MAX(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT MAX(id) FROM '.$db->prefix.'posts WHERE topic_id='.$id);
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     $last_post_id = $db->result($result);
 
     if ($last_post_id) {
@@ -69,9 +81,15 @@ if ($pid) {
 
 // Fetch some info about the topic
 if (!$pun_user['is_guest']) {
-    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, s.user_id AS is_subscribed, lt.log_time FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_topics AS lt ON (lt.user_id='.$pun_user['id'].' AND lt.topic_id=t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 } else {
-    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.subject,t.has_poll, t.closed, t.num_replies, t.sticky, f.id AS forum_id, f.forum_name, f.moderators, fp.post_replies, fp.file_download, 0 FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$id.' AND t.moved_to IS NULL');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 }
 
 if (!$db->num_rows($result)) {
@@ -90,7 +108,10 @@ if (!$pun_user['is_guest']) {
         $db->query('UPDATE '.$db->prefix.'log_topics SET forum_id='.$cur_topic['forum_id'].', log_time='.$_SERVER['REQUEST_TIME'].' WHERE topic_id='.$id.' AND user_id='.$pun_user['id']) || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
     }
 
-    $result = $db->query('SELECT t.id, t.last_post, lt.log_time FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].' WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$_SERVER['REQUEST_TIME'].'-'.$pun_user['mark_after'].' ') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.id, t.last_post, lt.log_time FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'log_topics AS lt ON lt.topic_id=t.id AND lt.user_id='.$pun_user['id'].' WHERE t.forum_id = '.$cur_topic['forum_id'].' AND t.last_post > '.$_SERVER['REQUEST_TIME'].'-'.$pun_user['mark_after'].' ');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
 
     $find_new = false;
     while ($topic = $db->fetch_assoc($result)) {
@@ -103,7 +124,10 @@ if (!$pun_user['is_guest']) {
 
     if (!$find_new) {
         $requestTime = $_SERVER['REQUEST_TIME'] + 10;
-        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime.' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']) || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$requestTime.' WHERE forum_id='.$cur_topic['forum_id'].' AND user_id='.$pun_user['id']);
+        if (!$result) {
+            \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+        }
 
         if ($db->affected_rows() < 1) {
             $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_topic['forum_id'].', '.$requestTime.')');
@@ -161,7 +185,7 @@ if (1 == $pun_config['o_quickpost']
 // hcs AJAX POLL MOD BEGIN
 $show_poll = '';
 if (1 == $pun_config['poll_enabled']) {
-    require_once PUN_ROOT.'include/poll/poll.inc.php';
+    require_once PUN_ROOT.'include/poll/Poll.php';
 
     if ($cur_topic['has_poll']) {
         $warning = '';
@@ -193,7 +217,10 @@ $result = $db->query(
     WHERE p.topic_id='.$id.'
     ORDER BY p.id
     LIMIT '.$start_from.','.$pun_user['disp_posts']
-) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 
 require_once PUN_ROOT.'include/parser.php';
 

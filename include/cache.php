@@ -15,13 +15,19 @@ function generate_config_cache(): void
     $output = [];
 
     // Get the forum config from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'config') || \error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'config');
+    if (!$result) {
+        \error('Unable to fetch forum config', __FILE__, __LINE__, $db->error());
+    }
     while ($item = $db->fetch_row($result)) {
         $output[$item[0]] = $item[1];
     }
 
     // Права на загрузчик
-    $result = $db->query('SELECT `g_id`, `p_view` FROM `'.$db->prefix.'uploads_conf`') || \error('Unable to select opions', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `g_id`, `p_view` FROM `'.$db->prefix.'uploads_conf`');
+    if (!$result) {
+        \error('Unable to select opions', __FILE__, __LINE__, $db->error());
+    }
     while ($q = $db->fetch_assoc($result)) {
         $output['uploads_conf'][$q['g_id']] = $q['p_view'];
     }
@@ -44,7 +50,10 @@ function generate_bans_cache(): void
     global $db;
 
     // Get the ban list from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'bans') || \error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'bans');
+    if (!$result) {
+        \error('Unable to fetch ban list', __FILE__, __LINE__, $db->error());
+    }
 
     $output = [];
     while ($cur_ban = $db->fetch_assoc($result)) {
@@ -69,7 +78,10 @@ function generate_ranks_cache(): void
     global $db;
 
     // Get the rank list from the DB
-    $result = $db->query('SELECT * FROM '.$db->prefix.'ranks ORDER BY min_posts') || \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'ranks ORDER BY min_posts');
+    if (!$result) {
+        \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+    }
 
     $output = [];
     while ($cur_rank = $db->fetch_assoc($result)) {
@@ -99,7 +111,10 @@ function generate_quickjump_cache($group_id = false): void
         $groups[0] = $group_id;
     } else {
         // A group_id was now supplied, so we generate the quickjump cache for all groups
-        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`');
+        if (!$result) {
+            \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        }
         $num_groups = $db->num_rows($result);
 
         for ($i = 0; $i < $num_groups; ++$i) {
@@ -127,7 +142,10 @@ function generate_quickjump_cache($group_id = false): void
           WHERE fp.read_forum IS NULL
           OR fp.read_forum=1
           ORDER BY c.disp_position, c.id, f.disp_position
-        ') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        ');
+        if (!$result) {
+            \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        }
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {
@@ -169,7 +187,10 @@ function generate_wap_quickjump_cache($group_id = false): void
         $groups[0] = $group_id;
     } else {
         // A group_id was now supplied, so we generate the quickjump cache for all groups
-        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT g_id FROM `'.$db->prefix.'groups`');
+        if (!$result) {
+            \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+        }
         $num_groups = $db->num_rows($result);
 
         for ($i = 0; $i < $num_groups; ++$i) {
@@ -189,7 +210,10 @@ function generate_wap_quickjump_cache($group_id = false): void
 <div class="inbox"><label>\' . $lang_common[\'Jump to\'] . \'<br />
 <select name="id" onchange="window.location.assign(\\\'\' . $pun_config[\'o_base_url\'] . \'/wap/viewforum.php?id=\\\'+this.options[this.selectedIndex].value);">';
 
-        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$group_id.') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name, f.redirect_url FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$group_id.') WHERE fp.read_forum IS NULL OR fp.read_forum=1 ORDER BY c.disp_position, c.id, f.disp_position');
+        if (!$result) {
+            \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+        }
 
         $cur_category = 0;
         while ($cur_forum = $db->fetch_assoc($result)) {

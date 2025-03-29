@@ -83,18 +83,27 @@ if (@\file_exists('/proc/loadavg') && \is_readable('/proc/loadavg')) {
 }
 
 // Get number of current visitors
-$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0') || \error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT COUNT(user_id) FROM '.$db->prefix.'online WHERE idle = 0');
+if (!$result) {
+    \error('Unable to fetch online count', __FILE__, __LINE__, $db->error());
+}
 $num_online = $db->result($result);
 
 // Get the database system version
-$result = $db->query('SELECT VERSION()') || \error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT VERSION()');
+if (!$result) {
+    \error('Unable to fetch version info', __FILE__, __LINE__, $db->error());
+}
 $db_version = $db->result($result);
 
 // Collect some additional info about MySQL
 $db_version = 'MySQL '.$db_version;
 
 // Calculate total db size/row count
-$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`') || \error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
+$result = $db->query('SHOW TABLE STATUS FROM `'.$db_name.'`');
+if (!$result) {
+    \error('Unable to fetch table status', __FILE__, __LINE__, $db->error());
+}
 
 $total_records = $total_size = 0;
 while ($status = $db->fetch_assoc($result)) {

@@ -62,7 +62,10 @@ if (isset($_POST['lang'])) {
 <th scope="row">Используются языки</th>
 <td>';
 
-    $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number') || \error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT language, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY language ORDER BY number');
+    if (!$result) {
+        \error('Unable to fetch lang settings', __FILE__, __LINE__, $db->error());
+    }
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
     while ($cur_lang = $db->fetch_assoc($result)) {
         echo $cur_lang['number'].' - '.\RoundSigDigs($cur_lang['number'] / $number * 100, 3).'% <strong>'.\str_replace('_', ' ', $cur_lang['language']).'</strong><br />';
@@ -109,7 +112,10 @@ if (isset($_POST['lang'])) {
 <tr>
 <th scope="row">Используемые WEB стили</th><td>';
 
-    $result = $db->query('SELECT style, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number') || \error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT style, COUNT(1) AS number FROM '.$db->prefix.'users WHERE id > 1 GROUP BY style ORDER BY number');
+    if (!$result) {
+        \error('Unable to fetch style settings', __FILE__, __LINE__, $db->error());
+    }
     $number = $db->num_rows($db->query('SELECT username FROM '.$db->prefix.'users WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {
@@ -156,7 +162,10 @@ if (isset($_POST['lang'])) {
 <tr>
 <th scope="row">Используемые WAP стили</th><td>';
 
-    $result = $db->query('SELECT `style_wap`, COUNT(1) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`') || \error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `style_wap`, COUNT(1) AS `number` FROM `'.$db->prefix.'users` WHERE id > 1 GROUP BY `style_wap` ORDER BY `number`');
+    if (!$result) {
+        \error('Unable to fetch style_wap settings', __FILE__, __LINE__, $db->error());
+    }
     $number = $db->num_rows($db->query('SELECT `username` FROM `'.$db->prefix.'users` WHERE id > 1'));
 
     while ($cur_lang = $db->fetch_assoc($result)) {

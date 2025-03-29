@@ -20,7 +20,10 @@ require PUN_ROOT.'lang/'.$pun_user['language'].'/pms.php';
 require PUN_ROOT.'lang/'.$pun_user['language'].'/delete.php';
 
 // Fetch some info from the message we are deleting
-$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE id='.$id);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \wap_message($lang_common['Bad request']);
 }

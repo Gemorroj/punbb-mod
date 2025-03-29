@@ -52,7 +52,10 @@ $result = $db->query(
 .'ON (`fp`.`forum_id`=`f`.`id` AND `fp`.`group_id`='.$pun_user['g_id'].') '
 .'WHERE `fp`.`read_forum` IS NULL OR `fp`.`read_forum`=1 '
 .'ORDER BY `c`.`disp_position`, `c`.`id`, `f`.`disp_position`;'
-) || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+}
 // - Add topic title info to last post column mod
 
 $forums = [];
@@ -67,8 +70,10 @@ $result = $db->query(
     'SELECT COUNT(1) - 1 '
 .'FROM `'.$db->prefix.'users` '
 .'LIMIT 1'
-)
-|| \error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch total user count', __FILE__, __LINE__, $db->error());
+}
 $stats['total_users'] = $db->result($result);
 
 $result = $db->query(
@@ -76,16 +81,20 @@ $result = $db->query(
 .'FROM `'.$db->prefix.'users` '
 .'ORDER BY `registered` DESC '
 .'LIMIT 1'
-)
-|| \error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch newest registered user', __FILE__, __LINE__, $db->error());
+}
 $stats['last_user'] = $db->fetch_assoc($result);
 
 $result = $db->query(
     'SELECT SUM(`num_topics`), SUM(`num_posts`) '
 .'FROM `'.$db->prefix.'forums` '
 .'LIMIT 1'
-)
-|| \error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
+);
+if (!$result) {
+    \error('Unable to fetch topic/post count', __FILE__, __LINE__, $db->error());
+}
 [$stats['total_topics'], $stats['total_posts']] = $db->fetch_row($result);
 
 $num_guests = $num_users = 0;
@@ -98,7 +107,10 @@ if (1 == $pun_config['o_users_online']) {
     .'WHERE `idle`=0 '
     .'ORDER BY `ident`;
     '
-    ) || \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    );
+    if (!$result) {
+        \error('Unable to fetch online list', __FILE__, __LINE__, $db->error());
+    }
 
     while ($pun_user_online = $db->fetch_assoc($result)) {
         if ($pun_user_online['user_id'] > 1) {

@@ -17,7 +17,10 @@ if ($id < 1) {
 }
 
 // Fetch some info about the post, the topic and the forum
-$result = $db->query('SELECT p.id AS id, f.id AS fid, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.id AS tid, t.subject, t.posted, t.closed, p.poster, p.poster_id, p.message, p.hide_smilies FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id='.$id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT p.id AS id, f.id AS fid, f.forum_name, f.moderators, f.redirect_url, fp.post_replies, fp.post_topics, fp.file_upload, fp.file_download, fp.file_limit, t.id AS tid, t.subject, t.posted, t.closed, p.poster, p.poster_id, p.message, p.hide_smilies FROM '.$db->prefix.'posts AS p INNER JOIN '.$db->prefix.'topics AS t ON t.id=p.topic_id INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND p.id='.$id);
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \message($lang_common['Bad request']);
 }
@@ -29,7 +32,10 @@ $mods_array = ($cur_post['moderators']) ? \unserialize($cur_post['moderators'], 
 $is_admmod = (PUN_ADMIN == $pun_user['g_id'] || (PUN_MOD == $pun_user['g_id'] && \array_key_exists($pun_user['username'], $mods_array))) ? true : false;
 
 // Determine whether this post is the "topic post" or not
-$result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$cur_post['tid'].' ORDER BY posted LIMIT 1');
+if (!$result) {
+    \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+}
 $topic_post_id = $db->result($result);
 
 $can_edit_subject = ($id == $topic_post_id && ((!$pun_user['g_edit_subjects_interval'] || ($_SERVER['REQUEST_TIME'] - $cur_post['posted']) < $pun_user['g_edit_subjects_interval']) || $is_admmod)) ? true : false;
@@ -40,11 +46,17 @@ $can_upload = (!$cur_post['file_upload'] && 1 == $pun_user['g_file_upload']) || 
 if ($pun_user['is_guest']) {
     $file_limit = 0;
 } else {
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_post['fid'].' AND a.poster_id='.$pun_user['id']) || \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'attachments AS a ON t.id=a.topic_id WHERE t.forum_id='.$cur_post['fid'].' AND a.poster_id='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    }
     $uploaded_to_forum = $db->fetch_row($result);
     $uploaded_to_forum = $uploaded_to_forum[0];
 
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'attachments AS a WHERE a.post_id='.$id) || \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'attachments AS a WHERE a.post_id='.$id);
+    if (!$result) {
+        \error('Unable to attachments count', __FILE__, __LINE__, $db->error());
+    }
     $uploaded_to_post = $db->fetch_row($result);
     $uploaded_to_post = $uploaded_to_post[0];
 

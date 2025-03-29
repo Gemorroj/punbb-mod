@@ -6,7 +6,10 @@ require PUN_ROOT.'include/common.php';
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest']) {
-    $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']) || \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('DELETE FROM `'.$db->prefix.'log_topics` WHERE log_time < '.($_SERVER['REQUEST_TIME'] - $pun_user['mark_after']).' AND user_id='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to delete marked as read topic info', __FILE__, __LINE__, $db->error());
+    }
 }
 
 // REAL MARK TOPIC AS READ MOD END
@@ -24,7 +27,10 @@ if ($id < 1) {
 require PUN_ROOT.'lang/'.$pun_user['language'].'/forum.php';
 
 // Fetch some info about the forum
-$result = $db->query('SELECT f.forum_name, f.redirect_url, f.moderators, f.num_topics, f.sort_by, fp.post_topics, lf.log_time, f.id as forum_id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_forums AS lf ON (lf.user_id='.$pun_user['id'].' AND lf.forum_id=f.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$id) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT f.forum_name, f.redirect_url, f.moderators, f.num_topics, f.sort_by, fp.post_topics, lf.log_time, f.id as forum_id FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') LEFT JOIN '.$db->prefix.'log_forums AS lf ON (lf.user_id='.$pun_user['id'].' AND lf.forum_id=f.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$id);
+if (!$result) {
+    \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \message($lang_common['Bad request']);
 }
@@ -33,9 +39,15 @@ $cur_forum = $db->fetch_assoc($result);
 
 // REAL MARK TOPIC AS READ MOD BEGIN
 if (!$pun_user['is_guest'] && null == $cur_forum['log_time']) {
-    $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_forum['forum_id'].', '.$_SERVER['REQUEST_TIME'].')') || \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('INSERT INTO '.$db->prefix.'log_forums (user_id, forum_id, log_time) VALUES ('.$pun_user['id'].', '.$cur_forum['forum_id'].', '.$_SERVER['REQUEST_TIME'].')');
+    if (!$result) {
+        \error('Unable to insert reading_mark info', __FILE__, __LINE__, $db->error());
+    }
 } else {
-    $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'].' WHERE forum_id='.$cur_forum['forum_id'].' AND user_id='.$pun_user['id']) || \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('UPDATE '.$db->prefix.'log_forums SET log_time='.$_SERVER['REQUEST_TIME'].' WHERE forum_id='.$cur_forum['forum_id'].' AND user_id='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to update reading_mark info', __FILE__, __LINE__, $db->error());
+    }
 }
 // REAL MARK TOPIC AS READ MOD END
 
@@ -109,7 +121,10 @@ if ($pun_user['is_guest'] || !$pun_config['o_show_dot']) {
     // REAL MARK TOPIC AS READ MOD END
 }
 
-$result = $db->query($sql) || \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+$result = $db->query($sql);
+if (!$result) {
+    \error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+}
 
 // If there are topics in this forum.
 if ($db->num_rows($result)) {

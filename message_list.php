@@ -70,7 +70,10 @@ $page_title = \pun_htmlspecialchars($pun_config['o_board_title']).' / '.$lang_pm
 
 if ($box < 2) {
     // Get message count
-    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']) || \error('Unable to count messages', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE status='.$box.' AND owner='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to count messages', __FILE__, __LINE__, $db->error());
+    }
     $num_messages = $db->result($result);
 
     // What page are we on?
@@ -116,7 +119,10 @@ if ($box < 2) {
         $id = (int) $_GET['id'];
 
         // Set user
-        $result = $db->query('SELECT status, owner FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to get message status', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT status, owner FROM '.$db->prefix.'messages WHERE id='.$id);
+        if (!$result) {
+            \error('Unable to get message status', __FILE__, __LINE__, $db->error());
+        }
         [$status, $owner] = $db->fetch_row($result);
         0 == $status ? $where = 'u.id=m.sender_id' : $where = 'u.id=m.owner';
 
@@ -152,7 +158,10 @@ if ($box < 2) {
     LEFT JOIN `'.$db->prefix.'online` AS o ON (o.user_id=u.id AND o.idle=0)
     LEFT JOIN `'.$db->prefix.'groups` AS g ON u.group_id = g.g_id
     WHERE '.$where.' AND m.id='.$id
-        ) || \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+        );
+        if (!$result) {
+            \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+        }
         $cur_post = $db->fetch_assoc($result);
 
         if ($owner != $pun_user['id']) {
@@ -225,7 +234,10 @@ if ($box < 2) {
             }
         } // If the sender has been deleted
         else {
-            $result = $db->query('SELECT id,sender,message,posted FROM '.$db->prefix.'messages WHERE id='.$id) || \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id,sender,message,posted FROM '.$db->prefix.'messages WHERE id='.$id);
+            if (!$result) {
+                \error('Unable to fetch message and user info', __FILE__, __LINE__, $db->error());
+            }
             $cur_post = $db->fetch_assoc($result);
 
             $username = \pun_htmlspecialchars($cur_post['sender']);
@@ -310,7 +322,10 @@ if ($box < 2) {
 
     if ($pun_user['g_pm_limit'] && $pun_user['g_id'] > PUN_GUEST) {
         // Get total message count
-        $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']) || \error('Unable to count messages', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT COUNT(1) FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id']);
+        if (!$result) {
+            \error('Unable to count messages', __FILE__, __LINE__, $db->error());
+        }
         [$tot_messages] = $db->fetch_row($result);
         $proc = \ceil($tot_messages / $pun_user['g_pm_limit'] * 100);
         $status = ' - '.$lang_pms['Status'].' '.$proc.'%';
@@ -331,7 +346,10 @@ if ($box < 2) {
 <tbody>';
 
     // Fetch messages
-    $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id'].' AND status='.$box.' ORDER BY posted DESC '.$limit) || \error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'messages WHERE owner='.$pun_user['id'].' AND status='.$box.' ORDER BY posted DESC '.$limit);
+    if (!$result) {
+        \error('Unable to fetch messages list for forum', __FILE__, __LINE__, $db->error());
+    }
     $new_messages = $messages_exist = false;
 
     // If there are messages in this folder.
@@ -392,7 +410,10 @@ if ($box < 2) {
         $db->query('UPDATE '.$db->prefix.'users SET popup_enable='.$popup.', messages_enable='.$msg_enable.' WHERE id='.$pun_user['id']) || \error('Unable to update Private Messsage options', __FILE__, __LINE__, $db->error());
     }
 
-    $result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']) || \error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT popup_enable, messages_enable FROM '.$db->prefix.'users WHERE id='.$pun_user['id']);
+    if (!$result) {
+        \error('Unable to fetch user info for Private Messsage options', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }

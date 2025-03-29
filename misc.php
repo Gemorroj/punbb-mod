@@ -79,7 +79,10 @@ if ('rules' === $action) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT username, email, email_setting FROM '.$db->prefix.'users WHERE id='.$recipient_id) || \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT username, email, email_setting FROM '.$db->prefix.'users WHERE id='.$recipient_id);
+    if (!$result) {
+        \error('Unable to fetch user info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }
@@ -175,7 +178,10 @@ if ('rules' === $action) {
         }
 
         // Get the topic ID
-        $result = $db->query('SELECT topic_id FROM '.$db->prefix.'posts WHERE id='.$post_id) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT topic_id FROM '.$db->prefix.'posts WHERE id='.$post_id);
+        if (!$result) {
+            \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -183,7 +189,10 @@ if ('rules' === $action) {
         $topic_id = $db->result($result);
 
         // Get the subject and forum ID
-        $result = $db->query('SELECT subject, forum_id FROM '.$db->prefix.'topics WHERE id='.$topic_id) || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT subject, forum_id FROM '.$db->prefix.'topics WHERE id='.$topic_id);
+        if (!$result) {
+            \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -247,12 +256,18 @@ if ('rules' === $action) {
     }
 
     // Make sure the user can view the topic
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$topic_id.' AND t.moved_to IS NULL') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=t.forum_id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.id='.$topic_id.' AND t.moved_to IS NULL');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id);
+    if (!$result) {
+        \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    }
     if ($db->num_rows($result)) {
         \message($lang_misc['Already subscribed']);
     }
@@ -270,7 +285,10 @@ if ('rules' === $action) {
         \message($lang_common['Bad request']);
     }
 
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id) || \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'subscriptions WHERE user_id='.$pun_user['id'].' AND topic_id='.$topic_id);
+    if (!$result) {
+        \error('Unable to fetch subscription info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message($lang_misc['Not subscribed']);
     }

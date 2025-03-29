@@ -17,7 +17,10 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
     if (isset($_POST['add_group'])) {
         $base_group = (int) $_POST['base_group'];
 
-        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$base_group) || \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$base_group);
+        if (!$result) {
+            \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        }
         $group = $db->fetch_assoc($result);
 
         $mode = 'add';
@@ -27,7 +30,10 @@ if (isset($_POST['add_group']) || isset($_GET['edit_group'])) {
             \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$group_id) || \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT * FROM `'.$db->prefix.'groups` WHERE `g_id`='.$group_id);
+        if (!$result) {
+            \error('Unable to fetch user group info', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -333,7 +339,10 @@ elseif (isset($_POST['add_edit_group'])) {
     $user_title = ($user_title) ? '\''.$db->escape($user_title).'\'' : 'NULL';
 
     if ('add' == $_POST['mode']) {
-        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE `g_title`=\''.$db->escape($title).'\'') || \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE `g_title`=\''.$db->escape($title).'\'');
+        if (!$result) {
+            \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        }
         if ($db->num_rows($result)) {
             \message('There is already a group with the title "'.\pun_htmlspecialchars($title).'".');
         }
@@ -342,12 +351,18 @@ elseif (isset($_POST['add_edit_group'])) {
         $new_group_id = $db->insert_id();
 
         // Now lets copy the forum specific permissions from the group which this group is based on
-        $result = $db->query('SELECT forum_id, read_forum, post_replies, post_topics FROM '.$db->prefix.'forum_perms WHERE group_id='.(int) $_POST['base_group']) || \error('Unable to fetch group forum permission list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT forum_id, read_forum, post_replies, post_topics FROM '.$db->prefix.'forum_perms WHERE group_id='.(int) $_POST['base_group']);
+        if (!$result) {
+            \error('Unable to fetch group forum permission list', __FILE__, __LINE__, $db->error());
+        }
         while ($cur_forum_perm = $db->fetch_assoc($result)) {
             $db->query('INSERT INTO '.$db->prefix.'forum_perms (group_id, forum_id, read_forum, post_replies, post_topics) VALUES('.$new_group_id.', '.$cur_forum_perm['forum_id'].', '.$cur_forum_perm['read_forum'].', '.$cur_forum_perm['post_replies'].', '.$cur_forum_perm['post_topics'].')') || \error('Unable to insert group forum permissions', __FILE__, __LINE__, $db->error());
         }
     } else {
-        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE g_title=\''.$db->escape($title).'\' AND g_id!='.(int) $_POST['group_id']) || \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM `'.$db->prefix.'groups` WHERE g_title=\''.$db->escape($title).'\' AND g_id!='.(int) $_POST['group_id']);
+        if (!$result) {
+            \error('Unable to check group title collision', __FILE__, __LINE__, $db->error());
+        }
         if ($db->num_rows($result)) {
             \message('There is already a group with the title "'.\pun_htmlspecialchars($title).'".');
         }
@@ -392,7 +407,10 @@ elseif (isset($_GET['del_group'])) {
     }
 
     // Check if this group has any members
-    $result = $db->query('SELECT g.g_title, COUNT(u.id) FROM `'.$db->prefix.'groups` AS g INNER JOIN `'.$db->prefix.'users` AS u ON g.g_id=u.group_id WHERE g.g_id='.$group_id.' GROUP BY g.g_id, g_title') || \error('Unable to fetch group info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT g.g_title, COUNT(u.id) FROM `'.$db->prefix.'groups` AS g INNER JOIN `'.$db->prefix.'users` AS u ON g.g_id=u.group_id WHERE g.g_id='.$group_id.' GROUP BY g.g_id, g_title');
+    if (!$result) {
+        \error('Unable to fetch group info', __FILE__, __LINE__, $db->error());
+    }
 
     // If the group doesn't have any members or if we've already selected a group to move the members to
     if (!$db->num_rows($result) || isset($_POST['del_group'])) {
@@ -433,7 +451,10 @@ elseif (isset($_GET['del_group'])) {
 <label>Переместить пользователей в
 <select name="move_to_group">';
 
-    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' AND g_id!='.$group_id.' ORDER BY g_title') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id!='.PUN_GUEST.' AND g_id!='.$group_id.' ORDER BY g_title');
+    if (!$result) {
+        \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+    }
 
     while ($cur_group = $db->fetch_assoc($result)) {
         if (PUN_MEMBER == $cur_group['g_id']) { // Pre-select the pre-defined Members group
@@ -478,7 +499,10 @@ echo '<div class="blockform">
 <td>
 <select id="base_group" name="base_group">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title');
+if (!$result) {
+    \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+}
 
 while ($cur_group = $db->fetch_assoc($result)) {
     if ($cur_group['g_id'] == $pun_config['o_default_user_group']) {
@@ -506,7 +530,10 @@ echo '</select>
 <td>
 <select id="default_group" name="default_group">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` WHERE g_id>'.PUN_GUEST.' ORDER BY g_title');
+if (!$result) {
+    \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+}
 
 while ($cur_group = $db->fetch_assoc($result)) {
     if ($cur_group['g_id'] == $pun_config['o_default_user_group']) {
@@ -536,7 +563,10 @@ echo '</select>
 <p>Пред-установленные группы Гости, Администраторы, Модераторы и Пользователи не могут быть удалены. Хотя их можно редактировать, учтите что в некоторых группах иные настройки недоступны (напр.: разрешение <em>редактировать свои сообщения</em> для группы Гости). Администраторы всегда имеют все разрешения.</p>
 <table cellspacing="0">';
 
-$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` ORDER BY g_id') || \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups` ORDER BY g_id');
+if (!$result) {
+    \error('Unable to fetch user group list', __FILE__, __LINE__, $db->error());
+}
 
 while ($cur_group = $db->fetch_assoc($result)) {
     echo '<tr><th scope="row"><a href="admin_groups.php?edit_group='.$cur_group['g_id'].'">Edit</a>'.(($cur_group['g_id'] > PUN_MEMBER) ? ' - <a href="admin_groups.php?del_group='.$cur_group['g_id'].'">Remove</a>' : '').'</th><td>'.\pun_htmlspecialchars($cur_group['g_title']).'</td></tr>';

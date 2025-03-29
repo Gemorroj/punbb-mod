@@ -32,7 +32,10 @@ if (isset($_POST['add_rank'])) {
     }
 
     // Make sure there isn't already a rank with the same min_posts value
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE min_posts='.$min_posts) || \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE min_posts='.$min_posts);
+    if (!$result) {
+        \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    }
     if ($db->num_rows($result)) {
         \message($lang_admin['Double rank']);
     }
@@ -62,7 +65,10 @@ elseif (isset($_POST['update'])) {
     }
 
     // Make sure there isn't already a rank with the same min_posts value
-    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE id!='.$id.' AND min_posts='.$min_posts) || \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT 1 FROM '.$db->prefix.'ranks WHERE id!='.$id.' AND min_posts='.$min_posts);
+    if (!$result) {
+        \error('Unable to fetch rank info', __FILE__, __LINE__, $db->error());
+    }
     if ($db->num_rows($result)) {
         \message($lang_admin['Double rank']);
     }
@@ -129,7 +135,10 @@ echo '<div class="blockform">
 <legend>'.$lang_admin['Edit ranks'].'</legend>
 <div class="infldset">';
 
-$result = $db->query('SELECT id, `rank`, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts') || \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, `rank`, min_posts FROM '.$db->prefix.'ranks ORDER BY min_posts');
+if (!$result) {
+    \error('Unable to fetch rank list', __FILE__, __LINE__, $db->error());
+}
 if ($db->num_rows($result)) {
     echo '<table cellspacing="0">
 <thead>

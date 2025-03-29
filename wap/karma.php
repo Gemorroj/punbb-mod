@@ -32,13 +32,15 @@ if (null === $id) {
 $q = 'SELECT `group_id`, `username` '
    .'FROM `'.$db->prefix.'users` '
    .'WHERE `id` = '.$id;
-$q = $db->query($q)
-|| \error(
-    'Unable to fetch username',
-    __FILE__,
-    __LINE__,
-    $db->error()
-);
+$q = $db->query($q);
+if (!$q) {
+    \error(
+        'Unable to fetch username',
+        __FILE__,
+        __LINE__,
+        $db->error()
+    );
+}
 
 // Если пользователя с таким id нет, то чью карму то показывать?
 // Гостей не учитываем.
@@ -48,25 +50,19 @@ if (!($user = $db->fetch_assoc($q))
     \wap_message($lang_common['Bad request']);
 }
 
-$subQ = '(SELECT COUNT(1) '
-      .'FROM `'.$db->prefix.'karma` '
-      .'WHERE `vote` = "-1" '
-      .'AND `to` = '.$id
-      .')';
-
-$q = '
+$q = $db->query('
     SELECT COUNT(1) AS `plus`,
     (SELECT COUNT(1) FROM `'.$db->prefix.'karma` WHERE `vote` = "-1" AND `to` = '.$id.') AS `minus`
     FROM `'.$db->prefix.'karma`
-    WHERE `vote` = "1" AND `to` = '.$id;
-
-$q = $db->query($q)
-|| \error(
-    'Unable to count votes',
-    __FILE__,
-    __LINE__,
-    $db->error()
-);
+    WHERE `vote` = "1" AND `to` = '.$id);
+if (!$q) {
+    \error(
+        'Unable to count votes',
+        __FILE__,
+        __LINE__,
+        $db->error()
+    );
+}
 
 $karma = $db->fetch_assoc($q);
 
@@ -96,13 +92,15 @@ if ($num_hits) {
        .'ORDER BY `karma`.`time` DESC '
        .'LIMIT '.$start.','.$pun_user['disp_posts'];
 
-    $q = $db->query($q)
-    || \error(
-        'Unable to fetch votes',
-        __FILE__,
-        __LINE__,
-        $db->error()
-    );
+    $q = $db->query($q);
+    if (!$q) {
+        \error(
+            'Unable to fetch votes',
+            __FILE__,
+            __LINE__,
+            $db->error()
+        );
+    }
 
     $votes = [];
     while ($result = $db->fetch_assoc($q)) {

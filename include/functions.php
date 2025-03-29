@@ -52,7 +52,10 @@ function check_cookie(&$pun_user): void
             INNER JOIN `'.$db->prefix.'groups` AS g ON u.group_id=g.g_id
             LEFT JOIN `'.$db->prefix.'online` AS o ON o.user_id=u.id
             WHERE u.id='.(int) $cookie['user_id']
-        ) || \error('Unable to fetch user information', __FILE__, __LINE__, $db->error());
+        );
+        if (!$result) {
+            \error('Unable to fetch user information', __FILE__, __LINE__, $db->error());
+        }
         $pun_user = $db->fetch_assoc($result);
 
         // If user authorisation failed
@@ -129,7 +132,10 @@ function set_default_user(): void
       INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id = u.group_id
       LEFT JOIN `'.$db->prefix.'online` AS o ON o.ident="'.$remote_addr.'"
       WHERE u.id=1
-    ') || \error('Unable to fetch guest information', __FILE__, __LINE__, $db->error());
+    ');
+    if (!$result) {
+        \error('Unable to fetch guest information', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         exit('Unable to fetch guest information. The table \''.$db->prefix.'users\' must contain an entry with id = 1 that represents anonymous users.');
     }
@@ -223,7 +229,10 @@ function update_users_online(): void
     global $db, $pun_config, $pun_user;
 
     // Fetch all online list entries that are older than "o_timeout_online"
-    $result = $db->query('SELECT * FROM '.$db->prefix.'online WHERE logged<'.($_SERVER['REQUEST_TIME'] - $pun_config['o_timeout_online'])) || \error('Unable to fetch old entries from online list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT * FROM '.$db->prefix.'online WHERE logged<'.($_SERVER['REQUEST_TIME'] - $pun_config['o_timeout_online']));
+    if (!$result) {
+        \error('Unable to fetch old entries from online list', __FILE__, __LINE__, $db->error());
+    }
     while ($cur_user = $db->fetch_assoc($result)) {
         // If the entry is a guest, delete it
         if (1 == $cur_user['user_id']) {
@@ -478,12 +487,18 @@ function update_forum($forum_id): void
 {
     global $db;
 
-    $result = $db->query('SELECT COUNT(1), SUM(num_replies) FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id) || \error('Unable to fetch forum topic count', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1), SUM(num_replies) FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id);
+    if (!$result) {
+        \error('Unable to fetch forum topic count', __FILE__, __LINE__, $db->error());
+    }
     [$num_topics, $num_posts] = $db->fetch_row($result);
 
     $num_posts += $num_topics; // $num_posts is only the sum of all replies (we have to add the topic posts)
 
-    $result = $db->query('SELECT last_post, last_post_id, last_poster FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id.' AND moved_to IS NULL ORDER BY last_post DESC LIMIT 1') || \error('Unable to fetch last_post/last_post_id/last_poster', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT last_post, last_post_id, last_poster FROM '.$db->prefix.'topics WHERE forum_id='.$forum_id.' AND moved_to IS NULL ORDER BY last_post DESC LIMIT 1');
+    if (!$result) {
+        \error('Unable to fetch last_post/last_post_id/last_poster', __FILE__, __LINE__, $db->error());
+    }
     if ($db->num_rows($result)) {
         // There are topics in the forum
         [$last_post, $last_post_id, $last_poster] = $db->fetch_row($result);
@@ -507,7 +522,10 @@ function delete_topic($topic_id): void
 
     // Create a list of the post ID's in this topic
     $post_ids = null;
-    $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$topic_id) || \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id='.$topic_id);
+    if (!$result) {
+        \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+    }
     while ($row = $db->fetch_row($result)) {
         $post_ids .= ($post_ids) ? ','.$row[0] : $row[0];
     }
@@ -537,7 +555,10 @@ function delete_post($post_id, $topic_id): void
 {
     global $db, $pun_user;
 
-    $result = $db->query('SELECT `id`, `poster`, `posted` FROM `'.$db->prefix.'posts` WHERE `topic_id` = '.$topic_id.' ORDER BY `id` DESC LIMIT 2') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id`, `poster`, `posted` FROM `'.$db->prefix.'posts` WHERE `topic_id` = '.$topic_id.' ORDER BY `id` DESC LIMIT 2');
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
     [$last_id, $poster] = $db->fetch_row($result);
     [$second_last_id, $second_poster, $second_posted] = $db->fetch_row($result);
 
@@ -552,7 +573,10 @@ function delete_post($post_id, $topic_id): void
     \delete_post_attachments($post_id);
 
     // Count number of replies in the topic
-    $result = $db->query('SELECT COUNT(1) FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$topic_id) || \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT COUNT(1) FROM `'.$db->prefix.'posts` WHERE `topic_id`='.$topic_id);
+    if (!$result) {
+        \error('Unable to fetch post count for topic', __FILE__, __LINE__, $db->error());
+    }
     $num_replies = $db->result($result, 0) - 1;
 
     // уменьшаем кол-во постов
@@ -583,7 +607,10 @@ function censor_words($text)
 
     // If not already built in a previous call, build an array of censor words and their replacement text
     if (!$search_for) {
-        $result = $db->query('SELECT search_for, replace_with FROM '.$db->prefix.'censoring') || \error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT search_for, replace_with FROM '.$db->prefix.'censoring');
+        if (!$result) {
+            \error('Unable to fetch censor word list', __FILE__, __LINE__, $db->error());
+        }
         $num_words = $db->num_rows($result);
 
         $search_for = [];
@@ -1055,7 +1082,7 @@ function wap_redirect($destination_url, $redirect_code = 301): void
  * @param int    $line
  * @param array  $db_error
  */
-function error($message, $file, $line, $db_error = []): void
+function error($message, $file, $line, $db_error = []): never
 {
     global $pun_config, $db;
 
@@ -1164,7 +1191,7 @@ function convert_forum_url(&$text)
         global $db;
         if (\preg_match_all($pattern, $text, $regs, \PREG_SET_ORDER)) {
             foreach ($regs as $pid) {
-                $result = $db->query($query.$pid[1]) || \error('Unable execute query for convert urls', __FILE__, __LINE__, $db->error());
+                $result = $db->query($query.$pid[1]);
                 if ($result) {
                     $subject = $db->result($result);
                     $text = \preg_replace('/(?<=^|\s)'.\str_replace('/', '\/', \str_replace('?', '\?', \str_replace('.', '\.', $pid[0]))).'\b/', '[url='.$pid[0].']'.$subject.'[/url]', $text, 1);
@@ -1201,7 +1228,10 @@ function vote($to = 0, $vote = 1): void
     global $db, $pun_user;
 
     $vote = ((1 == $vote) ? 1 : -1);
-    $q = $db->query('SELECT 1 FROM `'.$db->prefix.'karma` WHERE `id`='.$pun_user['id'].' AND `to`='.(int) $to) || \error('Error', __FILE__, __LINE__, $db->error());
+    $q = $db->query('SELECT 1 FROM `'.$db->prefix.'karma` WHERE `id`='.$pun_user['id'].' AND `to`='.(int) $to);
+    if (!$q) {
+        \error('Error', __FILE__, __LINE__, $db->error());
+    }
 
     if ($db->num_rows($q)) {
         \message('Error');

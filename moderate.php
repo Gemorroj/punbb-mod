@@ -19,7 +19,10 @@ if (isset($_GET['get_host'])) {
             \message($lang_common['Bad request']);
         }
 
-        $result = $db->query('SELECT `poster_ip` FROM '.$db->prefix.'posts WHERE id='.$get_host) || \error('Unable to fetch post IP address', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `poster_ip` FROM '.$db->prefix.'posts WHERE id='.$get_host);
+        if (!$result) {
+            \error('Unable to fetch post IP address', __FILE__, __LINE__, $db->error());
+        }
         if (!$db->num_rows($result)) {
             \message($lang_common['Bad request']);
         }
@@ -61,7 +64,10 @@ if ($fid < 1) {
     \message($lang_common['Bad request']);
 }
 
-$result = $db->query('SELECT moderators FROM '.$db->prefix.'forums WHERE id='.$fid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT moderators FROM '.$db->prefix.'forums WHERE id='.$fid);
+if (!$result) {
+    \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+}
 
 $moderators = $db->result($result);
 $mods_array = ($moderators) ? \unserialize($moderators, ['allowed_classes' => false]) : [];
@@ -81,7 +87,10 @@ if (isset($_GET['tid'])) {
     }
 
     // Fetch some info about the topic
-    $result = $db->query('SELECT t.subject, t.num_replies, f.id AS forum_id, forum_name FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid.' AND t.id='.$tid.' AND t.moved_to IS NULL') || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT t.subject, t.num_replies, f.id AS forum_id, forum_name FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'subscriptions AS s ON (t.id=s.topic_id AND s.user_id='.$pun_user['id'].') LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid.' AND t.id='.$tid.' AND t.moved_to IS NULL');
+    if (!$result) {
+        \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+    }
     if (!$db->num_rows($result)) {
         \message($lang_common['Bad request']);
     }
@@ -103,7 +112,10 @@ if (isset($_GET['tid'])) {
             }
 
             // Verify that the post IDs are valid
-            $result = $db->query('SELECT 1 FROM '.$db->prefix.'posts WHERE id IN('.$posts.') AND topic_id='.$tid) || \error('Unable to check posts', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT 1 FROM '.$db->prefix.'posts WHERE id IN('.$posts.') AND topic_id='.$tid);
+            if (!$result) {
+                \error('Unable to check posts', __FILE__, __LINE__, $db->error());
+            }
 
             if ($db->num_rows($result) != \substr_count($posts, ',') + 1) {
                 \message($lang_common['Bad request']);
@@ -122,7 +134,10 @@ if (isset($_GET['tid'])) {
             \delete_post_attachments($posts);
 
             // Get last_post, last_post_id, and last_poster for the topic after deletion
-            $result = $db->query('SELECT id, poster, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1') || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+            $result = $db->query('SELECT id, poster, posted FROM '.$db->prefix.'posts WHERE topic_id='.$tid.' ORDER BY id DESC LIMIT 1');
+            if (!$result) {
+                \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+            }
             $last_post = $db->fetch_assoc($result);
 
             // How many posts did we just delete?
@@ -208,7 +223,10 @@ if (isset($_GET['tid'])) {
     }
 
     // Retrieve the posts (and their respective poster)
-    $result = $db->query('SELECT u.title, u.num_posts, g.g_id, g.g_user_title, p.id, p.poster, p.poster_id, p.poster_ip, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by FROM `'.$db->prefix.'posts` AS p INNER JOIN `'.$db->prefix.'users` AS u ON u.id=p.poster_id INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE p.topic_id='.$tid.' ORDER BY p.id'.$act_all) || \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT u.title, u.num_posts, g.g_id, g.g_user_title, p.id, p.poster, p.poster_id, p.poster_ip, p.message, p.hide_smilies, p.posted, p.edited, p.edited_by FROM `'.$db->prefix.'posts` AS p INNER JOIN `'.$db->prefix.'users` AS u ON u.id=p.poster_id INNER JOIN `'.$db->prefix.'groups` AS g ON g.g_id=u.group_id WHERE p.topic_id='.$tid.' ORDER BY p.id'.$act_all);
+    if (!$result) {
+        \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
+    }
 
     while ($cur_post = $db->fetch_assoc($result)) {
         ++$post_count;
@@ -290,7 +308,10 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         }
 
         // Verify that the topic IDs are valid
-        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $topics).') AND forum_id='.$fid) || \error('Unable to check topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.\implode(',', $topics).') AND forum_id='.$fid);
+        if (!$result) {
+            \error('Unable to check topics', __FILE__, __LINE__, $db->error());
+        }
 
         if ($db->num_rows($result) != \count($topics)) {
             \message($lang_common['Bad request']);
@@ -306,7 +327,10 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
         if (isset($_POST['with_redirect'])) {
             foreach ($topics as $cur_topic) {
                 // Fetch info for the redirect topic
-                $result = $db->query('SELECT poster, subject, posted, last_post FROM '.$db->prefix.'topics WHERE id='.$cur_topic) || \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+                $result = $db->query('SELECT poster, subject, posted, last_post FROM '.$db->prefix.'topics WHERE id='.$cur_topic);
+                if (!$result) {
+                    \error('Unable to fetch topic info', __FILE__, __LINE__, $db->error());
+                }
                 $moved_to = $db->fetch_assoc($result);
 
                 // Create the redirect topic
@@ -354,7 +378,10 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to'])) {
 <div class="infldset">
 <label>'.$lang_misc['Move to'].'<br /><select name="move_to_forum">';
 
-    $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position') || \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT c.id AS cid, c.cat_name, f.id AS fid, f.forum_name FROM '.$db->prefix.'categories AS c INNER JOIN '.$db->prefix.'forums AS f ON c.id=f.cat_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.redirect_url IS NULL ORDER BY c.disp_position, c.id, f.disp_position');
+    if (!$result) {
+        \error('Unable to fetch category/forum list', __FILE__, __LINE__, $db->error());
+    }
 
     $cur_category = 0;
     while ($cur_forum = $db->fetch_assoc($result)) {
@@ -411,7 +438,10 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         include_once PUN_ROOT.'include/search_idx.php';
 
         // Verify that the topic IDs are valid
-        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.$topics.') AND forum_id='.$fid) || \error('Unable to check topics', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT 1 FROM '.$db->prefix.'topics WHERE id IN('.$topics.') AND forum_id='.$fid);
+        if (!$result) {
+            \error('Unable to check topics', __FILE__, __LINE__, $db->error());
+        }
 
         if ($db->num_rows($result) != \substr_count($topics, ',') + 1) {
             \message($lang_common['Bad request']);
@@ -419,7 +449,7 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 
         // hcs AJAX POLL MOD BEGIN
         if (1 == $pun_config['poll_enabled']) {
-            include_once PUN_ROOT.'include/poll/poll.inc.php';
+            include_once PUN_ROOT.'include/poll/Poll.php';
             $Poll->deleteTopic($topics);
         }
         // hcs AJAX POLL MOD END
@@ -431,7 +461,10 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
         $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE topic_id IN('.$topics.')') || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
 
         // Create a list of the post ID's in this topic and then strip the search index
-        $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id IN('.$topics.')') || \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT id FROM '.$db->prefix.'posts WHERE topic_id IN('.$topics.')');
+        if (!$result) {
+            \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+        }
 
         $post_ids = '';
         while ($row = $db->fetch_row($result)) {
@@ -543,7 +576,10 @@ if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply'])) 
 require PUN_ROOT.'lang/'.$pun_user['language'].'/forum.php';
 
 // Fetch some info about the forum
-$result = $db->query('SELECT f.forum_name, f.redirect_url, f.num_topics FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid) || \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT f.forum_name, f.redirect_url, f.num_topics FROM '.$db->prefix.'forums AS f LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id='.$pun_user['g_id'].') WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND f.id='.$fid);
+if (!$result) {
+    \error('Unable to fetch forum info', __FILE__, __LINE__, $db->error());
+}
 if (!$db->num_rows($result)) {
     \message($lang_common['Bad request']);
 }
@@ -601,7 +637,10 @@ if ('all' != $_GET['action']) {
 
 // AJAX POLL ADD has_poll COLUMN INTO SELECT
 // Select topics
-$result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, last_post_id, last_poster, num_views, num_replies, closed, sticky, moved_to FROM '.$db->prefix.'topics WHERE forum_id='.$fid.' ORDER BY sticky DESC, last_post DESC'.$act_all) || \error('Unable to fetch topic list for forum', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT id, poster, has_poll, subject, posted, last_post, last_post_id, last_poster, num_views, num_replies, closed, sticky, moved_to FROM '.$db->prefix.'topics WHERE forum_id='.$fid.' ORDER BY sticky DESC, last_post DESC'.$act_all);
+if (!$result) {
+    \error('Unable to fetch topic list for forum', __FILE__, __LINE__, $db->error());
+}
 
 // If there are topics in this forum.
 if ($db->num_rows($result)) {

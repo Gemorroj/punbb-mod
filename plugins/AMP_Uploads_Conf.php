@@ -69,7 +69,7 @@ if (isset($_POST['save_options'])) {
     $db->query('INSERT INTO '.$db->prefix.'uploads_types (type,exts) VALUES ("'.$db->escape($_POST['cat0']).'","'.$db->escape($_POST['ext0']).'")') || \error('Unable to add new type', __FILE__, __LINE__, $db->error());
     \redirect($_SERVER['REQUEST_URI'], 'New type added, redirecting &#x2026;');
 } elseif (isset($_GET['action'], $_GET['id'])) {
-    if ('delete' == $_GET['action']) {
+    if ('delete' === $_GET['action']) {
         $db->query('DELETE FROM '.$db->prefix.'uploads_types WHERE id='.(int) $_GET['id']) || \error('Unable to delete a type', __FILE__, __LINE__, $db->error());
         \redirect('admin_loader.php?plugin='.$plugin, 'Type deleted, redirecting &#x2026;');
     } else {
@@ -93,11 +93,17 @@ if (!$upl_conf['p_setop']) {
     ?>
     <p>This plugin edits settings for PunUploadExtra module.</p>
     <?php
-    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups`') || \error('Unable to get useergroups', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT g_id, g_title FROM `'.$db->prefix.'groups`');
+    if (!$result) {
+        \error('Unable to get useergroups', __FILE__, __LINE__, $db->error());
+    }
     $i = 0;
     while ($i < $db->num_rows($result)) {
         $groups[$i] = $db->fetch_assoc($result);
-        $result2 = $db->query('SELECT * FROM '.$db->prefix.'uploads_conf WHERE g_id='.$groups[$i]['g_id']) || \error('Unable to read upload persmissions', __FILE__, __LINE__, $db->error());
+        $result2 = $db->query('SELECT * FROM '.$db->prefix.'uploads_conf WHERE g_id='.$groups[$i]['g_id']);
+        if (!$result2) {
+            \error('Unable to read upload persmissions', __FILE__, __LINE__, $db->error());
+        }
         $perms[$i] = $db->fetch_assoc($result2);
         if (!$perms[$i]) {
             $result2 = $db->query('SELECT * FROM '.$db->prefix.'uploads_conf WHERE g_id=0');
@@ -208,7 +214,10 @@ if (!$upl_conf['p_setop']) {
                 <div class="fsetsubmit"><input type="submit" name="save_types" value="Save types"/></div>
                 <br/>
 <?php
-$result = $db->query('SELECT * FROM '.$db->prefix.'uploads_types') || \error('Unable to read upload typess', __FILE__, __LINE__, $db->error());
+$result = $db->query('SELECT * FROM '.$db->prefix.'uploads_types');
+    if (!$result) {
+        \error('Unable to read upload types', __FILE__, __LINE__, $db->error());
+    }
     $num_types = 0;
     while ($ar = $db->fetch_assoc($result)) {
         echo '<input type="text" size="30" maxlength="1000" value="'.\pun_htmlspecialchars($ar['type']).'" name="cat'.$ar['id'].'" /> <input type="text" size="50" maxlength="5000" value="'.\pun_htmlspecialchars($ar['exts']).'" name="ext'.$ar['id'].'" /> <a href="'.$_SERVER['REQUEST_URI'].'&amp;action=delete&amp;id='.$ar['id'].'">Delete</a><br />';

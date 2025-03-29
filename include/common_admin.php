@@ -124,7 +124,10 @@ function prune($forum_id, $prune_sticky, $prune_date): void
     }
 
     // Fetch topics to prune
-    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'topics` WHERE `forum_id`='.$forum_id.$extra_sql) || \error('Unable to fetch topics', __FILE__, __LINE__, $db->error());
+    $result = $db->query('SELECT `id` FROM `'.$db->prefix.'topics` WHERE `forum_id`='.$forum_id.$extra_sql);
+    if (!$result) {
+        \error('Unable to fetch topics', __FILE__, __LINE__, $db->error());
+    }
 
     $topic_ids = null;
     while ($row = $db->fetch_row($result)) {
@@ -133,7 +136,10 @@ function prune($forum_id, $prune_sticky, $prune_date): void
 
     if ($topic_ids) {
         // Fetch posts to prune
-        $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id` IN('.$topic_ids.')') || \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+        $result = $db->query('SELECT `id` FROM `'.$db->prefix.'posts` WHERE `topic_id` IN('.$topic_ids.')');
+        if (!$result) {
+            \error('Unable to fetch posts', __FILE__, __LINE__, $db->error());
+        }
 
         $post_ids = null;
         while ($row = $db->fetch_row($result)) {
@@ -142,7 +148,7 @@ function prune($forum_id, $prune_sticky, $prune_date): void
 
         if ($post_ids) {
             // hcs AJAX POLL MOD BEGIN
-            include_once PUN_ROOT.'include/poll/poll.inc.php';
+            include_once PUN_ROOT.'include/poll/Poll.php';
             $Poll->deleteTopic($topic_ids);
             // hcs AJAX POLL MOD END
 
