@@ -6,42 +6,25 @@ if (!\defined('PUN')) {
 }
 
 // Коннект с MySQL
-class common_db
+class DBLayer
 {
-    /**
-     * @var string|null
-     */
-    public $prefix;
-    /**
-     * @var mysqli
-     */
-    private $link_id;
+    public ?string $prefix = null;
+    private ?\mysqli $link_id = null;
     /**
      * @var bool|mysqli_result|null
      */
     private $query_result;
-    /**
-     * @var array
-     */
-    private $saved_queries = [];
-    /**
-     * @var int
-     */
-    private $num_queries = 0;
+    private array $saved_queries = [];
+    private int $num_queries = 0;
 
-    /**
-     * @param string $db_host
-     * @param string $db_username
-     * @param string $db_password
-     * @param string $db_name
-     */
-    public function __construct($db_host, $db_username, $db_password, $db_name)
+    public function __construct(string $db_host, string $db_username, string $db_password, string $db_name)
     {
-        $this->link_id = \mysqli_connect($db_host, $db_username, $db_password, $db_name);
+        $link_id = \mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
-        if (!$this->link_id) {
+        if (!$link_id) {
             \error('Unable to connect to MySQL server. MySQL reported: '.\mysqli_connect_error(), __FILE__, __LINE__);
         }
+        $this->link_id = $link_id;
     }
 
     /**
@@ -49,7 +32,7 @@ class common_db
      *
      * @return bool|mysqli_result
      */
-    public function query($sql)
+    public function query(string $sql)
     {
         $stat = \defined('PUN_SHOW_QUERIES');
         if ($stat) {

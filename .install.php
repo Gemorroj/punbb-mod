@@ -68,7 +68,7 @@ if (PHP_VERSION_ID < 70103) {
 
 \define('PUN_ROOT', './');
 require PUN_ROOT . 'config.php';
-require PUN_ROOT . 'include/common_db.php';
+require PUN_ROOT . 'include/DBLayer.php';
 
 $db->query("CREATE TABLE IF NOT EXISTS `bans` (
 `id` int(10) unsigned NOT NULL auto_increment,

@@ -2,7 +2,7 @@
 // После установки УДАЛИТЬ !!!
 \define('PUN_ROOT', './');
 require PUN_ROOT . 'config.php';
-require PUN_ROOT . 'include/common_db.php';
+require PUN_ROOT . 'include/DBLayer.php';
 
 
 $q = $db->query('SELECT * FROM `config`');
