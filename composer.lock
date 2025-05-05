@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "587da7d2a163a417909201e4f5e01109",
+    "content-hash": "3d3d3ad7c79cbfcc29aadbc1037251a2",
     "packages": [
         {
             "name": "gregwar/captcha",
@@ -65,16 +65,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v5.4.5",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "e26f82d02c4d18fc82094c28fbc65f711e39ed5d"
+                "reference": "372f7cf41a6e2a9ca2e7253bc5f5c4f38df25a63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/e26f82d02c4d18fc82094c28fbc65f711e39ed5d",
-                "reference": "e26f82d02c4d18fc82094c28fbc65f711e39ed5d",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/372f7cf41a6e2a9ca2e7253bc5f5c4f38df25a63",
+                "reference": "372f7cf41a6e2a9ca2e7253bc5f5c4f38df25a63",
                 "shasum": ""
             },
             "require": {
@@ -129,7 +129,7 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v5.4.5"
+                "source": "https://github.com/smarty-php/smarty/tree/v5.5.0"
             },
             "funding": [
                 {
@@ -137,7 +137,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-15T11:20:08+00:00"
+            "time": "2025-05-03T21:36:46+00:00"
         },
         {
             "name": "symfony/finder",
@@ -1985,7 +1985,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.31.0",
+            "version": "v1.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -2044,7 +2044,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.31.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.32.0"
             },
             "funding": [
                 {
