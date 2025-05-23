@@ -22,7 +22,7 @@
 И многое другое...
 
 ### Требования
-* Apache 2 / Nginx
+* Apache 2 / Nginx / Angie
 * MySQL >= 8.0
 * PHP >= 8.4
 
