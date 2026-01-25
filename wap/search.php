@@ -446,7 +446,7 @@ if (isset($_GET['action']) || isset($_GET['search_id'])) {
         $temp['sort_dir'] = $sort_dir;
         $temp['show_as'] = $show_as;
         $temp = \serialize($temp);
-        $search_id = \random_int(1, \mt_getrandmax());
+        $search_id = \random_int(1, \getrandmax());
 
         $ident = ($pun_user['is_guest']) ? \get_remote_address() : $pun_user['username'];
 
