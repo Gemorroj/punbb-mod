@@ -53,17 +53,22 @@ if ('check_upgrade' === $action) {
     $errors = [];
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
-        if ('online' !== $row['Name']) {
-            if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
-                $errors[] = $db->error();
-            }
+        if ('InnoDB' !== $row['Engine']) {
+            continue;
+        }
+        if ($row['Data_free'] < 1) {
+            continue;
+        }
+
+        if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
+            $errors[] = $db->error();
         }
     }
 
     if (!$errors) {
         \message('Tables Optimized');
     } else {
-        \message('Tables NOT Optimized');
+        \message('Tables NOT Optimized ('.\htmlspecialchars(\implode('; ', $errors), \ENT_NOQUOTES).')');
     }
 }
 

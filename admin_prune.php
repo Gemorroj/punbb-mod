@@ -24,7 +24,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
         $prune_days = (int) $_POST['prune_days'];
         $prune_date = ($prune_days) ? \time() - ($prune_days * 86400) : -1;
 
-        @\set_time_limit(3600);
+        @\set_time_limit(600);
 
         if ('all' === $prune_from) {
             $result = $db->query('SELECT id FROM '.$db->prefix.'forums');

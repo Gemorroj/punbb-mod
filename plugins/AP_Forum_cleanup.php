@@ -10,7 +10,7 @@ if (!\defined('PUN')) {
 
 if (isset($_POST['cleanup'])) {
     // delete all users and posts from specified ips, then perform all other cleanup tasks except resetting post counts since that might not be needed or wanted.
-    @\set_time_limit(3600);
+    @\set_time_limit(600);
     $ip = "'".\implode("','", \array_values(\explode(' ', $_POST['ip_addys'])))."'";
     $db->query('DELETE FROM '.$db->prefix.'posts WHERE poster_ip IN('.$ip.')') || \error('Could not delete posts', __FILE__, __LINE__, $db->error());
     $db->query('DELETE FROM '.$db->prefix.'users WHERE registration_ip IN('.$ip.')') || \error('Could not delete users', __FILE__, __LINE__, $db->error());
@@ -92,7 +92,7 @@ SET
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Предки удалены');
 } elseif (isset($_POST['delete_obsolete_users'])) {
     // delete obsolete users without posts
-    @\set_time_limit(3600);
+    @\set_time_limit(600);
     $result = $db->query('SELECT id FROM '.$db->prefix.'users WHERE num_posts < 1 AND num_files < 1 AND (last_visit < UNIX_TIMESTAMP() - 31536000) AND group_id >= '.PUN_MEMBER);
     if (!$result) {
         \error('Unable to fetch users', __FILE__, __LINE__, $db->error());
