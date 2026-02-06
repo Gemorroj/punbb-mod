@@ -11,9 +11,12 @@ class DBLayer
     public ?string $prefix = null;
     private ?mysqli $link_id = null;
     /**
-     * @var bool|mysqli_result|null
+     * @var bool|mysqli_result
      */
     private $query_result;
+    /**
+     * @var array{0: string, 1: int|float}
+     */
     private array $saved_queries = [];
     private int $num_queries = 0;
 
@@ -27,10 +30,7 @@ class DBLayer
         $this->link_id = $link_id;
     }
 
-    /**
-     * @return bool|mysqli_result
-     */
-    public function query(string $sql)
+    public function query(string $sql): bool|mysqli_result
     {
         $stat = \defined('PUN_SHOW_QUERIES');
         if ($stat) {
@@ -55,13 +55,7 @@ class DBLayer
         return false;
     }
 
-    /**
-     * @param mysqli_result $query_id
-     * @param int           $row
-     *
-     * @return bool
-     */
-    public function result($query_id, $row = 0)
+    public function result(?mysqli_result $query_id, int $row = 0): bool
     {
         if ($query_id && $query_id->num_rows) {
             $query_id->data_seek($row);
@@ -73,95 +67,62 @@ class DBLayer
         return false;
     }
 
-    /**
-     * @param mysqli_result $query_id
-     *
-     * @return array|bool
-     */
-    public function fetch_assoc($query_id)
+    public function fetch_assoc(?mysqli_result $query_id): ?array
     {
-        return $query_id ? $query_id->fetch_assoc() : false;
+        return $query_id ? $query_id->fetch_assoc() : null;
     }
 
-    /**
-     * @param mysqli_result $query_id
-     *
-     * @return array|bool
-     */
-    public function fetch_row($query_id)
+    public function fetch_row(?mysqli_result $query_id): ?array
     {
-        return $query_id ? $query_id->fetch_row() : false;
+        return $query_id ? $query_id->fetch_row() : null;
     }
 
-    /**
-     * @param mysqli_result $query_id
-     *
-     * @return bool|int
-     */
-    public function num_rows($query_id)
+    public function num_rows(?mysqli_result $query_id): ?int
     {
-        return $query_id ? $query_id->num_rows : false;
+        return $query_id ? $query_id->num_rows : null;
     }
 
-    /**
-     * @return bool|int
-     */
-    public function affected_rows()
+    public function affected_rows(): ?int
     {
-        return $this->link_id ? $this->link_id->affected_rows : false;
+        return $this->link_id ? $this->link_id->affected_rows : null;
     }
 
-    /**
-     * @return bool|int
-     */
-    public function insert_id()
+    public function insert_id(): ?int
     {
-        return $this->link_id ? $this->link_id->insert_id : false;
+        return $this->link_id ? $this->link_id->insert_id : null;
     }
 
-    /**
-     * @return int
-     */
-    public function get_num_queries()
+    public function get_num_queries(): int
     {
         return $this->num_queries;
     }
 
     /**
-     * @return array
+     * @return array{0: string, 1: int|float}
      */
-    public function get_saved_queries()
+    public function get_saved_queries(): array
     {
         return $this->saved_queries;
     }
 
-    /**
-     * @param mysqli_result $query_id
-     */
-    public function free_result($query_id): void
+    public function free_result(?mysqli_result $query_id): void
     {
         if ($query_id) {
             $query_id->free_result();
         }
     }
 
-    /**
-     * @param string $str
-     *
-     * @return string
-     */
-    public function escape($str)
+    public function escape(string $str): string
     {
         return \mysqli_real_escape_string($this->link_id, $str);
     }
 
     /**
-     * @return array
+     * @return array{error_sql: string, error_no: int, error_msg: string}
      */
-    public function error()
+    public function error(): array
     {
         $saved_queries = $this->get_saved_queries();
-        /** @var array|false $lastQuery */
         $last_query = \end($saved_queries);
         if ($last_query) {
             $last_query = \current($last_query);
@@ -169,15 +130,12 @@ class DBLayer
 
         return [
             'error_sql' => $last_query ?: '',
-            'error_no' => $this->link_id ? $this->link_id->errno : '',
+            'error_no' => $this->link_id ? $this->link_id->errno : 0,
             'error_msg' => $this->link_id ? $this->link_id->error : '',
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function close()
+    public function close(): bool
     {
         if ($this->link_id) {
             // if ($this->query_result) {

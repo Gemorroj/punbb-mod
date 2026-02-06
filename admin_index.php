@@ -51,6 +51,7 @@ if ('check_upgrade' === $action) {
     exit;
 } elseif ('optimize' === $action) {
     $errors = [];
+    $optimizedCount = 0;
     $result = $db->query('SHOW TABLE STATUS');
     while ($row = $db->fetch_assoc($result)) {
         if ('InnoDB' !== $row['Engine']) {
@@ -60,15 +61,17 @@ if ('check_upgrade' === $action) {
             continue;
         }
 
-        if (!$db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
-            $errors[] = $db->error();
+        if ($db->query('ALTER TABLE `'.\str_replace('`', '``', $row['Name']).'` ENGINE=InnoDB')) {
+            ++$optimizedCount;
+        } else {
+            $errors[] = $row['Name'].': '.$db->error()['error_msg'];
         }
     }
 
     if (!$errors) {
-        \message('Tables Optimized');
+        \message('Tables Optimized ('.$optimizedCount.' tables processed)');
     } else {
-        \message('Tables NOT Optimized ('.\htmlspecialchars(\implode('; ', $errors), \ENT_NOQUOTES).')');
+        \message('Tables NOT Optimized. Success: '.$optimizedCount.', Errors: '.\count($errors).' ('.\htmlspecialchars(\implode('; ', $errors), \ENT_NOQUOTES).')');
     }
 }
 
