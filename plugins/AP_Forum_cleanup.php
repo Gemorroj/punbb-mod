@@ -140,9 +140,9 @@ SET
         </div>
     </div>
 </div>
+
 <div class="block">
     <h2 class="block2"><span>Очистка от спама</span></h2>
-
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -164,8 +164,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Синхронизировать показатели сообщений/тем форума</span></h2>
 
+    <h2 class="block2"><span>Синхронизировать показатели сообщений/тем форума</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -177,8 +177,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Синхронизировать количество ответов в темах</span></h2>
 
+    <h2 class="block2"><span>Синхронизировать количество ответов в темах</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -190,8 +190,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Синхронизировать количество пользовательских сообщений</span></h2>
 
+    <h2 class="block2"><span>Синхронизировать количество пользовательских сообщений</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -203,8 +203,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Синхронизировать последние сообщения форума</span></h2>
 
+    <h2 class="block2"><span>Синхронизировать последние сообщения форума</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -216,8 +216,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Синхронизировать последние сообщения тем</span></h2>
 
+    <h2 class="block2"><span>Синхронизировать последние сообщения тем</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -229,8 +229,8 @@ SET
             </p>
         </form>
     </div>
-    <h2 class="block2"><span>Удалить предков</span></h2>
 
+    <h2 class="block2"><span>Удалить предков</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
@@ -244,6 +244,7 @@ SET
         </form>
     </div>
 
+    <h2 class="block2"><span>Удалить старых пользователей</span></h2>
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
