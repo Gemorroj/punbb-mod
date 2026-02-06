@@ -92,6 +92,7 @@ SET
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Предки удалены');
 } elseif (isset($_POST['delete_obsolete_users'])) {
     // delete obsolete users without posts
+    @\set_time_limit(3600);
     $result = $db->query('SELECT id FROM '.$db->prefix.'users WHERE num_posts < 1 AND num_files < 1 AND (last_visit < UNIX_TIMESTAMP() - 31536000) AND group_id >= '.PUN_MEMBER);
     if (!$result) {
         \error('Unable to fetch users', __FILE__, __LINE__, $db->error());
