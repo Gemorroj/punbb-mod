@@ -572,8 +572,7 @@ if ('change_pass' == $action) {
             }
 
             while ($cur_forum = $db->fetch_assoc($result)) {
-                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) :
-                    [];
+                $cur_moderators = ($cur_forum['moderators']) ? \unserialize($cur_forum['moderators'], ['allowed_classes' => false]) : [];
 
                 if (\in_array($id, $cur_moderators)) {
                     unset($cur_moderators[$username]);
@@ -584,13 +583,14 @@ if ('change_pass' == $action) {
             }
         }
 
+        // Delete messages
+        $db->query('DELETE FROM '.$db->prefix.'messages WHERE owner='.$id.' OR sender_id='.$id) || \error('Unable to delete messages', __FILE__, __LINE__, $db->error());
+
         // Delete any subscriptions
-        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id)
-            || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id) || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
 
         // Remove him/her from the online list (if they happen to be logged in)
-        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id)
-            || \error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id) || \error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
 
         // Should we delete all posts made by this user?
         if (isset($_POST['delete_posts'])) {
@@ -1898,7 +1898,7 @@ if (isset($_GET['preview']) || ($pun_user['id'] != $id && ($pun_user['g_id'] >
     </form>
     </div>
     </div>';
-    } elseif ('admin' == $_GET['section']) {
+    } elseif ('admin' === $_GET['section']) {
         if ($pun_user['g_id'] > PUN_MOD || (PUN_MOD == $pun_user['g_id'] && !$pun_config['p_mod_ban_users'])) {
             \message($lang_common['Bad request']);
         }

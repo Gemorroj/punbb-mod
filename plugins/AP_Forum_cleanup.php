@@ -90,6 +90,43 @@ SET
     $db->query('CREATE TEMPORARY TABLE IF NOT EXISTS '.$db->prefix.'orph_topics SELECT t.id AS o_id FROM '.$db->prefix.'topics AS t LEFT JOIN '.$db->prefix.'forums AS f ON t.forum_id=f.id WHERE f.id IS NULL GROUP BY t.id') || \error('Creating orphaned topics table failed', __FILE__, __LINE__, $db->error());
     $db->query('DELETE '.$db->prefix.'topics FROM '.$db->prefix.'topics, '.$db->prefix.'orph_topics WHERE o_id=id') || \error('Could not delete topics', __FILE__, __LINE__, $db->error());
     \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Предки удалены');
+} elseif (isset($_POST['delete_obsolete_users'])) {
+    // delete obsolete users without posts
+    $result = $db->query('SELECT id FROM '.$db->prefix.'users WHERE num_posts < 1 AND num_files < 1 AND (last_visit < UNIX_TIMESTAMP() - 31536000) AND group_id >= '.PUN_MEMBER);
+    if (!$result) {
+        \error('Unable to fetch users', __FILE__, __LINE__, $db->error());
+    }
+
+    $deleted_users = 0;
+    while ($cur_user = $db->fetch_assoc($result)) {
+        // Delete messages
+        $db->query('DELETE FROM '.$db->prefix.'messages WHERE owner='.$cur_user['id'].' OR sender_id='.$cur_user['id']) || \error('Unable to delete messages', __FILE__, __LINE__, $db->error());
+        // Delete any subscriptions
+        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$cur_user['id']) || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
+        // Remove him/her from the online list (if they happen to be logged in)
+        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$cur_user['id']) || \error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
+        // Delete the user
+        $db->query('DELETE FROM '.$db->prefix.'users WHERE id='.$cur_user['id']) || \error(
+            'Unable to delete user',
+            __FILE__,
+            __LINE__,
+            $db->error()
+        );
+        ++$deleted_users;
+
+        // Delete user avatar
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.gif')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.gif');
+        }
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.jpg')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.jpg');
+        }
+        if (\file_exists($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.png')) {
+            \unlink($pun_config['o_avatars_dir'].'/'.$cur_user['id'].'.png');
+        }
+    }
+
+    \redirect('admin_loader.php?plugin=AP_Forum_cleanup.php', 'Удалено пользователей: '.$deleted_users);
 } else {
     // Display the admin navigation menu
     \generate_admin_menu($plugin); ?>
@@ -197,12 +234,23 @@ SET
     <div class="box">
         <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
             <div class="inbox">
-                <p>Удаляет все сообщения чьи родительские темы былы удалены, или наоборот темы которые не содержат
+                <p>Удаляет все сообщения чьи родительские темы были удалены, или наоборот темы которые не содержат
                     сообщений и все темы, чьи родительские форумы были удалены. Обычно эта проблема бывает после
                     редактирования базы данных.</p>
             </div>
             <p class="submitend">
                 <input type="submit" name="delete_orphans" value="Отправить" />
+            </p>
+        </form>
+    </div>
+
+    <div class="box">
+        <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+            <div class="inbox">
+                <p>Удаляет пользователей (группа Members), у которых нет сообщений и последнее посещение было более года назад.</p>
+            </div>
+            <p class="submitend">
+                <input type="submit" name="delete_obsolete_users" value="Отправить" />
             </p>
         </form>
     </div>

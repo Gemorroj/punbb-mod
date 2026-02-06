@@ -542,13 +542,14 @@ if ('delete_avatar' == $action) {
             }
         }
 
+        // Delete messages
+        $db->query('DELETE FROM '.$db->prefix.'messages WHERE owner='.$id.' OR sender_id='.$id) || \error('Unable to delete messages', __FILE__, __LINE__, $db->error());
+
         // Delete any subscriptions
-        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id)
-            || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'subscriptions WHERE user_id='.$id) || \error('Unable to delete subscriptions', __FILE__, __LINE__, $db->error());
 
         // Remove him/her from the online list (if they happen to be logged in)
-        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id)
-            || \error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
+        $db->query('DELETE FROM '.$db->prefix.'online WHERE user_id='.$id) || \error('Unable to remove user from online list', __FILE__, __LINE__, $db->error());
 
         // Should we delete all posts made by this user?
         if ($_POST['delete_posts']) {
