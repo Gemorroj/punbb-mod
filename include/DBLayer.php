@@ -5,7 +5,6 @@ if (!\defined('PUN')) {
     exit;
 }
 
-// Коннект с MySQL
 class DBLayer
 {
     public ?string $prefix = null;
@@ -55,7 +54,7 @@ class DBLayer
         return false;
     }
 
-    public function result(?mysqli_result $query_id, int $row = 0): bool
+    public function result(?mysqli_result $query_id, int $row = 0): mixed
     {
         if ($query_id && $query_id->num_rows) {
             $query_id->data_seek($row);

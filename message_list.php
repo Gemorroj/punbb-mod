@@ -32,7 +32,7 @@ if (1 === $box) {
     $name = $lang_pms['Inbox'];
 }
 
-$p = (!isset($_GET['p']) || $_GET['p'] <= 1 || $_GET['p'] > $num_pages) ? 1 : (int) $_GET['p'];
+$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int) $_GET['p'];
 
 // $name plus the link to the other box
 $page_name = $name;
@@ -94,15 +94,15 @@ require_once PUN_ROOT.'header.php';
     <div class="box">
         <div class="inbox">
             <ul>
-                <li <?php if (0 == $box) {
+                <li <?php if (0 === $box) {
                     echo 'class="isactive"';
                 } ?>><a
                     href="message_list.php?box=0"><?php echo $lang_pms['Inbox']; ?></a></li>
-                <li <?php if (1 == $box) {
+                <li <?php if (1 === $box) {
                     echo 'class="isactive"';
                 } ?>><a
                     href="message_list.php?box=1"><?php echo $lang_pms['Outbox']; ?></a></li>
-                <li <?php if (2 == $box) {
+                <li <?php if (2 === $box) {
                     echo 'class="isactive"';
                 } ?>><a
                     href="message_list.php?box=2"><?php echo $lang_pms['Options']; ?></a></li>

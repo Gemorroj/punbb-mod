@@ -21,29 +21,26 @@ require_once PUN_ROOT.'lang/'.$pun_user['language'].'/topic.php';
 
 require_once PUN_ROOT.'wap/header.php';
 
-$box = isset($_GET['box']) ? (int) $_GET['box'] : null;
+$box = isset($_GET['box']) ? (int) $_GET['box'] : 0;
 
 switch ($box) {
     default:
         $box = 0;
         $name = $lang_pms['Inbox'];
-
         break;
 
     case 1:
         $name = $lang_pms['Outbox'];
-
         break;
 
     case 2:
         $name = $lang_pms['Options'];
-
         break;
 }
 
 $smarty->assign('name', $name);
 
-$p = (isset($_GET['p']) && 1 < $_GET['p'] && $num_pages >= $_GET['p']) ? (int) $_GET['p'] : 1;
+$p = (!isset($_GET['p']) || $_GET['p'] <= 1) ? 1 : (int) $_GET['p'];
 
 // Delete multiple posts
 if (isset($_POST['delete_messages']) || isset($_POST['delete_messages_comply'])) {
@@ -87,7 +84,7 @@ if ($box < 2) {
     if (!$result) {
         \error('Unable to count messages', __FILE__, __LINE__, $db->error());
     }
-    [$num_messages] = $db->fetch_row($result);
+    $num_messages = $db->result($result);
 
     // What page are we on?
     $num_pages = \ceil($num_messages / $pun_config['o_pms_mess_per_page']);
