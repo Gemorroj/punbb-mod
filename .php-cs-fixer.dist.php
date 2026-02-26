@@ -8,8 +8,8 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
-        '@PHP8x4Migration' => true,
-        '@PHP8x4Migration:risky' => true,
+        '@PHP8x5Migration' => true,
+        '@PHP8x5Migration:risky' => true,
 
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
