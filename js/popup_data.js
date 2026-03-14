@@ -35,10 +35,7 @@ function gwPopup(e, layerId, autoClose) {
     gwActivePopup = document.getElementById(layerId);
     gwActivePopup.style.left = x + 'px';
     gwActivePopup.style.top = y + 'px';
-
     gwActivePopup.style.visibility = 'visible';
-
-
 
     if (autoClose) {
         clearTimeout(gwTimeoutId);

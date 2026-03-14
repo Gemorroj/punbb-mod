@@ -72,7 +72,7 @@ class Informer
             ORDER BY NULL
         ');
         if (!$r) {
-            throw new Exception($this->_db->error());
+            throw new Exception($this->_db->error()['error_msg']);
         }
         if (!$this->_db->num_rows($r)) {
             throw new Exception($this->_lang['Bad request']);
@@ -147,7 +147,7 @@ class Informer
         ');
 
         if (!$r) {
-            throw new Exception($this->_db->error());
+            throw new Exception($this->_db->error()['error_msg']);
         }
         if (!$this->_db->affected_rows()) {
             throw new Exception($this->_lang['Bad request']);
@@ -230,7 +230,7 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception($this->_db->error());
+            throw new Exception($this->_db->error()['error_msg']);
         }
         if (!$this->_db->num_rows($r)) {
             throw new Exception($this->_lang['Bad request']);
@@ -275,7 +275,7 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception($this->_db->error());
+            throw new Exception($this->_db->error()['error_msg']);
         }
         if (!$this->_db->num_rows($r)) {
             throw new Exception($this->_lang['Bad request']);
@@ -321,7 +321,7 @@ class Informer
         );
 
         if (!$r) {
-            throw new Exception($this->_db->error());
+            throw new Exception($this->_db->error()['error_msg']);
         }
         if (!$this->_db->num_rows($r)) {
             return [];

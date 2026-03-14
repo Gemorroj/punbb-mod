@@ -29,7 +29,7 @@ echo '<div id="brdfooter" class="block"><h2><span>'.$lang_common['Board footer']
 require PUN_ROOT.'include/pms/footer_links.php';
 // PMS MOD END
 
-if ('index' == $footer_style || 'search' == $footer_style) {
+if ('index' === $footer_style || 'search' === $footer_style) {
     if (!$pun_user['is_guest']) {
         echo '<dl id="searchlinks" class="conl"> <dt><strong>'.$lang_common['Search links'].'</strong></dt> <dd><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a></dd> <dd><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a></dd>';
 
@@ -43,7 +43,7 @@ if ('index' == $footer_style || 'search' == $footer_style) {
             echo '<dl id="searchlinks" class="conl"> <dt><strong>'.$lang_common['Search links'].'</strong></dt><dd><a href="search.php?action=show_24h">'.$lang_common['Show recent posts'].'</a></dd> <dd><a href="search.php?action=show_unanswered">'.$lang_common['Show unanswered posts'].'</a></dd> </dl>';
         }
     }
-} elseif ('viewforum' == $footer_style || 'viewtopic' == $footer_style) {
+} elseif ('viewforum' === $footer_style || 'viewtopic' === $footer_style) {
     echo '<div class="conl">';
 
     // Display the "Jump to" drop list
@@ -52,9 +52,9 @@ if ('index' == $footer_style || 'search' == $footer_style) {
         echo include PUN_ROOT.'include/quickjump.php';
     }
 
-    if ('viewforum' == $footer_style && $is_admmod) {
+    if ('viewforum' === $footer_style && $is_admmod) {
         echo '<p id="modcontrols"><a href="moderate.php?fid='.$forum_id.'&amp;p='.$p.'">'.$lang_common['Moderate forum'].'</a></p>';
-    } elseif ('viewtopic' == $footer_style && $is_admmod) {
+    } elseif ('viewtopic' === $footer_style && $is_admmod) {
         echo '<dl id="modcontrols"><dt><strong>'.$lang_topic['Mod controls'].'</strong></dt><dd><a href="moderate.php?fid='.$forum_id.'&amp;tid='.$id.'&amp;p='.$p.'">'.$lang_common['Delete posts'].'</a></dd><dd><a href="moderate.php?fid='.$forum_id.'&amp;move_topics='.$id.'">'.$lang_common['Move topic'].'</a></dd>';
 
         if (1 == $cur_topic['closed']) {

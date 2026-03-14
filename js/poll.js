@@ -64,14 +64,15 @@ poll.pForm = function () {
 poll.vote = function (id) {
     var $p = $(".p_cnt_" + id);
     var $ch = $p.find("input:checked");
+    var $warning = $("#warning");
 
     if ($ch.length < 1) {
-        $("#warning").html(poll.lng.answer_must_select).show("fast");
+        $warning.html(poll.lng.answer_must_select).show("fast");
         return false;
     }
 
     $p.find("table td").css('opacity', 0.4);
-    $("#warning").empty();
+    $warning.empty();
     $p.css('position', 'relative').prepend('<div class="poll-overlay"><img src="style/img/busy.gif" alt=""/></div>');
 
     $.ajax({

@@ -39,11 +39,11 @@
                 'width':  pageSize.pageWidth + 'px',
                 'height': pageSize.pageHeight + 'px'
             });
-   
+
             $('#modalbox').css({
                 'top':    0,
                 'left':   pageScroll.xScroll + 'px'
-            });    
+            });
         },
 
         getWindowSize: function () {
@@ -51,7 +51,7 @@
 
             if (self.innerHeight) {    // all except Explorer
                 if (document.documentElement.clientWidth) {
-                    wSize.width = document.documentElement.clientWidth; 
+                    wSize.width = document.documentElement.clientWidth;
                 } else {
                     wSize.width = self.innerWidth;
                 }
@@ -83,7 +83,7 @@
 
             if (self.innerHeight) {    // all except Explorer
                 if (document.documentElement.clientWidth){
-                    windowWidth = document.documentElement.clientWidth; 
+                    windowWidth = document.documentElement.clientWidth;
                 } else {
                     windowWidth = self.innerWidth;
                 }
@@ -94,12 +94,12 @@
             } else if (document.body) { // other Explorers
                 windowWidth = document.body.clientWidth;
                 windowHeight = document.body.clientHeight;
-            }    
+            }
 
             // for small pages with total height less then height of the viewport
             if (yScroll < windowHeight) {
                 pageHeight = windowHeight;
-            } else { 
+            } else {
                 pageHeight = yScroll;
             }
 
@@ -187,7 +187,7 @@
                                     }
                                 );
 
-                                if ($.isFunction(def.onLoad)) {
+                                if (def.onLoad) {
                                     def.onLoad();
                                 }
                             }
@@ -209,9 +209,9 @@
                     $('#modalbox-container').hide();
                     $('#modalbox').slideUp(function () {
                         $('#modalbox-overlay').fadeOut($.modalBox.settings.overlaySpeed);
-                        if ($.isFunction(def)) {
+                        if (def) {
                             def();
-                        }    
+                        }
                     });
                 }
             );
