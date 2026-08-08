@@ -121,6 +121,14 @@ if (isset($_GET['tid'])) {
                 \message($lang_common['Bad request']);
             }
 
+            // Decrement num_posts for users whose posts are being deleted
+            $result = $db->query('SELECT `poster_id`, COUNT(1) AS cnt FROM `'.$db->prefix.'posts` WHERE `id` IN('.$posts.') AND `poster_id` > 1 GROUP BY `poster_id`');
+            if ($result) {
+                while ($row = $db->fetch_row($result)) {
+                    $db->query('UPDATE `'.$db->prefix.'users` SET `num_posts` = `num_posts` - '.(int) $row[1].' WHERE `id` = '.(int) $row[0]);
+                }
+            }
+
             // Delete the posts
             $db->query('DELETE FROM '.$db->prefix.'posts WHERE id IN('.$posts.')') || \error('Unable to delete posts', __FILE__, __LINE__, $db->error());
 
@@ -139,6 +147,12 @@ if (isset($_GET['tid'])) {
                 \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
             }
             $last_post = $db->fetch_assoc($result);
+
+            if (!$last_post) {
+                \delete_topic($tid);
+                \update_forum($fid);
+                \redirect('viewforum.php?id='.$fid, $lang_misc['Delete posts redirect']);
+            }
 
             // How many posts did we just delete?
             $num_posts_deleted = \substr_count($posts, ',') + 1;

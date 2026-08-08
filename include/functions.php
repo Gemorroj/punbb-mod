@@ -555,11 +555,11 @@ function delete_post($post_id, $topic_id): void
 {
     global $db, $pun_user;
 
-    $result = $db->query('SELECT `id`, `poster`, `posted` FROM `'.$db->prefix.'posts` WHERE `topic_id` = '.$topic_id.' ORDER BY `id` DESC LIMIT 2');
+    $result = $db->query('SELECT `id`, `poster`, `posted`, `poster_id` FROM `'.$db->prefix.'posts` WHERE `topic_id` = '.$topic_id.' ORDER BY `id` DESC LIMIT 2');
     if (!$result) {
         \error('Unable to fetch post info', __FILE__, __LINE__, $db->error());
     }
-    [$last_id, $poster] = $db->fetch_row($result);
+    [$last_id, $poster, $last_posted, $poster_id] = $db->fetch_row($result);
     [$second_last_id, $second_poster, $second_posted] = $db->fetch_row($result);
 
     // Delete the post
@@ -580,7 +580,9 @@ function delete_post($post_id, $topic_id): void
     $num_replies = $db->result($result, 0) - 1;
 
     // уменьшаем кол-во постов
-    $db->query('UPDATE `'.$db->prefix.'users` SET `num_posts` = `num_posts` - 1 WHERE `username` = "'.$db->escape($poster).'" LIMIT 1');
+    if ($poster_id) {
+        $db->query('UPDATE `' . $db->prefix . 'users` SET `num_posts` = `num_posts` - 1 WHERE `id` = ' . $poster_id . ' LIMIT 1');
+    }
 
     // If the message we deleted is the most recent in the topic (at the end of the topic)
     if ($last_id == $post_id) {

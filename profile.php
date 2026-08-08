@@ -839,7 +839,7 @@ if ('change_pass' == $action) {
 
             // Add http:// if the URL doesn't contain it already
             if ($form['url'] && 0 !== \stripos($form['url'], 'http://') && 0 !== \stripos($form['url'], 'https://')) {
-                $form['url'] = 'http://'.$form['url'];
+                $form['url'] = 'https://'.$form['url'];
             }
 
             break;

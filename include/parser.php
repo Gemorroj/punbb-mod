@@ -356,11 +356,11 @@ function handle_url_tag($url, $link = '')
         $url
     );
     if (\str_starts_with($url, 'www.')) { // If it starts with www, we add http://
-        $full_url = 'http://'.$full_url;
+        $full_url = 'https://'.$full_url;
     } elseif (\str_starts_with($url, 'ftp.')) { // Else if it starts with ftp, we add ftp://
         $full_url = 'ftp://'.$full_url;
     } elseif (!\preg_match('#^([a-z0-9]{3,6})://#', $url, $bah)) { // Else if it doesn't start with abcdef://, we add http://
-        $full_url = 'http://'.$full_url;
+        $full_url = 'https://'.$full_url;
     }
 
     // Ok, not very pretty :-)

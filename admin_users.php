@@ -354,7 +354,7 @@ if (isset($_GET['show_users'])) {
                             </tr>
                             <tr>
                                 <th scope="row">URL</th>
-                                <td><input type="text" name="form[url]" size="35" maxlength="100" /></td>
+                                <td><input type="text" name="form[url]" size="35" maxlength="80" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">ICQ</th>
