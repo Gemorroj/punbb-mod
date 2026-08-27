@@ -581,7 +581,7 @@ function delete_post($post_id, $topic_id): void
 
     // уменьшаем кол-во постов
     if ($poster_id) {
-        $db->query('UPDATE `' . $db->prefix . 'users` SET `num_posts` = `num_posts` - 1 WHERE `id` = ' . $poster_id . ' LIMIT 1');
+        $db->query('UPDATE `'.$db->prefix.'users` SET `num_posts` = `num_posts` - 1 WHERE `id` = '.$poster_id.' LIMIT 1');
     }
 
     // If the message we deleted is the most recent in the topic (at the end of the topic)
