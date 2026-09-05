@@ -23,7 +23,7 @@
 
 ### Требования
 * Apache 2 / Nginx / Angie
-* MySQL >= 8.0
+* MySQL >= 8.4
 * PHP >= 8.5
 
 ### Установка:
