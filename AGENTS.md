@@ -27,6 +27,7 @@ interfaces.
 
 ## Conventions
 
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/).
 - Indentation: 4 spaces, LF line endings, UTF-8 (see `.editorconfig`)
 - PHP-CS-Fixer rules: `@Symfony`, `@PHP8x5Migration`; no `declare(strict_types)`,
   no arrow functions
